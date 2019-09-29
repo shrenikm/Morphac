@@ -1,4 +1,4 @@
-#include "morphac/environment/environment2D.h"
+#include "environment2D.h"
 
 namespace morphac {
 namespace environments {
