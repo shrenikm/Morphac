@@ -12,10 +12,14 @@ addons:
       - pkg-config
       - gcc-5
       - g++-5
+      - cmake
 
 script:
+  # Creating the build directory
   - cd src && mkdir build
   - cd build
+  # Building using CMake
   - cmake ..
   - make
+  # Running tests
   - make test
