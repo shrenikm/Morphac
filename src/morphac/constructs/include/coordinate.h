@@ -13,9 +13,13 @@ class Coordinate2D {
   Coordinate2D& operator-=(const Coordinate2D& coord);
   Coordinate2D operator-(const Coordinate2D& coord);
   bool operator==(const Coordinate2D& coord);
+  bool operator!=(const Coordinate2D& coord);
+  bool operator<(const Coordinate2D& coord);
+  bool operator>(const Coordinate2D& coord);
+  bool operator<=(const Coordinate2D& coord);
+  bool operator>=(const Coordinate2D& coord);
 
-      int
-      get_x();
+  int get_x();
   int get_y();
   void set_x(int x);
   void set_y(int y);
