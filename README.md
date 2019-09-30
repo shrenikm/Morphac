@@ -26,3 +26,10 @@ Tests may be run using:<br/>
 `make test`<br/><br/>
 To disable building tests, the `BUILD_TESTS` flag can be set to `OFF`.
 
+-------
+
+## License
+
+[MIT License](LICENSE)
+
+
