@@ -1,0 +1,21 @@
+dist: xenial
+language:
+  - cpp
+  - python
+sudo: required
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - pkg-config
+      - gcc-5
+      - g++-5
+
+script:
+  - cd src && mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make test
