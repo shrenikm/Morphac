@@ -27,7 +27,7 @@ class Coordinate2D {
  private:
   int x_;
   int y_;
-}
+};
 
 }  // namespace constructs
 }  // namespace morphac
