@@ -30,6 +30,18 @@ Environment2D::Environment2D(MatrixXd map, int origin_x, int origin_y)
   map_ = map;
 }
 
+int Environment2D::get_width() {
+  return width_;
+}
+
+int Environment2D::get_height() {
+  return height_;
+}
+
+MatrixXd Environment2D::get_map() {
+  return map_;
+}
+
 }  // namespace environments
 }  // namespace morphac
 

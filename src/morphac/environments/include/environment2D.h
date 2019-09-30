@@ -13,6 +13,10 @@ class Environment2D {
   Environment2D(int width, int height, int origin_x = 0, int origin_y = 0);
   Environment2D(Eigen::MatrixXd map, int origin_x = 0, int origin_y = 0);
 
+  int get_width();
+  int get_height();
+  Eigen::MatrixXd get_map();
+
  private:
   int width_;
   int height_;
