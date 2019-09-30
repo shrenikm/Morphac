@@ -7,6 +7,7 @@ namespace constructs {
 class Coordinate2D {
  public:
   Coordinate2D(int x = 0, int y = 0);
+  Coordinate2D(const Coordinate2D& coord);
 
   Coordinate2D& operator+=(const Coordinate2D& coord);
   Coordinate2D operator+(const Coordinate2D& coord);
@@ -23,6 +24,7 @@ class Coordinate2D {
   int get_y();
   void set_x(int x);
   void set_y(int y);
+  void set_coordinate(int x, int y);
 
  private:
   int x_;

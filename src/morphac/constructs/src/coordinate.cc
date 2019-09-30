@@ -5,6 +5,11 @@ namespace constructs {
 
 Coordinate2D::Coordinate2D(int x, int y) : x_(x), y_(y) {}
 
+Coordinate2D::Coordinate2D(const Coordinate2D& coord) {
+  this->x_ = coord.x_;
+  this->y_ = coord.y_;
+}
+
 Coordinate2D& Coordinate2D::operator+=(const Coordinate2D& coord) {
   this->x_ += coord.x_;
   this->y_ += coord.y_;
@@ -70,6 +75,11 @@ int Coordinate2D::get_y() { return y_; }
 void Coordinate2D::set_x(int x) { x_ = x; }
 
 void Coordinate2D::set_y(int y) { y_ = y; }
+
+void Coordinate2D::set_coordinate(int x, int y) {
+  x_ = x;
+  y_ = y;
+}
 
 }  // namespace constructs
 }  // namespace morphac
