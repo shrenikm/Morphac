@@ -16,12 +16,17 @@ Pose::Pose(VectorXd pose) {
   pose_ = pose;
 }
 
+Pose::Pose(const Pose& pose) {
+  this->size_ = pose.size_;
+  this->pose_ = pose.pose_;
+}
+
 int Pose::get_size() { return size_; }
 
 VectorXd Pose::get_pose() { return pose_; }
 
 double Pose::get_pose(int index) {
-  MORPH_REQUIRE(index < size_, "Pose index out of bounds.");
+  MORPH_REQUIRE(index >= 0 && index < size_, "Pose index out of bounds.");
   return pose_(index);
 }
 
@@ -31,8 +36,8 @@ void Pose::set_pose(VectorXd pose) {
   pose_ = pose;
 }
 
-void Pose::set_pose(double pose_element, int index) {
-  MORPH_REQUIRE(index < size_, "Pose index out of bounds.");
+void Pose::set_pose(int index, double pose_element) {
+  MORPH_REQUIRE(index >= 0 && index < size_, "Pose index out of bounds.");
   pose_(index) = pose_element;
 }
 
