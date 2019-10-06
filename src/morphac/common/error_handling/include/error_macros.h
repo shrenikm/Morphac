@@ -4,7 +4,7 @@
 #include <iostream>
 
 #ifndef NDEBUG
-#define MORPH_ASSERT(conditon, error_message, exception)                    \
+#define MORPH_ASSERT(conditon, exception, error_message)                    \
   {                                                                         \
     if (!(condition)) {                                                     \
       std::cerr << "------- Assertion failed -------" << std::endl;         \
@@ -16,7 +16,7 @@
   }
 #endif
 
-#define MORPH_REQUIRE(condition, error_message, exception)                  \
+#define MORPH_REQUIRE(condition, exception, error_message)                  \
   {                                                                         \
     if (!(condition)) {                                                     \
       std::cerr << "------- Requirement failed -------" << std::endl;       \
