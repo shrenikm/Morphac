@@ -4,6 +4,9 @@ add_library(pose ${CMAKE_CURRENT_SOURCE_DIR}/src/pose.cc)
 add_library(velocity ${CMAKE_CURRENT_SOURCE_DIR}/src/velocity.cc)
 add_library(control_input ${CMAKE_CURRENT_SOURCE_DIR}/src/control_input.cc)
 
+add_library(state ${CMAKE_CURRENT_SOURCE_DIR}/src/state.cc)
+target_link_libraries(state pose velocity)
+
 # Adding test executables
 # Coordinate test
 add_executable(coordinate_test ${CMAKE_CURRENT_SOURCE_DIR}/test/coordinate_test.cc)
