@@ -28,3 +28,9 @@ add_executable(control_input_test ${CMAKE_CURRENT_SOURCE_DIR}/test/control_input
 target_link_libraries(control_input_test gtest_main control_input)
 add_test(NAME control_input_test COMMAND control_input_test)
 
+# State test
+add_executable(state_test ${CMAKE_CURRENT_SOURCE_DIR}/test/state_test.cc)
+target_link_libraries(state_test gtest_main state)
+add_test(NAME state_test COMMAND state_test)
+
+

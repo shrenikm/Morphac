@@ -4,8 +4,8 @@ namespace morphac {
 namespace constructs {
 
 using std::make_unique;
-using std::unique_ptr;
 using std::move;
+using std::unique_ptr;
 
 using Eigen::VectorXd;
 
