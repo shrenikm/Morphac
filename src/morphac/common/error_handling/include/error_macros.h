@@ -4,28 +4,26 @@
 #include <iostream>
 
 #ifndef NDEBUG
-#define MORPH_ASSERT(conditon, error_message)                               \
+#define MORPH_ASSERT(conditon, error_message, exception)                    \
   {                                                                         \
     if (!(condition)) {                                                     \
       std::cerr << "------- Assertion failed -------" << std::endl;         \
       std::cerr << "Failed in file: " << __FILE__ << std::endl;             \
       std::cerr << "Failed inside function: " << __FUNCTION__ << std::endl; \
       std::cerr << "Failed at line: " << __LINE__ << std::endl;             \
-      std::cerr << "Failed with message: " << #error_message << std::endl;  \
-      std::exit(-2);                                                        \
+      throw exception(error_message);                                       \
     }                                                                       \
   }
 #endif
 
-#define MORPH_REQUIRE(condition, error_message)                             \
+#define MORPH_REQUIRE(condition, error_message, exception)                  \
   {                                                                         \
     if (!(condition)) {                                                     \
       std::cerr << "------- Requirement failed -------" << std::endl;       \
       std::cerr << "Failed in file: " << __FILE__ << std::endl;             \
       std::cerr << "Failed inside function: " << __FUNCTION__ << std::endl; \
       std::cerr << "Failed at line: " << __LINE__ << std::endl;             \
-      std::cerr << "Failed with message: " << #error_message << std::endl;  \
-      std::exit(-1);                                                        \
+      throw exception(error_message);                                       \
     }                                                                       \
   }
 

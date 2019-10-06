@@ -3,7 +3,7 @@
 
 #include "Eigen/Dense"
 
-#include "common/include/error_macros.h"
+#include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
 namespace constructs {
