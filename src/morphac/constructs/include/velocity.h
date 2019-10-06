@@ -21,7 +21,7 @@ class Velocity {
   void set_velocity(int index, double velocity_element);
 
  private:
-  int size_;
+  const int size_;
   Eigen::VectorXd velocity_;
 };
 

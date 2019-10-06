@@ -5,23 +5,19 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
-Velocity::Velocity(int size) : size_(size) {
+Velocity::Velocity(int size) : size_(size), velocity_(VectorXd::Zero(size)) {
   MORPH_REQUIRE(size > 0, std::invalid_argument,
                 "Velocity size is non-positive.");
-  velocity_ = VectorXd::Zero(size);
 }
 
-Velocity::Velocity(VectorXd velocity) {
+Velocity::Velocity(VectorXd velocity)
+    : size_(velocity.size()), velocity_(velocity) {
   MORPH_REQUIRE(velocity.size() > 0, std::invalid_argument,
                 "Velocity size is non-positive.");
-  size_ = velocity.size();
-  velocity_ = velocity;
 }
 
-Velocity::Velocity(const Velocity& velocity) {
-  this->size_ = velocity.size_;
-  this->velocity_ = velocity.velocity_;
-}
+Velocity::Velocity(const Velocity& velocity)
+    : size_(velocity.size_), velocity_(velocity.velocity_) {}
 
 int Velocity::get_size() const { return size_; }
 
@@ -34,9 +30,8 @@ double Velocity::get_velocity(int index) const {
 }
 
 void Velocity::set_velocity(const VectorXd& velocity) {
-  MORPH_REQUIRE(velocity.size() > 0, std::invalid_argument,
-                "Velocity size is non-positive.");
-  size_ = velocity.size();
+  MORPH_REQUIRE(velocity.size() == size_, std::invalid_argument,
+                "Velocity and vector sizes do not match.");
   velocity_ = velocity;
 }
 

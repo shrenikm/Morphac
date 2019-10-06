@@ -19,12 +19,10 @@ class PoseTest : public ::testing::Test {
   Pose pose2_{Pose(VectorXd::Zero(3))};
   VectorXd rand_pose_ = VectorXd::Random(6);
   Pose pose3_{Pose(rand_pose_)};
-
-  // Copy constructor
   Pose pose4_ = pose3_;
 };
 
-TEST_F(PoseTest, DefaultObject) {
+TEST_F(PoseTest, Sizes) {
   ASSERT_EQ(pose1_.get_size(), pose2_.get_size());
   ASSERT_EQ(pose1_.get_pose(), pose2_.get_pose());
 }
@@ -52,9 +50,10 @@ TEST_F(PoseTest, InvalidGet) {
 }
 
 TEST_F(PoseTest, InvalidSet) {
+  ASSERT_THROW(pose1_.set_pose(VectorXd::Random(4)), std::invalid_argument);
+  ASSERT_THROW(pose1_.set_pose(VectorXd::Random(2)), std::invalid_argument);
   ASSERT_THROW(pose1_.set_pose(-1, 1), std::out_of_range);
   ASSERT_THROW(pose1_.set_pose(7, 1), std::out_of_range);
-  ASSERT_THROW(pose1_.set_pose(VectorXd::Random(0)), std::invalid_argument);
 }
 
 }  // namespace

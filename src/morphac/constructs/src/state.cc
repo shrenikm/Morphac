@@ -31,6 +31,10 @@ int State::get_size_pose() const { return pose_->get_size(); }
 
 int State::get_size_velocity() const { return velocity_->get_size(); }
 
+int State::get_size() const {
+  return pose_->get_size() + velocity_->get_size();
+}
+
 const Pose& State::get_pose() const { return *pose_; }
 
 const Velocity& State::get_velocity() const { return *velocity_; }

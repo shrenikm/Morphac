@@ -19,12 +19,10 @@ class ControlInputTest : public ::testing::Test {
   ControlInput input2_{ControlInput(VectorXd::Zero(3))};
   VectorXd rand_input_ = VectorXd::Random(6);
   ControlInput input3_{ControlInput(rand_input_)};
-
-  // Copy constructor
   ControlInput input4_ = input3_;
 };
 
-TEST_F(ControlInputTest, DefaultObject) {
+TEST_F(ControlInputTest, Sizes) {
   ASSERT_EQ(input1_.get_size(), input2_.get_size());
   ASSERT_EQ(input1_.get_input(), input2_.get_input());
 }
@@ -52,10 +50,12 @@ TEST_F(ControlInputTest, InvalidGet) {
 }
 
 TEST_F(ControlInputTest, InvalidSet) {
+  ASSERT_THROW(input1_.set_input(VectorXd::Random(4)),
+               std::invalid_argument);
+  ASSERT_THROW(input1_.set_input(VectorXd::Random(2)),
+               std::invalid_argument);
   ASSERT_THROW(input1_.set_input(-1, 1), std::out_of_range);
   ASSERT_THROW(input1_.set_input(7, 1), std::out_of_range);
-  ASSERT_THROW(input1_.set_input(VectorXd::Random(0)),
-               std::invalid_argument);
 }
 
 }  // namespace

@@ -5,22 +5,16 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
-Pose::Pose(int size) : size_(size) {
+Pose::Pose(int size) : size_(size), pose_(VectorXd::Zero(size)) {
   MORPH_REQUIRE(size > 0, std::invalid_argument, "Pose size is non-positive.");
-  pose_ = VectorXd::Zero(size);
 }
 
-Pose::Pose(VectorXd pose) {
+Pose::Pose(VectorXd pose) : size_(pose.size()), pose_(pose) {
   MORPH_REQUIRE(pose.size() > 0, std::invalid_argument,
                 "Pose size is non-positive.");
-  size_ = pose.size();
-  pose_ = pose;
 }
 
-Pose::Pose(const Pose& pose) {
-  this->size_ = pose.size_;
-  this->pose_ = pose.pose_;
-}
+Pose::Pose(const Pose& pose) : size_(pose.size_), pose_(pose.pose_) {}
 
 int Pose::get_size() const { return size_; }
 
@@ -33,9 +27,8 @@ double Pose::get_pose(int index) const {
 }
 
 void Pose::set_pose(const VectorXd& pose) {
-  MORPH_REQUIRE(pose.size() > 0, std::invalid_argument,
-                "Pose size is non-positive.");
-  size_ = pose.size();
+  MORPH_REQUIRE(pose.size() == size_, std::invalid_argument,
+                "Pose and vector sizes do not match.");
   pose_ = pose;
 }
 

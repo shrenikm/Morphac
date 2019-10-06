@@ -21,7 +21,7 @@ class Pose {
   void set_pose(int index, double pose_element);
 
  private:
-  int size_;
+  const int size_;
   Eigen::VectorXd pose_;
 };
 

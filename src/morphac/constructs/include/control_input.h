@@ -21,7 +21,7 @@ class ControlInput {
   void set_input(int index, double input_element);
 
  private:
-  int size_;
+  const int size_;
   Eigen::VectorXd control_input_;
 };
 
