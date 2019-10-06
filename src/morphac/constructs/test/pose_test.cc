@@ -41,14 +41,20 @@ TEST_F(PoseTest, SetPose) {
   ASSERT_EQ(pose3_.get_pose(1), 7.0);
 }
 
+TEST_F(PoseTest, InvalidConstruction) {
+  ASSERT_THROW(Pose(0), std::invalid_argument);
+  ASSERT_THROW(Pose(VectorXd::Random(0)), std::invalid_argument);
+}
+
 TEST_F(PoseTest, InvalidGet) {
-  ASSERT_DEATH(pose1_.get_pose(-1), "");
-  ASSERT_DEATH(pose1_.get_pose(3), "");
+  ASSERT_THROW(pose1_.get_pose(-1), std::out_of_range);
+  ASSERT_THROW(pose1_.get_pose(3), std::out_of_range);
 }
 
 TEST_F(PoseTest, InvalidSet) {
-  ASSERT_DEATH(pose1_.set_pose(-1, 1), "");
-  ASSERT_DEATH(pose1_.set_pose(7, 1), "");
+  ASSERT_THROW(pose1_.set_pose(-1, 1), std::out_of_range);
+  ASSERT_THROW(pose1_.set_pose(7, 1), std::out_of_range);
+  ASSERT_THROW(pose1_.set_pose(VectorXd::Random(0)), std::invalid_argument);
 }
 
 }  // namespace
