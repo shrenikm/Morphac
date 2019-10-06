@@ -14,10 +14,10 @@ class Pose {
   Pose(Eigen::VectorXd pose);
   Pose(const Pose& pose);
 
-  int get_size();
-  Eigen::VectorXd get_pose();
-  double get_pose(int index);
-  void set_pose(Eigen::VectorXd pose);
+  int get_size() const;
+  const Eigen::VectorXd& get_pose() const;
+  double get_pose(int index) const;
+  void set_pose(const Eigen::VectorXd& pose);
   void set_pose(int index, double pose_element);
 
  private:

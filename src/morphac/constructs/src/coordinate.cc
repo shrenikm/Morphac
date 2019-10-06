@@ -68,9 +68,9 @@ bool Coordinate2D::operator>=(const Coordinate2D& coord) {
   return (*this == coord) || (*this > coord);
 }
 
-int Coordinate2D::get_x() { return x_; }
+int Coordinate2D::get_x() const { return x_; }
 
-int Coordinate2D::get_y() { return y_; }
+int Coordinate2D::get_y() const { return y_; }
 
 void Coordinate2D::set_x(int x) { x_ = x; }
 

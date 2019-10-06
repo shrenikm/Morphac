@@ -20,8 +20,8 @@ class Coordinate2D {
   bool operator<=(const Coordinate2D& coord);
   bool operator>=(const Coordinate2D& coord);
 
-  int get_x();
-  int get_y();
+  int get_x() const;
+  int get_y() const;
   void set_x(int x);
   void set_y(int y);
   void set_coordinate(int x, int y);

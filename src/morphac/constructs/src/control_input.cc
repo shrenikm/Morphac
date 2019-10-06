@@ -23,17 +23,17 @@ ControlInput::ControlInput(const ControlInput& input) {
   this->control_input_ = input.control_input_;
 }
 
-int ControlInput::get_size() { return size_; }
+int ControlInput::get_size() const { return size_; }
 
-VectorXd ControlInput::get_input() { return control_input_; }
+const VectorXd& ControlInput::get_input() const { return control_input_; }
 
-double ControlInput::get_input(int index) {
+double ControlInput::get_input(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Control input index out of bounds.");
   return control_input_(index);
 }
 
-void ControlInput::set_input(VectorXd input) {
+void ControlInput::set_input(const VectorXd& input) {
   MORPH_REQUIRE(input.size() > 0, std::invalid_argument,
                 "Control input size is non-positive.");
   size_ = input.size();

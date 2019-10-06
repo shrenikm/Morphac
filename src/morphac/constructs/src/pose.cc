@@ -22,17 +22,17 @@ Pose::Pose(const Pose& pose) {
   this->pose_ = pose.pose_;
 }
 
-int Pose::get_size() { return size_; }
+int Pose::get_size() const { return size_; }
 
-VectorXd Pose::get_pose() { return pose_; }
+const VectorXd& Pose::get_pose() const { return pose_; }
 
-double Pose::get_pose(int index) {
+double Pose::get_pose(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   return pose_(index);
 }
 
-void Pose::set_pose(VectorXd pose) {
+void Pose::set_pose(const VectorXd& pose) {
   MORPH_REQUIRE(pose.size() > 0, std::invalid_argument,
                 "Pose size is non-positive.");
   size_ = pose.size();

@@ -14,10 +14,10 @@ class Velocity {
   Velocity(Eigen::VectorXd velocity);
   Velocity(const Velocity& velocity);
 
-  int get_size();
-  Eigen::VectorXd get_velocity();
-  double get_velocity(int index);
-  void set_velocity(Eigen::VectorXd velocity);
+  int get_size() const;
+  const Eigen::VectorXd& get_velocity() const;
+  double get_velocity(int index) const;
+  void set_velocity(const Eigen::VectorXd& velocity);
   void set_velocity(int index, double velocity_element);
 
  private:
