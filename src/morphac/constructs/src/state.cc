@@ -27,5 +27,13 @@ State::State(VectorXd pose, VectorXd velocity)
 State::State(unique_ptr<Pose> pose, unique_ptr<Velocity> velocity)
     : pose_(move(pose)), velocity_(move(velocity)) {}
 
+int State::get_size_pose() { return pose_->get_size(); }
+
+int State::get_size_velocity() { return velocity_->get_size(); }
+
+const Pose& State::get_pose() { return *pose_; }
+
+const Velocity& State::get_velocity() { return *velocity_; }
+
 }  // constructs
 }  // morphac
