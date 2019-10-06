@@ -19,12 +19,10 @@ class VelocityTest : public ::testing::Test {
   Velocity velocity2_{Velocity(VectorXd::Zero(3))};
   VectorXd rand_velocity_ = VectorXd::Random(6);
   Velocity velocity3_{Velocity(rand_velocity_)};
-
-  // Copy constructor
   Velocity velocity4_ = velocity3_;
 };
 
-TEST_F(VelocityTest, DefaultObject) {
+TEST_F(VelocityTest, Sizes) {
   ASSERT_EQ(velocity1_.get_size(), velocity2_.get_size());
   ASSERT_EQ(velocity1_.get_velocity(), velocity2_.get_velocity());
 }
@@ -52,10 +50,12 @@ TEST_F(VelocityTest, InvalidGet) {
 }
 
 TEST_F(VelocityTest, InvalidSet) {
+  ASSERT_THROW(velocity1_.set_velocity(VectorXd::Random(4)),
+               std::invalid_argument);
+  ASSERT_THROW(velocity1_.set_velocity(VectorXd::Random(2)),
+               std::invalid_argument);
   ASSERT_THROW(velocity1_.set_velocity(-1, 1), std::out_of_range);
   ASSERT_THROW(velocity1_.set_velocity(7, 1), std::out_of_range);
-  ASSERT_THROW(velocity1_.set_velocity(VectorXd::Random(0)),
-               std::invalid_argument);
 }
 
 }  // namespace
