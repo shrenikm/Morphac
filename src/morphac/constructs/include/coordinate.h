@@ -4,9 +4,10 @@
 namespace morphac {
 namespace constructs {
 
+template <typename T>
 class Coordinate2D {
  public:
-  Coordinate2D(int x = 0, int y = 0);
+  Coordinate2D(T x = 0, T y = 0);
   Coordinate2D(const Coordinate2D& coord);
 
   Coordinate2D& operator+=(const Coordinate2D& coord);
@@ -20,15 +21,15 @@ class Coordinate2D {
   bool operator<=(const Coordinate2D& coord);
   bool operator>=(const Coordinate2D& coord);
 
-  int get_x() const;
-  int get_y() const;
-  void set_x(int x);
-  void set_y(int y);
-  void set_coordinate(int x, int y);
+  T get_x() const;
+  T get_y() const;
+  void set_x(T x);
+  void set_y(T y);
+  void set_coordinate(T x, T y);
 
  private:
-  int x_;
-  int y_;
+  T x_;
+  T y_;
 };
 
 }  // namespace constructs
