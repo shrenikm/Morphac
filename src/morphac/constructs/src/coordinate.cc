@@ -3,48 +3,57 @@
 namespace morphac {
 namespace constructs {
 
-Coordinate2D::Coordinate2D(int x, int y) : x_(x), y_(y) {}
+template <typename T>
+Coordinate2D<T>::Coordinate2D(T x, T y) : x_(x), y_(y) {}
 
-Coordinate2D::Coordinate2D(const Coordinate2D& coord) {
+template <typename T>
+Coordinate2D<T>::Coordinate2D(const Coordinate2D& coord) {
   this->x_ = coord.x_;
   this->y_ = coord.y_;
 }
 
-Coordinate2D& Coordinate2D::operator+=(const Coordinate2D& coord) {
+template <typename T>
+Coordinate2D<T>& Coordinate2D<T>::operator+=(const Coordinate2D& coord) {
   this->x_ += coord.x_;
   this->y_ += coord.y_;
   return *this;
 }
 
-Coordinate2D Coordinate2D::operator+(const Coordinate2D& coord) {
+template <typename T>
+Coordinate2D<T> Coordinate2D<T>::operator+(const Coordinate2D& coord) {
   Coordinate2D result;
   result.x_ = this->x_ + coord.x_;
   result.y_ = this->y_ + coord.y_;
   return result;
 }
 
-Coordinate2D& Coordinate2D::operator-=(const Coordinate2D& coord) {
+template <typename T>
+Coordinate2D<T>& Coordinate2D<T>::operator-=(const Coordinate2D& coord) {
   this->x_ -= coord.x_;
   this->y_ -= coord.y_;
   return *this;
 }
 
-Coordinate2D Coordinate2D::operator-(const Coordinate2D& coord) {
+template <typename T>
+Coordinate2D<T> Coordinate2D<T>::operator-(const Coordinate2D& coord) {
   Coordinate2D result;
   result.x_ = this->x_ - coord.x_;
   result.y_ = this->y_ - coord.y_;
   return result;
 }
 
-bool Coordinate2D::operator==(const Coordinate2D& coord) {
+template <typename T>
+bool Coordinate2D<T>::operator==(const Coordinate2D& coord) {
   return (this->x_ == coord.x_) && (this->y_ == coord.y_);
 }
 
-bool Coordinate2D::operator!=(const Coordinate2D& coord) {
+template <typename T>
+bool Coordinate2D<T>::operator!=(const Coordinate2D& coord) {
   return !(*this == coord);
 }
 
-bool Coordinate2D::operator<(const Coordinate2D& coord) {
+template <typename T>
+bool Coordinate2D<T>::operator<(const Coordinate2D& coord) {
   if ((this->x_ < coord.x_) ||
       ((this->x_ == coord.x_) && (this->y_ < coord.y_))) {
     return true;
@@ -52,7 +61,8 @@ bool Coordinate2D::operator<(const Coordinate2D& coord) {
   return false;
 }
 
-bool Coordinate2D::operator>(const Coordinate2D& coord) {
+template <typename T>
+bool Coordinate2D<T>::operator>(const Coordinate2D& coord) {
   if ((this->x_ > coord.x_) ||
       ((this->x_ == coord.x_) && (this->y_ > coord.y_))) {
     return true;
@@ -60,26 +70,45 @@ bool Coordinate2D::operator>(const Coordinate2D& coord) {
   return false;
 }
 
-bool Coordinate2D::operator<=(const Coordinate2D& coord) {
+template <typename T>
+bool Coordinate2D<T>::operator<=(const Coordinate2D& coord) {
   return (*this == coord) || (*this < coord);
 }
 
-bool Coordinate2D::operator>=(const Coordinate2D& coord) {
+template <typename T>
+bool Coordinate2D<T>::operator>=(const Coordinate2D& coord) {
   return (*this == coord) || (*this > coord);
 }
 
-int Coordinate2D::get_x() const { return x_; }
+template <typename T>
+T Coordinate2D<T>::get_x() const {
+  return x_;
+}
 
-int Coordinate2D::get_y() const { return y_; }
+template <typename T>
+T Coordinate2D<T>::get_y() const {
+  return y_;
+}
 
-void Coordinate2D::set_x(int x) { x_ = x; }
+template <typename T>
+void Coordinate2D<T>::set_x(T x) {
+  x_ = x;
+}
 
-void Coordinate2D::set_y(int y) { y_ = y; }
+template <typename T>
+void Coordinate2D<T>::set_y(T y) {
+  y_ = y;
+}
 
-void Coordinate2D::set_coordinate(int x, int y) {
+template <typename T>
+void Coordinate2D<T>::set_coordinate(T x, T y) {
   x_ = x;
   y_ = y;
 }
 
+template class Coordinate2D<int>;
+template class Coordinate2D<double>;
+
 }  // namespace constructs
 }  // namespace morphac
+
