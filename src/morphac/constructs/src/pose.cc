@@ -16,7 +16,7 @@ Pose::Pose(VectorXd pose) : size_(pose.size()), pose_(pose) {
 
 Pose::Pose(const Pose& pose) : size_(pose.size_), pose_(pose.pose_) {}
 
-int Pose::get_size() const { return size_; }
+const int Pose::get_size() const { return size_; }
 
 const VectorXd& Pose::get_pose() const { return pose_; }
 
