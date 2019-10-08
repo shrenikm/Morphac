@@ -20,7 +20,7 @@ ControlInput::ControlInput(VectorXd input)
 ControlInput::ControlInput(const ControlInput& input)
     : size_(input.size_), control_input_(input.control_input_) {}
 
-int ControlInput::get_size() const { return size_; }
+const int ControlInput::get_size() const { return size_; }
 
 const VectorXd& ControlInput::get_input() const { return control_input_; }
 

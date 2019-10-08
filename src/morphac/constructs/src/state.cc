@@ -27,11 +27,11 @@ State::State(VectorXd pose, VectorXd velocity)
 State::State(unique_ptr<Pose> pose, unique_ptr<Velocity> velocity)
     : pose_(move(pose)), velocity_(move(velocity)) {}
 
-int State::get_size_pose() const { return pose_->get_size(); }
+const int State::get_size_pose() const { return pose_->get_size(); }
 
-int State::get_size_velocity() const { return velocity_->get_size(); }
+const int State::get_size_velocity() const { return velocity_->get_size(); }
 
-int State::get_size() const {
+const int State::get_size() const {
   return pose_->get_size() + velocity_->get_size();
 }
 

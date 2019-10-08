@@ -19,7 +19,7 @@ Velocity::Velocity(VectorXd velocity)
 Velocity::Velocity(const Velocity& velocity)
     : size_(velocity.size_), velocity_(velocity.velocity_) {}
 
-int Velocity::get_size() const { return size_; }
+const int Velocity::get_size() const { return size_; }
 
 const VectorXd& Velocity::get_velocity() const { return velocity_; }
 

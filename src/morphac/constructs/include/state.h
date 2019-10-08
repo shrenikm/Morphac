@@ -20,9 +20,9 @@ class State {
         std::unique_ptr<morphac::constructs::Velocity> velocity);
   State(const State& state) = delete;
 
-  int get_size_pose() const;
-  int get_size_velocity() const;
-  int get_size() const;
+  const int get_size_pose() const;
+  const int get_size_velocity() const;
+  const int get_size() const;
   const morphac::constructs::Pose& get_pose() const;
   const morphac::constructs::Velocity& get_velocity() const;
   const Eigen::VectorXd& get_pose_vector() const;
