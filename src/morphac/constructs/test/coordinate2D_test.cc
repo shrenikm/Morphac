@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "constructs/include/coordinate.h"
+#include "constructs/include/coordinate2D.h"
 
 namespace {
 

@@ -1,4 +1,4 @@
-#include "constructs/include/coordinate.h"
+#include "constructs/include/coordinate2D.h"
 
 namespace morphac {
 namespace constructs {

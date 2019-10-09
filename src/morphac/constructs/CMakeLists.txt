@@ -1,5 +1,5 @@
 # Adding libraries
-add_library(coordinate ${CMAKE_CURRENT_SOURCE_DIR}/src/coordinate.cc)
+add_library(coordinate2D ${CMAKE_CURRENT_SOURCE_DIR}/src/coordinate2D.cc)
 add_library(pose ${CMAKE_CURRENT_SOURCE_DIR}/src/pose.cc)
 add_library(velocity ${CMAKE_CURRENT_SOURCE_DIR}/src/velocity.cc)
 add_library(control_input ${CMAKE_CURRENT_SOURCE_DIR}/src/control_input.cc)
@@ -7,14 +7,11 @@ add_library(control_input ${CMAKE_CURRENT_SOURCE_DIR}/src/control_input.cc)
 add_library(state ${CMAKE_CURRENT_SOURCE_DIR}/src/state.cc)
 target_link_libraries(state pose velocity)
 
-add_library(kinematic_model ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematic_model.cc)
-target_link_libraries(kinematic_model state control_input)
-
 # Adding test executables
 # Coordinate test
-add_executable(coordinate_test ${CMAKE_CURRENT_SOURCE_DIR}/test/coordinate_test.cc)
-target_link_libraries(coordinate_test gtest_main coordinate)
-add_test(NAME coordinate_test COMMAND coordinate_test)
+add_executable(coordinate2D_test ${CMAKE_CURRENT_SOURCE_DIR}/test/coordinate2D_test.cc)
+target_link_libraries(coordinate2D_test gtest_main coordinate2D)
+add_test(NAME coordinate2D_test COMMAND coordinate2D_test)
 
 # Pose test
 add_executable(pose_test ${CMAKE_CURRENT_SOURCE_DIR}/test/pose_test.cc)
@@ -35,11 +32,4 @@ add_test(NAME control_input_test COMMAND control_input_test)
 add_executable(state_test ${CMAKE_CURRENT_SOURCE_DIR}/test/state_test.cc)
 target_link_libraries(state_test gtest_main state)
 add_test(NAME state_test COMMAND state_test)
-
-# Kinematic model test
-add_executable(kinematic_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/kinematic_model_test.cc)
-target_link_libraries(kinematic_model_test gtest_main kinematic_model)
-add_test(NAME kinematic_model_test COMMAND kinematic_model_test)
-
-
 
