@@ -1,5 +1,5 @@
 # Adding libraries
-add_library(coordinate ${CMAKE_CURRENT_SOURCE_DIR}/src/coordinate.cc)
+add_library(coordinate2D ${CMAKE_CURRENT_SOURCE_DIR}/src/coordinate2D.cc)
 add_library(pose ${CMAKE_CURRENT_SOURCE_DIR}/src/pose.cc)
 add_library(velocity ${CMAKE_CURRENT_SOURCE_DIR}/src/velocity.cc)
 add_library(control_input ${CMAKE_CURRENT_SOURCE_DIR}/src/control_input.cc)
@@ -9,9 +9,9 @@ target_link_libraries(state pose velocity)
 
 # Adding test executables
 # Coordinate test
-add_executable(coordinate_test ${CMAKE_CURRENT_SOURCE_DIR}/test/coordinate_test.cc)
-target_link_libraries(coordinate_test gtest_main coordinate)
-add_test(NAME coordinate_test COMMAND coordinate_test)
+add_executable(coordinate2D_test ${CMAKE_CURRENT_SOURCE_DIR}/test/coordinate2D_test.cc)
+target_link_libraries(coordinate2D_test gtest_main coordinate2D)
+add_test(NAME coordinate2D_test COMMAND coordinate2D_test)
 
 # Pose test
 add_executable(pose_test ${CMAKE_CURRENT_SOURCE_DIR}/test/pose_test.cc)
