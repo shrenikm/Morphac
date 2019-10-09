@@ -1,4 +1,4 @@
-#include "constructs/include/kinematic_model.h"
+#include "mechanics/include/kinematic_model.h"
 
 namespace morphac {
 namespace constructs {

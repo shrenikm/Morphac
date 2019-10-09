@@ -7,4 +7,5 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # Adding the individual core subdirectories
 add_subdirectory(constructs)
 add_subdirectory(environments)
+add_subdirectory(mechanics)
 add_subdirectory(robot)

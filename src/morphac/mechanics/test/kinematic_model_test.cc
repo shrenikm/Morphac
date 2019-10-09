@@ -1,7 +1,7 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "constructs/include/kinematic_model.h"
+#include "mechanics/include/kinematic_model.h"
 
 namespace {
 
