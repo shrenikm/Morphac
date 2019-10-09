@@ -19,7 +19,7 @@ class SomeKinematicModel : public KinematicModel {
   SomeKinematicModel(const shared_ptr<State>& state,
                      const shared_ptr<ControlInput>& input)
       : KinematicModel(state, input) {}
-  const State& ComputeDerivative() {
+  void ComputeDerivative() {
     // f(x, u) = x * u  - x
     VectorXd der(size_pose_ + size_velocity_);
     der << state_->get_pose_vector(), state_->get_velocity_vector();
@@ -27,7 +27,6 @@ class SomeKinematicModel : public KinematicModel {
 
     derivative_->set_pose_vector(der.head(size_pose_));
     derivative_->set_velocity_vector(der.tail(size_velocity_));
-    return *derivative_;
   }
 };
 
@@ -47,7 +46,8 @@ TEST_F(KinematicModelTest, Subclass) {
   shared_ptr<State> state = make_shared<State>(pose_vector, velocity_vector);
   shared_ptr<ControlInput> input = make_shared<ControlInput>(input_vector);
   SomeKinematicModel model(state, input);
-  const State& derivative = model.ComputeDerivative();
+  model.ComputeDerivative();
+  const State& derivative = model.get_derivative();
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
   expected_pose_derivative << 0, -2, 10;
@@ -61,16 +61,17 @@ TEST_F(KinematicModelTest, Subclass) {
   state->set_pose_at(2, 3);
   state->set_velocity_at(1, 7);
 
-  const State& new_derivative = model.ComputeDerivative();
+  model.ComputeDerivative();
 
   // Updating expected values
   expected_pose_derivative(2) = 6;
   expected_velocity_derivative(1) = 42;
 
+  // Checking if derivative has updated
   ASSERT_TRUE(
-      expected_pose_derivative.isApprox(new_derivative.get_pose_vector()));
+      expected_pose_derivative.isApprox(derivative.get_pose_vector()));
   ASSERT_TRUE(expected_velocity_derivative.isApprox(
-      new_derivative.get_velocity_vector()));
+      derivative.get_velocity_vector()));
 }
 
 }  // namespace
