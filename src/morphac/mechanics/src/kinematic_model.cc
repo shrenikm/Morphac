@@ -1,10 +1,13 @@
 #include "mechanics/include/kinematic_model.h"
 
 namespace morphac {
-namespace constructs {
+namespace mechanics {
 
 using std::make_shared;
 using std::shared_ptr;
+
+using morphac::constructs::State;
+using morphac::constructs::ControlInput;
 
 KinematicModel::KinematicModel(const shared_ptr<State>& state,
                                const shared_ptr<ControlInput>& input)

@@ -11,8 +11,8 @@ using std::make_shared;
 using std::shared_ptr;
 
 using morphac::constructs::ControlInput;
-using morphac::constructs::KinematicModel;
 using morphac::constructs::State;
+using morphac::mechanics::KinematicModel;
 
 class SomeKinematicModel : public KinematicModel {
  public:

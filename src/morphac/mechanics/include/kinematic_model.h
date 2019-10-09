@@ -9,21 +9,22 @@
 #include "constructs/include/velocity.h"
 
 namespace morphac {
-namespace constructs {
+namespace mechanics {
 
 class KinematicModel {
  public:
-  KinematicModel(const std::shared_ptr<State>& state,
-                 const std::shared_ptr<ControlInput>& input);
-  virtual const State& ComputeDerivative() = 0;
+  KinematicModel(
+      const std::shared_ptr<morphac::constructs::State>& state,
+      const std::shared_ptr<morphac::constructs::ControlInput>& input);
+  virtual const morphac::constructs::State& ComputeDerivative() = 0;
 
  protected:
   const int size_pose_;
   const int size_velocity_;
   const int size_input_;
-  const std::shared_ptr<State>& state_;
-  const std::shared_ptr<ControlInput>& input_;
-  std::shared_ptr<State> derivative_;
+  const std::shared_ptr<morphac::constructs::State>& state_;
+  const std::shared_ptr<morphac::constructs::ControlInput>& input_;
+  std::shared_ptr<morphac::constructs::State> derivative_;
 };
 
 }  // namespace constructs
