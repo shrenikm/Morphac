@@ -5,37 +5,39 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
-Pose::Pose(int size) : size_(size), pose_(VectorXd::Zero(size)) {
+Pose::Pose(int size) : size_(size), pose_vector_(VectorXd::Zero(size)) {
   MORPH_REQUIRE(size > 0, std::invalid_argument, "Pose size is non-positive.");
 }
 
-Pose::Pose(VectorXd pose) : size_(pose.size()), pose_(pose) {
-  MORPH_REQUIRE(pose.size() > 0, std::invalid_argument,
-                "Pose size is non-positive.");
+Pose::Pose(VectorXd pose_vector)
+    : size_(pose_vector.size()), pose_vector_(pose_vector) {
+  MORPH_REQUIRE(pose_vector.size() > 0, std::invalid_argument,
+                "Pose vector size is non-positive.");
 }
 
-Pose::Pose(const Pose& pose) : size_(pose.size_), pose_(pose.pose_) {}
+Pose::Pose(const Pose& pose)
+    : size_(pose.size_), pose_vector_(pose.pose_vector_) {}
 
 const int Pose::get_size() const { return size_; }
 
-const VectorXd& Pose::get_pose_vector() const { return pose_; }
+const VectorXd& Pose::get_pose_vector() const { return pose_vector_; }
 
 double Pose::get_pose_at(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
-  return pose_(index);
+  return pose_vector_(index);
 }
 
-void Pose::set_pose_vector(const VectorXd& pose) {
-  MORPH_REQUIRE(pose.size() == size_, std::invalid_argument,
-                "Pose and vector sizes do not match.");
-  pose_ = pose;
+void Pose::set_pose_vector(const VectorXd& pose_vector) {
+  MORPH_REQUIRE(pose_vector.size() == size_, std::invalid_argument,
+                "Pose vector size is incorrect.");
+  pose_vector_ = pose_vector;
 }
 
 void Pose::set_pose_at(int index, double pose_element) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
-  pose_(index) = pose_element;
+  pose_vector_(index) = pose_element;
 }
 
 }  // namespace constructs
