@@ -29,6 +29,8 @@ class State {
   double get_pose_at(int index) const;
   const Eigen::VectorXd& get_velocity_vector() const;
   double get_velocity_at(int index) const;
+  const Eigen::VectorXd get_state_vector() const;
+  double get_state_at(int index) const;
   void set_pose_vector(const Eigen::VectorXd& pose);
   void set_pose_at(int index, double pose_element);
   void set_velocity_vector(const Eigen::VectorXd& velocity);

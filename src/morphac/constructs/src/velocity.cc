@@ -21,21 +21,21 @@ Velocity::Velocity(const Velocity& velocity)
 
 const int Velocity::get_size() const { return size_; }
 
-const VectorXd& Velocity::get_velocity() const { return velocity_; }
+const VectorXd& Velocity::get_velocity_vector() const { return velocity_; }
 
-double Velocity::get_velocity(int index) const {
+double Velocity::get_velocity_at(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   return velocity_(index);
 }
 
-void Velocity::set_velocity(const VectorXd& velocity) {
+void Velocity::set_velocity_vector(const VectorXd& velocity) {
   MORPH_REQUIRE(velocity.size() == size_, std::invalid_argument,
                 "Velocity and vector sizes do not match.");
   velocity_ = velocity;
 }
 
-void Velocity::set_velocity(int index, double velocity_element) {
+void Velocity::set_velocity_at(int index, double velocity_element) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   velocity_(index) = velocity_element;

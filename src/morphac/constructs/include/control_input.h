@@ -15,10 +15,10 @@ class ControlInput {
   ControlInput(const ControlInput& input);
 
   const int get_size() const;
-  const Eigen::VectorXd& get_input() const;
-  double get_input(int index) const;
-  void set_input(const Eigen::VectorXd& input);
-  void set_input(int index, double input_element);
+  const Eigen::VectorXd& get_input_vector() const;
+  double get_input_at(int index) const;
+  void set_input_vector(const Eigen::VectorXd& input);
+  void set_input_at(int index, double input_element);
 
  private:
   const int size_;

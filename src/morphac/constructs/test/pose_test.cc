@@ -24,19 +24,19 @@ class PoseTest : public ::testing::Test {
 
 TEST_F(PoseTest, Sizes) {
   ASSERT_EQ(pose1_.get_size(), pose2_.get_size());
-  ASSERT_EQ(pose1_.get_pose(), pose2_.get_pose());
+  ASSERT_EQ(pose1_.get_pose_vector(), pose2_.get_pose_vector());
 }
 
 TEST_F(PoseTest, CopyConstructor) {
   ASSERT_EQ(pose3_.get_size(), pose4_.get_size());
   for (int i = 0; i < pose3_.get_size(); ++i) {
-    ASSERT_EQ(pose3_.get_pose(i), pose4_.get_pose(i));
+    ASSERT_EQ(pose3_.get_pose_at(i), pose4_.get_pose_at(i));
   }
 }
 
 TEST_F(PoseTest, SetPose) {
-  pose3_.set_pose(1, 7.0);
-  ASSERT_EQ(pose3_.get_pose(1), 7.0);
+  pose3_.set_pose_at(1, 7.0);
+  ASSERT_EQ(pose3_.get_pose_at(1), 7.0);
 }
 
 TEST_F(PoseTest, InvalidConstruction) {
@@ -45,15 +45,17 @@ TEST_F(PoseTest, InvalidConstruction) {
 }
 
 TEST_F(PoseTest, InvalidGet) {
-  ASSERT_THROW(pose1_.get_pose(-1), std::out_of_range);
-  ASSERT_THROW(pose1_.get_pose(3), std::out_of_range);
+  ASSERT_THROW(pose1_.get_pose_at(-1), std::out_of_range);
+  ASSERT_THROW(pose1_.get_pose_at(3), std::out_of_range);
 }
 
 TEST_F(PoseTest, InvalidSet) {
-  ASSERT_THROW(pose1_.set_pose(VectorXd::Random(4)), std::invalid_argument);
-  ASSERT_THROW(pose1_.set_pose(VectorXd::Random(2)), std::invalid_argument);
-  ASSERT_THROW(pose1_.set_pose(-1, 1), std::out_of_range);
-  ASSERT_THROW(pose1_.set_pose(7, 1), std::out_of_range);
+  ASSERT_THROW(pose1_.set_pose_vector(VectorXd::Random(4)),
+               std::invalid_argument);
+  ASSERT_THROW(pose1_.set_pose_vector(VectorXd::Random(2)),
+               std::invalid_argument);
+  ASSERT_THROW(pose1_.set_pose_at(-1, 1), std::out_of_range);
+  ASSERT_THROW(pose1_.set_pose_at(7, 1), std::out_of_range);
 }
 
 }  // namespace

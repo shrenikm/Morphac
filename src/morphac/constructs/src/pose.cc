@@ -18,21 +18,21 @@ Pose::Pose(const Pose& pose) : size_(pose.size_), pose_(pose.pose_) {}
 
 const int Pose::get_size() const { return size_; }
 
-const VectorXd& Pose::get_pose() const { return pose_; }
+const VectorXd& Pose::get_pose_vector() const { return pose_; }
 
-double Pose::get_pose(int index) const {
+double Pose::get_pose_at(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   return pose_(index);
 }
 
-void Pose::set_pose(const VectorXd& pose) {
+void Pose::set_pose_vector(const VectorXd& pose) {
   MORPH_REQUIRE(pose.size() == size_, std::invalid_argument,
                 "Pose and vector sizes do not match.");
   pose_ = pose;
 }
 
-void Pose::set_pose(int index, double pose_element) {
+void Pose::set_pose_at(int index, double pose_element) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   pose_(index) = pose_element;
