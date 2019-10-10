@@ -11,18 +11,18 @@ namespace constructs {
 class Velocity {
  public:
   Velocity(int size);
-  Velocity(Eigen::VectorXd velocity);
+  Velocity(Eigen::VectorXd velocity_vector);
   Velocity(const Velocity& velocity);
 
   const int get_size() const;
-  const Eigen::VectorXd& get_velocity() const;
-  double get_velocity(int index) const;
-  void set_velocity(const Eigen::VectorXd& velocity);
-  void set_velocity(int index, double velocity_element);
+  const Eigen::VectorXd& get_velocity_vector() const;
+  double get_velocity_at(int index) const;
+  void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
+  void set_velocity_at(int index, double velocity_element);
 
  private:
   const int size_;
-  Eigen::VectorXd velocity_;
+  Eigen::VectorXd velocity_vector_;
 };
 
 }  // namespace constructs

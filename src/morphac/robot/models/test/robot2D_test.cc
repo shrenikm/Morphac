@@ -27,7 +27,8 @@ class SomeKinematicModel : public KinematicModel {
     // f(x, u) = x * u  - x
     VectorXd der(size_pose_ + size_velocity_);
     der << state_->get_pose_vector(), state_->get_velocity_vector();
-    der = (der.array() * input_->get_input().array() - der.array()).matrix();
+    der = (der.array() * input_->get_input_vector().array() - der.array())
+              .matrix();
 
     derivative_->set_pose_vector(der.head(size_pose_));
     derivative_->set_velocity_vector(der.tail(size_velocity_));
@@ -69,13 +70,14 @@ TEST_F(Robot2DTest, Accessors) {
   const MatrixXd robot_footprint = robot.get_footprint();
 
   ASSERT_EQ(robot_state.get_size(), 5);
-  ASSERT_TRUE(robot_state.get_pose_vector().isApprox(robot_pose.get_pose()));
-  ASSERT_TRUE(robot_state.get_velocity_vector().isApprox(
-      robot_velocity.get_velocity()));
-  ASSERT_TRUE(robot_pose.get_pose().isApprox(pose_vector_));
-  ASSERT_TRUE(robot_velocity.get_velocity().isApprox(velocity_vector_));
   ASSERT_TRUE(
-      robot_kinematic_model.get_input().get_input().isApprox(input_vector_));
+      robot_state.get_pose_vector().isApprox(robot_pose.get_pose_vector()));
+  ASSERT_TRUE(robot_state.get_velocity_vector().isApprox(
+      robot_velocity.get_velocity_vector()));
+  ASSERT_TRUE(robot_pose.get_pose_vector().isApprox(pose_vector_));
+  ASSERT_TRUE(robot_velocity.get_velocity_vector().isApprox(velocity_vector_));
+  ASSERT_TRUE(robot_kinematic_model.get_input().get_input_vector().isApprox(
+      input_vector_));
 
   // Updating the state and input values and checking if the references also
   // get updated
@@ -85,16 +87,18 @@ TEST_F(Robot2DTest, Accessors) {
 
   state->set_pose_vector(new_pose_vector);
   state->set_velocity_vector(new_velocity_vector);
-  input->set_input(new_input_vector);
+  input->set_input_vector(new_input_vector);
 
   ASSERT_EQ(robot_state.get_size(), 5);
-  ASSERT_TRUE(robot_state.get_pose_vector().isApprox(robot_pose.get_pose()));
-  ASSERT_TRUE(robot_state.get_velocity_vector().isApprox(
-      robot_velocity.get_velocity()));
-  ASSERT_TRUE(robot_pose.get_pose().isApprox(new_pose_vector));
-  ASSERT_TRUE(robot_velocity.get_velocity().isApprox(new_velocity_vector));
   ASSERT_TRUE(
-      robot_kinematic_model.get_input().get_input().isApprox(new_input_vector));
+      robot_state.get_pose_vector().isApprox(robot_pose.get_pose_vector()));
+  ASSERT_TRUE(robot_state.get_velocity_vector().isApprox(
+      robot_velocity.get_velocity_vector()));
+  ASSERT_TRUE(robot_pose.get_pose_vector().isApprox(new_pose_vector));
+  ASSERT_TRUE(
+      robot_velocity.get_velocity_vector().isApprox(new_velocity_vector));
+  ASSERT_TRUE(robot_kinematic_model.get_input().get_input_vector().isApprox(
+      new_input_vector));
 }
 
 TEST_F(Robot2DTest, InvalidFootprint) {

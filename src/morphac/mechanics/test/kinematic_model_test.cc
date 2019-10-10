@@ -23,7 +23,8 @@ class SomeKinematicModel : public KinematicModel {
     // f(x, u) = x * u  - x
     VectorXd der(size_pose_ + size_velocity_);
     der << state_->get_pose_vector(), state_->get_velocity_vector();
-    der = (der.array() * input_->get_input().array() - der.array()).matrix();
+    der = (der.array() * input_->get_input_vector().array() - der.array())
+              .matrix();
 
     derivative_->set_pose_vector(der.head(size_pose_));
     derivative_->set_velocity_vector(der.tail(size_velocity_));
@@ -68,10 +69,9 @@ TEST_F(KinematicModelTest, Subclass) {
   expected_velocity_derivative(1) = 42;
 
   // Checking if derivative has updated
+  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
   ASSERT_TRUE(
-      expected_pose_derivative.isApprox(derivative.get_pose_vector()));
-  ASSERT_TRUE(expected_velocity_derivative.isApprox(
-      derivative.get_velocity_vector()));
+      expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
 }
 
 }  // namespace

@@ -24,19 +24,19 @@ class VelocityTest : public ::testing::Test {
 
 TEST_F(VelocityTest, Sizes) {
   ASSERT_EQ(velocity1_.get_size(), velocity2_.get_size());
-  ASSERT_EQ(velocity1_.get_velocity(), velocity2_.get_velocity());
+  ASSERT_EQ(velocity1_.get_velocity_vector(), velocity2_.get_velocity_vector());
 }
 
 TEST_F(VelocityTest, CopyConstructor) {
   ASSERT_EQ(velocity3_.get_size(), velocity4_.get_size());
   for (int i = 0; i < velocity3_.get_size(); ++i) {
-    ASSERT_EQ(velocity3_.get_velocity(i), velocity4_.get_velocity(i));
+    ASSERT_EQ(velocity3_.get_velocity_at(i), velocity4_.get_velocity_at(i));
   }
 }
 
 TEST_F(VelocityTest, SetVelocity) {
-  velocity3_.set_velocity(1, 7.0);
-  ASSERT_EQ(velocity3_.get_velocity(1), 7.0);
+  velocity3_.set_velocity_at(1, 7.0);
+  ASSERT_EQ(velocity3_.get_velocity_at(1), 7.0);
 }
 
 TEST_F(VelocityTest, InvalidConstruction) {
@@ -45,17 +45,17 @@ TEST_F(VelocityTest, InvalidConstruction) {
 }
 
 TEST_F(VelocityTest, InvalidGet) {
-  ASSERT_THROW(velocity1_.get_velocity(-1), std::out_of_range);
-  ASSERT_THROW(velocity1_.get_velocity(3), std::out_of_range);
+  ASSERT_THROW(velocity1_.get_velocity_at(-1), std::out_of_range);
+  ASSERT_THROW(velocity1_.get_velocity_at(3), std::out_of_range);
 }
 
 TEST_F(VelocityTest, InvalidSet) {
-  ASSERT_THROW(velocity1_.set_velocity(VectorXd::Random(4)),
+  ASSERT_THROW(velocity1_.set_velocity_vector(VectorXd::Random(4)),
                std::invalid_argument);
-  ASSERT_THROW(velocity1_.set_velocity(VectorXd::Random(2)),
+  ASSERT_THROW(velocity1_.set_velocity_vector(VectorXd::Random(2)),
                std::invalid_argument);
-  ASSERT_THROW(velocity1_.set_velocity(-1, 1), std::out_of_range);
-  ASSERT_THROW(velocity1_.set_velocity(7, 1), std::out_of_range);
+  ASSERT_THROW(velocity1_.set_velocity_at(-1, 1), std::out_of_range);
+  ASSERT_THROW(velocity1_.set_velocity_at(7, 1), std::out_of_range);
 }
 
 }  // namespace
