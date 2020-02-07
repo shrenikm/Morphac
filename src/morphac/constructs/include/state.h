@@ -20,7 +20,7 @@ class State {
         std::unique_ptr<morphac::constructs::Velocity> velocity);
 
   State(const State& state) = delete;
-  State& operator=(const State&) = delete;
+  State& operator=(const State& state) = delete;
 
   const int get_size_pose() const;
   const int get_size_velocity() const;
