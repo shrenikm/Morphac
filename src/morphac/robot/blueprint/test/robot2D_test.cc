@@ -50,7 +50,7 @@ class Robot2DTest : public ::testing::Test {
   MatrixXd footprint_;
 };
 
-TEST_F(Robot2DTest, Creation) {
+TEST_F(Robot2DTest, Construction) {
   shared_ptr<State> state = make_shared<State>(pose_vector_, velocity_vector_);
   shared_ptr<ControlInput> input = make_shared<ControlInput>(input_vector_);
   SomeKinematicModel model(state, input);
