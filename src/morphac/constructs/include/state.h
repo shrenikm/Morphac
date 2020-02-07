@@ -18,7 +18,9 @@ class State {
   State(Eigen::VectorXd pose_vector, Eigen::VectorXd velocity_vector);
   State(std::unique_ptr<morphac::constructs::Pose> pose,
         std::unique_ptr<morphac::constructs::Velocity> velocity);
+
   State(const State& state) = delete;
+  State& operator=(const State&) = delete;
 
   const int get_size_pose() const;
   const int get_size_velocity() const;

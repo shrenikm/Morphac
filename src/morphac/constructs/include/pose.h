@@ -12,7 +12,6 @@ class Pose {
  public:
   Pose(int size);
   Pose(Eigen::VectorXd pose_vector);
-  Pose(const Pose& pose);
 
   const int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;

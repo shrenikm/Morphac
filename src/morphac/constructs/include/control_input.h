@@ -12,7 +12,6 @@ class ControlInput {
  public:
   ControlInput(int size);
   ControlInput(Eigen::VectorXd input_vector);
-  ControlInput(const ControlInput& input);
 
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
