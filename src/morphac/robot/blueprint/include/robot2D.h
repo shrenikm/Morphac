@@ -10,7 +10,7 @@
 
 namespace morphac {
 namespace robot {
-namespace models {
+namespace blueprint {
 
 class Robot2D {
   public:

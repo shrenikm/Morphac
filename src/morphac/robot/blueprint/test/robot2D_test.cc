@@ -1,7 +1,7 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "robot/models/include/robot2D.h"
+#include "robot/blueprint/include/robot2D.h"
 
 namespace {
 
@@ -16,7 +16,7 @@ using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 using morphac::mechanics::KinematicModel;
-using morphac::robot::models::Robot2D;
+using morphac::robot::blueprint::Robot2D;
 
 class SomeKinematicModel : public KinematicModel {
  public:
@@ -50,7 +50,7 @@ class Robot2DTest : public ::testing::Test {
   MatrixXd footprint_;
 };
 
-TEST_F(Robot2DTest, Creation) {
+TEST_F(Robot2DTest, Construction) {
   shared_ptr<State> state = make_shared<State>(pose_vector_, velocity_vector_);
   shared_ptr<ControlInput> input = make_shared<ControlInput>(input_vector_);
   SomeKinematicModel model(state, input);
