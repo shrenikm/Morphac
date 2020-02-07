@@ -17,9 +17,6 @@ Velocity::Velocity(VectorXd velocity_vector)
                 "Velocity vector size is non-positive.");
 }
 
-Velocity::Velocity(const Velocity& velocity)
-    : size_(velocity.size_), velocity_vector_(velocity.velocity_vector_) {}
-
 const int Velocity::get_size() const { return size_; }
 
 const VectorXd& Velocity::get_velocity_vector() const {

@@ -17,9 +17,6 @@ ControlInput::ControlInput(VectorXd input_vector)
                 "Control input vector size is non-positive.");
 }
 
-ControlInput::ControlInput(const ControlInput& input)
-    : size_(input.size_), input_vector_(input.input_vector_) {}
-
 const int ControlInput::get_size() const { return size_; }
 
 const VectorXd& ControlInput::get_input_vector() const { return input_vector_; }

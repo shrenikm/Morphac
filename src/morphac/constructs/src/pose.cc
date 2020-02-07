@@ -16,9 +16,6 @@ Pose::Pose(VectorXd pose_vector)
                 "Pose vector size is non-positive.");
 }
 
-Pose::Pose(const Pose& pose)
-    : size_(pose.size_), pose_vector_(pose.pose_vector_) {}
-
 const int Pose::get_size() const { return size_; }
 
 const VectorXd& Pose::get_pose_vector() const { return pose_vector_; }

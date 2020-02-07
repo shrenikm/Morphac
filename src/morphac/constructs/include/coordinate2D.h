@@ -8,7 +8,6 @@ template <typename T>
 class Coordinate2D {
  public:
   Coordinate2D(T x = 0, T y = 0);
-  Coordinate2D(const Coordinate2D& coord);
 
   Coordinate2D& operator+=(const Coordinate2D& coord);
   Coordinate2D operator+(const Coordinate2D& coord);
