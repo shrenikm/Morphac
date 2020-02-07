@@ -5,8 +5,9 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
-Pose::Pose(int size) : size_(size), pose_vector_(VectorXd::Zero(size)) {
+Pose::Pose(int size) : size_(size) {
   MORPH_REQUIRE(size > 0, std::invalid_argument, "Pose size is non-positive.");
+  pose_vector_ = VectorXd::Zero(size);
 }
 
 Pose::Pose(VectorXd pose_vector)
