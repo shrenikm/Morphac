@@ -2,7 +2,7 @@
 
 namespace morphac {
 namespace robot {
-namespace models {
+namespace blueprint {
 
 using Eigen::MatrixXd;
 

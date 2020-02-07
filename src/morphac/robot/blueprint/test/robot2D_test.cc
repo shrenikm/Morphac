@@ -16,7 +16,7 @@ using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 using morphac::mechanics::KinematicModel;
-using morphac::robot::models::Robot2D;
+using morphac::robot::blueprint::Robot2D;
 
 class SomeKinematicModel : public KinematicModel {
  public:
