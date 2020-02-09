@@ -6,8 +6,10 @@ namespace mechanics {
 using std::make_shared;
 using std::shared_ptr;
 
-using morphac::constructs::State;
 using morphac::constructs::ControlInput;
+using morphac::constructs::Pose;
+using morphac::constructs::State;
+using morphac::constructs::Velocity;
 
 KinematicModel::KinematicModel(const shared_ptr<State>& state,
                                const shared_ptr<ControlInput>& input)

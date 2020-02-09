@@ -16,6 +16,7 @@ class State {
  public:
   State(int size_pose, int size_velocity);
   State(Eigen::VectorXd pose_vector, Eigen::VectorXd velocity_vector);
+  State(morphac::constructs::Pose pose, morphac::constructs::Velocity velocity);
   State(std::unique_ptr<morphac::constructs::Pose> pose,
         std::unique_ptr<morphac::constructs::Velocity> velocity);
 

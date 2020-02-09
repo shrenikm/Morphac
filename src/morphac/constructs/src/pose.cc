@@ -10,7 +10,7 @@ Pose::Pose(int size) : size_(size) {
   pose_vector_ = VectorXd::Zero(size);
 }
 
-Pose::Pose(VectorXd pose_vector)
+Pose::Pose(const VectorXd& pose_vector)
     : size_(pose_vector.size()), pose_vector_(pose_vector) {
   MORPH_REQUIRE(pose_vector.size() > 0, std::invalid_argument,
                 "Pose vector size is non-positive.");

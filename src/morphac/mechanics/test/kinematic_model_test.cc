@@ -19,13 +19,14 @@ class SomeKinematicModel : public KinematicModel {
   SomeKinematicModel(const shared_ptr<State>& state,
                      const shared_ptr<ControlInput>& input)
       : KinematicModel(state, input) {}
+  SomeKinematicModel(int size_pose, int size_velocity, int size_input)
+      : KinematicModel(size_pose, size_velocity, size_input) {}
   void ComputeStateDerivative() {
     // f(x, u) = x * u  - x
     VectorXd der(size_pose_ + size_velocity_);
     der << state_->get_pose_vector(), state_->get_velocity_vector();
     der = (der.array() * input_->get_input_vector().array() - der.array())
               .matrix();
-
     derivative_->set_pose_vector(der.head(size_pose_));
     derivative_->set_velocity_vector(der.tail(size_velocity_));
   }
