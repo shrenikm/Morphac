@@ -11,7 +11,7 @@ ControlInput::ControlInput(int size) : size_(size) {
   input_vector_ = VectorXd::Zero(size);
 }
 
-ControlInput::ControlInput(VectorXd input_vector)
+ControlInput::ControlInput(const VectorXd& input_vector)
     : size_(input_vector.size()), input_vector_(input_vector) {
   MORPH_REQUIRE(input_vector.size() > 0, std::invalid_argument,
                 "Control input vector size is non-positive.");

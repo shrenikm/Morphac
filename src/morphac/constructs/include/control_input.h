@@ -11,7 +11,7 @@ namespace constructs {
 class ControlInput {
  public:
   ControlInput(int size);
-  ControlInput(Eigen::VectorXd input_vector);
+  ControlInput(const Eigen::VectorXd& input_vector);
 
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
