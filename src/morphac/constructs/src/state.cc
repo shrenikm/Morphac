@@ -24,6 +24,10 @@ State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
+State::State(const Pose& pose, const Velocity& velocity)
+    : pose_(make_unique<Pose>(pose)),
+      velocity_(make_unique<Velocity>(velocity)) {}
+
 State::State(unique_ptr<Pose> pose, unique_ptr<Velocity> velocity)
     : pose_(move(pose)), velocity_(move(velocity)) {}
 

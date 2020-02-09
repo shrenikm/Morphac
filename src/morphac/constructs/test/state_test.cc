@@ -33,6 +33,7 @@ class StateTest : public ::testing::Test {
     state1_ = new State(3, 2);
     state2_ = new State(pose_vector1_, velocity_vector1_);
     state3_ = new State(move(pose1_), move(velocity1_));
+    state4_ = new State(Pose(pose_vector1_), Velocity(velocity_vector1_));
   }
 
   VectorXd pose_vector1_, velocity_vector1_;
@@ -40,7 +41,7 @@ class StateTest : public ::testing::Test {
   unique_ptr<Pose> pose1_;
   unique_ptr<Velocity> velocity1_;
 
-  State *state1_, *state2_, *state3_;
+  State *state1_, *state2_, *state3_, *state4_;
 };
 
 TEST_F(StateTest, Sizes) {
@@ -53,6 +54,9 @@ TEST_F(StateTest, Sizes) {
   ASSERT_EQ(state3_->get_size_pose(), 6);
   ASSERT_EQ(state3_->get_size_velocity(), 5);
   ASSERT_EQ(state3_->get_size(), 11);
+  ASSERT_EQ(state4_->get_size_pose(), 4);
+  ASSERT_EQ(state4_->get_size_velocity(), 2);
+  ASSERT_EQ(state4_->get_size(), 6);
 }
 
 TEST_F(StateTest, GetPoseAndVelocity) {
