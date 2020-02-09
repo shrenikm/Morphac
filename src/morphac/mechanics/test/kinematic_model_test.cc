@@ -19,7 +19,7 @@ class SomeKinematicModel : public KinematicModel {
   SomeKinematicModel(const shared_ptr<State>& state,
                      const shared_ptr<ControlInput>& input)
       : KinematicModel(state, input) {}
-  void ComputeDerivative() {
+  void ComputeStateDerivative() {
     // f(x, u) = x * u  - x
     VectorXd der(size_pose_ + size_velocity_);
     der << state_->get_pose_vector(), state_->get_velocity_vector();
@@ -47,7 +47,7 @@ TEST_F(KinematicModelTest, Subclass) {
   shared_ptr<State> state = make_shared<State>(pose_vector, velocity_vector);
   shared_ptr<ControlInput> input = make_shared<ControlInput>(input_vector);
   SomeKinematicModel model(state, input);
-  model.ComputeDerivative();
+  model.ComputeStateDerivative();
   const State& derivative = model.get_derivative();
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
@@ -62,7 +62,7 @@ TEST_F(KinematicModelTest, Subclass) {
   state->set_pose_at(2, 3);
   state->set_velocity_at(1, 7);
 
-  model.ComputeDerivative();
+  model.ComputeStateDerivative();
 
   // Updating expected values
   expected_pose_derivative(2) = 6;

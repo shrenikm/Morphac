@@ -10,15 +10,11 @@ using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 using morphac::mechanics::KinematicModel;
+using morphac::robot::blueprint::Footprint2D;
 
-Robot2D::Robot2D(const KinematicModel& kinematic_model, MatrixXd footprint)
-    : kinematic_model_(kinematic_model), footprint_(footprint) {
-  MORPH_REQUIRE(footprint.rows() > 0 && footprint.cols() > 0,
-                std::invalid_argument,
-                "Non-positive number of footprint coordinates.");
-  MORPH_REQUIRE(footprint.cols() == 2, std::invalid_argument,
-                "Footprint coordinates must be two dimensional.");
-}
+Robot2D::Robot2D(const KinematicModel& kinematic_model,
+                 const Footprint2D& footprint)
+    : kinematic_model_(kinematic_model), footprint_(footprint) {}
 
 const KinematicModel& Robot2D::get_kinematic_model() const {
   return kinematic_model_;
@@ -34,7 +30,7 @@ const Velocity& Robot2D::get_velocity() const {
   return kinematic_model_.get_state().get_velocity();
 }
 
-const MatrixXd Robot2D::get_footprint() const { return footprint_; }
+const Footprint2D Robot2D::get_footprint() const { return footprint_; }
 
 }  // namespace models
 }  // namespace robot

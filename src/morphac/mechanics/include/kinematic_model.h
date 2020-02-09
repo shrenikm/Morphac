@@ -16,7 +16,7 @@ class KinematicModel {
   KinematicModel(
       const std::shared_ptr<morphac::constructs::State>& state,
       const std::shared_ptr<morphac::constructs::ControlInput>& input);
-  virtual void ComputeDerivative() = 0;
+  virtual void ComputeStateDerivative() = 0;
   const morphac::constructs::State& get_derivative() const;
   const morphac::constructs::State& get_state() const;
   const morphac::constructs::ControlInput& get_input() const;
