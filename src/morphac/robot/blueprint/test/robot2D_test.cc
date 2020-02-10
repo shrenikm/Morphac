@@ -16,7 +16,9 @@ using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 using morphac::mechanics::KinematicModel;
+using morphac::robot::blueprint::Footprint2D;
 using morphac::robot::blueprint::Robot2D;
+using morphac::robot::blueprint::Robot2DParams;
 
 class SomeKinematicModel : public KinematicModel {
  public:
@@ -33,6 +35,11 @@ class SomeKinematicModel : public KinematicModel {
     derivative_->set_pose_vector(der.head(size_pose_));
     derivative_->set_velocity_vector(der.tail(size_velocity_));
   }
+};
+
+class SomeRobot2D : public Robot2D {
+  public:
+    SomeRobot2D(
 };
 
 class Robot2DTest : public ::testing::Test {

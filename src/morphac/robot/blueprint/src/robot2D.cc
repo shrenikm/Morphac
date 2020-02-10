@@ -16,11 +16,6 @@ using morphac::constructs::Velocity;
 using morphac::mechanics::KinematicModel;
 using morphac::robot::blueprint::Footprint2D;
 
-Robot2DParams::Robot2DParams(
-    const string robot_name,
-    const unordered_map<std::string, double> robot_params)
-    : robot_name(robot_name), robot_params(robot_params) {}
-
 Robot2D::Robot2D(const Robot2DParams& params,
                  const KinematicModel& kinematic_model,
                  const Footprint2D& footprint)
