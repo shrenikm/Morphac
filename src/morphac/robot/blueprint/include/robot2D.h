@@ -1,7 +1,6 @@
 #ifndef ROBOT2D_H
 #define ROBOT2D_H
 
-#include <string>
 #include <unordered_map>
 
 #include "Eigen/Dense"
@@ -16,13 +15,12 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
-class Robot2DParams {
- public:
+struct Robot2DParams {
   Robot2DParams(const std::string robot_name,
                 const std::unordered_map<std::string, double> robot_params);
 
-  const std::string robot_name_;
-  const std::unordered_map<std::string, double> robot_params_;
+  const std::string robot_name;
+  const std::unordered_map<std::string, double> robot_params;
 };
 
 class Robot2D {
