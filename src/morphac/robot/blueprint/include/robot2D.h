@@ -29,6 +29,14 @@ class Robot2D {
           const morphac::mechanics::KinematicModel& kinematic_model,
           const morphac::robot::blueprint::Footprint2D& footprint);
 
+  virtual void ComputeStateDerivative(
+      const morphac::constructs::State& state,
+      const morphac::constructs::ControlInput& input,
+      morphac::constructs::State& derivative) const = 0;
+  virtual morphac::constructs::State ComputeStateDerivative(
+      const morphac::constructs::State& state,
+      const morphac::constructs::ControlInput& input) const = 0;
+
   const Robot2DParams& get_params() const;
   const morphac::mechanics::KinematicModel& get_kinematic_model() const;
   const morphac::robot::blueprint::Footprint2D get_footprint() const;
