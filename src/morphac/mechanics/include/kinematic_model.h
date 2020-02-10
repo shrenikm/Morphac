@@ -15,13 +15,13 @@ class KinematicModel {
  public:
   KinematicModel(int size_pose, int size_velocity, int size_input);
 
-  virtual Eigen::VectorXd ComputeStateDerivative(
-      const morphac::constructs::Stated& state,
+  virtual morphac::constructs::State ComputeStateDerivative(
+      const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input) = 0;
   virtual void ComputeStateDerivative(
-      const morphac::constructs::Stated& state,
+      const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input,
-      Eigen::VectorXd& derivative) = 0;
+      morphac::constructs::State& derivative) = 0;
 
  protected:
   const int size_pose_;

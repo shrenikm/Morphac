@@ -16,26 +16,25 @@ using morphac::mechanics::KinematicModel;
 
 class SomeKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(const shared_ptr<State>& state,
-                     const shared_ptr<ControlInput>& input)
-      : KinematicModel(state, input) {}
   SomeKinematicModel(int size_pose, int size_velocity, int size_input)
       : KinematicModel(size_pose, size_velocity, size_input) {}
-  void ComputeStateDerivative() {
-    // f(x, u) = x * u  - x
-    VectorXd der(size_pose_ + size_velocity_);
-    der << state_->get_pose_vector(), state_->get_velocity_vector();
-    der = (der.array() * input_->get_input_vector().array() - der.array())
-              .matrix();
-    derivative_->set_pose_vector(der.head(size_pose_));
-    derivative_->set_velocity_vector(der.tail(size_velocity_));
+
+  void ComputeStateDerivative(const State& state, const ControlInput& input,
+                              State& derivative) {
+    VectorXd derivative_vector(state.get_size());
+    derivative_vector << state.get_state_vector();
+    derivative_vector =
+        (derivative_vector.array() * input.get_input_vector().array() -
+         derivative_vector.array())
+            .matrix();
+    derivative.set_pose_vector(derivative_vector.head(size_pose_));
+    derivative.set_velocity_vector(derivative_vector.tail(size_velocity_));
   }
-
- public:
-  SomeKinematicModel(int size_pose, int size_velocity, int size_input)
-      : KinematicModel(size_pose, size_velocity, size_input) {}
-
-  void ComputeStateDerivative(VectorXd state, 
+  State ComputeStateDerivative(const State& state, const ControlInput& input) {
+    State derivative(size_pose_, size_velocity_);
+    ComputeStateDerivative(state, input, derivative);
+    return derivative;
+  }
 };
 
 class KinematicModelTest : public ::testing::Test {
@@ -51,34 +50,41 @@ TEST_F(KinematicModelTest, Subclass) {
   velocity_vector << -3, 2.5;
   input_vector << 1, 2, 3, 4, 7;
 
-  shared_ptr<State> state = make_shared<State>(pose_vector, velocity_vector);
-  shared_ptr<ControlInput> input = make_shared<ControlInput>(input_vector);
-  SomeKinematicModel model(state, input);
-  model.ComputeStateDerivative();
-  const State& derivative = model.get_derivative();
+  State state(pose_vector, velocity_vector);
+  ControlInput input(input_vector);
+
+  SomeKinematicModel model(3, 2, 5);
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
   expected_pose_derivative << 0, -2, 10;
   expected_velocity_derivative << -9, 15;
 
-  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
+  State derivative1(3, 2);
+
+  // Computing the derivative using the function overload that takes the
+  // reference
+  model.ComputeStateDerivative(state, input, derivative1);
+
+  // Checking if the computed derivative is accurate
+  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative1.get_pose_vector()));
   ASSERT_TRUE(
-      expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
+      expected_velocity_derivative.isApprox(derivative1.get_velocity_vector()));
 
   // Changing the values of the state
-  state->set_pose_at(2, 3);
-  state->set_velocity_at(1, 7);
+  state.set_pose_at(2, 3);
+  state.set_velocity_at(1, 7);
 
-  model.ComputeStateDerivative();
+  // Now we use the other overload to compute the derivative.
+  State derivative2 = model.ComputeStateDerivative(state, input);
 
   // Updating expected values
   expected_pose_derivative(2) = 6;
   expected_velocity_derivative(1) = 42;
 
   // Checking if derivative has updated
-  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
+  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative2.get_pose_vector()));
   ASSERT_TRUE(
-      expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
+      expected_velocity_derivative.isApprox(derivative2.get_velocity_vector()));
 }
 
 }  // namespace
