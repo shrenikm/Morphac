@@ -13,19 +13,20 @@ namespace mechanics {
 
 class KinematicModel {
  public:
-  KinematicModel(int size_pose, int size_velocity, int size_input);
+  KinematicModel(const int size_pose, const int size_velocity,
+                 const int size_input);
 
   virtual morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) = 0;
+      const morphac::constructs::ControlInput& input) const = 0;
   virtual void ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input,
-      morphac::constructs::State& derivative) = 0;
+      morphac::constructs::State& derivative) const = 0;
 
-  const int get_size_pose();
-  const int get_size_velocity();
-  const int get_size_input();
+  const int get_size_pose() const;
+  const int get_size_velocity() const;
+  const int get_size_input() const;
 
  protected:
   const int size_pose_;

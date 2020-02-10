@@ -20,7 +20,7 @@ class SomeKinematicModel : public KinematicModel {
       : KinematicModel(size_pose, size_velocity, size_input) {}
 
   void ComputeStateDerivative(const State& state, const ControlInput& input,
-                              State& derivative) {
+                              State& derivative) const {
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
     derivative_vector =
@@ -30,7 +30,8 @@ class SomeKinematicModel : public KinematicModel {
     derivative.set_pose_vector(derivative_vector.head(size_pose_));
     derivative.set_velocity_vector(derivative_vector.tail(size_velocity_));
   }
-  State ComputeStateDerivative(const State& state, const ControlInput& input) {
+  State ComputeStateDerivative(const State& state,
+                               const ControlInput& input) const {
     State derivative(size_pose_, size_velocity_);
     ComputeStateDerivative(state, input, derivative);
     return derivative;
