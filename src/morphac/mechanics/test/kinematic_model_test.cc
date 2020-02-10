@@ -30,6 +30,12 @@ class SomeKinematicModel : public KinematicModel {
     derivative_->set_pose_vector(der.head(size_pose_));
     derivative_->set_velocity_vector(der.tail(size_velocity_));
   }
+
+ public:
+  SomeKinematicModel(int size_pose, int size_velocity, int size_input)
+      : KinematicModel(size_pose, size_velocity, size_input) {}
+
+  void ComputeStateDerivative(VectorXd state, 
 };
 
 class KinematicModelTest : public ::testing::Test {

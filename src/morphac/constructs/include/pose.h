@@ -10,7 +10,7 @@ namespace constructs {
 
 class Pose {
  public:
-  Pose(int size);
+  Pose( const int size);
   Pose(const Eigen::VectorXd& pose_vector);
 
   const int get_size() const;

@@ -10,7 +10,7 @@ namespace constructs {
 
 class Velocity {
  public:
-  Velocity(int size);
+  Velocity(const int size);
   Velocity(const Eigen::VectorXd& velocity_vector);
 
   const int get_size() const;

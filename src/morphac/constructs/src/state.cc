@@ -12,53 +12,47 @@ using Eigen::VectorXd;
 using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
-State::State(int size_pose, int size_velocity)
-    : pose_(make_unique<Pose>(size_pose)),
-      velocity_(make_unique<Velocity>(size_velocity)) {
+State::State(const int size_pose, const int size_velocity)
+    : pose_(Pose(size_pose)), velocity_(Velocity(size_velocity)) {
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
 State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
-    : pose_(make_unique<Pose>(pose_vector)),
-      velocity_(make_unique<Velocity>(velocity_vector)) {
+    : pose_(Pose(pose_vector)), velocity_(Velocity(velocity_vector)) {
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
 State::State(const Pose& pose, const Velocity& velocity)
-    : pose_(make_unique<Pose>(pose)),
-      velocity_(make_unique<Velocity>(velocity)) {}
+    : pose_(pose), velocity_(velocity) {}
 
-State::State(unique_ptr<Pose> pose, unique_ptr<Velocity> velocity)
-    : pose_(move(pose)), velocity_(move(velocity)) {}
+const int State::get_size_pose() const { return pose_.get_size(); }
 
-const int State::get_size_pose() const { return pose_->get_size(); }
-
-const int State::get_size_velocity() const { return velocity_->get_size(); }
+const int State::get_size_velocity() const { return velocity_.get_size(); }
 
 const int State::get_size() const {
-  return pose_->get_size() + velocity_->get_size();
+  return pose_.get_size() + velocity_.get_size();
 }
 
-const Pose& State::get_pose() const { return *pose_; }
+const Pose& State::get_pose() const { return pose_; }
 
-const Velocity& State::get_velocity() const { return *velocity_; }
+const Velocity& State::get_velocity() const { return velocity_; }
 
 const VectorXd& State::get_pose_vector() const {
-  return pose_->get_pose_vector();
+  return pose_.get_pose_vector();
 }
 
 double State::get_pose_at(int index) const {
   // The Pose class getter does the argument check.
-  return pose_->get_pose_at(index);
+  return pose_.get_pose_at(index);
 }
 
 const VectorXd& State::get_velocity_vector() const {
-  return velocity_->get_velocity_vector();
+  return velocity_.get_velocity_vector();
 }
 
 double State::get_velocity_at(int index) const {
   // The Velocity class getter does the argument check.
-  return velocity_->get_velocity_at(index);
+  return velocity_.get_velocity_at(index);
 }
 
 const VectorXd State::get_state_vector() const {
@@ -79,22 +73,22 @@ double State::get_state_at(int index) const {
 
 void State::set_pose_vector(const VectorXd& pose_vector) {
   // The Pose class setter does the argument check.
-  pose_->set_pose_vector(pose_vector);
+  pose_.set_pose_vector(pose_vector);
 }
 
 void State::set_pose_at(int index, double pose_element) {
   // The Pose class setter does the argument check.
-  pose_->set_pose_at(index, pose_element);
+  pose_.set_pose_at(index, pose_element);
 }
 
 void State::set_velocity_vector(const VectorXd& velocity_vector) {
   // The Velocity class getter does the argument check.
-  velocity_->set_velocity_vector(velocity_vector);
+  velocity_.set_velocity_vector(velocity_vector);
 }
 
 void State::set_velocity_at(int index, double velocity_element) {
   // The Velocity class getter does the argument check.
-  velocity_->set_velocity_at(index, velocity_element);
+  velocity_.set_velocity_at(index, velocity_element);
 }
 
 void State::set_state_vector(const VectorXd& state_vector) {

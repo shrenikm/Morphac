@@ -13,24 +13,20 @@ namespace mechanics {
 
 class KinematicModel {
  public:
-  KinematicModel(
-      const std::shared_ptr<morphac::constructs::State>& state,
-      const std::shared_ptr<morphac::constructs::ControlInput>& input);
   KinematicModel(int size_pose, int size_velocity, int size_input);
 
-  virtual void ComputeStateDerivative() = 0;
-
-  const morphac::constructs::State& get_derivative() const;
-  const morphac::constructs::State& get_state() const;
-  const morphac::constructs::ControlInput& get_input() const;
+  virtual Eigen::VectorXd ComputeStateDerivative(
+      const morphac::constructs::Stated& state,
+      const morphac::constructs::ControlInput& input) = 0;
+  virtual void ComputeStateDerivative(
+      const morphac::constructs::Stated& state,
+      const morphac::constructs::ControlInput& input,
+      Eigen::VectorXd& derivative) = 0;
 
  protected:
   const int size_pose_;
   const int size_velocity_;
   const int size_input_;
-  const std::shared_ptr<morphac::constructs::State>& state_;
-  const std::shared_ptr<morphac::constructs::ControlInput>& input_;
-  std::shared_ptr<morphac::constructs::State> derivative_;
 };
 
 }  // namespace constructs

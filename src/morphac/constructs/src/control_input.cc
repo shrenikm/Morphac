@@ -5,7 +5,7 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
-ControlInput::ControlInput(int size) : size_(size) {
+ControlInput::ControlInput(const int size) : size_(size) {
   MORPH_REQUIRE(size > 0, std::invalid_argument,
                 "Control input size is non-positive.");
   input_vector_ = VectorXd::Zero(size);
