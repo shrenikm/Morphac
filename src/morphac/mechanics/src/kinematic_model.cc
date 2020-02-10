@@ -16,6 +16,10 @@ KinematicModel::KinematicModel(int size_pose, int size_velocity, int size_input)
       size_velocity_(size_velocity),
       size_input_(size_input) {}
 
+const int KinematicModel::get_size_pose() { return size_pose_; }
+const int KinematicModel::get_size_velocity() { return size_velocity_; }
+const int KinematicModel::get_size_input() { return size_input_; }
+
 }  // constructs
 }  // morphac
 

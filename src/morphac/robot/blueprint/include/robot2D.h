@@ -27,6 +27,7 @@ class Robot2D {
  private:
   const morphac::mechanics::KinematicModel& kinematic_model_;
   const morphac::robot::blueprint::Footprint2D footprint_;
+  const std::unique_ptr<morphac::constructs::State> state_;
 };
 
 }  // namespace models

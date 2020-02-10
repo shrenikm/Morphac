@@ -44,6 +44,14 @@ class KinematicModelTest : public ::testing::Test {
   void SetUp() override {}
 };
 
+TEST_F(KinematicModelTest, Accessors) {
+  SomeKinematicModel model(5, 6, 18);
+
+  ASSERT_EQ(model.get_size_pose(), 5);
+  ASSERT_EQ(model.get_size_velocity(), 6);
+  ASSERT_EQ(model.get_size_input(), 18);
+}
+
 TEST_F(KinematicModelTest, Subclass) {
   VectorXd pose_vector(3), velocity_vector(2), input_vector(5);
   pose_vector << 1, -2, 5;

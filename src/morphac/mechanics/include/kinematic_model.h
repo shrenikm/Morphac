@@ -23,6 +23,10 @@ class KinematicModel {
       const morphac::constructs::ControlInput& input,
       morphac::constructs::State& derivative) = 0;
 
+  const int get_size_pose();
+  const int get_size_velocity();
+  const int get_size_input();
+
  protected:
   const int size_pose_;
   const int size_velocity_;
