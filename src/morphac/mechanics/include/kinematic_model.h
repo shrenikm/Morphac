@@ -1,6 +1,9 @@
 #ifndef KINEMATIC_MODEL_H
 #define KINEMATIC_MODEL_H
 
+#include <string>
+#include <unordered_map>
+
 #include "Eigen/Dense"
 
 #include "constructs/include/control_input.h"
@@ -17,9 +20,11 @@ class KinematicModel {
                  const int size_input);
 
   virtual morphac::constructs::State ComputeStateDerivative(
+      const std::unordered_map<std::string, double>,
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input) const = 0;
   virtual void ComputeStateDerivative(
+      const std::unordered_map<std::string, double>,
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input,
       morphac::constructs::State& derivative) const = 0;
