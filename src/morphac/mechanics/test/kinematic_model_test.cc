@@ -24,6 +24,7 @@ class SomeKinematicModel : public KinematicModel {
 
   void ComputeStateDerivative(const State& state, const ControlInput& input,
                               State& derivative) const {
+    // f(x, u) = x * a * u - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
     derivative_vector =

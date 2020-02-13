@@ -15,29 +15,22 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
-struct Robot2DParams {
-  Robot2DParams(const std::string robot_name,
-                const std::unordered_map<std::string, double> robot_params);
-
-  const std::string robot_name;
-  const std::unordered_map<std::string, double> robot_params;
-};
-
 class Robot2D {
  public:
-  Robot2D(const Robot2DParams& params,
+  Robot2D(const std::string name,
           const morphac::mechanics::KinematicModel& kinematic_model,
           const morphac::robot::blueprint::Footprint2D& footprint);
+  Robot2D(const std::string name,
+          const morphac::mechanics::KinematicModel& kinematic_model,
+          const morphac::robot::blueprint::Footprint2D& footprint,
+          const morphac::constructs::State& initial_state);
 
-  virtual void ComputeStateDerivative(
-      const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input,
-      morphac::constructs::State& derivative) const = 0;
-  virtual morphac::constructs::State ComputeStateDerivative(
-      const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const = 0;
+  void ComputeStateDerivative(const morphac::constructs::ControlInput& input,
+                              morphac::constructs::State& derivative) const;
+  morphac::constructs::State ComputeStateDerivative(
+      const morphac::constructs::ControlInput& input) const;
 
-  const Robot2DParams& get_params() const;
+  const std::string get_name() const;
   const morphac::mechanics::KinematicModel& get_kinematic_model() const;
   const morphac::robot::blueprint::Footprint2D get_footprint() const;
   const morphac::constructs::State& get_state() const;
@@ -45,7 +38,7 @@ class Robot2D {
   const morphac::constructs::Velocity& get_velocity() const;
 
  private:
-  const Robot2DParams& params_;
+  const std::string name_;
   const morphac::mechanics::KinematicModel& kinematic_model_;
   const morphac::robot::blueprint::Footprint2D footprint_;
   const std::unique_ptr<morphac::constructs::State> state_;
