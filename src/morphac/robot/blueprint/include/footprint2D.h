@@ -12,9 +12,6 @@ namespace blueprint {
 class Footprint2D {
   public:
     Footprint2D(const Eigen::MatrixXd& footprint_matrix);
-    Footprint2D(const Footprint2D& footprint2D) = delete;
-    Footprint2D& operator=(const Footprint2D& footprint2D) = delete;
-
 
     const Eigen::MatrixXd& get_footprint_matrix() const;
 

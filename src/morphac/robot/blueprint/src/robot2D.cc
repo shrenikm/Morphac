@@ -4,37 +4,63 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
+using std::make_unique;
+using std::string;
+using std::unordered_map;
+
 using Eigen::MatrixXd;
 
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 using morphac::mechanics::KinematicModel;
+using morphac::robot::blueprint::Footprint2D;
 
-Robot2D::Robot2D(const KinematicModel& kinematic_model, MatrixXd footprint)
-    : kinematic_model_(kinematic_model), footprint_(footprint) {
-  MORPH_REQUIRE(footprint.rows() > 0 && footprint.cols() > 0,
-                std::invalid_argument,
-                "Non-positive number of footprint coordinates.");
-  MORPH_REQUIRE(footprint.cols() == 2, std::invalid_argument,
-                "Footprint coordinates must be two dimensional.");
+Robot2D::Robot2D(const string name, const KinematicModel& kinematic_model,
+                 const Footprint2D& footprint)
+    : name_(name),
+      kinematic_model_(kinematic_model),
+      footprint_(footprint),
+      state_(make_unique<State>(kinematic_model.size_pose,
+                                kinematic_model.size_velocity)) {}
+
+Robot2D::Robot2D(const string name, const KinematicModel& kinematic_model,
+                 const Footprint2D& footprint, const State& initial_state)
+    : name_(name),
+      kinematic_model_(kinematic_model),
+      footprint_(footprint),
+      state_(make_unique<State>(initial_state)) {
+  MORPH_REQUIRE(
+      initial_state.get_size_pose() == kinematic_model.size_pose &&
+          initial_state.get_size_velocity() == kinematic_model.size_velocity,
+      std::invalid_argument,
+      "Kinematic model and initial state dimensions mismatch.");
 }
+
+void Robot2D::ComputeStateDerivative(
+    const morphac::constructs::ControlInput& input,
+    morphac::constructs::State& derivative) const {
+  kinematic_model_.ComputeStateDerivative(*state_.get(), input, derivative);
+}
+
+morphac::constructs::State Robot2D::ComputeStateDerivative(
+    const morphac::constructs::ControlInput& input) const {
+  return kinematic_model_.ComputeStateDerivative(*state_.get(), input);
+}
+
+const string Robot2D::get_name() const { return name_; }
 
 const KinematicModel& Robot2D::get_kinematic_model() const {
   return kinematic_model_;
 }
 
-const State& Robot2D::get_state() const { return kinematic_model_.get_state(); }
+const Footprint2D Robot2D::get_footprint() const { return footprint_; }
 
-const Pose& Robot2D::get_pose() const {
-  return kinematic_model_.get_state().get_pose();
-}
+const State& Robot2D::get_state() const { return *state_.get(); }
 
-const Velocity& Robot2D::get_velocity() const {
-  return kinematic_model_.get_state().get_velocity();
-}
+const Pose& Robot2D::get_pose() const { return state_->get_pose(); }
 
-const MatrixXd Robot2D::get_footprint() const { return footprint_; }
+const Velocity& Robot2D::get_velocity() const { return state_->get_velocity(); }
 
 }  // namespace models
 }  // namespace robot

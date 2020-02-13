@@ -14,13 +14,11 @@ namespace constructs {
 
 class State {
  public:
-  State(int size_pose, int size_velocity);
-  State(Eigen::VectorXd pose_vector, Eigen::VectorXd velocity_vector);
-  State(std::unique_ptr<morphac::constructs::Pose> pose,
-        std::unique_ptr<morphac::constructs::Velocity> velocity);
-
-  State(const State& state) = delete;
-  State& operator=(const State& state) = delete;
+  State(const int size_pose, const int size_velocity);
+  State(const Eigen::VectorXd& pose_vector,
+        const Eigen::VectorXd& velocity_vector);
+  State(const morphac::constructs::Pose& pose,
+        const morphac::constructs::Velocity& velocity);
 
   const int get_size_pose() const;
   const int get_size_velocity() const;
@@ -41,8 +39,8 @@ class State {
   void set_state_at(int index, double state_element);
 
  private:
-  std::unique_ptr<morphac::constructs::Pose> pose_;
-  std::unique_ptr<morphac::constructs::Velocity> velocity_;
+  morphac::constructs::Pose pose_;
+  morphac::constructs::Velocity velocity_;
 };
 
 }  // namespace constructs
