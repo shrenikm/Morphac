@@ -18,28 +18,29 @@ using morphac::mechanics::KinematicModel;
 
 class SomeKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(int size_pose, int size_velocity, int size_input)
-      : KinematicModel(size_pose, size_velocity, size_input) {}
+  SomeKinematicModel(string name, int size_pose, int size_velocity,
+                     int size_input, double a)
+      : KinematicModel(name, size_pose, size_velocity, size_input), a(a) {}
 
-  void ComputeStateDerivative(const unordered_map<string, double>& params,
-                              const State& state, const ControlInput& input,
+  void ComputeStateDerivative(const State& state, const ControlInput& input,
                               State& derivative) const {
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
     derivative_vector =
-        (derivative_vector.array() * input.get_input_vector().array() -
+        (derivative_vector.array() * a * input.get_input_vector().array() -
          derivative_vector.array())
             .matrix();
-    derivative.set_pose_vector(derivative_vector.head(size_pose_));
-    derivative.set_velocity_vector(derivative_vector.tail(size_velocity_));
+    derivative.set_pose_vector(derivative_vector.head(size_pose));
+    derivative.set_velocity_vector(derivative_vector.tail(size_velocity));
   }
-  State ComputeStateDerivative(const unordered_map<string, double>& params,
-                               const State& state,
+  State ComputeStateDerivative(const State& state,
                                const ControlInput& input) const {
-    State derivative(size_pose_, size_velocity_);
-    ComputeStateDerivative(params, state, input, derivative);
+    State derivative(size_pose, size_velocity);
+    ComputeStateDerivative(state, input, derivative);
     return derivative;
   }
+
+  double a;
 };
 
 class KinematicModelTest : public ::testing::Test {
@@ -48,14 +49,6 @@ class KinematicModelTest : public ::testing::Test {
 
   void SetUp() override {}
 };
-
-TEST_F(KinematicModelTest, Accessors) {
-  SomeKinematicModel model(5, 6, 18);
-
-  ASSERT_EQ(model.get_size_pose(), 5);
-  ASSERT_EQ(model.get_size_velocity(), 6);
-  ASSERT_EQ(model.get_size_input(), 18);
-}
 
 TEST_F(KinematicModelTest, Subclass) {
   VectorXd pose_vector(3), velocity_vector(2), input_vector(5);
@@ -66,10 +59,7 @@ TEST_F(KinematicModelTest, Subclass) {
   State state(pose_vector, velocity_vector);
   ControlInput input(input_vector);
 
-  SomeKinematicModel model(3, 2, 5);
-
-  // Empty unordered map.
-  unordered_map<string, double> params;
+  SomeKinematicModel model{"model", 3, 2, 5, 1.0};
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
   expected_pose_derivative << 0, -2, 10;
@@ -79,7 +69,7 @@ TEST_F(KinematicModelTest, Subclass) {
 
   // Computing the derivative using the function overload that takes the
   // reference
-  model.ComputeStateDerivative(params, state, input, derivative1);
+  model.ComputeStateDerivative(state, input, derivative1);
 
   // Checking if the computed derivative is accurate
   ASSERT_TRUE(expected_pose_derivative.isApprox(derivative1.get_pose_vector()));
@@ -91,7 +81,7 @@ TEST_F(KinematicModelTest, Subclass) {
   state.set_velocity_at(1, 7);
 
   // Now we use the other overload to compute the derivative.
-  State derivative2 = model.ComputeStateDerivative(params, state, input);
+  State derivative2 = model.ComputeStateDerivative(state, input);
 
   // Updating expected values
   expected_pose_derivative(2) = 6;

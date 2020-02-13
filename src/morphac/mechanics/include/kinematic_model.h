@@ -13,22 +13,19 @@
 namespace morphac {
 namespace mechanics {
 
-struct KinematicModelParams {
-  virtual void ~KinematicModelParams() = 0;
-  string name;
-};
-
+// The parameters of this class need to be kept const as they serve as a kind
+// of data class as well. Nothing is private to prevent unnecessary private
+// member creation in the derived classes which would have additional data
+// members
 class KinematicModel {
  public:
-  KinematicModel(const int size_pose, const int size_velocity,
-                 const int size_input);
+  KinematicModel(const std::string name, const int size_pose,
+                 const int size_velocity, const int size_input);
 
   virtual morphac::constructs::State ComputeStateDerivative(
-      const std::unordered_map<std::string, double>& params,
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input) const = 0;
   virtual void ComputeStateDerivative(
-      const std::unordered_map<std::string, double>& params,
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input,
       morphac::constructs::State& derivative) const = 0;
@@ -37,10 +34,10 @@ class KinematicModel {
   const int get_size_velocity() const;
   const int get_size_input() const;
 
- protected:
-  const int size_pose_;
-  const int size_velocity_;
-  const int size_input_;
+  const std::string name;
+  const int size_pose;
+  const int size_velocity;
+  const int size_input;
 };
 
 }  // namespace constructs
