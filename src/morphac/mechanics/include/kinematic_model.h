@@ -13,6 +13,11 @@
 namespace morphac {
 namespace mechanics {
 
+struct KinematicModelParams {
+  virtual void ~KinematicModelParams() = 0;
+  string name;
+};
+
 class KinematicModel {
  public:
   KinematicModel(const int size_pose, const int size_velocity,
