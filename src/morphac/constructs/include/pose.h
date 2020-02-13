@@ -13,6 +13,13 @@ class Pose {
   Pose( const int size);
   Pose(const Eigen::VectorXd& pose_vector);
 
+  Pose& operator+=(const Pose& pose);
+  Pose operator+(const Pose& pose);
+  Pose& operator-=(const Pose& pose);
+  Pose operator-(const Pose& pose);
+  Pose& operator*=(double scalar);
+  Pose operator*(double scalar);
+
   const int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
   double get_pose_at(int index) const;

@@ -16,6 +16,44 @@ Pose::Pose(const VectorXd& pose_vector)
                 "Pose vector size is non-positive.");
 }
 
+Pose& Pose::operator+=(const Pose& pose) {
+  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
+                "Poses are not of the same size. The += operator requires them "
+                "to be of the "
+                "same size.");
+  this->pose_vector_ += pose.pose_vector_;
+  return *this;
+}
+
+Pose Pose::operator+(const Pose& pose) {
+  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
+                "Poses are not of the same size. The + operator requires them "
+                "to be of the "
+                "same size.");
+  Pose result(this->size_);
+  result.pose_vector_ = this->pose_vector_ + pose.pose_vector_;
+  return result;
+}
+
+Pose& Pose::operator-=(const Pose& pose) {
+  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
+                "Poses are not of the same size. The -= operator requires them "
+                "to be of the "
+                "same size.");
+  this->pose_vector_ -= pose.pose_vector_;
+  return *this;
+}
+
+Pose Pose::operator-(const Pose& pose) {
+  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
+                "Poses are not of the same size. The - operator requires them "
+                "to be of the "
+                "same size.");
+  Pose result(this->size_);
+  result.pose_vector_ = this->pose_vector_ - pose.pose_vector_;
+  return result;
+}
+
 const int Pose::get_size() const { return size_; }
 
 const VectorXd& Pose::get_pose_vector() const { return pose_vector_; }

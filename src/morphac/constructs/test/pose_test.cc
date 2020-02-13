@@ -58,6 +58,25 @@ TEST_F(PoseTest, InvalidSet) {
   ASSERT_THROW(pose1_.set_pose_at(7, 1), std::out_of_range);
 }
 
+TEST_F(PoseTest, Addition) {
+  VectorXd v1(3), v2(3), q1(3), q2(3);
+  v1 << 1, 2, 3;
+  v2 << 4, 5, 6;
+  q1 << 5, 7, 9;
+  q2 << 9, 12, 15;
+
+  Pose pose1(v1);
+  Pose pose2(v2);
+  pose1 += pose2;
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(q1));
+
+  Pose pose3 = pose1 + pose2;
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(q2));
+
+  Pose pose4 = pose2 + pose1;
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose4.get_pose_vector()));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
