@@ -17,6 +17,62 @@ ControlInput::ControlInput(const VectorXd& input_vector)
                 "Control input vector size is non-positive.");
 }
 
+ControlInput& ControlInput::operator+=(const ControlInput& input) {
+  MORPH_REQUIRE(
+      this->size_ == input.size_, std::invalid_argument,
+      "Control inputs are not of the same size. The += operator requires them "
+      "to be of the "
+      "same size.");
+  this->input_vector_ += input.input_vector_;
+  return *this;
+}
+
+ControlInput ControlInput::operator+(const ControlInput& input) {
+  MORPH_REQUIRE(
+      this->size_ == input.size_, std::invalid_argument,
+      "Control inputs are not of the same size. The + operator requires them "
+      "to be of the "
+      "same size.");
+  ControlInput result(this->size_);
+  result.input_vector_ = this->input_vector_ + input.input_vector_;
+  return result;
+}
+
+ControlInput& ControlInput::operator-=(const ControlInput& input) {
+  MORPH_REQUIRE(
+      this->size_ == input.size_, std::invalid_argument,
+      "Control inputs are not of the same size. The -= operator requires them "
+      "to be of the "
+      "same size.");
+  this->input_vector_ -= input.input_vector_;
+  return *this;
+}
+
+ControlInput ControlInput::operator-(const ControlInput& input) {
+  MORPH_REQUIRE(
+      this->size_ == input.size_, std::invalid_argument,
+      "Control inputs are not of the same size. The - operator requires them "
+      "to be of the "
+      "same size.");
+  ControlInput result(this->size_);
+  result.input_vector_ = this->input_vector_ - input.input_vector_;
+  return result;
+}
+
+ControlInput& ControlInput::operator*=(const double scalar) {
+  this->input_vector_ = this->input_vector_ * scalar;
+  return *this;
+}
+
+// Non-member multiplication functions
+ControlInput operator*(ControlInput input, const double scalar) {
+  return input *= scalar;
+}
+
+ControlInput operator*(const double scalar, ControlInput input) {
+  return input *= scalar;
+}
+
 const int ControlInput::get_size() const { return size_; }
 
 const VectorXd& ControlInput::get_input_vector() const { return input_vector_; }

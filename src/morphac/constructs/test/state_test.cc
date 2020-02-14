@@ -59,7 +59,6 @@ TEST_F(StateTest, GetPoseAndVelocity) {
   ASSERT_TRUE(state1_->get_velocity_vector().isApprox(
       state1_->get_velocity().get_velocity_vector()));
 
-
   ASSERT_TRUE(state2_->get_pose_vector().isApprox(
       state2_->get_pose().get_pose_vector()));
   ASSERT_TRUE(state2_->get_velocity_vector().isApprox(
@@ -157,6 +156,82 @@ TEST_F(StateTest, InvalidSet) {
   ASSERT_THROW(state2_->set_velocity_at(2, 0), std::out_of_range);
   ASSERT_THROW(state2_->set_state_at(-1, 0), std::out_of_range);
   ASSERT_THROW(state2_->set_state_at(6, 0), std::out_of_range);
+}
+
+TEST_F(StateTest, Addition) {
+  VectorXd p1(3), p2(3), v1(2), v2(2);
+  VectorXd d1(5), d2(5);
+  VectorXd s1(5), s2(5);
+  p1 << 1, 2, 3;
+  p2 << 3, 2, 1;
+  v1 << -1, 0;
+  v2 << -2, 4;
+  d1 << 4, 4, 4, -3, 4;
+  d2 << 7, 6, 5, -5, 8;
+  s1 << p1, v1;
+  s2 << p2, v2;
+
+  State state1(p1, v1);
+  State state2(p2, v2);
+
+  state1 += state2;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
+
+  State state3 = state1 + state2;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
+
+  State state4 = state2 + state1;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(state4.get_state_vector()));
+}
+
+TEST_F(StateTest, Subtraction) {
+  VectorXd p1(3), p2(3), v1(2), v2(2);
+  VectorXd d1(5), d2(5);
+  VectorXd s1(5), s2(5);
+  p1 << 1, 2, 3;
+  p2 << 3, 2, 1;
+  v1 << -1, 0;
+  v2 << -2, 4;
+  d1 << -2, 0, 2, 1, -4;
+  d2 << -5, -2, 1, 3, -8;
+  s1 << p1, v1;
+  s2 << p2, v2;
+
+  State state1(p1, v1);
+  State state2(p2, v2);
+
+  state1 -= state2;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
+
+  State state3 = state1 - state2;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
+
+  State state4 = state2 - state1;
+  ASSERT_TRUE(
+      state3.get_state_vector().isApprox(-1 * state4.get_state_vector()));
+}
+
+TEST_F(StateTest, Multiplication) {
+  VectorXd p1(3), p2(3), v1(2), v2(2);
+  VectorXd d1(5), d2(5);
+  VectorXd s1(5), s2(5);
+  p1 << 1, 2, 3;
+  p2 << 3, 2, 1;
+  v1 << -1, 0;
+  v2 << -2, 4;
+  d1 << 2, 4, 6, -2, 0;
+  d2 << -3, -2, -1, 2, -4;
+
+  State state1(p1, v1);
+  State state2(p2, v2);
+
+  state1 *= 2.0;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
+
+  State state3 = state2 * -1.0;
+  State state4 = -1 * state2;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
+  ASSERT_TRUE(state4.get_state_vector().isApprox(d2));
 }
 
 }  // namespace

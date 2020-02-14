@@ -13,6 +13,12 @@ class ControlInput {
   ControlInput(const int size);
   ControlInput(const Eigen::VectorXd& input_vector);
 
+  ControlInput& operator+=(const ControlInput& input);
+  ControlInput operator+(const ControlInput& input);
+  ControlInput& operator-=(const ControlInput& input);
+  ControlInput operator-(const ControlInput& input);
+  ControlInput& operator*=(const double scalar);
+
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
   double get_input_at(int index) const;
@@ -23,6 +29,11 @@ class ControlInput {
   const int size_;
   Eigen::VectorXd input_vector_;
 };
+
+// Non-member multiplication operator functions to support lhs scalar
+// multiplication
+ControlInput operator*(const double scalar, ControlInput input);
+ControlInput operator*(ControlInput input, const double scalar);
 
 }  // namespace constructs
 }  // namespace morphac

@@ -25,6 +25,73 @@ State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
 State::State(const Pose& pose, const Velocity& velocity)
     : pose_(pose), velocity_(velocity) {}
 
+State& State::operator+=(const State& state) {
+  MORPH_REQUIRE(
+      this->get_size_pose() == state.get_size_pose() &&
+          this->get_size_velocity() == state.get_size_velocity(),
+      std::invalid_argument,
+      "States are not of the same size. The += operator requires them "
+      "to be of the "
+      "same size.");
+  this->set_pose_vector(this->get_pose_vector() + state.get_pose_vector());
+  this->set_velocity_vector(this->get_velocity_vector() +
+                            state.get_velocity_vector());
+  return *this;
+}
+
+State State::operator+(const State& state) {
+  MORPH_REQUIRE(this->get_size_pose() == state.get_size_pose() &&
+                    this->get_size_velocity() == state.get_size_velocity(),
+                std::invalid_argument,
+                "States are not of the same size. The + operator requires them "
+                "to be of the "
+                "same size.");
+  State result(this->get_size_pose(), this->get_size_velocity());
+  result.set_pose_vector(this->get_pose_vector() + state.get_pose_vector());
+  result.set_velocity_vector(this->get_velocity_vector() +
+                             state.get_velocity_vector());
+  return result;
+}
+
+State& State::operator-=(const State& state) {
+  MORPH_REQUIRE(
+      this->get_size_pose() == state.get_size_pose() &&
+          this->get_size_velocity() == state.get_size_velocity(),
+      std::invalid_argument,
+      "States are not of the same size. The -= operator requires them "
+      "to be of the "
+      "same size.");
+  this->set_pose_vector(this->get_pose_vector() - state.get_pose_vector());
+  this->set_velocity_vector(this->get_velocity_vector() -
+                            state.get_velocity_vector());
+  return *this;
+}
+
+State State::operator-(const State& state) {
+  MORPH_REQUIRE(this->get_size_pose() == state.get_size_pose() &&
+                    this->get_size_velocity() == state.get_size_velocity(),
+                std::invalid_argument,
+                "States are not of the same size. The - operator requires them "
+                "to be of the "
+                "same size.");
+  State result(this->get_size_pose(), this->get_size_velocity());
+  result.set_pose_vector(this->get_pose_vector() - state.get_pose_vector());
+  result.set_velocity_vector(this->get_velocity_vector() -
+                             state.get_velocity_vector());
+  return result;
+}
+
+State& State::operator*=(const double scalar) {
+  this->set_pose_vector(this->get_pose_vector() * scalar);
+  this->set_velocity_vector(this->get_velocity_vector() * scalar);
+  return *this;
+}
+
+//// Non-member multiplication functions
+State operator*(State state, const double scalar) { return state *= scalar; }
+
+State operator*(const double scalar, State state) { return state *= scalar; }
+
 const int State::get_size_pose() const { return pose_.get_size(); }
 
 const int State::get_size_velocity() const { return velocity_.get_size(); }

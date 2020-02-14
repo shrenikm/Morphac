@@ -58,6 +58,65 @@ TEST_F(ControlInputTest, InvalidSet) {
   ASSERT_THROW(input1_.set_input_at(7, 1), std::out_of_range);
 }
 
+TEST_F(ControlInputTest, Addition) {
+  VectorXd i1(3), i2(3), d1(3), d2(3);
+  i1 << 1, 2, 3;
+  i2 << 4, 5, 6;
+  d1 << 5, 7, 9;
+  d2 << 9, 12, 15;
+
+  ControlInput input1(i1);
+  ControlInput input2(i2);
+  input1 += input2;
+  ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
+
+  ControlInput input3 = input1 + input2;
+  ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
+
+  ControlInput input4 = input2 + input1;
+  ASSERT_TRUE(input3.get_input_vector().isApprox(input4.get_input_vector()));
+}
+
+TEST_F(ControlInputTest, Subtraction) {
+  VectorXd i1(3), i2(3), d1(3), d2(3);
+  i1 << 1, 2, 3;
+  i2 << 4, 5, 6;
+  d1 << -3, -3, -3;
+  d2 << -7, -8, -9;
+
+  ControlInput input1(i1);
+  ControlInput input2(i2);
+  input1 -= input2;
+  ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
+
+  ControlInput input3 = input1 - input2;
+  ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
+
+  ControlInput input4 = input2 - input1;
+  ASSERT_TRUE(input3.get_input_vector().isApprox(-1 * input4.get_input_vector()));
+}
+
+TEST_F(ControlInputTest, Multiplication) {
+  VectorXd i1(3), i2(3), d1(3), d2(3);
+  i1 << 1, 2, 3;
+  i2 << 4, 5, 6;
+  d1 << 2, 4, 6;
+  d2 << -4, -5, -6;
+
+  ControlInput input1(i1);
+  ControlInput input2(i2);
+
+  input1 *= 2.0;
+  ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
+
+  ControlInput input3 = input2 * -1.0;
+  ControlInput input4 = -1 * input2;
+  ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
+  ASSERT_TRUE(input4.get_input_vector().isApprox(d2));
+}
+
+
+
 }  // namespace
 
 int main(int argc, char **argv) {

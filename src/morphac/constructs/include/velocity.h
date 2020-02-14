@@ -13,6 +13,12 @@ class Velocity {
   Velocity(const int size);
   Velocity(const Eigen::VectorXd& velocity_vector);
 
+  Velocity& operator+=(const Velocity& velocity);
+  Velocity operator+(const Velocity& velocity);
+  Velocity& operator-=(const Velocity& velocity);
+  Velocity operator-(const Velocity& velocity);
+  Velocity& operator*=(const double scalar);
+
   const int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   double get_velocity_at(int index) const;
@@ -23,6 +29,11 @@ class Velocity {
   const int size_;
   Eigen::VectorXd velocity_vector_;
 };
+
+// Non-member multiplication operator functions to support lhs scalar
+// multiplication
+Velocity operator*(const double scalar, Velocity velocity);
+Velocity operator*(Velocity velocity, const double scalar);
 
 }  // namespace constructs
 }  // namespace morphac
