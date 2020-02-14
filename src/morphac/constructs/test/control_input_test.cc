@@ -59,60 +59,60 @@ TEST_F(ControlInputTest, InvalidSet) {
 }
 
 TEST_F(ControlInputTest, Addition) {
-  VectorXd v1(3), v2(3), q1(3), q2(3);
-  v1 << 1, 2, 3;
-  v2 << 4, 5, 6;
-  q1 << 5, 7, 9;
-  q2 << 9, 12, 15;
+  VectorXd i1(3), i2(3), d1(3), d2(3);
+  i1 << 1, 2, 3;
+  i2 << 4, 5, 6;
+  d1 << 5, 7, 9;
+  d2 << 9, 12, 15;
 
-  ControlInput input1(v1);
-  ControlInput input2(v2);
+  ControlInput input1(i1);
+  ControlInput input2(i2);
   input1 += input2;
-  ASSERT_TRUE(input1.get_input_vector().isApprox(q1));
+  ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 
   ControlInput input3 = input1 + input2;
-  ASSERT_TRUE(input3.get_input_vector().isApprox(q2));
+  ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
 
   ControlInput input4 = input2 + input1;
   ASSERT_TRUE(input3.get_input_vector().isApprox(input4.get_input_vector()));
 }
 
 TEST_F(ControlInputTest, Subtraction) {
-  VectorXd v1(3), v2(3), q1(3), q2(3);
-  v1 << 1, 2, 3;
-  v2 << 4, 5, 6;
-  q1 << -3, -3, -3;
-  q2 << -7, -8, -9;
+  VectorXd i1(3), i2(3), d1(3), d2(3);
+  i1 << 1, 2, 3;
+  i2 << 4, 5, 6;
+  d1 << -3, -3, -3;
+  d2 << -7, -8, -9;
 
-  ControlInput input1(v1);
-  ControlInput input2(v2);
+  ControlInput input1(i1);
+  ControlInput input2(i2);
   input1 -= input2;
-  ASSERT_TRUE(input1.get_input_vector().isApprox(q1));
+  ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 
   ControlInput input3 = input1 - input2;
-  ASSERT_TRUE(input3.get_input_vector().isApprox(q2));
+  ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
 
   ControlInput input4 = input2 - input1;
   ASSERT_TRUE(input3.get_input_vector().isApprox(-1 * input4.get_input_vector()));
 }
 
 TEST_F(ControlInputTest, Multiplication) {
-  VectorXd v1(3), v2(3), q1(3), q2(3);
-  v1 << 1, 2, 3;
-  v2 << 4, 5, 6;
-  q1 << 2, 4, 6;
-  q2 << -4, -5, -6;
+  VectorXd i1(3), i2(3), d1(3), d2(3);
+  i1 << 1, 2, 3;
+  i2 << 4, 5, 6;
+  d1 << 2, 4, 6;
+  d2 << -4, -5, -6;
 
-  ControlInput input1(v1);
-  ControlInput input2(v2);
+  ControlInput input1(i1);
+  ControlInput input2(i2);
 
   input1 *= 2.0;
-  ASSERT_TRUE(input1.get_input_vector().isApprox(q1));
+  ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 
   ControlInput input3 = input2 * -1.0;
   ControlInput input4 = -1 * input2;
-  ASSERT_TRUE(input3.get_input_vector().isApprox(q2));
-  ASSERT_TRUE(input4.get_input_vector().isApprox(q2));
+  ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
+  ASSERT_TRUE(input4.get_input_vector().isApprox(d2));
 }
 
 

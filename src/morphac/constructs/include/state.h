@@ -20,6 +20,12 @@ class State {
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
 
+  State& operator+=(const State& state);
+  State operator+(const State& state);
+  State& operator-=(const State& state);
+  State operator-(const State& state);
+  State& operator*=(const double scalar);
+
   const int get_size_pose() const;
   const int get_size_velocity() const;
   const int get_size() const;
@@ -42,6 +48,11 @@ class State {
   morphac::constructs::Pose pose_;
   morphac::constructs::Velocity velocity_;
 };
+
+// Non-member multiplication operator functions to support lhs scalar
+// multiplication
+State operator*(const double scalar, State state);
+State operator*(State state, const double scalar);
 
 }  // namespace constructs
 }  // namespace morphac

@@ -59,60 +59,60 @@ TEST_F(PoseTest, InvalidSet) {
 }
 
 TEST_F(PoseTest, Addition) {
-  VectorXd v1(3), v2(3), q1(3), q2(3);
-  v1 << 1, 2, 3;
-  v2 << 4, 5, 6;
-  q1 << 5, 7, 9;
-  q2 << 9, 12, 15;
+  VectorXd p1(3), p2(3), d1(3), d2(3);
+  p1 << 1, 2, 3;
+  p2 << 4, 5, 6;
+  d1 << 5, 7, 9;
+  d2 << 9, 12, 15;
 
-  Pose pose1(v1);
-  Pose pose2(v2);
+  Pose pose1(p1);
+  Pose pose2(p2);
   pose1 += pose2;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(q1));
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
   Pose pose3 = pose1 + pose2;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(q2));
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
 
   Pose pose4 = pose2 + pose1;
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose4.get_pose_vector()));
 }
 
 TEST_F(PoseTest, Subtraction) {
-  VectorXd v1(3), v2(3), q1(3), q2(3);
-  v1 << 1, 2, 3;
-  v2 << 4, 5, 6;
-  q1 << -3, -3, -3;
-  q2 << -7, -8, -9;
+  VectorXd p1(3), p2(3), d1(3), d2(3);
+  p1 << 1, 2, 3;
+  p2 << 4, 5, 6;
+  d1 << -3, -3, -3;
+  d2 << -7, -8, -9;
 
-  Pose pose1(v1);
-  Pose pose2(v2);
+  Pose pose1(p1);
+  Pose pose2(p2);
   pose1 -= pose2;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(q1));
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
   Pose pose3 = pose1 - pose2;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(q2));
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
 
   Pose pose4 = pose2 - pose1;
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(-1 * pose4.get_pose_vector()));
 }
 
 TEST_F(PoseTest, Multiplication) {
-  VectorXd v1(3), v2(3), q1(3), q2(3);
-  v1 << 1, 2, 3;
-  v2 << 4, 5, 6;
-  q1 << 2, 4, 6;
-  q2 << -4, -5, -6;
+  VectorXd p1(3), p2(3), d1(3), d2(3);
+  p1 << 1, 2, 3;
+  p2 << 4, 5, 6;
+  d1 << 2, 4, 6;
+  d2 << -4, -5, -6;
 
-  Pose pose1(v1);
-  Pose pose2(v2);
+  Pose pose1(p1);
+  Pose pose2(p2);
 
   pose1 *= 2.0;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(q1));
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
   Pose pose3 = pose2 * -1.0;
   Pose pose4 = -1 * pose2;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(q2));
-  ASSERT_TRUE(pose4.get_pose_vector().isApprox(q2));
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
+  ASSERT_TRUE(pose4.get_pose_vector().isApprox(d2));
 }
 
 }  // namespace
