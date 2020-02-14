@@ -17,6 +17,62 @@ Velocity::Velocity(const VectorXd& velocity_vector)
                 "Velocity vector size is non-positive.");
 }
 
+Velocity& Velocity::operator+=(const Velocity& velocity) {
+  MORPH_REQUIRE(
+      this->size_ == velocity.size_, std::invalid_argument,
+      "Velocities are not of the same size. The += operator requires them "
+      "to be of the "
+      "same size.");
+  this->velocity_vector_ += velocity.velocity_vector_;
+  return *this;
+}
+
+Velocity Velocity::operator+(const Velocity& velocity) {
+  MORPH_REQUIRE(
+      this->size_ == velocity.size_, std::invalid_argument,
+      "Velocities are not of the same size. The + operator requires them "
+      "to be of the "
+      "same size.");
+  Velocity result(this->size_);
+  result.velocity_vector_ = this->velocity_vector_ + velocity.velocity_vector_;
+  return result;
+}
+
+Velocity& Velocity::operator-=(const Velocity& velocity) {
+  MORPH_REQUIRE(
+      this->size_ == velocity.size_, std::invalid_argument,
+      "Velocities are not of the same size. The -= operator requires them "
+      "to be of the "
+      "same size.");
+  this->velocity_vector_ -= velocity.velocity_vector_;
+  return *this;
+}
+
+Velocity Velocity::operator-(const Velocity& velocity) {
+  MORPH_REQUIRE(
+      this->size_ == velocity.size_, std::invalid_argument,
+      "Velocities are not of the same size. The - operator requires them "
+      "to be of the "
+      "same size.");
+  Velocity result(this->size_);
+  result.velocity_vector_ = this->velocity_vector_ - velocity.velocity_vector_;
+  return result;
+}
+
+Velocity& Velocity::operator*=(const double scalar) {
+  this->velocity_vector_ = this->velocity_vector_ * scalar;
+  return *this;
+}
+
+// Non-member multiplication functions
+Velocity operator*(Velocity velocity, const double scalar) {
+  return velocity *= scalar;
+}
+
+Velocity operator*(const double scalar, Velocity velocity) {
+  return velocity *= scalar;
+}
+
 const int Velocity::get_size() const { return size_; }
 
 const VectorXd& Velocity::get_velocity_vector() const {

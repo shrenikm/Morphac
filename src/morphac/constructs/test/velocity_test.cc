@@ -58,6 +58,65 @@ TEST_F(VelocityTest, InvalidSet) {
   ASSERT_THROW(velocity1_.set_velocity_at(7, 1), std::out_of_range);
 }
 
+TEST_F(VelocityTest, Addition) {
+  VectorXd v1(3), v2(3), q1(3), q2(3);
+  v1 << 1, 2, 3;
+  v2 << 4, 5, 6;
+  q1 << 5, 7, 9;
+  q2 << 9, 12, 15;
+
+  Velocity velocity1(v1);
+  Velocity velocity2(v2);
+  velocity1 += velocity2;
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(q1));
+
+  Velocity velocity3 = velocity1 + velocity2;
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(q2));
+
+  Velocity velocity4 = velocity2 + velocity1;
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(
+      velocity4.get_velocity_vector()));
+}
+
+TEST_F(VelocityTest, Subtraction) {
+  VectorXd v1(3), v2(3), q1(3), q2(3);
+  v1 << 1, 2, 3;
+  v2 << 4, 5, 6;
+  q1 << -3, -3, -3;
+  q2 << -7, -8, -9;
+
+  Velocity velocity1(v1);
+  Velocity velocity2(v2);
+  velocity1 -= velocity2;
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(q1));
+
+  Velocity velocity3 = velocity1 - velocity2;
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(q2));
+
+  Velocity velocity4 = velocity2 - velocity1;
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(
+      -1 * velocity4.get_velocity_vector()));
+}
+
+TEST_F(VelocityTest, Multiplication) {
+  VectorXd v1(3), v2(3), q1(3), q2(3);
+  v1 << 1, 2, 3;
+  v2 << 4, 5, 6;
+  q1 << 2, 4, 6;
+  q2 << -4, -5, -6;
+
+  Velocity velocity1(v1);
+  Velocity velocity2(v2);
+
+  velocity1 *= 2.0;
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(q1));
+
+  Velocity velocity3 = velocity2 * -1.0;
+  Velocity velocity4 = -1 * velocity2;
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(q2));
+  ASSERT_TRUE(velocity4.get_velocity_vector().isApprox(q2));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
