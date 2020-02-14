@@ -96,6 +96,25 @@ TEST_F(PoseTest, Subtraction) {
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(-1 * pose4.get_pose_vector()));
 }
 
+TEST_F(PoseTest, Multiplication) {
+  VectorXd v1(3), v2(3), q1(3), q2(3);
+  v1 << 1, 2, 3;
+  v2 << 4, 5, 6;
+  q1 << 2, 4, 6;
+  q2 << -4, -5, -6;
+
+  Pose pose1(v1);
+  Pose pose2(v2);
+
+  pose1 *= 2.0;
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(q1));
+
+  Pose pose3 = pose2 * -1.0;
+  Pose pose4 = -1 * pose2;
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(q2));
+  ASSERT_TRUE(pose4.get_pose_vector().isApprox(q2));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

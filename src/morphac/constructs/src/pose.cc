@@ -54,6 +54,21 @@ Pose Pose::operator-(const Pose& pose) {
   return result;
 }
 
+Pose& Pose::operator*=(const double scalar) {
+  this->pose_vector_ = this->pose_vector_ * scalar;
+  return *this;
+}
+
+// Non-member multiplication functions
+Pose operator*(Pose pose, const double scalar) {
+  return pose*=scalar;
+}
+
+Pose operator*(const double scalar, Pose pose) {
+  return pose*=scalar;
+}
+
+
 const int Pose::get_size() const { return size_; }
 
 const VectorXd& Pose::get_pose_vector() const { return pose_vector_; }

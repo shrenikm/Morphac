@@ -17,8 +17,7 @@ class Pose {
   Pose operator+(const Pose& pose);
   Pose& operator-=(const Pose& pose);
   Pose operator-(const Pose& pose);
-  Pose& operator*=(double scalar);
-  Pose operator*(double scalar);
+  Pose& operator*=(const double scalar);
 
   const int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
@@ -30,6 +29,11 @@ class Pose {
   const int size_;
   Eigen::VectorXd pose_vector_;
 };
+
+// Non-member multiplication operator functions to support lhs scalar
+// multiplication
+Pose operator*(const double scalar, Pose pose);
+Pose operator*(Pose pose, const double scalar);
 
 }  // namespace constructs
 }  // namespace morphac
