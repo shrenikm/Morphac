@@ -14,6 +14,9 @@ class Environment2DTest : public ::testing::Test {
   void SetUp() override {}
 };
 
+TEST_F(Environment2DTest, Construction) {
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
