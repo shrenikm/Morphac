@@ -10,18 +10,21 @@ namespace environments {
 
 class Environment2D {
  public:
-  Environment2D(int width, int height);
-  Environment2D(Eigen::MatrixXd map);
+  Environment2D(const double width, const double height,
+                const double resolution);
+  Environment2D(Eigen::MatrixXd map, const double resolution);
 
-  int get_width();
-  int get_height();
-  Eigen::MatrixXd get_map();
+  const double get_width();
+  const double get_height();
+  const double get_resolution();
+  const Eigen::MatrixXd& get_map();
 
   void set_map(Eigen::MatrixXd map);
 
  private:
-  int width_;
-  int height_;
+  const double width_;
+  const double height_;
+  const double resolution_;
   Eigen::MatrixXd map_;
 };
 
