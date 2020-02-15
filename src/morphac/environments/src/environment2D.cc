@@ -12,6 +12,8 @@ Environment2D::Environment2D(const double width, const double height,
                 "Non-positive environment width.");
   MORPH_REQUIRE(height_ > 0, std::invalid_argument,
                 "Non-positive environment height.");
+  MORPH_REQUIRE(resolution_ > 0, std::invalid_argument,
+                "Non-positive environment resolution.");
   map_ = MatrixXd::Zero(height_, width_);
 }
 
@@ -23,6 +25,8 @@ Environment2D::Environment2D(MatrixXd map, const double resolution)
                 "Non-positive map width.");
   MORPH_REQUIRE(map.rows() > 0, std::invalid_argument,
                 "Non-positive map height.");
+  MORPH_REQUIRE(resolution_ > 0, std::invalid_argument,
+                "Non-positive environment resolution.");
   map_ = map;
 }
 
