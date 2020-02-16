@@ -4,8 +4,6 @@ namespace morphac {
 namespace mechanics {
 namespace models {
 
-using std::make_shared;
-using std::shared_ptr;
 using std::string;
 
 using morphac::constructs::ControlInput;
@@ -13,14 +11,14 @@ using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 
-KinematicModel::KinematicModel(string name, int size_pose, int size_velocity,
-                               int size_input)
+KinematicModel::KinematicModel(const string name, const int size_pose,
+                               const int size_velocity, const int size_input)
     : name(name),
       size_pose(size_pose),
       size_velocity(size_velocity),
       size_input(size_input) {}
 
 }  // models
-}  // constructs
+}  // mechanics
 }  // morphac
 

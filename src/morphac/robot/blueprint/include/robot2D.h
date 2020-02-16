@@ -44,7 +44,7 @@ class Robot2D {
   const std::unique_ptr<morphac::constructs::State> state_;
 };
 
-}  // namespace models
+}  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac
 

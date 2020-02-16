@@ -7,11 +7,18 @@
 
 namespace morphac {
 namespace mechanics {
+namespace models {
 
-class DubinModel : public KinematicModel {
-  public:
-    DubinModel(const std::string_name="dubin_model") : KinematicModel(
+class DubinModel : public morphac::mechanics::models::KinematicModel {
+ public:
+  DubinModel(const std::string name, const double speed);
 
-} // namespace constructs
-} // namespace morphac
+  const double speed;
+};
+
+}  // namespace models
+}  // namespace constructs
+}  // namespace morphac
+
+#endif
 

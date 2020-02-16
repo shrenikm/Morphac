@@ -29,10 +29,6 @@ class KinematicModel {
       const morphac::constructs::ControlInput& input,
       morphac::constructs::State& derivative) const = 0;
 
-  const int get_size_pose() const;
-  const int get_size_velocity() const;
-  const int get_size_input() const;
-
   const std::string name;
   const int size_pose;
   const int size_velocity;
@@ -40,7 +36,7 @@ class KinematicModel {
 };
 
 }  // namespace models
-}  // namespace constructs
+}  // namespace mechanics
 }  // namespace morphac
 
 #endif

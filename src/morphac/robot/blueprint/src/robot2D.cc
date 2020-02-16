@@ -62,6 +62,6 @@ const Pose& Robot2D::get_pose() const { return state_->get_pose(); }
 
 const Velocity& Robot2D::get_velocity() const { return state_->get_velocity(); }
 
-}  // namespace models
+}  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac

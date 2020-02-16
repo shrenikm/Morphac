@@ -2,6 +2,9 @@
 add_library(kinematic_model ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematic_model.cc)
 target_link_libraries(kinematic_model state control_input)
 
+add_library(dubin_model ${CMAKE_CURRENT_SOURCE_DIR}/src/dubin_model.cc)
+target_link_libraries(dubin_model kinematic_model)
+
 # Adding test executables
 # Kinematic model test
 add_executable(kinematic_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/kinematic_model_test.cc)
