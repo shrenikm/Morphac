@@ -40,14 +40,16 @@ TEST_F(ControlInputTest, SetControlInput) {
 }
 
 TEST_F(ControlInputTest, InvalidConstruction) {
-  ASSERT_THROW(ControlInput(0), std::invalid_argument);
-  ASSERT_THROW(ControlInput(VectorXd::Random(0)), std::invalid_argument);
+  ASSERT_THROW(ControlInput{-1}, std::invalid_argument);
 }
 
 TEST_F(ControlInputTest, EmptyConstruction) {
   ControlInput input;
 
-  // Accessors are invalid for empty velocity
+  // Assert emptiness
+  ASSERT_TRUE(input.is_empty());
+
+  // Accessors are invalid for empty ControlInput
   ASSERT_THROW(input.get_input_vector(), std::logic_error);
   ASSERT_THROW(input.get_input_at(0), std::logic_error);
   ASSERT_THROW(input.set_input_vector(VectorXd::Random(0)), std::logic_error);
@@ -75,8 +77,8 @@ TEST_F(ControlInputTest, Addition) {
   d1 << 5, 7, 9;
   d2 << 9, 12, 15;
 
-  ControlInput input1(i1);
-  ControlInput input2(i2);
+  ControlInput input1{i1};
+  ControlInput input2{i2};
   input1 += input2;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 
@@ -94,8 +96,8 @@ TEST_F(ControlInputTest, Subtraction) {
   d1 << -3, -3, -3;
   d2 << -7, -8, -9;
 
-  ControlInput input1(i1);
-  ControlInput input2(i2);
+  ControlInput input1{i1};
+  ControlInput input2{i2};
   input1 -= input2;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 
@@ -114,8 +116,8 @@ TEST_F(ControlInputTest, Multiplication) {
   d1 << 2, 4, 6;
   d2 << -4, -5, -6;
 
-  ControlInput input1(i1);
-  ControlInput input2(i2);
+  ControlInput input1{i1};
+  ControlInput input2{i2};
 
   input1 *= 2.0;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
@@ -124,6 +126,20 @@ TEST_F(ControlInputTest, Multiplication) {
   ControlInput input4 = -1 * input2;
   ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
   ASSERT_TRUE(input4.get_input_vector().isApprox(d2));
+}
+
+TEST_F(ControlInputTest, EmptyControlInputOperations) {
+  // Basic operations on empty velocities must result in empty velocities.
+  ControlInput input1, input2;
+
+  ControlInput input_add = input1 + input2;
+  ASSERT_TRUE(input_add.is_empty());
+
+  ControlInput input_sub = input1 - input2;
+  ASSERT_TRUE(input_sub.is_empty());
+
+  ControlInput input_mult = input1 * 7.0;
+  ASSERT_TRUE(input_mult.is_empty());
 }
 
 }  // namespace

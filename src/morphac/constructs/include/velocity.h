@@ -10,8 +10,7 @@ namespace constructs {
 
 class Velocity {
  public:
-  Velocity();
-  Velocity(const int size);
+  Velocity(const int size = 0);
   Velocity(const Eigen::VectorXd& velocity_vector);
 
   Velocity& operator+=(const Velocity& velocity);

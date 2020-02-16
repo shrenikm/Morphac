@@ -10,8 +10,7 @@ namespace constructs {
 
 class ControlInput {
  public:
-  ControlInput();
-  ControlInput(const int size);
+  ControlInput(const int size = 0);
   ControlInput(const Eigen::VectorXd& input_vector);
 
   ControlInput& operator+=(const ControlInput& input);

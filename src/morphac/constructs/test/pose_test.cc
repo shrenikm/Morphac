@@ -40,12 +40,16 @@ TEST_F(PoseTest, SetPose) {
 }
 
 TEST_F(PoseTest, InvalidConstruction) {
-  ASSERT_THROW(Pose(0), std::invalid_argument);
-  ASSERT_THROW(Pose(VectorXd::Random(0)), std::invalid_argument);
+  ASSERT_THROW(Pose{-1}, std::invalid_argument);
 }
 
 TEST_F(PoseTest, EmptyConstruction) {
   Pose pose;
+
+  // Assert emptiness.
+  ASSERT_TRUE(pose.is_empty());
+
+  // Accessors are invalid for empty Pose
   ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
   ASSERT_THROW(pose.get_pose_at(0), std::logic_error);
   ASSERT_THROW(pose.set_pose_vector(VectorXd::Random(0)), std::logic_error);
@@ -73,8 +77,8 @@ TEST_F(PoseTest, Addition) {
   d1 << 5, 7, 9;
   d2 << 9, 12, 15;
 
-  Pose pose1(p1);
-  Pose pose2(p2);
+  Pose pose1{p1};
+  Pose pose2{p2};
   pose1 += pose2;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
@@ -92,8 +96,8 @@ TEST_F(PoseTest, Subtraction) {
   d1 << -3, -3, -3;
   d2 << -7, -8, -9;
 
-  Pose pose1(p1);
-  Pose pose2(p2);
+  Pose pose1{p1};
+  Pose pose2{p2};
   pose1 -= pose2;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
@@ -111,8 +115,8 @@ TEST_F(PoseTest, Multiplication) {
   d1 << 2, 4, 6;
   d2 << -4, -5, -6;
 
-  Pose pose1(p1);
-  Pose pose2(p2);
+  Pose pose1{p1};
+  Pose pose2{p2};
 
   pose1 *= 2.0;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
@@ -121,6 +125,20 @@ TEST_F(PoseTest, Multiplication) {
   Pose pose4 = -1 * pose2;
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
   ASSERT_TRUE(pose4.get_pose_vector().isApprox(d2));
+}
+
+TEST_F(PoseTest, EmptyPoseOperations) {
+  // Basic operations on empty velocities must result in empty velocities.
+  Pose pose1, pose2;
+
+  Pose pose_add = pose1 + pose2;
+  ASSERT_TRUE(pose_add.is_empty());
+
+  Pose pose_sub = pose1 - pose2;
+  ASSERT_TRUE(pose_sub.is_empty());
+
+  Pose pose_mult =  pose1 * 7.0;
+  ASSERT_TRUE(pose_mult.is_empty());
 }
 
 }  // namespace

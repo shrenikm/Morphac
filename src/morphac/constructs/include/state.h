@@ -17,19 +17,20 @@ class State {
   // Sometimes the state may only include the poses. In such cases the velocity
   // part in the constructor may be skipped.
   State(const int size_pose, const int size_velocity);
-  State(const int size_pose);
   State(const Eigen::VectorXd& pose_vector,
         const Eigen::VectorXd& velocity_vector);
-  State(const Eigen::VectorXd& pose_vector);
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
-  State(const morphac::constructs::Pose& pose);
 
   State& operator+=(const State& state);
   State operator+(const State& state);
   State& operator-=(const State& state);
   State operator-(const State& state);
   State& operator*=(const double scalar);
+
+  bool is_empty() const;
+  bool is_pose_empty() const;
+  bool is_velocity_empty() const;
 
   const int get_size_pose() const;
   const int get_size_velocity() const;

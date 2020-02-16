@@ -5,17 +5,15 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
-Velocity::Velocity() : size_(0), velocity_vector_(VectorXd::Zero(0)) {}
-
 Velocity::Velocity(const int size) : size_(size) {
-  MORPH_REQUIRE(size > 0, std::invalid_argument,
+  MORPH_REQUIRE(size >= 0, std::invalid_argument,
                 "Velocity size is non-positive.");
   velocity_vector_ = VectorXd::Zero(size);
 }
 
 Velocity::Velocity(const VectorXd& velocity_vector)
     : size_(velocity_vector.size()), velocity_vector_(velocity_vector) {
-  MORPH_REQUIRE(velocity_vector.size() > 0, std::invalid_argument,
+  MORPH_REQUIRE(velocity_vector.size() >= 0, std::invalid_argument,
                 "Velocity vector size is non-positive.");
 }
 

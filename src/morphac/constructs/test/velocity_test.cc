@@ -40,14 +40,16 @@ TEST_F(VelocityTest, SetVelocity) {
 }
 
 TEST_F(VelocityTest, InvalidConstruction) {
-  ASSERT_THROW(Velocity(0), std::invalid_argument);
-  ASSERT_THROW(Velocity(-1), std::invalid_argument);
+  ASSERT_THROW(Velocity{-1}, std::invalid_argument);
 }
 
 TEST_F(VelocityTest, EmptyConstruction) {
   Velocity velocity;
 
-  // Accessors are invalid for empty velocity
+  // Assert emptiness
+  ASSERT_TRUE(velocity.is_empty());
+
+  // Accessors are invalid for empty Velocity
   ASSERT_THROW(velocity.get_velocity_vector(), std::logic_error);
   ASSERT_THROW(velocity.get_velocity_at(0), std::logic_error);
   ASSERT_THROW(velocity.set_velocity_vector(VectorXd::Random(0)),
@@ -76,8 +78,8 @@ TEST_F(VelocityTest, Addition) {
   d1 << 5, 7, 9;
   d2 << 9, 12, 15;
 
-  Velocity velocity1(v1);
-  Velocity velocity2(v2);
+  Velocity velocity1{v1};
+  Velocity velocity2{v2};
   velocity1 += velocity2;
   ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
 
@@ -96,8 +98,8 @@ TEST_F(VelocityTest, Subtraction) {
   d1 << -3, -3, -3;
   d2 << -7, -8, -9;
 
-  Velocity velocity1(v1);
-  Velocity velocity2(v2);
+  Velocity velocity1{v1};
+  Velocity velocity2{v2};
   velocity1 -= velocity2;
   ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
 
@@ -116,8 +118,8 @@ TEST_F(VelocityTest, Multiplication) {
   d1 << 2, 4, 6;
   d2 << -4, -5, -6;
 
-  Velocity velocity1(v1);
-  Velocity velocity2(v2);
+  Velocity velocity1{v1};
+  Velocity velocity2{v2};
 
   velocity1 *= 2.0;
   ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
@@ -126,6 +128,20 @@ TEST_F(VelocityTest, Multiplication) {
   Velocity velocity4 = -1 * velocity2;
   ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(d2));
   ASSERT_TRUE(velocity4.get_velocity_vector().isApprox(d2));
+}
+
+TEST_F(VelocityTest, EmptyVelocityOperations) {
+  // Basic operations on empty velocities must result in empty velocities.
+  Velocity velocity1, velocity2;
+
+  Velocity velocity_add = velocity1 + velocity2;
+  ASSERT_TRUE(velocity_add.is_empty());
+
+  Velocity velocity_sub = velocity1 - velocity2;
+  ASSERT_TRUE(velocity_sub.is_empty());
+
+  Velocity velocity_mult =  velocity1 * 7.0;
+  ASSERT_TRUE(velocity_mult.is_empty());
 }
 
 }  // namespace

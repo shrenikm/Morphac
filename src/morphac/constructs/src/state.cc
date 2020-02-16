@@ -17,22 +17,13 @@ State::State(const int size_pose, const int size_velocity)
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
-State::State(const int size_pose)
-    : pose_(Pose(size_pose)), velocity_(Velocity()) {}
-
 State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
     : pose_(Pose(pose_vector)), velocity_(Velocity(velocity_vector)) {
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
-State::State(const VectorXd& pose_vector)
-    : pose_(Pose(pose_vector)), velocity_(Velocity()) {}
-
 State::State(const Pose& pose, const Velocity& velocity)
     : pose_(pose), velocity_(velocity) {}
-
-State::State(const Pose& pose)
-    : pose_(pose), velocity_(Velocity()) {}
 
 State& State::operator+=(const State& state) {
   MORPH_REQUIRE(
@@ -42,9 +33,16 @@ State& State::operator+=(const State& state) {
       "States are not of the same size. The += operator requires them "
       "to be of the "
       "same size.");
-  this->set_pose_vector(this->get_pose_vector() + state.get_pose_vector());
-  this->set_velocity_vector(this->get_velocity_vector() +
-                            state.get_velocity_vector());
+  // The pose and velocities are added and set if they are non empty. If they
+  // are empty, the default empty objects are kept as is and the resulting
+  // pose/vector is also empty.
+  if (!is_pose_empty()) {
+    this->set_pose_vector(this->get_pose_vector() + state.get_pose_vector());
+  }
+  if (!is_velocity_empty()) {
+    this->set_velocity_vector(this->get_velocity_vector() +
+                              state.get_velocity_vector());
+  }
   return *this;
 }
 
@@ -56,9 +54,16 @@ State State::operator+(const State& state) {
                 "to be of the "
                 "same size.");
   State result(this->get_size_pose(), this->get_size_velocity());
-  result.set_pose_vector(this->get_pose_vector() + state.get_pose_vector());
-  result.set_velocity_vector(this->get_velocity_vector() +
-                             state.get_velocity_vector());
+  // The pose and velocities are added and set if they are non empty. If they
+  // are empty, the default empty objects are kept as is and the resulting
+  // pose/vector is also empty.
+  if (!is_pose_empty()) {
+    result.set_pose_vector(this->get_pose_vector() + state.get_pose_vector());
+  }
+  if (!is_velocity_empty()) {
+    result.set_velocity_vector(this->get_velocity_vector() +
+                               state.get_velocity_vector());
+  }
   return result;
 }
 
@@ -70,9 +75,16 @@ State& State::operator-=(const State& state) {
       "States are not of the same size. The -= operator requires them "
       "to be of the "
       "same size.");
-  this->set_pose_vector(this->get_pose_vector() - state.get_pose_vector());
-  this->set_velocity_vector(this->get_velocity_vector() -
-                            state.get_velocity_vector());
+  // The pose and velocities are subtracted and set if they are non empty. If
+  // they are empty, the default empty objects are kept as is and the resulting
+  // pose/vector is also empty.
+  if (!is_pose_empty()) {
+    this->set_pose_vector(this->get_pose_vector() - state.get_pose_vector());
+  }
+  if (!is_velocity_empty()) {
+    this->set_velocity_vector(this->get_velocity_vector() -
+                              state.get_velocity_vector());
+  }
   return *this;
 }
 
@@ -84,15 +96,29 @@ State State::operator-(const State& state) {
                 "to be of the "
                 "same size.");
   State result(this->get_size_pose(), this->get_size_velocity());
-  result.set_pose_vector(this->get_pose_vector() - state.get_pose_vector());
-  result.set_velocity_vector(this->get_velocity_vector() -
-                             state.get_velocity_vector());
+  // The pose and velocities are subtracted and set if they are non empty. If
+  // they are empty, the default empty objects are kept as is and the resulting
+  // pose/vector is also empty.
+  if (!is_pose_empty()) {
+    result.set_pose_vector(this->get_pose_vector() - state.get_pose_vector());
+  }
+  if (!is_velocity_empty()) {
+    result.set_velocity_vector(this->get_velocity_vector() -
+                               state.get_velocity_vector());
+  }
   return result;
 }
 
 State& State::operator*=(const double scalar) {
-  this->set_pose_vector(this->get_pose_vector() * scalar);
-  this->set_velocity_vector(this->get_velocity_vector() * scalar);
+  // The pose and velocities are multiplied and set if they are non empty. If
+  // they are empty, the default empty objects are kept as is and the resulting
+  // pose/vector is also empty.
+  if (!is_pose_empty()) {
+    this->set_pose_vector(this->get_pose_vector() * scalar);
+  }
+  if (!is_velocity_empty()) {
+    this->set_velocity_vector(this->get_velocity_vector() * scalar);
+  }
   return *this;
 }
 
@@ -100,6 +126,12 @@ State& State::operator*=(const double scalar) {
 State operator*(State state, const double scalar) { return state *= scalar; }
 
 State operator*(const double scalar, State state) { return state *= scalar; }
+
+bool State::is_empty() const { return is_pose_empty() && is_velocity_empty(); }
+
+bool State::is_pose_empty() const { return pose_.is_empty(); }
+
+bool State::is_velocity_empty() const { return velocity_.is_empty(); }
 
 const int State::get_size_pose() const { return pose_.get_size(); }
 
