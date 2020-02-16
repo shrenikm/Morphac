@@ -10,6 +10,7 @@ namespace constructs {
 
 class ControlInput {
  public:
+  ControlInput();
   ControlInput(const int size);
   ControlInput(const Eigen::VectorXd& input_vector);
 
@@ -19,6 +20,7 @@ class ControlInput {
   ControlInput operator-(const ControlInput& input);
   ControlInput& operator*=(const double scalar);
 
+  bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
   double get_input_at(int index) const;

@@ -50,7 +50,8 @@ TEST_F(VelocityTest, EmptyConstruction) {
   // Accessors are invalid for empty velocity
   ASSERT_THROW(velocity.get_velocity_vector(), std::logic_error);
   ASSERT_THROW(velocity.get_velocity_at(0), std::logic_error);
-  ASSERT_THROW(velocity.set_velocity_vector(VectorXd::Random(0)), std::logic_error);
+  ASSERT_THROW(velocity.set_velocity_vector(VectorXd::Random(0)),
+               std::logic_error);
   ASSERT_THROW(velocity.set_velocity_at(0, 0.0), std::logic_error);
 }
 
@@ -67,7 +68,6 @@ TEST_F(VelocityTest, InvalidSet) {
   ASSERT_THROW(velocity1_.set_velocity_at(-1, 1), std::out_of_range);
   ASSERT_THROW(velocity1_.set_velocity_at(7, 1), std::out_of_range);
 }
-
 
 TEST_F(VelocityTest, Addition) {
   VectorXd v1(3), v2(3), d1(3), d2(3);

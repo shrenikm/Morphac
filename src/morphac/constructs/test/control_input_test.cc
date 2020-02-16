@@ -44,6 +44,16 @@ TEST_F(ControlInputTest, InvalidConstruction) {
   ASSERT_THROW(ControlInput(VectorXd::Random(0)), std::invalid_argument);
 }
 
+TEST_F(ControlInputTest, EmptyConstruction) {
+  ControlInput input;
+
+  // Accessors are invalid for empty velocity
+  ASSERT_THROW(input.get_input_vector(), std::logic_error);
+  ASSERT_THROW(input.get_input_at(0), std::logic_error);
+  ASSERT_THROW(input.set_input_vector(VectorXd::Random(0)), std::logic_error);
+  ASSERT_THROW(input.set_input_at(0, 0.0), std::logic_error);
+}
+
 TEST_F(ControlInputTest, InvalidGet) {
   ASSERT_THROW(input1_.get_input_at(-1), std::out_of_range);
   ASSERT_THROW(input1_.get_input_at(3), std::out_of_range);
@@ -93,7 +103,8 @@ TEST_F(ControlInputTest, Subtraction) {
   ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
 
   ControlInput input4 = input2 - input1;
-  ASSERT_TRUE(input3.get_input_vector().isApprox(-1 * input4.get_input_vector()));
+  ASSERT_TRUE(
+      input3.get_input_vector().isApprox(-1 * input4.get_input_vector()));
 }
 
 TEST_F(ControlInputTest, Multiplication) {
@@ -114,8 +125,6 @@ TEST_F(ControlInputTest, Multiplication) {
   ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
   ASSERT_TRUE(input4.get_input_vector().isApprox(d2));
 }
-
-
 
 }  // namespace
 
