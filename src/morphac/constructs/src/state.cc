@@ -17,13 +17,22 @@ State::State(const int size_pose, const int size_velocity)
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
+State::State(const int size_pose)
+    : pose_(Pose(size_pose)), velocity_(Velocity()) {}
+
 State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
     : pose_(Pose(pose_vector)), velocity_(Velocity(velocity_vector)) {
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
+State::State(const VectorXd& pose_vector)
+    : pose_(Pose(pose_vector)), velocity_(Velocity()) {}
+
 State::State(const Pose& pose, const Velocity& velocity)
     : pose_(pose), velocity_(velocity) {}
+
+State::State(const Pose& pose)
+    : pose_(pose), velocity_(Velocity()) {}
 
 State& State::operator+=(const State& state) {
   MORPH_REQUIRE(

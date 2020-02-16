@@ -234,6 +234,13 @@ TEST_F(StateTest, Multiplication) {
   ASSERT_TRUE(state4.get_state_vector().isApprox(d2));
 }
 
+TEST_F(StateTest, PartialConstruction) {
+  // Constructing states without the velocity component.
+  State state1(3);
+  State state2(VectorXd::Random(4));
+  //State state3(Pose(5));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
