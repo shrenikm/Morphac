@@ -1,8 +1,6 @@
 #ifndef KINEMATIC_MODEL_H
 #define KINEMATIC_MODEL_H
 
-#include <unordered_map>
-
 #include "Eigen/Dense"
 
 #include "constructs/include/control_input.h"

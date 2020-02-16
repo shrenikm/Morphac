@@ -8,7 +8,7 @@
 #include "constructs/include/pose.h"
 #include "constructs/include/state.h"
 #include "constructs/include/velocity.h"
-#include "mechanics/include/kinematic_model.h"
+#include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/footprint2D.h"
 
 namespace morphac {

@@ -1,14 +1,13 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "mechanics/include/kinematic_model.h"
+#include "mechanics/models/include/kinematic_model.h"
 
 namespace {
 
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
-using std::unordered_map;
 
 using Eigen::VectorXd;
 
