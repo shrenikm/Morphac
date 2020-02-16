@@ -10,6 +10,7 @@ namespace constructs {
 
 class Velocity {
  public:
+  Velocity();
   Velocity(const int size);
   Velocity(const Eigen::VectorXd& velocity_vector);
 
@@ -19,6 +20,7 @@ class Velocity {
   Velocity operator-(const Velocity& velocity);
   Velocity& operator*=(const double scalar);
 
+  bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   double get_velocity_at(int index) const;

@@ -5,6 +5,8 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
+Pose::Pose() : size_(0), pose_vector_(Eigen::VectorXd::Zero(0)) {}
+
 Pose::Pose(const int size) : size_(size) {
   MORPH_REQUIRE(size > 0, std::invalid_argument, "Pose size is non-positive.");
   pose_vector_ = VectorXd::Zero(size);
@@ -60,34 +62,37 @@ Pose& Pose::operator*=(const double scalar) {
 }
 
 // Non-member multiplication functions
-Pose operator*(Pose pose, const double scalar) {
-  return pose*=scalar;
-}
+Pose operator*(Pose pose, const double scalar) { return pose *= scalar; }
 
-Pose operator*(const double scalar, Pose pose) {
-  return pose*=scalar;
-}
+Pose operator*(const double scalar, Pose pose) { return pose *= scalar; }
 
+bool Pose::is_empty() const { return size_ == 0; }
 
 const int Pose::get_size() const { return size_; }
 
-const VectorXd& Pose::get_pose_vector() const { return pose_vector_; }
+const VectorXd& Pose::get_pose_vector() const {
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
+  return pose_vector_;
+}
 
 double Pose::get_pose_at(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
   return pose_vector_(index);
 }
 
 void Pose::set_pose_vector(const VectorXd& pose_vector) {
   MORPH_REQUIRE(pose_vector.size() == size_, std::invalid_argument,
                 "Pose vector size is incorrect.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
   pose_vector_ = pose_vector;
 }
 
 void Pose::set_pose_at(int index, double pose_element) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
   pose_vector_(index) = pose_element;
 }
 

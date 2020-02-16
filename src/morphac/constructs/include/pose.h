@@ -10,7 +10,8 @@ namespace constructs {
 
 class Pose {
  public:
-  Pose( const int size);
+  Pose();
+  Pose(const int size);
   Pose(const Eigen::VectorXd& pose_vector);
 
   Pose& operator+=(const Pose& pose);
@@ -19,6 +20,7 @@ class Pose {
   Pose operator-(const Pose& pose);
   Pose& operator*=(const double scalar);
 
+  bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
   double get_pose_at(int index) const;

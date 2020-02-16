@@ -44,6 +44,14 @@ TEST_F(PoseTest, InvalidConstruction) {
   ASSERT_THROW(Pose(VectorXd::Random(0)), std::invalid_argument);
 }
 
+TEST_F(PoseTest, EmptyConstruction) {
+  Pose pose;
+  ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
+  ASSERT_THROW(pose.get_pose_at(0), std::logic_error);
+  ASSERT_THROW(pose.set_pose_vector(VectorXd::Random(0)), std::logic_error);
+  ASSERT_THROW(pose.set_pose_at(0, 0.0), std::logic_error);
+}
+
 TEST_F(PoseTest, InvalidGet) {
   ASSERT_THROW(pose1_.get_pose_at(-1), std::out_of_range);
   ASSERT_THROW(pose1_.get_pose_at(3), std::out_of_range);

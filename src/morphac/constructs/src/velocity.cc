@@ -5,6 +5,8 @@ namespace constructs {
 
 using Eigen::VectorXd;
 
+Velocity::Velocity() : size_(0), velocity_vector_(Eigen::VectorXd::Zero(0)) {}
+
 Velocity::Velocity(const int size) : size_(size) {
   MORPH_REQUIRE(size > 0, std::invalid_argument,
                 "Velocity size is non-positive.");
@@ -73,27 +75,33 @@ Velocity operator*(const double scalar, Velocity velocity) {
   return velocity *= scalar;
 }
 
+bool Velocity::is_empty() const { return size_ == 0; }
+
 const int Velocity::get_size() const { return size_; }
 
 const VectorXd& Velocity::get_velocity_vector() const {
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Velocity object is empty");
   return velocity_vector_;
 }
 
 double Velocity::get_velocity_at(int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Velocity object is empty");
   return velocity_vector_(index);
 }
 
 void Velocity::set_velocity_vector(const VectorXd& velocity_vector) {
   MORPH_REQUIRE(velocity_vector.size() == size_, std::invalid_argument,
                 "Velocity vector size is incorrect.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Velocity object is empty");
   velocity_vector_ = velocity_vector;
 }
 
 void Velocity::set_velocity_at(int index, double velocity_element) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Velocity object is empty");
   velocity_vector_(index) = velocity_element;
 }
 
