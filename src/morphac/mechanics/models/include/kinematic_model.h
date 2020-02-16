@@ -4,9 +4,7 @@
 #include "Eigen/Dense"
 
 #include "constructs/include/control_input.h"
-#include "constructs/include/pose.h"
 #include "constructs/include/state.h"
-#include "constructs/include/velocity.h"
 
 namespace morphac {
 namespace mechanics {
@@ -21,13 +19,13 @@ class KinematicModel {
   KinematicModel(const std::string name, const int size_pose,
                  const int size_velocity, const int size_input);
 
-  virtual morphac::constructs::State ComputeStateDerivative(
-      const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const = 0;
   virtual void ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input,
       morphac::constructs::State& derivative) const = 0;
+  virtual morphac::constructs::State ComputeStateDerivative(
+      const morphac::constructs::State& state,
+      const morphac::constructs::ControlInput& input) const = 0;
 
   const std::string name;
   const int size_pose;
