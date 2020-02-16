@@ -10,6 +10,7 @@
 
 namespace morphac {
 namespace mechanics {
+namespace models {
 
 // The parameters of this class need to be kept const as they serve as a kind
 // of data class as well. Nothing is private to prevent unnecessary private
@@ -38,6 +39,7 @@ class KinematicModel {
   const int size_input;
 };
 
+}  // namespace models
 }  // namespace constructs
 }  // namespace morphac
 

@@ -13,7 +13,7 @@ using Eigen::MatrixXd;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
-using morphac::mechanics::KinematicModel;
+using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint2D;
 
 Robot2D::Robot2D(const string name, const KinematicModel& kinematic_model,

@@ -13,7 +13,7 @@ using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
-using morphac::mechanics::KinematicModel;
+using morphac::mechanics::models::KinematicModel;
 
 class SomeKinematicModel : public KinematicModel {
  public:

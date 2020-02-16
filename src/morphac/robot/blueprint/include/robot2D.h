@@ -18,10 +18,10 @@ namespace blueprint {
 class Robot2D {
  public:
   Robot2D(const std::string name,
-          const morphac::mechanics::KinematicModel& kinematic_model,
+          const morphac::mechanics::models::KinematicModel& kinematic_model,
           const morphac::robot::blueprint::Footprint2D& footprint);
   Robot2D(const std::string name,
-          const morphac::mechanics::KinematicModel& kinematic_model,
+          const morphac::mechanics::models::KinematicModel& kinematic_model,
           const morphac::robot::blueprint::Footprint2D& footprint,
           const morphac::constructs::State& initial_state);
 
@@ -31,7 +31,7 @@ class Robot2D {
       const morphac::constructs::ControlInput& input) const;
 
   const std::string get_name() const;
-  const morphac::mechanics::KinematicModel& get_kinematic_model() const;
+  const morphac::mechanics::models::KinematicModel& get_kinematic_model() const;
   const morphac::robot::blueprint::Footprint2D get_footprint() const;
   const morphac::constructs::State& get_state() const;
   const morphac::constructs::Pose& get_pose() const;
@@ -39,7 +39,7 @@ class Robot2D {
 
  private:
   const std::string name_;
-  const morphac::mechanics::KinematicModel& kinematic_model_;
+  const morphac::mechanics::models::KinematicModel& kinematic_model_;
   const morphac::robot::blueprint::Footprint2D footprint_;
   const std::unique_ptr<morphac::constructs::State> state_;
 };

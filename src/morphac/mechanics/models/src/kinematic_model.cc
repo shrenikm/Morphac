@@ -2,6 +2,7 @@
 
 namespace morphac {
 namespace mechanics {
+namespace models {
 
 using std::make_shared;
 using std::shared_ptr;
@@ -19,6 +20,7 @@ KinematicModel::KinematicModel(string name, int size_pose, int size_velocity,
       size_velocity(size_velocity),
       size_input(size_input) {}
 
+}  // models
 }  // constructs
 }  // morphac
 
