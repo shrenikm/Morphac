@@ -25,6 +25,7 @@ class PoseTest : public ::testing::Test {
 TEST_F(PoseTest, Sizes) {
   ASSERT_EQ(pose1_.get_size(), pose2_.get_size());
   ASSERT_EQ(pose1_.get_pose_vector(), pose2_.get_pose_vector());
+  ASSERT_EQ(pose3_.get_size(), 6);
 }
 
 TEST_F(PoseTest, CopyConstructor) {

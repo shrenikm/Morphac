@@ -25,6 +25,7 @@ class VelocityTest : public ::testing::Test {
 TEST_F(VelocityTest, Sizes) {
   ASSERT_EQ(velocity1_.get_size(), velocity2_.get_size());
   ASSERT_EQ(velocity1_.get_velocity_vector(), velocity2_.get_velocity_vector());
+  ASSERT_EQ(velocity3_.get_size(), 6);
 }
 
 TEST_F(VelocityTest, CopyConstructor) {

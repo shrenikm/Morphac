@@ -37,8 +37,8 @@ class State {
   const int get_size_pose() const;
   const int get_size_velocity() const;
   const int get_size() const;
-  const morphac::constructs::Pose& get_pose() const;
-  const morphac::constructs::Velocity& get_velocity() const;
+  morphac::constructs::Pose& get_pose();
+  morphac::constructs::Velocity& get_velocity();
   const Eigen::VectorXd& get_pose_vector() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   const Eigen::VectorXd get_state_vector() const;

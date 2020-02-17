@@ -25,6 +25,7 @@ class ControlInputTest : public ::testing::Test {
 TEST_F(ControlInputTest, Sizes) {
   ASSERT_EQ(input1_.get_size(), input2_.get_size());
   ASSERT_EQ(input1_.get_input_vector(), input2_.get_input_vector());
+  ASSERT_EQ(input3_.get_size(), 6);
 }
 
 TEST_F(ControlInputTest, CopyConstructor) {
