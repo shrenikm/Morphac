@@ -170,6 +170,12 @@ TEST_F(StateTest, InvalidSet) {
                std::invalid_argument);
 }
 
+TEST_F(StateTest, EmptyConstruction) {
+  State state;
+
+  ASSERT_TRUE(state.is_empty());
+}
+
 TEST_F(StateTest, Addition) {
   VectorXd p1(3), p2(3), v1(2), v2(2);
   VectorXd d1(5), d2(5);
@@ -334,7 +340,7 @@ TEST_F(StateTest, PartialConstruction) {
   ASSERT_TRUE(state_mult_pose.get_pose_vector().isApprox(VectorXd::Zero(5)));
   ASSERT_TRUE(state_mult_vel.get_velocity_vector().isApprox(VectorXd::Zero(5)));
 
-  State state_empty = state7 + State{0, 0};
+  State state_empty = state7 + State{};
   ASSERT_TRUE(state_empty.is_empty());
 }
 

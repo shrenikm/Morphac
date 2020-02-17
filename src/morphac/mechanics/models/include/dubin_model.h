@@ -18,10 +18,10 @@ class DubinModel : public morphac::mechanics::models::KinematicModel {
 
   void ComputeStateDerivative(const morphac::constructs::State& state,
                               const morphac::constructs::ControlInput& input,
-                              morphac::constructs::State& derivative) const = 0;
+                              morphac::constructs::State& derivative) const;
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const = 0;
+      const morphac::constructs::ControlInput& input) const;
 
   const double speed;
 };

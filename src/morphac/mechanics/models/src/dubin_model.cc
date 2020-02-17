@@ -16,7 +16,7 @@ using morphac::constructs::State;
 using morphac::constructs::Pose;
 
 DubinModel::DubinModel(const string name, const double speed)
-    : KinematicModel(name, 3, 3, 1), speed(speed) {}
+    : KinematicModel(name, 3, 0, 1), speed(speed) {}
 
 void DubinModel::ComputeStateDerivative(const State& state,
                                         const ControlInput& input,
