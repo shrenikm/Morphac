@@ -119,12 +119,29 @@ TEST_F(StateTest, SetAt) {
   ASSERT_TRUE(state2_->get_state_vector().isApprox(v));
 }
 
-TEST_F(StateTest, ConstStateGet) {
+TEST_F(StateTest, ConstState) {
   const State state{3, 3};
+
+  // We should be able to obtain const Pose and const Velocity objects from this
+  // const state (these are read-only).
+  ASSERT_TRUE(state.get_pose().get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(
+      state.get_velocity().get_velocity_vector().isApprox(VectorXd::Zero(3)));
+
+  // After const casting to a non-const, we should be able to modify the Pose
+  // and Velocity.
+  const_cast<State &>(state).get_pose().set_pose_vector(VectorXd::Ones(3));
+  const_cast<State &>(state).get_velocity().set_velocity_vector(
+      VectorXd::Ones(3));
+  ASSERT_TRUE(state.get_pose().get_pose_vector().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(
+      state.get_velocity().get_velocity_vector().isApprox(VectorXd::Ones(3)));
 
   // For a const State, the values can only be accessed but not set, as a
   // reference (lvalue) is not returned for this overload of the operator.
-  ASSERT_EQ(state(0), 0);
+  for (int i = 0; i < state.get_size(); ++i) {
+    ASSERT_EQ(state(i), 1);
+  }
 }
 
 TEST_F(StateTest, InvalidGet) {

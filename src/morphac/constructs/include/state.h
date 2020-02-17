@@ -38,8 +38,13 @@ class State {
   const int get_size_pose() const;
   const int get_size_velocity() const;
   const int get_size() const;
+
+  // Pose and Velocity accessors for const and non-const States.
   morphac::constructs::Pose& get_pose();
+  const morphac::constructs::Pose& get_pose() const;
   morphac::constructs::Velocity& get_velocity();
+  const morphac::constructs::Velocity& get_velocity() const;
+
   const Eigen::VectorXd& get_pose_vector() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   const Eigen::VectorXd get_state_vector() const;

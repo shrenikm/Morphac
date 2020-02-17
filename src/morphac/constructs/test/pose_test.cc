@@ -52,7 +52,7 @@ TEST_F(PoseTest, SetPose) {
   ASSERT_TRUE(pose3_.get_pose_vector().isApprox(v));
 }
 
-TEST_F(PoseTest, ConstPoseGet) {
+TEST_F(PoseTest, ConstPose) {
   const Pose pose{3};
 
   // For a const Pose, the values can only be accessed but not set, as a

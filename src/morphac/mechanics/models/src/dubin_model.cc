@@ -13,6 +13,7 @@ using Eigen::VectorXd;
 using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::constructs::Pose;
 
 DubinModel::DubinModel(const string name, const double speed)
     : KinematicModel(name, 3, 3, 1), speed(speed) {}
@@ -33,10 +34,10 @@ void DubinModel::ComputeStateDerivative(const State& state,
   MORPH_REQUIRE(derivative.is_velocity_empty(), std::invalid_argument,
                 "Velocity component of the derivative must be empty.");
   VectorXd pose_derivative(3);
-  double theta = state(3);
+  double theta = state.get_pose()(2);
+  Pose pose = state.get_pose();
 
-  pose_derivative << speed * cos(theta), speed * sin(theta),
-      input(0);
+  pose_derivative << speed * cos(theta), speed * sin(theta), input(0);
   derivative.set_pose_vector(pose_derivative);
 }
 

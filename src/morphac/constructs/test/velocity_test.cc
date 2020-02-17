@@ -53,7 +53,7 @@ TEST_F(VelocityTest, SetVelocity) {
   ASSERT_TRUE(velocity3_.get_velocity_vector().isApprox(v));
 }
 
-TEST_F(VelocityTest, ConstVelocityGet) {
+TEST_F(VelocityTest, ConstVelocity) {
   const Velocity velocity{3};
 
   // For a const Velocity, the values can only be accessed but not set, as a

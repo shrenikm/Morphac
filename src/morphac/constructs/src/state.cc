@@ -169,7 +169,11 @@ const int State::get_size() const {
 
 Pose& State::get_pose() { return pose_; }
 
+const Pose& State::get_pose() const { return pose_; }
+
 Velocity& State::get_velocity() { return velocity_; }
+
+const Velocity& State::get_velocity() const { return velocity_; }
 
 const VectorXd& State::get_pose_vector() const {
   return pose_.get_pose_vector();

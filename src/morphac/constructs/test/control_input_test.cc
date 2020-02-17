@@ -52,7 +52,7 @@ TEST_F(ControlInputTest, SetInput) {
   ASSERT_TRUE(input3_.get_input_vector().isApprox(v));
 }
 
-TEST_F(ControlInputTest, ConstInputGet) {
+TEST_F(ControlInputTest, ConstInput) {
   const ControlInput input{3};
 
   // For a const ControlInput, the values can only be accessed but not set, as a

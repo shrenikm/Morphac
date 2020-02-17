@@ -77,8 +77,8 @@ TEST_F(KinematicModelTest, Subclass) {
       expected_velocity_derivative.isApprox(derivative1.get_velocity_vector()));
 
   // Changing the values of the state
-  state.set_pose_at(2, 3);
-  state.set_velocity_at(1, 7);
+  state.get_pose()(2) = 3;
+  state.get_velocity()(1) = 7;
 
   // Now we use the other overload to compute the derivative.
   State derivative2 = model.ComputeStateDerivative(state, input);
