@@ -19,12 +19,12 @@ class ControlInput {
   ControlInput operator-(const ControlInput& input);
   ControlInput& operator*=(const double scalar);
 
+  double& operator()(const int index);
+
   bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
-  double get_input_at(int index) const;
   void set_input_vector(const Eigen::VectorXd& input_vector);
-  void set_input_at(int index, double input_element);
 
  private:
   const int size_;

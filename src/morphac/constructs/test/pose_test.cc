@@ -19,7 +19,7 @@ class PoseTest : public ::testing::Test {
   Pose pose2_{Pose(VectorXd::Zero(3))};
   VectorXd rand_pose_ = VectorXd::Random(6);
   Pose pose3_{Pose(rand_pose_)};
-  Pose pose4_ = pose3_;
+  Pose pose4_{pose3_};
 };
 
 TEST_F(PoseTest, Sizes) {
@@ -29,14 +29,26 @@ TEST_F(PoseTest, Sizes) {
 
 TEST_F(PoseTest, CopyConstructor) {
   ASSERT_EQ(pose3_.get_size(), pose4_.get_size());
-  for (int i = 0; i < pose3_.get_size(); ++i) {
-    ASSERT_EQ(pose3_.get_pose_at(i), pose4_.get_pose_at(i));
+  ASSERT_TRUE(pose3_.get_pose_vector().isApprox(pose4_.get_pose_vector()));
+}
+
+TEST_F(PoseTest, GetPose) {
+  ASSERT_TRUE(pose1_.get_pose_vector().isApprox(VectorXd::Zero(3)));
+
+  for (int i = 0; i < pose2_.get_size(); ++i) {
+    ASSERT_EQ(pose2_(i), 0);
   }
 }
 
 TEST_F(PoseTest, SetPose) {
-  pose3_.set_pose_at(1, 7.0);
-  ASSERT_EQ(pose3_.get_pose_at(1), 7.0);
+  pose1_.set_pose_vector(VectorXd::Ones(3));
+  ASSERT_TRUE(pose1_.get_pose_vector().isApprox(VectorXd::Ones(3)));
+
+  VectorXd v = VectorXd::Random(pose3_.get_size());
+  for (int i = 0; i < pose3_.get_size(); ++i) {
+    pose3_(i) = v(i);
+  }
+  ASSERT_TRUE(pose3_.get_pose_vector().isApprox(v));
 }
 
 TEST_F(PoseTest, InvalidConstruction) {
@@ -51,14 +63,13 @@ TEST_F(PoseTest, EmptyConstruction) {
 
   // Accessors are invalid for empty Pose
   ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
-  ASSERT_THROW(pose.get_pose_at(0), std::logic_error);
+  ASSERT_THROW(pose(0), std::logic_error);
   ASSERT_THROW(pose.set_pose_vector(VectorXd::Random(0)), std::logic_error);
-  ASSERT_THROW(pose.set_pose_at(0, 0.0), std::logic_error);
 }
 
 TEST_F(PoseTest, InvalidGet) {
-  ASSERT_THROW(pose1_.get_pose_at(-1), std::out_of_range);
-  ASSERT_THROW(pose1_.get_pose_at(3), std::out_of_range);
+  ASSERT_THROW(pose1_(-1), std::out_of_range);
+  ASSERT_THROW(pose1_(3), std::out_of_range);
 }
 
 TEST_F(PoseTest, InvalidSet) {
@@ -66,8 +77,6 @@ TEST_F(PoseTest, InvalidSet) {
                std::invalid_argument);
   ASSERT_THROW(pose1_.set_pose_vector(VectorXd::Random(2)),
                std::invalid_argument);
-  ASSERT_THROW(pose1_.set_pose_at(-1, 1), std::out_of_range);
-  ASSERT_THROW(pose1_.set_pose_at(7, 1), std::out_of_range);
 }
 
 TEST_F(PoseTest, Addition) {
@@ -137,7 +146,7 @@ TEST_F(PoseTest, EmptyPoseOperations) {
   Pose pose_sub = pose1 - pose2;
   ASSERT_TRUE(pose_sub.is_empty());
 
-  Pose pose_mult =  pose1 * 7.0;
+  Pose pose_mult = pose1 * 7.0;
   ASSERT_TRUE(pose_mult.is_empty());
 }
 

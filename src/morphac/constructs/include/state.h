@@ -28,6 +28,8 @@ class State {
   State operator-(const State& state);
   State& operator*=(const double scalar);
 
+  double& operator()(const int index);
+
   bool is_empty() const;
   bool is_pose_empty() const;
   bool is_velocity_empty() const;
@@ -38,17 +40,11 @@ class State {
   const morphac::constructs::Pose& get_pose() const;
   const morphac::constructs::Velocity& get_velocity() const;
   const Eigen::VectorXd& get_pose_vector() const;
-  double get_pose_at(int index) const;
   const Eigen::VectorXd& get_velocity_vector() const;
-  double get_velocity_at(int index) const;
   const Eigen::VectorXd get_state_vector() const;
-  double get_state_at(int index) const;
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
-  void set_pose_at(int index, double pose_element);
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
-  void set_velocity_at(int index, double velocity_element);
   void set_state_vector(const Eigen::VectorXd& state_vector);
-  void set_state_at(int index, double state_element);
 
  private:
   morphac::constructs::Pose pose_;

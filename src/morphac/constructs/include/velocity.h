@@ -19,12 +19,12 @@ class Velocity {
   Velocity operator-(const Velocity& velocity);
   Velocity& operator*=(const double scalar);
 
+  double& operator()(const int index);
+
   bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
-  double get_velocity_at(int index) const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
-  void set_velocity_at(int index, double velocity_element);
 
  private:
   const int size_;

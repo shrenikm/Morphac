@@ -19,12 +19,12 @@ class Pose {
   Pose operator-(const Pose& pose);
   Pose& operator*=(const double scalar);
 
+  double& operator()(const int index);
+
   bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
-  double get_pose_at(int index) const;
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
-  void set_pose_at(int index, double pose_element);
 
  private:
   const int size_;
