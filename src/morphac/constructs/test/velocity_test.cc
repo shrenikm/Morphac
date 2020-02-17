@@ -29,14 +29,27 @@ TEST_F(VelocityTest, Sizes) {
 
 TEST_F(VelocityTest, CopyConstructor) {
   ASSERT_EQ(velocity3_.get_size(), velocity4_.get_size());
-  for (int i = 0; i < velocity3_.get_size(); ++i) {
-    ASSERT_EQ(velocity3_.get_velocity_at(i), velocity4_.get_velocity_at(i));
+  ASSERT_TRUE(velocity3_.get_velocity_vector().isApprox(
+      velocity4_.get_velocity_vector()));
+}
+
+TEST_F(VelocityTest, GetVelocity) {
+  ASSERT_TRUE(velocity1_.get_velocity_vector().isApprox(VectorXd::Zero(3)));
+
+  for (int i = 0; i < velocity2_.get_size(); ++i) {
+    ASSERT_EQ(velocity2_(i), 0);
   }
 }
 
 TEST_F(VelocityTest, SetVelocity) {
-  velocity3_.set_velocity_at(1, 7.0);
-  ASSERT_EQ(velocity3_.get_velocity_at(1), 7.0);
+  velocity1_.set_velocity_vector(VectorXd::Ones(3));
+  ASSERT_TRUE(velocity1_.get_velocity_vector().isApprox(VectorXd::Ones(3)));
+
+  VectorXd v = VectorXd::Random(velocity3_.get_size());
+  for (int i = 0; i < velocity3_.get_size(); ++i) {
+    velocity3_(i) = v(i);
+  }
+  ASSERT_TRUE(velocity3_.get_velocity_vector().isApprox(v));
 }
 
 TEST_F(VelocityTest, InvalidConstruction) {
@@ -51,15 +64,14 @@ TEST_F(VelocityTest, EmptyConstruction) {
 
   // Accessors are invalid for empty Velocity
   ASSERT_THROW(velocity.get_velocity_vector(), std::logic_error);
-  ASSERT_THROW(velocity.get_velocity_at(0), std::logic_error);
+  ASSERT_THROW(velocity(0), std::logic_error);
   ASSERT_THROW(velocity.set_velocity_vector(VectorXd::Random(0)),
                std::logic_error);
-  ASSERT_THROW(velocity.set_velocity_at(0, 0.0), std::logic_error);
 }
 
 TEST_F(VelocityTest, InvalidGet) {
-  ASSERT_THROW(velocity1_.get_velocity_at(-1), std::out_of_range);
-  ASSERT_THROW(velocity1_.get_velocity_at(3), std::out_of_range);
+  ASSERT_THROW(velocity1_(-1), std::out_of_range);
+  ASSERT_THROW(velocity1_(3), std::out_of_range);
 }
 
 TEST_F(VelocityTest, InvalidSet) {
@@ -67,8 +79,6 @@ TEST_F(VelocityTest, InvalidSet) {
                std::invalid_argument);
   ASSERT_THROW(velocity1_.set_velocity_vector(VectorXd::Random(2)),
                std::invalid_argument);
-  ASSERT_THROW(velocity1_.set_velocity_at(-1, 1), std::out_of_range);
-  ASSERT_THROW(velocity1_.set_velocity_at(7, 1), std::out_of_range);
 }
 
 TEST_F(VelocityTest, Addition) {
@@ -140,7 +150,7 @@ TEST_F(VelocityTest, EmptyVelocityOperations) {
   Velocity velocity_sub = velocity1 - velocity2;
   ASSERT_TRUE(velocity_sub.is_empty());
 
-  Velocity velocity_mult =  velocity1 * 7.0;
+  Velocity velocity_mult = velocity1 * 7.0;
   ASSERT_TRUE(velocity_mult.is_empty());
 }
 
