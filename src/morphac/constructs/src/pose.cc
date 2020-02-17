@@ -71,6 +71,13 @@ double& Pose::operator()(const int index) {
   return pose_vector_(index);
 }
 
+double Pose::operator()(const int index) const {
+  MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
+                "Pose index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
+  return pose_vector_(index);
+}
+
 bool Pose::is_empty() const { return size_ == 0; }
 
 const int Pose::get_size() const { return size_; }

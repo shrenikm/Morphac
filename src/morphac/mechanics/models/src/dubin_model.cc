@@ -33,10 +33,10 @@ void DubinModel::ComputeStateDerivative(const State& state,
   MORPH_REQUIRE(derivative.is_velocity_empty(), std::invalid_argument,
                 "Velocity component of the derivative must be empty.");
   VectorXd pose_derivative(3);
-  double theta = state.get_pose_at(3);
+  double theta = state(3);
 
   pose_derivative << speed * cos(theta), speed * sin(theta),
-      input.get_input_at(0);
+      input(0);
   derivative.set_pose_vector(pose_derivative);
 }
 

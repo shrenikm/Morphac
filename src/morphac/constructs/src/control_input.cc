@@ -80,6 +80,13 @@ double& ControlInput::operator()(const int index) {
   return input_vector_(index);
 }
 
+double ControlInput::operator()(const int index) const {
+  MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
+                "Control input index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "Control input object is empty");
+  return input_vector_(index);
+}
+
 bool ControlInput::is_empty() const { return size_ == 0; }
 
 const int ControlInput::get_size() const { return size_; }

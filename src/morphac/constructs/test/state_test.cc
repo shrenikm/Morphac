@@ -119,6 +119,14 @@ TEST_F(StateTest, SetAt) {
   ASSERT_TRUE(state2_->get_state_vector().isApprox(v));
 }
 
+TEST_F(StateTest, ConstStateGet) {
+  const State state{3, 3};
+
+  // For a const State, the values can only be accessed but not set, as a
+  // reference (lvalue) is not returned for this overload of the operator.
+  ASSERT_EQ(state(0), 0);
+}
+
 TEST_F(StateTest, InvalidGet) {
   ASSERT_THROW(state2_->get_pose()(-1), std::out_of_range);
   ASSERT_THROW(state2_->get_pose()(4), std::out_of_range);

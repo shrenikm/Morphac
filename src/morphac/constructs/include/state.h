@@ -29,6 +29,7 @@ class State {
   State& operator*=(const double scalar);
 
   double& operator()(const int index);
+  double operator()(const int index) const;
 
   bool is_empty() const;
   bool is_pose_empty() const;

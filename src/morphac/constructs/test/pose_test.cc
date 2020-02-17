@@ -52,6 +52,14 @@ TEST_F(PoseTest, SetPose) {
   ASSERT_TRUE(pose3_.get_pose_vector().isApprox(v));
 }
 
+TEST_F(PoseTest, ConstPoseGet) {
+  const Pose pose{3};
+
+  // For a const Pose, the values can only be accessed but not set, as a
+  // reference (lvalue) is not returned for this overload of the operator.
+  ASSERT_EQ(pose(0), 0);
+}
+
 TEST_F(PoseTest, InvalidConstruction) {
   ASSERT_THROW(Pose{-1}, std::invalid_argument);
 }

@@ -52,6 +52,14 @@ TEST_F(ControlInputTest, SetInput) {
   ASSERT_TRUE(input3_.get_input_vector().isApprox(v));
 }
 
+TEST_F(ControlInputTest, ConstInputGet) {
+  const ControlInput input{3};
+
+  // For a const ControlInput, the values can only be accessed but not set, as a
+  // reference (lvalue) is not returned for this overload of the operator.
+  ASSERT_EQ(input(0), 0);
+}
+
 TEST_F(ControlInputTest, InvalidConstruction) {
   ASSERT_THROW(ControlInput{-1}, std::invalid_argument);
 }

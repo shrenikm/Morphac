@@ -20,6 +20,7 @@ class ControlInput {
   ControlInput& operator*=(const double scalar);
 
   double& operator()(const int index);
+  double operator()(const int index) const;
 
   bool is_empty() const;
   const int get_size() const;

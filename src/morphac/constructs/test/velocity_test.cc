@@ -53,6 +53,14 @@ TEST_F(VelocityTest, SetVelocity) {
   ASSERT_TRUE(velocity3_.get_velocity_vector().isApprox(v));
 }
 
+TEST_F(VelocityTest, ConstVelocityGet) {
+  const Velocity velocity{3};
+
+  // For a const Velocity, the values can only be accessed but not set, as a
+  // reference (lvalue) is not returned for this overload of the operator.
+  ASSERT_EQ(velocity(0), 0);
+}
+
 TEST_F(VelocityTest, InvalidConstruction) {
   ASSERT_THROW(Velocity{-1}, std::invalid_argument);
 }

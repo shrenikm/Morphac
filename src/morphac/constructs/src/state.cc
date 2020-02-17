@@ -140,6 +140,19 @@ double& State::operator()(const int index) {
   }
 }
 
+double State::operator()(const int index) const {
+  MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
+                "Pose index out of bounds.");
+  MORPH_REQUIRE(!is_empty(), std::logic_error, "State object is empty");
+  // If the index corresponds to the pose
+  if (index < get_size_pose()) {
+    return pose_(index);
+  } else {
+    // Index corresponds to velocity
+    return velocity_(index - get_size_pose());
+  }
+}
+
 bool State::is_empty() const { return is_pose_empty() && is_velocity_empty(); }
 
 bool State::is_pose_empty() const { return pose_.is_empty(); }
