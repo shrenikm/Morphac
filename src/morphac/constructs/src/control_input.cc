@@ -103,6 +103,11 @@ void ControlInput::set_input_vector(const VectorXd& input_vector) {
   input_vector_ = input_vector;
 }
 
+ControlInput ControlInput::CreateLike(const ControlInput& input) {
+  ControlInput new_input{input.get_size()};
+  return new_input;
+}
+
 }  // namespace constructs
 }  // namespace morphac
 

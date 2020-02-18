@@ -103,6 +103,11 @@ void Velocity::set_velocity_vector(const VectorXd& velocity_vector) {
   velocity_vector_ = velocity_vector;
 }
 
+Velocity Velocity::CreateLike(const Velocity& velocity) {
+  Velocity new_velocity{velocity.get_size()};
+  return new_velocity;
+}
+
 }  // namespace constructs
 }  // namespace morphac
 

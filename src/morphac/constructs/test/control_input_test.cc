@@ -160,6 +160,17 @@ TEST_F(ControlInputTest, EmptyControlInputOperations) {
   ASSERT_TRUE(input_mult.is_empty());
 }
 
+TEST_F(ControlInputTest, CreateLike) {
+  ControlInput input1 = ControlInput::CreateLike(input1_);
+  ControlInput input2 = ControlInput::CreateLike(input3_);
+
+  ASSERT_EQ(input1.get_size(), 3);
+  ASSERT_TRUE(input1.get_input_vector().isApprox(VectorXd::Zero(3)));
+
+  ASSERT_EQ(input2.get_size(), 6);
+  ASSERT_TRUE(input2.get_input_vector().isApprox(VectorXd::Zero(6)));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

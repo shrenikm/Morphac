@@ -163,6 +163,17 @@ TEST_F(VelocityTest, EmptyVelocityOperations) {
   ASSERT_TRUE(velocity_mult.is_empty());
 }
 
+TEST_F(VelocityTest, CreateLike) {
+  Velocity velocity1 = Velocity::CreateLike(velocity1_);
+  Velocity velocity2 = Velocity::CreateLike(velocity3_);
+
+  ASSERT_EQ(velocity1.get_size(), 3);
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(VectorXd::Zero(3)));
+
+  ASSERT_EQ(velocity2.get_size(), 6);
+  ASSERT_TRUE(velocity2.get_velocity_vector().isApprox(VectorXd::Zero(6)));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
