@@ -20,7 +20,7 @@ class DubinModelTest : public ::testing::Test {
   void SetUp() override {}
 };
 
-TEST_F(DubinModelTest, Sizes) {
+TEST_F(DubinModelTest, Construction) {
   DubinModel dubin_model{"dubin_model", 1.5};
 
   ASSERT_EQ(dubin_model.name, "dubin_model");
@@ -65,6 +65,8 @@ TEST_F(DubinModelTest, InvalidDerivativeComputation) {
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{4, 0}, ControlInput{1}),
                std::invalid_argument);
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 1}, ControlInput{1}),
+               std::invalid_argument);
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{0}),
                std::invalid_argument);
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{2}),
                std::invalid_argument);
