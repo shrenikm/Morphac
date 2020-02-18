@@ -27,6 +27,8 @@ class Pose {
   const Eigen::VectorXd& get_pose_vector() const;
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
 
+  static Pose CreateLike(const morphac::constructs::Pose& pose);
+
  private:
   const int size_;
   Eigen::VectorXd pose_vector_;

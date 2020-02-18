@@ -27,6 +27,8 @@ class Velocity {
   const Eigen::VectorXd& get_velocity_vector() const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
 
+  static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
+
  private:
   const int size_;
   Eigen::VectorXd velocity_vector_;

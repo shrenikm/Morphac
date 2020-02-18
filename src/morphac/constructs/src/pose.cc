@@ -94,6 +94,11 @@ void Pose::set_pose_vector(const VectorXd& pose_vector) {
   pose_vector_ = pose_vector;
 }
 
+Pose Pose::CreateLike(const Pose& pose) {
+  Pose new_pose{pose.get_size()};
+  return new_pose;
+}
+
 }  // namespace constructs
 }  // namespace morphac
 

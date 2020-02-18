@@ -27,6 +27,9 @@ class ControlInput {
   const Eigen::VectorXd& get_input_vector() const;
   void set_input_vector(const Eigen::VectorXd& input_vector);
 
+  static ControlInput CreateLike(
+      const morphac::constructs::ControlInput& input);
+
  private:
   const int size_;
   Eigen::VectorXd input_vector_;

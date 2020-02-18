@@ -159,6 +159,17 @@ TEST_F(PoseTest, EmptyPoseOperations) {
   ASSERT_TRUE(pose_mult.is_empty());
 }
 
+TEST_F(PoseTest, CreateLike) {
+  Pose pose1 = Pose::CreateLike(pose1_);
+  Pose pose2 = Pose::CreateLike(pose3_);
+
+  ASSERT_EQ(pose1.get_size(), 3);
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(VectorXd::Zero(3)));
+
+  ASSERT_EQ(pose2.get_size(), 6);
+  ASSERT_TRUE(pose2.get_pose_vector().isApprox(VectorXd::Zero(6)));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
