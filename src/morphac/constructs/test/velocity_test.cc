@@ -69,7 +69,7 @@ TEST_F(VelocityTest, EmptyConstruction) {
   Velocity velocity;
 
   // Assert emptiness
-  ASSERT_TRUE(velocity.is_empty());
+  ASSERT_TRUE(velocity.IsEmpty());
 
   // Accessors are invalid for empty Velocity
   ASSERT_THROW(velocity.get_velocity_vector(), std::logic_error);
@@ -154,13 +154,13 @@ TEST_F(VelocityTest, EmptyVelocityOperations) {
   Velocity velocity1, velocity2;
 
   Velocity velocity_add = velocity1 + velocity2;
-  ASSERT_TRUE(velocity_add.is_empty());
+  ASSERT_TRUE(velocity_add.IsEmpty());
 
   Velocity velocity_sub = velocity1 - velocity2;
-  ASSERT_TRUE(velocity_sub.is_empty());
+  ASSERT_TRUE(velocity_sub.IsEmpty());
 
   Velocity velocity_mult = velocity1 * 7.0;
-  ASSERT_TRUE(velocity_mult.is_empty());
+  ASSERT_TRUE(velocity_mult.IsEmpty());
 }
 
 TEST_F(VelocityTest, CreateLike) {

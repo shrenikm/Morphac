@@ -22,11 +22,11 @@ class Velocity {
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
 
+  bool IsEmpty() const;
   static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
 
  private:

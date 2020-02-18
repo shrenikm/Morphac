@@ -68,7 +68,7 @@ TEST_F(PoseTest, EmptyConstruction) {
   Pose pose;
 
   // Assert emptiness.
-  ASSERT_TRUE(pose.is_empty());
+  ASSERT_TRUE(pose.IsEmpty());
 
   // Accessors are invalid for empty Pose
   ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
@@ -150,13 +150,13 @@ TEST_F(PoseTest, EmptyPoseOperations) {
   Pose pose1, pose2;
 
   Pose pose_add = pose1 + pose2;
-  ASSERT_TRUE(pose_add.is_empty());
+  ASSERT_TRUE(pose_add.IsEmpty());
 
   Pose pose_sub = pose1 - pose2;
-  ASSERT_TRUE(pose_sub.is_empty());
+  ASSERT_TRUE(pose_sub.IsEmpty());
 
   Pose pose_mult = pose1 * 7.0;
-  ASSERT_TRUE(pose_mult.is_empty());
+  ASSERT_TRUE(pose_mult.IsEmpty());
 }
 
 TEST_F(PoseTest, CreateLike) {

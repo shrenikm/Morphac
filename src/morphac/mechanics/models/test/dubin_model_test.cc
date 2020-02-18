@@ -48,12 +48,12 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 
   dubin_model.ComputeStateDerivative(state1, input1, derivative1);
   ASSERT_TRUE(derivative1.get_pose_vector().isApprox(desired_vector1));
-  ASSERT_TRUE(derivative1.is_velocity_empty());
+  ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
   State derivative2 = dubin_model.ComputeStateDerivative(
       State{pose_vector2, VectorXd::Zero(0)}, ControlInput{input_vector2});
   ASSERT_TRUE(derivative2.get_pose_vector().isApprox(desired_vector2));
-  ASSERT_TRUE(derivative2.is_velocity_empty());
+  ASSERT_TRUE(derivative2.IsVelocityEmpty());
 }
 
 TEST_F(DubinModelTest, InvalidDerivativeComputation) {

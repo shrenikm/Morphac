@@ -68,7 +68,7 @@ TEST_F(ControlInputTest, EmptyConstruction) {
   ControlInput input;
 
   // Assert emptiness
-  ASSERT_TRUE(input.is_empty());
+  ASSERT_TRUE(input.IsEmpty());
 
   // Accessors are invalid for empty ControlInput
   ASSERT_THROW(input.get_input_vector(), std::logic_error);
@@ -151,13 +151,13 @@ TEST_F(ControlInputTest, EmptyControlInputOperations) {
   ControlInput input1, input2;
 
   ControlInput input_add = input1 + input2;
-  ASSERT_TRUE(input_add.is_empty());
+  ASSERT_TRUE(input_add.IsEmpty());
 
   ControlInput input_sub = input1 - input2;
-  ASSERT_TRUE(input_sub.is_empty());
+  ASSERT_TRUE(input_sub.IsEmpty());
 
   ControlInput input_mult = input1 * 7.0;
-  ASSERT_TRUE(input_mult.is_empty());
+  ASSERT_TRUE(input_mult.IsEmpty());
 }
 
 TEST_F(ControlInputTest, CreateLike) {

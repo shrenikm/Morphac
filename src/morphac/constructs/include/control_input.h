@@ -22,11 +22,11 @@ class ControlInput {
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  bool is_empty() const;
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
   void set_input_vector(const Eigen::VectorXd& input_vector);
 
+  bool IsEmpty() const;
   static ControlInput CreateLike(
       const morphac::constructs::ControlInput& input);
 

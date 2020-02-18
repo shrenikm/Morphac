@@ -31,10 +31,6 @@ class State {
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  bool is_empty() const;
-  bool is_pose_empty() const;
-  bool is_velocity_empty() const;
-
   const int get_size_pose() const;
   const int get_size_velocity() const;
   const int get_size() const;
@@ -52,6 +48,9 @@ class State {
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
   void set_state_vector(const Eigen::VectorXd& state_vector);
 
+  bool IsEmpty() const;
+  bool IsPoseEmpty() const;
+  bool IsVelocityEmpty() const;
   static State CreateLike(const morphac::constructs::State& state);
 
  private:

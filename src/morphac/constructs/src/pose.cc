@@ -67,30 +67,30 @@ Pose operator*(const double scalar, Pose pose) { return pose *= scalar; }
 double& Pose::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   return pose_vector_(index);
 }
 
 double Pose::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   return pose_vector_(index);
 }
 
-bool Pose::is_empty() const { return size_ == 0; }
+bool Pose::IsEmpty() const { return size_ == 0; }
 
 const int Pose::get_size() const { return size_; }
 
 const VectorXd& Pose::get_pose_vector() const {
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   return pose_vector_;
 }
 
 void Pose::set_pose_vector(const VectorXd& pose_vector) {
   MORPH_REQUIRE(pose_vector.size() == size_, std::invalid_argument,
                 "Pose vector size is incorrect.");
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Pose object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   pose_vector_ = pose_vector;
 }
 

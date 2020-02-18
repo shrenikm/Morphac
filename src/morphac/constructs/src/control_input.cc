@@ -76,30 +76,30 @@ ControlInput operator*(const double scalar, ControlInput input) {
 double& ControlInput::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Control input index out of bounds.");
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Control input object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Control input object is empty");
   return input_vector_(index);
 }
 
 double ControlInput::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Control input index out of bounds.");
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Control input object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Control input object is empty");
   return input_vector_(index);
 }
 
-bool ControlInput::is_empty() const { return size_ == 0; }
+bool ControlInput::IsEmpty() const { return size_ == 0; }
 
 const int ControlInput::get_size() const { return size_; }
 
 const VectorXd& ControlInput::get_input_vector() const {
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Control input object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Control input object is empty");
   return input_vector_;
 }
 
 void ControlInput::set_input_vector(const VectorXd& input_vector) {
   MORPH_REQUIRE(input_vector.size() == size_, std::invalid_argument,
                 "Control input vector size is incorrect.");
-  MORPH_REQUIRE(!is_empty(), std::logic_error, "Control input object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Control input object is empty");
   input_vector_ = input_vector;
 }
 

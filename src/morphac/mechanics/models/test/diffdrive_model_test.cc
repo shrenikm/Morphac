@@ -73,23 +73,23 @@ TEST_F(DiffDriveModelTest, DerivativeComputation) {
 
   State derivative = diffdrive_model.ComputeStateDerivative(state1, input1);
   ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector1));
-  ASSERT_TRUE(derivative.is_velocity_empty());
+  ASSERT_TRUE(derivative.IsVelocityEmpty());
 
   diffdrive_model.ComputeStateDerivative(state2, input2, derivative);
   ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector2));
-  ASSERT_TRUE(derivative.is_velocity_empty());
+  ASSERT_TRUE(derivative.IsVelocityEmpty());
 
   diffdrive_model.ComputeStateDerivative(state1, input3, derivative);
   ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector3));
-  ASSERT_TRUE(derivative.is_velocity_empty());
+  ASSERT_TRUE(derivative.IsVelocityEmpty());
 
   diffdrive_model.ComputeStateDerivative(state2, input4, derivative);
   ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector4));
-  ASSERT_TRUE(derivative.is_velocity_empty());
+  ASSERT_TRUE(derivative.IsVelocityEmpty());
 
   diffdrive_model.ComputeStateDerivative(state1, input5, derivative);
   ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector5));
-  ASSERT_TRUE(derivative.is_velocity_empty());
+  ASSERT_TRUE(derivative.IsVelocityEmpty());
 }
 
 TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
