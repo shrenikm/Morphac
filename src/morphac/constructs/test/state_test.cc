@@ -344,6 +344,21 @@ TEST_F(StateTest, PartialConstruction) {
   ASSERT_TRUE(state_empty.is_empty());
 }
 
+TEST_F(StateTest, CreateLike) {
+  State state1 = State::CreateLike(*state1_);
+  State state2 = State::CreateLike(*state2_);
+
+  ASSERT_EQ(state1.get_size_pose(), 3);
+  ASSERT_EQ(state1.get_size_velocity(), 2);
+  ASSERT_TRUE(state1.get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(state1.get_velocity_vector().isApprox(VectorXd::Zero(2)));
+
+  ASSERT_EQ(state2.get_size_pose(), 4);
+  ASSERT_EQ(state2.get_size_velocity(), 2);
+  ASSERT_TRUE(state2.get_pose_vector().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(state2.get_velocity_vector().isApprox(VectorXd::Zero(2)));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

@@ -207,5 +207,10 @@ void State::set_state_vector(const VectorXd& state_vector) {
   set_velocity_vector(state_vector.tail(get_size_velocity()));
 }
 
+State State::CreateLike(const State& state) {
+  State new_state{state.get_size_pose(), state.get_size_velocity()};
+  return new_state;
+}
+
 }  // constructs
 }  // morphac

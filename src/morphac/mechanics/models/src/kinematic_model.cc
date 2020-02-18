@@ -18,6 +18,10 @@ KinematicModel::KinematicModel(const string name, const int size_pose,
       size_velocity(size_velocity),
       size_input(size_input) {}
 
+State ComputeStateDerivative(const State& state,
+                             const ControlInput& input) const {
+}
+
 }  // models
 }  // mechanics
 }  // morphac

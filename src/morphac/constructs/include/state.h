@@ -52,6 +52,8 @@ class State {
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
   void set_state_vector(const Eigen::VectorXd& state_vector);
 
+  static State CreateLike(const morphac::constructs::State& state);
+
  private:
   morphac::constructs::Pose pose_;
   morphac::constructs::Velocity velocity_;
