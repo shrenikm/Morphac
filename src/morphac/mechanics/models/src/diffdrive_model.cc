@@ -16,7 +16,13 @@ using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::constructs::Pose;
 
-} // namespace models
-} // namespace mechanics
-} // namespace morphac
+DiffDriveModel::DiffDriveModel(const string name, const double radius,
+                               const double length)
+    : KinematicModel(name, 3, 0, 2), radius(radius), length(length) {}
+
+
+
+}  // namespace models
+}  // namespace mechanics
+}  // namespace morphac
 

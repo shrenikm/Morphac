@@ -19,6 +19,13 @@ add_executable(dubin_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/dubin_model_tes
 target_link_libraries(dubin_model_test gtest_main dubin_model)
 add_test(NAME dubin_model_test COMMAND dubin_model_test)
 
+# Diffdrive model test
+add_executable(diffdrive_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/diffdrive_model_test.cc)
+target_link_libraries(diffdrive_model_test gtest_main diffdrive_model)
+add_test(NAME diffdrive_model_test COMMAND diffdrive_model_test)
+
+
+
 
 
 
