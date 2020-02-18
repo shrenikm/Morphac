@@ -37,6 +37,24 @@ void DiffDriveModel::ComputeStateDerivative(const State& state,
                 "Velocity component of the derivative must be empty.");
   VectorXd pose_derivative(3);
   double theta = state.get_pose()(2);
+
+  MatrixXd F = VectorXd::Zero(3);
+  MatrixXd G(2, 3);
+
+  G << radius * 0.5 * cos(theta), radius * 0.5 * cos(theta),
+      radius * 0.5 * sin(theta), radius * 0.5 * sin(theta), -radius / length,
+      radius / length;
+
+  pose_derivative = F + G * input.get_input_vector();
+  derivative.set_pose_vector(pose_derivative);
+}
+
+State DiffDriveModel::ComputeStateDerivative(const State& state,
+                                             const ControlInput& input) const {
+  // Argument checks are performed by the other overloaded function.
+  State derivative = State::CreateLike(state);
+  ComputeStateDerivative(state, input, derivative);
+  return derivative;
 }
 
 }  // namespace models

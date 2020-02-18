@@ -16,12 +16,13 @@ class DubinModel : public morphac::mechanics::models::KinematicModel {
  public:
   DubinModel(const std::string name, const double speed);
 
-  void ComputeStateDerivative(const morphac::constructs::State& state,
-                              const morphac::constructs::ControlInput& input,
-                              morphac::constructs::State& derivative) const;
+  void ComputeStateDerivative(
+      const morphac::constructs::State& state,
+      const morphac::constructs::ControlInput& input,
+      morphac::constructs::State& derivative) const override;
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const;
+      const morphac::constructs::ControlInput& input) const override;
 
   const double speed;
 };
