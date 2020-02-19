@@ -40,9 +40,11 @@ void DiffDriveModel::ComputeStateDerivative(const State& state,
       "Pose component of the derivative needs to be of size 3 [x, y, theta]");
   MORPH_REQUIRE(derivative.IsVelocityEmpty(), std::invalid_argument,
                 "Velocity component of the derivative must be empty.");
+
   VectorXd pose_derivative(3);
   double theta = state.get_pose()(2);
 
+  // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F = VectorXd::Zero(3);
   MatrixXd G(3, 2);
 
