@@ -96,6 +96,35 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
   ASSERT_TRUE(derivative.IsVelocityEmpty());
 }
 
+TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
+  TricycleModel tricycle_model{"tricycle_model", 1, 1};
+  State derivative1{3, 0};
+  State derivative2{5, 0};
+
+  // Computing the state derivative with incorrect state/input/derivative.
+  ASSERT_THROW(
+      tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{2}),
+      std::invalid_argument);
+  ASSERT_THROW(
+      tricycle_model.ComputeStateDerivative(State{5, 0}, ControlInput{2}),
+      std::invalid_argument);
+  ASSERT_THROW(
+      tricycle_model.ComputeStateDerivative(State{3, 1}, ControlInput{2}),
+      std::invalid_argument);
+  ASSERT_THROW(
+      tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{1}),
+      std::invalid_argument);
+  ASSERT_THROW(
+      tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{3}),
+      std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(
+                   State{3, 0}, ControlInput{2}, derivative1),
+               std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(
+                   State{3, 0}, ControlInput{2}, derivative2),
+               std::invalid_argument);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {

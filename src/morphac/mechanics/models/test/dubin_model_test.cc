@@ -17,7 +17,7 @@ class DubinModelTest : public ::testing::Test {
  protected:
   DubinModelTest() {}
 
-  void SetUp() override {}
+  void SetUp() override{};
 };
 
 TEST_F(DubinModelTest, Construction) {
@@ -59,9 +59,11 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 TEST_F(DubinModelTest, InvalidDerivativeComputation) {
   DubinModel dubin_model{"dubin_model", 1.0};
   State derivative1{2, 0};
-  State derivative2{3, 1};
+  State derivative2{4, 0};
 
   // Computing the state derivative with incorrect state/input/derivative.
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, ControlInput{1}),
+               std::invalid_argument);
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{4, 0}, ControlInput{1}),
                std::invalid_argument);
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 1}, ControlInput{1}),
