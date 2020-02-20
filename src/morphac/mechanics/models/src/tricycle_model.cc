@@ -47,7 +47,7 @@ void TricycleModel::ComputeStateDerivative(const State& state,
   double alpha = state.get_pose()(3);
 
   // Equation of the form xdot = F(x) + G(x)u
-  MatrixXd F = VectorXd::Zero(3);
+  MatrixXd F = VectorXd::Zero(4);
   MatrixXd G(4, 2);
 
   G << radius * cos(alpha) * cos(theta), 0, radius * cos(alpha) * sin(theta), 0,
@@ -57,7 +57,8 @@ void TricycleModel::ComputeStateDerivative(const State& state,
   derivative.set_pose_vector(pose_derivative);
 }
 
-State TricycleModel::ComputeStateDerivative(const State& state, const ControlInput& input) const {
+State TricycleModel::ComputeStateDerivative(const State& state,
+                                            const ControlInput& input) const {
   // Argument checks are performed by the other overloaded function.
   State derivative = State::CreateLike(state);
   ComputeStateDerivative(state, input, derivative);
