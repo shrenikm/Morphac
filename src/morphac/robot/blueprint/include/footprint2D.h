@@ -21,7 +21,7 @@ class Footprint2D {
 };
 
 
-} // namespace models
+} // namespace blueprint
 } // namespace robot
 } // namespace morphac
 

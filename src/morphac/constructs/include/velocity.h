@@ -10,7 +10,7 @@ namespace constructs {
 
 class Velocity {
  public:
-  Velocity(const int size);
+  Velocity(const int size = 0);
   Velocity(const Eigen::VectorXd& velocity_vector);
 
   Velocity& operator+=(const Velocity& velocity);
@@ -19,11 +19,15 @@ class Velocity {
   Velocity operator-(const Velocity& velocity);
   Velocity& operator*=(const double scalar);
 
+  double& operator()(const int index);
+  double operator()(const int index) const;
+
   const int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
-  double get_velocity_at(int index) const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
-  void set_velocity_at(int index, double velocity_element);
+
+  bool IsEmpty() const;
+  static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
 
  private:
   const int size_;

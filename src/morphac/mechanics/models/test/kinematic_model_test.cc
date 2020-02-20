@@ -1,20 +1,17 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "mechanics/include/kinematic_model.h"
+#include "mechanics/models/include/kinematic_model.h"
 
 namespace {
 
-using std::make_shared;
-using std::shared_ptr;
 using std::string;
-using std::unordered_map;
 
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
-using morphac::mechanics::KinematicModel;
+using morphac::mechanics::models::KinematicModel;
 
 class SomeKinematicModel : public KinematicModel {
  public:
@@ -78,8 +75,8 @@ TEST_F(KinematicModelTest, Subclass) {
       expected_velocity_derivative.isApprox(derivative1.get_velocity_vector()));
 
   // Changing the values of the state
-  state.set_pose_at(2, 3);
-  state.set_velocity_at(1, 7);
+  state.get_pose()(2) = 3;
+  state.get_velocity()(1) = 7;
 
   // Now we use the other overload to compute the derivative.
   State derivative2 = model.ComputeStateDerivative(state, input);

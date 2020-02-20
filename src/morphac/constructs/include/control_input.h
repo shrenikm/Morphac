@@ -10,7 +10,7 @@ namespace constructs {
 
 class ControlInput {
  public:
-  ControlInput(const int size);
+  ControlInput(const int size = 0);
   ControlInput(const Eigen::VectorXd& input_vector);
 
   ControlInput& operator+=(const ControlInput& input);
@@ -19,11 +19,16 @@ class ControlInput {
   ControlInput operator-(const ControlInput& input);
   ControlInput& operator*=(const double scalar);
 
+  double& operator()(const int index);
+  double operator()(const int index) const;
+
   const int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
-  double get_input_at(int index) const;
   void set_input_vector(const Eigen::VectorXd& input_vector);
-  void set_input_at(int index, double input_element);
+
+  bool IsEmpty() const;
+  static ControlInput CreateLike(
+      const morphac::constructs::ControlInput& input);
 
  private:
   const int size_;

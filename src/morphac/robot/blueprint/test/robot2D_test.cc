@@ -16,7 +16,7 @@ using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
-using morphac::mechanics::KinematicModel;
+using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint2D;
 using morphac::robot::blueprint::Robot2D;
 
