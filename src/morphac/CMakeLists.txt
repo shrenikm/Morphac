@@ -1,5 +1,5 @@
 # Include dependencies
-include_directories(${PROJECT_SOURCE_DIR}/third_party)
+include_directories(${PROJECT_SOURCE_DIR}/third_party/eigen)
 
 # Including the base morphac directory for relative cpp imports
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
