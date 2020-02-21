@@ -2,6 +2,10 @@ dist: xenial
 language:
   - cpp
   - python
+
+python:
+  - "3.6"
+
 sudo: required
 
 addons:
@@ -13,6 +17,12 @@ addons:
       - gcc-5
       - g++-5
       - cmake
+
+before_install:
+  - gcc --version
+  - cmake --version
+  - python --version
+  - pip install -U pytest
 
 script:
   # Creating the build directory
