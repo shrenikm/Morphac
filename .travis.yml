@@ -22,7 +22,7 @@ before_install:
   - gcc --version
   - cmake --version
   - python --version
-  - pip install -U pytest
+  - pip install --user -U pytest
 
 script:
   # Creating the build directory
