@@ -11,6 +11,7 @@ set(CONSTRUCTS_BASE_SRC
   pose.cc
   velocity.cc
   control_input.cc
+  state.cc
 )
 
 foreach(file ${CONSTRUCTS_BASE_SRC})
@@ -21,9 +22,8 @@ foreach(file ${CONSTRUCTS_BASE_SRC})
   target_include_directories(${lib_name} PRIVATE ${CONSTRUCTS_INCLUDE_DIR})
 endforeach()
 
+# Adding library dependencies.
 # Adding the state library. It depends on  pose and velocity.
-add_library(state SHARED ${CONSTRUCTS_SRC_DIR}/state.cc ${CONSTRUCTS_INCLUDE_DIR}/state.h)
-target_include_directories(state PRIVATE ${CONSTRUCTS_INCLUDE_DIR})
 target_link_libraries(state pose velocity)
 
 # Adding test executables
