@@ -55,3 +55,8 @@ target_link_libraries(velocity_test gtest_main velocity)
 target_link_libraries(control_input_test gtest_main control_input)
 target_link_libraries(state_test gtest_main state)
 
+
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(binding)
