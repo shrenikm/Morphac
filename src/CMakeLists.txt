@@ -19,9 +19,17 @@ project(
 # -------------------------------------------------
 
 # Flag to enable/disable testing
-option(BUILD_TESTS ON)
-option(BUILD_WITH_WARNINGS ON)
-option(BUILD_WITH_WARNINGS_AS_ERRORS ON)
+option(BUILD_TESTS "Build all of the project's test executables" ON)
+option(BUILD_WITH_WARNINGS "Builds the project with -Wall and -Wextra" ON)
+option(BUILD_WITH_WARNINGS_AS_ERRORS "Builds the project with -Werror" ON)
+
+# Displaying the list of options that have been set.
+message("Morphac Options")
+message("---------------")
+message("[ BUILD_TESTS has been set to ${BUILD_TESTS} ]")
+message("[ BUILD_WITH_WARNINGS has been set to ${BUILD_WITH_WARNINGS} ]")
+message("[ BUILD_WITH_WARNINGS_AS_ERRORS has been set to ${BUILD_WITH_WARNINGS_AS_ERRORS} ]")
+message("---------------")
 
 
 # Configuring
