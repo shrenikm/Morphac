@@ -1,39 +1,51 @@
-# Adding libraries
-add_library(kinematic_model ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematic_model.cc)
+# Libraries
+# -------------------------------------------------
+
+# Models source files.
+set(MODELS_SRC
+
+  kinematic_model.cc
+  dubin_model.cc
+  diffdrive_model.cc
+  tricycle_model.cc
+)
+
+foreach(file ${MODELS_SRC})
+  get_filename_component(lib_name ${file} NAME_WE)
+  set(header_name ${lib_name})
+
+  add_library(${lib_name} SHARED ${MODELS_SRC_DIR}/${file} ${MODELS_INCLUDE_DIR}/${header_name})
+  target_include_directories(${lib_name} PRIVATE ${MODELS_INCLUDE_DIR})
+endforeach()
+
+# Adding library dependencies.
 target_link_libraries(kinematic_model state control_input)
-
-add_library(dubin_model ${CMAKE_CURRENT_SOURCE_DIR}/src/dubin_model.cc)
 target_link_libraries(dubin_model kinematic_model state control_input)
-
-add_library(diffdrive_model ${CMAKE_CURRENT_SOURCE_DIR}/src/diffdrive_model.cc)
 target_link_libraries(diffdrive_model kinematic_model state control_input)
-
-add_library(tricycle_model ${CMAKE_CURRENT_SOURCE_DIR}/src/tricycle_model.cc)
 target_link_libraries(tricycle_model kinematic_model state control_input)
 
-# Adding test executables
-# Kinematic model test
-add_executable(kinematic_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/kinematic_model_test.cc)
+# Tests
+# -------------------------------------------------
+
+# Models test source files.
+set(MODELS_TEST_SRC
+
+  kinematic_model_test.cc
+  dubin_model_test.cc
+  diffdrive_model_test.cc
+  tricycle_model_test.cc
+)
+
+foreach(file ${MODELS_TEST_SRC})
+  get_filename_component(test_name ${file} NAME_WE)
+
+  add_executable(${test_name} ${MODELS_TEST_DIR}/${file})
+  add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()
+
+# Linking depending libraries.
 target_link_libraries(kinematic_model_test gtest_main kinematic_model)
-add_test(NAME kinematic_model_test COMMAND kinematic_model_test)
-
-# Dubin model test
-add_executable(dubin_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/dubin_model_test.cc)
 target_link_libraries(dubin_model_test gtest_main dubin_model)
-add_test(NAME dubin_model_test COMMAND dubin_model_test)
-
-# Diffdrive model test
-add_executable(diffdrive_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/diffdrive_model_test.cc)
 target_link_libraries(diffdrive_model_test gtest_main diffdrive_model)
-add_test(NAME diffdrive_model_test COMMAND diffdrive_model_test)
-
-# Tricycle model test
-add_executable(tricycle_model_test ${CMAKE_CURRENT_SOURCE_DIR}/test/tricycle_model_test.cc)
 target_link_libraries(tricycle_model_test gtest_main tricycle_model)
-add_test(NAME tricycle_model_test COMMAND tricycle_model_test)
-
-
-
-
-
 

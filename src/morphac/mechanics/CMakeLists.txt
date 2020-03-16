@@ -1,1 +1,6 @@
+set(MODELS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/models/src)
+set(MODELS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/models/include)
+set(MODELS_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/models/test)
+set(MODELS_BINDING_DIR ${CMAKE_CURRENT_SOURCE_DIR}/models/binding)
+
 add_subdirectory(models)

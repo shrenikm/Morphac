@@ -1,7 +1,7 @@
 set(CONSTRUCTS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(CONSTRUCTS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(CONSTRUCTS_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
-set(CONSTRUCTS_BINDINGS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bindings)
+set(CONSTRUCTS_BINDING_DIR ${CMAKE_CURRENT_SOURCE_DIR}/binding)
 
 # Libraries
 # -------------------------------------------------
@@ -25,7 +25,6 @@ foreach(file ${CONSTRUCTS_SRC})
 endforeach()
 
 # Adding library dependencies.
-# Adding the state library. It depends on  pose and velocity.
 target_link_libraries(state pose velocity)
 
 # Tests
@@ -44,6 +43,7 @@ set(CONSTRUCTS_TEST_SRC
 # Creating the test executables.
 foreach(file ${CONSTRUCTS_TEST_SRC})
   get_filename_component(test_name ${file} NAME_WE)
+
   add_executable(${test_name} ${CONSTRUCTS_TEST_DIR}/${file})
   add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach()
