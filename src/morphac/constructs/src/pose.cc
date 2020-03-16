@@ -80,7 +80,7 @@ double Pose::operator()(const int index) const {
 
 bool Pose::IsEmpty() const { return size_ == 0; }
 
-const int Pose::get_size() const { return size_; }
+int Pose::get_size() const { return size_; }
 
 const VectorXd& Pose::get_pose_vector() const {
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");

@@ -89,7 +89,7 @@ double ControlInput::operator()(const int index) const {
 
 bool ControlInput::IsEmpty() const { return size_ == 0; }
 
-const int ControlInput::get_size() const { return size_; }
+int ControlInput::get_size() const { return size_; }
 
 const VectorXd& ControlInput::get_input_vector() const {
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Control input object is empty");

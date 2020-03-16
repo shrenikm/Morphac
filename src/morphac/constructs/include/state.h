@@ -31,9 +31,9 @@ class State {
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  const int get_size_pose() const;
-  const int get_size_velocity() const;
-  const int get_size() const;
+  int get_size_pose() const;
+  int get_size_velocity() const;
+  int get_size() const;
 
   // Pose and Velocity accessors for const and non-const States.
   morphac::constructs::Pose& get_pose();

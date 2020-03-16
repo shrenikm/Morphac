@@ -159,11 +159,11 @@ bool State::IsPoseEmpty() const { return pose_.IsEmpty(); }
 
 bool State::IsVelocityEmpty() const { return velocity_.IsEmpty(); }
 
-const int State::get_size_pose() const { return pose_.get_size(); }
+int State::get_size_pose() const { return pose_.get_size(); }
 
-const int State::get_size_velocity() const { return velocity_.get_size(); }
+int State::get_size_velocity() const { return velocity_.get_size(); }
 
-const int State::get_size() const {
+int State::get_size() const {
   return pose_.get_size() + velocity_.get_size();
 }
 

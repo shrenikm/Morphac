@@ -89,7 +89,7 @@ double Velocity::operator()(const int index) const {
 
 bool Velocity::IsEmpty() const { return size_ == 0; }
 
-const int Velocity::get_size() const { return size_; }
+int Velocity::get_size() const { return size_; }
 
 const VectorXd& Velocity::get_velocity_vector() const {
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");

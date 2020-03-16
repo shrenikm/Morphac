@@ -22,7 +22,7 @@ class Velocity {
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  const int get_size() const;
+  int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
 

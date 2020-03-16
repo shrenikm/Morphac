@@ -22,7 +22,7 @@ class Pose {
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  const int get_size() const;
+  int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
 

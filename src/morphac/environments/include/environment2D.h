@@ -14,9 +14,9 @@ class Environment2D {
                 const double resolution);
   Environment2D(Eigen::MatrixXd map, const double resolution);
 
-  const double get_width() const;
-  const double get_height() const;
-  const double get_resolution() const;
+  double get_width() const;
+  double get_height() const;
+  double get_resolution() const;
   const Eigen::MatrixXd& get_map() const;
 
   void set_map(const Eigen::MatrixXd& map);

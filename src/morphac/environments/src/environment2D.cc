@@ -63,11 +63,11 @@ Environment2D::Environment2D(MatrixXd map, const double resolution)
   map_ = map;
 }
 
-const double Environment2D::get_width() const { return width_; }
+double Environment2D::get_width() const { return width_; }
 
-const double Environment2D::get_height() const { return height_; }
+double Environment2D::get_height() const { return height_; }
 
-const double Environment2D::get_resolution() const { return resolution_; }
+double Environment2D::get_resolution() const { return resolution_; }
 
 const MatrixXd& Environment2D::get_map() const { return map_; }
 
