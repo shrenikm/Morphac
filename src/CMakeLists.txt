@@ -1,16 +1,51 @@
 cmake_minimum_required(VERSION 3.5)
-project(morphac VERSION 1.0.0 LANGUAGES CXX)
+
+# Project details
+# -------------------------------------------------
+
+set(MORPHAC_NAME "morphac")
+set(MORPHAC_MAJOR_VERSION 1)
+set(MORPHAC_MINOR_VERSION 0)
+set(MORPHAC_PATCH_VERSION 0)
+
+project(
+  ${MORPHAC_NAME}
+  VERSION ${MORPHAC_MAJOR_VERSION}.${MORPHAC_MINOR_VERSION}.${MORPHAC_PATCH_VERSION}
+  LANGUAGES CXX
+)
+
+
+# Options
+# -------------------------------------------------
+
+# Flag to enable/disable testing
+option(BUILD_TESTS ON)
+option(BUILD_WITH_WARNINGS ON)
+option(BUILD_WITH_WARNINGS_AS_ERRORS ON)
+
+
+# Configuring
+# -------------------------------------------------
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra")
 
-# Flag to enable/disable testing
-set(BUILD_TESTS ON)
+if (${BUILD_WITH_WARNINGS})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+endif(${BUILD_WITH_WARNINGS})
+
+if (${BUILD_WITH_WARNINGS_AS_ERRORS})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+endif(${BUILD_WITH_WARNINGS_AS_ERRORS})
+
 if (${BUILD_TESTS})
   enable_testing()
 endif(${BUILD_TESTS})
+
+
+# Third party
+# -------------------------------------------------
 
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
@@ -26,4 +61,9 @@ add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
                  "${CMAKE_BINARY_DIR}/googletest-build"
 )
 
+
+# Adding subdirectories
+# -------------------------------------------------
+
 add_subdirectory(morphac)
+
