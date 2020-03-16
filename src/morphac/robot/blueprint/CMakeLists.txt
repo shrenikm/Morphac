@@ -1,17 +1,43 @@
-# Adding libraries
-add_library(footprint2D ${CMAKE_CURRENT_SOURCE_DIR}/src/footprint2D.cc)
+# Libraries
+# -------------------------------------------------
 
-add_library(robot2D ${CMAKE_CURRENT_SOURCE_DIR}/src/robot2D.cc)
+set(BLUEPRINT_SRC
+
+  footprint2D.cc
+  robot2D.cc
+)
+
+foreach(file ${BLUEPRINT_SRC})
+  get_filename_component(lib_name ${file} NAME_WE)
+  set(header_name ${lib_name}.h)
+
+  add_library(${lib_name} SHARED ${BLUEPRINT_SRC_DIR}/${file} ${BLUEPRINT_INCLUDE_DIR}/${header_name})
+  target_include_directories(${lib_name} PRIVATE ${BLUEPRINT_INCLUDE_DIR})
+endforeach()
+
+# Adding library dependencies.
 target_link_libraries(robot2D pose state velocity kinematic_model footprint2D)
 
-# Adding test executables
-# Robot2D test
-add_executable(robot2D_test ${CMAKE_CURRENT_SOURCE_DIR}/test/robot2D_test.cc)
-target_link_libraries(robot2D_test gtest_main robot2D)
-add_test(NAME robot2D_test COMMAND robot2D_test)
 
-# Footprint2D test
-add_executable(footprint2D_test ${CMAKE_CURRENT_SOURCE_DIR}/test/footprint2D_test.cc)
+# Tests
+# -------------------------------------------------
+
+# Blueprint tests source files.
+set(BLUEPRINT_TEST_SRC
+
+  footprint2D_test.cc
+  robot2D_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${BLUEPRINT_TEST_SRC})
+  get_filename_component(test_name ${file} NAME_WE)
+
+  add_executable(${test_name} ${BLUEPRINT_TEST_DIR}/${file})
+  add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()
+
+# Linking depending libraries.
 target_link_libraries(footprint2D_test gtest_main footprint2D)
-add_test(NAME footprint2D_test COMMAND footprint2D_test)
+target_link_libraries(robot2D_test gtest_main robot2D)
 

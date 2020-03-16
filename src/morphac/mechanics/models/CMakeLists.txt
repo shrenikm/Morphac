@@ -36,6 +36,7 @@ set(MODELS_TEST_SRC
   tricycle_model_test.cc
 )
 
+# Creating the test executables.
 foreach(file ${MODELS_TEST_SRC})
   get_filename_component(test_name ${file} NAME_WE)
 
