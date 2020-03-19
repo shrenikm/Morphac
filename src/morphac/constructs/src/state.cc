@@ -46,7 +46,7 @@ State& State::operator+=(const State& state) {
   return *this;
 }
 
-State State::operator+(const State& state) {
+State State::operator+(const State& state) const {
   MORPH_REQUIRE(this->get_size_pose() == state.get_size_pose() &&
                     this->get_size_velocity() == state.get_size_velocity(),
                 std::invalid_argument,
@@ -88,7 +88,7 @@ State& State::operator-=(const State& state) {
   return *this;
 }
 
-State State::operator-(const State& state) {
+State State::operator-(const State& state) const {
   MORPH_REQUIRE(this->get_size_pose() == state.get_size_pose() &&
                     this->get_size_velocity() == state.get_size_velocity(),
                 std::invalid_argument,

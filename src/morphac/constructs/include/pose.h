@@ -14,9 +14,9 @@ class Pose {
   Pose(const Eigen::VectorXd& pose_vector);
 
   Pose& operator+=(const Pose& pose);
-  Pose operator+(const Pose& pose);
+  Pose operator+(const Pose& pose) const;
   Pose& operator-=(const Pose& pose);
-  Pose operator-(const Pose& pose);
+  Pose operator-(const Pose& pose) const;
   Pose& operator*=(const double scalar);
 
   double& operator()(const int index);

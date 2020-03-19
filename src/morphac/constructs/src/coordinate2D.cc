@@ -14,7 +14,7 @@ Coordinate2D<T>& Coordinate2D<T>::operator+=(const Coordinate2D& coord) {
 }
 
 template <typename T>
-Coordinate2D<T> Coordinate2D<T>::operator+(const Coordinate2D& coord) {
+Coordinate2D<T> Coordinate2D<T>::operator+(const Coordinate2D& coord) const {
   Coordinate2D result;
   result.x_ = this->x_ + coord.x_;
   result.y_ = this->y_ + coord.y_;
@@ -29,7 +29,7 @@ Coordinate2D<T>& Coordinate2D<T>::operator-=(const Coordinate2D& coord) {
 }
 
 template <typename T>
-Coordinate2D<T> Coordinate2D<T>::operator-(const Coordinate2D& coord) {
+Coordinate2D<T> Coordinate2D<T>::operator-(const Coordinate2D& coord) const {
   Coordinate2D result;
   result.x_ = this->x_ - coord.x_;
   result.y_ = this->y_ - coord.y_;

@@ -14,9 +14,9 @@ class Velocity {
   Velocity(const Eigen::VectorXd& velocity_vector);
 
   Velocity& operator+=(const Velocity& velocity);
-  Velocity operator+(const Velocity& velocity);
+  Velocity operator+(const Velocity& velocity) const;
   Velocity& operator-=(const Velocity& velocity);
-  Velocity operator-(const Velocity& velocity);
+  Velocity operator-(const Velocity& velocity) const;
   Velocity& operator*=(const double scalar);
 
   double& operator()(const int index);

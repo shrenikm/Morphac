@@ -25,7 +25,7 @@ Pose& Pose::operator+=(const Pose& pose) {
   return *this;
 }
 
-Pose Pose::operator+(const Pose& pose) {
+Pose Pose::operator+(const Pose& pose) const {
   MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
                 "Poses are not of the same size. The + operator requires them "
                 "to be of the "
@@ -44,7 +44,7 @@ Pose& Pose::operator-=(const Pose& pose) {
   return *this;
 }
 
-Pose Pose::operator-(const Pose& pose) {
+Pose Pose::operator-(const Pose& pose) const {
   MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
                 "Poses are not of the same size. The - operator requires them "
                 "to be of the "

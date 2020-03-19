@@ -23,9 +23,9 @@ class State {
         const morphac::constructs::Velocity& velocity);
 
   State& operator+=(const State& state);
-  State operator+(const State& state);
+  State operator+(const State& state) const;
   State& operator-=(const State& state);
-  State operator-(const State& state);
+  State operator-(const State& state) const;
   State& operator*=(const double scalar);
 
   double& operator()(const int index);

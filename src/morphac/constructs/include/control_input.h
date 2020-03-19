@@ -14,9 +14,9 @@ class ControlInput {
   ControlInput(const Eigen::VectorXd& input_vector);
 
   ControlInput& operator+=(const ControlInput& input);
-  ControlInput operator+(const ControlInput& input);
+  ControlInput operator+(const ControlInput& input) const;
   ControlInput& operator-=(const ControlInput& input);
-  ControlInput operator-(const ControlInput& input);
+  ControlInput operator-(const ControlInput& input) const;
   ControlInput& operator*=(const double scalar);
 
   double& operator()(const int index);
