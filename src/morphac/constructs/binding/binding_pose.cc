@@ -22,10 +22,13 @@ PYBIND11_MODULE(binding_pose, m) {
     .def(py::self -= py::self)
     .def(py::self - py::self)
     .def(py::self *= double())
+    .def(py::self * double())
+    .def(double() * py::self)
     .def("get_size", &Pose::get_size)
     .def("get_pose_vector", &Pose::get_pose_vector)
     .def("set_pose_vector", &Pose::set_pose_vector)
-    .def("is_empty", &Pose::IsEmpty);
+    .def("is_empty", &Pose::IsEmpty)
+    .def("create_like", &Pose::CreateLike);
 }
 
 
