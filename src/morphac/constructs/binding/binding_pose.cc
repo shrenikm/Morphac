@@ -14,26 +14,25 @@ using Eigen::VectorXd;
 using morphac::constructs::Pose;
 
 PYBIND11_MODULE(binding_pose, m) {
-  py::class_<Pose>(m, "Pose")
-      .def(py::init<const int>())
-      .def(py::init<const VectorXd&>())
-      .def(py::self += py::self)
-      .def(py::self + py::self)
-      .def(py::self -= py::self)
-      .def(py::self - py::self)
-      .def(py::self *= double())
-      .def(py::self * double())
-      .def(double() * py::self)
-      .def("__getitem__",
-           [](const Pose& pose, const int index) {
-             return pose.get_pose_vector()(index);
-           },
-           py::is_operator(), py::return_value_policy::reference)
-      .def("get_size", &Pose::get_size)
-      .def("get_pose_vector", &Pose::get_pose_vector)
-      .def("set_pose_vector", &Pose::set_pose_vector)
-      .def("is_empty", &Pose::IsEmpty)
-      .def("create_like", &Pose::CreateLike);
+  py::class_<Pose> pose(m, "Pose");
+
+  pose.def(py::init<const int>());
+  pose.def(py::init<const VectorXd&>());
+  pose.def(py::self += py::self);
+  pose.def(py::self + py::self);
+  pose.def(py::self -= py::self);
+  pose.def(py::self - py::self);
+  pose.def(py::self *= double());
+  pose.def(py::self * double());
+  pose.def(double() * py::self);
+  pose.def("__getitem__",
+                    py::overload_cast<const int>(&Pose::operator()));
+  pose.def("__getitem__",
+           py::overload_cast<const int>(&Pose::operator(), py::const_));
+  pose.def_property_readonly("size", &Pose::get_size);
+  pose.def_property("data", &Pose::get_pose_vector, &Pose::set_pose_vector);
+  pose.def("is_empty", &Pose::IsEmpty);
+  pose.def("create_like", &Pose::CreateLike);
 }
 
 }  // namespace bindings
