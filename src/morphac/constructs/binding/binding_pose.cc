@@ -25,10 +25,7 @@ PYBIND11_MODULE(binding_pose, m) {
   pose.def(py::self *= double());
   pose.def(py::self * double());
   pose.def(double() * py::self);
-  pose.def("__getitem__",
-                    py::overload_cast<const int>(&Pose::operator()));
-  pose.def("__getitem__",
-           py::overload_cast<const int>(&Pose::operator(), py::const_));
+  pose.def("__repr__", &Pose::ToString);
   pose.def_property_readonly("size", &Pose::get_size);
   pose.def_property("data", &Pose::get_pose_vector, &Pose::set_pose_vector);
   pose.def("is_empty", &Pose::IsEmpty);

@@ -3,6 +3,9 @@
 namespace morphac {
 namespace constructs {
 
+using std::ostream;
+using std::ostringstream;
+using std::string;
 using Eigen::VectorXd;
 
 Pose::Pose(const int size) : size_(size) {
@@ -76,6 +79,17 @@ double Pose::operator()(const int index) const {
                 "Pose index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   return pose_vector_(index);
+}
+
+ostream& operator<<(ostream& os, const Pose& pose) {
+  os << "Pose[" << pose.get_pose_vector().transpose() << "]";
+  return os;
+}
+
+string Pose::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
 }
 
 bool Pose::IsEmpty() const { return size_ == 0; }

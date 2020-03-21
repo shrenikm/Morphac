@@ -22,6 +22,11 @@ class Pose {
   double& operator()(const int index);
   double operator()(const int index) const;
 
+  friend std::ostream& operator<<(std::ostream& os, const Pose& pose);
+  // String representation that uses the << overload.
+  // This is what the python binding uses.
+  std::string ToString() const;
+
   int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
