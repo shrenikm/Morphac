@@ -5,6 +5,7 @@
 
 namespace {
 
+using std::ostringstream;
 using Eigen::VectorXd;
 
 using morphac::constructs::Pose;
@@ -143,6 +144,16 @@ TEST_F(PoseTest, Multiplication) {
   Pose pose4 = -1 * pose2;
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
   ASSERT_TRUE(pose4.get_pose_vector().isApprox(d2));
+}
+
+TEST_F(PoseTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << pose1_;
+
+  // Multiple pose object representations in the stream.
+  os << " " << pose3_ << std::endl;
 }
 
 TEST_F(PoseTest, EmptyPoseOperations) {
