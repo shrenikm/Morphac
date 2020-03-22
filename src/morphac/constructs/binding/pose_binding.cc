@@ -6,14 +6,14 @@
 
 namespace morphac {
 namespace constructs {
-namespace bindings {
+namespace binding {
 
 namespace py = pybind11;
 
 using Eigen::VectorXd;
 using morphac::constructs::Pose;
 
-PYBIND11_MODULE(binding_pose, m) {
+PYBIND11_MODULE(pose_binding, m) {
   py::class_<Pose> pose(m, "Pose");
 
   pose.def(py::init<const int>());
@@ -32,6 +32,6 @@ PYBIND11_MODULE(binding_pose, m) {
   pose.def("create_like", &Pose::CreateLike);
 }
 
-}  // namespace bindings
+}  // namespace binding
 }  // namespace constructs
 }  // namespace morphac
