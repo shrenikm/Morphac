@@ -3,6 +3,7 @@
 #include "pybind11/pybind11.h"
 
 #include "constructs/include/pose.h"
+#include "constructs/include/velocity.h"
 
 namespace morphac {
 namespace constructs {
@@ -12,8 +13,9 @@ namespace py = pybind11;
 
 using Eigen::VectorXd;
 using morphac::constructs::Pose;
+using morphac::constructs::Velocity;
 
-PYBIND11_MODULE(pose_binding, m) {
+PYBIND11_MODULE(_binding_constructs, m) {
   py::class_<Pose> pose(m, "Pose");
 
   pose.def(py::init<const int>());
@@ -30,6 +32,25 @@ PYBIND11_MODULE(pose_binding, m) {
   pose.def_property("data", &Pose::get_pose_vector, &Pose::set_pose_vector);
   pose.def("is_empty", &Pose::IsEmpty);
   pose.def("create_like", &Pose::CreateLike);
+
+  py::class_<Velocity> velocity(m, "Velocity");
+
+  velocity.def(py::init<const int>());
+  velocity.def(py::init<const VectorXd&>());
+  velocity.def(py::self += py::self);
+  velocity.def(py::self + py::self);
+  velocity.def(py::self -= py::self);
+  velocity.def(py::self - py::self);
+  velocity.def(py::self *= double());
+  velocity.def(py::self * double());
+  velocity.def(double() * py::self);
+  velocity.def("__repr__", &Velocity::ToString);
+  velocity.def_property_readonly("size", &Velocity::get_size);
+  velocity.def_property("data", &Velocity::get_velocity_vector,
+                        &Velocity::set_velocity_vector);
+  velocity.def("is_empty", &Velocity::IsEmpty);
+  velocity.def("create_like", &Velocity::CreateLike);
+
 }
 
 }  // namespace binding

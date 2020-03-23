@@ -3,6 +3,9 @@
 namespace morphac {
 namespace constructs {
 
+using std::ostream;
+using std::ostringstream;
+using std::string;
 using Eigen::VectorXd;
 
 Velocity::Velocity(const int size) : size_(size) {
@@ -85,6 +88,17 @@ double Velocity::operator()(const int index) const {
                 "Velocity index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
   return velocity_vector_(index);
+}
+
+ostream& operator<<(ostream& os, const Velocity& velocity) {
+  os << "Velocity[" << velocity.get_velocity_vector().transpose() << "]";
+  return os;
+}
+
+string Velocity::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
 }
 
 bool Velocity::IsEmpty() const { return size_ == 0; }

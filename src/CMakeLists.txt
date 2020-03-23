@@ -15,7 +15,7 @@ project(
 )
 
 
-# Options
+# Options (Interface)
 # -------------------------------------------------
 
 # Flag to enable/disable testing
@@ -50,6 +50,10 @@ endif(${BUILD_WITH_WARNINGS_AS_ERRORS})
 if (${BUILD_TESTS})
   enable_testing()
 endif(${BUILD_TESTS})
+
+# Build variables (Internal)
+# -------------------------------------------------
+set(PYTHON_BINDING_PREFIX "_binding_")
 
 
 # Third party

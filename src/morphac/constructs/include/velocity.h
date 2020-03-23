@@ -22,6 +22,11 @@ class Velocity {
   double& operator()(const int index);
   double operator()(const int index) const;
 
+  friend std::ostream& operator<<(std::ostream& os, const Velocity& velocity);
+  // String representation that uses the << overload.
+  // This is what the python binding uses.
+  std::string ToString() const;
+
   int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
