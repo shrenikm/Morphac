@@ -54,6 +54,28 @@ Coordinate2D<T> operator*(const T scalar, Coordinate2D<T> coord) {
 }
 
 template <typename T>
+T& Coordinate2D<T>::operator()(const int index) {
+  MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
+                "Coordinate2D index out of bounds.");
+  if (index == 0) {
+    return this->x_;
+  } else {
+    return this->y_;
+  }
+}
+
+template <typename T>
+T Coordinate2D<T>::operator()(const int index) const {
+  MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
+                "Coordinate2D index out of bounds.");
+  if (index == 0) {
+    return this->x_;
+  } else {
+    return this->y_;
+  }
+}
+
+template <typename T>
 bool Coordinate2D<T>::operator==(const Coordinate2D& coord) {
   return (this->x_ == coord.x_) && (this->y_ == coord.y_);
 }

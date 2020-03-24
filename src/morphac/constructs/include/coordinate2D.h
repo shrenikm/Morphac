@@ -1,6 +1,8 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include "common/error_handling/include/error_macros.h"
+
 namespace morphac {
 namespace constructs {
 
@@ -14,6 +16,9 @@ class Coordinate2D {
   Coordinate2D& operator-=(const Coordinate2D& coord);
   Coordinate2D operator-(const Coordinate2D& coord) const;
   Coordinate2D operator*=(const T scalar);
+
+  T& operator()(const int index);
+  T operator()(const int index) const;
 
   bool operator==(const Coordinate2D& coord);
   bool operator!=(const Coordinate2D& coord);
