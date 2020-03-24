@@ -13,6 +13,8 @@ class Coordinate2D {
   Coordinate2D operator+(const Coordinate2D& coord) const;
   Coordinate2D& operator-=(const Coordinate2D& coord);
   Coordinate2D operator-(const Coordinate2D& coord) const;
+  Coordinate2D operator*=(const T scalar) const;
+
   bool operator==(const Coordinate2D& coord);
   bool operator!=(const Coordinate2D& coord);
   bool operator<(const Coordinate2D& coord);
@@ -30,6 +32,14 @@ class Coordinate2D {
   T x_;
   T y_;
 };
+
+// Non-member multiplication operator functions to support lhs scalar
+// multiplication
+template <typename T>
+Coordinate2D<T> operator*(const T scalar, Coordinate2D<T> coord);
+
+template <typename T>
+Coordinate2D<T> operator*(Coordinate2D<T> coord, const T scalar);
 
 }  // namespace constructs
 }  // namespace morphac

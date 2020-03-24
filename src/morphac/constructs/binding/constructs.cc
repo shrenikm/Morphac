@@ -2,6 +2,7 @@
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
+#include "constructs/include/coordinate2D.h"
 #include "constructs/include/control_input.h"
 #include "constructs/include/pose.h"
 #include "constructs/include/velocity.h"
@@ -13,11 +14,14 @@ namespace binding {
 namespace py = pybind11;
 
 using Eigen::VectorXd;
+using morphac::constructs::Coordinate2D;
 using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
 PYBIND11_MODULE(_binding_constructs, m) {
+  py::class_<Coordinate2D<int>> coordinate2D(m, "Coordinate2D");
+
   py::class_<Pose> pose(m, "Pose");
 
   pose.def(py::init<const int>());
