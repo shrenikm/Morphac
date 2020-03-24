@@ -42,8 +42,8 @@ class ControlInput {
 
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
-ControlInput operator*(const double scalar, ControlInput input);
 ControlInput operator*(ControlInput input, const double scalar);
+ControlInput operator*(const double scalar, ControlInput input);
 
 }  // namespace constructs
 }  // namespace morphac

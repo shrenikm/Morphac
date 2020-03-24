@@ -41,8 +41,8 @@ class Pose {
 
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
-Pose operator*(const double scalar, Pose pose);
 Pose operator*(Pose pose, const double scalar);
+Pose operator*(const double scalar, Pose pose);
 
 }  // namespace constructs
 }  // namespace morphac

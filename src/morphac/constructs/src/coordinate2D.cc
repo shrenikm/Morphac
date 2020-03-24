@@ -37,6 +37,23 @@ Coordinate2D<T> Coordinate2D<T>::operator-(const Coordinate2D& coord) const {
 }
 
 template <typename T>
+Coordinate2D<T> Coordinate2D<T>::operator*=(const T scalar) {
+  this->x_ *= scalar;
+  this->y_ *= scalar;
+  return *this;
+}
+
+template <typename T>
+Coordinate2D<T> operator*(Coordinate2D<T> coord, const T scalar) {
+  return coord *= scalar;
+}
+
+template <typename T>
+Coordinate2D<T> operator*(const T scalar, Coordinate2D<T> coord) {
+  return coord *= scalar;
+}
+
+template <typename T>
 bool Coordinate2D<T>::operator==(const Coordinate2D& coord) {
   return (this->x_ == coord.x_) && (this->y_ == coord.y_);
 }
@@ -100,8 +117,14 @@ void Coordinate2D<T>::set_coordinate(T x, T y) {
   y_ = y;
 }
 
+// Template instantiations
 template class Coordinate2D<int>;
+template Coordinate2D<int> operator*(const int, Coordinate2D<int>);
+template Coordinate2D<int> operator*(Coordinate2D<int>, const int);
+
 template class Coordinate2D<double>;
+template Coordinate2D<double> operator*(const double, Coordinate2D<double>);
+template Coordinate2D<double> operator*(Coordinate2D<double>, const double);
 
 }  // namespace constructs
 }  // namespace morphac

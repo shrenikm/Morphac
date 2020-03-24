@@ -41,8 +41,8 @@ class Velocity {
 
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
-Velocity operator*(const double scalar, Velocity velocity);
 Velocity operator*(Velocity velocity, const double scalar);
+Velocity operator*(const double scalar, Velocity velocity);
 
 }  // namespace constructs
 }  // namespace morphac
