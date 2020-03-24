@@ -8,7 +8,7 @@ using std::ostringstream;
 using std::string;
 
 template <typename T>
-Coordinate2D<T>::Coordinate2D(T x, T y) : x_(x), y_(y) {}
+Coordinate2D<T>::Coordinate2D(const T x, const T y) : x_(x), y_(y) {}
 
 template <typename T>
 Coordinate2D<T>& Coordinate2D<T>::operator+=(const Coordinate2D& coord) {
@@ -80,6 +80,44 @@ T Coordinate2D<T>::operator()(const int index) const {
 }
 
 template <typename T>
+bool Coordinate2D<T>::operator==(const Coordinate2D& coord) const {
+  return (this->x_ == coord.x_) && (this->y_ == coord.y_);
+}
+
+template <typename T>
+bool Coordinate2D<T>::operator!=(const Coordinate2D& coord) const {
+  return !(*this == coord);
+}
+
+template <typename T>
+bool Coordinate2D<T>::operator<(const Coordinate2D& coord) const {
+  if ((this->x_ < coord.x_) ||
+      ((this->x_ == coord.x_) && (this->y_ < coord.y_))) {
+    return true;
+  }
+  return false;
+}
+
+template <typename T>
+bool Coordinate2D<T>::operator>(const Coordinate2D& coord) const {
+  if ((this->x_ > coord.x_) ||
+      ((this->x_ == coord.x_) && (this->y_ > coord.y_))) {
+    return true;
+  }
+  return false;
+}
+
+template <typename T>
+bool Coordinate2D<T>::operator<=(const Coordinate2D& coord) const {
+  return (*this == coord) || (*this < coord);
+}
+
+template <typename T>
+bool Coordinate2D<T>::operator>=(const Coordinate2D& coord) const {
+  return (*this == coord) || (*this > coord);
+}
+
+template <typename T>
 ostream& operator<<(ostream& os, const Coordinate2D<T>& coord) {
   os << "Coordinate2D[" << coord.get_x() << ", " << coord.get_y() << "]";
   return os;
@@ -93,44 +131,6 @@ string Coordinate2D<T>::ToString() const {
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator==(const Coordinate2D& coord) {
-  return (this->x_ == coord.x_) && (this->y_ == coord.y_);
-}
-
-template <typename T>
-bool Coordinate2D<T>::operator!=(const Coordinate2D& coord) {
-  return !(*this == coord);
-}
-
-template <typename T>
-bool Coordinate2D<T>::operator<(const Coordinate2D& coord) {
-  if ((this->x_ < coord.x_) ||
-      ((this->x_ == coord.x_) && (this->y_ < coord.y_))) {
-    return true;
-  }
-  return false;
-}
-
-template <typename T>
-bool Coordinate2D<T>::operator>(const Coordinate2D& coord) {
-  if ((this->x_ > coord.x_) ||
-      ((this->x_ == coord.x_) && (this->y_ > coord.y_))) {
-    return true;
-  }
-  return false;
-}
-
-template <typename T>
-bool Coordinate2D<T>::operator<=(const Coordinate2D& coord) {
-  return (*this == coord) || (*this < coord);
-}
-
-template <typename T>
-bool Coordinate2D<T>::operator>=(const Coordinate2D& coord) {
-  return (*this == coord) || (*this > coord);
-}
-
-template <typename T>
 T Coordinate2D<T>::get_x() const {
   return x_;
 }
@@ -141,17 +141,17 @@ T Coordinate2D<T>::get_y() const {
 }
 
 template <typename T>
-void Coordinate2D<T>::set_x(T x) {
+void Coordinate2D<T>::set_x(const T x) {
   x_ = x;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_y(T y) {
+void Coordinate2D<T>::set_y(const T y) {
   y_ = y;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_coordinate(T x, T y) {
+void Coordinate2D<T>::set_coordinate(const T x, const T y) {
   x_ = x;
   y_ = y;
 }

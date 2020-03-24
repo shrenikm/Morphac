@@ -2,8 +2,8 @@
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
-#include "constructs/include/coordinate2D.h"
 #include "constructs/include/control_input.h"
+#include "constructs/include/coordinate2D.h"
 #include "constructs/include/pose.h"
 #include "constructs/include/velocity.h"
 
@@ -20,10 +20,52 @@ using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
 PYBIND11_MODULE(_binding_constructs, m) {
-  py::class_<Coordinate2D<int>> coordinate2D(m, "Coordinate2D");
+  py::class_<Coordinate2D<int>> coordinate2D_int(m, "Coordinate2D");
+  coordinate2D_int.def(py::init<const int, const int>());
+  coordinate2D_int.def(py::self += py::self);
+  coordinate2D_int.def(py::self + py::self);
+  coordinate2D_int.def(py::self -= py::self);
+  coordinate2D_int.def(py::self - py::self);
+  coordinate2D_int.def(py::self *= int());
+  coordinate2D_int.def(py::self * int());
+  coordinate2D_int.def(int() * py::self);
+  coordinate2D_int.def(py::self == py::self);
+  coordinate2D_int.def(py::self != py::self);
+  coordinate2D_int.def(py::self < py::self);
+  coordinate2D_int.def(py::self > py::self);
+  coordinate2D_int.def(py::self <= py::self);
+  coordinate2D_int.def(py::self >= py::self);
+  coordinate2D_int.def("__repr__", &Coordinate2D<int>::ToString);
+  coordinate2D_int.def_property("x", &Coordinate2D<int>::get_x,
+                                &Coordinate2D<int>::set_x);
+  coordinate2D_int.def_property("y", &Coordinate2D<int>::get_y,
+                                &Coordinate2D<int>::set_y);
+  coordinate2D_int.def("set_coordinate", &Coordinate2D<int>::set_coordinate);
+
+  py::class_<Coordinate2D<double>> coordinate2D_double(m, "Coordinate2D");
+  coordinate2D_double.def(py::init<const double, const double>());
+  coordinate2D_double.def(py::self += py::self);
+  coordinate2D_double.def(py::self + py::self);
+  coordinate2D_double.def(py::self -= py::self);
+  coordinate2D_double.def(py::self - py::self);
+  coordinate2D_double.def(py::self *= double());
+  coordinate2D_double.def(py::self * double());
+  coordinate2D_double.def(double() * py::self);
+  coordinate2D_double.def(py::self == py::self);
+  coordinate2D_double.def(py::self != py::self);
+  coordinate2D_double.def(py::self < py::self);
+  coordinate2D_double.def(py::self > py::self);
+  coordinate2D_double.def(py::self <= py::self);
+  coordinate2D_double.def(py::self >= py::self);
+  coordinate2D_double.def("__repr__", &Coordinate2D<double>::ToString);
+  coordinate2D_double.def_property("x", &Coordinate2D<double>::get_x,
+                                   &Coordinate2D<double>::set_x);
+  coordinate2D_double.def_property("y", &Coordinate2D<double>::get_y,
+                                   &Coordinate2D<double>::set_y);
+  coordinate2D_double.def("set_coordinate",
+                          &Coordinate2D<double>::set_coordinate);
 
   py::class_<Pose> pose(m, "Pose");
-
   pose.def(py::init<const int>());
   pose.def(py::init<const VectorXd&>());
   pose.def(py::self += py::self);
@@ -40,7 +82,6 @@ PYBIND11_MODULE(_binding_constructs, m) {
   pose.def("create_like", &Pose::CreateLike);
 
   py::class_<Velocity> velocity(m, "Velocity");
-
   velocity.def(py::init<const int>());
   velocity.def(py::init<const VectorXd&>());
   velocity.def(py::self += py::self);
@@ -58,7 +99,6 @@ PYBIND11_MODULE(_binding_constructs, m) {
   velocity.def("create_like", &Velocity::CreateLike);
 
   py::class_<ControlInput> input(m, "ControlInput");
-
   input.def(py::init<const int>());
   input.def(py::init<const VectorXd&>());
   input.def(py::self += py::self);
