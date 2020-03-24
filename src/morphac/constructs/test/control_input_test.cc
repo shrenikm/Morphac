@@ -5,6 +5,7 @@
 
 namespace {
 
+using std::ostringstream;
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
@@ -144,6 +145,16 @@ TEST_F(ControlInputTest, Multiplication) {
   ControlInput input4 = -1 * input2;
   ASSERT_TRUE(input3.get_input_vector().isApprox(d2));
   ASSERT_TRUE(input4.get_input_vector().isApprox(d2));
+}
+
+TEST_F(ControlInputTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << input1_;
+
+  // Multiple pose object representations in the stream.
+  os << " " << input3_ << std::endl;
 }
 
 TEST_F(ControlInputTest, EmptyControlInputOperations) {

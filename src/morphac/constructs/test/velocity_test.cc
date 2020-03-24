@@ -5,6 +5,7 @@
 
 namespace {
 
+using std::ostringstream;
 using Eigen::VectorXd;
 
 using morphac::constructs::Velocity;
@@ -147,6 +148,16 @@ TEST_F(VelocityTest, Multiplication) {
   Velocity velocity4 = -1 * velocity2;
   ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(d2));
   ASSERT_TRUE(velocity4.get_velocity_vector().isApprox(d2));
+}
+
+TEST_F(VelocityTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << velocity1_;
+
+  // Multiple pose object representations in the stream.
+  os << " " << velocity3_ << std::endl;
 }
 
 TEST_F(VelocityTest, EmptyVelocityOperations) {
