@@ -14,5 +14,5 @@ target_include_directories(${binding_name} PRIVATE ${PYBIND11_INCLUDE_DIR})
 set_target_properties(${binding_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX})
 
 # Adding library dependencies.
-target_link_libraries(${binding_name} PUBLIC pose velocity control_input)
+target_link_libraries(${binding_name} PUBLIC coordinate2D pose velocity control_input)
 
