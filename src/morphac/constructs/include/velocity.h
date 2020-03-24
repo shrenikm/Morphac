@@ -1,6 +1,8 @@
 #ifndef VELOCITY_H
 #define VELOCITY_H
 
+#include <sstream>
+
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"

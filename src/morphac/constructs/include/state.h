@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include <memory>
+#include <sstream>
 
 #include "Eigen/Dense"
 

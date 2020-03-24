@@ -4,6 +4,8 @@
 
 namespace {
 
+using std::ostringstream;
+
 using morphac::constructs::Coordinate2D;
 
 class Coordinate2DTest : public ::testing::Test {
@@ -100,6 +102,30 @@ TEST_F(Coordinate2DTest, Multiplication) {
   ASSERT_EQ(coord1_int_.get_y(), 9);
   ASSERT_DOUBLE_EQ(coord3_double_.get_x(), 3.);
   ASSERT_DOUBLE_EQ(coord3_double_.get_y(), -9.4);
+}
+
+TEST_F(Coordinate2DTest, Parenthesis) {
+  ASSERT_EQ(coord1_int_(0), 2);
+  ASSERT_EQ(coord1_int_(1), 3);
+  ASSERT_DOUBLE_EQ(coord3_double_(0), -1.5);
+  ASSERT_DOUBLE_EQ(coord3_double_(1), 4.7);
+}
+
+TEST_F(Coordinate2DTest, InvalidParenthesis) {
+  ASSERT_THROW(coord1_int_(-1), std::out_of_range);
+  ASSERT_THROW(coord1_int_(2), std::out_of_range);
+  ASSERT_THROW(coord3_double_(-1), std::out_of_range);
+  ASSERT_THROW(coord3_double_(2), std::out_of_range);
+}
+
+TEST_F(Coordinate2DTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << coord1_int_;
+
+  // Multiple Coordinate2D object representations in the stream.
+  os << " " << coord3_double_ << std::endl;
 }
 
 TEST_F(Coordinate2DTest, Equality) {

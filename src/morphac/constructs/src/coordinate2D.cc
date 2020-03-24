@@ -3,6 +3,10 @@
 namespace morphac {
 namespace constructs {
 
+using std::ostream;
+using std::ostringstream;
+using std::string;
+
 template <typename T>
 Coordinate2D<T>::Coordinate2D(T x, T y) : x_(x), y_(y) {}
 
@@ -73,6 +77,19 @@ T Coordinate2D<T>::operator()(const int index) const {
   } else {
     return this->y_;
   }
+}
+
+template <typename T>
+ostream& operator<<(ostream& os, const Coordinate2D<T>& coord) {
+  os << "Coordinate2D[" << coord.get_x() << ", " << coord.get_y() << "]";
+  return os;
+}
+
+template <typename T>
+string Coordinate2D<T>::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
 }
 
 template <typename T>

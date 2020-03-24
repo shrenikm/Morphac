@@ -1,6 +1,8 @@
 #ifndef POSE_H
 #define POSE_H
 
+#include <sstream>
+
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"

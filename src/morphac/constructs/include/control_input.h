@@ -1,6 +1,8 @@
 #ifndef CONTROL_INPUT_H
 #define CONTROL_INPUT_H
 
+#include <sstream>
+
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"

@@ -1,6 +1,8 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include <sstream>
+
 #include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
@@ -19,6 +21,13 @@ class Coordinate2D {
 
   T& operator()(const int index);
   T operator()(const int index) const;
+
+  template <typename U>
+  friend std::ostream& operator<<(std::ostream& os,
+                                  const Coordinate2D<U>& coord);
+  // String representation that uses the << overload.
+  // This is what the python binding uses.
+  std::string ToString() const;
 
   bool operator==(const Coordinate2D& coord);
   bool operator!=(const Coordinate2D& coord);
