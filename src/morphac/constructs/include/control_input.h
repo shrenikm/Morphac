@@ -22,6 +22,11 @@ class ControlInput {
   double& operator()(const int index);
   double operator()(const int index) const;
 
+  friend std::ostream& operator<<(std::ostream& os, const ControlInput& input);
+  // String representation that uses the << overload.
+  // This is what the python binding uses.
+  std::string ToString() const;
+
   int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
   void set_input_vector(const Eigen::VectorXd& input_vector);

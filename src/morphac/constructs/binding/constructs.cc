@@ -2,6 +2,7 @@
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
+#include "constructs/include/control_input.h"
 #include "constructs/include/pose.h"
 #include "constructs/include/velocity.h"
 
@@ -12,6 +13,7 @@ namespace binding {
 namespace py = pybind11;
 
 using Eigen::VectorXd;
+using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
@@ -51,6 +53,23 @@ PYBIND11_MODULE(_binding_constructs, m) {
   velocity.def("is_empty", &Velocity::IsEmpty);
   velocity.def("create_like", &Velocity::CreateLike);
 
+  py::class_<ControlInput> input(m, "ControlInput");
+
+  input.def(py::init<const int>());
+  input.def(py::init<const VectorXd&>());
+  input.def(py::self += py::self);
+  input.def(py::self + py::self);
+  input.def(py::self -= py::self);
+  input.def(py::self - py::self);
+  input.def(py::self *= double());
+  input.def(py::self * double());
+  input.def(double() * py::self);
+  input.def("__repr__", &ControlInput::ToString);
+  input.def_property_readonly("size", &ControlInput::get_size);
+  input.def_property("data", &ControlInput::get_input_vector,
+                     &ControlInput::set_input_vector);
+  input.def("is_empty", &ControlInput::IsEmpty);
+  input.def("create_like", &ControlInput::CreateLike);
 }
 
 }  // namespace binding

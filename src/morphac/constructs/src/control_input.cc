@@ -3,6 +3,9 @@
 namespace morphac {
 namespace constructs {
 
+using std::ostream;
+using std::ostringstream;
+using std::string;
 using Eigen::VectorXd;
 
 ControlInput::ControlInput(const int size) : size_(size) {
@@ -85,6 +88,17 @@ double ControlInput::operator()(const int index) const {
                 "Control input index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Control input object is empty");
   return input_vector_(index);
+}
+
+ostream& operator<<(ostream& os, const ControlInput& input) {
+  os << "ControlInput[" << input.get_input_vector().transpose() << "]";
+  return os;
+}
+
+string ControlInput::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
 }
 
 bool ControlInput::IsEmpty() const { return size_ == 0; }
