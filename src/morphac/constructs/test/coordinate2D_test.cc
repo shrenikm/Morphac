@@ -81,6 +81,27 @@ TEST_F(Coordinate2DTest, Subtraction) {
   ASSERT_DOUBLE_EQ(coord1_double_.get_y(), -1.7);
 }
 
+TEST_F(Coordinate2DTest, Multiplication) {
+  Coordinate2D<int> result_int1 = coord1_int_ * (-2);
+  Coordinate2D<int> result_int2 = -2 * coord1_int_;
+
+  Coordinate2D<double> result_double1 = 1.5 * coord3_double_;
+
+  ASSERT_EQ(result_int1.get_x(), -4);
+  ASSERT_EQ(result_int1.get_y(), -6);
+  ASSERT_EQ(result_int2.get_x(), -4);
+  ASSERT_EQ(result_int2.get_y(), -6);
+  ASSERT_DOUBLE_EQ(result_double1.get_x(), -2.25);
+  ASSERT_DOUBLE_EQ(result_double1.get_y(), 7.05);
+
+  coord1_int_ *= 3;
+  coord3_double_ *= -2;
+  ASSERT_EQ(coord1_int_.get_x(), 6);
+  ASSERT_EQ(coord1_int_.get_y(), 9);
+  ASSERT_DOUBLE_EQ(coord3_double_.get_x(), 3.);
+  ASSERT_DOUBLE_EQ(coord3_double_.get_y(), -9.4);
+}
+
 TEST_F(Coordinate2DTest, Equality) {
   ASSERT_TRUE(coord1_int_ == coord2_int_);
   ASSERT_TRUE(coord1_double_ == coord2_double_);
