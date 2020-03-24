@@ -45,55 +45,55 @@ TEST_F(Coordinate2DTest, Initialization) {
   ASSERT_DOUBLE_EQ(zero_coord_double_.get_y(), 2.0);
 }
 
-TEST_F(Coordinate2DTest, OperatorCompoundAdd) {
+TEST_F(Coordinate2DTest, Addition) {
+  Coordinate2D<int> result_int = coord1_int_ + coord3_int_;
+  Coordinate2D<double> result_double = coord1_double_ + coord3_double_;
+
+  ASSERT_EQ(result_int.get_x(), 1);
+  ASSERT_EQ(result_int.get_y(), 7);
+  ASSERT_DOUBLE_EQ(result_double.get_x(), 0.5);
+  ASSERT_DOUBLE_EQ(result_double.get_y(), 7.7);
+
   coord1_int_ += coord3_int_;
   coord1_double_ += coord3_double_;
+
   ASSERT_EQ(coord1_int_.get_x(), 1);
   ASSERT_EQ(coord1_int_.get_y(), 7);
   ASSERT_DOUBLE_EQ(coord1_double_.get_x(), 0.5);
   ASSERT_DOUBLE_EQ(coord1_double_.get_y(), 7.7);
 }
 
-TEST_F(Coordinate2DTest, OperatorAdd) {
-  Coordinate2D<int> result_int = coord1_int_ + coord3_int_;
-  Coordinate2D<double> result_double = coord1_double_ + coord3_double_;
-  ASSERT_EQ(result_int.get_x(), 1);
-  ASSERT_EQ(result_int.get_y(), 7);
-  ASSERT_DOUBLE_EQ(result_double.get_x(), 0.5);
-  ASSERT_DOUBLE_EQ(result_double.get_y(), 7.7);
-}
+TEST_F(Coordinate2DTest, Subtraction) {
+  Coordinate2D<int> result_int = coord1_int_ - coord3_int_;
+  Coordinate2D<double> result_double = coord1_double_ - coord3_double_;
 
-TEST_F(Coordinate2DTest, OperatorCompoundSubtract) {
+  ASSERT_EQ(result_int.get_x(), 3);
+  ASSERT_EQ(result_int.get_y(), -1);
+  ASSERT_DOUBLE_EQ(result_double.get_x(), 3.5);
+  ASSERT_DOUBLE_EQ(result_double.get_y(), -1.7);
+
   coord1_int_ -= coord3_int_;
   coord1_double_ -= coord3_double_;
+
   ASSERT_EQ(coord1_int_.get_x(), 3);
   ASSERT_EQ(coord1_int_.get_y(), -1);
   ASSERT_DOUBLE_EQ(coord1_double_.get_x(), 3.5);
   ASSERT_DOUBLE_EQ(coord1_double_.get_y(), -1.7);
 }
 
-TEST_F(Coordinate2DTest, OperatorSubtract) {
-  Coordinate2D<int> result_int = coord1_int_ - coord3_int_;
-  Coordinate2D<double> result_double = coord1_double_ - coord3_double_;
-  ASSERT_EQ(result_int.get_x(), 3);
-  ASSERT_EQ(result_int.get_y(), -1);
-  ASSERT_DOUBLE_EQ(result_double.get_x(), 3.5);
-  ASSERT_DOUBLE_EQ(result_double.get_y(), -1.7);
-}
-
-TEST_F(Coordinate2DTest, OperatorEqual) {
+TEST_F(Coordinate2DTest, Equality) {
   ASSERT_TRUE(coord1_int_ == coord2_int_);
   ASSERT_TRUE(coord1_double_ == coord2_double_);
 }
 
-TEST_F(Coordinate2DTest, OperatorNotEqual) {
+TEST_F(Coordinate2DTest, Inequality) {
   ASSERT_TRUE(coord1_int_ != coord3_int_);
   ASSERT_TRUE(coord1_int_ != coord4_int_);
   ASSERT_TRUE(coord1_double_ != coord3_double_);
   ASSERT_TRUE(coord1_double_ != coord4_double_);
 }
 
-TEST_F(Coordinate2DTest, OperatorLess) {
+TEST_F(Coordinate2DTest, Lesser) {
   ASSERT_TRUE(zero_coord_int_ < coord1_int_);
   ASSERT_TRUE(coord1_int_ < coord6_int_);
   ASSERT_FALSE(coord1_int_ < coord2_int_);
@@ -104,7 +104,7 @@ TEST_F(Coordinate2DTest, OperatorLess) {
   ASSERT_FALSE(coord1_double_ < coord3_double_);
 }
 
-TEST_F(Coordinate2DTest, OperatorGreater) {
+TEST_F(Coordinate2DTest, Greater) {
   ASSERT_TRUE(coord1_int_ > coord3_int_);
   ASSERT_TRUE(coord1_int_ > coord4_int_);
   ASSERT_FALSE(coord1_int_ > coord2_int_);
@@ -115,7 +115,7 @@ TEST_F(Coordinate2DTest, OperatorGreater) {
   ASSERT_FALSE(coord1_double_ > coord6_double_);
 }
 
-TEST_F(Coordinate2DTest, OperatorLesserEqual) {
+TEST_F(Coordinate2DTest, LesserEqual) {
   ASSERT_TRUE(zero_coord_int_ <= coord1_int_);
   ASSERT_TRUE(coord1_int_ <= coord6_int_);
   ASSERT_TRUE(coord1_int_ <= coord2_int_);
@@ -126,7 +126,7 @@ TEST_F(Coordinate2DTest, OperatorLesserEqual) {
   ASSERT_FALSE(coord1_double_ <= coord3_double_);
 }
 
-TEST_F(Coordinate2DTest, OperatorGreaterEqual) {
+TEST_F(Coordinate2DTest, GreaterEqual) {
   ASSERT_TRUE(coord1_int_ >= coord3_int_);
   ASSERT_TRUE(coord1_int_ >= coord4_int_);
   ASSERT_TRUE(coord1_int_ >= coord2_int_);
