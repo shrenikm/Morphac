@@ -20,50 +20,27 @@ using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
 PYBIND11_MODULE(_binding_constructs, m) {
-  py::class_<Coordinate2D<int>> coordinate2D_int(m, "Coordinate2D");
-  coordinate2D_int.def(py::init<const int, const int>());
-  coordinate2D_int.def(py::self += py::self);
-  coordinate2D_int.def(py::self + py::self);
-  coordinate2D_int.def(py::self -= py::self);
-  coordinate2D_int.def(py::self - py::self);
-  coordinate2D_int.def(py::self *= int());
-  coordinate2D_int.def(py::self * int());
-  coordinate2D_int.def(int() * py::self);
-  coordinate2D_int.def(py::self == py::self);
-  coordinate2D_int.def(py::self != py::self);
-  coordinate2D_int.def(py::self < py::self);
-  coordinate2D_int.def(py::self > py::self);
-  coordinate2D_int.def(py::self <= py::self);
-  coordinate2D_int.def(py::self >= py::self);
-  coordinate2D_int.def("__repr__", &Coordinate2D<int>::ToString);
-  coordinate2D_int.def_property("x", &Coordinate2D<int>::get_x,
-                                &Coordinate2D<int>::set_x);
-  coordinate2D_int.def_property("y", &Coordinate2D<int>::get_y,
-                                &Coordinate2D<int>::set_y);
-  coordinate2D_int.def("set_coordinate", &Coordinate2D<int>::set_coordinate);
-
-  py::class_<Coordinate2D<double>> coordinate2D_double(m, "Coordinate2D");
-  coordinate2D_double.def(py::init<const double, const double>());
-  coordinate2D_double.def(py::self += py::self);
-  coordinate2D_double.def(py::self + py::self);
-  coordinate2D_double.def(py::self -= py::self);
-  coordinate2D_double.def(py::self - py::self);
-  coordinate2D_double.def(py::self *= double());
-  coordinate2D_double.def(py::self * double());
-  coordinate2D_double.def(double() * py::self);
-  coordinate2D_double.def(py::self == py::self);
-  coordinate2D_double.def(py::self != py::self);
-  coordinate2D_double.def(py::self < py::self);
-  coordinate2D_double.def(py::self > py::self);
-  coordinate2D_double.def(py::self <= py::self);
-  coordinate2D_double.def(py::self >= py::self);
-  coordinate2D_double.def("__repr__", &Coordinate2D<double>::ToString);
-  coordinate2D_double.def_property("x", &Coordinate2D<double>::get_x,
-                                   &Coordinate2D<double>::set_x);
-  coordinate2D_double.def_property("y", &Coordinate2D<double>::get_y,
-                                   &Coordinate2D<double>::set_y);
-  coordinate2D_double.def("set_coordinate",
-                          &Coordinate2D<double>::set_coordinate);
+  py::class_<Coordinate2D<double>> coordinate2D(m, "Coordinate2D");
+  coordinate2D.def(py::init<const double, const double>());
+  coordinate2D.def(py::self += py::self);
+  coordinate2D.def(py::self + py::self);
+  coordinate2D.def(py::self -= py::self);
+  coordinate2D.def(py::self - py::self);
+  coordinate2D.def(py::self *= double());
+  coordinate2D.def(py::self * double());
+  coordinate2D.def(double() * py::self);
+  coordinate2D.def(py::self == py::self);
+  coordinate2D.def(py::self != py::self);
+  coordinate2D.def(py::self < py::self);
+  coordinate2D.def(py::self > py::self);
+  coordinate2D.def(py::self <= py::self);
+  coordinate2D.def(py::self >= py::self);
+  coordinate2D.def("__repr__", &Coordinate2D<double>::ToString);
+  coordinate2D.def_property("x", &Coordinate2D<double>::get_x,
+                            &Coordinate2D<double>::set_x);
+  coordinate2D.def_property("y", &Coordinate2D<double>::get_y,
+                            &Coordinate2D<double>::set_y);
+  coordinate2D.def("set_coordinate", &Coordinate2D<double>::set_coordinate);
 
   py::class_<Pose> pose(m, "Pose");
   pose.def(py::init<const int>());
