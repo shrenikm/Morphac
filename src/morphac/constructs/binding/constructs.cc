@@ -19,7 +19,7 @@ using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
-PYBIND11_MODULE(_binding_constructs, m) {
+void define_coordinate2D_binding(py::module& m) {
   py::class_<Coordinate2D<double>> coordinate2D(m, "Coordinate2D");
   coordinate2D.def(py::init<const double, const double>());
   coordinate2D.def(py::self += py::self);
@@ -41,7 +41,9 @@ PYBIND11_MODULE(_binding_constructs, m) {
   coordinate2D.def_property("y", &Coordinate2D<double>::get_y,
                             &Coordinate2D<double>::set_y);
   coordinate2D.def("set_coordinate", &Coordinate2D<double>::set_coordinate);
+}
 
+void define_pose_binding(py::module& m) {
   py::class_<Pose> pose(m, "Pose");
   pose.def(py::init<const int>());
   pose.def(py::init<const VectorXd&>());
@@ -57,7 +59,9 @@ PYBIND11_MODULE(_binding_constructs, m) {
   pose.def_property("data", &Pose::get_pose_vector, &Pose::set_pose_vector);
   pose.def("is_empty", &Pose::IsEmpty);
   pose.def("create_like", &Pose::CreateLike);
+}
 
+void define_velocity_binding(py::module& m) {
   py::class_<Velocity> velocity(m, "Velocity");
   velocity.def(py::init<const int>());
   velocity.def(py::init<const VectorXd&>());
@@ -74,7 +78,9 @@ PYBIND11_MODULE(_binding_constructs, m) {
                         &Velocity::set_velocity_vector);
   velocity.def("is_empty", &Velocity::IsEmpty);
   velocity.def("create_like", &Velocity::CreateLike);
+}
 
+void define_control_input_binding(py::module& m) {
   py::class_<ControlInput> input(m, "ControlInput");
   input.def(py::init<const int>());
   input.def(py::init<const VectorXd&>());
@@ -91,6 +97,16 @@ PYBIND11_MODULE(_binding_constructs, m) {
                      &ControlInput::set_input_vector);
   input.def("is_empty", &ControlInput::IsEmpty);
   input.def("create_like", &ControlInput::CreateLike);
+}
+
+PYBIND11_MODULE(_binding_constructs, m) {
+  define_coordinate2D_binding(m);
+
+  define_pose_binding(m);
+
+  define_velocity_binding(m);
+
+  define_control_input_binding(m);
 }
 
 }  // namespace binding
