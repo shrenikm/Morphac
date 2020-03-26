@@ -17,3 +17,11 @@ set_target_properties(${binding_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX}
 target_link_libraries(${binding_name}
   PUBLIC coordinate2D control_input pose velocity state)
 
+
+# Install
+# -------------------------------------------------
+install(FILES
+  ${CONSTRUCTS_BINDING_BINARY_DIR}/${CONSTRUCTS_BINDING_FILE}
+  DESTINATION ${PYTHON_BINDING_INSTALL_DIR}/morphac/constructs
+)
+

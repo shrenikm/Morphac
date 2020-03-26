@@ -2,6 +2,14 @@ set(CONSTRUCTS_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(CONSTRUCTS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(CONSTRUCTS_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
 set(CONSTRUCTS_BINDING_DIR ${CMAKE_CURRENT_SOURCE_DIR}/binding)
+set(CONSTRUCTS_BINARY_DIR ${MORPHAC_BASE_BINARY_DIR}/constructs)
+set(CONSTRUCTS_BINDING_BINARY_DIR ${CONSTRUCTS_BINARY_DIR}/binding)
+
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(binding)
+
 
 # Libraries
 # -------------------------------------------------
@@ -55,8 +63,3 @@ target_link_libraries(velocity_test gtest_main velocity)
 target_link_libraries(control_input_test gtest_main control_input)
 target_link_libraries(state_test gtest_main state)
 
-
-# Adding subdirectories
-# -------------------------------------------------
-
-add_subdirectory(binding)
