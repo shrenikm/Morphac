@@ -261,6 +261,10 @@ TEST_F(StateTest, StringRepresentation) {
 
   // Multiple state object representations in the stream.
   os << " " << state3_ << std::endl;
+
+  // Test representation of partially constructed state.
+  os << " " << State(Pose(3), Velocity(0)) << " "
+     << State(Pose(0), Velocity(2));
 }
 
 TEST_F(StateTest, PartialConstruction) {

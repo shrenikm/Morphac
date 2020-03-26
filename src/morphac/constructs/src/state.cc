@@ -157,7 +157,32 @@ double State::operator()(const int index) const {
 }
 
 ostream& operator<<(ostream& os, const State& state) {
-  os << "State[" << state.get_pose() << ", " << state.get_velocity() << "]";
+  // Handling partial construction representation. The State representation
+  // should be one of the following:
+  // State[Pose, Velocity]
+  // State[Pose]
+  // State[Velocity]
+  ostringstream internal;
+  if (!state.IsPoseEmpty()) {
+    // Non empty Pose
+    if (!state.IsVelocityEmpty()) {
+      // Non empty Pose and Velocity
+      internal << state.get_pose() << ", " << state.get_velocity();
+    } else {
+      // Non empty Pose but empty velocity
+      internal << state.get_pose();
+    }
+  } else {
+    // Empty Pose
+    if (!state.IsVelocityEmpty()) {
+      // Empty Pose but non empty velocity
+      internal << state.get_velocity();
+    } else {
+      // Empty Pose and Velocity
+    }
+  }
+
+  os << "State[" << internal.str() << "]";
   return os;
 }
 
