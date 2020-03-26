@@ -4,7 +4,7 @@ language:
   - python
 
 python:
-  - "3.6"
+  - "3.7"
 
 sudo: required
 
@@ -31,5 +31,6 @@ script:
   # Building using CMake
   - cmake ..
   - make
+  - make install
   # Running tests
   - make test

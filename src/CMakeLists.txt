@@ -79,7 +79,7 @@ set(PYTHON_BINDING_PREFIX "_binding_")
 # Finding the python executable and obtaining the site-packages directory
 print_section_header("Python Configuration")
 
-find_package(PythonInterp REQUIRED)
+find_package(PythonInterp 3.7 REQUIRED)
 execute_process(COMMAND
   "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
   OUTPUT_VARIABLE PYTHON_BINDING_INSTALL_DIR
