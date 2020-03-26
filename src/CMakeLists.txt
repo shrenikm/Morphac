@@ -112,8 +112,10 @@ execute_process(COMMAND "${CMAKE_COMMAND}" --build .
 )
 
 # Add googletest directly to the build.
-add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
-                 "${CMAKE_BINARY_DIR}/googletest-build"
+add_subdirectory(
+  "${CMAKE_BINARY_DIR}/googletest-src"
+  "${CMAKE_BINARY_DIR}/googletest-build"
+  EXCLUDE_FROM_ALL
 )
 
 # Eigen
