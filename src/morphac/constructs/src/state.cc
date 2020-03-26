@@ -5,6 +5,9 @@ namespace constructs {
 
 using std::make_unique;
 using std::move;
+using std::ostream;
+using std::ostringstream;
+using std::string;
 using std::unique_ptr;
 
 using Eigen::VectorXd;
@@ -153,6 +156,17 @@ double State::operator()(const int index) const {
   }
 }
 
+ostream& operator<<(ostream& os, const State& state) {
+  os << "State[" << state.get_pose() << ", " << state.get_velocity() << "]";
+  return os;
+}
+
+string State::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
+}
+
 bool State::IsEmpty() const { return IsPoseEmpty() && IsVelocityEmpty(); }
 
 bool State::IsPoseEmpty() const { return pose_.IsEmpty(); }
@@ -163,9 +177,7 @@ int State::get_size_pose() const { return pose_.get_size(); }
 
 int State::get_size_velocity() const { return velocity_.get_size(); }
 
-int State::get_size() const {
-  return pose_.get_size() + velocity_.get_size();
-}
+int State::get_size() const { return pose_.get_size() + velocity_.get_size(); }
 
 Pose& State::get_pose() { return pose_; }
 

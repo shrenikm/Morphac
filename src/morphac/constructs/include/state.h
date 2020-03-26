@@ -32,6 +32,11 @@ class State {
   double& operator()(const int index);
   double operator()(const int index) const;
 
+  friend std::ostream& operator<<(std::ostream& os, const State& state);
+  // String representation that uses the << overload.
+  // This is what the python binding uses.
+  std::string ToString() const;
+
   int get_size_pose() const;
   int get_size_velocity() const;
   int get_size() const;
@@ -61,8 +66,8 @@ class State {
 
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
-State operator*(const double scalar, State state);
 State operator*(State state, const double scalar);
+State operator*(const double scalar, State state);
 
 }  // namespace constructs
 }  // namespace morphac

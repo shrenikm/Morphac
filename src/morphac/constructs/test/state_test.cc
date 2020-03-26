@@ -7,6 +7,7 @@ namespace {
 
 using std::make_unique;
 using std::move;
+using std::ostringstream;
 using std::unique_ptr;
 using std::vector;
 
@@ -250,6 +251,16 @@ TEST_F(StateTest, Multiplication) {
   State state4 = -1 * state2;
   ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
   ASSERT_TRUE(state4.get_state_vector().isApprox(d2));
+}
+
+TEST_F(StateTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << state1_;
+
+  // Multiple state object representations in the stream.
+  os << " " << state3_ << std::endl;
 }
 
 TEST_F(StateTest, PartialConstruction) {
