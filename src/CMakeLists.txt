@@ -130,7 +130,7 @@ include_directories(${EIGEN_INCLUDE_DIR})
 set(PYBIND11_REPO_DIR ${PROJECT_SOURCE_DIR}/third_party/pybind11)
 set(PYBIND11_INCLUDE_DIR ${PYBIND11_REPO_DIR}/include)
 
-add_subdirectory(${PYBIND11_REPO_DIR} third_party/pybind11)
+add_subdirectory(${PYBIND11_REPO_DIR} third_party/pybind11 EXCLUDE_FROM_ALL)
 
 
 # Adding subdirectories
