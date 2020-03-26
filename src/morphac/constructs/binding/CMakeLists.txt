@@ -8,6 +8,7 @@ set(CONSTRUCTS_BINDING_FILE
 
 get_filename_component(binding_name ${CONSTRUCTS_BINDING_FILE} NAME_WE)
 pybind11_add_module(${binding_name} SHARED ${CONSTRUCTS_BINDING_DIR}/${CONSTRUCTS_BINDING_FILE})
+
 target_include_directories(${binding_name} PRIVATE ${PYBIND11_INCLUDE_DIR})
 # Setting binding target properties.
 # Target prefix.
@@ -39,5 +40,4 @@ install(FILES
   ${CONSTRUCTS_BINDING_DIR}/__init__.py
   DESTINATION ${PYTHON_BINDING_INSTALL_DIR}/morphac/constructs
 )
-
 
