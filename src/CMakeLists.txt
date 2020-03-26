@@ -59,6 +59,8 @@ set(PYTHON_BINDING_PREFIX "_binding_")
 # Third party
 # -------------------------------------------------
 
+# Googletest
+
 # Download and unpack googletest at configure time.
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
@@ -72,6 +74,22 @@ execute_process(COMMAND "${CMAKE_COMMAND}" --build .
 add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src"
                  "${CMAKE_BINARY_DIR}/googletest-build"
 )
+
+# Eigen
+
+set(EIGEN_REPO_DIR ${PROJECT_SOURCE_DIR}/third_party/eigen)
+set(EIGEN_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/third_party/eigen)
+
+# As eigen is used in almost every target, include_directories is used instead
+# of having to target_include_directories eigen for each target.
+include_directories(${EIGEN_INCLUDE_DIR})
+
+# Pybind11
+
+set(PYBIND11_REPO_DIR ${PROJECT_SOURCE_DIR}/third_party/pybind11)
+set(PYBIND11_INCLUDE_DIR ${PYBIND11_REPO_DIR}/include)
+
+add_subdirectory(${PYBIND11_REPO_DIR} third_party/pybind11)
 
 
 # Adding subdirectories
