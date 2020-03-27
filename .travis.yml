@@ -30,7 +30,7 @@ jobs:
     -python: '3.7'
 
 script:
-  - python --version
+  - python3 --version
   # Creating the build directory
   - cd src && mkdir build
   - cd build
