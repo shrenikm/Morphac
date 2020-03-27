@@ -4,7 +4,7 @@ language:
   - python
 
 python:
-  - '3.7'
+  - "3.7"
 
 compiler: gcc
 
@@ -18,7 +18,7 @@ addons:
       - pkg-config
       - gcc-5
       - g++-5
-      - cmake-3.5
+      - cmake
 
 before_install:
   - gcc --version
