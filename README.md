@@ -15,16 +15,21 @@ Ubuntu (16.04) | [![Build Status](https://travis-ci.com/shrenikm/Morphac.svg?bra
 * Ubuntu 16.04 (It has only been tested on Ubuntu 16.04 but it should build on any linux distro)
 * CMake version >= 3.5
 * GCC version >= 5
+* Python version >= 3.7
 
 ### Building
 Clone the repository:<br/>
 `git clone https://github.com/shrenikm/Morphac.git`<br/><br/>
-Build using bazel:<br/>
+Initialize and update submodules:<br/>
+`git submodule update --init --recursive`<br/><br/>
+Build using CMake:<br/>
 `cd src && mkdir build && cd build`<br/>
 `cmake .. && make`<br/><br/>
+Install the library and python modules:<br/>
+`make install`<br/><br/>
 Tests may be run using:<br/>
 `make test`<br/><br/>
-To disable building tests, the `BUILD_TESTS` flag can be set to `OFF`.
+To disable building tests, the CMake `BUILD_TESTS` option can be set to `OFF`.
 
 -------
 
