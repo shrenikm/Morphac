@@ -3,12 +3,10 @@ language:
   - cpp
   - python
 
-python:
-  - "3.7"
+    #python:
+    #  - "3.7"
 
 compiler: gcc
-
-sudo: required
 
 addons:
   apt:
@@ -27,7 +25,12 @@ before_install:
   - sudo apt-get update
   - pip install --user -U pytest
 
+jobs:
+  include:
+    -python: '3.7'
+
 script:
+  - python --version
   # Creating the build directory
   - cd src && mkdir build
   - cd build
