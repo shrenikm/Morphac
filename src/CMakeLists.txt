@@ -81,7 +81,7 @@ print_section_header("Python Configuration")
 
 find_package(PythonInterp 3.7 REQUIRED)
 execute_process(COMMAND
-  "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
+  "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
   OUTPUT_VARIABLE PYTHON_BINDING_INSTALL_DIR
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
