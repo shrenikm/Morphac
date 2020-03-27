@@ -2,9 +2,6 @@ dist: xenial
 language:
   - python
 
-    #python:
-    #  - "3.7"
-
 compiler: gcc
 
 addons:
@@ -22,14 +19,13 @@ before_install:
   - cmake --version
   - python --version
   - sudo apt-get update
-  - pip install --user -U pytest
+  - pip install -U pytest
 
 jobs:
   include:
     -python: "3.7"
 
 script:
-  - python3 --version
   # Creating the build directory
   - cd src && mkdir build
   - cd build
