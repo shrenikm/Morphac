@@ -6,6 +6,8 @@ language:
 python:
   - '3.7'
 
+compiler: gcc
+
 sudo: required
 
 addons:
@@ -16,12 +18,13 @@ addons:
       - pkg-config
       - gcc-5
       - g++-5
-      - cmake
+      - cmake-3.5
 
 before_install:
   - gcc --version
   - cmake --version
   - python --version
+  - sudo apt-get update
   - pip install --user -U pytest
 
 script:
