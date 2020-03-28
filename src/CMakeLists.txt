@@ -36,15 +36,16 @@ message(STATUS "Project version: ${PROJECT_VERSION}")
 # -------------------------------------------------
 print_section_header("Build Options")
 
-# Flag to enable/disable testing
-option(BUILD_TESTS "Build all of the project's test executables" ON)
-option(BUILD_WITH_WARNINGS "Builds the project with -Wall and -Wextra" ON)
-option(BUILD_WITH_WARNINGS_AS_ERRORS "Builds the project with -Werror" ON)
+set(BUILD_TESTS ON CACHE BOOL "Build all of the project's test executables")
+set(BUILD_WITH_WARNINGS ON CACHE BOOL "Builds the project with -Wall and -Wextra")
+set(BUILD_WITH_WARNINGS_AS_ERRORS ON CACHE BOOL "Builds the project with -Werror")
+set(BUILD_PYTHON_BINDINGS ON CACHE BOOL "Build all of the python bindings")
 
 # Displaying the list of options that have been set.
 message(STATUS "[ BUILD_TESTS has been set to ${BUILD_TESTS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS has been set to ${BUILD_WITH_WARNINGS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS_AS_ERRORS has been set to ${BUILD_WITH_WARNINGS_AS_ERRORS} ]")
+message(STATUS "[ BUILD_PYTHON_BINDINGS has been set to ${BUILD_PYTHON_BINDINGS} ]")
 
 
 # Configuring

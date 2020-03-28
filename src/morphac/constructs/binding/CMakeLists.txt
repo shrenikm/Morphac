@@ -1,6 +1,11 @@
 # Bindings
 # -------------------------------------------------
 
+# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
+if(NOT BUILD_PYTHON_BINDINGS)
+  return()
+endif()
+
 # Src file that creates the python module.
 set(CONSTRUCTS_MODULE_FILE
 
