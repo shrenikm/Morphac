@@ -23,7 +23,7 @@ Clone the repository:<br/>
 Initialize and update submodules:<br/>
 `git submodule update --init --recursive`<br/><br/>
 Build using CMake:<br/>
-`cd src && mkdir build && cd build`<br/>
+`mkdir build && cd build`<br/>
 `cmake .. && make`<br/><br/>
 Install the library and python modules:<br/>
 `make install`<br/><br/>

@@ -25,11 +25,13 @@ before_install:
 
 jobs:
   include:
+    - python: "3.5"
+    - python: "3.6"
     - python: "3.7"
 
 script:
   # Creating the build directory
-  - cd src && mkdir build
+  - mkdir build
   - cd build
   # Building using CMake
   - cmake ..

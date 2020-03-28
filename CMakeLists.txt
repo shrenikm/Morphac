@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Utility functions
 # -------------------------------------------------
+
+# Functions to display section headers for status information.
 function(print_section_delimiter)
   message("===============")
 endfunction()
@@ -13,8 +15,58 @@ function(print_section_header HEADER)
 endfunction()
 
 
+# Function that takes a list and prepends some given string
+# to each element.
+# CMake 3.12 has LIST TRANSFORM that can do this but our
+# minimum CMake version is 3.5
+function(prepend_list out prefix)
+  set(tmp_list "")
+  foreach(var ${ARGN})
+    list(APPEND tmp_list ${prefix}${var})
+  endforeach()
+  set(${out} ${tmp_list} PARENT_SCOPE)
+endfunction()
+
+
+# Find the python3 version installed.
+function(find_python_version out)
+  execute_process(COMMAND
+    "python3" -c
+      "import sys; print(str(sys.version_info[0]) + '.' + str(sys.version_info[1]))"
+    OUTPUT_VARIABLE tmp_version
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  set(${out} ${tmp_version} PARENT_SCOPE)
+endfunction()
+
+
+# Check if a particular version is valid.
+function(is_valid_version out version minimum_version)
+  if((version VERSION_EQUAL minimum_version) OR (version VERSION_GREATER minimum_version))
+    set(${out} TRUE PARENT_SCOPE)
+  else()
+    set(${out} FALSE PARENT_SCOPE)
+  endif()
+endfunction()
+
+
+# Find the python site-packages directory.
+# This needs to be called after the find_package(Python) call
+# as it requires PYTHON_EXECUTABLE to be set
+function(find_python_site_packages_dir out)
+  execute_process(COMMAND
+    "${PYTHON_EXECUTABLE}" -c
+      "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+    OUTPUT_VARIABLE tmp_dir
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  set(${out} ${tmp_dir} PARENT_SCOPE)
+endfunction()
+
+
 # Project details
 # -------------------------------------------------
+
 print_section_header("Project Details")
 
 set(MORPHAC_NAME "morphac")
@@ -34,6 +86,7 @@ message(STATUS "Project version: ${PROJECT_VERSION}")
 
 # Options (Interface)
 # -------------------------------------------------
+
 print_section_header("Build Options")
 
 set(BUILD_TESTS ON CACHE BOOL "Build all of the project's test executables")
@@ -50,6 +103,7 @@ message(STATUS "[ BUILD_PYTHON_BINDINGS has been set to ${BUILD_PYTHON_BINDINGS}
 
 # Configuring
 # -------------------------------------------------
+
 print_section_header("Build Configuration")
 
 set(CMAKE_CXX_STANDARD 14)
@@ -71,22 +125,32 @@ if (${BUILD_TESTS})
 endif(${BUILD_TESTS})
 
 
-# Build variables (Internal)
-# -------------------------------------------------
-set(PYTHON_BINDING_PREFIX "_binding_")
-
 # Python
 # -------------------------------------------------
-# Finding the python executable and obtaining the site-packages directory
+
 print_section_header("Python Configuration")
 
-find_package(PythonInterp 3.7 REQUIRED)
-execute_process(COMMAND
-  "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-  OUTPUT_VARIABLE PYTHON_BINDING_INSTALL_DIR
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+# Minimum python version required.
+set(PYTHON_MINIMUM_VERSION 3.5)
+# Prefix for compiled python bindings.
+set(PYTHON_BINDING_PREFIX "_binding_")
 
+# Find python version
+find_python_version(PYTHON_VERSION)
+
+# Make sure that the python version is valid
+is_valid_version(is_python_version_valid ${PYTHON_VERSION} ${PYTHON_MINIMUM_VERSION})
+if(NOT is_python_version_valid)
+  message(FATAL_ERROR "[ Python valid must be >= ${PYTHON_MINIMUM_VERSION} ]")
+endif()
+
+# Finding the python executable.
+find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
+
+# Site packages dir for installing bindings.
+find_python_site_packages_dir(PYTHON_BINDING_INSTALL_DIR)
+
+message(STATUS "[ Python version: ${PYTHON_VERSION} ]")
 if(${PYTHONINTERP_FOUND})
   message(STATUS "[ Python Interpreter found ]")
 else(${PYTHONINTERP_FOUND})
