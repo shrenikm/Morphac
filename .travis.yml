@@ -1,3 +1,4 @@
+os: linux
 dist: xenial
 
 language:
@@ -24,7 +25,7 @@ before_install:
 
 jobs:
   include:
-    -python: "3.7"
+    - python: "3.7"
 
 script:
   # Creating the build directory
