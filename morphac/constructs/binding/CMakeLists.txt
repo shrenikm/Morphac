@@ -48,7 +48,7 @@ target_link_libraries(${module_name}
 set_target_properties(${module_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX})
 
 
-# Install
+# Installing
 # -------------------------------------------------
 
 # Get target suffix
