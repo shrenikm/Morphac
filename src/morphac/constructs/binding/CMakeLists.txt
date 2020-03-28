@@ -1,33 +1,58 @@
 # Bindings
 # -------------------------------------------------
 
-set(CONSTRUCTS_BINDING_FILE
+# Src file that creates the python module.
+set(CONSTRUCTS_MODULE_FILE
 
   constructs.cc
 )
 
-get_filename_component(binding_name ${CONSTRUCTS_BINDING_FILE} NAME_WE)
-pybind11_add_module(${binding_name} SHARED ${CONSTRUCTS_BINDING_DIR}/${CONSTRUCTS_BINDING_FILE})
+# Individual binding files called by the src module file.
+# They are split up into different files so that compilation is more efficient.
+set(CONSTRUCTS_BINDING_FILES
 
-target_include_directories(${binding_name} PRIVATE ${PYBIND11_INCLUDE_DIR})
-# Setting binding target properties.
-# Target prefix.
-set_target_properties(${binding_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX})
+  coordinate2D_binding.cc
+  control_input_binding.cc
+  pose_binding.cc
+  velocity_binding.cc
+  state_binding.cc
+)
+# Prepending the directory to the files.
+prepend_list(CONSTRUCTS_BINDING_FILES ${CONSTRUCTS_BINDING_SRC_DIR}/ ${CONSTRUCTS_BINDING_FILES})
+
+# Adding the module as a library.
+get_filename_component(module_name ${CONSTRUCTS_MODULE_FILE} NAME_WE)
+pybind11_add_module(
+  ${module_name}
+  SHARED
+  ${CONSTRUCTS_BINDING_DIR}/${CONSTRUCTS_MODULE_FILE} ${CONSTRUCTS_BINDING_FILES}
+)
+
+target_include_directories(
+  ${module_name}
+  PRIVATE
+  ${PYBIND11_INCLUDE_DIR} ${CONSTRUCTS_BINDING_DIR}/include
+)
 
 # Adding library dependencies.
-target_link_libraries(${binding_name}
+target_link_libraries(${module_name}
   PUBLIC coordinate2D control_input pose velocity state)
 
-# Get target suffix
-get_target_property(binding_suffix ${binding_name} SUFFIX)
+# Setting binding target properties.
+# Target prefix.
+set_target_properties(${module_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX})
 
-# Full name of the built target (.so file that needs to be installed).
-set(binding_install_file_name
-  ${PYTHON_BINDING_PREFIX}${binding_name}${binding_suffix}
-)
 
 # Install
 # -------------------------------------------------
+
+# Get target suffix
+get_target_property(binding_suffix ${module_name} SUFFIX)
+
+# Full name of the built target (.so file that needs to be installed).
+set(binding_install_file_name
+  ${PYTHON_BINDING_PREFIX}${module_name}${binding_suffix}
+)
 
 # Installing compiled bindings.
 install(FILES
