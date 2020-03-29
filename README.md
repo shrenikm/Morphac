@@ -15,7 +15,7 @@ Ubuntu (16.04) | [![Build Status](https://travis-ci.com/shrenikm/Morphac.svg?bra
 * Ubuntu 16.04 (It has only been tested on Ubuntu 16.04 but it should build on any linux distro)
 * CMake version >= 3.5
 * GCC version >= 5
-* Python version >= 3.7
+* Python version >= 3.5
 
 ### Building
 Clone the repository:<br/>

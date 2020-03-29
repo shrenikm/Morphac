@@ -25,3 +25,4 @@ install(FILES
   ${MORPHAC_DIR}/__init__.py
   DESTINATION ${PYTHON_BINDING_INSTALL_DIR}/morphac
 )
+
