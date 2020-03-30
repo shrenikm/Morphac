@@ -32,9 +32,17 @@ jobs:
     #- python: "3.7"
     #- python: "3.8"
     - dist: xenial
-      python: 3.7
+      python:
+        - "3.5"
+        - "3.6"
+        - "3.7"
+        - "3.8"
     - dist: bionic
-      python: 3.7
+      python:
+        - "3.5"
+        - "3.6"
+        - "3.7"
+        - "3.8"
 
 script:
   # Creating the build directory
