@@ -40,10 +40,12 @@ class Coordinate2D {
 
   T get_x() const;
   T get_y() const;
-  const Eigen::Matrix<T, Eigen::Dynamic, 1> get_coordinate_vector() const;
+  const Eigen::Matrix<T, 2, 1> get_coordinate_vector() const;
   void set_x(const T x);
   void set_y(const T y);
   void set_coordinate(const T x, const T y);
+  void set_coordinate_vector(
+      const Eigen::Matrix<T, 2, 1>& coord_vector);
 
  private:
   T x_;

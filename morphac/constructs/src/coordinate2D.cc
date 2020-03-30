@@ -6,7 +6,6 @@ namespace constructs {
 using std::ostream;
 using std::ostringstream;
 using std::string;
-using Eigen::Dynamic;
 using Eigen::Matrix;
 
 template <typename T>
@@ -143,8 +142,8 @@ T Coordinate2D<T>::get_y() const {
 }
 
 template <typename T>
-const Matrix<T, Dynamic, 1> Coordinate2D<T>::get_coordinate_vector() const {
-  Matrix<T, Dynamic, 1> coord_vector(2);
+const Matrix<T, 2, 1> Coordinate2D<T>::get_coordinate_vector() const {
+  Matrix<T, 2, 1> coord_vector(2);
   coord_vector << this->get_x(), this->get_y();
   return coord_vector;
 }
@@ -163,6 +162,15 @@ template <typename T>
 void Coordinate2D<T>::set_coordinate(const T x, const T y) {
   x_ = x;
   y_ = y;
+}
+
+template <typename T>
+void Coordinate2D<T>::set_coordinate_vector(
+    const Matrix<T, 2, 1>& coord_vector) {
+  MORPH_REQUIRE(coord_vector.size() == 2, std::invalid_argument,
+                "Coordinate vector must be of size 2.");
+  this->set_x(coord_vector(0));
+  this->set_y(coord_vector(1));
 }
 
 // Template instantiations

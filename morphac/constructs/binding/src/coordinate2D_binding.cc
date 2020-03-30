@@ -29,14 +29,9 @@ void define_coordinate2D_binding(py::module& m) {
                             &Coordinate2D<double>::set_x);
   coordinate2D.def_property("y", &Coordinate2D<double>::get_y,
                             &Coordinate2D<double>::set_y);
-  // To keep it consistent with other constructs, we provide a data function
-  coordinate2D.def_property_readonly("data",
-                                     [](const Coordinate2D<double>& coord) {
-                                       Eigen::VectorXd v(2);
-                                       v << coord.get_x(), coord.get_y();
-                                       return v;
-                                     });
-  coordinate2D.def("set_coordinate", &Coordinate2D<double>::set_coordinate);
+  coordinate2D.def_property("data",
+                            &Coordinate2D<double>::get_coordinate_vector,
+                            &Coordinate2D<double>::set_coordinate_vector);
 }
 
 }  // namespace binding

@@ -7,6 +7,8 @@ namespace {
 using std::ostringstream;
 
 using morphac::constructs::Coordinate2D;
+using Eigen::Matrix;
+using Eigen::VectorXd;
 
 class Coordinate2DTest : public ::testing::Test {
  protected:
@@ -45,6 +47,33 @@ TEST_F(Coordinate2DTest, Initialization) {
   ASSERT_EQ(zero_coord_int_.get_y(), 2);
   ASSERT_DOUBLE_EQ(zero_coord_double_.get_x(), 1.0);
   ASSERT_DOUBLE_EQ(zero_coord_double_.get_y(), 2.0);
+}
+
+TEST_F(Coordinate2DTest, GetVector) {
+  Matrix<int, 2, 1> coord_int_vector = coord1_int_.get_coordinate_vector();
+  ASSERT_EQ(coord_int_vector(0), 2);
+  ASSERT_EQ(coord_int_vector(1), 3);
+
+  VectorXd coord_double_vector = coord1_double_.get_coordinate_vector();
+  ASSERT_EQ(coord_double_vector.size(), 2);
+  ASSERT_EQ(coord_double_vector(0), 2.);
+  ASSERT_EQ(coord_double_vector(1), 3.);
+}
+
+TEST_F(Coordinate2DTest, SetVector) {
+  Matrix<int, 2, 1> coord_int_vector;
+  coord_int_vector << -2, -3;
+  coord1_int_.set_coordinate_vector(coord_int_vector);
+
+  ASSERT_EQ(coord1_int_.get_x(), -2);
+  ASSERT_EQ(coord1_int_.get_y(), -3);
+
+  VectorXd coord_double_vector(2);
+  coord_double_vector << -2, -3;
+  coord1_double_.set_coordinate_vector(coord_double_vector);
+
+  ASSERT_EQ(coord1_double_.get_x(), -2);
+  ASSERT_EQ(coord1_double_.get_y(), -3);
 }
 
 TEST_F(Coordinate2DTest, Addition) {
