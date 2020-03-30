@@ -108,15 +108,15 @@ def test_multiplication(generate_pose_list):
 
     res = p4 * (-2)
     assert np.allclose(res.data, [-2, -2, -4, -6, -10])
+
+    # Test commutative property.
     assert np.allclose((p4 * (-2)).data, ((-2) * p4).data)
 
 
 def test_repr(generate_pose_list):
 
-    p1, p2, _, _ = generate_pose_list
-
-    assert isinstance(repr(p1), str)
-    assert isinstance(repr(p2), str)
+    for p in generate_pose_list:
+        assert isinstance(repr(p), str)
 
 
 def test_empty():
