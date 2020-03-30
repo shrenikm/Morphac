@@ -4,7 +4,7 @@ import pytest
 from morphac.constructs import Pose
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def generate_pose_list():
 
     # List of poses constructed in different ways.
@@ -17,18 +17,36 @@ def generate_pose_list():
     return p1, p2, p3, p4
 
 
-def test_members(generate_pose_list):
+def test_size(generate_pose_list):
 
     p1, p2, p3, p4 = generate_pose_list
 
     assert p1.size == 2
-    assert np.all(p1.data == 0)
     assert p2.size == 3
-    assert np.allclose(p2.data, np.array([1., 2., 3.]))
     assert p3.size == 4
-    assert np.allclose(p3.data, np.array([4., 3., 2., 1.]))
     assert p4.size == 5
-    assert np.allclose(p4.data, np.array([1., 1., 2., 3., 5.]))
+
+
+def test_data(generate_pose_list):
+
+    p1, p2, p3, p4 = generate_pose_list
+
+    # Test getting data.
+    assert np.all(p1.data == 0)
+    assert np.allclose(p2.data, [1., 2., 3.])
+    assert np.allclose(p3.data, [4., 3., 2., 1.])
+    assert np.allclose(p4.data, [1., 1., 2., 3., 5.])
+
+    # Test setting data.
+    p1.data = np.array([1, 1], dtype=np.int)
+    p2.data = np.array([-2, 3, 3], dtype=np.float)
+    p3.data = [5, -13, -1, 0]
+    p4.data = (-4, -6, -2, -3, -9)
+
+    assert np.allclose(p1.data, [1, 1])
+    assert np.allclose(p2.data, [-2, 3, 3])
+    assert np.allclose(p3.data, [5, -13, -1, 0])
+    assert np.allclose(p4.data, [-4, -6, -2, -3, -9])
 
 
 def test_addition(generate_pose_list):
@@ -42,10 +60,10 @@ def test_addition(generate_pose_list):
     assert np.allclose(res.data, p2.data)
 
     res = p3 + Pose([0, 1, 2, 3])
-    assert np.allclose(res.data, np.array([4, 4, 4, 4]))
+    assert np.allclose(res.data, [4, 4, 4, 4])
 
     res = p4 + Pose([-1, -2, -3, -4, -5])
-    assert np.allclose(res.data, np.array([0, -1, -1, -1, 0]))
+    assert np.allclose(res.data, [0, -1, -1, -1, 0])
 
     # Test invalid addition.
     with pytest.raises(ValueError):
@@ -64,10 +82,10 @@ def test_subtraction(generate_pose_list):
     assert np.allclose(res.data, p2.data)
 
     res = p3 - Pose([3, 2, 1, 0])
-    assert np.allclose(res.data, np.array([1, 1, 1, 1]))
+    assert np.allclose(res.data, [1, 1, 1, 1])
 
     res = p4 - Pose([5, -4, 3, -2, 1])
-    assert np.allclose(res.data, np.array([-4, 5, -1, 5, 4]))
+    assert np.allclose(res.data, [-4, 5, -1, 5, 4])
 
     # Test invalid addition.
     with pytest.raises(ValueError):
@@ -86,10 +104,10 @@ def test_multiplication(generate_pose_list):
     assert np.all(res.data == 0)
 
     res = p3 * 3
-    assert np.allclose(res.data, np.array([12, 9, 6, 3]))
+    assert np.allclose(res.data, [12, 9, 6, 3])
 
     res = p4 * (-2)
-    assert np.allclose(res.data, np.array([-2, -2, -4, -6, -10]))
+    assert np.allclose(res.data, [-2, -2, -4, -6, -10])
     assert np.allclose((p4 * (-2)).data, ((-2) * p4).data)
 
 
