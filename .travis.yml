@@ -24,15 +24,17 @@ install:
 
 jobs:
   include:
-    - dist: xenial
-      python: 3.5
-    - dist: xenial
-      python: 3.6
-    - dist: xenial
-      python: 3.7
-    - dist: xenial
-      python: 3.8
+    # Uncomment to test on Ubuntu 16
+    #    - dist: xenial
+    #      python: 3.5
+    #    - dist: xenial
+    #      python: 3.6
+    #    - dist: xenial
+    #      python: 3.7
+    #    - dist: xenial
+    #      python: 3.8
 
+    # Test on Ubuntu 18
     - dist: bionic
       python: 3.5
     - dist: bionic
