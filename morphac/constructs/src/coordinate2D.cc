@@ -6,6 +6,8 @@ namespace constructs {
 using std::ostream;
 using std::ostringstream;
 using std::string;
+using Eigen::Dynamic;
+using Eigen::Matrix;
 
 template <typename T>
 Coordinate2D<T>::Coordinate2D(const T x, const T y) : x_(x), y_(y) {}
@@ -138,6 +140,13 @@ T Coordinate2D<T>::get_x() const {
 template <typename T>
 T Coordinate2D<T>::get_y() const {
   return y_;
+}
+
+template <typename T>
+const Matrix<T, Dynamic, 1> Coordinate2D<T>::get_coordinate_vector() const {
+  Matrix<T, Dynamic, 1> coord_vector(2);
+  coord_vector << this->get_x(), this->get_y();
+  return coord_vector;
 }
 
 template <typename T>
