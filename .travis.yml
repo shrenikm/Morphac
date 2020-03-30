@@ -22,10 +22,6 @@ before_install:
 install:
   - pip install -r requirements.txt
 
-dist:
-  - xenial
-  - bionic
-
 jobs:
   include:
     #- python: "3.5"
