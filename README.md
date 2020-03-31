@@ -1,18 +1,18 @@
 # Morphac
 
-Morphac (Mobile Robot Playground for Planning and Control) is an open source motion planning and control library for mobile robots. [Currently under development].
+Morphac (Mobile Robot Playground for Planning and Control) is an open source motion planning and control library for mobile robots. **[Currently under development]**.
 
 The library is written in C++ and will have python bindings for all functionality.
 
 ## Build status
-Platform | Status
----------|-------
-Ubuntu (16.04) | [![Build Status](https://travis-ci.com/shrenikm/Morphac.svg?branch=master)](https://travis-ci.com/shrenikm/Morphac)
+OS | Python | Status
+---------|--------|-------
+Ubuntu (18.04) | 3.5, 3.6, 3.7, 3.8 | [![Build Status](https://travis-ci.com/shrenikm/Morphac.svg?branch=master)](https://travis-ci.com/shrenikm/Morphac)
 
 ## Installation
 
 ### Requirements
-* Ubuntu 16.04 (It has only been tested on Ubuntu 16.04 but it should build on any linux distro)
+* Ubuntu 16.04/18.04 (It has only been tested on these platforms)
 * CMake version >= 3.5
 * GCC version >= 5
 * Python version >= 3.5
@@ -27,9 +27,19 @@ Build using CMake:<br/>
 `cmake .. && make`<br/><br/>
 Install the library and python modules:<br/>
 `make install`<br/><br/>
-Tests may be run using:<br/>
+C++ tests may be run using:<br/>
 `make test`<br/><br/>
-To disable building tests, the CMake `BUILD_TESTS` option can be set to `OFF`.
+Python tests using:
+`pytest morphac`<br/><br/>
+
+Available CMake configuration options:
+Option | Description | Default
+-------|-------------|--------
+BUILD_TESTS | Build C++ tests or not | ON
+BUILD_WITH_WARNINGS | Build source code with `-Wall` and `-Wextra` | ON
+BUILD_WITH_WARNINGS_AS_ERRORS | Build source code with `-Werror` | ON
+BUILD_PYTHON_BINDINGS | Build python bindings or not | ON
+
 
 -------
 
