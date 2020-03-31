@@ -29,7 +29,7 @@ Install the library and python modules:<br/>
 `make install`<br/><br/>
 C++ tests may be run using:<br/>
 `make test`<br/><br/>
-Python tests using:
+Python tests using:<br/>
 `pytest morphac`<br/><br/>
 
 Available CMake configuration options:
