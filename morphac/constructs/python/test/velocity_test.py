@@ -121,19 +121,13 @@ def test_repr(generate_velocity_list):
 
 def test_empty():
 
-    v = Velocity(3)
-    assert not v.is_empty()
-
-    v = Velocity(0)
-    assert v.is_empty()
+    assert not Velocity(3).is_empty()
+    assert Velocity(0).is_empty()
 
 
 def test_create_like(generate_velocity_list):
 
-    v1, v2, _, _ = generate_velocity_list
+    for v in generate_velocity_list:
 
-    assert Velocity.create_like(v1).size == 2
-    assert np.allclose(Velocity.create_like(v1).data, [0, 0])
-
-    assert Velocity.create_like(v2).size == 3
-    assert np.allclose(Velocity.create_like(v2).data, [0, 0, 0])
+        assert Velocity.create_like(v).size == v.size
+        assert np.allclose(Velocity.create_like(v).data, np.zeros(v.size))

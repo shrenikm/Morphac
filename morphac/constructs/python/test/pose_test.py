@@ -121,19 +121,13 @@ def test_repr(generate_pose_list):
 
 def test_empty():
 
-    p = Pose(3)
-    assert not p.is_empty()
-
-    p = Pose(0)
-    assert p.is_empty()
+    assert not Pose(3).is_empty()
+    assert Pose(0).is_empty()
 
 
 def test_create_like(generate_pose_list):
 
-    p1, p2, _, _ = generate_pose_list
+    for p in generate_pose_list:
 
-    assert Pose.create_like(p1).size == 2
-    assert np.allclose(Pose.create_like(p1).data, [0, 0])
-
-    assert Pose.create_like(p2).size == 3
-    assert np.allclose(Pose.create_like(p2).data, [0, 0, 0])
+        assert Pose.create_like(p).size == p.size
+        assert np.allclose(Pose.create_like(p).data, np.zeros(p.size))

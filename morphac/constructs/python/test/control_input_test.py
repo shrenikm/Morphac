@@ -121,19 +121,14 @@ def test_repr(generate_control_input_list):
 
 def test_empty():
 
-    ci = ControlInput(3)
-    assert not ci.is_empty()
-
-    ci = ControlInput(0)
-    assert ci.is_empty()
+    assert not ControlInput(3).is_empty()
+    assert ControlInput(0).is_empty()
 
 
 def test_create_like(generate_control_input_list):
 
-    ci1, ci2, _, _ = generate_control_input_list
+    for ci in generate_control_input_list:
 
-    assert ControlInput.create_like(ci1).size == 2
-    assert np.allclose(ControlInput.create_like(ci1).data, [0, 0])
-
-    assert ControlInput.create_like(ci2).size == 3
-    assert np.allclose(ControlInput.create_like(ci2).data, [0, 0, 0])
+        assert ControlInput.create_like(ci).size == ci.size
+        assert np.allclose(ControlInput.create_like(ci).data,
+                           np.zeros(ci.size))

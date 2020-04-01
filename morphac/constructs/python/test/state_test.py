@@ -61,6 +61,15 @@ def test_state_pose(generate_state_list):
     assert sp2.pose.size == 3
     assert np.allclose(sp2.pose.data, [4, 6, 5.9])
 
+    # Testing setting pose data.
+    # Doesn't have to be tested too much as the Pose tests cover it.
+    # Only need to test if the changes are reflected in the State object.
+    sf1.pose.data = [1, 1]
+    sp2.pose.data = (1, -1, 1)
+
+    assert np.allclose(sf1.data, [1, 1, 0, 0])
+    assert np.allclose(sp2.data, [1, -1, 1])
+
 
 def test_state_velocity(generate_state_list):
 
@@ -83,10 +92,21 @@ def test_state_velocity(generate_state_list):
     assert np.allclose(sp1.velocity.data, [0, 0])
     assert sp2.velocity.size == 0
 
+    # Testing setting velocitiy data.
+    # Doesn't have to be tested too much as the Velocity tests cover it.
+    # Only need to test if the changes are reflected in the State object.
+    sf1.velocity.data = [1, 1]
+    sp1.velocity.data = (1, -1)
+
+    assert np.allclose(sf1.data, [0, 0, 1, 1])
+    assert np.allclose(sp1.data, [1, -1])
+
 
 def test_data(generate_state_list):
 
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
+
+    # Test getting data.
 
     # Full state data.
     assert np.allclose(sf1.data, [0, 0, 0, 0])
@@ -99,12 +119,34 @@ def test_data(generate_state_list):
     assert np.allclose(sp1.data, [0, 0])
     assert np.allclose(sp2.data, [4, 6, 5.9])
 
+    # Test setting data.
+
+    # Full state data.
+    sf1.data = np.array([1, 1, 1, 1])
+    sf2.data = np.array([0, 1, 0, -1], dtype=np.int)
+    sf3.data = np.array([9, 8, 7, 6, 5], dtype=np.float)
+    sf4.data = [0, 0, 0, -7, 0, 0, 0]
+    sf5.data = (5, 5, 5, 5, 5)
+
+    # Partial state data.
+    sp1.data = [1, 1]
+    sp2.data = (-1, 2, -3)
+
+    assert np.allclose(sf1.data, [1, 1, 1, 1])
+    assert np.allclose(sf2.data, [0, 1, 0, -1])
+    assert np.allclose(sf3.data, [9, 8, 7, 6, 5])
+    assert np.allclose(sf4.data, [0, 0, 0, -7, 0, 0, 0])
+    assert np.allclose(sf5.data, [5, 5, 5, 5, 5])
+
+    assert np.allclose(sp1.data, [1, 1])
+    assert np.allclose(sp2.data, [-1, 2, -3])
+
 
 def test_addition(generate_state_list):
 
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
 
-    # Full state addition
+    # Full state addition.
     sf1 += State(2, 2)
     assert np.allclose(sf1.data, [0, 0, 0, 0])
 
@@ -120,19 +162,27 @@ def test_addition(generate_state_list):
     res = sf5 + State([-5, -4], [-2, 2, -14])
     assert np.allclose(res.data, [-5, -5, -5, -5, -5])
 
-    # Partial state addition
+    # Partial state addition.
     sp1 += State(0, 2)
     assert np.allclose(sp1.data, [0, 0])
 
     res = sp2 + State([-5, -1, 0.1], [])
     assert np.allclose(res.data, [-1, 5, 6])
 
+    # Test invalid addition.
+    with pytest.raises(ValueError):
+        sf1 += State(2, 3)
+        res = sf1 + State(3, 2)
+
+        sp1 += State(2, 2)
+        res = sp2 + State(0, 3)
+
 
 def test_subtraction(generate_state_list):
 
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
 
-    # Full state subtraction
+    # Full state subtraction.
     sf1 -= State(2, 2)
     assert np.allclose(sf1.data, [0, 0, 0, 0])
 
@@ -148,9 +198,72 @@ def test_subtraction(generate_state_list):
     res = sf5 - State([9, 9], [9, 9, 9])
     assert np.allclose(res.data, [-9, -10, -12, -16, 0])
 
-    # Partial state subtraction
+    # Partial state subtraction.
     sp1 -= State(0, 2)
     assert np.allclose(sp1.data, [0, 0])
 
     res = sp2 - State([6, 6, 0.9], [])
     assert np.allclose(res.data, [-2, 0, 5])
+
+    # Test invalid Subtraction.
+    with pytest.raises(ValueError):
+        sf1 -= State(2, 3)
+        res = sf1 - State(3, 2)
+
+        sp1 -= State(2, 2)
+        res = sp2 - State(0, 3)
+
+
+def test_multiplication(generate_state_list):
+
+    sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
+
+    # Full state multiplication.
+    sf1 *= 0
+    assert np.allclose(sf1.data, [0, 0, 0, 0])
+
+    res = sf2 * 0
+    assert np.allclose(res.data, [0, 0, 0, 0])
+
+    res = sf3 * 2
+    assert np.allclose(res.data, [10, 12, 14, 16, 18])
+
+    res = sf4 * (3)
+    assert np.allclose(res.data, [3, 3, 6, 9, 15, 24, 39])
+
+    res = sf5 * (-2)
+    assert np.allclose(res.data, [0, 2, 6, 14, -18])
+
+    # Commutative property.
+    assert np.allclose((sf5 * (-2)).data, ((-2) * sf5).data)
+
+    # Partial state multiplication.
+    res = sp1 * 2
+    assert np.allclose(res.data, [0, 0])
+
+    res = sp2 * (-1)
+    assert np.allclose(res.data, [-4, -6, -5.9])
+
+
+def test_repr(generate_state_list):
+
+    for s in generate_state_list:
+        assert isinstance(repr(s), str)
+
+
+def test_empty():
+
+    assert not State(3, 3).is_empty()
+    assert not State(2, 0).is_empty()
+    assert not State(0, 4).is_empty()
+    assert State(0, 0).is_empty()
+
+
+def test_create_like(generate_state_list):
+
+    for s in generate_state_list:
+
+        assert State.create_like(s).size == s.size
+        assert State.create_like(s).pose.size == s.pose.size
+        assert State.create_like(s).velocity.size == s.velocity.size
+        assert np.allclose(State.create_like(s).data, np.zeros(s.size))
