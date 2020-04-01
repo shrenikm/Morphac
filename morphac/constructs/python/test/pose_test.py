@@ -7,7 +7,7 @@ from morphac.constructs import Pose
 @pytest.fixture()
 def generate_pose_list():
 
-    # List of poses constructed in different ways.
+    # List of poses constructed in every single way.
     # This also tests initialization.
     p1 = Pose(2)
     p2 = Pose([1, 2, 3])
@@ -32,7 +32,7 @@ def test_data(generate_pose_list):
     p1, p2, p3, p4 = generate_pose_list
 
     # Test getting data.
-    assert np.all(p1.data == 0)
+    assert np.allclose(p1.data, [0, 0])
     assert np.allclose(p2.data, [1., 2., 3.])
     assert np.allclose(p3.data, [4., 3., 2., 1.])
     assert np.allclose(p4.data, [1., 1., 2., 3., 5.])
@@ -54,7 +54,7 @@ def test_addition(generate_pose_list):
     p1, p2, p3, p4 = generate_pose_list
 
     p1 += Pose(2)
-    assert np.all(p1.data == 0)
+    assert np.allclose(p1.data, [0, 0])
 
     res = p2 + Pose(3)
     assert np.allclose(res.data, p2.data)
@@ -76,7 +76,7 @@ def test_subtraction(generate_pose_list):
     p1, p2, p3, p4 = generate_pose_list
 
     p1 -= Pose(2)
-    assert np.all(p1.data == 0)
+    assert np.allclose(p1.data, [0, 0])
 
     res = p2 - Pose(3)
     assert np.allclose(res.data, p2.data)
@@ -98,10 +98,10 @@ def test_multiplication(generate_pose_list):
     p1, p2, p3, p4 = generate_pose_list
 
     p1 *= 0
-    assert np.all(p1.data == 0)
+    assert np.allclose(p1.data, [0, 0])
 
     res = p2 * 0
-    assert np.all(res.data == 0)
+    assert np.allclose(res.data, [0, 0, 0])
 
     res = p3 * 3
     assert np.allclose(res.data, [12, 9, 6, 3])
@@ -133,7 +133,7 @@ def test_create_like(generate_pose_list):
     p1, p2, _, _ = generate_pose_list
 
     assert Pose.create_like(p1).size == 2
-    assert np.all(Pose.create_like(p1).data == 0)
+    assert np.allclose(Pose.create_like(p1).data, [0, 0])
 
     assert Pose.create_like(p2).size == 3
-    assert np.all(Pose.create_like(p2).data == 0)
+    assert np.allclose(Pose.create_like(p2).data, [0, 0, 0])

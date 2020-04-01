@@ -7,7 +7,7 @@ from morphac.constructs import Velocity
 @pytest.fixture()
 def generate_velocity_list():
 
-    # List of poses constructed in different ways.
+    # List of velocities constructed in every single way.
     # This also tests initialization.
     v1 = Velocity(2)
     v2 = Velocity([1, 2, 3])
@@ -32,7 +32,7 @@ def test_data(generate_velocity_list):
     v1, v2, v3, v4 = generate_velocity_list
 
     # Test getting data.
-    assert np.all(v1.data == 0)
+    assert np.allclose(v1.data, [0, 0])
     assert np.allclose(v2.data, [1., 2., 3.])
     assert np.allclose(v3.data, [4., 3., 2., 1.])
     assert np.allclose(v4.data, [1., 1., 2., 3., 5.])
@@ -54,7 +54,7 @@ def test_addition(generate_velocity_list):
     v1, v2, v3, v4 = generate_velocity_list
 
     v1 += Velocity(2)
-    assert np.all(v1.data == 0)
+    assert np.allclose(v1.data, [0, 0])
 
     res = v2 + Velocity(3)
     assert np.allclose(res.data, v2.data)
@@ -76,7 +76,7 @@ def test_subtraction(generate_velocity_list):
     v1, v2, v3, v4 = generate_velocity_list
 
     v1 -= Velocity(2)
-    assert np.all(v1.data == 0)
+    assert np.allclose(v1.data, [0, 0])
 
     res = v2 - Velocity(3)
     assert np.allclose(res.data, v2.data)
@@ -98,10 +98,10 @@ def test_multiplication(generate_velocity_list):
     v1, v2, v3, v4 = generate_velocity_list
 
     v1 *= 0
-    assert np.all(v1.data == 0)
+    assert np.allclose(v1.data, [0, 0])
 
     res = v2 * 0
-    assert np.all(res.data == 0)
+    assert np.allclose(res.data, [0, 0, 0])
 
     res = v3 * 3
     assert np.allclose(res.data, [12, 9, 6, 3])
@@ -133,7 +133,7 @@ def test_create_like(generate_velocity_list):
     v1, v2, _, _ = generate_velocity_list
 
     assert Velocity.create_like(v1).size == 2
-    assert np.all(Velocity.create_like(v1).data == 0)
+    assert np.allclose(Velocity.create_like(v1).data, [0, 0])
 
     assert Velocity.create_like(v2).size == 3
-    assert np.all(Velocity.create_like(v2).data == 0)
+    assert np.allclose(Velocity.create_like(v2).data, [0, 0, 0])

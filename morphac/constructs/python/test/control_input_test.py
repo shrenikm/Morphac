@@ -7,7 +7,7 @@ from morphac.constructs import ControlInput
 @pytest.fixture()
 def generate_control_input_list():
 
-    # List of poses constructed in different ways.
+    # List of velocities constructed in every single way.
     # This also tests initialization.
     ci1 = ControlInput(2)
     ci2 = ControlInput([1, 2, 3])
@@ -32,7 +32,7 @@ def test_data(generate_control_input_list):
     ci1, ci2, ci3, ci4 = generate_control_input_list
 
     # Test getting data.
-    assert np.all(ci1.data == 0)
+    assert np.allclose(ci1.data, [0, 0])
     assert np.allclose(ci2.data, [1., 2., 3.])
     assert np.allclose(ci3.data, [4., 3., 2., 1.])
     assert np.allclose(ci4.data, [1., 1., 2., 3., 5.])
@@ -54,7 +54,7 @@ def test_addition(generate_control_input_list):
     ci1, ci2, ci3, ci4 = generate_control_input_list
 
     ci1 += ControlInput(2)
-    assert np.all(ci1.data == 0)
+    assert np.allclose(ci1.data, [0, 0])
 
     res = ci2 + ControlInput(3)
     assert np.allclose(res.data, ci2.data)
@@ -76,7 +76,7 @@ def test_subtraction(generate_control_input_list):
     ci1, ci2, ci3, ci4 = generate_control_input_list
 
     ci1 -= ControlInput(2)
-    assert np.all(ci1.data == 0)
+    assert np.allclose(ci1.data, [0, 0])
 
     res = ci2 - ControlInput(3)
     assert np.allclose(res.data, ci2.data)
@@ -98,10 +98,10 @@ def test_multiplication(generate_control_input_list):
     ci1, ci2, ci3, ci4 = generate_control_input_list
 
     ci1 *= 0
-    assert np.all(ci1.data == 0)
+    assert np.allclose(ci1.data, [0, 0])
 
     res = ci2 * 0
-    assert np.all(res.data == 0)
+    assert np.allclose(res.data, [0, 0, 0])
 
     res = ci3 * 3
     assert np.allclose(res.data, [12, 9, 6, 3])
@@ -133,7 +133,7 @@ def test_create_like(generate_control_input_list):
     ci1, ci2, _, _ = generate_control_input_list
 
     assert ControlInput.create_like(ci1).size == 2
-    assert np.all(ControlInput.create_like(ci1).data == 0)
+    assert np.allclose(ControlInput.create_like(ci1).data, [0, 0])
 
     assert ControlInput.create_like(ci2).size == 3
-    assert np.all(ControlInput.create_like(ci2).data == 0)
+    assert np.allclose(ControlInput.create_like(ci2).data, [0, 0, 0])
