@@ -9,10 +9,10 @@ def generate_velocity_list():
 
     # List of velocities constructed in every single way.
     # This also tests initialization.
-    v1 = Velocity(2)
+    v1 = Velocity(size=2)
     v2 = Velocity([1, 2, 3])
     v3 = Velocity((4, 3, 2, 1))
-    v4 = Velocity(np.array([1, 1, 2, 3, 5], dtype=np.float))
+    v4 = Velocity(data=np.array([1, 1, 2, 3, 5], dtype=np.float))
 
     return v1, v2, v3, v4
 

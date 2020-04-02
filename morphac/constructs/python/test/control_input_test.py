@@ -9,10 +9,10 @@ def generate_control_input_list():
 
     # List of velocities constructed in every single way.
     # This also tests initialization.
-    ci1 = ControlInput(2)
+    ci1 = ControlInput(size=2)
     ci2 = ControlInput([1, 2, 3])
     ci3 = ControlInput((4, 3, 2, 1))
-    ci4 = ControlInput(np.array([1, 1, 2, 3, 5], dtype=np.float))
+    ci4 = ControlInput(data=np.array([1, 1, 2, 3, 5], dtype=np.float))
 
     return ci1, ci2, ci3, ci4
 

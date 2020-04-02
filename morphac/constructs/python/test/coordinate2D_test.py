@@ -11,8 +11,8 @@ def generate_coord_list():
     # This is also an initialization test.
     c1 = Coordinate2D(0, 0)
     c2 = Coordinate2D(1.5, 2.)
-    c3 = Coordinate2D(1.5, -5.)
-    c4 = Coordinate2D(-9., -1.2)
+    c3 = Coordinate2D(x=1.5, y=-5.)
+    c4 = Coordinate2D(x=-9., y=-1.2)
 
     return c1, c2, c3, c4
 

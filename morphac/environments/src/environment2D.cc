@@ -34,7 +34,7 @@ Environment2D::Environment2D(const double width, const double height,
   map_ = MatrixXd::Zero(rows, cols);
 }
 
-Environment2D::Environment2D(MatrixXd map, const double resolution)
+Environment2D::Environment2D(const MatrixXd& map, const double resolution)
     : width_(map.cols() * resolution),
       height_(map.rows() * resolution),
       resolution_(resolution) {

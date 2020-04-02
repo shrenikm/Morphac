@@ -9,10 +9,10 @@ def generate_pose_list():
 
     # List of poses constructed in every single way.
     # This also tests initialization.
-    p1 = Pose(2)
+    p1 = Pose(size=2)
     p2 = Pose([1, 2, 3])
     p3 = Pose((4, 3, 2, 1))
-    p4 = Pose(np.array([1, 1, 2, 3, 5], dtype=np.float))
+    p4 = Pose(data=np.array([1, 1, 2, 3, 5], dtype=np.float))
 
     return p1, p2, p3, p4
 

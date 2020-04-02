@@ -11,11 +11,12 @@ def generate_state_list():
     # Also tests initialization
 
     # Full states.
-    sf1 = State(2, 2)
+    sf1 = State(size_pose=2, size_velocity=2)
     sf2 = State([1, 2], [3, 4])
     sf3 = State((5, 6), (7, 8, 9))
-    sf4 = State(np.array([1, 1, 2]), np.array([3, 5, 8, 13], dtype=np.float))
-    sf5 = State(Pose([0, -1]), Velocity([-3, -7, 9]))
+    sf4 = State(data_pose=np.array([1, 1, 2]), data_velocity=np.array(
+        [3, 5, 8, 13], dtype=np.float))
+    sf5 = State(pose=Pose([0, -1]), velocity=Velocity([-3, -7, 9]))
 
     # Partial states.
     sp1 = State(0, 2)
