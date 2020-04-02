@@ -23,7 +23,9 @@ set(CONSTRUCTS_BINDING_FILES
   state_binding.cc
 )
 # Prepending the directory to the files.
-prepend_list(CONSTRUCTS_BINDING_FILES ${CONSTRUCTS_BINDING_SRC_DIR}/ ${CONSTRUCTS_BINDING_FILES})
+prepend_list(CONSTRUCTS_BINDING_FILES
+  ${CONSTRUCTS_BINDING_SRC_DIR}/ ${CONSTRUCTS_BINDING_FILES}
+)
 
 # Adding the module as a library.
 get_filename_component(module_name ${CONSTRUCTS_MODULE_FILE} NAME_WE)

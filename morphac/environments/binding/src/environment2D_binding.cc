@@ -1,7 +1,7 @@
 #include "environments/binding/include/environment2D_binding.h"
 
 namespace morphac {
-namespace constructs {
+namespace environments {
 namespace binding {
 
 namespace py = pybind11;
@@ -13,7 +13,7 @@ void define_environment2D_binding(py::module& m) {
   py::class_<Environment2D> environment2D(m, "Environment2D");
   environment2D.def(py::init<const double, const double, const double>(),
                     py::arg("width"), py::arg("height"), py::arg("resolution"));
-  environment2D.def(py::init<const MatrixXd&, const double>() py::arg("map"),
+  environment2D.def(py::init<const MatrixXd&, const double>(), py::arg("data"),
                     py::arg("resolution"));
   environment2D.def_property_readonly("width", &Environment2D::get_width);
   environment2D.def_property_readonly("height", &Environment2D::get_height);
@@ -25,5 +25,5 @@ void define_environment2D_binding(py::module& m) {
 }
 
 }  // namespace binding
-}  // namespace constructs
+}  // namespace environments
 }  // namespace morphac
