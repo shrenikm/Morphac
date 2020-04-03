@@ -30,6 +30,7 @@ def test_width(generate_environment2D_list):
     # Making sure that width is read only.
     with pytest.raises(AttributeError):
         e1.width = 3
+    with pytest.raises(AttributeError):
         e2.width = 1
 
 
@@ -45,6 +46,7 @@ def test_height(generate_environment2D_list):
     # Making sure that height is read only.
     with pytest.raises(AttributeError):
         e1.height = 3
+    with pytest.raises(AttributeError):
         e2.height = 1.5
 
 
@@ -60,6 +62,7 @@ def test_resolution(generate_environment2D_list):
     # Making sure that height is read only.
     with pytest.raises(AttributeError):
         e1.resolution = 1
+    with pytest.raises(AttributeError):
         e2.resolution = 0.5
 
 
