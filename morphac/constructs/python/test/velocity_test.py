@@ -26,9 +26,10 @@ def test_size(generate_velocity_list):
     assert v3.size == 4
     assert v4.size == 5
 
-    # Making sure that size is read only
+    # Making sure that size is read only.
     with pytest.raises(AttributeError):
         v1.size = 3
+    with pytest.raises(AttributeError):
         v2.size = 3
 
 
@@ -53,6 +54,12 @@ def test_data(generate_velocity_list):
     assert np.allclose(v3.data, [5, -13, -1, 0])
     assert np.allclose(v4.data, [-4, -6, -2, -3, -9])
 
+    # Test invalid setting.
+    with pytest.raises(ValueError):
+        v1.data = [1, 1, 1]
+    with pytest.raises(ValueError):
+        v2.data = [1, 1]
+
 
 def test_addition(generate_velocity_list):
 
@@ -73,6 +80,7 @@ def test_addition(generate_velocity_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         v1 += Velocity(3)
+    with pytest.raises(ValueError):
         res = v2 + v3
 
 
@@ -95,6 +103,7 @@ def test_subtraction(generate_velocity_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         v1 -= Velocity(3)
+    with pytest.raises(ValueError):
         res = v2 - v3
 
 

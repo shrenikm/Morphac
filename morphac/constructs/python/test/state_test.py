@@ -8,7 +8,7 @@ from morphac.constructs import Pose, Velocity, State
 def generate_state_list():
 
     # List of full states constructed in all the different ways.
-    # Also tests initialization
+    # Also tests initialization.
 
     # Full states.
     sf1 = State(size_pose=2, size_velocity=2)
@@ -40,11 +40,14 @@ def test_size(generate_state_list):
     assert sp1.size == 2
     assert sp2.size == 3
 
-    # Making sure that size is read only
+    # Making sure that size is read only.
     with pytest.raises(AttributeError):
         sf1.size = 2
+    with pytest.raises(AttributeError):
         sf2.size = 4
+    with pytest.raises(AttributeError):
         sp1.size = 4
+    with pytest.raises(AttributeError):
         sp2.size = 3
 
 
@@ -149,6 +152,16 @@ def test_data(generate_state_list):
     assert np.allclose(sp1.data, [1, 1])
     assert np.allclose(sp2.data, [-1, 2, -3])
 
+    # Test invalid setting.
+    with pytest.raises(ValueError):
+        sf1.data = [1, 1, 1]
+    with pytest.raises(ValueError):
+        sf2.data = [1, 1, 1, 1, 1]
+    with pytest.raises(ValueError):
+        sp1.data = [1, 1, 1]
+    with pytest.raises(ValueError):
+        sp2.data = [1, 1]
+
 
 def test_addition(generate_state_list):
 
@@ -180,9 +193,11 @@ def test_addition(generate_state_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         sf1 += State(2, 3)
+    with pytest.raises(ValueError):
         res = sf1 + State(3, 2)
-
+    with pytest.raises(ValueError):
         sp1 += State(2, 2)
+    with pytest.raises(ValueError):
         res = sp2 + State(0, 3)
 
 
@@ -216,9 +231,11 @@ def test_subtraction(generate_state_list):
     # Test invalid Subtraction.
     with pytest.raises(ValueError):
         sf1 -= State(2, 3)
+    with pytest.raises(ValueError):
         res = sf1 - State(3, 2)
-
+    with pytest.raises(ValueError):
         sp1 -= State(2, 2)
+    with pytest.raises(ValueError):
         res = sp2 - State(0, 3)
 
 

@@ -26,9 +26,10 @@ def test_size(generate_pose_list):
     assert p3.size == 4
     assert p4.size == 5
 
-    # Making sure that size is read only
+    # Making sure that size is read only.
     with pytest.raises(AttributeError):
         p1.size = 3
+    with pytest.raises(AttributeError):
         p2.size = 3
 
 
@@ -53,6 +54,12 @@ def test_data(generate_pose_list):
     assert np.allclose(p3.data, [5, -13, -1, 0])
     assert np.allclose(p4.data, [-4, -6, -2, -3, -9])
 
+    # Test invalid setting.
+    with pytest.raises(ValueError):
+        p1.data = [1, 1, 1]
+    with pytest.raises(ValueError):
+        p2.data = [1, 1]
+
 
 def test_addition(generate_pose_list):
 
@@ -73,6 +80,7 @@ def test_addition(generate_pose_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         p1 += Pose(3)
+    with pytest.raises(ValueError):
         res = p2 + p3
 
 
@@ -95,6 +103,7 @@ def test_subtraction(generate_pose_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         p1 -= Pose(3)
+    with pytest.raises(ValueError):
         res = p2 - p3
 
 

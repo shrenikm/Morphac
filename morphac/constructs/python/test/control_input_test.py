@@ -26,9 +26,10 @@ def test_size(generate_control_input_list):
     assert ci3.size == 4
     assert ci4.size == 5
 
-    # Making sure that size is read only
+    # Making sure that size is read only.
     with pytest.raises(AttributeError):
         ci1.size = 3
+    with pytest.raises(AttributeError):
         ci2.size = 3
 
 
@@ -53,6 +54,12 @@ def test_data(generate_control_input_list):
     assert np.allclose(ci3.data, [5, -13, -1, 0])
     assert np.allclose(ci4.data, [-4, -6, -2, -3, -9])
 
+    # Test invalid setting.
+    with pytest.raises(ValueError):
+        ci1.data = [1, 1, 1]
+    with pytest.raises(ValueError):
+        ci2.data = [1, 1]
+
 
 def test_addition(generate_control_input_list):
 
@@ -73,6 +80,7 @@ def test_addition(generate_control_input_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         ci1 += ControlInput(3)
+    with pytest.raises(ValueError):
         res = ci2 + ci3
 
 
@@ -95,6 +103,7 @@ def test_subtraction(generate_control_input_list):
     # Test invalid addition.
     with pytest.raises(ValueError):
         ci1 -= ControlInput(3)
+    with pytest.raises(ValueError):
         res = ci2 - ci3
 
 
