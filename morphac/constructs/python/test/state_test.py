@@ -40,6 +40,13 @@ def test_size(generate_state_list):
     assert sp1.size == 2
     assert sp2.size == 3
 
+    # Making sure that size is read only
+    with pytest.raises(AttributeError):
+        sf1.size = 2
+        sf2.size = 4
+        sp1.size = 4
+        sp2.size = 3
+
 
 def test_state_pose(generate_state_list):
 

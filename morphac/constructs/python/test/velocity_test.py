@@ -26,6 +26,11 @@ def test_size(generate_velocity_list):
     assert v3.size == 4
     assert v4.size == 5
 
+    # Making sure that size is read only
+    with pytest.raises(AttributeError):
+        v1.size = 3
+        v2.size = 3
+
 
 def test_data(generate_velocity_list):
 

@@ -17,10 +17,11 @@ def generate_coord_list():
     return c1, c2, c3, c4
 
 
-def test_members(generate_coord_list):
+def test_xy(generate_coord_list):
 
     c1, c2, c3, c4 = generate_coord_list
 
+    # Test getting.
     assert c1.x == 0
     assert c1.y == 0
     assert np.allclose(c1.data, [0, 0])
@@ -33,6 +34,13 @@ def test_members(generate_coord_list):
     assert c4.x == -9
     assert c4.y == -1.2
     assert np.allclose(c4.data, [-9, -1.2])
+
+    # Test setting.
+    c1.x = 1
+    c1.y = -1
+    assert c1.x == 1
+    assert c1.y == -1
+    assert np.allclose(c1.data, [1, -1])
 
 
 def test_addition(generate_coord_list):

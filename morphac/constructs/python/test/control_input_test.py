@@ -26,6 +26,11 @@ def test_size(generate_control_input_list):
     assert ci3.size == 4
     assert ci4.size == 5
 
+    # Making sure that size is read only
+    with pytest.raises(AttributeError):
+        ci1.size = 3
+        ci2.size = 3
+
 
 def test_data(generate_control_input_list):
 

@@ -26,6 +26,11 @@ def test_size(generate_pose_list):
     assert p3.size == 4
     assert p4.size == 5
 
+    # Making sure that size is read only
+    with pytest.raises(AttributeError):
+        p1.size = 3
+        p2.size = 3
+
 
 def test_data(generate_pose_list):
 
