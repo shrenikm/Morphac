@@ -1,3 +1,20 @@
+# Directories
+# -------------------------------------------------
+
+set(MODELS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(MODELS_SRC_DIR ${MODELS_DIR}/src)
+set(MODELS_INCLUDE_DIR ${MODELS_DIR}/include)
+set(MODELS_TEST_DIR ${MODELS_DIR}/test)
+set(MODELS_BINDING_DIR ${MODELS_DIR}/binding)
+set(MODELS_BINDING_INCLUDE_DIR ${MODELS_BINDING_DIR}/include)
+set(MODELS_BINDING_SRC_DIR ${MODELS_BINDING_DIR}/src)
+set(MODELS_BINARY_DIR ${MECHANICS_BINARY_DIR}/models)
+set(MODELS_BINDING_BINARY_DIR ${MODELS_BINARY_DIR}/binding)
+set(MODELS_BINDING_INSTALL_DIR
+  ${MECHANICS_BINDING_INSTALL_DIR}/models
+)
+
+
 # Libraries
 # -------------------------------------------------
 
@@ -12,7 +29,7 @@ set(MODELS_SRC
 
 foreach(file ${MODELS_SRC})
   get_filename_component(lib_name ${file} NAME_WE)
-  set(header_name ${lib_name})
+  set(header_name ${lib_name}.h)
 
   add_library(${lib_name} SHARED ${MODELS_SRC_DIR}/${file} ${MODELS_INCLUDE_DIR}/${header_name})
   target_include_directories(${lib_name} PRIVATE ${MODELS_INCLUDE_DIR})

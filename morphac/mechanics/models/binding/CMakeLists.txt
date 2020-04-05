@@ -7,42 +7,52 @@ if(NOT BUILD_PYTHON_BINDINGS)
 endif()
 
 # Src file that creates the python module.
-set(ENVIRONMENTS_MODULE_FILE
+set(MODELS_MODULE_FILE
 
-  environments.cc
+  models.cc
 )
 
 # Individual binding files called by the src module file.
 # They are split up into different files so that compilation is more efficient.
-set(ENVIRONMENTS_BINDING_FILES
+set(MODELS_BINDING_FILES
 
-  environment2D_binding.cc
+  kinematic_model_binding.cc
+  diffdrive_model_binding.cc
+  dubin_model_binding.cc
+  tricycle_model_binding.cc
 )
+
 # Prepending the directory to the files.
-prepend_list(ENVIRONMENTS_BINDING_FILES
-  ${ENVIRONMENTS_BINDING_SRC_DIR}/ ${ENVIRONMENTS_BINDING_FILES}
+prepend_list(MODELS_BINDING_FILES
+  ${MODELS_BINDING_SRC_DIR}/ ${MODELS_BINDING_FILES}
 )
 
 # Adding the module as a library.
-get_filename_component(module_name ${ENVIRONMENTS_MODULE_FILE} NAME_WE)
+get_filename_component(module_name ${MODELS_MODULE_FILE} NAME_WE)
 pybind11_add_module(
   ${module_name}
   SHARED
-  ${ENVIRONMENTS_BINDING_DIR}/${ENVIRONMENTS_MODULE_FILE} ${ENVIRONMENTS_BINDING_FILES}
+  ${MODELS_BINDING_DIR}/${MODELS_MODULE_FILE} ${MODELS_BINDING_FILES}
 )
 
 target_include_directories(
   ${module_name}
   PRIVATE
-  ${PYBIND11_INCLUDE_DIR} ${ENVIRONMENTS_BINDING_DIR}/include
+  ${PYBIND11_INCLUDE_DIR} ${MODELS_BINDING_DIR}/include
 )
 
 # Adding library dependencies.
-target_link_libraries(${module_name} PUBLIC environment2D)
+target_link_libraries(${module_name}
+  PUBLIC kinematic_model diffdrive_model dubin_model tricycle_model
+)
 
 # Setting binding target properties.
 # Target prefix.
-set_target_properties(${module_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX})
+set_target_properties(
+  ${module_name}
+  PROPERTIES
+  PREFIX ${PYTHON_BINDING_PREFIX}
+)
 
 
 # Installing
@@ -58,15 +68,14 @@ set(binding_install_file_name
 
 # Installing compiled bindings.
 install(FILES
-  ${ENVIRONMENTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${ENVIRONMENTS_BINDING_INSTALL_DIR}
+  ${MODELS_BINDING_BINARY_DIR}/${binding_install_file_name}
+  DESTINATION ${MODELS_BINDING_INSTALL_DIR}
 )
 
 # Installing __init__ files.
 install(FILES
-  ${ENVIRONMENTS_BINDING_DIR}/__init__.py
-  DESTINATION ${ENVIRONMENTS_BINDING_INSTALL_DIR}
+  ${CONSTRUCTS_BINDING_DIR}/__init__.py
+  DESTINATION ${MODELS_BINDING_INSTALL_DIR}
 )
-
 
 

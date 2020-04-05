@@ -22,6 +22,7 @@ set(CONSTRUCTS_BINDING_FILES
   velocity_binding.cc
   state_binding.cc
 )
+
 # Prepending the directory to the files.
 prepend_list(CONSTRUCTS_BINDING_FILES
   ${CONSTRUCTS_BINDING_SRC_DIR}/ ${CONSTRUCTS_BINDING_FILES}
@@ -43,11 +44,16 @@ target_include_directories(
 
 # Adding library dependencies.
 target_link_libraries(${module_name}
-  PUBLIC coordinate2D control_input pose velocity state)
+  PUBLIC coordinate2D control_input pose velocity state
+)
 
 # Setting binding target properties.
 # Target prefix.
-set_target_properties(${module_name} PROPERTIES PREFIX ${PYTHON_BINDING_PREFIX})
+set_target_properties(
+  ${module_name}
+  PROPERTIES
+  PREFIX ${PYTHON_BINDING_PREFIX}
+)
 
 
 # Installing
@@ -64,12 +70,12 @@ set(binding_install_file_name
 # Installing compiled bindings.
 install(FILES
   ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${PYTHON_BINDING_INSTALL_DIR}/morphac/constructs
+  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
 )
 
 # Installing __init__ files.
 install(FILES
   ${CONSTRUCTS_BINDING_DIR}/__init__.py
-  DESTINATION ${PYTHON_BINDING_INSTALL_DIR}/morphac/constructs
+  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
 )
 
