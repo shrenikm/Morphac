@@ -29,7 +29,8 @@ endfunction()
 
 # Check if a particular version is valid.
 function(is_valid_version out version minimum_version)
-  if((version VERSION_EQUAL minimum_version) OR (version VERSION_GREATER minimum_version))
+  if((version VERSION_EQUAL minimum_version) OR
+    (version VERSION_GREATER minimum_version))
     set(${out} TRUE PARENT_SCOPE)
   else()
     set(${out} FALSE PARENT_SCOPE)
