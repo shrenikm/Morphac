@@ -32,7 +32,7 @@ set(ENVIRONMENT_SRC
 
 foreach(file ${ENVIRONMENT_SRC})
   get_filename_component(lib_name ${file} NAME_WE)
-  set(header_name ${lib_name}.h)
+  get_header_name(header_name ${file})
 
   add_library(${lib_name}
     SHARED

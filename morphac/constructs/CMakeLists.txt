@@ -35,9 +35,12 @@ set(CONSTRUCTS_SRC
 
 foreach(file ${CONSTRUCTS_SRC})
   get_filename_component(lib_name ${file} NAME_WE)
-  set(header_name ${lib_name}.h)
+  get_header_name(header_name ${file})
 
-  add_library(${lib_name} SHARED ${CONSTRUCTS_SRC_DIR}/${file} ${CONSTRUCTS_INCLUDE_DIR}/${header_name})
+  add_library(${lib_name}
+    SHARED
+    ${CONSTRUCTS_SRC_DIR}/${file} ${CONSTRUCTS_INCLUDE_DIR}/${header_name}
+  )
   target_include_directories(${lib_name} PRIVATE ${CONSTRUCTS_INCLUDE_DIR})
 endforeach()
 

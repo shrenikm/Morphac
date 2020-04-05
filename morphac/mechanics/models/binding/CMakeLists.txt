@@ -74,7 +74,7 @@ install(FILES
 
 # Installing __init__ files.
 install(FILES
-  ${CONSTRUCTS_BINDING_DIR}/__init__.py
+  ${MODELS_BINDING_DIR}/__init__.py
   DESTINATION ${MODELS_BINDING_INSTALL_DIR}
 )
 

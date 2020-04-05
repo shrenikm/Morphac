@@ -15,19 +15,6 @@ function(print_section_header HEADER)
 endfunction()
 
 
-# Function that takes a list and prepends some given string
-# to each element.
-# CMake 3.12 has LIST TRANSFORM that can do this but our
-# minimum CMake version is 3.5
-function(prepend_list out prefix)
-  set(tmp_list "")
-  foreach(var ${ARGN})
-    list(APPEND tmp_list ${prefix}${var})
-  endforeach()
-  set(${out} ${tmp_list} PARENT_SCOPE)
-endfunction()
-
-
 # Find the python3 version installed.
 function(find_python_version out)
   execute_process(COMMAND
@@ -61,6 +48,27 @@ function(find_python_site_packages_dir out)
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
   set(${out} ${tmp_dir} PARENT_SCOPE)
+endfunction()
+
+
+# Takes in a file name and returns the header name
+# by replace the current extension with .h
+function(get_header_name out file)
+  get_filename_component(header_name ${file} NAME_WE)
+  set(${out} ${header_name}.h PARENT_SCOPE)
+endfunction()
+
+
+# Function that takes a list and prepends some given string
+# to each element.
+# CMake 3.12 has LIST TRANSFORM that can do this but our
+# minimum CMake version is 3.5
+function(prepend_list out prefix)
+  set(tmp_list "")
+  foreach(var ${ARGN})
+    list(APPEND tmp_list ${prefix}${var})
+  endforeach()
+  set(${out} ${tmp_list} PARENT_SCOPE)
 endfunction()
 
 
