@@ -53,9 +53,19 @@ endfunction()
 
 # Takes in a file name and returns the header name
 # by replace the current extension with .h
+# If the filename consists of a directory as well, the directory is
+# kept as is and the filename extension is replace with .h
 function(get_header_name out file)
-  get_filename_component(header_name ${file} NAME_WE)
-  set(${out} ${header_name}.h PARENT_SCOPE)
+  get_filename_component(dir ${file} DIRECTORY)
+  get_filename_component(header ${file} NAME_WE)
+  # If the directory is empty (No directory given), then the
+  # return value is just the filename.h
+  if("${dir}" STREQUAL "")
+    set(${out} ${header}.h PARENT_SCOPE)
+  else()
+    set(${out} ${dir}/${header}.h PARENT_SCOPE)
+  endif()
+
 endfunction()
 
 
