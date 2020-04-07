@@ -14,8 +14,11 @@ class Pose {
  public:
   Pose(const int size = 0);
   Pose(const Eigen::VectorXd& pose_vector);
-  // Copy constructor;
-  Pose(const Pose& pose);
+  // Copy constructor
+  Pose(const Pose& pose) = default;
+
+  // Copy assignment.
+  Pose& operator=(const Pose& pose) = default;
 
   Pose& operator+=(const Pose& pose);
   Pose operator+(const Pose& pose) const;
@@ -39,7 +42,7 @@ class Pose {
   static Pose CreateLike(const morphac::constructs::Pose& pose);
 
  private:
-  const int size_;
+  int size_;
   Eigen::VectorXd pose_vector_;
 };
 

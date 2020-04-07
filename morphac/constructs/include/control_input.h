@@ -14,7 +14,11 @@ class ControlInput {
  public:
   ControlInput(const int size = 0);
   ControlInput(const Eigen::VectorXd& input_vector);
-  ControlInput(const ControlInput& input);
+  // Copy constructor.
+  ControlInput(const ControlInput& input) = default;
+
+  // Copy assignment.
+  ControlInput& operator=(const ControlInput& input) = default;
 
   ControlInput& operator+=(const ControlInput& input);
   ControlInput operator+(const ControlInput& input) const;
@@ -39,7 +43,7 @@ class ControlInput {
       const morphac::constructs::ControlInput& input);
 
  private:
-  const int size_;
+  int size_;
   Eigen::VectorXd input_vector_;
 };
 

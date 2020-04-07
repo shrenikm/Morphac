@@ -19,12 +19,6 @@ Pose::Pose(const VectorXd& pose_vector)
                 "Pose vector size is non-positive.");
 }
 
-Pose::Pose(const Pose& pose)
-    : size_(pose.size_), pose_vector_(pose.pose_vector_) {
-  // We don't need to verify the input as an invalid Pose object cannot be
-  // constructed.
-}
-
 Pose& Pose::operator+=(const Pose& pose) {
   MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
                 "Poses are not of the same size. The += operator requires them "

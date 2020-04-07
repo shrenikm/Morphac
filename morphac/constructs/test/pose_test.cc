@@ -99,6 +99,15 @@ TEST_F(PoseTest, Addition) {
 
   Pose pose1{p1};
   Pose pose2{p2};
+
+  // Trivial addition.
+  pose1 += Pose::CreateLike(pose1);
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+
+  pose1 = pose1 + Pose::CreateLike(pose1);
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+
+
   pose1 += pose2;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 

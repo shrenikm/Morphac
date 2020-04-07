@@ -23,7 +23,10 @@ class State {
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
   // Copy constructor.
-  State(const State& state);
+  State(const State& state) = default;
+
+  // Copy assignment.
+  State& operator=(const State& state) = default;
 
   State& operator+=(const State& state);
   State operator+(const State& state) const;

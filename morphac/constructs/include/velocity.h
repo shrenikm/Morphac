@@ -15,7 +15,10 @@ class Velocity {
   Velocity(const int size = 0);
   Velocity(const Eigen::VectorXd& velocity_vector);
   // Copy constructor.
-  Velocity(const Velocity& velocity);
+  Velocity(const Velocity& velocity) = default;
+
+  // Copy assignment.
+  Velocity& operator=(const Velocity& velocity) = default;
 
   Velocity& operator+=(const Velocity& velocity);
   Velocity operator+(const Velocity& velocity) const;
@@ -39,7 +42,7 @@ class Velocity {
   static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
 
  private:
-  const int size_;
+  int size_;
   Eigen::VectorXd velocity_vector_;
 };
 

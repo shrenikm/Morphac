@@ -99,6 +99,14 @@ TEST_F(ControlInputTest, Addition) {
 
   ControlInput input1{i1};
   ControlInput input2{i2};
+
+  // Test trivial addition.
+  input1 += ControlInput::CreateLike(input1);
+  ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
+
+  //input1 = input1 + ControlInput::CreateLike(input1);
+  //ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
+
   input1 += input2;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 

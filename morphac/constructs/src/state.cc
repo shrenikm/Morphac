@@ -28,13 +28,6 @@ State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
 State::State(const Pose& pose, const Velocity& velocity)
     : pose_(pose), velocity_(velocity) {}
 
-State::State(const State& state)
-    : pose_(state.pose_), velocity_(state.velocity_) {
-  // We don't need to verify the input as an invalid State object cannot be
-  // constructed.
-}
-
-
 State& State::operator+=(const State& state) {
   MORPH_REQUIRE(
       this->get_size_pose() == state.get_size_pose() &&
