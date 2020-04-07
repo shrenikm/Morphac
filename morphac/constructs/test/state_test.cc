@@ -29,7 +29,6 @@ class StateTest : public ::testing::Test {
   // Copy construction.
   State state4_{State(2, 3)};
   State state5_ = state4_;
-
 };
 
 TEST_F(StateTest, Sizes) {
@@ -185,13 +184,20 @@ TEST_F(StateTest, Addition) {
   p2 << 3, 2, 1;
   v1 << -1, 0;
   v2 << -2, 4;
-  d1 << 4, 4, 4, -3, 4;
-  d2 << 7, 6, 5, -5, 8;
   s1 << p1, v1;
   s2 << p2, v2;
+  d1 << 4, 4, 4, -3, 4;
+  d2 << 7, 6, 5, -5, 8;
 
   State state1{p1, v1};
   State state2{p2, v2};
+
+  // Trivial addition.
+  state1 += State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+
+  state1 = state1 + State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
 
   state1 += state2;
   ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
@@ -211,13 +217,20 @@ TEST_F(StateTest, Subtraction) {
   p2 << 3, 2, 1;
   v1 << -1, 0;
   v2 << -2, 4;
-  d1 << -2, 0, 2, 1, -4;
-  d2 << -5, -2, 1, 3, -8;
   s1 << p1, v1;
   s2 << p2, v2;
+  d1 << -2, 0, 2, 1, -4;
+  d2 << -5, -2, 1, 3, -8;
 
   State state1{p1, v1};
   State state2{p2, v2};
+
+  // Trivial subtraction.
+  state1 -= State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+
+  state1 = state1 - State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
 
   state1 -= state2;
   ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
@@ -238,11 +251,18 @@ TEST_F(StateTest, Multiplication) {
   p2 << 3, 2, 1;
   v1 << -1, 0;
   v2 << -2, 4;
+  s1 << p1, v1;
+  s2 << p2, v2;
   d1 << 2, 4, 6, -2, 0;
   d2 << -3, -2, -1, 2, -4;
 
   State state1{p1, v1};
   State state2{p2, v2};
+
+  // Trivial multiplication.
+  state1 = state1 * 1.0;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+  ASSERT_TRUE((0.0 * state1).get_state_vector().isApprox(VectorXd::Zero(5)));
 
   state1 *= 2.0;
   ASSERT_TRUE(state1.get_state_vector().isApprox(d1));

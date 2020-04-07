@@ -101,6 +101,14 @@ TEST_F(VelocityTest, Addition) {
 
   Velocity velocity1{v1};
   Velocity velocity2{v2};
+
+  // Trivial addition.
+  velocity1 += Velocity::CreateLike(velocity1);
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+
+  velocity1 = velocity1 + Velocity::CreateLike(velocity1);
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+
   velocity1 += velocity2;
   ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
 
@@ -121,6 +129,14 @@ TEST_F(VelocityTest, Subtraction) {
 
   Velocity velocity1{v1};
   Velocity velocity2{v2};
+
+  // Trivial subtraction.
+  velocity1 -= Velocity::CreateLike(velocity1);
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+
+  velocity1 = velocity1 - Velocity::CreateLike(velocity1);
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+
   velocity1 -= velocity2;
   ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
 
@@ -141,6 +157,12 @@ TEST_F(VelocityTest, Multiplication) {
 
   Velocity velocity1{v1};
   Velocity velocity2{v2};
+
+  // Trivial multiplication.
+  velocity1 = velocity1 * 1.0;
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+  ASSERT_TRUE(
+      (0.0 * velocity1).get_velocity_vector().isApprox(VectorXd::Zero(3)));
 
   velocity1 *= 2.0;
   ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));

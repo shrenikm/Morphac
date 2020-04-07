@@ -104,8 +104,8 @@ TEST_F(ControlInputTest, Addition) {
   input1 += ControlInput::CreateLike(input1);
   ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
 
-  //input1 = input1 + ControlInput::CreateLike(input1);
-  //ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
+  input1 = input1 + ControlInput::CreateLike(input1);
+  ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
 
   input1 += input2;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
@@ -126,6 +126,14 @@ TEST_F(ControlInputTest, Subtraction) {
 
   ControlInput input1{i1};
   ControlInput input2{i2};
+
+  // Test trivial subtraction.
+  input1 -= ControlInput::CreateLike(input1);
+  ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
+
+  input1 = input1 - ControlInput::CreateLike(input1);
+  ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
+
   input1 -= input2;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));
 
@@ -146,6 +154,11 @@ TEST_F(ControlInputTest, Multiplication) {
 
   ControlInput input1{i1};
   ControlInput input2{i2};
+
+  // Trivial multiplication.
+  input1 = input1 * 1.0;
+  ASSERT_TRUE(input1.get_input_vector().isApprox(i1));
+  ASSERT_TRUE((0.0 * input1).get_input_vector().isApprox(VectorXd::Zero(3)));
 
   input1 *= 2.0;
   ASSERT_TRUE(input1.get_input_vector().isApprox(d1));

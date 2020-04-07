@@ -107,7 +107,6 @@ TEST_F(PoseTest, Addition) {
   pose1 = pose1 + Pose::CreateLike(pose1);
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
 
-
   pose1 += pose2;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
@@ -127,6 +126,14 @@ TEST_F(PoseTest, Subtraction) {
 
   Pose pose1{p1};
   Pose pose2{p2};
+
+  // Trivial subtraction.
+  pose1 -= Pose::CreateLike(pose1);
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+
+  pose1 = pose1 - Pose::CreateLike(pose1);
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+
   pose1 -= pose2;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
 
@@ -146,6 +153,11 @@ TEST_F(PoseTest, Multiplication) {
 
   Pose pose1{p1};
   Pose pose2{p2};
+
+  // Trivial multiplication.
+  pose1 = pose1 * 1.0;
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+  ASSERT_TRUE((0.0 * pose1).get_pose_vector().isApprox(VectorXd::Zero(3)));
 
   pose1 *= 2.0;
   ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
