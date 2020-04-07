@@ -14,6 +14,8 @@ class Velocity {
  public:
   Velocity(const int size = 0);
   Velocity(const Eigen::VectorXd& velocity_vector);
+  // Copy constructor.
+  Velocity(const Velocity& velocity);
 
   Velocity& operator+=(const Velocity& velocity);
   Velocity operator+(const Velocity& velocity) const;

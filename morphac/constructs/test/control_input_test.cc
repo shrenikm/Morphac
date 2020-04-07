@@ -19,6 +19,7 @@ class ControlInputTest : public ::testing::Test {
   ControlInput input1_{ControlInput(3)};
   ControlInput input2_{ControlInput(VectorXd::Zero(3))};
   VectorXd rand_input_ = VectorXd::Random(6);
+  // Copy construction.
   ControlInput input3_{ControlInput(rand_input_)};
   ControlInput input4_ = input3_;
 };

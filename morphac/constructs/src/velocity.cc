@@ -20,6 +20,12 @@ Velocity::Velocity(const VectorXd& velocity_vector)
                 "Velocity vector size is non-positive.");
 }
 
+Velocity::Velocity(const Velocity& velocity)
+    : size_(velocity.size_), velocity_vector_(velocity.velocity_vector_) {
+  // We don't need to verify the input as an invalid Velocity object cannot be
+  // constructed.
+}
+
 Velocity& Velocity::operator+=(const Velocity& velocity) {
   MORPH_REQUIRE(
       this->size_ == velocity.size_, std::invalid_argument,

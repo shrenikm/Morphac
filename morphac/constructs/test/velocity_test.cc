@@ -19,6 +19,7 @@ class VelocityTest : public ::testing::Test {
   Velocity velocity1_{Velocity(3)};
   Velocity velocity2_{Velocity(VectorXd::Zero(3))};
   VectorXd rand_velocity_ = VectorXd::Random(6);
+  // Copy construction.
   Velocity velocity3_{Velocity(rand_velocity_)};
   Velocity velocity4_ = velocity3_;
 };

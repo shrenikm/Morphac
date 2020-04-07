@@ -14,6 +14,7 @@ class ControlInput {
  public:
   ControlInput(const int size = 0);
   ControlInput(const Eigen::VectorXd& input_vector);
+  ControlInput(const ControlInput& input);
 
   ControlInput& operator+=(const ControlInput& input);
   ControlInput operator+(const ControlInput& input) const;

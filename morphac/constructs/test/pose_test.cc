@@ -19,6 +19,7 @@ class PoseTest : public ::testing::Test {
   Pose pose1_{Pose(3)};
   Pose pose2_{Pose(VectorXd::Zero(3))};
   VectorXd rand_pose_ = VectorXd::Random(6);
+  // Copy construction.
   Pose pose3_{Pose(rand_pose_)};
   Pose pose4_{pose3_};
 };

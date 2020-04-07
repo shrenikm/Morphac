@@ -12,6 +12,10 @@ template <typename T>
 Coordinate2D<T>::Coordinate2D(const T x, const T y) : x_(x), y_(y) {}
 
 template <typename T>
+Coordinate2D<T>::Coordinate2D(const Coordinate2D<T>& coord)
+    : x_(coord.x_), y_(coord.y_) {}
+
+template <typename T>
 Coordinate2D<T>& Coordinate2D<T>::operator+=(const Coordinate2D& coord) {
   this->x_ += coord.x_;
   this->y_ += coord.y_;

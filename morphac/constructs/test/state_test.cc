@@ -19,105 +19,105 @@ using morphac::constructs::State;
 
 class StateTest : public ::testing::Test {
  protected:
-  StateTest() {
-    pose_vector1_.resize(4);
-    velocity_vector1_.resize(2);
-    state_vector1_.resize(6);
-    pose_vector1_ << 1, 2, 4, 7.8;
-    velocity_vector1_ << -4.5, -1.1;
-    state_vector1_ << pose_vector1_, velocity_vector1_;
-  }
+  StateTest() {}
 
-  void SetUp() override {
-    state1_ = new State{3, 2};
-    state2_ = new State{pose_vector1_, velocity_vector1_};
-    state3_ = new State{Pose(pose_vector1_), Velocity(velocity_vector1_)};
-  }
+  void SetUp() override {}
 
-  VectorXd pose_vector1_, velocity_vector1_;
-  VectorXd state_vector1_;
+  State state1_{3, 2};
+  State state2_{VectorXd::Ones(4), VectorXd::Ones(2)};
+  State state3_{Pose(1), Velocity(3)};
+  // Copy construction.
+  State state4_{State(2, 3)};
+  State state5_ = state4_;
 
-  State *state1_, *state2_, *state3_;
 };
 
 TEST_F(StateTest, Sizes) {
-  ASSERT_EQ(state1_->get_size_pose(), 3);
-  ASSERT_EQ(state1_->get_size_velocity(), 2);
-  ASSERT_EQ(state1_->get_size(), 5);
+  ASSERT_EQ(state1_.get_size_pose(), 3);
+  ASSERT_EQ(state1_.get_size_velocity(), 2);
+  ASSERT_EQ(state1_.get_size(), 5);
 
-  ASSERT_EQ(state2_->get_size_pose(), 4);
-  ASSERT_EQ(state2_->get_size_velocity(), 2);
-  ASSERT_EQ(state2_->get_size(), 6);
+  ASSERT_EQ(state2_.get_size_pose(), 4);
+  ASSERT_EQ(state2_.get_size_velocity(), 2);
+  ASSERT_EQ(state2_.get_size(), 6);
 
-  ASSERT_EQ(state3_->get_size_pose(), 4);
-  ASSERT_EQ(state3_->get_size_velocity(), 2);
-  ASSERT_EQ(state3_->get_size(), 6);
+  ASSERT_EQ(state3_.get_size_pose(), 1);
+  ASSERT_EQ(state3_.get_size_velocity(), 3);
+  ASSERT_EQ(state3_.get_size(), 4);
+
+  ASSERT_EQ(state4_.get_size_pose(), 2);
+  ASSERT_EQ(state4_.get_size_velocity(), 3);
+  ASSERT_EQ(state4_.get_size(), 5);
+
+  ASSERT_EQ(state5_.get_size_pose(), 2);
+  ASSERT_EQ(state5_.get_size_velocity(), 3);
+  ASSERT_EQ(state5_.get_size(), 5);
 }
 
 TEST_F(StateTest, GetPoseAndVelocity) {
-  ASSERT_TRUE(state1_->get_pose_vector().isApprox(
-      state1_->get_pose().get_pose_vector()));
-  ASSERT_TRUE(state1_->get_velocity_vector().isApprox(
-      state1_->get_velocity().get_velocity_vector()));
+  ASSERT_TRUE(
+      state1_.get_pose_vector().isApprox(state1_.get_pose().get_pose_vector()));
+  ASSERT_TRUE(state1_.get_velocity_vector().isApprox(
+      state1_.get_velocity().get_velocity_vector()));
 
-  ASSERT_TRUE(state2_->get_pose_vector().isApprox(
-      state2_->get_pose().get_pose_vector()));
-  ASSERT_TRUE(state2_->get_velocity_vector().isApprox(
-      state2_->get_velocity().get_velocity_vector()));
+  ASSERT_TRUE(
+      state2_.get_pose_vector().isApprox(state2_.get_pose().get_pose_vector()));
+  ASSERT_TRUE(state2_.get_velocity_vector().isApprox(
+      state2_.get_velocity().get_velocity_vector()));
 
-  ASSERT_TRUE(state3_->get_pose_vector().isApprox(
-      state3_->get_pose().get_pose_vector()));
-  ASSERT_TRUE(state3_->get_velocity_vector().isApprox(
-      state3_->get_velocity().get_velocity_vector()));
+  ASSERT_TRUE(
+      state3_.get_pose_vector().isApprox(state3_.get_pose().get_pose_vector()));
+  ASSERT_TRUE(state3_.get_velocity_vector().isApprox(
+      state3_.get_velocity().get_velocity_vector()));
 }
 
 TEST_F(StateTest, GetVector) {
-  ASSERT_TRUE(state1_->get_pose_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(state1_->get_velocity_vector().isApprox(VectorXd::Zero(2)));
-  ASSERT_TRUE(state1_->get_state_vector().isApprox(VectorXd::Zero(5)));
-  ASSERT_TRUE(state2_->get_pose_vector().isApprox(pose_vector1_));
-  ASSERT_TRUE(state2_->get_velocity_vector().isApprox(velocity_vector1_));
-  ASSERT_TRUE(state2_->get_state_vector().isApprox(state_vector1_));
-  ASSERT_TRUE(state3_->get_pose_vector().isApprox(pose_vector1_));
-  ASSERT_TRUE(state3_->get_velocity_vector().isApprox(velocity_vector1_));
-  ASSERT_TRUE(state3_->get_state_vector().isApprox(state_vector1_));
+  ASSERT_TRUE(state1_.get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(state1_.get_velocity_vector().isApprox(VectorXd::Zero(2)));
+  ASSERT_TRUE(state1_.get_state_vector().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(state2_.get_pose_vector().isApprox(VectorXd::Ones(4)));
+  ASSERT_TRUE(state2_.get_velocity_vector().isApprox(VectorXd::Ones(2)));
+  ASSERT_TRUE(state2_.get_state_vector().isApprox(VectorXd::Ones(6)));
+  ASSERT_TRUE(state3_.get_pose_vector().isApprox(VectorXd::Zero(1)));
+  ASSERT_TRUE(state3_.get_velocity_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(state3_.get_state_vector().isApprox(VectorXd::Zero(4)));
 }
 
 TEST_F(StateTest, GetAt) {
-  for (int i = 0; i < pose_vector1_.size(); ++i) {
-    ASSERT_EQ(state2_->get_pose()(i), pose_vector1_(i));
+  for (int i = 0; i < state2_.get_size_pose(); ++i) {
+    ASSERT_EQ(state2_.get_pose()(i), 1);
   }
-  for (int i = 0; i < velocity_vector1_.size(); ++i) {
-    ASSERT_EQ(state2_->get_velocity()(i), velocity_vector1_(i));
+  for (int i = 0; i < state2_.get_size_velocity(); ++i) {
+    ASSERT_EQ(state2_.get_velocity()(i), 1);
   }
-  for (int i = 0; i < state_vector1_.size(); ++i) {
-    ASSERT_EQ((*state2_)(i), state_vector1_(i));
+  for (int i = 0; i < state2_.get_size(); ++i) {
+    ASSERT_EQ(state2_(i), 1);
   }
 }
 
 TEST_F(StateTest, SetVector) {
-  VectorXd rand_pose = VectorXd::Random(4);
-  VectorXd rand_velocity = VectorXd::Random(2);
-  VectorXd rand_state = VectorXd::Random(6);
+  VectorXd rand_pose = VectorXd::Random(1);
+  VectorXd rand_velocity = VectorXd::Random(3);
+  VectorXd rand_state = VectorXd::Random(4);
 
-  state3_->set_pose_vector(rand_pose);
-  state3_->set_velocity_vector(rand_velocity);
-  ASSERT_TRUE(state3_->get_pose_vector().isApprox(rand_pose));
-  ASSERT_TRUE(state3_->get_velocity_vector().isApprox(rand_velocity));
+  state3_.set_pose_vector(rand_pose);
+  state3_.set_velocity_vector(rand_velocity);
+  ASSERT_TRUE(state3_.get_pose_vector().isApprox(rand_pose));
+  ASSERT_TRUE(state3_.get_velocity_vector().isApprox(rand_velocity));
 
-  state3_->set_state_vector(rand_state);
-  ASSERT_TRUE(state3_->get_pose_vector().isApprox(rand_state.head(4)));
-  ASSERT_TRUE(state3_->get_velocity_vector().isApprox(rand_state.tail(2)));
-  ASSERT_TRUE(state3_->get_state_vector().isApprox(rand_state));
+  state3_.set_state_vector(rand_state);
+  ASSERT_TRUE(state3_.get_pose_vector().isApprox(rand_state.head(1)));
+  ASSERT_TRUE(state3_.get_velocity_vector().isApprox(rand_state.tail(3)));
+  ASSERT_TRUE(state3_.get_state_vector().isApprox(rand_state));
 }
 
 TEST_F(StateTest, SetAt) {
-  VectorXd v = VectorXd::Random(state2_->get_size());
+  VectorXd v = VectorXd::Random(state2_.get_size());
 
-  for (int i = 0; i < state2_->get_size(); ++i) {
-    (*state2_)(i) = v(i);
+  for (int i = 0; i < state2_.get_size(); ++i) {
+    state2_(i) = v(i);
   }
-  ASSERT_TRUE(state2_->get_state_vector().isApprox(v));
+  ASSERT_TRUE(state2_.get_state_vector().isApprox(v));
 }
 
 TEST_F(StateTest, ConstState) {
@@ -146,28 +146,28 @@ TEST_F(StateTest, ConstState) {
 }
 
 TEST_F(StateTest, InvalidGet) {
-  ASSERT_THROW(state2_->get_pose()(-1), std::out_of_range);
-  ASSERT_THROW(state2_->get_pose()(4), std::out_of_range);
-  ASSERT_THROW(state2_->get_velocity()(-1), std::out_of_range);
-  ASSERT_THROW(state2_->get_velocity()(2), std::out_of_range);
-  ASSERT_THROW((*state2_)(-1), std::out_of_range);
-  ASSERT_THROW((*state2_)(6), std::out_of_range);
+  ASSERT_THROW(state2_.get_pose()(-1), std::out_of_range);
+  ASSERT_THROW(state2_.get_pose()(4), std::out_of_range);
+  ASSERT_THROW(state2_.get_velocity()(-1), std::out_of_range);
+  ASSERT_THROW(state2_.get_velocity()(2), std::out_of_range);
+  ASSERT_THROW(state2_(-1), std::out_of_range);
+  ASSERT_THROW(state2_(6), std::out_of_range);
 }
 
 TEST_F(StateTest, InvalidSet) {
   // Invalid set at specific indices would be handled by the () operator getter
   // as the returned references is used to set as well.
-  ASSERT_THROW(state2_->set_pose_vector(VectorXd::Random(3)),
+  ASSERT_THROW(state2_.set_pose_vector(VectorXd::Random(3)),
                std::invalid_argument);
-  ASSERT_THROW(state2_->set_pose_vector(VectorXd::Random(5)),
+  ASSERT_THROW(state2_.set_pose_vector(VectorXd::Random(5)),
                std::invalid_argument);
-  ASSERT_THROW(state2_->set_velocity_vector(VectorXd::Random(1)),
+  ASSERT_THROW(state2_.set_velocity_vector(VectorXd::Random(1)),
                std::invalid_argument);
-  ASSERT_THROW(state2_->set_velocity_vector(VectorXd::Random(3)),
+  ASSERT_THROW(state2_.set_velocity_vector(VectorXd::Random(3)),
                std::invalid_argument);
-  ASSERT_THROW(state2_->set_state_vector(VectorXd::Random(5)),
+  ASSERT_THROW(state2_.set_state_vector(VectorXd::Random(5)),
                std::invalid_argument);
-  ASSERT_THROW(state2_->set_state_vector(VectorXd::Random(7)),
+  ASSERT_THROW(state2_.set_state_vector(VectorXd::Random(7)),
                std::invalid_argument);
 }
 
@@ -392,8 +392,8 @@ TEST_F(StateTest, PartialConstruction) {
 }
 
 TEST_F(StateTest, CreateLike) {
-  State state1 = State::CreateLike(*state1_);
-  State state2 = State::CreateLike(*state2_);
+  State state1 = State::CreateLike(state1_);
+  State state2 = State::CreateLike(state2_);
 
   ASSERT_EQ(state1.get_size_pose(), 3);
   ASSERT_EQ(state1.get_size_velocity(), 2);

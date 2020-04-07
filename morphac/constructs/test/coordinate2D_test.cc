@@ -16,21 +16,25 @@ class Coordinate2DTest : public ::testing::Test {
 
   void SetUp() override {}
 
-  Coordinate2D<int> default_coord_int_{Coordinate2D<int>()};
-  Coordinate2D<int> zero_coord_int_{Coordinate2D<int>(1, 2)};
-  Coordinate2D<int> coord1_int_{Coordinate2D<int>(2, 3)};
+  Coordinate2D<int> default_coord_int_{};
+  Coordinate2D<int> zero_coord_int_{1, 2};
+  Coordinate2D<int> coord1_int_{2, 3};
+  // Copy constructor.
   Coordinate2D<int> coord2_int_ = coord1_int_;
-  Coordinate2D<int> coord3_int_{Coordinate2D<int>(-1, 4)};
-  Coordinate2D<int> coord4_int_{Coordinate2D<int>(2, 2)};
+  Coordinate2D<int> coord3_int_{-1, 4};
+  Coordinate2D<int> coord4_int_{2, 2};
+  // Copy constructor.
   Coordinate2D<int> coord5_int_{Coordinate2D<int>(3, 2)};
   Coordinate2D<int> coord6_int_{Coordinate2D<int>(2, 5)};
 
-  Coordinate2D<double> default_coord_double_{Coordinate2D<double>()};
-  Coordinate2D<double> zero_coord_double_{Coordinate2D<double>(1.0, 2.0)};
-  Coordinate2D<double> coord1_double_{Coordinate2D<double>(2.0, 3.0)};
+  Coordinate2D<double> default_coord_double_{};
+  Coordinate2D<double> zero_coord_double_{1.0, 2.0};
+  Coordinate2D<double> coord1_double_{2.0, 3.0};
+  // Copy constructor.
   Coordinate2D<double> coord2_double_ = coord1_double_;
-  Coordinate2D<double> coord3_double_{Coordinate2D<double>(-1.5, 4.7)};
-  Coordinate2D<double> coord4_double_{Coordinate2D<double>(2.6, 2.1)};
+  Coordinate2D<double> coord3_double_{-1.5, 4.7};
+  Coordinate2D<double> coord4_double_{2.6, 2.1};
+  // Copy constructor.
   Coordinate2D<double> coord5_double_{Coordinate2D<double>(3.1, 2.8)};
   Coordinate2D<double> coord6_double_{Coordinate2D<double>(2.2, 5.9)};
 };

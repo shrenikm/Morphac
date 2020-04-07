@@ -22,6 +22,8 @@ class State {
         const Eigen::VectorXd& velocity_vector);
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
+  // Copy constructor.
+  State(const State& state);
 
   State& operator+=(const State& state);
   State operator+(const State& state) const;

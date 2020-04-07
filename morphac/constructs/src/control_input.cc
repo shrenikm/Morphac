@@ -20,6 +20,12 @@ ControlInput::ControlInput(const VectorXd& input_vector)
                 "Control input vector size is non-positive.");
 }
 
+ControlInput::ControlInput(const ControlInput& input)
+    : size_(input.size_), input_vector_(input.input_vector_) {
+  // We don't need to verify the input as an invalid ControlInput object cannot
+  // be constructed.
+}
+
 ControlInput& ControlInput::operator+=(const ControlInput& input) {
   MORPH_REQUIRE(
       this->size_ == input.size_, std::invalid_argument,

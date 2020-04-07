@@ -14,6 +14,8 @@ class Pose {
  public:
   Pose(const int size = 0);
   Pose(const Eigen::VectorXd& pose_vector);
+  // Copy constructor;
+  Pose(const Pose& pose);
 
   Pose& operator+=(const Pose& pose);
   Pose operator+(const Pose& pose) const;
