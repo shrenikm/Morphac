@@ -19,8 +19,8 @@ class SomeKinematicModel : public KinematicModel {
                      int size_input, double a)
       : KinematicModel(name, size_pose, size_velocity, size_input), a(a) {}
 
-  void ComputeStateDerivative(const State& state, const ControlInput& input,
-                              State& derivative) const {
+  State ComputeStateDerivative(const State& state,
+                               const ControlInput& input) const {
     // f(x, u) = x * a * u - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
@@ -28,13 +28,11 @@ class SomeKinematicModel : public KinematicModel {
         (derivative_vector.array() * a * input.get_input_vector().array() -
          derivative_vector.array())
             .matrix();
+
+    State derivative = State::CreateLike(state);
     derivative.set_pose_vector(derivative_vector.head(size_pose));
     derivative.set_velocity_vector(derivative_vector.tail(size_velocity));
-  }
-  State ComputeStateDerivative(const State& state,
-                               const ControlInput& input) const {
-    State derivative(size_pose, size_velocity);
-    ComputeStateDerivative(state, input, derivative);
+
     return derivative;
   }
 
@@ -63,32 +61,21 @@ TEST_F(KinematicModelTest, Subclass) {
   expected_pose_derivative << 0, -2, 10;
   expected_velocity_derivative << -9, 15;
 
-  State derivative1(3, 2);
-
-  // Computing the derivative using the function overload that takes the
-  // reference
-  model.ComputeStateDerivative(state, input, derivative1);
-
-  // Checking if the computed derivative is accurate
-  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative1.get_pose_vector()));
-  ASSERT_TRUE(
-      expected_velocity_derivative.isApprox(derivative1.get_velocity_vector()));
-
-  // Changing the values of the state
+  // Changing the values of the state.
   state.get_pose()(2) = 3;
   state.get_velocity()(1) = 7;
 
-  // Now we use the other overload to compute the derivative.
-  State derivative2 = model.ComputeStateDerivative(state, input);
+  // Computing the derivative.
+  State derivative = model.ComputeStateDerivative(state, input);
 
-  // Updating expected values
+  // Updating expected values.
   expected_pose_derivative(2) = 6;
   expected_velocity_derivative(1) = 42;
 
-  // Checking if derivative has updated
-  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative2.get_pose_vector()));
+  // Checking if derivative has updated.
+  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
   ASSERT_TRUE(
-      expected_velocity_derivative.isApprox(derivative2.get_velocity_vector()));
+      expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
 }
 
 }  // namespace

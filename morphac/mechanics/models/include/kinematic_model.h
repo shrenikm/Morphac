@@ -19,10 +19,6 @@ class KinematicModel {
   KinematicModel(const std::string name, const int size_pose,
                  const int size_velocity, const int size_input);
 
-  virtual void ComputeStateDerivative(
-      const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input,
-      morphac::constructs::State& derivative) const = 0;
   virtual morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input) const = 0;

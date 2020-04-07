@@ -16,9 +16,7 @@ class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
  public:
   DiffDriveModel(const std::string name, const double radius,
                  const double length);
-  void ComputeStateDerivative(const morphac::constructs::State& state,
-                              const morphac::constructs::ControlInput& input,
-                              morphac::constructs::State& derivative) const;
+
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input) const;

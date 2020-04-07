@@ -44,9 +44,9 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 
   State state1{pose_vector1, VectorXd::Zero(0)};
   ControlInput input1{input_vector1};
-  State derivative1{3, 0};
 
-  dubin_model.ComputeStateDerivative(state1, input1, derivative1);
+  // Computing and verifying the derivative computation for different inputs.
+  State derivative1 = dubin_model.ComputeStateDerivative(state1, input1);
   ASSERT_TRUE(derivative1.get_pose_vector().isApprox(desired_vector1));
   ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
@@ -58,8 +58,6 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 
 TEST_F(DubinModelTest, InvalidDerivativeComputation) {
   DubinModel dubin_model{"dubin_model", 1.0};
-  State derivative1{2, 0};
-  State derivative2{4, 0};
 
   // Computing the state derivative with incorrect state/input/derivative.
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, ControlInput{1}),
@@ -71,12 +69,6 @@ TEST_F(DubinModelTest, InvalidDerivativeComputation) {
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{0}),
                std::invalid_argument);
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{2}),
-               std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{1},
-                                                  derivative1),
-               std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{1},
-                                                  derivative2),
                std::invalid_argument);
 }
 

@@ -71,31 +71,30 @@ TEST_F(DiffDriveModelTest, DerivativeComputation) {
   ControlInput input1{input_vector1}, input2{input_vector2},
       input3{input_vector3}, input4{input_vector4}, input5{input_vector5};
 
-  State derivative = diffdrive_model.ComputeStateDerivative(state1, input1);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector1));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  // Computing and verifying the derivative computation for different inputs.
+  State derivative1 = diffdrive_model.ComputeStateDerivative(state1, input1);
+  ASSERT_TRUE(derivative1.get_pose_vector().isApprox(desired_vector1));
+  ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
-  diffdrive_model.ComputeStateDerivative(state2, input2, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector2));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative2 = diffdrive_model.ComputeStateDerivative(state2, input2);
+  ASSERT_TRUE(derivative2.get_pose_vector().isApprox(desired_vector2));
+  ASSERT_TRUE(derivative2.IsVelocityEmpty());
 
-  diffdrive_model.ComputeStateDerivative(state1, input3, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector3));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative3 = diffdrive_model.ComputeStateDerivative(state1, input3);
+  ASSERT_TRUE(derivative3.get_pose_vector().isApprox(desired_vector3));
+  ASSERT_TRUE(derivative3.IsVelocityEmpty());
 
-  diffdrive_model.ComputeStateDerivative(state2, input4, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector4));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative4 = diffdrive_model.ComputeStateDerivative(state2, input4);
+  ASSERT_TRUE(derivative4.get_pose_vector().isApprox(desired_vector4));
+  ASSERT_TRUE(derivative4.IsVelocityEmpty());
 
-  diffdrive_model.ComputeStateDerivative(state1, input5, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector5));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative5 = diffdrive_model.ComputeStateDerivative(state1, input5);
+  ASSERT_TRUE(derivative5.get_pose_vector().isApprox(desired_vector5));
+  ASSERT_TRUE(derivative5.IsVelocityEmpty());
 }
 
 TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
   DiffDriveModel diffdrive_model{"diffdrive_model", 1, 1};
-  State derivative1{2, 0};
-  State derivative2{4, 0};
 
   // Computing the state derivative with incorrect state/input/derivative.
   ASSERT_THROW(
@@ -113,12 +112,6 @@ TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
   ASSERT_THROW(
       diffdrive_model.ComputeStateDerivative(State{3, 0}, ControlInput{3}),
       std::invalid_argument);
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(
-                   State{3, 0}, ControlInput{2}, derivative1),
-               std::invalid_argument);
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(
-                   State{3, 0}, ControlInput{2}, derivative2),
-               std::invalid_argument);
 }
 
 }  // namespace

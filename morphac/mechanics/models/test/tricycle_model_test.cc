@@ -75,31 +75,30 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
   desired_vector4 << 0, 3, 0, -2;
   desired_vector5 << 0, 0, 6, 5;
 
-  State derivative = tricycle_model.ComputeStateDerivative(state1, input1);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector1));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  // Computing and verifying the derivative computation for different inputs.
+  State derivative1 = tricycle_model.ComputeStateDerivative(state1, input1);
+  ASSERT_TRUE(derivative1.get_pose_vector().isApprox(desired_vector1));
+  ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
-  tricycle_model.ComputeStateDerivative(state1, input2, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector2));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative2 = tricycle_model.ComputeStateDerivative(state1, input2);
+  ASSERT_TRUE(derivative2.get_pose_vector().isApprox(desired_vector2));
+  ASSERT_TRUE(derivative2.IsVelocityEmpty());
 
-  tricycle_model.ComputeStateDerivative(state2, input3, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector3));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative3 = tricycle_model.ComputeStateDerivative(state2, input3);
+  ASSERT_TRUE(derivative3.get_pose_vector().isApprox(desired_vector3));
+  ASSERT_TRUE(derivative3.IsVelocityEmpty());
 
-  tricycle_model.ComputeStateDerivative(state3, input4, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector4));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative4 = tricycle_model.ComputeStateDerivative(state3, input4);
+  ASSERT_TRUE(derivative4.get_pose_vector().isApprox(desired_vector4));
+  ASSERT_TRUE(derivative4.IsVelocityEmpty());
 
-  tricycle_model.ComputeStateDerivative(state4, input5, derivative);
-  ASSERT_TRUE(derivative.get_pose_vector().isApprox(desired_vector5));
-  ASSERT_TRUE(derivative.IsVelocityEmpty());
+  State derivative5 = tricycle_model.ComputeStateDerivative(state4, input5);
+  ASSERT_TRUE(derivative5.get_pose_vector().isApprox(desired_vector5));
+  ASSERT_TRUE(derivative5.IsVelocityEmpty());
 }
 
 TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
   TricycleModel tricycle_model{"tricycle_model", 1, 1};
-  State derivative1{3, 0};
-  State derivative2{5, 0};
 
   // Computing the state derivative with incorrect state/input/derivative.
   ASSERT_THROW(
@@ -117,12 +116,6 @@ TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
   ASSERT_THROW(
       tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{3}),
       std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(
-                   State{3, 0}, ControlInput{2}, derivative1),
-               std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(
-                   State{3, 0}, ControlInput{2}, derivative2),
-               std::invalid_argument);
 }
 
 }  // namespace

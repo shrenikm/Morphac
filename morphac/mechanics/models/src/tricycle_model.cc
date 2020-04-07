@@ -26,9 +26,8 @@ TricycleModel::TricycleModel(const string name, const double radius,
       "Tricycle distance between the back and front wheels must be positive.");
 }
 
-void TricycleModel::ComputeStateDerivative(const State& state,
-                                           const ControlInput& input,
-                                           State& derivative) const {
+State TricycleModel::ComputeStateDerivative(const State& state,
+                                            const ControlInput& input) const {
   MORPH_REQUIRE(
       state.get_size_pose() == 4, std::invalid_argument,
       "Pose component of the state needs to be of size 3 [x, y, theta]");
@@ -36,11 +35,6 @@ void TricycleModel::ComputeStateDerivative(const State& state,
                 "Velocity component of the state must be empty.");
   MORPH_REQUIRE(input.get_size() == 2, std::invalid_argument,
                 "Control input must be of size 1.");
-  MORPH_REQUIRE(
-      derivative.get_size_pose() == 4, std::invalid_argument,
-      "Pose component of the derivative needs to be of size 3 [x, y, theta]");
-  MORPH_REQUIRE(derivative.IsVelocityEmpty(), std::invalid_argument,
-                "Velocity component of the derivative must be empty.");
 
   VectorXd pose_derivative(4);
   double theta = state.get_pose()(2);
@@ -54,14 +48,10 @@ void TricycleModel::ComputeStateDerivative(const State& state,
       (radius / length) * sin(alpha), 0, 0, 1;
 
   pose_derivative = F + G * input.get_input_vector();
-  derivative.set_pose_vector(pose_derivative);
-}
 
-State TricycleModel::ComputeStateDerivative(const State& state,
-                                            const ControlInput& input) const {
-  // Argument checks are performed by the other overloaded function.
   State derivative = State::CreateLike(state);
-  ComputeStateDerivative(state, input, derivative);
+  derivative.set_pose_vector(pose_derivative);
+
   return derivative;
 }
 
