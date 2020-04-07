@@ -13,6 +13,11 @@ class Environment2D {
   Environment2D(const double width, const double height,
                 const double resolution);
   Environment2D(const Eigen::MatrixXd& map, const double resolution);
+  // Disable copy constructor.
+  Environment2D(const Environment2D& environment2D) = delete;
+
+  // Disable copy assignment.
+  Environment2D& operator=(const Environment2D& environment) = delete;
 
   double get_width() const;
   double get_height() const;
@@ -22,9 +27,9 @@ class Environment2D {
   void set_map(const Eigen::MatrixXd& map);
 
  private:
-  const double width_;
-  const double height_;
-  const double resolution_;
+  double width_;
+  double height_;
+  double resolution_;
   Eigen::MatrixXd map_;
 };
 
