@@ -6,6 +6,8 @@
 namespace {
 
 using std::ostringstream;
+using std::srand;
+
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
@@ -14,7 +16,10 @@ class ControlInputTest : public ::testing::Test {
  protected:
   ControlInputTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 
   ControlInput input1_{ControlInput(3)};
   ControlInput input2_{ControlInput(VectorXd::Zero(3))};

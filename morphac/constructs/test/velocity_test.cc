@@ -6,6 +6,8 @@
 namespace {
 
 using std::ostringstream;
+using std::srand;
+
 using Eigen::VectorXd;
 
 using morphac::constructs::Velocity;
@@ -14,7 +16,10 @@ class VelocityTest : public ::testing::Test {
  protected:
   VelocityTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 
   Velocity velocity1_{Velocity(3)};
   Velocity velocity2_{Velocity(VectorXd::Zero(3))};

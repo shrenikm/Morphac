@@ -8,20 +8,24 @@ namespace {
 using std::make_unique;
 using std::move;
 using std::ostringstream;
+using std::srand;
 using std::unique_ptr;
 using std::vector;
 
 using Eigen::VectorXd;
 
 using morphac::constructs::Pose;
-using morphac::constructs::Velocity;
 using morphac::constructs::State;
+using morphac::constructs::Velocity;
 
 class StateTest : public ::testing::Test {
  protected:
   StateTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 
   State state1_{3, 2};
   State state2_{VectorXd::Ones(4), VectorXd::Ones(2)};

@@ -6,6 +6,8 @@
 namespace {
 
 using std::ostringstream;
+using std::srand;
+
 using Eigen::VectorXd;
 
 using morphac::constructs::Pose;
@@ -14,7 +16,10 @@ class PoseTest : public ::testing::Test {
  protected:
   PoseTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 
   Pose pose1_{Pose(3)};
   Pose pose2_{Pose(VectorXd::Zero(3))};

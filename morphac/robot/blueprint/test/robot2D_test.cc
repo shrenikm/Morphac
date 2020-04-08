@@ -5,12 +5,13 @@
 
 namespace {
 
-using Eigen::VectorXd;
-using Eigen::MatrixXd;
-
 using std::make_shared;
 using std::shared_ptr;
+using std::srand;
 using std::string;
+
+using Eigen::VectorXd;
+using Eigen::MatrixXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
@@ -26,8 +27,8 @@ class SomeKinematicModel : public KinematicModel {
                      int size_input)
       : KinematicModel(name, size_pose, size_velocity, size_input) {}
 
-  void ComputeStateDerivative(const State& state, const ControlInput& input,
-                              State& derivative) const {
+  State ComputeStateDerivative(const State& state,
+                               const ControlInput& input) const {
     // f(x, u) = x * u  - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
@@ -35,14 +36,11 @@ class SomeKinematicModel : public KinematicModel {
         (derivative_vector.array() * input.get_input_vector().array() -
          derivative_vector.array())
             .matrix();
+
+    State derivative = State::CreateLike(state);
     derivative.set_pose_vector(derivative_vector.head(size_pose));
     derivative.set_velocity_vector(derivative_vector.tail(size_velocity));
-  }
 
-  State ComputeStateDerivative(const State& state,
-                               const ControlInput& input) const {
-    State derivative(size_pose, size_velocity);
-    ComputeStateDerivative(state, input, derivative);
     return derivative;
   }
 };
@@ -52,6 +50,8 @@ class Robot2DTest : public ::testing::Test {
   Robot2DTest() {}
 
   void SetUp() override {
+    srand(7);
+
     pose_vector_ = VectorXd::Random(3);
     velocity_vector_ = VectorXd::Random(2);
     input_vector_ = VectorXd::Random(5);
@@ -112,25 +112,30 @@ TEST_F(Robot2DTest, Derivative) {
   SomeKinematicModel model("model", 3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   VectorXd initial_pose(3), initial_velocity(2), input(5),
-      expected_state_derivative(5);
+      expected_state_derivative1(5), expected_state_derivative2(5);
+
   initial_pose << 1, 1, -2;
   initial_velocity << 3, -5;
   input << 1, 2, 3, 2, 1;
-  expected_state_derivative << 0, 1, -4, 3, 0;
+  expected_state_derivative1 << 0, 1, -4, 3, 0;
+
   Robot2D robot{"robot", model, footprint,
                 State(initial_pose, initial_velocity)};
 
-  State derivative1{3, 2};
-  robot.ComputeStateDerivative(input, derivative1);
+  // Testing derivative computation.
+  State derivative1 = robot.ComputeStateDerivative(input);
 
   ASSERT_TRUE(
-      derivative1.get_state_vector().isApprox(expected_state_derivative));
+      derivative1.get_state_vector().isApprox(expected_state_derivative1));
 
-  input(2) = 2;
-  expected_state_derivative(2) = -2;
-  State derivative2 = robot.ComputeStateDerivative(input);
+  expected_state_derivative2 << 0, 1, 2, 1, 0;
+
+  // Testing derivative computation for a different state.
+  State derivative2 = robot.ComputeStateDerivative(
+      State(VectorXd::Ones(3), VectorXd::Ones(2)), input);
+
   ASSERT_TRUE(
-      derivative2.get_state_vector().isApprox(expected_state_derivative));
+      derivative2.get_state_vector().isApprox(expected_state_derivative2));
 }
 
 }  // namespace
