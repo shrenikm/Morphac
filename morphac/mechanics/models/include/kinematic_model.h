@@ -3,8 +3,8 @@
 
 #include "Eigen/Dense"
 
-#include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
+#include "constructs/include/control_input.h"
 
 namespace morphac {
 namespace mechanics {

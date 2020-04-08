@@ -5,11 +5,13 @@
 
 #include "Eigen/Dense"
 
-#include "constructs/include/control_input.h"
 #include "constructs/include/pose.h"
-#include "constructs/include/state.h"
 #include "constructs/include/velocity.h"
+#include "constructs/include/state.h"
+#include "constructs/include/control_input.h"
+
 #include "mechanics/models/include/kinematic_model.h"
+
 #include "robot/blueprint/include/footprint2D.h"
 
 namespace morphac {

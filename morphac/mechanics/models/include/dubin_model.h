@@ -4,8 +4,10 @@
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"
+
 #include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
+
 #include "mechanics/models/include/kinematic_model.h"
 
 namespace morphac {

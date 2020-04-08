@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Pose, State, Velocity
+from morphac.constructs import Pose, Velocity, State
 
 
 @pytest.fixture()
