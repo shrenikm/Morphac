@@ -17,7 +17,7 @@ set(MODELS_BINDING_INSTALL_DIR
 # Adding subdirectories
 # -------------------------------------------------
 
-#add_subdirectory(binding)
+add_subdirectory(binding)
 
 
 # Libraries

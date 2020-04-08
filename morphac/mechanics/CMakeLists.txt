@@ -13,3 +13,13 @@ set(MECHANICS_BINDING_INSTALL_DIR
 # -------------------------------------------------
 
 add_subdirectory(models)
+
+
+# Installing
+# -------------------------------------------------
+
+# Installing __init__ files.
+install(FILES
+  ${MECHANICS_DIR}/__init__.py
+  DESTINATION ${MECHANICS_BINDING_INSTALL_DIR}
+)

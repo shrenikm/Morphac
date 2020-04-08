@@ -14,14 +14,6 @@ class PyKinematicModel : public morphac::mechanics::models::KinematicModel {
  public:
   using KinematicModel::KinematicModel;
 
-  void ComputeStateDerivative(
-      const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input,
-      morphac::constructs::State& derivative) const override {
-    PYBIND11_OVERLOAD_PURE(void, KinematicModel, ComputeStateDerivative, state,
-                           input, derivative);
-  }
-
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& input) const override {
