@@ -22,7 +22,7 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::mechanics::models::DiffDriveModel;
 
 // Trampoline class as the kinematic model class is abstract.
-class PyKinematicModel : public morphac::mechanics::models::KinematicModel {
+class PyKinematicModel : public KinematicModel {
  public:
   using KinematicModel::KinematicModel;
 
@@ -39,8 +39,7 @@ PYBIND11_MODULE(_binding_models, m) {
   // define_kinematic_model_binding(m);
   // define_diffdrive_model_binding(m);
 
-  py::class_<KinematicModel, PyKinematicModel> kinematic_model(
-      m, "KinematicModel");
+  py::class_<KinematicModel> kinematic_model(m, "KinematicModel");
   kinematic_model.def(py::init<const string, const int, const int, const int>(),
                       py::arg("name"), py::arg("size_pose"),
                       py::arg("size_velocity"), py::arg("size_input"));
@@ -53,6 +52,7 @@ PYBIND11_MODULE(_binding_models, m) {
 
   py::class_<DiffDriveModel, KinematicModel> diffdrive_model(m,
                                                              "DiffDriveModel");
+  diffdrive_model.def(py::init<const string, const double, const double>());
   diffdrive_model.def(py::init<const string, const double, const double>(),
                       py::arg("name"), py::arg("radius"), py::arg("length"));
   diffdrive_model.def("compute_state_derivative",
