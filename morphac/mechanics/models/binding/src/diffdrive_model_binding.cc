@@ -7,6 +7,8 @@ namespace binding {
 
 namespace py = pybind11;
 
+using std::string;
+
 using morphac::mechanics::models::KinematicModel;
 
 void define_diffdrive_model_binding(py::module& m) {

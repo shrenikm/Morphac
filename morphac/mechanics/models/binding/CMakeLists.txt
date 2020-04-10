@@ -17,7 +17,7 @@ set(MODELS_MODULE_FILE
 set(MODELS_BINDING_FILES
 
   kinematic_model_binding.cc
-  #diffdrive_model_binding.cc
+  diffdrive_model_binding.cc
   #dubin_model_binding.cc
   #tricycle_model_binding.cc
 )
@@ -43,7 +43,7 @@ target_include_directories(
 
 # Adding library dependencies.
 target_link_libraries(${module_name}
-  PUBLIC kinematic_model #diffdrive_model dubin_model tricycle_model
+  PUBLIC kinematic_model diffdrive_model #dubin_model tricycle_model
 )
 
 # Setting binding target properties.
