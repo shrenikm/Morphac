@@ -35,13 +35,13 @@ def test_name(generate_kinematic_model_list):
 
     k1, k2, k3 = generate_kinematic_model_list
 
-    assert k1.name == 'k1'
-    assert k2.name == 'k2'
-    assert k3.name == 'k3'
+    assert k1.name == "k1"
+    assert k2.name == "k2"
+    assert k3.name == "k3"
 
     # Making sure that name is read only.
     with pytest.raises(AttributeError):
-        k1.name = 'k2'
+        k1.name = "k2"
 
 
 def test_size(generate_kinematic_model_list):
@@ -63,7 +63,9 @@ def test_size(generate_kinematic_model_list):
     # Making sure that the sizes are read only.
     with pytest.raises(AttributeError):
         k1.size_pose = 2
+    with pytest.raises(AttributeError):
         k2.size_velocity = 1
+    with pytest.raises(AttributeError):
         k3.size_input = 2
 
 
