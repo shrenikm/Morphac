@@ -5,8 +5,8 @@
 
 #include "common/error_handling/include/error_macros.h"
 
+#include "constructs/include/input.h"
 #include "constructs/include/state.h"
-#include "constructs/include/control_input.h"
 
 #include "mechanics/models/include/kinematic_model.h"
 
@@ -21,7 +21,7 @@ class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const;
+      const morphac::constructs::Input& input) const;
 
   const double radius;
   const double length;

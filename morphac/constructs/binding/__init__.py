@@ -1,7 +1,7 @@
 from ._binding_constructs import (
     Coordinate2D,
-    ControlInput,
+    Input,
     Pose,
+    State,
     Velocity,
-    State
 )

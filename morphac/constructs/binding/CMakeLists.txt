@@ -17,7 +17,7 @@ set(CONSTRUCTS_MODULE_FILE
 set(CONSTRUCTS_BINDING_FILES
 
   coordinate2D_binding.cc
-  control_input_binding.cc
+  input_binding.cc
   pose_binding.cc
   velocity_binding.cc
   state_binding.cc
@@ -44,7 +44,7 @@ target_include_directories(
 
 # Adding library dependencies.
 target_link_libraries(${module_name}
-  PUBLIC coordinate2D control_input pose velocity state
+  PUBLIC coordinate2D input pose velocity state
 )
 
 # Setting binding target properties.

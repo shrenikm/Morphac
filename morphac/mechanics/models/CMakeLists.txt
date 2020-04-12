@@ -41,10 +41,10 @@ foreach(file ${MODELS_SRC})
 endforeach()
 
 # Adding library dependencies.
-target_link_libraries(kinematic_model state control_input)
-target_link_libraries(dubin_model kinematic_model state control_input)
-target_link_libraries(diffdrive_model kinematic_model state control_input)
-target_link_libraries(tricycle_model kinematic_model state control_input)
+target_link_libraries(kinematic_model state input)
+target_link_libraries(dubin_model kinematic_model state input)
+target_link_libraries(diffdrive_model kinematic_model state input)
+target_link_libraries(tricycle_model kinematic_model state input)
 
 # Tests
 # -------------------------------------------------

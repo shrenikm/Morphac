@@ -10,7 +10,7 @@ using std::unordered_map;
 
 using Eigen::MatrixXd;
 
-using morphac::constructs::ControlInput;
+using morphac::constructs::Input;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
@@ -37,12 +37,12 @@ Robot2D::Robot2D(const string name, KinematicModel& kinematic_model,
       "Kinematic model and initial state dimensions mismatch.");
 }
 
-State Robot2D::ComputeStateDerivative(const ControlInput& input) const {
+State Robot2D::ComputeStateDerivative(const Input& input) const {
   return kinematic_model_.ComputeStateDerivative(state_, input);
 }
 
 State Robot2D::ComputeStateDerivative(const State& state,
-                                      const ControlInput& input) const {
+                                      const Input& input) const {
   return kinematic_model_.ComputeStateDerivative(state, input);
 }
 

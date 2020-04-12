@@ -12,9 +12,8 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
 using morphac::mechanics::models::KinematicModel;
-using morphac::constructs::ControlInput;
+using morphac::constructs::Input;
 using morphac::constructs::State;
-using morphac::constructs::Pose;
 
 DiffDriveModel::DiffDriveModel(const string name, const double radius,
                                const double length)
@@ -26,14 +25,14 @@ DiffDriveModel::DiffDriveModel(const string name, const double radius,
 }
 
 State DiffDriveModel::ComputeStateDerivative(const State& state,
-                                             const ControlInput& input) const {
+                                             const Input& input) const {
   MORPH_REQUIRE(
       state.get_size_pose() == 3, std::invalid_argument,
       "Pose component of the state needs to be of size 3 [x, y, theta]");
   MORPH_REQUIRE(state.IsVelocityEmpty(), std::invalid_argument,
                 "Velocity component of the state must be empty.");
   MORPH_REQUIRE(input.get_size() == 2, std::invalid_argument,
-                "Control input must be of size 1.");
+                "Input must be of size 1.");
 
   VectorXd pose_derivative(3);
   double theta = state.get_pose()(2);

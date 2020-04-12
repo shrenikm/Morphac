@@ -11,12 +11,15 @@ foreach(file ${BLUEPRINT_SRC})
   get_filename_component(lib_name ${file} NAME_WE)
   get_header_name(header_name ${file})
 
-  add_library(${lib_name} SHARED ${BLUEPRINT_SRC_DIR}/${file} ${BLUEPRINT_INCLUDE_DIR}/${header_name})
+  add_library(${lib_name}
+    SHARED
+    ${BLUEPRINT_SRC_DIR}/${file} ${BLUEPRINT_INCLUDE_DIR}/${header_name}
+  )
   target_include_directories(${lib_name} PRIVATE ${BLUEPRINT_INCLUDE_DIR})
 endforeach()
 
 # Adding library dependencies.
-target_link_libraries(robot2D pose state velocity kinematic_model footprint2D)
+target_link_libraries(robot2D input pose state velocity kinematic_model footprint2D)
 
 
 # Tests

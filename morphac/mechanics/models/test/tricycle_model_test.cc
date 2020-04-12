@@ -9,7 +9,7 @@ using std::string;
 
 using Eigen::VectorXd;
 
-using morphac::constructs::ControlInput;
+using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::mechanics::models::TricycleModel;
 
@@ -65,8 +65,8 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
   State state2{pose_vector2, VectorXd::Zero(0)};
   State state3{pose_vector3, VectorXd::Zero(0)};
   State state4{pose_vector4, VectorXd::Zero(0)};
-  ControlInput input1{input_vector1}, input2{input_vector2},
-      input3{input_vector3}, input4{input_vector4}, input5{input_vector5};
+  Input input1{input_vector1}, input2{input_vector2}, input3{input_vector3},
+      input4{input_vector4}, input5{input_vector5};
 
   // Zero forward velocity does not make the robot move in x, y, or theta.
   desired_vector1 << 0, 0, 0, 1.;
@@ -101,21 +101,16 @@ TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
   TricycleModel tricycle_model{"tricycle_model", 1, 1};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(
-      tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{2}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      tricycle_model.ComputeStateDerivative(State{5, 0}, ControlInput{2}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      tricycle_model.ComputeStateDerivative(State{3, 1}, ControlInput{2}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{1}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      tricycle_model.ComputeStateDerivative(State{3, 0}, ControlInput{3}),
-      std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{2}),
+               std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{5, 0}, Input{2}),
+               std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 1}, Input{2}),
+               std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{1}),
+               std::invalid_argument);
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{3}),
+               std::invalid_argument);
 }
 
 }  // namespace

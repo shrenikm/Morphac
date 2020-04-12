@@ -5,7 +5,7 @@
 
 #include "common/error_handling/include/error_macros.h"
 
-#include "constructs/include/control_input.h"
+#include "constructs/include/input.h"
 #include "constructs/include/state.h"
 
 #include "mechanics/models/include/kinematic_model.h"
@@ -20,7 +20,7 @@ class DubinModel : public morphac::mechanics::models::KinematicModel {
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const override;
+      const morphac::constructs::Input& input) const override;
 
   const double speed;
 };

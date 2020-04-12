@@ -10,26 +10,26 @@
 namespace morphac {
 namespace constructs {
 
-class ControlInput {
+class Input {
  public:
-  ControlInput(const int size = 0);
-  ControlInput(const Eigen::VectorXd& input_vector);
+  Input(const int size = 0);
+  Input(const Eigen::VectorXd& input_vector);
   // Copy constructor.
-  ControlInput(const ControlInput& input) = default;
+  Input(const Input& input) = default;
 
   // Copy assignment.
-  ControlInput& operator=(const ControlInput& input) = default;
+  Input& operator=(const Input& input) = default;
 
-  ControlInput& operator+=(const ControlInput& input);
-  ControlInput operator+(const ControlInput& input) const;
-  ControlInput& operator-=(const ControlInput& input);
-  ControlInput operator-(const ControlInput& input) const;
-  ControlInput& operator*=(const double scalar);
+  Input& operator+=(const Input& input);
+  Input operator+(const Input& input) const;
+  Input& operator-=(const Input& input);
+  Input operator-(const Input& input) const;
+  Input& operator*=(const double scalar);
 
   double& operator()(const int index);
   double operator()(const int index) const;
 
-  friend std::ostream& operator<<(std::ostream& os, const ControlInput& input);
+  friend std::ostream& operator<<(std::ostream& os, const Input& input);
   // String representation that uses the << overload.
   // This is what the python binding uses.
   std::string ToString() const;
@@ -39,8 +39,8 @@ class ControlInput {
   void set_input_vector(const Eigen::VectorXd& input_vector);
 
   bool IsEmpty() const;
-  static ControlInput CreateLike(
-      const morphac::constructs::ControlInput& input);
+  static Input CreateLike(
+      const morphac::constructs::Input& input);
 
  private:
   int size_;
@@ -49,8 +49,8 @@ class ControlInput {
 
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
-ControlInput operator*(ControlInput input, const double scalar);
-ControlInput operator*(const double scalar, ControlInput input);
+Input operator*(Input input, const double scalar);
+Input operator*(const double scalar, Input input);
 
 }  // namespace constructs
 }  // namespace morphac

@@ -6,11 +6,6 @@ namespace models {
 
 using std::string;
 
-using morphac::constructs::ControlInput;
-using morphac::constructs::Pose;
-using morphac::constructs::State;
-using morphac::constructs::Velocity;
-
 KinematicModel::KinematicModel(const string name, const int size_pose,
                                const int size_velocity, const int size_input)
     : name(name),

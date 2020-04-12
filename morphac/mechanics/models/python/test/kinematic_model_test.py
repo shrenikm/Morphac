@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import State, ControlInput
+from morphac.constructs import Input, State
 from morphac.mechanics.models import KinematicModel
 
 # Class that extends from KinematicModel
@@ -87,11 +87,11 @@ def test_overload(generate_kinematic_model_list):
     k1, k2, k3 = generate_kinematic_model_list
 
     derivative1 = k1.compute_state_derivative(
-        State([1, 1, 1], [1, 1]), ControlInput([1, 2, 3, 4, 5]))
+        State([1, 1, 1], [1, 1]), Input([1, 2, 3, 4, 5]))
     derivative2 = k2.compute_state_derivative(
-        State([1], [0]), ControlInput([-2, -1]))
+        State([1], [0]), Input([-2, -1]))
     derivative3 = k3.compute_state_derivative(
-        State([1, -1], [-0.1, 7, 9.5]), ControlInput([5, 0, -100, -5, 4]))
+        State([1, -1], [-0.1, 7, 9.5]), Input([5, 0, -100, -5, 4]))
 
     assert np.isclose(derivative1, 15. + 3.45)
     assert np.isclose(derivative2, -2)

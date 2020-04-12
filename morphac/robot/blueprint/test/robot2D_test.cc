@@ -13,7 +13,7 @@ using std::string;
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 
-using morphac::constructs::ControlInput;
+using morphac::constructs::Input;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
@@ -27,8 +27,7 @@ class SomeKinematicModel : public KinematicModel {
                      int size_input)
       : KinematicModel(name, size_pose, size_velocity, size_input) {}
 
-  State ComputeStateDerivative(const State& state,
-                               const ControlInput& input) const {
+  State ComputeStateDerivative(const State& state, const Input& input) const {
     // f(x, u) = x * u  - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();

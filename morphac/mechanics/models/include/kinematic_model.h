@@ -3,8 +3,8 @@
 
 #include "Eigen/Dense"
 
+#include "constructs/include/input.h"
 #include "constructs/include/state.h"
-#include "constructs/include/control_input.h"
 
 namespace morphac {
 namespace mechanics {
@@ -21,7 +21,7 @@ class KinematicModel {
 
   virtual morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const = 0;
+      const morphac::constructs::Input& input) const = 0;
 
   const std::string name;
   const int size_pose;

@@ -5,10 +5,10 @@
 
 #include "Eigen/Dense"
 
+#include "constructs/include/input.h"
 #include "constructs/include/pose.h"
-#include "constructs/include/velocity.h"
 #include "constructs/include/state.h"
-#include "constructs/include/control_input.h"
+#include "constructs/include/velocity.h"
 
 #include "mechanics/models/include/kinematic_model.h"
 
@@ -29,11 +29,11 @@ class Robot2D {
           const morphac::constructs::State& initial_state);
 
   morphac::constructs::State ComputeStateDerivative(
-      const morphac::constructs::ControlInput& input) const;
+      const morphac::constructs::Input& input) const;
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::ControlInput& input) const;
+      const morphac::constructs::Input& input) const;
 
   std::string get_name() const;
   const morphac::mechanics::models::KinematicModel& get_kinematic_model() const;

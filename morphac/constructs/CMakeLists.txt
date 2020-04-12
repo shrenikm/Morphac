@@ -29,7 +29,7 @@ set(CONSTRUCTS_SRC
   coordinate2D.cc
   pose.cc
   velocity.cc
-  control_input.cc
+  input.cc
   state.cc
 )
 
@@ -56,7 +56,7 @@ set(CONSTRUCTS_TEST_SRC
   coordinate2D_test.cc
   pose_test.cc
   velocity_test.cc
-  control_input_test.cc
+  input_test.cc
   state_test.cc
 )
 
@@ -72,6 +72,6 @@ endforeach()
 target_link_libraries(coordinate2D_test gtest_main coordinate2D)
 target_link_libraries(pose_test gtest_main pose)
 target_link_libraries(velocity_test gtest_main velocity)
-target_link_libraries(control_input_test gtest_main control_input)
+target_link_libraries(input_test gtest_main input)
 target_link_libraries(state_test gtest_main state)
 

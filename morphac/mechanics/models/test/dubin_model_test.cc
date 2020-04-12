@@ -9,7 +9,7 @@ using std::string;
 
 using Eigen::VectorXd;
 
-using morphac::constructs::ControlInput;
+using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::mechanics::models::DubinModel;
 
@@ -43,7 +43,7 @@ TEST_F(DubinModelTest, DerivativeComputation) {
   desired_vector2 << 2.5, 0., -1.5;
 
   State state1{pose_vector1, VectorXd::Zero(0)};
-  ControlInput input1{input_vector1};
+  Input input1{input_vector1};
 
   // Computing and verifying the derivative computation for different inputs.
   State derivative1 = dubin_model.ComputeStateDerivative(state1, input1);
@@ -51,7 +51,7 @@ TEST_F(DubinModelTest, DerivativeComputation) {
   ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
   State derivative2 = dubin_model.ComputeStateDerivative(
-      State{pose_vector2, VectorXd::Zero(0)}, ControlInput{input_vector2});
+      State{pose_vector2, VectorXd::Zero(0)}, Input{input_vector2});
   ASSERT_TRUE(derivative2.get_pose_vector().isApprox(desired_vector2));
   ASSERT_TRUE(derivative2.IsVelocityEmpty());
 }
@@ -60,15 +60,15 @@ TEST_F(DubinModelTest, InvalidDerivativeComputation) {
   DubinModel dubin_model{"dubin_model", 1.0};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, ControlInput{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, Input{1}),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{4, 0}, ControlInput{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{4, 0}, Input{1}),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 1}, ControlInput{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 1}, Input{1}),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{0}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, Input{0}),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, ControlInput{2}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, Input{2}),
                std::invalid_argument);
 }
 
