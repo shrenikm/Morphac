@@ -92,3 +92,17 @@ def test_derivative_computation(generate_diffdrive_model_list):
 
     # We only test that the function is called and returns properly, not the
     # actual computation as the cpp side tests this.
+    der1 = d1.compute_state_derivative(State([1, 2, 3], []), ControlInput(2))
+
+    assert np.allclose(der1.data, [0, 0, 0])
+
+    # Making sure that the derivative can only be computed from inputs that
+    # are of the correct dimensions.
+    with pytest.raises(ValueError):
+        d1.compute_state_derivative(State(0, 3), ControlInput(2))
+    with pytest.raises(ValueError):
+        d1.compute_state_derivative(State(3, 1), ControlInput(2))
+    with pytest.raises(ValueError):
+        d1.compute_state_derivative(State(2, 0), ControlInput(2))
+    with pytest.raises(ValueError):
+        d1.compute_state_derivative(State(3, 0), ControlInput(3))
