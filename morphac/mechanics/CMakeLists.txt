@@ -21,5 +21,6 @@ add_subdirectory(models)
 # Installing __init__ files.
 install(FILES
   ${MECHANICS_DIR}/__init__.py
-  DESTINATION ${MECHANICS_BINDING_INSTALL_DIR}
+  DESTINATION
+  ${MECHANICS_BINDING_INSTALL_DIR}
 )

@@ -36,9 +36,13 @@ foreach(file ${ENVIRONMENT_SRC})
 
   add_library(${lib_name}
     SHARED
-    ${ENVIRONMENTS_SRC_DIR}/${file} ${ENVIRONMENTS_INCLUDE_DIR}/${header_name}
+    ${ENVIRONMENTS_SRC_DIR}/${file}
+    ${ENVIRONMENTS_INCLUDE_DIR}/${header_name}
   )
-  target_include_directories(${lib_name} PRIVATE ${ENVIRONMENTS_INCLUDE_DIR})
+  target_include_directories(${lib_name}
+    PUBLIC
+    ${ENVIRONMENTS_INCLUDE_DIR}
+  )
 endforeach()
 
 
@@ -53,12 +57,23 @@ set(ENVIRONMENT_TEST_SRC
 
 # Creating the test executables.
 foreach(file ${ENVIRONMENT_TEST_SRC})
-  get_filename_component(test_name ${file} NAME_WE)
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
 
-  add_executable(${test_name} ${ENVIRONMENTS_TEST_DIR}/${file})
-  add_test(NAME ${test_name} COMMAND ${test_name})
+  add_executable(
+    ${test_name}
+    ${ENVIRONMENTS_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(environment2D_test gtest_main environment2D)
+target_link_libraries(environment2D_test
+  PUBLIC
+  gtest_main environment2D
+)
 

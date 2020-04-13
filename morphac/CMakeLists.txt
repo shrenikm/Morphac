@@ -23,6 +23,7 @@ add_subdirectory(robot)
 # Installing __init__ files.
 install(FILES
   ${MORPHAC_DIR}/__init__.py
-  DESTINATION ${PYTHON_BINDING_INSTALL_DIR}/morphac
+  DESTINATION
+  ${PYTHON_BINDING_INSTALL_DIR}/morphac
 )
 

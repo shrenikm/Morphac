@@ -19,6 +19,7 @@ add_subdirectory(blueprint)
 # Installing __init__ files.
 install(FILES
   ${ROBOT_DIR}/__init__.py
-  DESTINATION ${ROBOT_BINDING_INSTALL_DIR}
+  DESTINATION
+  ${ROBOT_BINDING_INSTALL_DIR}
 )
 

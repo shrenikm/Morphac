@@ -25,32 +25,36 @@ set(CONSTRUCTS_BINDING_FILES
 
 # Prepending the directory to the files.
 prepend_list(CONSTRUCTS_BINDING_FILES
-  ${CONSTRUCTS_BINDING_SRC_DIR}/ ${CONSTRUCTS_BINDING_FILES}
+  ${CONSTRUCTS_BINDING_SRC_DIR}/
+  ${CONSTRUCTS_BINDING_FILES}
 )
 
 # Adding the module as a library.
-get_filename_component(module_name ${CONSTRUCTS_MODULE_FILE} NAME_WE)
-pybind11_add_module(
-  ${module_name}
-  SHARED
-  ${CONSTRUCTS_BINDING_DIR}/${CONSTRUCTS_MODULE_FILE} ${CONSTRUCTS_BINDING_FILES}
+get_filename_component(module_name
+  ${CONSTRUCTS_MODULE_FILE} NAME_WE
 )
 
-target_include_directories(
-  ${module_name}
-  PRIVATE
-  ${PYBIND11_INCLUDE_DIR} ${CONSTRUCTS_BINDING_DIR}/include
+pybind11_add_module(${module_name}
+  SHARED
+  ${CONSTRUCTS_BINDING_DIR}/${CONSTRUCTS_MODULE_FILE}
+  ${CONSTRUCTS_BINDING_FILES}
+)
+
+target_include_directories(${module_name}
+  PUBLIC
+  ${PYBIND11_INCLUDE_DIR}
+  ${CONSTRUCTS_BINDING_DIR}/include
 )
 
 # Adding library dependencies.
 target_link_libraries(${module_name}
-  PUBLIC coordinate2D input pose velocity state
+  PUBLIC
+  coordinate2D input pose velocity state
 )
 
 # Setting binding target properties.
 # Target prefix.
-set_target_properties(
-  ${module_name}
+set_target_properties(${module_name}
   PROPERTIES
   PREFIX ${PYTHON_BINDING_PREFIX}
 )
@@ -60,7 +64,9 @@ set_target_properties(
 # -------------------------------------------------
 
 # Get target suffix
-get_target_property(binding_suffix ${module_name} SUFFIX)
+get_target_property(binding_suffix
+  ${module_name} SUFFIX
+)
 
 # Full name of the built target (.so file that needs to be installed).
 set(binding_install_file_name
