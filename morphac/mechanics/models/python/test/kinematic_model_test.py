@@ -4,7 +4,8 @@ import pytest
 from morphac.constructs import Input, State
 from morphac.mechanics.models import KinematicModel
 
-# Class that extends from KinematicModel
+# Class that extends from KinematicModel. Testing if a functional subclass of
+# the pybind binding of KinematicModel can be built.
 
 
 class NewKinematicModel(KinematicModel):
