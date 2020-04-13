@@ -1,3 +1,23 @@
+# Directories
+# -------------------------------------------------
+
+set(BLUEPRINT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(BLUEPRINT_SRC_DIR ${BLUEPRINT_DIR}/src)
+set(BLUEPRINT_INCLUDE_DIR ${BLUEPRINT_DIR}/include)
+set(BLUEPRINT_TEST_DIR ${BLUEPRINT_DIR}/test)
+set(BLUEPRINT_BINDING_DIR ${BLUEPRINT_DIR}/binding)
+set(BLUEPRINT_BINDING_INCLUDE_DIR ${BLUEPRINT_BINDING_DIR}/include)
+set(BLUEPRINT_BINDING_SRC_DIR ${BLUEPRINT_BINDING_DIR}/src)
+set(BLUEPRINT_BINARY_DIR ${ROBOT_BINARY_DIR}/blueprint)
+set(BLUEPRINT_BINDING_BINARY_DIR ${BLUEPRINT_BINARY_DIR}/binding)
+set(BLUEPRINT_BINDING_INSTALL_DIR ${ROBOT_BINDING_INSTALL_DIR}/blueprint)
+
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(binding)
+
+
 # Libraries
 # -------------------------------------------------
 

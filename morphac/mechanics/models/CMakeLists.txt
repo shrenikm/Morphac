@@ -14,6 +14,7 @@ set(MODELS_BINDING_INSTALL_DIR
   ${MECHANICS_BINDING_INSTALL_DIR}/models
 )
 
+
 # Adding subdirectories
 # -------------------------------------------------
 
