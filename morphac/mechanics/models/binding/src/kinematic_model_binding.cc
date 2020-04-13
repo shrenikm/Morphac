@@ -9,6 +9,8 @@ namespace py = pybind11;
 
 using std::string;
 
+using morphac::mechanics::models::KinematicModel;
+
 void define_kinematic_model_binding(py::module& m) {
   py::class_<KinematicModel, PyKinematicModel> kinematic_model(
       m, "KinematicModel");
