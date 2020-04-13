@@ -18,13 +18,13 @@ def test_invalid_construction():
 
     # Radius and length must both be positive.
     with pytest.raises(ValueError):
-        d3 = DiffDriveModel("d3", 0., 2.)
+        _ = DiffDriveModel("d3", 0., 2.)
     with pytest.raises(ValueError):
-        d4 = DiffDriveModel("d4", 2., 0.)
+        _ = DiffDriveModel("d4", 2., 0.)
     with pytest.raises(ValueError):
-        d5 = DiffDriveModel("d5", -1., 2.)
+        _ = DiffDriveModel("d5", -1., 2.)
     with pytest.raises(ValueError):
-        d6 = DiffDriveModel("d6", 1., -2.)
+        _ = DiffDriveModel("d6", 1., -2.)
 
 
 def test_name(generate_diffdrive_model_list):
@@ -33,6 +33,12 @@ def test_name(generate_diffdrive_model_list):
 
     assert d1.name == "d1"
     assert d2.name == "d2"
+
+    # Make sure that the name is read only.
+    with pytest.raises(AttributeError):
+        d1.name = "d2"
+    with pytest.raises(AttributeError):
+        d2.name = "d1"
 
 
 def test_radius(generate_diffdrive_model_list):
@@ -83,7 +89,7 @@ def test_size(generate_diffdrive_model_list):
     with pytest.raises(AttributeError):
         d2.size_velocity = 0
     with pytest.raises(AttributeError):
-        d2.size_input = 3
+        d1.size_input = 3
 
 
 def test_derivative_computation(generate_diffdrive_model_list):
@@ -103,6 +109,6 @@ def test_derivative_computation(generate_diffdrive_model_list):
     with pytest.raises(ValueError):
         d1.compute_state_derivative(State(3, 1), Input(2))
     with pytest.raises(ValueError):
-        d1.compute_state_derivative(State(2, 0), Input(2))
+        d2.compute_state_derivative(State(2, 0), Input(2))
     with pytest.raises(ValueError):
-        d1.compute_state_derivative(State(3, 0), Input(3))
+        d2.compute_state_derivative(State(3, 0), Input(3))
