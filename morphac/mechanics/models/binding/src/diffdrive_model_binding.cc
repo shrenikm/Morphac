@@ -15,6 +15,7 @@ using morphac::mechanics::models::KinematicModel;
 void define_diffdrive_model_binding(py::module& m) {
   py::class_<DiffDriveModel, KinematicModel> diffdrive_model(m,
                                                              "DiffDriveModel");
+
   diffdrive_model.def(py::init<const string, const double, const double>(),
                       py::arg("name"), py::arg("radius"), py::arg("length"));
   diffdrive_model.def("compute_state_derivative",

@@ -14,6 +14,7 @@ using morphac::mechanics::models::KinematicModel;
 
 void define_tricycle_model_binding(py::module& m) {
   py::class_<TricycleModel, KinematicModel> tricycle_model(m, "TricycleModel");
+
   tricycle_model.def(py::init<const string, const double, const double>(),
                      py::arg("name"), py::arg("radius"), py::arg("length"));
   tricycle_model.def("compute_state_derivative",

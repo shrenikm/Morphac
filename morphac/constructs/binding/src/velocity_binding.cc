@@ -11,6 +11,7 @@ using morphac::constructs::Velocity;
 
 void define_velocity_binding(py::module& m) {
   py::class_<Velocity> velocity(m, "Velocity");
+
   velocity.def(py::init<const int>(), py::arg("size"));
   velocity.def(py::init<const VectorXd&>(), py::arg("data"));
   velocity.def(py::self += py::self);

@@ -11,6 +11,7 @@ using morphac::constructs::Input;
 
 void define_input_binding(py::module& m) {
   py::class_<Input> input(m, "Input");
+
   input.def(py::init<const int>(), py::arg("size"));
   input.def(py::init<const VectorXd&>(), py::arg("data"));
   input.def(py::self += py::self);

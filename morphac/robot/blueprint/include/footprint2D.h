@@ -16,7 +16,7 @@ class Footprint2D {
     const Eigen::MatrixXd& get_footprint_matrix() const;
 
   private:
-    const Eigen::MatrixXd& footprint_matrix_;
+    Eigen::MatrixXd footprint_matrix_;
 
 };
 

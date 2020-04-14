@@ -10,6 +10,7 @@ using morphac::constructs::Coordinate2D;
 
 void define_coordinate2D_binding(py::module& m) {
   py::class_<Coordinate2D<double>> coordinate2D(m, "Coordinate2D");
+
   coordinate2D.def(py::init<const double, const double>(), py::arg("x"),
                    py::arg("y"));
   coordinate2D.def(py::self += py::self);

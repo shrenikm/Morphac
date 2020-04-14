@@ -14,6 +14,7 @@ using morphac::mechanics::models::KinematicModel;
 
 void define_dubin_model_binding(py::module& m) {
   py::class_<DubinModel, KinematicModel> dubin_model(m, "DubinModel");
+
   dubin_model.def(py::init<const string, const double>(), py::arg("name"),
                   py::arg("speed"));
   dubin_model.def("compute_state_derivative",

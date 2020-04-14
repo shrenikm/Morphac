@@ -12,6 +12,7 @@ set(BLUEPRINT_BINARY_DIR ${ROBOT_BINARY_DIR}/blueprint)
 set(BLUEPRINT_BINDING_BINARY_DIR ${BLUEPRINT_BINARY_DIR}/binding)
 set(BLUEPRINT_BINDING_INSTALL_DIR ${ROBOT_BINDING_INSTALL_DIR}/blueprint)
 
+
 # Adding subdirectories
 # -------------------------------------------------
 
@@ -21,6 +22,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
+# Blueprint source files.
 set(BLUEPRINT_SRC
 
   footprint2D.cc

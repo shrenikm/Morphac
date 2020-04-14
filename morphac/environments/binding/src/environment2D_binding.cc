@@ -11,6 +11,7 @@ using morphac::environments::Environment2D;
 
 void define_environment2D_binding(py::module& m) {
   py::class_<Environment2D> environment2D(m, "Environment2D");
+
   environment2D.def(py::init<const double, const double, const double>(),
                     py::arg("width"), py::arg("height"), py::arg("resolution"));
   environment2D.def(py::init<const MatrixXd&, const double>(), py::arg("data"),

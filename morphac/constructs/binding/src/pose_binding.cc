@@ -11,6 +11,7 @@ using morphac::constructs::Pose;
 
 void define_pose_binding(py::module& m) {
   py::class_<Pose> pose(m, "Pose");
+
   pose.def(py::init<const int>(), py::arg("size"));
   pose.def(py::init<const VectorXd&>(), py::arg("data"));
   pose.def(py::self += py::self);

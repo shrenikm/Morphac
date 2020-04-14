@@ -13,6 +13,7 @@ using morphac::constructs::State;
 
 void define_state_binding(py::module& m) {
   py::class_<State> state(m, "State");
+
   state.def(py::init<const int, const int>(), py::arg("size_pose"),
             py::arg("size_velocity"));
   state.def(py::init<const VectorXd&, const VectorXd&>(), py::arg("data_pose"),

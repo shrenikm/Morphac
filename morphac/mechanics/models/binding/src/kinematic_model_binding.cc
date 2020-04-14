@@ -14,6 +14,7 @@ using morphac::mechanics::models::KinematicModel;
 void define_kinematic_model_binding(py::module& m) {
   py::class_<KinematicModel, PyKinematicModel> kinematic_model(
       m, "KinematicModel");
+
   kinematic_model.def(py::init<const string, const int, const int, const int>(),
                       py::arg("name"), py::arg("size_pose"),
                       py::arg("size_velocity"), py::arg("size_input"));
