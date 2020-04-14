@@ -57,6 +57,9 @@ class State {
   const Eigen::VectorXd& get_velocity_vector() const;
   const Eigen::VectorXd get_state_vector() const;
 
+  void set_pose(const morphac::constructs::Pose& pose);
+  void set_velocity(const morphac::constructs::Velocity& velocity);
+
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
   void set_state_vector(const Eigen::VectorXd& state_vector);

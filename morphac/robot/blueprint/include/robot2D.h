@@ -41,6 +41,9 @@ class Robot2D {
   const morphac::constructs::State& get_state() const;
   const morphac::constructs::Pose& get_pose() const;
   const morphac::constructs::Velocity& get_velocity() const;
+  void set_state(const morphac::constructs::State& state);
+  void set_pose(const morphac::constructs::Pose& pose);
+  void set_velocity(const morphac::constructs::Velocity& velocity);
 
  private:
   std::string name_;

@@ -133,7 +133,7 @@ State operator*(const double scalar, State state) { return state *= scalar; }
 double& State::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
                 "Pose index out of bounds.");
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_size_pose()) {
     return pose_(index);
@@ -146,7 +146,7 @@ double& State::operator()(const int index) {
 double State::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
                 "Pose index out of bounds.");
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_size_pose()) {
     return pose_(index);
@@ -220,8 +220,20 @@ const VectorXd& State::get_velocity_vector() const {
   return velocity_.get_velocity_vector();
 }
 
+void State::set_pose(const Pose& pose) {
+  MORPH_REQUIRE(pose_.get_size() == pose.get_size(), std::invalid_argument,
+                "Pose dimensions do not match.");
+  pose_ = pose;
+}
+
+void State::set_velocity(const Velocity& velocity) {
+  MORPH_REQUIRE(velocity_.get_size() == velocity.get_size(),
+                std::invalid_argument, "Velocity dimensions do not match.");
+  velocity_ = velocity;
+}
+
 const VectorXd State::get_state_vector() const {
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   VectorXd state_vector(get_size());
   VectorXd pose_vector = VectorXd::Zero(0);
   VectorXd velocity_vector = VectorXd::Zero(0);
@@ -251,7 +263,7 @@ void State::set_state_vector(const VectorXd& state_vector) {
   // Need to check if the dimensions are correct
   MORPH_REQUIRE(state_vector.size() == get_size(), std::invalid_argument,
                 "State vector size is incorrect.");
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   if (!IsPoseEmpty()) {
     set_pose_vector(state_vector.head(get_size_pose()));
   }
