@@ -72,6 +72,10 @@ TEST_F(Robot2DTest, Construction) {
 TEST_F(Robot2DTest, InvalidConstruction) {
   SomeKinematicModel model("model", 3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
+  ASSERT_THROW(Robot2D("robot", model, footprint, State(3, 3)),
+               std::invalid_argument);
+  ASSERT_THROW(Robot2D("robot", model, footprint, State(4, 2)),
+               std::invalid_argument);
   ASSERT_THROW(Robot2D("robot", model, footprint, State(4, 3)),
                std::invalid_argument);
 }
@@ -105,6 +109,49 @@ TEST_F(Robot2DTest, Accessors) {
   ASSERT_TRUE(robot2.get_state().get_pose_vector().isApprox(initial_pose));
   ASSERT_TRUE(
       robot2.get_state().get_velocity_vector().isApprox(initial_velocity));
+}
+
+TEST_F(Robot2DTest, SetState) {
+  SomeKinematicModel model("model", 3, 2, 5);
+  Footprint2D footprint(footprint_matrix_);
+  Robot2D robot1{"robot1", model, footprint};
+
+  VectorXd pose_vector = VectorXd::Random(3);
+  VectorXd velocity_vector = VectorXd::Random(2);
+
+  robot1.set_state(State(VectorXd::Ones(3), VectorXd::Ones(2)));
+  ASSERT_TRUE(
+      robot1.get_state().get_state_vector().isApprox(VectorXd::Ones(5)));
+
+  robot1.set_pose(Pose(pose_vector));
+  ASSERT_TRUE(robot1.get_pose().get_pose_vector().isApprox(pose_vector));
+  // Making sure that the velocity has not changed.
+  ASSERT_TRUE(
+      robot1.get_velocity().get_velocity_vector().isApprox(VectorXd::Ones(2)));
+
+  robot1.set_velocity(Velocity(velocity_vector));
+  // Making sure that the pose has not changed.
+  ASSERT_TRUE(robot1.get_pose().get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(
+      robot1.get_velocity().get_velocity_vector().isApprox(velocity_vector));
+
+  // Test invalid state, pose and velocity setting.
+  ASSERT_THROW(robot1.set_state(State(4, 2)), std::invalid_argument);
+  ASSERT_THROW(robot1.set_state(State(3, 3)), std::invalid_argument);
+  ASSERT_THROW(robot1.set_state(State(4, 3)), std::invalid_argument);
+  ASSERT_THROW(robot1.set_state(State(VectorXd::Zero(2), VectorXd::Zero(2))),
+               std::invalid_argument);
+  ASSERT_THROW(robot1.set_state(State(VectorXd::Zero(3), VectorXd::Zero(1))),
+               std::invalid_argument);
+  ASSERT_THROW(robot1.set_state(State(VectorXd::Zero(2), VectorXd::Zero(1))),
+               std::invalid_argument);
+
+  ASSERT_THROW(robot1.set_pose(Pose(2)), std::invalid_argument);
+  ASSERT_THROW(robot1.set_pose(Pose(VectorXd::Zero(5))), std::invalid_argument);
+
+  ASSERT_THROW(robot1.set_velocity(Velocity(1)), std::invalid_argument);
+  ASSERT_THROW(robot1.set_velocity(Velocity(VectorXd::Zero(3))),
+               std::invalid_argument);
 }
 
 TEST_F(Robot2DTest, Derivative) {
