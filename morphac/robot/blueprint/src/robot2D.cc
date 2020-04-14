@@ -69,12 +69,19 @@ void Robot2D::set_state(const State& state) {
   state_ = state;
 }
 
-//void Robot2D::set_pose(const Pose& pose) {
-//  MORPH_REQUIRE(state_.get_size_pose() == pose.get_size(),
-//                std::invalid_argument,
-//                "Given pose and robot internal pose dimensions do not match.");
-//  state_.set_pose(pose);
-//}
+void Robot2D::set_pose(const Pose& pose) {
+  MORPH_REQUIRE(state_.get_size_pose() == pose.get_size(),
+                std::invalid_argument,
+                "Given pose and robot internal pose dimensions do not match.");
+  state_.set_pose(pose);
+}
+
+void Robot2D::set_velocity(const Velocity& velocity) {
+  MORPH_REQUIRE(
+      state_.get_size_velocity() == velocity.get_size(), std::invalid_argument,
+      "Given velocity and robot internal velocity dimensions do not match.");
+  state_.set_velocity(velocity);
+}
 
 }  // namespace blueprint
 }  // namespace robot
