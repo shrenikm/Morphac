@@ -35,9 +35,10 @@ void define_robot2D_binding(py::module& m) {
   robot2D.def_property_readonly("kinematic_model",
                                 &Robot2D::get_kinematic_model);
   robot2D.def_property_readonly("footprint", &Robot2D::get_footprint);
-  robot2D.def_property_readonly("state", &Robot2D::get_state);
-  robot2D.def_property_readonly("pose", &Robot2D::get_pose);
-  robot2D.def_property_readonly("velocity", &Robot2D::get_velocity);
+  robot2D.def_property("state", &Robot2D::get_state, &Robot2D::set_state);
+  robot2D.def_property("pose", &Robot2D::get_pose, &Robot2D::set_pose);
+  robot2D.def_property("velocity", &Robot2D::get_velocity,
+                       &Robot2D::set_velocity);
 }
 
 }  // namespace binding
