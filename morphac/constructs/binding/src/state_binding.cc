@@ -32,9 +32,10 @@ void define_state_binding(py::module& m) {
   // state.pose.size and state.velocity.size
   state.def_property_readonly("size", &State::get_size);
 
-  state.def_property_readonly("pose", py::overload_cast<>(&State::get_pose));
-  state.def_property_readonly("velocity",
-                              py::overload_cast<>(&State::get_velocity));
+  state.def_property("pose", py::overload_cast<>(&State::get_pose),
+                     &State::set_pose);
+  state.def_property("velocity", py::overload_cast<>(&State::get_velocity),
+                     &State::set_velocity);
 
   // vector is mapped to data in python to keep it consistent and pythonic.
   // Pose and Velocity data are not exposed as we can always call it using

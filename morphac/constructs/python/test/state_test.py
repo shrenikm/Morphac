@@ -81,6 +81,30 @@ def test_state_pose(generate_state_list):
     assert np.allclose(sf1.data, [1, 1, 0, 0])
     assert np.allclose(sp2.data, [1, -1, 1])
 
+    # Full state pose set.
+    sf1.pose = Pose([1, 2])
+    sf4.pose = Pose([0, 1, 0])
+
+    assert np.allclose(sf1.pose.data, [1, 2])
+    assert np.allclose(sf1.data, [1, 2, 0, 0])
+    assert np.allclose(sf4.pose.data, [0, 1, 0])
+    assert np.allclose(sf4.data, [0, 1, 0, 3, 5, 8, 13])
+
+    # Partial state pose set.
+    sp2.pose = Pose(3)
+    assert np.allclose(sp2.pose.data, [0, 0, 0])
+    assert np.allclose(sp2.data, [0, 0, 0])
+
+    # Invalid pose set.
+    with pytest.raises(ValueError):
+        sf1.pose = Pose(1)
+    with pytest.raises(ValueError):
+        sf4.pose = Pose([1, 2])
+    with pytest.raises(ValueError):
+        sp1.pose = Pose(1)
+    with pytest.raises(ValueError):
+        sp2.pose = Pose([0, 0, 0, 0])
+
 
 def test_state_velocity(generate_state_list):
 
@@ -111,6 +135,30 @@ def test_state_velocity(generate_state_list):
 
     assert np.allclose(sf1.data, [0, 0, 1, 1])
     assert np.allclose(sp1.data, [1, -1])
+
+    # Full state pose set.
+    sf1.velocity = Velocity([1, 2])
+    sf4.velocity = Velocity([0, 1, 0, 1])
+
+    assert np.allclose(sf1.velocity.data, [1, 2])
+    assert np.allclose(sf1.data, [0, 0, 1, 2])
+    assert np.allclose(sf4.velocity.data, [0, 1, 0, 1])
+    assert np.allclose(sf4.data, [1, 1, 2, 0, 1, 0, 1])
+
+    # Partial state pose set.
+    sp1.velocity = Velocity(2)
+    assert np.allclose(sp1.velocity.data, [0, 0])
+    assert np.allclose(sp1.data, [0, 0])
+
+    # Invalid pose set.
+    with pytest.raises(ValueError):
+        sf1.velocity = Velocity(1)
+    with pytest.raises(ValueError):
+        sf4.velocity = Velocity([1, 2, 3])
+    with pytest.raises(ValueError):
+        sp1.velocity = Velocity([0, 0, 0])
+    with pytest.raises(ValueError):
+        sp2.velocity = Velocity(1)
 
 
 def test_data(generate_state_list):
