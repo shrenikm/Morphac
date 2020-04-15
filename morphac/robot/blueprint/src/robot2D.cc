@@ -38,11 +38,26 @@ Robot2D::Robot2D(const string name, KinematicModel& kinematic_model,
 }
 
 State Robot2D::ComputeStateDerivative(const Input& input) const {
+  MORPH_REQUIRE(
+      input.get_size() == kinematic_model_.size_input,
+      std::invalid_argument,
+      "Input dimension and kinematic model input dimensions do not match.");
   return kinematic_model_.ComputeStateDerivative(state_, input);
 }
 
 State Robot2D::ComputeStateDerivative(const State& state,
                                       const Input& input) const {
+  // Even for a custom state, the dimensions must still match, meaning that
+  // the state must correspond to the same robot.
+  MORPH_REQUIRE(
+      state.get_size_pose() == kinematic_model_.size_pose &&
+          state.get_size_velocity() == kinematic_model_.size_velocity,
+      std::invalid_argument,
+      "State dimension and kinematic model state dimensions do not match.");
+  MORPH_REQUIRE(
+      input.get_size() == kinematic_model_.size_input,
+      std::invalid_argument,
+      "Input dimension and kinematic model input dimensions do not match.");
   return kinematic_model_.ComputeStateDerivative(state, input);
 }
 

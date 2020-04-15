@@ -19,7 +19,11 @@ class NewKinematicModel(KinematicModel):
     def compute_state_derivative(self, robot_state, robot_input):
 
         tmp_der = np.sum(np.multiply(robot_state.data, robot_input.data))
-        return tmp_der + self.a * self.b
+        tmp_der = tmp_der + self.a * self.b
+        # tmp_der is a scalar, but the derivative must be a State object.
+        # Copying tmp_der to each State element.
+        der = State([tmp_der] * self.size_pose, [tmp_der] * self.size_velocity)
+        return der
 
 
 @pytest.fixture()
@@ -83,17 +87,17 @@ def test_members(generate_kinematic_model_list):
     assert k3.b == -10.
 
 
-def test_overload(generate_kinematic_model_list):
+def test_derivative_computation(generate_kinematic_model_list):
 
     k1, k2, k3 = generate_kinematic_model_list
 
-    derivative1 = k1.compute_state_derivative(
+    der1 = k1.compute_state_derivative(
         State([1, 1, 1], [1, 1]), Input([1, 2, 3, 4, 5]))
-    derivative2 = k2.compute_state_derivative(
+    der2 = k2.compute_state_derivative(
         State([1], [0]), Input([-2, -1]))
-    derivative3 = k3.compute_state_derivative(
-        State([1, -1], [-0.1, 7, 9.5]), Input([5, 0, -100, -5, 4]))
+    der3 = k3.compute_state_derivative(
+        State([1, -1], [-0.1, 7, 9.5, 0]), Input([5, 0, -100, -5, 4, 0]))
 
-    assert np.isclose(derivative1, 15. + 3.45)
-    assert np.isclose(derivative2, -2)
-    assert np.isclose(derivative3, 18 + 10)
+    assert np.allclose(der1.data, [15. + 3.45] * 5)
+    assert np.allclose(der2.data, [-2] * 2)
+    assert np.allclose(der3.data, [18 + 10] * 6)
