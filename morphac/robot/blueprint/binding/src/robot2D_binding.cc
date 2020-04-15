@@ -18,13 +18,20 @@ using morphac::robot::blueprint::Robot2D;
 void define_robot2D_binding(py::module& m) {
   py::class_<Robot2D> robot2D(m, "Robot2D");
 
+  // As the kinematic model is a reference (Even in the class), we need to
+  // keep it alive until the Robot2D object is deleted. Hence we use keep_alive
+  // and tie its lifetime to the Robot2D object. If this is not done, we would
+  // not be able to construct a Robot2D object using:
+  // r = Robot2D("name", KinematicModel(args), footprint)
+  // As the kinematic model object is temporary, gets deleted and the cpp side
+  // throws a segfault.
   robot2D.def(py::init<const string, KinematicModel&, const Footprint2D&>(),
-              py::arg("name"), py::arg("kinematic_model"),
-              py::arg("footprint"));
+              py::arg("name"), py::arg("kinematic_model"), py::arg("footprint"),
+              py::keep_alive<1, 3>());
   robot2D.def(py::init<const string, KinematicModel&, const Footprint2D&,
                        const State&>(),
               py::arg("name"), py::arg("kinematic_model"), py::arg("footprint"),
-              py::arg("initial_state"));
+              py::arg("initial_state"), py::keep_alive<1, 3>());
   robot2D.def("compute_state_derivative",
               py::overload_cast<const Input&>(&Robot2D::ComputeStateDerivative,
                                               py::const_));
