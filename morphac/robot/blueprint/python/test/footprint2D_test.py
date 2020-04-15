@@ -26,7 +26,7 @@ def test_invalid_construction():
         Footprint2D(np.random.randn(10, 3))
 
 
-def test_name(generate_footprint2D_list):
+def test_data(generate_footprint2D_list):
 
     f1, f2 = generate_footprint2D_list
 
