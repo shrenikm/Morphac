@@ -1,8 +1,7 @@
-dist: xenial
-language:
-  - cpp
-  - python
-sudo: required
+os: linux
+language: python
+
+compiler: gcc
 
 addons:
   apt:
@@ -14,12 +13,49 @@ addons:
       - g++-5
       - cmake
 
+before_install:
+  - gcc --version
+  - cmake --version
+  - python --version
+  - sudo apt-get update
+
+install:
+  - pip install -r requirements.txt
+
+jobs:
+  include:
+    # Uncomment to test on Ubuntu 16
+    #    - dist: xenial
+    #      python: 3.5
+    #    - dist: xenial
+    #      python: 3.6
+    #    - dist: xenial
+    #      python: 3.7
+    #    - dist: xenial
+    #      python: 3.8
+
+    # Test on Ubuntu 18
+    - dist: bionic
+      python: 3.5
+    - dist: bionic
+      python: 3.6
+    - dist: bionic
+      python: 3.7
+    - dist: bionic
+      python: 3.8
+
 script:
   # Creating the build directory
-  - cd src && mkdir build
+  - mkdir build
   - cd build
   # Building using CMake
   - cmake ..
   - make
+  - make install
+
+after_script:
   # Running tests
+  # Cpp tests
   - make test
+  # Python tests
+  - cd .. && pytest morphac
