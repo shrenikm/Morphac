@@ -1,0 +1,23 @@
+# Directories
+# -------------------------------------------------
+
+set(INTEGRATION_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(INTEGRATION_SRC_DIR ${INTEGRATION_DIR}/src)
+set(INTEGRATION_INCLUDE_DIR ${INTEGRATION_DIR}/include)
+set(INTEGRATION_TEST_DIR ${INTEGRATION_DIR}/test)
+set(INTEGRATION_BINDING_DIR ${INTEGRATION_DIR}/binding)
+set(INTEGRATION_BINDING_INCLUDE_DIR ${INTEGRATION_BINDING_DIR}/include)
+set(INTEGRATION_BINDING_SRC_DIR ${INTEGRATION_BINDING_DIR}/src)
+set(INTEGRATION_BINARY_DIR ${INTEGRATION_BINARY_DIR}/models)
+set(INTEGRATION_BINDING_BINARY_DIR ${INTEGRATION_BINARY_DIR}/binding)
+set(INTEGRATION_BINDING_INSTALL_DIR
+  ${MATH_BINDING_INSTALL_DIR}/integration
+)
+
+
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(binding)
+
+
