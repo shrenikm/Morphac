@@ -16,14 +16,13 @@ namespace models {
 // members
 class KinematicModel {
  public:
-  KinematicModel(const std::string name, const int size_pose,
-                 const int size_velocity, const int size_input);
+  KinematicModel(const int size_pose, const int size_velocity,
+                 const int size_input);
 
   virtual morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input) const = 0;
 
-  const std::string name;
   const int size_pose;
   const int size_velocity;
   const int size_input;

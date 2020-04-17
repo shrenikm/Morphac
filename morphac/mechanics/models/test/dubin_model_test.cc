@@ -5,8 +5,6 @@
 
 namespace {
 
-using std::string;
-
 using Eigen::VectorXd;
 
 using morphac::constructs::Input;
@@ -21,9 +19,8 @@ class DubinModelTest : public ::testing::Test {
 };
 
 TEST_F(DubinModelTest, Construction) {
-  DubinModel dubin_model{"dubin_model", 1.5};
+  DubinModel dubin_model{1.5};
 
-  ASSERT_EQ(dubin_model.name, "dubin_model");
   ASSERT_EQ(dubin_model.size_pose, 3);
   ASSERT_EQ(dubin_model.size_velocity, 0);
   ASSERT_EQ(dubin_model.size_input, 1);
@@ -31,7 +28,7 @@ TEST_F(DubinModelTest, Construction) {
 }
 
 TEST_F(DubinModelTest, DerivativeComputation) {
-  DubinModel dubin_model{"dubin_model", 2.5};
+  DubinModel dubin_model{2.5};
   VectorXd pose_vector1(3), pose_vector2(3);
   VectorXd input_vector1(1), input_vector2(1);
   VectorXd desired_vector1(3), desired_vector2(3);
@@ -57,7 +54,7 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 }
 
 TEST_F(DubinModelTest, InvalidDerivativeComputation) {
-  DubinModel dubin_model{"dubin_model", 1.0};
+  DubinModel dubin_model{1.0};
 
   // Computing the state derivative with incorrect state/input/derivative.
   ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, Input{1}),

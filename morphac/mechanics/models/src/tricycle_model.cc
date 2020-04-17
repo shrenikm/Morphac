@@ -6,7 +6,6 @@ namespace models {
 
 using std::cos;
 using std::sin;
-using std::string;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -15,9 +14,8 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;
 
-TricycleModel::TricycleModel(const string name, const double radius,
-                             const double length)
-    : KinematicModel(name, 4, 0, 2), radius(radius), length(length) {
+TricycleModel::TricycleModel(const double radius, const double length)
+    : KinematicModel(4, 0, 2), radius(radius), length(length) {
   MORPH_REQUIRE(radius > 0, std::invalid_argument,
                 "Tricycle wheel radius must be positive.");
   MORPH_REQUIRE(

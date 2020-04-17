@@ -5,8 +5,6 @@
 
 namespace {
 
-using std::string;
-
 using Eigen::VectorXd;
 
 using morphac::constructs::Input;
@@ -15,9 +13,8 @@ using morphac::mechanics::models::KinematicModel;
 
 class SomeKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(string name, int size_pose, int size_velocity,
-                     int size_input, double a)
-      : KinematicModel(name, size_pose, size_velocity, size_input), a(a) {}
+  SomeKinematicModel(int size_pose, int size_velocity, int size_input, double a)
+      : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
   State ComputeStateDerivative(const State& state, const Input& input) const {
     // f(x, u) = x * a * u - x
@@ -54,7 +51,7 @@ TEST_F(KinematicModelTest, Subclass) {
   State state(pose_vector, velocity_vector);
   Input input(input_vector);
 
-  SomeKinematicModel model{"model", 3, 2, 5, 1.0};
+  SomeKinematicModel model{3, 2, 5, 1.0};
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
   expected_pose_derivative << 0, -2, 10;

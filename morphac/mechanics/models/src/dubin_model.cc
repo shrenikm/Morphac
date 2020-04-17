@@ -6,7 +6,6 @@ namespace models {
 
 using std::cos;
 using std::sin;
-using std::string;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -15,8 +14,8 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;
 
-DubinModel::DubinModel(const string name, const double speed)
-    : KinematicModel(name, 3, 0, 1), speed(speed) {}
+DubinModel::DubinModel(const double speed)
+    : KinematicModel(3, 0, 1), speed(speed) {}
 
 State DubinModel::ComputeStateDerivative(const State& state,
                                          const Input& input) const {

@@ -6,7 +6,6 @@ namespace models {
 
 using std::cos;
 using std::sin;
-using std::string;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -15,9 +14,8 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;
 
-DiffDriveModel::DiffDriveModel(const string name, const double radius,
-                               const double length)
-    : KinematicModel(name, 3, 0, 2), radius(radius), length(length) {
+DiffDriveModel::DiffDriveModel(const double radius, const double length)
+    : KinematicModel(3, 0, 2), radius(radius), length(length) {
   MORPH_REQUIRE(radius > 0, std::invalid_argument,
                 "Diffdrive wheel radius must be positive.");
   MORPH_REQUIRE(length > 0, std::invalid_argument,

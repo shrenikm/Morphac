@@ -23,9 +23,8 @@ using morphac::robot::blueprint::Robot2D;
 
 class SomeKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(string name, int size_pose, int size_velocity,
-                     int size_input)
-      : KinematicModel(name, size_pose, size_velocity, size_input) {}
+  SomeKinematicModel(int size_pose, int size_velocity, int size_input)
+      : KinematicModel(size_pose, size_velocity, size_input) {}
 
   State ComputeStateDerivative(const State& state, const Input& input) const {
     // f(x, u) = x * u  - x
@@ -62,7 +61,7 @@ class Robot2DTest : public ::testing::Test {
 };
 
 TEST_F(Robot2DTest, Construction) {
-  SomeKinematicModel model("model", 3, 2, 5);
+  SomeKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   Robot2D robot1{"robot1", model, footprint};
 
@@ -70,7 +69,7 @@ TEST_F(Robot2DTest, Construction) {
 }
 
 TEST_F(Robot2DTest, InvalidConstruction) {
-  SomeKinematicModel model("model", 3, 2, 5);
+  SomeKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   ASSERT_THROW(Robot2D("robot", model, footprint, State(3, 3)),
                std::invalid_argument);
@@ -81,7 +80,7 @@ TEST_F(Robot2DTest, InvalidConstruction) {
 }
 
 TEST_F(Robot2DTest, Accessors) {
-  SomeKinematicModel model("model", 3, 2, 5);
+  SomeKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   Robot2D robot1{"robot1", model, footprint};
 
@@ -112,7 +111,7 @@ TEST_F(Robot2DTest, Accessors) {
 }
 
 TEST_F(Robot2DTest, SetState) {
-  SomeKinematicModel model("model", 3, 2, 5);
+  SomeKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   Robot2D robot1{"robot1", model, footprint};
 
@@ -155,7 +154,7 @@ TEST_F(Robot2DTest, SetState) {
 }
 
 TEST_F(Robot2DTest, Derivative) {
-  SomeKinematicModel model("model", 3, 2, 5);
+  SomeKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   VectorXd initial_pose(3), initial_velocity(2), input(5),
       expected_state_derivative1(5), expected_state_derivative2(5);

@@ -16,7 +16,7 @@ namespace models {
 
 class DubinModel : public morphac::mechanics::models::KinematicModel {
  public:
-  DubinModel(const std::string name, const double speed);
+  DubinModel(const double speed);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
