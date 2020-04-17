@@ -45,6 +45,7 @@ foreach(file ${MODELS_SRC})
     ${MODELS_SRC_DIR}/${file}
     ${MODELS_INCLUDE_DIR}/${header_name}
   )
+
   target_include_directories(${lib_name}
     PUBLIC
     ${MODELS_INCLUDE_DIR}

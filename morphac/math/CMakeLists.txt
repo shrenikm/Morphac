@@ -12,7 +12,7 @@ set(MATH_BINDING_INSTALL_DIR
 # Adding subdirectories
 # -------------------------------------------------
 
-add_subdirectory(integration)
+add_subdirectory(numeric)
 
 
 # Installing

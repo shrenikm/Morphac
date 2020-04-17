@@ -45,6 +45,7 @@ foreach(file ${CONSTRUCTS_SRC})
     ${CONSTRUCTS_SRC_DIR}/${file}
     ${CONSTRUCTS_INCLUDE_DIR}/${header_name}
   )
+
   target_include_directories(${lib_name}
     PUBLIC
     ${CONSTRUCTS_INCLUDE_DIR}

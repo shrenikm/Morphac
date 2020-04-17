@@ -39,6 +39,7 @@ foreach(file ${ENVIRONMENT_SRC})
     ${ENVIRONMENTS_SRC_DIR}/${file}
     ${ENVIRONMENTS_INCLUDE_DIR}/${header_name}
   )
+
   target_include_directories(${lib_name}
     PUBLIC
     ${ENVIRONMENTS_INCLUDE_DIR}

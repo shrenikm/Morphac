@@ -41,6 +41,7 @@ foreach(file ${BLUEPRINT_SRC})
     ${BLUEPRINT_SRC_DIR}/${file}
     ${BLUEPRINT_INCLUDE_DIR}/${header_name}
   )
+
   target_include_directories(${lib_name}
     PUBLIC
     ${BLUEPRINT_INCLUDE_DIR}

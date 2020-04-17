@@ -20,4 +20,39 @@ set(NUMERIC_BINDING_INSTALL_DIR
 
 add_subdirectory(binding)
 
+# Libraries
+# -------------------------------------------------
+
+# Models source files.
+set(NUMERIC_SRC
+
+  integrator.cc
+)
+
+foreach(file ${NUMERIC_SRC})
+  get_filename_component(lib_name
+    ${file} NAME_WE
+  )
+
+  get_header_name(header_name ${file})
+
+  add_library(${lib_name}
+    SHARED
+    ${NUMERIC_SRC_DIR}/${file}
+    ${NUMERIC_INCLUDE_DIR}/${header_name}
+  )
+
+  target_include_directories(${lib_name}
+    PUBLIC
+    ${NUMERIC_INCLUDE_DIR}
+  )
+endforeach()
+
+# Adding library dependencies.
+target_link_libraries(integrator
+  PUBLIC
+  kinematic_model
+)
+
+
 
