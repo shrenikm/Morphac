@@ -15,9 +15,9 @@ from morphac.robot.blueprint import Footprint2D, Robot2D
 
 class NewKinematicModel(KinematicModel):
 
-    def __init__(self, name, sp, sv, si, a, b):
+    def __init__(self, sp, sv, si, a, b):
 
-        KinematicModel.__init__(self, name, sp, sv, si)
+        KinematicModel.__init__(self,  sp, sv, si)
         self.a = a
         self.b = b
 
@@ -34,13 +34,13 @@ class NewKinematicModel(KinematicModel):
 @pytest.fixture()
 def generate_robot2D_list():
 
-    r1 = Robot2D("r1", DiffDriveModel("d", 1, 1), Footprint2D([[1, 2]]))
-    r2 = Robot2D("r2", TricycleModel("t", 1, 1),
+    r1 = Robot2D("r1", DiffDriveModel(1, 1), Footprint2D([[1, 2]]))
+    r2 = Robot2D("r2", TricycleModel(1, 1),
                  Footprint2D(np.ones([20, 2])))
-    r3 = Robot2D("r3", NewKinematicModel("k1", 3, 2, 5, 2.5, 2),
+    r3 = Robot2D("r3", NewKinematicModel(3, 2, 5, 2.5, 2),
                  Footprint2D([[1, 0], [0, 1]]))
     r4 = Robot2D(name="r4",
-                 kinematic_model=NewKinematicModel("k2", 2, 2, 4, 0, 0),
+                 kinematic_model=NewKinematicModel(2, 2, 4, 0, 0),
                  footprint=Footprint2D([[0, 0]]),
                  initial_state=State([1, 2], [3, 4])
                  )
@@ -73,11 +73,6 @@ def test_kinematic_model(generate_robot2D_list):
     assert isinstance(r4.kinematic_model, NewKinematicModel)
 
     # Testing the actual model details.
-    assert r1.kinematic_model.name == "d"
-    assert r2.kinematic_model.name == "t"
-    assert r3.kinematic_model.name == "k1"
-    assert r4.kinematic_model.name == "k2"
-
     assert r1.kinematic_model.size_pose == 3
     assert r2.kinematic_model.size_pose == 4
     assert r3.kinematic_model.size_pose == 3
@@ -104,9 +99,9 @@ def test_kinematic_model(generate_robot2D_list):
 
     # Making sure that the kinematic model is read only.
     with pytest.raises(AttributeError):
-        r1.kinematic_model = TricycleModel("t", 2, 2)
+        r1.kinematic_model = TricycleModel(2, 2)
     with pytest.raises(AttributeError):
-        r2.kinematic_model = TricycleModel("t", 1, 1)
+        r2.kinematic_model = TricycleModel(1, 1)
 
 
 def test_footprint(generate_robot2D_list):

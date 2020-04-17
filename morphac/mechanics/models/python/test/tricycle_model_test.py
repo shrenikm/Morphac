@@ -8,8 +8,8 @@ from morphac.mechanics.models import TricycleModel
 @pytest.fixture()
 def generate_tricycle_model_list():
 
-    t1 = TricycleModel("t1", 1, 2)
-    t2 = TricycleModel(name="t2", radius=1.5, length=6.)
+    t1 = TricycleModel(1, 2)
+    t2 = TricycleModel(radius=1.5, length=6.)
 
     return t1, t2
 
@@ -18,27 +18,13 @@ def test_invalid_construction():
 
     # Radius and length must both be positive.
     with pytest.raises(ValueError):
-        _ = TricycleModel("t3", 0., 2.)
+        _ = TricycleModel(0., 2.)
     with pytest.raises(ValueError):
-        _ = TricycleModel("t4", 2., 0.)
+        _ = TricycleModel(2., 0.)
     with pytest.raises(ValueError):
-        _ = TricycleModel("t5", -1., 2.)
+        _ = TricycleModel(-1., 2.)
     with pytest.raises(ValueError):
-        _ = TricycleModel("t6", 1., -2.)
-
-
-def test_name(generate_tricycle_model_list):
-
-    t1, t2 = generate_tricycle_model_list
-
-    assert t1.name == "t1"
-    assert t2.name == "t2"
-
-    # Make sure that the name is read only.
-    with pytest.raises(AttributeError):
-        t1.name = "t2"
-    with pytest.raises(AttributeError):
-        t2.name = "t1"
+        _ = TricycleModel(1., -2.)
 
 
 def test_radius(generate_tricycle_model_list):

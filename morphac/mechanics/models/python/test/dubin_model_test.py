@@ -8,24 +8,10 @@ from morphac.mechanics.models import DubinModel
 @pytest.fixture()
 def generate_dubin_model_list():
 
-    d1 = DubinModel("d1", 1)
-    d2 = DubinModel(name="d2", speed=2.5)
+    d1 = DubinModel(1)
+    d2 = DubinModel(speed=2.5)
 
     return d1, d2
-
-
-def test_name(generate_dubin_model_list):
-
-    d1, d2 = generate_dubin_model_list
-
-    assert d1.name == "d1"
-    assert d2.name == "d2"
-
-    # Make sure that the name is read only.
-    with pytest.raises(AttributeError):
-        d1.name = "d2"
-    with pytest.raises(AttributeError):
-        d2.name = "d1"
 
 
 def test_speed(generate_dubin_model_list):

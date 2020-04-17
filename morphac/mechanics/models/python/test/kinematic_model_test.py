@@ -10,9 +10,9 @@ from morphac.mechanics.models import KinematicModel
 
 class NewKinematicModel(KinematicModel):
 
-    def __init__(self, name, sp, sv, si, a, b):
+    def __init__(self, sp, sv, si, a, b):
 
-        KinematicModel.__init__(self, name, sp, sv, si)
+        KinematicModel.__init__(self, sp, sv, si)
         self.a = a
         self.b = b
 
@@ -29,24 +29,11 @@ class NewKinematicModel(KinematicModel):
 @pytest.fixture()
 def generate_kinematic_model_list():
 
-    k1 = NewKinematicModel("k1", 3, 2, 5, 1.5, 2.3)
-    k2 = NewKinematicModel("k2", 1, 1, 2, 0., 0.)
-    k3 = NewKinematicModel("k3", 2, 4, 6, -1., -10.)
+    k1 = NewKinematicModel(3, 2, 5, 1.5, 2.3)
+    k2 = NewKinematicModel(1, 1, 2, 0., 0.)
+    k3 = NewKinematicModel(2, 4, 6, -1., -10.)
 
     return k1, k2, k3
-
-
-def test_name(generate_kinematic_model_list):
-
-    k1, k2, k3 = generate_kinematic_model_list
-
-    assert k1.name == "k1"
-    assert k2.name == "k2"
-    assert k3.name == "k3"
-
-    # Making sure that name is read only.
-    with pytest.raises(AttributeError):
-        k1.name = "k2"
 
 
 def test_size(generate_kinematic_model_list):
