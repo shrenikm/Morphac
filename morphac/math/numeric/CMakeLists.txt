@@ -27,6 +27,7 @@ add_subdirectory(binding)
 set(NUMERIC_SRC
 
   integrator.cc
+  euler_integrator.cc
 )
 
 foreach(file ${NUMERIC_SRC})
@@ -52,6 +53,11 @@ endforeach()
 target_link_libraries(integrator
   PUBLIC
   kinematic_model
+)
+
+target_link_libraries(euler_integrator
+  PUBLIC
+  integrator kinematic_model
 )
 
 

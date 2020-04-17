@@ -15,7 +15,7 @@ class Integrator {
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input, const double dt) = 0;
 
- private:
+ protected:
   morphac::mechanics::models::KinematicModel& kinematic_model_;
 };
 
