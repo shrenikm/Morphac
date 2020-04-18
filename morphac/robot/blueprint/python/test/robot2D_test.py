@@ -13,7 +13,7 @@ from morphac.robot.blueprint import Footprint2D, Robot2D
 # a subclassed KinematicModel
 
 
-class NewKinematicModel(KinematicModel):
+class CustomKinematicModel(KinematicModel):
 
     def __init__(self, sp, sv, si, a, b):
 
@@ -37,10 +37,10 @@ def generate_robot2D_list():
     r1 = Robot2D("r1", DiffDriveModel(1, 1), Footprint2D([[1, 2]]))
     r2 = Robot2D("r2", TricycleModel(1, 1),
                  Footprint2D(np.ones([20, 2])))
-    r3 = Robot2D("r3", NewKinematicModel(3, 2, 5, 2.5, 2),
+    r3 = Robot2D("r3", CustomKinematicModel(3, 2, 5, 2.5, 2),
                  Footprint2D([[1, 0], [0, 1]]))
     r4 = Robot2D(name="r4",
-                 kinematic_model=NewKinematicModel(2, 2, 4, 0, 0),
+                 kinematic_model=CustomKinematicModel(2, 2, 4, 0, 0),
                  footprint=Footprint2D([[0, 0]]),
                  initial_state=State([1, 2], [3, 4])
                  )
@@ -69,8 +69,8 @@ def test_kinematic_model(generate_robot2D_list):
     # Making sure that they are of the right type.
     assert isinstance(r1.kinematic_model, DiffDriveModel)
     assert isinstance(r2.kinematic_model, TricycleModel)
-    assert isinstance(r3.kinematic_model, NewKinematicModel)
-    assert isinstance(r4.kinematic_model, NewKinematicModel)
+    assert isinstance(r3.kinematic_model, CustomKinematicModel)
+    assert isinstance(r4.kinematic_model, CustomKinematicModel)
 
     # Testing the actual model details.
     assert r1.kinematic_model.size_pose == 3

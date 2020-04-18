@@ -8,7 +8,7 @@ from morphac.mechanics.models import KinematicModel
 # the pybind binding of KinematicModel can be built.
 
 
-class NewKinematicModel(KinematicModel):
+class CustomKinematicModel(KinematicModel):
 
     def __init__(self, sp, sv, si, a, b):
 
@@ -29,9 +29,9 @@ class NewKinematicModel(KinematicModel):
 @pytest.fixture()
 def generate_kinematic_model_list():
 
-    k1 = NewKinematicModel(3, 2, 5, 1.5, 2.3)
-    k2 = NewKinematicModel(1, 1, 2, 0., 0.)
-    k3 = NewKinematicModel(2, 4, 6, -1., -10.)
+    k1 = CustomKinematicModel(3, 2, 5, 1.5, 2.3)
+    k2 = CustomKinematicModel(1, 1, 2, 0., 0.)
+    k3 = CustomKinematicModel(2, 4, 6, -1., -10.)
 
     return k1, k2, k3
 
