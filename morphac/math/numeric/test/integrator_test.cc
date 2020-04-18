@@ -8,6 +8,8 @@ namespace {
 
 using std::srand;
 
+using Eigen::VectorXd;
+
 using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::math::numeric::Integrator;
@@ -32,6 +34,43 @@ class IntegratorTest : public ::testing::Test {
 
   void SetUp() override { srand(7); }
 };
+
+TEST_F(IntegratorTest, Subclass) {
+  // Kinematic models to use.
+  DiffDriveModel model{0.5, 2.};
+
+  // Integrator.
+  SomeIntegrator integrator{model};
+
+  State state1{VectorXd::Zero(3), VectorXd::Zero(0)};
+
+  VectorXd state_vector2(3);
+  state_vector2 << 1, -2, 3;
+  State state2{state_vector2, VectorXd::Zero(0)};
+
+  VectorXd input_vector1(2), input_vector2(2);
+  input_vector1 << 1., 2.;
+  input_vector2 << -5., 3.;
+  Input input1{input_vector1};
+  Input input2{input_vector2};
+
+  VectorXd expected_derivative1(3), expected_derivative2(3),
+      expected_derivative3(3);
+  expected_derivative1 << 0, 0, 0;
+  expected_derivative2 << 3, -6, 9;
+  expected_derivative3 << -0.2, 0.4, -0.6;
+
+  // Checking if the integrated value has been computed as expected.
+  ASSERT_TRUE(integrator.Step(state1, input1, 0.05)
+                  .get_state_vector()
+                  .isApprox(expected_derivative1));
+  ASSERT_TRUE(integrator.Step(state2, input1, 1.)
+                  .get_state_vector()
+                  .isApprox(expected_derivative2));
+  ASSERT_TRUE(integrator.Step(state2, input2, 0.1)
+                  .get_state_vector()
+                  .isApprox(expected_derivative3));
+}
 
 }  // namespace
 
