@@ -81,6 +81,7 @@ foreach(file ${CONSTRUCTS_TEST_SRC})
     ${test_name}
     ${CONSTRUCTS_TEST_DIR}/${file}
   )
+
   add_test(NAME ${test_name}
     COMMAND ${test_name}
   )

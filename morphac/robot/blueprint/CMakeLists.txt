@@ -75,6 +75,7 @@ foreach(file ${BLUEPRINT_TEST_SRC})
     ${test_name}
     ${BLUEPRINT_TEST_DIR}/${file}
   )
+
   add_test(NAME ${test_name}
     COMMAND ${test_name}
   )

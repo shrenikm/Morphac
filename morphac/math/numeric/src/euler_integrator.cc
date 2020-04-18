@@ -12,7 +12,8 @@ using morphac::mechanics::models::KinematicModel;
 EulerIntegrator::EulerIntegrator(KinematicModel& kinematic_model)
     : Integrator(kinematic_model) {}
 
-State EulerIntegrator::Step(const State& state, const Input& input, double dt) {
+State EulerIntegrator::Step(const State& state, const Input& input,
+                            double dt) const {
   auto derivative = kinematic_model_.ComputeStateDerivative(state, input);
 
   return state + (dt * derivative);

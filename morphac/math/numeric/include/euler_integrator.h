@@ -9,10 +9,12 @@ namespace math {
 namespace numeric {
 
 class EulerIntegrator : public morphac::math::numeric::Integrator {
-  public:
-    EulerIntegrator(morphac::mechanics::models::KinematicModel& kinematic_model);
+ public:
+  EulerIntegrator(morphac::mechanics::models::KinematicModel& kinematic_model);
 
-    morphac::constructs::State Step(const morphac::constructs::State& state, const morphac::constructs::Input& input, const double dt);
+  morphac::constructs::State Step(const morphac::constructs::State& state,
+                                  const morphac::constructs::Input& input,
+                                  const double dt) const override;
 };
 
 }  // namespace numeric

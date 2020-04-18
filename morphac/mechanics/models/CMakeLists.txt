@@ -92,6 +92,7 @@ foreach(file ${MODELS_TEST_SRC})
     ${test_name}
     ${MODELS_TEST_DIR}/${file}
   )
+
   add_test(NAME ${test_name}
     COMMAND ${test_name}
   )

@@ -20,7 +20,7 @@ class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::Input& input) const;
+      const morphac::constructs::Input& input) const override;
 
   const double radius;
   const double length;

@@ -8,7 +8,7 @@ set(NUMERIC_TEST_DIR ${NUMERIC_DIR}/test)
 set(NUMERIC_BINDING_DIR ${NUMERIC_DIR}/binding)
 set(NUMERIC_BINDING_INCLUDE_DIR ${NUMERIC_BINDING_DIR}/include)
 set(NUMERIC_BINDING_SRC_DIR ${NUMERIC_BINDING_DIR}/src)
-set(NUMERIC_BINARY_DIR ${NUMERIC_BINARY_DIR}/models)
+set(NUMERIC_BINARY_DIR ${NUMERIC_BINARY_DIR}/numeric)
 set(NUMERIC_BINDING_BINARY_DIR ${NUMERIC_BINARY_DIR}/binding)
 set(NUMERIC_BINDING_INSTALL_DIR
   ${MATH_BINDING_INSTALL_DIR}/integration
@@ -23,7 +23,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Models source files.
+# Numeric source files.
 set(NUMERIC_SRC
 
   integrator.cc
@@ -61,4 +61,34 @@ target_link_libraries(euler_integrator
 )
 
 
+# Tests
+# -------------------------------------------------
+
+# Numeric test source files.
+set(NUMERIC_TEST_SRC
+
+  integrator_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${NUMERIC_TEST_SRC})
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
+
+  add_executable(
+    ${test_name}
+    ${NUMERIC_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
+endforeach()
+
+# Linking depending libraries.
+target_link_libraries(integrator_test
+  PUBLIC
+  gtest_main integrator diffdrive_model
+)
 
