@@ -16,26 +16,29 @@ using morphac::math::numeric::Integrator;
 using morphac::mechanics::models::DiffDriveModel;
 using morphac::mechanics::models::KinematicModel;
 
-// Subclass of Integrator.
-class SomeIntegrator : public Integrator {
+// Subclass of KinematicModel to create a custom gradient function.
+class SomeKinematicModel : public KinematicModel {
  public:
-  SomeIntegrator(DiffDriveModel& diffdrive_model)
-      : Integrator(diffdrive_model) {}
+  SomeKinematicModel(int size_pose, int size_velocity, int size_input, double a)
+      : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
-  State Step(const State& state, const Input& input, double dt) const override {
-    auto derivative = (input(0) + input(1)) * dt * state;
+  State ComputeStateDerivative(const State& state,
+                               const Input& input) const override {
+    auto derivative = (input(0) + input(1)) * state + a;
     return derivative;
   }
+
+  double a;
 };
 
-class IntegratorTest : public ::testing::Test {
+class EulerIntegratorTest : public ::testing::Test {
  protected:
-  IntegratorTest() {}
+  EulerIntegratorTest() {}
 
   void SetUp() override { srand(7); }
 };
 
-TEST_F(IntegratorTest, Step) {
+TEST_F(EulerIntegratorTest, Subclass) {
   // Kinematic models to use.
   DiffDriveModel model{0.5, 2.};
 

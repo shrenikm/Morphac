@@ -16,7 +16,8 @@ class SomeKinematicModel : public KinematicModel {
   SomeKinematicModel(int size_pose, int size_velocity, int size_input, double a)
       : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
-  State ComputeStateDerivative(const State& state, const Input& input) const {
+  State ComputeStateDerivative(const State& state,
+                               const Input& input) const override {
     // f(x, u) = x * a * u - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
@@ -42,7 +43,24 @@ class KinematicModelTest : public ::testing::Test {
   void SetUp() override {}
 };
 
-TEST_F(KinematicModelTest, Subclass) {
+TEST_F(KinematicModelTest, Sizes) {
+  SomeKinematicModel model1 { 2, 2, 3, 1 };
+  SomeKinematicModel model2 { 20, 25, 13, 2.5 };
+
+  ASSERT_EQ(model1.size_pose, 2);
+  ASSERT_EQ(model2.size_pose, 20);
+
+  ASSERT_EQ(model1.size_velocity, 2);
+  ASSERT_EQ(model2.size_velocity, 25);
+
+  ASSERT_EQ(model1.size_input, 3);
+  ASSERT_EQ(model2.size_input, 13);
+
+  ASSERT_EQ(model1.a, 1);
+  ASSERT_EQ(model2.a, 2.5);
+}
+
+TEST_F(KinematicModelTest, DerivativeComputation) {
   VectorXd pose_vector(3), velocity_vector(2), input_vector(5);
   pose_vector << 1, -2, 5;
   velocity_vector << -3, 2.5;
