@@ -21,9 +21,9 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint2D;
 using morphac::robot::blueprint::Robot2D;
 
-class SomeKinematicModel : public KinematicModel {
+class CustomKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(int size_pose, int size_velocity, int size_input)
+  CustomKinematicModel(int size_pose, int size_velocity, int size_input)
       : KinematicModel(size_pose, size_velocity, size_input) {}
 
   State ComputeStateDerivative(const State& state, const Input& input) const {
@@ -61,7 +61,7 @@ class Robot2DTest : public ::testing::Test {
 };
 
 TEST_F(Robot2DTest, Construction) {
-  SomeKinematicModel model(3, 2, 5);
+  CustomKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   Robot2D robot1{"robot1", model, footprint};
 
@@ -69,7 +69,7 @@ TEST_F(Robot2DTest, Construction) {
 }
 
 TEST_F(Robot2DTest, InvalidConstruction) {
-  SomeKinematicModel model(3, 2, 5);
+  CustomKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   ASSERT_THROW(Robot2D("robot", model, footprint, State(3, 3)),
                std::invalid_argument);
@@ -80,7 +80,7 @@ TEST_F(Robot2DTest, InvalidConstruction) {
 }
 
 TEST_F(Robot2DTest, Accessors) {
-  SomeKinematicModel model(3, 2, 5);
+  CustomKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   Robot2D robot1{"robot1", model, footprint};
 
@@ -111,7 +111,7 @@ TEST_F(Robot2DTest, Accessors) {
 }
 
 TEST_F(Robot2DTest, SetState) {
-  SomeKinematicModel model(3, 2, 5);
+  CustomKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   Robot2D robot1{"robot1", model, footprint};
 
@@ -154,7 +154,7 @@ TEST_F(Robot2DTest, SetState) {
 }
 
 TEST_F(Robot2DTest, Derivative) {
-  SomeKinematicModel model(3, 2, 5);
+  CustomKinematicModel model(3, 2, 5);
   Footprint2D footprint(footprint_matrix_);
   VectorXd initial_pose(3), initial_velocity(2), input(5),
       expected_state_derivative1(5), expected_state_derivative2(5);

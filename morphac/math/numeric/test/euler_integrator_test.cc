@@ -19,9 +19,9 @@ using morphac::mechanics::models::DiffDriveModel;
 using morphac::mechanics::models::KinematicModel;
 
 // Subclass of KinematicModel to create a custom gradient function.
-class SomeKinematicModel : public KinematicModel {
+class CustomKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(int size_pose, int size_velocity, int size_input, double a)
+  CustomKinematicModel(int size_pose, int size_velocity, int size_input, double a)
       : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
   State ComputeStateDerivative(const State& state,
@@ -40,7 +40,7 @@ class EulerIntegratorTest : public ::testing::Test {
   void SetUp() override { srand(7); }
 };
 
-TEST_F(EulerIntegratorTest, DiffDriveStep) {
+TEST_F(EulerIntegratorTest, DiffDriveModelStep) {
   // Testing trivial step values with the DiffDriveModel.
   DiffDriveModel diffdrive_model{1.2, 2.5};
   EulerIntegrator euler_integrator{diffdrive_model};
@@ -55,6 +55,9 @@ TEST_F(EulerIntegratorTest, DiffDriveStep) {
 
   ASSERT_TRUE(derivative1.get_state_vector().isApprox(VectorXd::Ones(3)));
   ASSERT_TRUE(derivative2.get_state_vector().isApprox(VectorXd::Zero(3)));
+}
+
+TEST_F(EulerIntegratorTest, CustomKinematicModelStep) {
 }
 
 }  // namespace

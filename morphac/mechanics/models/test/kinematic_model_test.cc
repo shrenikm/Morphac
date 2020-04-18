@@ -11,9 +11,9 @@ using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
 
-class SomeKinematicModel : public KinematicModel {
+class CustomKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(int size_pose, int size_velocity, int size_input, double a)
+  CustomKinematicModel(int size_pose, int size_velocity, int size_input, double a)
       : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
   State ComputeStateDerivative(const State& state,
@@ -44,8 +44,8 @@ class KinematicModelTest : public ::testing::Test {
 };
 
 TEST_F(KinematicModelTest, Sizes) {
-  SomeKinematicModel model1 { 2, 2, 3, 1 };
-  SomeKinematicModel model2 { 20, 25, 13, 2.5 };
+  CustomKinematicModel model1 { 2, 2, 3, 1 };
+  CustomKinematicModel model2 { 20, 25, 13, 2.5 };
 
   ASSERT_EQ(model1.size_pose, 2);
   ASSERT_EQ(model2.size_pose, 20);
@@ -69,7 +69,7 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
   State state(pose_vector, velocity_vector);
   Input input(input_vector);
 
-  SomeKinematicModel model{3, 2, 5, 1.0};
+  CustomKinematicModel model{3, 2, 5, 1.0};
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
   expected_pose_derivative << 0, -2, 10;
