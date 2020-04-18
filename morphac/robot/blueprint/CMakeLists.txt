@@ -86,6 +86,7 @@ target_link_libraries(footprint2D_test
   PUBLIC
   gtest_main footprint2D
 )
+
 target_link_libraries(robot2D_test
   PUBLIC
   gtest_main robot2D

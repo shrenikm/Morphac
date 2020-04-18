@@ -67,6 +67,7 @@ target_link_libraries(euler_integrator
 # Numeric test source files.
 set(NUMERIC_TEST_SRC
 
+  euler_integrator_test.cc
   integrator_test.cc
 )
 
@@ -92,3 +93,7 @@ target_link_libraries(integrator_test
   gtest_main integrator diffdrive_model
 )
 
+target_link_libraries(euler_integrator_test
+  PUBLIC
+  gtest_main euler_integrator diffdrive_model
+)

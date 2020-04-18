@@ -1,6 +1,7 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
+#include "math/numeric/include/euler_integrator.h"
 #include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/diffdrive_model.h"
 
@@ -12,6 +13,7 @@ using Eigen::VectorXd;
 
 using morphac::constructs::Input;
 using morphac::constructs::State;
+using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::Integrator;
 using morphac::mechanics::models::DiffDriveModel;
 using morphac::mechanics::models::KinematicModel;
@@ -38,41 +40,21 @@ class EulerIntegratorTest : public ::testing::Test {
   void SetUp() override { srand(7); }
 };
 
-TEST_F(EulerIntegratorTest, Subclass) {
-  // Kinematic models to use.
-  DiffDriveModel model{0.5, 2.};
+TEST_F(EulerIntegratorTest, DiffDriveStep) {
+  // Testing trivial step values with the DiffDriveModel.
+  DiffDriveModel diffdrive_model{1.2, 2.5};
+  EulerIntegrator euler_integrator{diffdrive_model};
 
-  // Integrator.
-  SomeIntegrator integrator{model};
+  auto derivative1 =
+      euler_integrator.Step(State(VectorXd::Ones(3), VectorXd::Zero(0)),
+                            Input(VectorXd::Zero(2)), 0.5);
 
-  State state1{VectorXd::Zero(3), VectorXd::Zero(0)};
+  auto derivative2 =
+      euler_integrator.Step(State(VectorXd::Zero(3), VectorXd::Zero(0)),
+                            Input(VectorXd::Ones(2)), 0.);
 
-  VectorXd state_vector2(3);
-  state_vector2 << 1, -2, 3;
-  State state2{state_vector2, VectorXd::Zero(0)};
-
-  VectorXd input_vector1(2), input_vector2(2);
-  input_vector1 << 1., 2.;
-  input_vector2 << -5., 3.;
-  Input input1{input_vector1};
-  Input input2{input_vector2};
-
-  VectorXd expected_derivative1(3), expected_derivative2(3),
-      expected_derivative3(3);
-  expected_derivative1 << 0, 0, 0;
-  expected_derivative2 << 3, -6, 9;
-  expected_derivative3 << -0.2, 0.4, -0.6;
-
-  // Checking if the integrated value has been computed as expected.
-  ASSERT_TRUE(integrator.Step(state1, input1, 0.05)
-                  .get_state_vector()
-                  .isApprox(expected_derivative1));
-  ASSERT_TRUE(integrator.Step(state2, input1, 1.)
-                  .get_state_vector()
-                  .isApprox(expected_derivative2));
-  ASSERT_TRUE(integrator.Step(state2, input2, 0.1)
-                  .get_state_vector()
-                  .isApprox(expected_derivative3));
+  ASSERT_TRUE(derivative1.get_state_vector().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(derivative2.get_state_vector().isApprox(VectorXd::Zero(3)));
 }
 
 }  // namespace
