@@ -21,12 +21,16 @@ using morphac::mechanics::models::KinematicModel;
 // Subclass of KinematicModel to create a custom gradient function.
 class CustomKinematicModel : public KinematicModel {
  public:
-  CustomKinematicModel(int size_pose, int size_velocity, int size_input, double a)
+  CustomKinematicModel(int size_pose, int size_velocity, int size_input,
+                       double a)
       : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
   State ComputeStateDerivative(const State& state,
                                const Input& input) const override {
-    auto derivative = (input(0) + input(1)) * state + a;
+    // We define t * [(u1 + u2) * x + a]
+    // dx/dt = (u1 + u2)*x + a
+    State ones_state{VectorXd::Ones(size_pose), VectorXd::Ones(size_velocity)};
+    auto derivative = (input(0) + input(1)) * state + a * ones_state;
     return derivative;
   }
 
@@ -58,6 +62,17 @@ TEST_F(EulerIntegratorTest, DiffDriveModelStep) {
 }
 
 TEST_F(EulerIntegratorTest, CustomKinematicModelStep) {
+  CustomKinematicModel custom_model{3, 2, 4, 10.};
+  EulerIntegrator euler_integrator{custom_model};
+
+  // Basic step computation test.
+  State state(3, 2);
+  Input input(4);
+  auto derivative = euler_integrator.Step(state, input, 1);
+
+  // For this case, only the 'a' component contributes to the derivative hence
+  // the derivative must be a state of ones.
+  ASSERT_TRUE(derivative.get_state_vector().isApprox(10 * VectorXd::Ones(5)));
 }
 
 }  // namespace
