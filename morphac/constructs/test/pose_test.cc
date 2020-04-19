@@ -42,6 +42,23 @@ TEST_F(PoseTest, CopyConstructor) {
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose_vector));
 }
 
+TEST_F(PoseTest, InvalidConstruction) {
+  ASSERT_THROW(Pose(-1), std::invalid_argument);
+}
+
+TEST_F(PoseTest, ConstPose) {
+  // For a const Pose, the values can only be accessed but not set, as a
+  // reference (lvalue) is not returned for this overload of the operator.
+
+  const Pose pose(3);
+
+  ASSERT_EQ(pose.get_size(), 3);
+  ASSERT_TRUE(pose.get_pose_vector().isApprox(VectorXd::Zero(3)));
+  for (int i = 0; i < pose.get_size(); ++i) {
+    ASSERT_EQ(pose(i), 0);
+  }
+}
+
 TEST_F(PoseTest, Sizes) {
   ASSERT_EQ(pose1_->get_size(), 3);
   ASSERT_EQ(pose2_->get_size(), 4);
@@ -86,55 +103,49 @@ TEST_F(PoseTest, GetPoseAt) {
   ASSERT_THROW((*pose3_)(7), std::out_of_range);
 }
 
-TEST_F(PoseTest, SetVector) {
+TEST_F(PoseTest, SetPoseVector) {
+  VectorXd pose_vector = VectorXd::Random(4);
+  VectorXd expected_vector(5);
+  expected_vector << 1, 0, -1, 2.5, 0;
+
+  pose1_->set_pose_vector(VectorXd::Ones(3));
+  pose2_->set_pose_vector(pose_vector);
+  pose3_->set_pose_vector({1, 0, -1, 2.5, 0});
+
+  ASSERT_TRUE(pose1_->get_pose_vector().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(pose3_->get_pose_vector().isApprox(expected_vector));
+
+  // Invalid set vector.
+  ASSERT_THROW(pose1_->set_pose_vector(VectorXd::Ones(2)),
+               std::invalid_argument);
+  ASSERT_THROW(pose2_->set_pose_vector(VectorXd::Ones(5)),
+               std::invalid_argument);
+  ASSERT_THROW(pose3_->set_pose_vector({}), std::invalid_argument);
+  ASSERT_THROW(pose3_->set_pose_vector({1, 2, 3, 4}), std::invalid_argument);
+  ASSERT_THROW(pose3_->set_pose_vector({1, 2, 1, 2, 1, 2}),
+               std::invalid_argument);
 }
 
-// TEST_F(PoseTest, SetPose) {
-//  pose1_.set_pose_vector(VectorXd::Ones(3));
-//  ASSERT_TRUE(pose1_.get_pose_vector().isApprox(VectorXd::Ones(3)));
-//
-//  VectorXd v = VectorXd::Random(pose3_.get_size());
-//  for (int i = 0; i < pose3_.get_size(); ++i) {
-//    pose3_(i) = v(i);
-//  }
-//  ASSERT_TRUE(pose3_.get_pose_vector().isApprox(v));
-//}
-//
-// TEST_F(PoseTest, ConstPose) {
-//  const Pose pose(3);
-//
-//  // For a const Pose, the values can only be accessed but not set, as a
-//  // reference (lvalue) is not returned for this overload of the operator.
-//  ASSERT_EQ(pose(0), 0);
-//}
-//
-// TEST_F(PoseTest, InvalidConstruction) {
-//  ASSERT_THROW(Pose(-1), std::invalid_argument);
-//}
-//
-// TEST_F(PoseTest, EmptyConstruction) {
-//  Pose pose;
-//
-//  // Assert emptiness.
-//  ASSERT_TRUE(pose.IsEmpty());
-//
-//  // Accessors are invalid for empty Pose
-//  ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
-//  ASSERT_THROW(pose(0), std::logic_error);
-//  ASSERT_THROW(pose.set_pose_vector(VectorXd::Random(0)), std::logic_error);
-//}
-//
-// TEST_F(PoseTest, InvalidGet) {
-//  ASSERT_THROW(pose1_(-1), std::out_of_range);
-//  ASSERT_THROW(pose1_(3), std::out_of_range);
-//}
-//
-// TEST_F(PoseTest, InvalidSet) {
-//  ASSERT_THROW(pose1_.set_pose_vector(VectorXd::Random(4)),
-//               std::invalid_argument);
-//  ASSERT_THROW(pose1_.set_pose_vector(VectorXd::Random(2)),
-//               std::invalid_argument);
-//}
+TEST_F(PoseTest, SetPoseAt) {
+  for (int i = 0; i < pose1_->get_size(); ++i) {
+    (*pose1_)(i) = 1;
+  }
+
+  ASSERT_TRUE(pose1_->get_pose_vector().isApprox(VectorXd::Ones(3)));
+
+  VectorXd expected_vector(4);
+  expected_vector << -1, 0, 0, 5;
+  (*pose2_)(0) = -1;
+  (*pose2_)(3) = 5;
+
+  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(expected_vector));
+
+  // Invalid set at.
+  ASSERT_THROW((*pose1_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*pose1_)(3) = 1, std::out_of_range);
+}
+
 //
 // TEST_F(PoseTest, Addition) {
 //  VectorXd p1(3), p2(3), d1(3), d2(3);
@@ -222,6 +233,18 @@ TEST_F(PoseTest, SetVector) {
 //
 //  // Multiple pose object representations in the stream.
 //  os << " " << pose3_ << std::endl;
+//}
+//
+//// TEST_F(PoseTest, EmptyConstruction) {
+//  Pose pose;
+//
+//  // Assert emptiness.
+//  ASSERT_TRUE(pose.IsEmpty());
+//
+//  // Accessors are invalid for empty Pose
+//  ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
+//  ASSERT_THROW(pose(0), std::logic_error);
+//  ASSERT_THROW(pose.set_pose_vector(VectorXd::Random(0)), std::logic_error);
 //}
 //
 // TEST_F(PoseTest, EmptyPoseOperations) {

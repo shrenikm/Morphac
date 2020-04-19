@@ -119,7 +119,7 @@ void Pose::set_pose_vector(const VectorXd& pose_vector) {
 }
 
 void Pose::set_pose_vector(initializer_list<double> pose_elements) {
-  MORPH_REQUIRE(pose_elements.size() == size_, std::invalid_argument,
+  MORPH_REQUIRE((int)pose_elements.size() == size_, std::invalid_argument,
                 "Pose vector size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   std::vector<double> data(pose_elements);
