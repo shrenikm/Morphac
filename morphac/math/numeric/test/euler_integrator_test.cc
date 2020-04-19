@@ -18,25 +18,6 @@ using morphac::math::numeric::Integrator;
 using morphac::mechanics::models::DiffDriveModel;
 using morphac::mechanics::models::KinematicModel;
 
-// Subclass of KinematicModel to create a custom gradient function.
-class CustomKinematicModel : public KinematicModel {
- public:
-  CustomKinematicModel(int size_pose, int size_velocity, int size_input,
-                       double a)
-      : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
-
-  State ComputeStateDerivative(const State& state,
-                               const Input& input) const override {
-    // We define t * [(u1 + u2) * x + a]
-    // dx/dt = (u1 + u2)*x + a
-    State ones_state{VectorXd::Ones(size_pose), VectorXd::Ones(size_velocity)};
-    auto derivative = (input(0) + input(1)) * state + a * ones_state;
-    return derivative;
-  }
-
-  double a;
-};
-
 class EulerIntegratorTest : public ::testing::Test {
  protected:
   EulerIntegratorTest() {}
@@ -44,7 +25,7 @@ class EulerIntegratorTest : public ::testing::Test {
   void SetUp() override { srand(7); }
 };
 
-TEST_F(EulerIntegratorTest, DiffDriveModelStep) {
+TEST_F(EulerIntegratorTest, TrivialStep) {
   // Testing trivial step values with the DiffDriveModel.
   DiffDriveModel diffdrive_model{1.2, 2.5};
   EulerIntegrator euler_integrator{diffdrive_model};
@@ -61,18 +42,16 @@ TEST_F(EulerIntegratorTest, DiffDriveModelStep) {
   ASSERT_TRUE(derivative2.get_state_vector().isApprox(VectorXd::Zero(3)));
 }
 
-TEST_F(EulerIntegratorTest, CustomKinematicModelStep) {
-  CustomKinematicModel custom_model{3, 2, 4, 10.};
-  EulerIntegrator euler_integrator{custom_model};
+TEST_F(EulerIntegratorTest, Step) {
+  // Testing actual step computation using the DiffDriveModel.
+  DiffDriveModel diffdrive_model{0.1, 0.5};
+  EulerIntegrator euler_integrator{diffdrive_model};
 
-  // Basic step computation test.
-  State state(3, 2);
-  Input input(4);
-  auto derivative = euler_integrator.Step(state, input, 1);
+  //Input input({1, 2});
+  //std::cout << input.get_input_vector() << std::endl;
 
-  // For this case, only the 'a' component contributes to the derivative hence
-  // the derivative must be a state of ones.
-  ASSERT_TRUE(derivative.get_state_vector().isApprox(10 * VectorXd::Ones(5)));
+  // Testing for horizontal movement. If both wheels move at 0.1 rad/s TODO
+  //euler_integrator.Step(State(3, 0),
 }
 
 }  // namespace

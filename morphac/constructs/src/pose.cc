@@ -19,6 +19,13 @@ Pose::Pose(const VectorXd& pose_vector)
                 "Pose vector size is non-positive.");
 }
 
+Pose::Pose(std::initializer_list<double> pose_elements)
+    : size_(pose_elements.size()) {
+  // As it is an initializer list, the size is always going to be >= 0.
+  std::vector<double> tmp(pose_elements);
+  pose_vector_ = Eigen::Map<Eigen::VectorXd>(&tmp[0], size_);
+}
+
 Pose& Pose::operator+=(const Pose& pose) {
   MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
                 "Poses are not of the same size. The += operator requires them "
@@ -109,7 +116,7 @@ void Pose::set_pose_vector(const VectorXd& pose_vector) {
 }
 
 Pose Pose::CreateLike(const Pose& pose) {
-  Pose new_pose{pose.get_size()};
+  Pose new_pose(pose.get_size());
   return new_pose;
 }
 
