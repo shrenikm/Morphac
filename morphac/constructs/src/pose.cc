@@ -3,9 +3,12 @@
 namespace morphac {
 namespace constructs {
 
+using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
+
+using Eigen::Map;
 using Eigen::VectorXd;
 
 Pose::Pose(const int size) : size_(size) {
@@ -19,11 +22,11 @@ Pose::Pose(const VectorXd& pose_vector)
                 "Pose vector size is non-positive.");
 }
 
-Pose::Pose(std::initializer_list<double> pose_elements)
+Pose::Pose(initializer_list<double> pose_elements)
     : size_(pose_elements.size()) {
   // As it is an initializer list, the size is always going to be >= 0.
-  std::vector<double> tmp(pose_elements);
-  pose_vector_ = Eigen::Map<Eigen::VectorXd>(&tmp[0], size_);
+  std::vector<double> data(pose_elements);
+  pose_vector_ = Map<VectorXd>(&data[0], size_);
 }
 
 Pose& Pose::operator+=(const Pose& pose) {
@@ -113,6 +116,14 @@ void Pose::set_pose_vector(const VectorXd& pose_vector) {
                 "Pose vector size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   pose_vector_ = pose_vector;
+}
+
+void Pose::set_pose_vector(initializer_list<double> pose_elements) {
+  MORPH_REQUIRE(pose_elements.size() == size_, std::invalid_argument,
+                "Pose vector size is incorrect.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
+  std::vector<double> data(pose_elements);
+  pose_vector_ = Map<VectorXd>(&data[0], size_);
 }
 
 Pose Pose::CreateLike(const Pose& pose) {
