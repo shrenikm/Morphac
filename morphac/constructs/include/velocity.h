@@ -14,6 +14,7 @@ class Velocity {
  public:
   Velocity(const int size = 0);
   Velocity(const Eigen::VectorXd& velocity_vector);
+  Velocity(std::initializer_list<double> velocity_elements);
   // Copy constructor.
   Velocity(const Velocity& velocity) = default;
 
@@ -37,6 +38,7 @@ class Velocity {
   int get_size() const;
   const Eigen::VectorXd& get_velocity_vector() const;
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
+  void set_velocity_vector(std::initializer_list<double> velocity_elements);
 
   bool IsEmpty() const;
   static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
