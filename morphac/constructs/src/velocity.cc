@@ -7,6 +7,7 @@ using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
+using std::vector;
 
 using Eigen::Map;
 using Eigen::VectorXd;
@@ -25,8 +26,9 @@ Velocity::Velocity(const VectorXd& velocity_vector)
 
 Velocity::Velocity(initializer_list<double> velocity_elements)
     : size_(velocity_elements.size()) {
-  // As it is an initializer list, the size is always going to be >= 0.
-  std::vector<double> data(velocity_elements);
+  // As it is an initializer list, the size is always going to be >= 0 and need
+  // not be checked.
+  vector<double> data(velocity_elements);
   velocity_vector_ = Map<VectorXd>(&data[0], size_);
 }
 
@@ -131,7 +133,7 @@ void Velocity::set_velocity_vector(initializer_list<double> velocity_elements) {
   MORPH_REQUIRE((int)velocity_elements.size() == size_, std::invalid_argument,
                 "Velocity vector size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
-  std::vector<double> data(velocity_elements);
+  vector<double> data(velocity_elements);
   velocity_vector_ = Map<VectorXd>(&data[0], size_);
 }
 

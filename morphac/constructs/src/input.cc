@@ -3,9 +3,13 @@
 namespace morphac {
 namespace constructs {
 
+using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
+using std::vector;
+
+using Eigen::Map;
 using Eigen::VectorXd;
 
 Input::Input(const int size) : size_(size) {
@@ -20,6 +24,14 @@ Input::Input(const VectorXd& input_vector)
                 "Input vector size is non-positive.");
 }
 
+Input::Input(initializer_list<double> input_elements)
+    : size_(input_elements.size()) {
+  // As it is an initializer list, the size is always going to be >= 0 and need
+  // not be checked.
+  vector<double> data(input_elements);
+  input_vector_ = Map<VectorXd>(&data[0], size_);
+}
+
 Input& Input::operator+=(const Input& input) {
   MORPH_REQUIRE(
       this->size_ == input.size_, std::invalid_argument,
@@ -31,11 +43,10 @@ Input& Input::operator+=(const Input& input) {
 }
 
 Input Input::operator+(const Input& input) const {
-  MORPH_REQUIRE(
-      this->size_ == input.size_, std::invalid_argument,
-      "Inputs are not of the same size. The + operator requires them "
-      "to be of the "
-      "same size.");
+  MORPH_REQUIRE(this->size_ == input.size_, std::invalid_argument,
+                "Inputs are not of the same size. The + operator requires them "
+                "to be of the "
+                "same size.");
   Input result(this->size_);
   result.input_vector_ = this->input_vector_ + input.input_vector_;
   return result;
@@ -52,11 +63,10 @@ Input& Input::operator-=(const Input& input) {
 }
 
 Input Input::operator-(const Input& input) const {
-  MORPH_REQUIRE(
-      this->size_ == input.size_, std::invalid_argument,
-      "Inputs are not of the same size. The - operator requires them "
-      "to be of the "
-      "same size.");
+  MORPH_REQUIRE(this->size_ == input.size_, std::invalid_argument,
+                "Inputs are not of the same size. The - operator requires them "
+                "to be of the "
+                "same size.");
   Input result(this->size_);
   result.input_vector_ = this->input_vector_ - input.input_vector_;
   return result;
@@ -68,13 +78,9 @@ Input& Input::operator*=(const double scalar) {
 }
 
 // Non-member multiplication functions
-Input operator*(Input input, const double scalar) {
-  return input *= scalar;
-}
+Input operator*(Input input, const double scalar) { return input *= scalar; }
 
-Input operator*(const double scalar, Input input) {
-  return input *= scalar;
-}
+Input operator*(const double scalar, Input input) { return input *= scalar; }
 
 double& Input::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
@@ -117,8 +123,16 @@ void Input::set_input_vector(const VectorXd& input_vector) {
   input_vector_ = input_vector;
 }
 
+void Input::set_input_vector(initializer_list<double> input_elements) {
+  MORPH_REQUIRE((int)input_elements.size() == size_, std::invalid_argument,
+                "Input vector size is incorrect.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Input object is empty");
+  vector<double> data(input_elements);
+  input_vector_ = Map<VectorXd>(&data[0], size_);
+}
+
 Input Input::CreateLike(const Input& input) {
-  Input new_input{input.get_size()};
+  Input new_input(input.get_size());
   return new_input;
 }
 

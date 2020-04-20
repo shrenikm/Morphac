@@ -54,16 +54,23 @@ TEST_F(PoseTest, ConstPose) {
 
   ASSERT_EQ(pose.get_size(), 3);
   ASSERT_TRUE(pose.get_pose_vector().isApprox(VectorXd::Zero(3)));
+
+  // Making sure position accessing works.
   for (int i = 0; i < pose.get_size(); ++i) {
     ASSERT_EQ(pose(i), 0);
   }
+
+  // After const casting, we should be able to modify the vector.
+  const_cast<Pose &>(pose).set_pose_vector(VectorXd::Ones(3));
+  ASSERT_TRUE(pose.get_pose_vector().isApprox(VectorXd::Ones(3)));
 }
 
 TEST_F(PoseTest, EmptyConstruction) {
-  Pose pose;
+  Pose pose(0);
 
   // Assert emptiness.
   ASSERT_TRUE(pose.IsEmpty());
+  ASSERT_TRUE(Pose(VectorXd::Zero(0)).IsEmpty());
   ASSERT_TRUE(Pose{}.IsEmpty());
 
   // Accessors are invalid for empty Pose
@@ -187,7 +194,7 @@ TEST_F(PoseTest, Addition) {
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose4.get_pose_vector()));
 
   // Empty addition.
-  Pose empty_pose1, empty_pose2{};
+  Pose empty_pose1(0), empty_pose2{};
 
   Pose empty_pose_add = empty_pose1 + empty_pose2;
   ASSERT_TRUE(empty_pose_add.IsEmpty());
@@ -220,7 +227,7 @@ TEST_F(PoseTest, Subtraction) {
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(-1 * pose4.get_pose_vector()));
 
   // Empty subtraction.
-  Pose empty_pose1, empty_pose2{};
+  Pose empty_pose1(0), empty_pose2{};
 
   Pose empty_pose_sub = empty_pose1 - empty_pose2;
   ASSERT_TRUE(empty_pose_sub.IsEmpty());
@@ -251,7 +258,7 @@ TEST_F(PoseTest, Multiplication) {
   ASSERT_TRUE(pose4.get_pose_vector().isApprox(d2));
 
   // Empty multiplication.
-  Pose empty_pose1, empty_pose2{};
+  Pose empty_pose1(0), empty_pose2{};
 
   Pose empty_pose_mult1 = empty_pose1 * 7.0;
   Pose empty_pose_mult2 = empty_pose2 * 7.0;

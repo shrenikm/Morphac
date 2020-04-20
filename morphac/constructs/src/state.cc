@@ -3,13 +3,13 @@
 namespace morphac {
 namespace constructs {
 
-using std::make_unique;
-using std::move;
+using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
-using std::unique_ptr;
+using std::vector;
 
+using Eigen::Map;
 using Eigen::VectorXd;
 
 using morphac::constructs::Pose;
@@ -23,6 +23,17 @@ State::State(const int size_pose, const int size_velocity)
 State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
     : pose_(Pose(pose_vector)), velocity_(Velocity(velocity_vector)) {
   // The Pose and Velocity constructors take care of invalid arguments.
+}
+
+State::State(initializer_list<double> pose_elements,
+             initializer_list<double> velocity_elements) {
+  // As they are initializers, the size always going to be >= 0 and need not be
+  // checked.
+  std::vector<double> pose_data(pose_elements);
+  std::vector<double> velocity_data(velocity_elements);
+  pose_ = Pose(Map<VectorXd>(&pose_data[0], pose_elements.size()));
+  velocity_ =
+      Velocity(Map<VectorXd>(&velocity_data[0], velocity_elements.size()));
 }
 
 State::State(const Pose& pose, const Velocity& velocity)
@@ -254,9 +265,19 @@ void State::set_pose_vector(const VectorXd& pose_vector) {
   pose_.set_pose_vector(pose_vector);
 }
 
+void State::set_pose_vector(initializer_list<double> pose_elements) {
+  // The Pose class setter does the argument check.
+  pose_.set_pose_vector(pose_elements);
+}
+
 void State::set_velocity_vector(const VectorXd& velocity_vector) {
   // The Velocity class getter does the argument check.
   velocity_.set_velocity_vector(velocity_vector);
+}
+
+void State::set_velocity_vector(initializer_list<double> velocity_elements) {
+  // The Velocity class getter does the argument check.
+  velocity_.set_velocity_vector(velocity_elements);
 }
 
 void State::set_state_vector(const VectorXd& state_vector) {
@@ -272,8 +293,25 @@ void State::set_state_vector(const VectorXd& state_vector) {
   }
 }
 
+void State::set_state_vector(initializer_list<double> state_elements) {
+  // Need to check if the dimensions are correct
+  MORPH_REQUIRE((int)state_elements.size() == get_size(), std::invalid_argument,
+                "State vector size is incorrect.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
+
+  vector<double> state_data(state_elements);
+  VectorXd state_vector = Map<VectorXd>(&state_data[0], get_size());
+
+  if (!IsPoseEmpty()) {
+    set_pose_vector(state_vector.head(get_size_pose()));
+  }
+  if (!IsVelocityEmpty()) {
+    set_velocity_vector(state_vector.tail(get_size_velocity()));
+  }
+}
+
 State State::CreateLike(const State& state) {
-  State new_state{state.get_size_pose(), state.get_size_velocity()};
+  State new_state(state.get_size_pose(), state.get_size_velocity());
   return new_state;
 }
 

@@ -12,7 +12,7 @@ namespace constructs {
 
 class Velocity {
  public:
-  Velocity(const int size = 0);
+  Velocity(const int size);
   Velocity(const Eigen::VectorXd& velocity_vector);
   Velocity(std::initializer_list<double> velocity_elements);
   // Copy constructor.

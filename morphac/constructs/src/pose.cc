@@ -7,6 +7,7 @@ using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
+using std::vector;
 
 using Eigen::Map;
 using Eigen::VectorXd;
@@ -24,8 +25,9 @@ Pose::Pose(const VectorXd& pose_vector)
 
 Pose::Pose(initializer_list<double> pose_elements)
     : size_(pose_elements.size()) {
-  // As it is an initializer list, the size is always going to be >= 0.
-  std::vector<double> data(pose_elements);
+  // As it is an initializer list, the size is always going to be >= 0 and need
+  // not be checked.
+  vector<double> data(pose_elements);
   pose_vector_ = Map<VectorXd>(&data[0], size_);
 }
 
@@ -122,7 +124,7 @@ void Pose::set_pose_vector(initializer_list<double> pose_elements) {
   MORPH_REQUIRE((int)pose_elements.size() == size_, std::invalid_argument,
                 "Pose vector size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  std::vector<double> data(pose_elements);
+  vector<double> data(pose_elements);
   pose_vector_ = Map<VectorXd>(&data[0], size_);
 }
 
