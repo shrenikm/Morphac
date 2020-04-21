@@ -59,7 +59,7 @@ TEST_F(StateTest, ConstState) {
   // For a const State, the values can only be accessed but not set, as a
   // reference (lvalue) is not returned for this overload of the operator.
   for (int i = 0; i < state.get_size(); ++i) {
-    ASSERT_EQ(state(i), 1);
+    ASSERT_EQ(state(i), 0);
   }
 
   // After const casting to a non-const, we should be able to modify the Pose
@@ -80,32 +80,29 @@ TEST_F(StateTest, EmptyConstruction) {
   ASSERT_FALSE(State(1, 0).IsEmpty());
   ASSERT_FALSE(State(0, 1).IsEmpty());
 
+  // Other ways of constructing an empty state.
   ASSERT_TRUE(State({}, {}).IsEmpty());
   ASSERT_TRUE(State(VectorXd::Zero(0), VectorXd::Zero(0)).IsEmpty());
 }
 
-// TEST_F(StateTest, Sizes) {
-//  ASSERT_EQ(state1_.get_size_pose(), 3);
-//  ASSERT_EQ(state1_.get_size_velocity(), 2);
-//  ASSERT_EQ(state1_.get_size(), 5);
-//
-//  ASSERT_EQ(state2_.get_size_pose(), 4);
-//  ASSERT_EQ(state2_.get_size_velocity(), 2);
-//  ASSERT_EQ(state2_.get_size(), 6);
-//
-//  ASSERT_EQ(state3_.get_size_pose(), 1);
-//  ASSERT_EQ(state3_.get_size_velocity(), 3);
-//  ASSERT_EQ(state3_.get_size(), 4);
-//
-//  ASSERT_EQ(state4_.get_size_pose(), 2);
-//  ASSERT_EQ(state4_.get_size_velocity(), 3);
-//  ASSERT_EQ(state4_.get_size(), 5);
-//
-//  ASSERT_EQ(state5_.get_size_pose(), 2);
-//  ASSERT_EQ(state5_.get_size_velocity(), 3);
-//  ASSERT_EQ(state5_.get_size(), 5);
-//}
-//
+TEST_F(StateTest, Sizes) {
+  ASSERT_EQ(state1_->get_size_pose(), 3);
+  ASSERT_EQ(state1_->get_size_velocity(), 2);
+  ASSERT_EQ(state1_->get_size(), 5);
+
+  ASSERT_EQ(state2_->get_size_pose(), 4);
+  ASSERT_EQ(state2_->get_size_velocity(), 2);
+  ASSERT_EQ(state2_->get_size(), 6);
+
+  ASSERT_EQ(state3_->get_size_pose(), 2);
+  ASSERT_EQ(state3_->get_size_velocity(), 3);
+  ASSERT_EQ(state3_->get_size(), 5);
+
+  ASSERT_EQ(state4_->get_size_pose(), 1);
+  ASSERT_EQ(state4_->get_size_velocity(), 5);
+  ASSERT_EQ(state4_->get_size(), 6);
+}
+
 // TEST_F(StateTest, GetPoseAndVelocity) {
 //  ASSERT_TRUE(
 //      state1_.get_pose_vector().isApprox(state1_.get_pose().get_pose_vector()));
@@ -201,35 +198,35 @@ TEST_F(StateTest, EmptyConstruction) {
 //  ASSERT_TRUE(state2_.get_state_vector().isApprox(v));
 //}
 //
-/
-    // TEST_F(StateTest, InvalidGet) {
-    //  ASSERT_THROW(state2_.get_pose()(-1), std::out_of_range);
-    //  ASSERT_THROW(state2_.get_pose()(4), std::out_of_range);
-    //  ASSERT_THROW(state2_.get_velocity()(-1), std::out_of_range);
-    //  ASSERT_THROW(state2_.get_velocity()(2), std::out_of_range);
-    //  ASSERT_THROW(state2_(-1), std::out_of_range);
-    //  ASSERT_THROW(state2_(6), std::out_of_range);
-    //}
-    //
-    // TEST_F(StateTest, InvalidSet) {
-    //  // Invalid set at specific indices would be handled by the () operator
-    //  getter
-    //  // as the returned references is used to set as well.
-    //  ASSERT_THROW(state2_.set_pose_vector(VectorXd::Random(3)),
-    //               std::invalid_argument);
-    //  ASSERT_THROW(state2_.set_pose_vector(VectorXd::Random(5)),
-    //               std::invalid_argument);
-    //  ASSERT_THROW(state2_.set_velocity_vector(VectorXd::Random(1)),
-    //               std::invalid_argument);
-    //  ASSERT_THROW(state2_.set_velocity_vector(VectorXd::Random(3)),
-    //               std::invalid_argument);
-    //  ASSERT_THROW(state2_.set_state_vector(VectorXd::Random(5)),
-    //               std::invalid_argument);
-    //  ASSERT_THROW(state2_.set_state_vector(VectorXd::Random(7)),
-    //               std::invalid_argument);
-    //}
-    //
-    /
+
+// TEST_F(StateTest, InvalidGet) {
+//  ASSERT_THROW(state2_.get_pose()(-1), std::out_of_range);
+//  ASSERT_THROW(state2_.get_pose()(4), std::out_of_range);
+//  ASSERT_THROW(state2_.get_velocity()(-1), std::out_of_range);
+//  ASSERT_THROW(state2_.get_velocity()(2), std::out_of_range);
+//  ASSERT_THROW(state2_(-1), std::out_of_range);
+//  ASSERT_THROW(state2_(6), std::out_of_range);
+//}
+//
+// TEST_F(StateTest, InvalidSet) {
+//  // Invalid set at specific indices would be handled by the () operator
+//  getter
+//  // as the returned references is used to set as well.
+//  ASSERT_THROW(state2_.set_pose_vector(VectorXd::Random(3)),
+//               std::invalid_argument);
+//  ASSERT_THROW(state2_.set_pose_vector(VectorXd::Random(5)),
+//               std::invalid_argument);
+//  ASSERT_THROW(state2_.set_velocity_vector(VectorXd::Random(1)),
+//               std::invalid_argument);
+//  ASSERT_THROW(state2_.set_velocity_vector(VectorXd::Random(3)),
+//               std::invalid_argument);
+//  ASSERT_THROW(state2_.set_state_vector(VectorXd::Random(5)),
+//               std::invalid_argument);
+//  ASSERT_THROW(state2_.set_state_vector(VectorXd::Random(7)),
+//               std::invalid_argument);
+//}
+//
+
 // TEST_F(StateTest, Addition) {
 //  VectorXd p1(3), p2(3), v1(2), v2(2);
 //  VectorXd d1(5), d2(5);

@@ -26,11 +26,16 @@ State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
 }
 
 State::State(initializer_list<double> pose_elements,
-             initializer_list<double> velocity_elements) {
-  // As they are initializers, the size always going to be >= 0 and need not be
-  // checked.
-  std::vector<double> pose_data(pose_elements);
-  std::vector<double> velocity_data(velocity_elements);
+             initializer_list<double> velocity_elements)
+    // Temporary initialization as we Pose and Velocity don't have defaults.
+    // TODO: Make this cleaner.
+    : pose_(Pose(pose_elements.size())),
+      velocity_(Velocity(velocity_elements)) {
+  // As they are initializers, the size always going to be >= 0 and need not
+  // be checked.
+  vector<double> pose_data(pose_elements);
+  vector<double> velocity_data(velocity_elements);
+
   pose_ = Pose(Map<VectorXd>(&pose_data[0], pose_elements.size()));
   velocity_ =
       Velocity(Map<VectorXd>(&velocity_data[0], velocity_elements.size()));
@@ -143,7 +148,7 @@ State operator*(const double scalar, State state) { return state *= scalar; }
 
 double& State::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
-                "Pose index out of bounds.");
+                "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_size_pose()) {
@@ -156,7 +161,7 @@ double& State::operator()(const int index) {
 
 double State::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
-                "Pose index out of bounds.");
+                "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_size_pose()) {
