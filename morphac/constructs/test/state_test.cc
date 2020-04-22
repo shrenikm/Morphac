@@ -64,8 +64,8 @@ TEST_F(StateTest, ConstState) {
 
   // After const casting to a non-const, we should be able to modify the Pose
   // and Velocity.
-  const_cast<State &>(state).get_pose().set_pose_vector(VectorXd::Ones(3));
-  const_cast<State &>(state).get_velocity().set_velocity_vector(
+  const_cast<State&>(state).get_pose().set_pose_vector(VectorXd::Ones(3));
+  const_cast<State&>(state).get_velocity().set_velocity_vector(
       VectorXd::Ones(3));
   ASSERT_TRUE(state.get_pose().get_pose_vector().isApprox(VectorXd::Ones(3)));
   ASSERT_TRUE(
@@ -103,23 +103,81 @@ TEST_F(StateTest, Sizes) {
   ASSERT_EQ(state4_->get_size(), 6);
 }
 
-// TEST_F(StateTest, GetPoseAndVelocity) {
-//  ASSERT_TRUE(
-//      state1_.get_pose_vector().isApprox(state1_.get_pose().get_pose_vector()));
-//  ASSERT_TRUE(state1_.get_velocity_vector().isApprox(
-//      state1_.get_velocity().get_velocity_vector()));
-//
-//  ASSERT_TRUE(
-//      state2_.get_pose_vector().isApprox(state2_.get_pose().get_pose_vector()));
-//  ASSERT_TRUE(state2_.get_velocity_vector().isApprox(
-//      state2_.get_velocity().get_velocity_vector()));
-//
-//  ASSERT_TRUE(
-//      state3_.get_pose_vector().isApprox(state3_.get_pose().get_pose_vector()));
-//  ASSERT_TRUE(state3_.get_velocity_vector().isApprox(
-//      state3_.get_velocity().get_velocity_vector()));
-//}
-//
+TEST_F(StateTest, GetPose) {
+  // Make sure that we can get the pose from the state.
+  ASSERT_EQ(state1_->get_pose().get_size(), 3);
+  ASSERT_TRUE(state1_->get_pose_vector().isApprox(VectorXd::Zero(3)));
+
+  ASSERT_EQ(state2_->get_pose().get_size(), 4);
+  ASSERT_TRUE(state2_->get_pose_vector().isApprox(VectorXd::Zero(4)));
+
+  ASSERT_EQ(state3_->get_pose().get_size(), 2);
+  ASSERT_TRUE(state3_->get_pose_vector().isApprox(VectorXd::Zero(2)));
+
+  ASSERT_EQ(state4_->get_pose().get_size(), 1);
+  ASSERT_TRUE(state4_->get_pose_vector().isApprox(VectorXd::Zero(1)));
+
+  // Testing that the returned pose is a vector and can be modified.
+  Pose& pose1 = state1_->get_pose();
+  pose1.set_pose_vector(VectorXd::Ones(3));
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(state1_->get_pose_vector().isApprox(VectorXd::Ones(3)));
+
+  Pose& pose2 = state2_->get_pose();
+  pose2.set_pose_vector(VectorXd::Ones(4));
+  ASSERT_TRUE(pose2.get_pose_vector().isApprox(VectorXd::Ones(4)));
+  ASSERT_TRUE(state2_->get_pose_vector().isApprox(VectorXd::Ones(4)));
+
+  Pose& pose3 = state3_->get_pose();
+  pose3.set_pose_vector(VectorXd::Ones(2));
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(VectorXd::Ones(2)));
+  ASSERT_TRUE(state3_->get_pose_vector().isApprox(VectorXd::Ones(2)));
+
+  Pose& pose4 = state4_->get_pose();
+  pose4.set_pose_vector(VectorXd::Ones(1));
+  ASSERT_TRUE(pose4.get_pose_vector().isApprox(VectorXd::Ones(1)));
+  ASSERT_TRUE(state4_->get_pose_vector().isApprox(VectorXd::Ones(1)));
+}
+
+TEST_F(StateTest, GetVelocity) {
+  // Make sure that we can get the velocity from the state.
+  ASSERT_EQ(state1_->get_velocity().get_size(), 2);
+  ASSERT_TRUE(state1_->get_velocity_vector().isApprox(VectorXd::Zero(2)));
+
+  ASSERT_EQ(state2_->get_velocity().get_size(), 2);
+  ASSERT_TRUE(state2_->get_velocity_vector().isApprox(VectorXd::Zero(2)));
+
+  ASSERT_EQ(state3_->get_velocity().get_size(), 3);
+  ASSERT_TRUE(state3_->get_velocity_vector().isApprox(VectorXd::Zero(3)));
+
+  ASSERT_EQ(state4_->get_velocity().get_size(), 5);
+  ASSERT_TRUE(state4_->get_velocity_vector().isApprox(VectorXd::Zero(5)));
+
+  // Testing that the returned velocity is a vector and can be modified.
+  Velocity& velocity1 = state1_->get_velocity();
+  velocity1.set_velocity_vector(VectorXd::Ones(2));
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(VectorXd::Ones(2)));
+  ASSERT_TRUE(state1_->get_velocity_vector().isApprox(VectorXd::Ones(2)));
+
+  Velocity& velocity2 = state2_->get_velocity();
+  velocity2.set_velocity_vector(VectorXd::Ones(2));
+  ASSERT_TRUE(velocity2.get_velocity_vector().isApprox(VectorXd::Ones(2)));
+  ASSERT_TRUE(state2_->get_velocity_vector().isApprox(VectorXd::Ones(2)));
+
+  Velocity& velocity3 = state3_->get_velocity();
+  velocity3.set_velocity_vector(VectorXd::Ones(3));
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(state3_->get_velocity_vector().isApprox(VectorXd::Ones(3)));
+
+  Velocity& velocity4 = state4_->get_velocity();
+  velocity4.set_velocity_vector(VectorXd::Ones(5));
+  ASSERT_TRUE(velocity4.get_velocity_vector().isApprox(VectorXd::Ones(5)));
+  ASSERT_TRUE(state4_->get_velocity_vector().isApprox(VectorXd::Ones(5)));
+}
+
+TEST_F(StateTest, GetPoseVector) {
+}
+
 // TEST_F(StateTest, GetPoseAndVelocityVector) {
 //  ASSERT_TRUE(state1_.get_pose_vector().isApprox(VectorXd::Zero(3)));
 //  ASSERT_TRUE(state1_.get_velocity_vector().isApprox(VectorXd::Zero(2)));
@@ -484,7 +542,7 @@ TEST_F(StateTest, Sizes) {
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

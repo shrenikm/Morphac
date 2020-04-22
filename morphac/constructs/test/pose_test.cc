@@ -151,19 +151,26 @@ TEST_F(PoseTest, SetPoseAt) {
   for (int i = 0; i < pose1_->get_size(); ++i) {
     (*pose1_)(i) = 1;
   }
+  for (int i = 0; i < pose2_->get_size(); ++i) {
+    (*pose2_)(i) = 2;
+  }
+  for (int i = 0; i < pose3_->get_size(); ++i) {
+    (*pose3_)(i) = -3.;
+  }
 
   ASSERT_TRUE(pose1_->get_pose_vector().isApprox(VectorXd::Ones(3)));
-
-  VectorXd expected_vector(4);
-  expected_vector << -1, 0, 0, 5;
-  (*pose2_)(0) = -1;
-  (*pose2_)(3) = 5;
-
-  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(expected_vector));
+  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(2 * VectorXd::Ones(4)));
+  ASSERT_TRUE(pose3_->get_pose_vector().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
   ASSERT_THROW((*pose1_)(-1) = 0, std::out_of_range);
   ASSERT_THROW((*pose1_)(3) = 1, std::out_of_range);
+
+  ASSERT_THROW((*pose2_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*pose2_)(4) = 1, std::out_of_range);
+
+  ASSERT_THROW((*pose3_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*pose3_)(5) = 1, std::out_of_range);
 }
 
 TEST_F(PoseTest, Addition) {

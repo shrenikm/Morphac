@@ -151,19 +151,26 @@ TEST_F(InputTest, SetInputAt) {
   for (int i = 0; i < input1_->get_size(); ++i) {
     (*input1_)(i) = 1;
   }
+  for (int i = 0; i < input2_->get_size(); ++i) {
+    (*input2_)(i) = 2;
+  }
+  for (int i = 0; i < input3_->get_size(); ++i) {
+    (*input3_)(i) = -3;
+  }
 
   ASSERT_TRUE(input1_->get_input_vector().isApprox(VectorXd::Ones(3)));
-
-  VectorXd expected_vector(4);
-  expected_vector << -1, 0, 0, 5;
-  (*input2_)(0) = -1;
-  (*input2_)(3) = 5;
-
-  ASSERT_TRUE(input2_->get_input_vector().isApprox(expected_vector));
+  ASSERT_TRUE(input2_->get_input_vector().isApprox(2 * VectorXd::Ones(4)));
+  ASSERT_TRUE(input3_->get_input_vector().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
   ASSERT_THROW((*input1_)(-1) = 0, std::out_of_range);
   ASSERT_THROW((*input1_)(3) = 1, std::out_of_range);
+
+  ASSERT_THROW((*input2_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*input2_)(4) = 1, std::out_of_range);
+
+  ASSERT_THROW((*input3_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*input3_)(5) = 1, std::out_of_range);
 }
 
 TEST_F(InputTest, Addition) {

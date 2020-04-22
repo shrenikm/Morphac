@@ -153,19 +153,28 @@ TEST_F(VelocityTest, SetVelocityAt) {
   for (int i = 0; i < velocity1_->get_size(); ++i) {
     (*velocity1_)(i) = 1;
   }
+  for (int i = 0; i < velocity2_->get_size(); ++i) {
+    (*velocity2_)(i) = 2;
+  }
+  for (int i = 0; i < velocity3_->get_size(); ++i) {
+    (*velocity3_)(i) = -3.;
+  }
 
   ASSERT_TRUE(velocity1_->get_velocity_vector().isApprox(VectorXd::Ones(3)));
-
-  VectorXd expected_vector(4);
-  expected_vector << -1, 0, 0, 5;
-  (*velocity2_)(0) = -1;
-  (*velocity2_)(3) = 5;
-
-  ASSERT_TRUE(velocity2_->get_velocity_vector().isApprox(expected_vector));
+  ASSERT_TRUE(
+      velocity2_->get_velocity_vector().isApprox(2 * VectorXd::Ones(4)));
+  ASSERT_TRUE(
+      velocity3_->get_velocity_vector().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
   ASSERT_THROW((*velocity1_)(-1) = 0, std::out_of_range);
   ASSERT_THROW((*velocity1_)(3) = 1, std::out_of_range);
+
+  ASSERT_THROW((*velocity2_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*velocity2_)(4) = 1, std::out_of_range);
+
+  ASSERT_THROW((*velocity3_)(-1) = 0, std::out_of_range);
+  ASSERT_THROW((*velocity3_)(5) = 1, std::out_of_range);
 }
 
 TEST_F(VelocityTest, Addition) {
