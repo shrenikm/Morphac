@@ -100,17 +100,15 @@ TEST_F(PoseTest, GetPoseAt) {
   for (int i = 0; i < pose1_->get_size(); ++i) {
     ASSERT_EQ((*pose1_)(i), 0);
   }
-
   for (int i = 0; i < pose2_->get_size(); ++i) {
     ASSERT_EQ((*pose2_)(i), 0);
   }
-
   for (int i = 0; i < pose3_->get_size(); ++i) {
     ASSERT_EQ((*pose3_)(i), 0);
   }
 
-  VectorXd pose_vector(6);
-  pose_vector << 1, -1, 2, -3, 5, -8;
+  // Arbitrary Pose.
+  VectorXd pose_vector = VectorXd::Random(7);
   Pose pose(pose_vector);
 
   for (int i = 0; i < pose.get_size(); ++i) {
@@ -119,8 +117,13 @@ TEST_F(PoseTest, GetPoseAt) {
 
   // Invalid get at.
   ASSERT_THROW((*pose1_)(-1), std::out_of_range);
+  ASSERT_THROW((*pose1_)(3), std::out_of_range);
+
+  ASSERT_THROW((*pose2_)(-1), std::out_of_range);
   ASSERT_THROW((*pose2_)(4), std::out_of_range);
-  ASSERT_THROW((*pose3_)(7), std::out_of_range);
+
+  ASSERT_THROW((*pose2_)(-1), std::out_of_range);
+  ASSERT_THROW((*pose2_)(5), std::out_of_range);
 }
 
 TEST_F(PoseTest, SetPoseVector) {

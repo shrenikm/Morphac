@@ -101,17 +101,15 @@ TEST_F(VelocityTest, GetVelocityAt) {
   for (int i = 0; i < velocity1_->get_size(); ++i) {
     ASSERT_EQ((*velocity1_)(i), 0);
   }
-
   for (int i = 0; i < velocity2_->get_size(); ++i) {
     ASSERT_EQ((*velocity2_)(i), 0);
   }
-
   for (int i = 0; i < velocity3_->get_size(); ++i) {
     ASSERT_EQ((*velocity3_)(i), 0);
   }
 
-  VectorXd velocity_vector(6);
-  velocity_vector << 1, -1, 2, -3, 5, -8;
+  // Arbitrary Velocity.
+  VectorXd velocity_vector = VectorXd::Random(7);
   Velocity velocity(velocity_vector);
 
   for (int i = 0; i < velocity.get_size(); ++i) {
@@ -120,8 +118,13 @@ TEST_F(VelocityTest, GetVelocityAt) {
 
   // Invalid get at.
   ASSERT_THROW((*velocity1_)(-1), std::out_of_range);
+  ASSERT_THROW((*velocity1_)(3), std::out_of_range);
+
+  ASSERT_THROW((*velocity2_)(-1), std::out_of_range);
   ASSERT_THROW((*velocity2_)(4), std::out_of_range);
-  ASSERT_THROW((*velocity3_)(7), std::out_of_range);
+
+  ASSERT_THROW((*velocity3_)(-1), std::out_of_range);
+  ASSERT_THROW((*velocity3_)(5), std::out_of_range);
 }
 
 TEST_F(VelocityTest, SetVelocityVector) {

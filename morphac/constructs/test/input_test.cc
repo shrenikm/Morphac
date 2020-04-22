@@ -100,17 +100,15 @@ TEST_F(InputTest, GetInputAt) {
   for (int i = 0; i < input1_->get_size(); ++i) {
     ASSERT_EQ((*input1_)(i), 0);
   }
-
   for (int i = 0; i < input2_->get_size(); ++i) {
     ASSERT_EQ((*input2_)(i), 0);
   }
-
   for (int i = 0; i < input3_->get_size(); ++i) {
     ASSERT_EQ((*input3_)(i), 0);
   }
 
-  VectorXd input_vector(6);
-  input_vector << 1, -1, 2, -3, 5, -8;
+  // Arbitrary Input.
+  VectorXd input_vector = VectorXd::Random(7);
   Input input(input_vector);
 
   for (int i = 0; i < input.get_size(); ++i) {
@@ -119,8 +117,13 @@ TEST_F(InputTest, GetInputAt) {
 
   // Invalid get at.
   ASSERT_THROW((*input1_)(-1), std::out_of_range);
+  ASSERT_THROW((*input1_)(3), std::out_of_range);
+
+  ASSERT_THROW((*input2_)(-1), std::out_of_range);
   ASSERT_THROW((*input2_)(4), std::out_of_range);
-  ASSERT_THROW((*input3_)(7), std::out_of_range);
+
+  ASSERT_THROW((*input3_)(-1), std::out_of_range);
+  ASSERT_THROW((*input3_)(5), std::out_of_range);
 }
 
 TEST_F(InputTest, SetInputVector) {
