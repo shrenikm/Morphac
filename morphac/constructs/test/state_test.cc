@@ -73,16 +73,41 @@ TEST_F(StateTest, ConstState) {
 }
 
 TEST_F(StateTest, EmptyConstruction) {
-  State state(0, 0);
+  State state1(0, 0);
+  State state2(1, 0);
+  State state3(0, 1);
 
-  ASSERT_TRUE(state.IsEmpty());
+  ASSERT_TRUE(state1.IsEmpty());
   // Both Pose and Velocity have to be empty.
-  ASSERT_FALSE(State(1, 0).IsEmpty());
-  ASSERT_FALSE(State(0, 1).IsEmpty());
+  ASSERT_FALSE(state2.IsEmpty());
+  ASSERT_FALSE(state3.IsEmpty());
 
   // Other ways of constructing an empty state.
   ASSERT_TRUE(State({}, {}).IsEmpty());
   ASSERT_TRUE(State(VectorXd::Zero(0), VectorXd::Zero(0)).IsEmpty());
+
+  // Accessors are invalid for empty Pose and Velocity components. These
+  // are checked indirectly through Pose and Velocity.
+
+  ASSERT_THROW(state1.get_pose_vector(), std::logic_error);
+  ASSERT_THROW(state1.get_velocity_vector(), std::logic_error);
+  ASSERT_THROW(state1.set_pose_vector(VectorXd::Zero(0)), std::logic_error);
+  ASSERT_THROW(state1.set_velocity_vector(VectorXd::Zero(0)), std::logic_error);
+  ASSERT_THROW(state1(0), std::out_of_range);
+
+  ASSERT_TRUE(state2.get_pose_vector().isApprox(VectorXd::Zero(1)));
+  ASSERT_THROW(state2.get_velocity_vector(), std::logic_error);
+
+  state2.set_pose_vector({1});
+  ASSERT_TRUE(state2.get_pose_vector().isApprox(VectorXd::Ones(1)));
+  ASSERT_THROW(state2.set_velocity_vector(VectorXd::Zero(0)), std::logic_error);
+
+  ASSERT_THROW(state3.get_pose_vector(), std::logic_error);
+  ASSERT_TRUE(state3.get_velocity_vector().isApprox(VectorXd::Zero(1)));
+
+  ASSERT_THROW(state3.set_pose_vector(VectorXd::Zero(0)), std::logic_error);
+  state3.set_velocity_vector({1});
+  ASSERT_TRUE(state3.get_velocity_vector().isApprox(VectorXd::Ones(1)));
 }
 
 TEST_F(StateTest, Sizes) {
@@ -226,6 +251,20 @@ TEST_F(StateTest, GetStateAt) {
     ASSERT_EQ(state(i), state_vector(i));
   }
 
+  // Partial States.
+  VectorXd partial_pose_vector = VectorXd::Random(3);
+  VectorXd partial_velocity_vector = VectorXd::Random(2);
+  State partial_state1(partial_pose_vector, VectorXd::Zero(0));
+  State partial_state2(VectorXd::Zero(0), partial_velocity_vector);
+
+  for (int i = 0; i < 3; ++i) {
+    ASSERT_EQ(partial_state1(i), partial_pose_vector(i));
+  }
+
+  for (int i = 0; i < 2; ++i) {
+    ASSERT_EQ(partial_state2(i), partial_velocity_vector(i));
+  }
+
   // Invalid get at.
   ASSERT_THROW((*state1_)(-1), std::out_of_range);
   ASSERT_THROW((*state1_)(5), std::out_of_range);
@@ -238,6 +277,12 @@ TEST_F(StateTest, GetStateAt) {
 
   ASSERT_THROW((*state4_)(-1), std::out_of_range);
   ASSERT_THROW((*state4_)(6), std::out_of_range);
+
+  ASSERT_THROW(partial_state1(-1), std::out_of_range);
+  ASSERT_THROW(partial_state1(3), std::out_of_range);
+
+  ASSERT_THROW(partial_state2(-1), std::out_of_range);
+  ASSERT_THROW(partial_state2(2), std::out_of_range);
 }
 
 // TEST_F(StateTest, SetPoseAndVelocity) {
