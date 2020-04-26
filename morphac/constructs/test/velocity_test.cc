@@ -84,6 +84,9 @@ TEST_F(VelocityTest, Sizes) {
   ASSERT_EQ(velocity1_->get_size(), 3);
   ASSERT_EQ(velocity2_->get_size(), 4);
   ASSERT_EQ(velocity3_->get_size(), 5);
+
+  // Empty Velocity.
+  ASSERT_EQ(Velocity(0).get_size(), 0);
 }
 
 TEST_F(VelocityTest, GetVelocityVector) {

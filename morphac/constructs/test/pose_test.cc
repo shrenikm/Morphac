@@ -83,6 +83,9 @@ TEST_F(PoseTest, Sizes) {
   ASSERT_EQ(pose1_->get_size(), 3);
   ASSERT_EQ(pose2_->get_size(), 4);
   ASSERT_EQ(pose3_->get_size(), 5);
+
+  // Empty Pose.
+  ASSERT_EQ(Pose(0).get_size(), 0);
 }
 
 TEST_F(PoseTest, GetPoseVector) {

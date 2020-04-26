@@ -83,6 +83,9 @@ TEST_F(InputTest, Sizes) {
   ASSERT_EQ(input1_->get_size(), 3);
   ASSERT_EQ(input2_->get_size(), 4);
   ASSERT_EQ(input3_->get_size(), 5);
+
+  // Empty Input.
+  ASSERT_EQ(Input(0).get_size(), 0);
 }
 
 TEST_F(InputTest, GetInputVector) {
