@@ -220,31 +220,54 @@ int State::get_size_velocity() const { return velocity_.get_size(); }
 
 int State::get_size() const { return pose_.get_size() + velocity_.get_size(); }
 
-Pose& State::get_pose() { return pose_; }
+Pose& State::get_pose() {
+  // We return only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose is empty.");
+  return pose_;
+}
 
-const Pose& State::get_pose() const { return pose_; }
+const Pose& State::get_pose() const {
+  // We return only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose is empty.");
+  return pose_;
+}
 
-Velocity& State::get_velocity() { return velocity_; }
+Velocity& State::get_velocity() {
+  // We return only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error, "Pose is empty.");
+  return velocity_;
+}
 
-const Velocity& State::get_velocity() const { return velocity_; }
+const Velocity& State::get_velocity() const {
+  // We return only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error, "Pose is empty.");
+  return velocity_;
+}
 
 const VectorXd& State::get_pose_vector() const {
+  // We return the pose vector only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose is empty.");
   return pose_.get_pose_vector();
 }
 
 const VectorXd& State::get_velocity_vector() const {
+  // We return the velocity vector only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error, "Pose is empty.");
   return velocity_.get_velocity_vector();
 }
 
 void State::set_pose(const Pose& pose) {
   MORPH_REQUIRE(pose_.get_size() == pose.get_size(), std::invalid_argument,
                 "Pose dimensions do not match.");
+  MORPH_REQUIRE(!pose.IsEmpty(), std::logic_error, "Pose object is empty.");
   pose_ = pose;
 }
 
 void State::set_velocity(const Velocity& velocity) {
   MORPH_REQUIRE(velocity_.get_size() == velocity.get_size(),
                 std::invalid_argument, "Velocity dimensions do not match.");
+  MORPH_REQUIRE(!velocity.IsEmpty(), std::logic_error,
+                "Velocity object is empty.");
   velocity_ = velocity;
 }
 

@@ -172,6 +172,10 @@ TEST_F(StateTest, GetPose) {
   pose4.set_pose_vector(VectorXd::Ones(1));
   ASSERT_TRUE(pose4.get_pose_vector().isApprox(VectorXd::Ones(1)));
   ASSERT_TRUE(state4_->get_pose_vector().isApprox(VectorXd::Ones(1)));
+
+  // For a partial (pose empty) state, accessing the pose should throw an
+  // exception.
+  ASSERT_THROW(State(0, 3).get_pose(), std::logic_error);
 }
 
 TEST_F(StateTest, GetVelocity) {
@@ -208,6 +212,10 @@ TEST_F(StateTest, GetVelocity) {
   velocity4.set_velocity_vector(VectorXd::Ones(5));
   ASSERT_TRUE(velocity4.get_velocity_vector().isApprox(VectorXd::Ones(5)));
   ASSERT_TRUE(state4_->get_velocity_vector().isApprox(VectorXd::Ones(5)));
+
+  // For a partial (velocity empty) state, accessing the velocity should throw
+  // an exception.
+  ASSERT_THROW(State(3, 0).get_velocity(), std::logic_error);
 }
 
 TEST_F(StateTest, GetPoseVector) {
@@ -222,7 +230,9 @@ TEST_F(StateTest, GetPoseVector) {
 
   ASSERT_TRUE(state.get_pose_vector().isApprox(pose_vector));
 
-  // get_pose_vector for an empty pose is already tested for in pose_test.
+  // For a partial (pose empty) state, accessing the pose vector should throw an
+  // error
+  ASSERT_THROW(State(0, 3).get_pose_vector(), std::logic_error);
 }
 
 TEST_F(StateTest, GetVelocityVector) {
@@ -237,8 +247,9 @@ TEST_F(StateTest, GetVelocityVector) {
 
   ASSERT_TRUE(state.get_velocity_vector().isApprox(velocity_vector));
 
-  // get_velocity_vector for an empty velocity is already tested for in
-  // velocity_test.
+  // For a partial (velocity empty) state, accessing the velocity vector should
+  // throw an error
+  ASSERT_THROW(State(3, 0).get_velocity_vector(), std::logic_error);
 }
 
 TEST_F(StateTest, GetStateVector) {
@@ -255,6 +266,9 @@ TEST_F(StateTest, GetStateVector) {
   State state(pose_vector, velocity_vector);
 
   ASSERT_TRUE(state.get_state_vector().isApprox(state_vector));
+
+  // For an empty state, accessing the state vector should throw an error.
+  ASSERT_THROW(State(0, 0).get_state_vector(), std::logic_error);
 }
 
 TEST_F(StateTest, GetStateAt) {
@@ -341,6 +355,10 @@ TEST_F(StateTest, SetPose) {
 
   ASSERT_THROW(state4_->set_pose(Pose(0)), std::invalid_argument);
   ASSERT_THROW(state4_->set_pose(Pose(2)), std::invalid_argument);
+
+  // Setting a pose to a partial (pose empty) state must throw an error.
+  ASSERT_THROW(State(0, 3).set_pose(Pose(1)), std::logic_error);
+  ASSERT_THROW(State(0, 3).set_pose(Pose(0)), std::logic_error);
 }
 
 TEST_F(StateTest, SetVelocity) {
@@ -368,6 +386,10 @@ TEST_F(StateTest, SetVelocity) {
 
   ASSERT_THROW(state4_->set_velocity(Velocity(4)), std::invalid_argument);
   ASSERT_THROW(state4_->set_velocity(Velocity(6)), std::invalid_argument);
+
+  // Setting a velocity to a partial (velocity empty) state must throw an error.
+  ASSERT_THROW(State(3, 0).set_velocity(Velocity(1)), std::logic_error);
+  ASSERT_THROW(State(3, 0).set_velocity(Velocity(0)), std::logic_error);
 }
 
 TEST_F(StateTest, SetPoseVector) {
@@ -522,117 +544,119 @@ TEST_F(StateTest, SetStateVector) {
                std::invalid_argument);
 }
 
-// TEST_F(StateTest, Addition) {
-//  VectorXd p1(3), p2(3), v1(2), v2(2);
-//  VectorXd d1(5), d2(5);
-//  VectorXd s1(5), s2(5);
-//  p1 << 1, 2, 3;
-//  p2 << 3, 2, 1;
-//  v1 << -1, 0;
-//  v2 << -2, 4;
-//  s1 << p1, v1;
-//  s2 << p2, v2;
-//  d1 << 4, 4, 4, -3, 4;
-//  d2 << 7, 6, 5, -5, 8;
-//
-//  State state1{p1, v1};
-//  State state2{p2, v2};
-//
-//  // Trivial addition.
-//  state1 += State::CreateLike(state1);
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
-//
-//  state1 = state1 + State::CreateLike(state1);
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
-//
-//  state1 += state2;
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
-//
-//  State state3 = state1 + state2;
-//  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
-//
-//  State state4 = state2 + state1;
-//  ASSERT_TRUE(state3.get_state_vector().isApprox(state4.get_state_vector()));
-//}
-//
-// TEST_F(StateTest, Subtraction) {
-//  VectorXd p1(3), p2(3), v1(2), v2(2);
-//  VectorXd d1(5), d2(5);
-//  VectorXd s1(5), s2(5);
-//  p1 << 1, 2, 3;
-//  p2 << 3, 2, 1;
-//  v1 << -1, 0;
-//  v2 << -2, 4;
-//  s1 << p1, v1;
-//  s2 << p2, v2;
-//  d1 << -2, 0, 2, 1, -4;
-//  d2 << -5, -2, 1, 3, -8;
-//
-//  State state1{p1, v1};
-//  State state2{p2, v2};
-//
-//  // Trivial subtraction.
-//  state1 -= State::CreateLike(state1);
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
-//
-//  state1 = state1 - State::CreateLike(state1);
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
-//
-//  state1 -= state2;
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
-//
-//  State state3 = state1 - state2;
-//  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
-//
-//  State state4 = state2 - state1;
-//  ASSERT_TRUE(
-//      state3.get_state_vector().isApprox(-1 * state4.get_state_vector()));
-//}
-//
-// TEST_F(StateTest, Multiplication) {
-//  VectorXd p1(3), p2(3), v1(2), v2(2);
-//  VectorXd d1(5), d2(5);
-//  VectorXd s1(5), s2(5);
-//  p1 << 1, 2, 3;
-//  p2 << 3, 2, 1;
-//  v1 << -1, 0;
-//  v2 << -2, 4;
-//  s1 << p1, v1;
-//  s2 << p2, v2;
-//  d1 << 2, 4, 6, -2, 0;
-//  d2 << -3, -2, -1, 2, -4;
-//
-//  State state1{p1, v1};
-//  State state2{p2, v2};
-//
-//  // Trivial multiplication.
-//  state1 = state1 * 1.0;
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
-//  ASSERT_TRUE((0.0 * state1).get_state_vector().isApprox(VectorXd::Zero(5)));
-//
-//  state1 *= 2.0;
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
-//
-//  State state3 = state2 * -1.0;
-//  State state4 = -1 * state2;
-//  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
-//  ASSERT_TRUE(state4.get_state_vector().isApprox(d2));
-//}
-//
-// TEST_F(StateTest, StringRepresentation) {
-//  // Testing that the << operator is overloaded properly.
-//  // We don't test the actual string representation.
-//  ostringstream os;
-//  os << state1_;
-//
-//  // Multiple state object representations in the stream.
-//  os << " " << state3_ << std::endl;
-//
-//  // Test representation of partially constructed state.
-//  os << " " << State(Pose(3), Velocity(0)) << " "
-//     << State(Pose(0), Velocity(2));
-//}
-//
+TEST_F(StateTest, Addition) {
+  VectorXd p1(3), p2(3), v1(2), v2(2);
+  VectorXd d1(5), d2(5);
+  VectorXd s1(5), s2(5);
+  p1 << 1, 2, 3;
+  p2 << 3, 2, 1;
+  v1 << -1, 0;
+  v2 << -2, 4;
+  s1 << p1, v1;
+  s2 << p2, v2;
+  d1 << 4, 4, 4, -3, 4;
+  d2 << 7, 6, 5, -5, 8;
+
+  State state1{p1, v1};
+  State state2{p2, v2};
+
+  // Trivial addition.
+  state1 += State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+
+  state1 = state1 + State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+
+  // Non trivial addition.
+  state1 += state2;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
+
+  State state3 = state1 + state2;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
+
+  State state4 = state2 + state1;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(state4.get_state_vector()));
+}
+
+TEST_F(StateTest, Subtraction) {
+  VectorXd p1(3), p2(3), v1(2), v2(2);
+  VectorXd d1(5), d2(5);
+  VectorXd s1(5), s2(5);
+  p1 << 1, 2, 3;
+  p2 << 3, 2, 1;
+  v1 << -1, 0;
+  v2 << -2, 4;
+  s1 << p1, v1;
+  s2 << p2, v2;
+  d1 << -2, 0, 2, 1, -4;
+  d2 << -5, -2, 1, 3, -8;
+
+  State state1{p1, v1};
+  State state2{p2, v2};
+
+  // Trivial subtraction.
+  state1 -= State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+
+  state1 = state1 - State::CreateLike(state1);
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+
+  // Non trivial subtraction.
+  state1 -= state2;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
+
+  State state3 = state1 - state2;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
+
+  State state4 = state2 - state1;
+  ASSERT_TRUE(
+      state3.get_state_vector().isApprox(-1 * state4.get_state_vector()));
+}
+
+TEST_F(StateTest, Multiplication) {
+  VectorXd p1(3), p2(3), v1(2), v2(2);
+  VectorXd d1(5), d2(5);
+  VectorXd s1(5), s2(5);
+  p1 << 1, 2, 3;
+  p2 << 3, 2, 1;
+  v1 << -1, 0;
+  v2 << -2, 4;
+  s1 << p1, v1;
+  s2 << p2, v2;
+  d1 << 2, 4, 6, -2, 0;
+  d2 << -3, -2, -1, 2, -4;
+
+  State state1{p1, v1};
+  State state2{p2, v2};
+
+  // Trivial multiplication.
+  state1 = state1 * 1.0;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(s1));
+  ASSERT_TRUE((0.0 * state1).get_state_vector().isApprox(VectorXd::Zero(5)));
+
+  // Non trivial multiplication.
+  state1 *= 2.0;
+  ASSERT_TRUE(state1.get_state_vector().isApprox(d1));
+
+  State state3 = state2 * -1.0;
+  State state4 = -1 * state2;
+  ASSERT_TRUE(state3.get_state_vector().isApprox(d2));
+  ASSERT_TRUE(state4.get_state_vector().isApprox(d2));
+}
+
+TEST_F(StateTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << (*state1_);
+
+  // Multiple state object representations in the stream.
+  os << " " << (*state3_) << std::endl;
+
+  // Test representation of partially constructed state.
+  os << " " << State(3, 0) << " " << State(0, 2);
+}
+
 // TEST_F(StateTest, PartialConstruction) {
 //  // Constructing states without the velocity component.
 //  State state1{3, 0};
