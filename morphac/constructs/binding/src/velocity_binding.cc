@@ -12,6 +12,8 @@ using morphac::constructs::Velocity;
 void define_velocity_binding(py::module& m) {
   py::class_<Velocity> velocity(m, "Velocity");
 
+  // We don't wrap the initializer_list constructor as we can use a list to
+  // Call the VectorXd constructor from python anyway.
   velocity.def(py::init<const int>(), py::arg("size"));
   velocity.def(py::init<const VectorXd&>(), py::arg("data"));
   velocity.def(py::self += py::self);
@@ -24,8 +26,9 @@ void define_velocity_binding(py::module& m) {
   velocity.def("__repr__", &Velocity::ToString);
   velocity.def_property_readonly("size", &Velocity::get_size);
   // vector is mapped to data in python to keep it consistent and pythonic.
-  velocity.def_property("data", &Velocity::get_velocity_vector,
-                        &Velocity::set_velocity_vector);
+  velocity.def_property(
+      "data", &Velocity::get_velocity_vector,
+      py::overload_cast<const VectorXd&>(&Velocity::set_velocity_vector));
   velocity.def("is_empty", &Velocity::IsEmpty);
   velocity.def("create_like", &Velocity::CreateLike);
 }
