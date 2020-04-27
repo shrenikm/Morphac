@@ -68,7 +68,9 @@ def test_state_pose(generate_state_list):
     assert np.allclose(sf5.pose.data, [0, -1])
 
     # Partial state pose.
-    assert sp1.pose.size == 0
+    # Shouldn't be able to access the pose of a state whose pose is empty.
+    with pytest.raises(RuntimeError):
+        sp1.pose
     assert sp2.pose.size == 3
     assert np.allclose(sp2.pose.data, [4, 6, 5.9])
 
@@ -125,7 +127,9 @@ def test_state_velocity(generate_state_list):
     # Partial state velocity.
     assert sp1.velocity.size == 2
     assert np.allclose(sp1.velocity.data, [0, 0])
-    assert sp2.velocity.size == 0
+    # Shouldn't be able to access the pose of a state whose pose is empty.
+    with pytest.raises(RuntimeError):
+        sp2.velocity
 
     # Testing setting velocitiy data.
     # Doesn't have to be tested too much as the Velocity tests cover it.
@@ -327,16 +331,30 @@ def test_repr(generate_state_list):
 def test_empty():
 
     assert not State(3, 3).is_empty()
+    assert not State(3, 3).is_pose_empty()
+    assert not State(3, 3).is_velocity_empty()
+
     assert not State(2, 0).is_empty()
+    assert not State(2, 0).is_pose_empty()
+    assert State(2, 0).is_velocity_empty()
+
     assert not State(0, 4).is_empty()
+    assert State(0, 4).is_pose_empty()
+    assert not State(0, 4).is_velocity_empty()
+
     assert State(0, 0).is_empty()
+    assert State(0, 0).is_pose_empty()
+    assert State(0, 0).is_velocity_empty()
 
 
 def test_create_like(generate_state_list):
 
     for s in generate_state_list:
 
-        assert State.create_like(s).size == s.size
-        assert State.create_like(s).pose.size == s.pose.size
-        assert State.create_like(s).velocity.size == s.velocity.size
+        zero_state = State.create_like(s)
+        assert zero_state.size == s.size
+        # Make sure that if partial, they are of the same configuration.
+        assert zero_state.is_empty() == s.is_empty()
+        assert zero_state.is_pose_empty() == s.is_pose_empty()
+        assert zero_state.is_velocity_empty() == s.is_velocity_empty()
         assert np.allclose(State.create_like(s).data, np.zeros(s.size))
