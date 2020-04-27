@@ -222,37 +222,40 @@ int State::get_size() const { return pose_.get_size() + velocity_.get_size(); }
 
 Pose& State::get_pose() {
   // We return only if the pose is non empty.
-  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose is empty.");
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
   return pose_;
 }
 
 const Pose& State::get_pose() const {
   // We return only if the pose is non empty.
-  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose is empty.");
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
   return pose_;
 }
 
 Velocity& State::get_velocity() {
   // We return only if the velocity is non empty.
-  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error, "Pose is empty.");
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
   return velocity_;
 }
 
 const Velocity& State::get_velocity() const {
   // We return only if the velocity is non empty.
-  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error, "Pose is empty.");
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
   return velocity_;
 }
 
 const VectorXd& State::get_pose_vector() const {
   // We return the pose vector only if the pose is non empty.
-  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose is empty.");
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
   return pose_.get_pose_vector();
 }
 
 const VectorXd& State::get_velocity_vector() const {
   // We return the velocity vector only if the velocity is non empty.
-  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error, "Pose is empty.");
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
   return velocity_.get_velocity_vector();
 }
 
@@ -272,7 +275,7 @@ void State::set_velocity(const Velocity& velocity) {
 }
 
 const VectorXd State::get_state_vector() const {
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State is empty.");
   VectorXd state_vector(get_size());
   VectorXd pose_vector = VectorXd::Zero(0);
   VectorXd velocity_vector = VectorXd::Zero(0);
@@ -289,21 +292,35 @@ const VectorXd State::get_state_vector() const {
 }
 
 void State::set_pose_vector(const VectorXd& pose_vector) {
-  // The Pose class setter does the argument check.
+  // We allow setting only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
+
+  // The Pose class setter does the argument dimension check.
   pose_.set_pose_vector(pose_vector);
 }
 
 void State::set_pose_vector(initializer_list<double> pose_elements) {
+  // We allow setting only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
+
   // The Pose class setter does the argument check.
   pose_.set_pose_vector(pose_elements);
 }
 
 void State::set_velocity_vector(const VectorXd& velocity_vector) {
+  // We allow setting only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
+
   // The Velocity class getter does the argument check.
   velocity_.set_velocity_vector(velocity_vector);
 }
 
 void State::set_velocity_vector(initializer_list<double> velocity_elements) {
+  // We allow setting only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
+
   // The Velocity class getter does the argument check.
   velocity_.set_velocity_vector(velocity_elements);
 }

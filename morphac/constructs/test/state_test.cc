@@ -72,14 +72,23 @@ TEST_F(StateTest, ConstState) {
       state.get_velocity().get_velocity_vector().isApprox(VectorXd::Ones(3)));
 }
 
-TEST_F(StateTest, EmptyConstruction) {
+TEST_F(StateTest, EmptyAndPartialConstruction) {
   State state1(0, 0);
   State state2(1, 0);
   State state3(0, 1);
 
   ASSERT_TRUE(state1.IsEmpty());
   // Both Pose and Velocity have to be empty.
+  ASSERT_TRUE(state1.IsPoseEmpty());
+  ASSERT_TRUE(state1.IsVelocityEmpty());
+  ASSERT_TRUE(state1.IsEmpty());
+
+  ASSERT_FALSE(state2.IsPoseEmpty());
+  ASSERT_TRUE(state2.IsVelocityEmpty());
   ASSERT_FALSE(state2.IsEmpty());
+
+  ASSERT_TRUE(state3.IsPoseEmpty());
+  ASSERT_FALSE(state3.IsVelocityEmpty());
   ASSERT_FALSE(state3.IsEmpty());
 
   // Other ways of constructing an empty state.
@@ -438,6 +447,12 @@ TEST_F(StateTest, SetPoseVector) {
                std::invalid_argument);
   ASSERT_THROW(state4_->set_pose_vector(VectorXd::Zero(2)),
                std::invalid_argument);
+
+  // Setting a pose vector to a partial (pose empty) state must throw an error.
+  ASSERT_THROW(State(0, 3).set_pose_vector(VectorXd::Zero(1)),
+               std::logic_error);
+  ASSERT_THROW(State(0, 3).set_pose_vector(VectorXd::Zero(0)),
+               std::logic_error);
 }
 
 TEST_F(StateTest, SetVelocityVector) {
@@ -486,6 +501,13 @@ TEST_F(StateTest, SetVelocityVector) {
                std::invalid_argument);
   ASSERT_THROW(state4_->set_velocity_vector(VectorXd::Zero(6)),
                std::invalid_argument);
+
+  // Setting a velocity vector to a partial (velocity empty) state must throw an
+  // error.
+  ASSERT_THROW(State(3, 0).set_velocity_vector(VectorXd::Zero(1)),
+               std::logic_error);
+  ASSERT_THROW(State(3, 0).set_velocity_vector(VectorXd::Zero(0)),
+               std::logic_error);
 }
 
 TEST_F(StateTest, SetStateVector) {
@@ -542,6 +564,12 @@ TEST_F(StateTest, SetStateVector) {
                std::invalid_argument);
   ASSERT_THROW(state4_->set_state_vector(VectorXd::Zero(7)),
                std::invalid_argument);
+
+  // Setting a state vector to an empty state must throw an error.
+  ASSERT_THROW(State(0, 0).set_state_vector(VectorXd::Zero(1)),
+               std::logic_error);
+  ASSERT_THROW(State(0, 0).set_state_vector(VectorXd::Zero(0)),
+               std::logic_error);
 }
 
 TEST_F(StateTest, Addition) {
@@ -576,6 +604,38 @@ TEST_F(StateTest, Addition) {
 
   State state4 = state2 + state1;
   ASSERT_TRUE(state3.get_state_vector().isApprox(state4.get_state_vector()));
+
+  // Throw an error if trying to add incompatible States.
+  ASSERT_THROW(State(3, 2) + State(2, 3), std::invalid_argument);
+  ASSERT_THROW(State(3, 2) + State(3, 1), std::invalid_argument);
+  ASSERT_THROW(State(3, 2) + State(2, 2), std::invalid_argument);
+}
+
+TEST_F(StateTest, PartialAddition) {
+  VectorXd res1(3);
+  res1 << 1, -1, 1;
+
+  // We've already all the kinds of operations in the Addition test, so here
+  // only test if the partial states can be added properly.
+  ASSERT_TRUE((State({1, 2, 3}, {}) + State({0, -3, -2}, {}))
+                  .get_pose_vector()
+                  .isApprox(res1));
+  ASSERT_TRUE((State({1, 2, 3}, {}) + State({0, -3, -2}, {}))
+                  .get_state_vector()
+                  .isApprox(res1));
+
+  ASSERT_TRUE((State({}, {1, 2, 3}) + State({}, {0, -3, -2}))
+                  .get_velocity_vector()
+                  .isApprox(res1));
+  ASSERT_TRUE((State({}, {1, 2, 3}) + State({}, {0, -3, -2}))
+                  .get_state_vector()
+                  .isApprox(res1));
+
+  // Throw an error if trying to add incompatible partial states.
+  ASSERT_THROW(State(3, 0) + State(2, 0), std::invalid_argument);
+  ASSERT_THROW(State(3, 0) + State(3, 1), std::invalid_argument);
+  ASSERT_THROW(State(0, 3) + State(0, 2), std::invalid_argument);
+  ASSERT_THROW(State(0, 3) + State(1, 3), std::invalid_argument);
 }
 
 TEST_F(StateTest, Subtraction) {
@@ -611,6 +671,38 @@ TEST_F(StateTest, Subtraction) {
   State state4 = state2 - state1;
   ASSERT_TRUE(
       state3.get_state_vector().isApprox(-1 * state4.get_state_vector()));
+
+  // Throw an error if trying to subtract incompatible States.
+  ASSERT_THROW(State(3, 2) - State(2, 3), std::invalid_argument);
+  ASSERT_THROW(State(3, 2) - State(3, 1), std::invalid_argument);
+  ASSERT_THROW(State(3, 2) - State(2, 2), std::invalid_argument);
+}
+
+TEST_F(StateTest, PartialSubtraction) {
+  VectorXd res1(3);
+  res1 << 1, -1, 1;
+
+  // We've already all the kinds of operations in the Subtraction test, so here
+  // only test if the partial states can be subtracted properly.
+  ASSERT_TRUE((State({1, 2, 3}, {}) - State({0, 3, 2}, {}))
+                  .get_pose_vector()
+                  .isApprox(res1));
+  ASSERT_TRUE((State({1, 2, 3}, {}) - State({0, 3, 2}, {}))
+                  .get_state_vector()
+                  .isApprox(res1));
+
+  ASSERT_TRUE((State({}, {1, 2, 3}) - State({}, {0, 3, 2}))
+                  .get_velocity_vector()
+                  .isApprox(res1));
+  ASSERT_TRUE((State({}, {1, 2, 3}) - State({}, {0, 3, 2}))
+                  .get_state_vector()
+                  .isApprox(res1));
+
+  // Throw an error if trying to add incompatible partial states.
+  ASSERT_THROW(State(3, 0) - State(2, 0), std::invalid_argument);
+  ASSERT_THROW(State(3, 0) - State(3, 1), std::invalid_argument);
+  ASSERT_THROW(State(0, 3) - State(0, 2), std::invalid_argument);
+  ASSERT_THROW(State(0, 3) - State(1, 3), std::invalid_argument);
 }
 
 TEST_F(StateTest, Multiplication) {
@@ -644,6 +736,20 @@ TEST_F(StateTest, Multiplication) {
   ASSERT_TRUE(state4.get_state_vector().isApprox(d2));
 }
 
+TEST_F(StateTest, PartialMultiplication) {
+  VectorXd res1(3);
+  res1 << 1, 2, 3;
+
+  // We've already all the kinds of operations in the Multiplication test, so
+  // here only test if the partial states can be multiplied properly.
+  ASSERT_TRUE((State({1, 2, 3}, {}) * 1.0).get_pose_vector().isApprox(res1));
+  ASSERT_TRUE((State({1, 2, 3}, {}) * 1.0).get_state_vector().isApprox(res1));
+
+  ASSERT_TRUE(
+      (State({}, {1, 2, 3}) * 1.0).get_velocity_vector().isApprox(res1));
+  ASSERT_TRUE((State({}, {1, 2, 3}) * 1.0).get_state_vector().isApprox(res1));
+}
+
 TEST_F(StateTest, StringRepresentation) {
   // Testing that the << operator is overloaded properly.
   // We don't test the actual string representation.
@@ -656,150 +762,6 @@ TEST_F(StateTest, StringRepresentation) {
   // Test representation of partially constructed state.
   os << " " << State(3, 0) << " " << State(0, 2);
 }
-
-// TEST_F(StateTest, PartialConstruction) {
-//  // Constructing states without the velocity component.
-//  State state1{3, 0};
-//  State state2{VectorXd::Zero(4), VectorXd::Zero(0)};
-//  State state3{Pose(5), Velocity()};
-//
-//  // Constructing states without the pose component.
-//  State state4{0, 3};
-//  State state5{VectorXd::Zero(0), VectorXd::Zero(4)};
-//  State state6{Pose(), Velocity(5)};
-//
-//  // Both empty (empty state)
-//  State state7{0, 0};
-//
-//  // Test emptiness.
-//  ASSERT_TRUE(!state1.IsEmpty());
-//  ASSERT_TRUE(state1.IsVelocityEmpty());
-//  ASSERT_TRUE(!state2.IsEmpty());
-//  ASSERT_TRUE(state2.IsVelocityEmpty());
-//  ASSERT_TRUE(!state3.IsEmpty());
-//  ASSERT_TRUE(state3.IsVelocityEmpty());
-//
-//  ASSERT_TRUE(!state4.IsEmpty());
-//  ASSERT_TRUE(state4.IsPoseEmpty());
-//  ASSERT_TRUE(!state5.IsEmpty());
-//  ASSERT_TRUE(state5.IsPoseEmpty());
-//  ASSERT_TRUE(!state6.IsEmpty());
-//  ASSERT_TRUE(state6.IsPoseEmpty());
-//
-//  ASSERT_TRUE(state7.IsEmpty());
-//
-//  // Accessors to the empty component (velocity) must throw errors.
-//  ASSERT_THROW(state1.get_velocity_vector(), std::logic_error);
-//  ASSERT_THROW(state1.get_velocity()(0), std::logic_error);
-//  ASSERT_THROW(state1.set_velocity_vector(VectorXd::Zero(0)),
-//  std::logic_error);
-//  // The state vectors must be accessible.
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(VectorXd::Zero(3)));
-//
-//  ASSERT_THROW(state2.get_velocity_vector(), std::logic_error);
-//  ASSERT_THROW(state2.get_velocity()(0), std::logic_error);
-//  ASSERT_THROW(state2.set_velocity_vector(VectorXd::Zero(0)),
-//  std::logic_error);
-//  ASSERT_TRUE(state2.get_state_vector().isApprox(VectorXd::Zero(4)));
-//
-//  ASSERT_THROW(state3.get_velocity_vector(), std::logic_error);
-//  ASSERT_THROW(state3.get_velocity()(0), std::logic_error);
-//  ASSERT_THROW(state3.set_velocity_vector(VectorXd::Zero(0)),
-//  std::logic_error);
-//  ASSERT_TRUE(state3.get_state_vector().isApprox(VectorXd::Zero(5)));
-//
-//  ASSERT_THROW(state7.get_velocity_vector(), std::logic_error);
-//  ASSERT_THROW(state7.get_velocity()(0), std::logic_error);
-//  ASSERT_THROW(state7.set_velocity_vector(VectorXd::Zero(0)),
-//  std::logic_error);
-//
-//  // Setting the state vector should work for a partial state.
-//  VectorXd v = VectorXd::Random(3);
-//  state1.set_state_vector(v);
-//  ASSERT_TRUE(state1.get_pose_vector().isApprox(v));
-//  ASSERT_TRUE(state1.get_state_vector().isApprox(v));
-//  // Resetting the value.
-//  state1.set_state_vector(VectorXd::Zero(3));
-//
-//  // Accessors to the empty component (pose) must throw errors.
-//  ASSERT_THROW(state4.get_pose_vector(), std::logic_error);
-//  ASSERT_THROW(state4.get_pose()(0), std::logic_error);
-//  ASSERT_THROW(state4.set_pose_vector(VectorXd::Zero(0)), std::logic_error);
-//  ASSERT_TRUE(state4.get_state_vector().isApprox(VectorXd::Zero(3)));
-//
-//  ASSERT_THROW(state5.get_pose_vector(), std::logic_error);
-//  ASSERT_THROW(state5.get_pose()(0), std::logic_error);
-//  ASSERT_THROW(state5.set_pose_vector(VectorXd::Zero(0)), std::logic_error);
-//  ASSERT_TRUE(state5.get_state_vector().isApprox(VectorXd::Zero(4)));
-//
-//  ASSERT_THROW(state6.get_pose_vector(), std::logic_error);
-//  ASSERT_THROW(state6.get_pose()(0), std::logic_error);
-//  ASSERT_THROW(state6.set_pose_vector(VectorXd::Zero(0)), std::logic_error);
-//  ASSERT_TRUE(state6.get_state_vector().isApprox(VectorXd::Zero(5)));
-//
-//  ASSERT_THROW(state7.get_pose_vector(), std::logic_error);
-//  ASSERT_THROW(state7.get_pose()(0), std::logic_error);
-//  ASSERT_THROW(state7.set_pose_vector(VectorXd::Zero(0)), std::logic_error);
-//
-//  // Setting the state vector should work for a partial state.
-//  v = VectorXd::Random(3);
-//  state4.set_state_vector(v);
-//  ASSERT_TRUE(state4.get_velocity_vector().isApprox(v));
-//  ASSERT_TRUE(state4.get_state_vector().isApprox(v));
-//  // Resetting the value.
-//  state4.set_state_vector(VectorXd::Zero(3));
-//
-//  ASSERT_THROW(state7.get_state_vector(), std::logic_error);
-//
-//  // Operations should work as usual taking only the pose/velocity into
-//  account.
-//  State state_add_pose = state1 + State{VectorXd::Ones(3), VectorXd::Zero(0)};
-//  State state_add_vel = state4 + State{VectorXd::Zero(0), VectorXd::Ones(3)};
-//  ASSERT_TRUE(!state_add_pose.IsEmpty());
-//  ASSERT_TRUE(state_add_pose.IsVelocityEmpty());
-//  ASSERT_TRUE(!state_add_vel.IsEmpty());
-//  ASSERT_TRUE(state_add_vel.IsPoseEmpty());
-//  ASSERT_TRUE(state_add_pose.get_pose_vector().isApprox(VectorXd::Ones(3)));
-//  ASSERT_TRUE(state_add_vel.get_velocity_vector().isApprox(VectorXd::Ones(3)));
-//
-//  State state_sub_pose = state2 - State{VectorXd::Ones(4), VectorXd::Zero(0)};
-//  State state_sub_vel = state5 - State{VectorXd::Zero(0), VectorXd::Ones(4)};
-//  ASSERT_TRUE(!state_sub_pose.IsEmpty());
-//  ASSERT_TRUE(state_sub_pose.IsVelocityEmpty());
-//  ASSERT_TRUE(!state_sub_vel.IsEmpty());
-//  ASSERT_TRUE(state_sub_vel.IsPoseEmpty());
-//  ASSERT_TRUE(
-//      state_sub_pose.get_pose_vector().isApprox(-1 * VectorXd::Ones(4)));
-//  ASSERT_TRUE(
-//      state_sub_vel.get_velocity_vector().isApprox(-1 * VectorXd::Ones(4)));
-//
-//  State state_mult_pose = state3 * 5.;
-//  State state_mult_vel = state6 * 5.;
-//  ASSERT_TRUE(!state_mult_pose.IsEmpty());
-//  ASSERT_TRUE(state_mult_pose.IsVelocityEmpty());
-//  ASSERT_TRUE(!state_mult_vel.IsEmpty());
-//  ASSERT_TRUE(state_mult_vel.IsPoseEmpty());
-//  ASSERT_TRUE(state_mult_pose.get_pose_vector().isApprox(VectorXd::Zero(5)));
-//  ASSERT_TRUE(state_mult_vel.get_velocity_vector().isApprox(VectorXd::Zero(5)));
-//
-//  State state_empty = state7 + State{};
-//  ASSERT_TRUE(state_empty.IsEmpty());
-//}
-//
-// TEST_F(StateTest, CreateLike) {
-//  State state1 = State::CreateLike(state1_);
-//  State state2 = State::CreateLike(state2_);
-//
-//  ASSERT_EQ(state1.get_size_pose(), 3);
-//  ASSERT_EQ(state1.get_size_velocity(), 2);
-//  ASSERT_TRUE(state1.get_pose_vector().isApprox(VectorXd::Zero(3)));
-//  ASSERT_TRUE(state1.get_velocity_vector().isApprox(VectorXd::Zero(2)));
-//
-//  ASSERT_EQ(state2.get_size_pose(), 4);
-//  ASSERT_EQ(state2.get_size_velocity(), 2);
-//  ASSERT_TRUE(state2.get_pose_vector().isApprox(VectorXd::Zero(4)));
-//  ASSERT_TRUE(state2.get_velocity_vector().isApprox(VectorXd::Zero(2)));
-//}
 
 }  // namespace
 
