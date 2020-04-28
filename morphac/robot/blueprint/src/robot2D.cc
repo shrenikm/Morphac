@@ -4,7 +4,6 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
-using std::make_unique;
 using std::string;
 using std::unordered_map;
 
