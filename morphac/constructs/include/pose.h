@@ -28,6 +28,9 @@ class Pose {
   Pose operator-(const Pose& pose) const;
   Pose& operator*=(const double scalar);
 
+  friend bool operator==(const Pose& pose1, const Pose& pose2);
+  friend bool operator!=(const Pose& pose1, const Pose& pose2);
+
   double& operator()(const int index);
   double operator()(const int index) const;
 

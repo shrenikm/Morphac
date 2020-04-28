@@ -80,6 +80,10 @@ TEST_F(IntegratorTest, Integrate) {
       integrator.Integrate(State({1, 2, 0}, {}), Input({1, 2}), 0, 0.5);
   // TODO: State equality.
   //ASSERT_TRUE(integrated_state.get_state_vector()
+  State state1(3, 0);
+  State state2(3, 0);
+  std::cout << (state1 == state2) << std::endl;
+
 }
 
 }  // namespace

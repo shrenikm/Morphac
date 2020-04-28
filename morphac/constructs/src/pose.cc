@@ -86,6 +86,21 @@ double& Pose::operator()(const int index) {
   return pose_vector_(index);
 }
 
+bool operator==(const Pose& pose1, const Pose& pose2) {
+  // Two poses are equal if they are of the same size and their vector values
+  // are equal.
+  if (pose1.size_ == pose2.size_) {
+    if (pose1.pose_vector_.isApprox(pose2.pose_vector_)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool operator!=(const Pose& pose1, const Pose& pose2) {
+  return !(pose1 == pose2);
+}
+
 double Pose::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
