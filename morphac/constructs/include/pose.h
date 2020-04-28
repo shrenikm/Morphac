@@ -2,6 +2,7 @@
 #define POSE_H
 
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 

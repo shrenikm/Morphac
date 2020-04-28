@@ -2,6 +2,7 @@
 #define VELOCITY_H
 
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 

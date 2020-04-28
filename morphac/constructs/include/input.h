@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 

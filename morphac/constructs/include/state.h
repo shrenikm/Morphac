@@ -1,8 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <memory>
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 
