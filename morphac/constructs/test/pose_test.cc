@@ -279,6 +279,26 @@ TEST_F(PoseTest, Multiplication) {
   ASSERT_TRUE(empty_pose_mult2.IsEmpty());
 }
 
+TEST_F(PoseTest, Equality) {
+  ASSERT_TRUE(Pose(3) == Pose(3));
+  ASSERT_TRUE(Pose(3) == Pose(VectorXd::Zero(3)));
+  ASSERT_TRUE(Pose(VectorXd::Ones(2)) == Pose({1, 1}));
+  ASSERT_FALSE(Pose(3) == Pose(2));
+  ASSERT_FALSE(Pose(3) == Pose(VectorXd::Zero(2)));
+  ASSERT_FALSE(Pose(2) == Pose({1}));
+  ASSERT_FALSE(Pose({1, 2}) == Pose({3, 4}));
+  ASSERT_FALSE(Pose({1, 2}) == Pose({1, 2.0001}));
+
+  ASSERT_FALSE(Pose(3) != Pose(3));
+  ASSERT_FALSE(Pose(3) != Pose(VectorXd::Zero(3)));
+  ASSERT_FALSE(Pose(VectorXd::Ones(2)) != Pose({1, 1}));
+  ASSERT_TRUE(Pose(3) != Pose(2));
+  ASSERT_TRUE(Pose(3) != Pose(VectorXd::Zero(2)));
+  ASSERT_TRUE(Pose(2) != Pose({1}));
+  ASSERT_TRUE(Pose({1, 2}) != Pose({3, 4}));
+  ASSERT_TRUE(Pose({1, 2}) != Pose({1, 2.0001}));
+}
+
 TEST_F(PoseTest, StringRepresentation) {
   // Testing that the << operator is overloaded properly.
   // We don't test the actual string representation.
