@@ -28,6 +28,9 @@ class Input {
   Input operator-(const Input& input) const;
   Input& operator*=(const double scalar);
 
+  friend bool operator==(const Input& input1, const Input& input2);
+  friend bool operator!=(const Input& input1, const Input& input2);
+
   double& operator()(const int index);
   double operator()(const int index) const;
 

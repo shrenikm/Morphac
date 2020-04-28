@@ -750,6 +750,55 @@ TEST_F(StateTest, PartialMultiplication) {
   ASSERT_TRUE((State({}, {1, 2, 3}) * 1.0).get_state_vector().isApprox(res1));
 }
 
+TEST_F(StateTest, Equality) {
+  ASSERT_TRUE(State(3, 2) == State(3, 2));
+  ASSERT_TRUE(State(3, 2) == State(VectorXd::Zero(3), VectorXd::Zero(2)));
+  ASSERT_TRUE(State(VectorXd::Ones(2), VectorXd::Ones(3)) ==
+              State({1, 1}, {1, 1, 1}));
+  ASSERT_TRUE(State({1, 2, 3}, {4, 5}) == State({1, 2, 3}, {4, 5}));
+
+  ASSERT_TRUE(State(3, 2) != State(2, 3));
+  ASSERT_TRUE(State(3, 2) != State(3, 3));
+  ASSERT_TRUE(State(3, 2) != State(2, 2));
+  ASSERT_TRUE(State(3, 2) != State(VectorXd::Zero(2), VectorXd::Zero(3)));
+  ASSERT_TRUE(State(3, 2) != State(VectorXd::Zero(3), VectorXd::Zero(3)));
+  ASSERT_TRUE(State(3, 2) != State(VectorXd::Zero(2), VectorXd::Zero(2)));
+  ASSERT_TRUE(State(3, 2) != State({0, 0}, {0, 0, 0}));
+  ASSERT_TRUE(State(3, 2) != State({0, 0, 0}, {0, 0, 0}));
+  ASSERT_TRUE(State(3, 2) != State({0, 0}, {0, 0}));
+  ASSERT_TRUE(State({1, 2}, {3, 4}) != State({5, 6}, {7, 8}));
+  ASSERT_TRUE(State({1, 2}, {3, 4}) != State({1, 2}, {3, 4.000001}));
+}
+
+TEST_F(StateTest, PartialEquality) {
+  ASSERT_TRUE(State(3, 0) == State(3, 0));
+  ASSERT_TRUE(State(3, 0) == State(VectorXd::Zero(3), VectorXd::Zero(0)));
+  ASSERT_TRUE(State(VectorXd::Ones(2), VectorXd::Ones(0)) == State({1, 1}, {}));
+  ASSERT_TRUE(State({1, 2, 3}, {}) == State({1, 2, 3}, {}));
+  ASSERT_TRUE(State(0, 3) == State(0, 3));
+  ASSERT_TRUE(State(0, 3) == State(VectorXd::Zero(0), VectorXd::Zero(3)));
+  ASSERT_TRUE(State(VectorXd::Ones(0), VectorXd::Ones(2)) == State({}, {1, 1}));
+  ASSERT_TRUE(State({}, {1, 2, 3}) == State({}, {1, 2, 3}));
+
+  ASSERT_TRUE(State(3, 0) != State(3, 1));
+  ASSERT_TRUE(State(3, 0) != State(2, 0));
+  ASSERT_TRUE(State(3, 0) != State(VectorXd::Zero(3), VectorXd::Zero(1)));
+  ASSERT_TRUE(State(3, 0) != State(VectorXd::Zero(2), VectorXd::Zero(0)));
+  ASSERT_TRUE(State(3, 0) != State({0, 0, 0}, {0}));
+  ASSERT_TRUE(State(3, 0) != State({0, 0}, {}));
+  ASSERT_TRUE(State({1, 2, 3}, {}) != State({4, 5, 6}, {}));
+  ASSERT_TRUE(State({1, 2, 3}, {}) != State({1, 2, 3.000001}, {}));
+
+  ASSERT_TRUE(State(0, 3) != State(1, 3));
+  ASSERT_TRUE(State(0, 3) != State(0, 2));
+  ASSERT_TRUE(State(0, 3) != State(VectorXd::Zero(1), VectorXd::Zero(3)));
+  ASSERT_TRUE(State(0, 3) != State(VectorXd::Zero(0), VectorXd::Zero(2)));
+  ASSERT_TRUE(State(0, 3) != State({0}, {0, 0, 0}));
+  ASSERT_TRUE(State(0, 3) != State({}, {0, 0}));
+  ASSERT_TRUE(State({}, {1, 2, 3}) != State({}, {4, 5, 6}));
+  ASSERT_TRUE(State({}, {1, 2, 3}) != State({}, {1, 2, 3.000001}));
+}
+
 TEST_F(StateTest, StringRepresentation) {
   // Testing that the << operator is overloaded properly.
   // We don't test the actual string representation.

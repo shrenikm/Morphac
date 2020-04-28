@@ -79,13 +79,6 @@ Pose operator*(Pose pose, const double scalar) { return pose *= scalar; }
 
 Pose operator*(const double scalar, Pose pose) { return pose *= scalar; }
 
-double& Pose::operator()(const int index) {
-  MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
-                "Pose index out of bounds.");
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  return pose_vector_(index);
-}
-
 bool operator==(const Pose& pose1, const Pose& pose2) {
   // Two poses are equal if they are of the same size and their vector values
   // are equal.
@@ -99,6 +92,13 @@ bool operator==(const Pose& pose1, const Pose& pose2) {
 
 bool operator!=(const Pose& pose1, const Pose& pose2) {
   return !(pose1 == pose2);
+}
+
+double& Pose::operator()(const int index) {
+  MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
+                "Pose index out of bounds.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
+  return pose_vector_(index);
 }
 
 double Pose::operator()(const int index) const {

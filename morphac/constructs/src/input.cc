@@ -82,6 +82,21 @@ Input operator*(Input input, const double scalar) { return input *= scalar; }
 
 Input operator*(const double scalar, Input input) { return input *= scalar; }
 
+bool operator==(const Input& input1, const Input& input2) {
+  // Two inputs are equal if they are of the same size and their vector values
+  // are equal.
+  if (input1.size_ == input2.size_) {
+    if (input1.input_vector_.isApprox(input2.input_vector_)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool operator!=(const Input& input1, const Input& input2) {
+  return !(input1 == input2);
+}
+
 double& Input::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Input index out of bounds.");

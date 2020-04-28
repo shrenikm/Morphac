@@ -28,6 +28,9 @@ class Velocity {
   Velocity operator-(const Velocity& velocity) const;
   Velocity& operator*=(const double scalar);
 
+  friend bool operator==(const Velocity& velocity1, const Velocity& velocity2);
+  friend bool operator!=(const Velocity& velocity1, const Velocity& velocity2);
+
   double& operator()(const int index);
   double operator()(const int index) const;
 

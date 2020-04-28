@@ -88,6 +88,21 @@ Velocity operator*(const double scalar, Velocity velocity) {
   return velocity *= scalar;
 }
 
+bool operator==(const Velocity& velocity1, const Velocity& velocity2) {
+  // Two velocities are equal if they are of the same size and their vector
+  // values are equal.
+  if (velocity1.size_ == velocity2.size_) {
+    if (velocity1.velocity_vector_.isApprox(velocity2.velocity_vector_)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool operator!=(const Velocity& velocity1, const Velocity& velocity2) {
+  return !(velocity1 == velocity2);
+}
+
 double& Velocity::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");

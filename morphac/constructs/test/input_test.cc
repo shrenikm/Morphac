@@ -280,6 +280,19 @@ TEST_F(InputTest, Multiplication) {
   ASSERT_TRUE(empty_input_mult2.IsEmpty());
 }
 
+TEST_F(InputTest, Equality) {
+  ASSERT_TRUE(Input(3) == Input(3));
+  ASSERT_TRUE(Input(3) == Input(VectorXd::Zero(3)));
+  ASSERT_TRUE(Input(VectorXd::Ones(2)) == Input({1, 1}));
+  ASSERT_TRUE(Input({1, 2}) == Input({1, 2}));
+
+  ASSERT_TRUE(Input(3) != Input(2));
+  ASSERT_TRUE(Input(3) != Input(VectorXd::Zero(2)));
+  ASSERT_TRUE(Input(2) != Input({0}));
+  ASSERT_TRUE(Input({1, 2}) != Input({3, 4}));
+  ASSERT_TRUE(Input({1, 2}) != Input({1, 2.000001}));
+}
+
 TEST_F(InputTest, StringRepresentation) {
   // Testing that the << operator is overloaded properly.
   // We don't test the actual string representation.

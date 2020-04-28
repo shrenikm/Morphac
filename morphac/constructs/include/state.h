@@ -37,6 +37,9 @@ class State {
   State operator-(const State& state) const;
   State& operator*=(const double scalar);
 
+  friend bool operator==(const State& state1, const State& state2);
+  friend bool operator!=(const State& state1, const State& state2);
+
   double& operator()(const int index);
   double operator()(const int index) const;
 

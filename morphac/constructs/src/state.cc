@@ -146,6 +146,20 @@ State operator*(State state, const double scalar) { return state *= scalar; }
 
 State operator*(const double scalar, State state) { return state *= scalar; }
 
+bool operator==(const State& state1, const State& state2) {
+  // Two states are equal if their pose and velocity sizes and vector values are
+  // equal. This is equivalent to their their corresponding pose and velocity
+  // components being equal to each other.
+  if (state1.pose_ == state2.pose_ && state1.velocity_ == state2.velocity_) {
+    return true;
+  }
+  return false;
+}
+
+bool operator!=(const State& state1, const State& state2) {
+  return !(state1 == state2);
+}
+
 double& State::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
                 "State index out of bounds.");
