@@ -19,9 +19,18 @@ class Integrator {
   // simulation step).
   Integrator(morphac::mechanics::models::KinematicModel& kinematic_model);
 
+  // Function to take compute the state after a small time dt.
   virtual morphac::constructs::State Step(
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input, const double dt) const = 0;
+
+  // Function to integrate through a larger time step. In this case, we chain
+  // together individual calls to Step so that don't lose too much accuracy.
+  // We asume that the given state is the initial state and the same control
+  // input is applied throughout the time step.
+  morphac::constructs::State Integrate(const morphac::constructs::State& state,
+                                       const morphac::constructs::Input& input,
+                                       const double time, const double dt);
 
  protected:
   morphac::mechanics::models::KinematicModel& kinematic_model_;

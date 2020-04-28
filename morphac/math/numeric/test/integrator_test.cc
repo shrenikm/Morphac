@@ -36,23 +36,17 @@ class IntegratorTest : public ::testing::Test {
 };
 
 TEST_F(IntegratorTest, Step) {
-  // Kinematic models to use.
+  // Kinematic model to use.
   DiffDriveModel model{0.5, 2.};
 
   // Integrator.
   SomeIntegrator integrator{model};
 
-  State state1{VectorXd::Zero(3), VectorXd::Zero(0)};
+  State state1(VectorXd::Zero(3), VectorXd::Zero(0));
+  State state2({1, -2, 3}, {});
 
-  VectorXd state_vector2(3);
-  state_vector2 << 1, -2, 3;
-  State state2{state_vector2, VectorXd::Zero(0)};
-
-  VectorXd input_vector1(2), input_vector2(2);
-  input_vector1 << 1., 2.;
-  input_vector2 << -5., 3.;
-  Input input1{input_vector1};
-  Input input2{input_vector2};
+  Input input1({1., 2.});
+  Input input2({-5., 3.});
 
   VectorXd expected_derivative1(3), expected_derivative2(3),
       expected_derivative3(3);
@@ -70,6 +64,22 @@ TEST_F(IntegratorTest, Step) {
   ASSERT_TRUE(integrator.Step(state2, input2, 0.1)
                   .get_state_vector()
                   .isApprox(expected_derivative3));
+}
+
+TEST_F(IntegratorTest, Integrate) {
+  // Kinematic model to use.
+  DiffDriveModel model{0.5, 2.};
+
+  // Integrator.
+  SomeIntegrator integrator{model};
+
+  // Testing trivial integration.
+
+  // When the time is zero, we should obtain the same state
+  State integrated_state =
+      integrator.Integrate(State({1, 2, 0}, {}), Input({1, 2}), 0, 0.5);
+  // TODO: State equality.
+  //ASSERT_TRUE(integrated_state.get_state_vector()
 }
 
 }  // namespace

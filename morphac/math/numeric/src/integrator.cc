@@ -4,10 +4,28 @@ namespace morphac {
 namespace math {
 namespace numeric {
 
+using std::min;
+
+using morphac::constructs::Input;
+using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
 
 Integrator::Integrator(KinematicModel& kinematic_model)
     : kinematic_model_(kinematic_model) {}
+
+State Integrator::Integrate(const State& state, const Input& input,
+                            const double time, const double dt) {
+  double elapsed_time = 0.0;
+  auto updated_state = state;
+  while (elapsed_time < time) {
+    updated_state = Step(updated_state, input, dt);
+    // In case dt isn't a factor of time, we want to make sure that the last
+    // step is integrated with the correct dt (Which will be lesser than dt).
+    elapsed_time += min(dt, time - elapsed_time);
+  }
+
+  return updated_state;
+}
 
 }  // namespace numeric
 }  // namespace math

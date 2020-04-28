@@ -30,13 +30,12 @@ TEST_F(EulerIntegratorTest, TrivialStep) {
   DiffDriveModel diffdrive_model{1.2, 2.5};
   EulerIntegrator euler_integrator{diffdrive_model};
 
+  // Derivative is zero when the wheel velocities are zero.
   auto derivative1 =
-      euler_integrator.Step(State(VectorXd::Ones(3), VectorXd::Zero(0)),
-                            Input(VectorXd::Zero(2)), 0.5);
+      euler_integrator.Step(State({1, 1, 1}, {}), Input({0, 0}), 0.5);
 
-  auto derivative2 =
-      euler_integrator.Step(State(VectorXd::Zero(3), VectorXd::Zero(0)),
-                            Input(VectorXd::Ones(2)), 0.);
+  // Derivative is zero when the time step is zero.
+  auto derivative2 = euler_integrator.Step(State(3, 0), Input({1, 1}), 0.);
 
   ASSERT_TRUE(derivative1.get_state_vector().isApprox(VectorXd::Ones(3)));
   ASSERT_TRUE(derivative2.get_state_vector().isApprox(VectorXd::Zero(3)));
@@ -44,14 +43,16 @@ TEST_F(EulerIntegratorTest, TrivialStep) {
 
 TEST_F(EulerIntegratorTest, Step) {
   // Testing actual step computation using the DiffDriveModel.
-  DiffDriveModel diffdrive_model{0.1, 0.5};
+  DiffDriveModel diffdrive_model{0.1, 0.2};
   EulerIntegrator euler_integrator{diffdrive_model};
 
-  //Input input({1, 2});
-  //std::cout << input.get_input_vector() << std::endl;
+  // Testing for horizontal movement. If both wheels move at 0.5 rad/s, the
+  // angular velocity is zero (Doesn't turn) and the linear velocity is
+  // v * (wr + wl)/2 = 0.1 * (0.5 + 0.5)/2 = 0.05
+  Input input({0.5, 0.5});
 
-  // Testing for horizontal movement. If both wheels move at 0.1 rad/s TODO
-  //euler_integrator.Step(State(3, 0),
+  // First we test for when the robot is facing the x axis.
+  // auto derivative1 = euler_integrator.Step(State({0, 0, 0}, {}), input,
 }
 
 }  // namespace
