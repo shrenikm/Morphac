@@ -53,7 +53,7 @@ TEST_F(EulerIntegratorTest, Step) {
 
   // First we test for when the robot is facing the x axis.
   auto derivative1 =
-      euler_integrator.Integrate(State({0, 0, 0}, {}), input, 0.1);
+      euler_integrator.Step(State({0, 0, 0}, {}), input, 0.1);
 }
 
 }  // namespace
