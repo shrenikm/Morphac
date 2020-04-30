@@ -18,10 +18,11 @@ State Integrator::Integrate(const State& state, const Input& input,
   double elapsed_time = 0.0;
   auto updated_state = state;
   while (elapsed_time < time) {
-    updated_state = Step(updated_state, input, dt);
     // In case dt isn't a factor of time, we want to make sure that the last
     // step is integrated with the correct dt (Which will be lesser than dt).
-    elapsed_time += min(dt, time - elapsed_time);
+    double step_time = min(dt, time - elapsed_time);
+    updated_state = Step(updated_state, input, step_time);
+    elapsed_time += step_time;
   }
 
   return updated_state;

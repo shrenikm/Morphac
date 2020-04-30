@@ -6,6 +6,7 @@
 
 namespace {
 
+using std::pow;
 using std::srand;
 
 using Eigen::VectorXd;
@@ -74,12 +75,28 @@ TEST_F(IntegratorTest, Integrate) {
   SomeIntegrator integrator{model};
 
   // Testing trivial integration.
+  auto initial_state = State({1., 2., 0.}, {3., 4.});
 
   // When the time is zero, we should obtain the same state
   State integrated_state =
-      integrator.Integrate(State({1, 2, 0}, {}), Input({1, 2}), 0, 0.5);
-  //ASSERT_TRUE(integrated_state.get_state_vector()
+      integrator.Integrate(initial_state, Input({1, 2}), 0, 0.5);
+  ASSERT_TRUE(integrated_state == initial_state);
 
+  // Integration for when time is a multiple of dt.
+  integrated_state =
+      integrator.Integrate(initial_state, Input({2., 3.}), 2., 0.5);
+  ASSERT_TRUE(integrated_state == 39.0625 * initial_state);
+
+  // Integration for when time is not a multiple of dt.
+  integrated_state =
+      integrator.Integrate(initial_state, Input({6., 4.}), 2., 0.3);
+  ASSERT_TRUE(integrated_state == pow(3, 6) * 2 * initial_state);
+
+  // Integration when dt is larger than the total time. In this case, it should
+  // only be integrated over time and not dt.
+  integrated_state =
+      integrator.Integrate(initial_state, Input({6., 4.}), 0.2, 0.5);
+  ASSERT_TRUE(integrated_state == 2. * initial_state);
 }
 
 }  // namespace
