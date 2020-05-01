@@ -7,6 +7,8 @@
 
 namespace {
 
+using std::cos;
+using std::sin;
 using std::srand;
 
 using Eigen::VectorXd;
@@ -42,18 +44,99 @@ TEST_F(EulerIntegratorTest, TrivialStep) {
 }
 
 TEST_F(EulerIntegratorTest, Step) {
-  // Testing actual step computation using the DiffDriveModel.
   DiffDriveModel diffdrive_model{0.1, 0.2};
   EulerIntegrator euler_integrator{diffdrive_model};
 
-  // Testing for horizontal movement. If both wheels move at 0.5 rad/s, the
-  // angular velocity is zero (Doesn't turn) and the linear velocity is
-  // v * (wr + wl)/2 = 0.1 * (0.5 + 0.5)/2 = 0.05
-  Input input({0.5, 0.5});
+  // Linear velocity = r * (wr + wl) / 2
+  // Angular vellocity = r * (wr - wl) / l
+
+  // Linear velocity = 0.05
+  // Angular velocity = 0
+  Input input1({0.5, 0.5});
+  // Linear velocity = -0.05
+  // Angular velocity = 0
+  Input input2({-0.5, -0.5});
+  // Linear velocity = 0
+  // Angular velocity = 0.01
+  Input input3({-0.5, 0.5});
+  // Linear velocity = 0
+  // Angular velocity = -0.01
+  Input input4({0.5, -0.5});
 
   // First we test for when the robot is facing the x axis.
-  auto derivative1 =
-      euler_integrator.Step(State({0, 0, 0}, {}), input, 0.1);
+  // 0.5 rad/s for 0.1 seconds moves us forward by 0.05 * 0.1 seconds
+  auto updated_state = euler_integrator.Step(State({0, 0, 0}, {}), input1, 0.1);
+  ASSERT_TRUE(updated_state == State({0.005, 0, 0}, {}));
+
+  // Moving backwards.
+  updated_state = euler_integrator.Step(State({0, 0, 0}, {}), input2, 0.1);
+  ASSERT_TRUE(updated_state == State({-0.005, 0, 0}, {}));
+
+  // Turning in place to the left.
+  // 0.5 rad/s for 0.1 seconds. (Angular velocity so only theta changes).
+  updated_state = euler_integrator.Step(State({0, 0, 0}, {}), input3, 0.1);
+  ASSERT_TRUE(updated_state == State({0, 0, 0.05}, {}));
+
+  // Turning in place to the right.
+  updated_state = euler_integrator.Step(State({0, 0, 0}, {}), input4, 0.1);
+  ASSERT_TRUE(updated_state == State({0, 0, -0.05}, {}));
+
+  // Straight line facing a 45 degree angle.
+  updated_state =
+      euler_integrator.Step(State({1., 2., M_PI / 4}, {}), input1, 0.1);
+  ASSERT_TRUE(updated_state == State({1 + 0.005 * cos(M_PI / 4),
+                                      2 + 0.005 * sin(M_PI / 4), M_PI / 4},
+                                     {}));
+
+  // Angled straight line backwards.
+  updated_state =
+      euler_integrator.Step(State({1., 2., M_PI / 4}, {}), input2, 0.1);
+  ASSERT_TRUE(updated_state == State({1 - 0.005 * cos(M_PI / 4),
+                                      2 - 0.005 * sin(M_PI / 4), M_PI / 4},
+                                     {}));
+}
+
+TEST_F(EulerIntegratorTest, Integrate) {
+  DiffDriveModel diffdrive_model{0.1, 0.2};
+  EulerIntegrator euler_integrator{diffdrive_model};
+
+  // Linear velocity = 0.05
+  // Angular velocity = 0
+  Input input1({0.5, 0.5});
+  // Linear velocity = -0.05
+  // Angular velocity = 0
+  Input input2({-0.5, -0.5});
+  // Linear velocity = 0
+  // Angular velocity = 0.01
+  Input input3({-0.5, 0.5});
+  // Linear velocity = 0
+  // Angular velocity = -0.01
+  Input input4({0.5, -0.5});
+
+  // Integrating forward.
+  auto updated_state =
+      euler_integrator.Integrate(State(3, 0), input1, 10, 0.001);
+  ASSERT_TRUE(updated_state == State({0.5, 0, 0}, {}));
+
+  // Backward.
+  updated_state = euler_integrator.Integrate(State(3, 0), input2, 10, 0.001);
+  ASSERT_TRUE(updated_state == State({-0.5, 0, 0}, {}));
+
+  // Turn in place by 45 degrees to the left. For an angular velocity (theta) of
+  // 0.5 (using input3), we need to turn by (pi/2) / 0.5 seconds.
+  updated_state = euler_integrator.Integrate(State(3, 0), input3, M_PI, 0.001);
+  ASSERT_TRUE(updated_state == State({0, 0, M_PI / 2}, {}));
+
+  // Turn in place by 135 degrees to the right. For an angular velocity (theta)
+  // of 0.5 (using input4), we need to turn by (3*pi/2) / 0.5 seconds.
+  updated_state =
+      euler_integrator.Integrate(State(3, 0), input4, 3 * M_PI, 0.001);
+  ASSERT_TRUE(updated_state == State({0, 0, -3 * M_PI / 2}, {}));
+
+  // Trace a circular path and come back to the starting position.
+  updated_state = euler_integrator.Integrate(
+      State({0, 0, M_PI / 2}, {}), Input({2, 1}), (2 * M_PI) / 0.1, 0.001);
+  std::cout << updated_state << std::endl;
 }
 
 }  // namespace
