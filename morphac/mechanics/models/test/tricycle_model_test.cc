@@ -98,15 +98,15 @@ TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
   TricycleModel tricycle_model{1, 1};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{2}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 0), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{5, 0}, Input{2}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(5, 0), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 1}, Input{2}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 1), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{1}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{3}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 0), Input(3)),
                std::invalid_argument);
 }
 

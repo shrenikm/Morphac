@@ -57,15 +57,15 @@ TEST_F(DubinModelTest, InvalidDerivativeComputation) {
   DubinModel dubin_model{1.0};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, Input{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(2, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{4, 0}, Input{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(4, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 1}, Input{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(3, 1), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, Input{0}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(3, 0), Input(0)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, Input{2}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(3, 0), Input(2)),
                std::invalid_argument);
 }
 

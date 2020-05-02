@@ -94,15 +94,15 @@ TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
   DiffDriveModel diffdrive_model{1, 1};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State{2, 0}, Input{2}),
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(2, 0), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State{4, 0}, Input{2}),
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(4, 0), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State{3, 1}, Input{2}),
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(3, 1), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State{3, 0}, Input{1}),
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(3, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State{3, 0}, Input{3}),
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(3, 0), Input(3)),
                std::invalid_argument);
 }
 
