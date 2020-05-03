@@ -50,3 +50,35 @@ foreach(file ${UTILS_SRC})
 endforeach()
 
 
+# Tests
+# -------------------------------------------------
+
+# Utils test source files.
+set(UTILS_TEST_SRC
+
+  angle_utils_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${UTILS_TEST_SRC})
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
+
+  add_executable(
+    ${test_name}
+    ${UTILS_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
+endforeach()
+
+# Linking depending libraries.
+target_link_libraries(angle_utils_test
+  PUBLIC
+  gtest_main angle_utils
+)
+
+
