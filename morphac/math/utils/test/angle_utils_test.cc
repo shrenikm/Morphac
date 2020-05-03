@@ -63,6 +63,9 @@ TEST_F(AngleUtilsTest, NormalizeAngle) {
   ASSERT_NEAR(NormalizeAngle(5 * M_PI / 3), -M_PI / 3, precision_);
 
   // Angles that are negative in the first two quadrants.
+  ASSERT_NEAR(NormalizeAngle(-4 * M_PI / 3), 2 * M_PI / 3, precision_);
+  ASSERT_NEAR(NormalizeAngle(-3 * M_PI / 2), M_PI / 2, precision_);
+  ASSERT_NEAR(NormalizeAngle(-5 * M_PI / 3), M_PI / 3, precision_);
 
   // Angles that are > 2 * pi but lie in the first two quadrants.
   ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 3), M_PI / 3, precision_);
