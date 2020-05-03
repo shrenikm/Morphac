@@ -16,17 +16,17 @@ double ToDegrees(const double angle_in_radians) {
 
 double NormalizeAngle(const double angle_in_radians) {
   // Getting the angle within 2 * pi.
-  double normalized_angle = angle_in_radians % (2 * M_PI);
+  double normalized_angle = fmod(angle_in_radians, (2 * M_PI));
 
   // Making sure that abs(angle) <= pi.
   if (normalized_angle > M_PI) {
     // Needs to be negative.
-    return -(2 * PI - normalized_angle);
+    return -(2 * M_PI - normalized_angle);
   }
 
   if (normalized_angle <= -M_PI) {
     // Needs to be positive.
-    return 2 * PI + normalized_angle;
+    return 2 * M_PI + normalized_angle;
   }
 
   return normalized_angle;

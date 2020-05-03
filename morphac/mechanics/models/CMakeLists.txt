@@ -73,6 +73,7 @@ target_link_libraries(tricycle_model
   kinematic_model state input
 )
 
+
 # Tests
 # -------------------------------------------------
 

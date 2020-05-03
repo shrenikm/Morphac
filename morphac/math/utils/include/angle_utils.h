@@ -1,6 +1,10 @@
 #ifndef ANGLE_UTILS_H
 #define ANGLE_UTILS_H
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+
 namespace morphac {
 namespace math {
 namespace utils {
