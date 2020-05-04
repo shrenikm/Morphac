@@ -322,6 +322,20 @@ def test_multiplication(generate_state_list):
     assert np.allclose(res.data, [-4, -6, -5.9])
 
 
+def test_equality(generate_state_list):
+
+    sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
+
+    assert sf1 == State([0, 0], [0, 0])
+    assert sf2 == State([1, 2], [3, 4])
+    assert sf1 != sf2
+
+    # Partial state equality.
+    assert sp1 == State([], [0, 0])
+    assert sp2 == State([4, 6, 5.9], [])
+    assert sp1 != sp2
+
+
 def test_repr(generate_state_list):
 
     for s in generate_state_list:
