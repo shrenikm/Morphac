@@ -324,7 +324,7 @@ def test_multiplication(generate_state_list):
 
 def test_equality(generate_state_list):
 
-    sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
+    sf1, sf2, _, _, _, sp1, sp2 = generate_state_list
 
     assert sf1 == State([0, 0], [0, 0])
     assert sf2 == State([1, 2], [3, 4])

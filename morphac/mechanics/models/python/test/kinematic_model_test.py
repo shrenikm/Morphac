@@ -95,4 +95,11 @@ def test_normalize_state(generate_kinematic_model_list):
     k1, k2, k3 = generate_kinematic_model_list
 
     # Making sure that the default implementation of normalize_state returns
-    # the input state without any changes
+    # the given state without any changes.
+    state1 = State([1., -2., 0.], [1., 1.])
+    state2 = State(1, 1)
+    state3 = State([1, 2], [3, 4, 5, 6])
+
+    assert k1.normalize_state(state1) == state1
+    assert k2.normalize_state(state2) == state2
+    assert k3.normalize_state(state3) == state3

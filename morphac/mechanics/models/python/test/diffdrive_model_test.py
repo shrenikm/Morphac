@@ -98,3 +98,13 @@ def test_derivative_computation(generate_diffdrive_model_list):
         d2.compute_state_derivative(State(2, 0), Input(2))
     with pytest.raises(ValueError):
         d2.compute_state_derivative(State(3, 0), Input(3))
+
+
+def test_normalize_state():
+
+    diffdrive_model = DiffDriveModel(1, 1)
+
+    # As the cpp side tests the actual computation, we just check that the
+    # normalize_state interface works.
+
+    assert diffdrive_model.normalize_state(State(3, 0)) == State(3, 0)

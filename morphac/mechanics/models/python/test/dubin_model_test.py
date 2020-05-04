@@ -74,3 +74,13 @@ def test_derivative_computation(generate_dubin_model_list):
         d2.compute_state_derivative(State(2, 0), Input(1))
     with pytest.raises(ValueError):
         d2.compute_state_derivative(State(3, 0), Input(2))
+
+
+def test_normalize_state():
+
+    dubin_model = DubinModel(1)
+
+    # As the cpp side tests the actual computation, we just check that the
+    # normalize_state interface works.
+
+    assert dubin_model.normalize_state(State(3, 0)) == State(3, 0)

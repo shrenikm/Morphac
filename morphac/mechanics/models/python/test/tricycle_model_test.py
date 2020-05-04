@@ -98,3 +98,13 @@ def test_derivative_computation(generate_tricycle_model_list):
         t2.compute_state_derivative(State(3, 0), Input(2))
     with pytest.raises(ValueError):
         t2.compute_state_derivative(State(4, 0), Input(3))
+
+
+def test_normalize_state():
+
+    tricycle_model = TricycleModel(1, 1)
+
+    # As the cpp side tests the actual computation, we just check that the
+    # normalize_state interface works.
+
+    assert tricycle_model.normalize_state(State(4, 0)) == State(4, 0)
