@@ -18,6 +18,7 @@ void define_diffdrive_model_binding(py::module& m) {
                       py::arg("length"));
   diffdrive_model.def("compute_state_derivative",
                       &DiffDriveModel::ComputeStateDerivative);
+  diffdrive_model.def("normalize_state", &DiffDriveModel::NormalizeState);
   diffdrive_model.def_readonly("radius", &DiffDriveModel::radius);
   diffdrive_model.def_readonly("length", &DiffDriveModel::length);
   diffdrive_model.def_readonly("size_pose", &KinematicModel::size_pose);

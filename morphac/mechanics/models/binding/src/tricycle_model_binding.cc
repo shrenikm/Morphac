@@ -17,6 +17,7 @@ void define_tricycle_model_binding(py::module& m) {
                      py::arg("length"));
   tricycle_model.def("compute_state_derivative",
                      &TricycleModel::ComputeStateDerivative);
+  tricycle_model.def("normalize_state", &TricycleModel::NormalizeState);
   tricycle_model.def_readonly("radius", &TricycleModel::radius);
   tricycle_model.def_readonly("length", &TricycleModel::length);
   tricycle_model.def_readonly("size_pose", &KinematicModel::size_pose);
