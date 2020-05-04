@@ -106,6 +106,22 @@ TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
                std::invalid_argument);
 }
 
+TEST_F(DiffDriveModelTest, StateNormalization) {
+  DiffDriveModel diffdrive_model{1, 1};
+
+  // Making sure that the angle get normalized.
+  State state1({0, 0, 2 * M_PI}, {});
+  State state2({0, 0, 2 * M_PI + 4 * M_PI / 3.}, {});
+  State state3({0, 0, -2 * M_PI - 4 * M_PI / 3.}, {});
+  State normalized_state1({0, 0, 0}, {});
+  State normalized_state2({0, 0, -2 * M_PI / 3.}, {});
+  State normalized_state3({0, 0, 2 * M_PI / 3.}, {});
+
+  ASSERT_TRUE(diffdrive_model.NormalizeState(state1) == normalized_state1);
+  ASSERT_TRUE(diffdrive_model.NormalizeState(state2) == normalized_state2);
+  ASSERT_TRUE(diffdrive_model.NormalizeState(state3) == normalized_state3);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {

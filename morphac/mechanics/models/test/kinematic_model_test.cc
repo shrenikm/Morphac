@@ -102,7 +102,7 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
       expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
 }
 
-TEST_F(KinematicModelTest, NormalizeState) {
+TEST_F(KinematicModelTest, StateNormalization) {
   // Making sure that the NormalizeState interface works.
   CustomKinematicModel model{4, 2, 2, 0};
   State state({1, 2, 3, 4}, {5, 6});
