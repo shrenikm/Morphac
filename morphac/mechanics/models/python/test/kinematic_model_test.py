@@ -88,3 +88,11 @@ def test_derivative_computation(generate_kinematic_model_list):
     assert np.allclose(der1.data, [15. + 3.45] * 5)
     assert np.allclose(der2.data, [-2] * 2)
     assert np.allclose(der3.data, [18 + 10] * 6)
+
+
+def test_normalize_state(generate_kinematic_model_list):
+
+    k1, k2, k3 = generate_kinematic_model_list
+
+    # Making sure that the default implementation of normalize_state returns
+    # the input state without any changes

@@ -34,15 +34,6 @@ class CustomKinematicModel : public KinematicModel {
     return derivative;
   }
 
-  State NormalizeState(const State& state) const override {
-    State normalized_state = state;
-    for (int i = 0; i < normalized_state.get_size(); ++i) {
-      normalized_state(i) = 1. / normalized_state(i);
-    }
-
-    return normalized_state;
-  }
-
   double a;
 };
 
@@ -104,11 +95,12 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
 
 TEST_F(KinematicModelTest, StateNormalization) {
   // Making sure that the NormalizeState interface works.
+  // As we don't override NormalizeState in SomeKinematicModel, calling this
+  // function should return the same state.
   CustomKinematicModel model{4, 2, 2, 0};
   State state({1, 2, 3, 4}, {5, 6});
 
-  ASSERT_TRUE(model.NormalizeState(state) ==
-              State({1., 0.5, 1. / 3., 0.25}, {0.2, 1. / 6.}));
+  ASSERT_TRUE(model.NormalizeState(state) == state);
 }
 
 }  // namespace
