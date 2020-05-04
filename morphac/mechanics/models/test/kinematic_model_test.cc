@@ -13,7 +13,8 @@ using morphac::mechanics::models::KinematicModel;
 
 class CustomKinematicModel : public KinematicModel {
  public:
-  CustomKinematicModel(int size_pose, int size_velocity, int size_input, double a)
+  CustomKinematicModel(int size_pose, int size_velocity, int size_input,
+                       double a)
       : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
   State ComputeStateDerivative(const State& state,
@@ -33,6 +34,15 @@ class CustomKinematicModel : public KinematicModel {
     return derivative;
   }
 
+  State NormalizeState(const State& state) const override {
+    State normalized_state = state;
+    for (int i = 0; i < normalized_state.get_size(); ++i) {
+      normalized_state(i) = 1. / normalized_state(i);
+    }
+
+    return normalized_state;
+  }
+
   double a;
 };
 
@@ -44,8 +54,8 @@ class KinematicModelTest : public ::testing::Test {
 };
 
 TEST_F(KinematicModelTest, Sizes) {
-  CustomKinematicModel model1 { 2, 2, 3, 1 };
-  CustomKinematicModel model2 { 20, 25, 13, 2.5 };
+  CustomKinematicModel model1{2, 2, 3, 1};
+  CustomKinematicModel model2{20, 25, 13, 2.5};
 
   ASSERT_EQ(model1.size_pose, 2);
   ASSERT_EQ(model2.size_pose, 20);
@@ -90,6 +100,15 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
   ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
   ASSERT_TRUE(
       expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
+}
+
+TEST_F(KinematicModelTest, NormalizeState) {
+  // Making sure that the NormalizeState interface works.
+  CustomKinematicModel model{4, 2, 2, 0};
+  State state({1, 2, 3, 4}, {5, 6});
+
+  ASSERT_TRUE(model.NormalizeState(state) ==
+              State({1., 0.5, 1. / 3., 0.25}, {0.2, 1. / 6.}));
 }
 
 }  // namespace
