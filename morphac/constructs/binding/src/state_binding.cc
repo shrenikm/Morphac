@@ -29,6 +29,8 @@ void define_state_binding(py::module& m) {
   state.def(py::self *= double());
   state.def(py::self * double());
   state.def(double() * py::self);
+  state.def(py::self == py::self);
+  state.def(py::self != py::self);
   state.def("__repr__", &State::ToString);
   // Pose and Velocity size are not exposed as we can always call it using
   // state.pose.size and state.velocity.size

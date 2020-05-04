@@ -23,6 +23,8 @@ void define_velocity_binding(py::module& m) {
   velocity.def(py::self *= double());
   velocity.def(py::self * double());
   velocity.def(double() * py::self);
+  velocity.def(py::self == py::self);
+  velocity.def(py::self != py::self);
   velocity.def("__repr__", &Velocity::ToString);
   velocity.def_property_readonly("size", &Velocity::get_size);
   // vector is mapped to data in python to keep it consistent and pythonic.

@@ -23,6 +23,8 @@ void define_pose_binding(py::module& m) {
   pose.def(py::self *= double());
   pose.def(py::self * double());
   pose.def(double() * py::self);
+  pose.def(py::self == py::self);
+  pose.def(py::self != py::self);
   pose.def("__repr__", &Pose::ToString);
   pose.def_property_readonly("size", &Pose::get_size);
   // vector is mapped to data in python to keep it consistent and pythonic.

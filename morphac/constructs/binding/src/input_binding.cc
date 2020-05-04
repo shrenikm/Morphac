@@ -23,6 +23,8 @@ void define_input_binding(py::module& m) {
   input.def(py::self *= double());
   input.def(py::self * double());
   input.def(double() * py::self);
+  input.def(py::self == py::self);
+  input.def(py::self != py::self);
   input.def("__repr__", &Input::ToString);
   input.def_property_readonly("size", &Input::get_size);
   // vector is mapped to data in python to keep it consistent and pythonic.
