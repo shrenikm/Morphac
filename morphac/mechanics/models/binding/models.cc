@@ -7,9 +7,6 @@
 #include "mechanics/models/binding/include/kinematic_model_binding.h"
 #include "mechanics/models/binding/include/tricycle_model_binding.h"
 
-#include "mechanics/models/include/diffdrive_model.h"
-#include "mechanics/models/include/kinematic_model.h"
-
 namespace morphac {
 namespace mechanics {
 namespace models {
