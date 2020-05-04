@@ -62,17 +62,17 @@ target_link_libraries(kinematic_model
 
 target_link_libraries(dubin_model
   PUBLIC
-  kinematic_model state input
+  kinematic_model state input angle_utils
 )
 
 target_link_libraries(diffdrive_model
   PUBLIC
-  kinematic_model state input
+  kinematic_model state input angle_utils
 )
 
 target_link_libraries(tricycle_model
   PUBLIC
-  kinematic_model state input
+  kinematic_model state input angle_utils
 )
 
 

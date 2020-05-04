@@ -23,6 +23,13 @@ class KinematicModel {
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input) const = 0;
 
+  // Function to normalize the given state acccording to the model. This may
+  // involve angle normalization, positional normalization, etc.
+  // This is useful in cases like simulation where we expect the state to always
+  // be primed.
+  virtual morphac::constructs::State NormalizeState(
+      const morphac::constructs::State& state) const;
+
   const int size_pose;
   const int size_velocity;
   const int size_input;

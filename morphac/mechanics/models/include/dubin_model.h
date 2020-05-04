@@ -8,6 +8,8 @@
 #include "constructs/include/input.h"
 #include "constructs/include/state.h"
 
+#include "math/utils/include/angle_utils.h"
+
 #include "mechanics/models/include/kinematic_model.h"
 
 namespace morphac {
@@ -21,6 +23,9 @@ class DubinModel : public morphac::mechanics::models::KinematicModel {
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input) const override;
+
+  morphac::constructs::State NormalizeState(
+      const morphac::constructs::State& state) const override;
 
   const double speed;
 };

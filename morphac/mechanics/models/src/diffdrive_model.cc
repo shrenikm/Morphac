@@ -10,6 +10,7 @@ using std::sin;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+using morphac::math::utils::NormalizeAngle;
 using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;
@@ -49,6 +50,14 @@ State DiffDriveModel::ComputeStateDerivative(const State& state,
   derivative.set_pose_vector(pose_derivative);
 
   return derivative;
+}
+
+State DiffDriveModel::NormalizeState(const State& state) const {
+  // For the diffdrive model, we normalize the pose angle.
+  State normalized_state = state;
+  normalized_state(2) = NormalizeAngle(normalized_state(2));
+
+  return normalized_state;
 }
 
 }  // namespace models
