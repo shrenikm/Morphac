@@ -122,21 +122,23 @@ TEST_F(EulerIntegratorTest, Integrate) {
   updated_state = euler_integrator.Integrate(State(3, 0), input2, 10, 0.001);
   ASSERT_TRUE(updated_state == State({-0.5, 0, 0}, {}));
 
-  // Turn in place by 45 degrees to the left. For an angular velocity (theta) of
+  // Turn in place by 90 degrees to the left. For an angular velocity (theta) of
   // 0.5 (using input3), we need to turn by (pi/2) / 0.5 seconds.
   updated_state = euler_integrator.Integrate(State(3, 0), input3, M_PI, 0.001);
   ASSERT_TRUE(updated_state == State({0, 0, M_PI / 2}, {}));
 
-  // Turn in place by 135 degrees to the right. For an angular velocity (theta)
+  // Turn in place by 270 degrees to the right. For an angular velocity (theta)
   // of 0.5 (using input4), we need to turn by (3*pi/2) / 0.5 seconds.
   updated_state =
       euler_integrator.Integrate(State(3, 0), input4, 3 * M_PI, 0.001);
-  ASSERT_TRUE(updated_state == State({0, 0, -3 * M_PI / 2}, {}));
+  // As the output state is normalized, the final angle would be positive as it
+  // lies in the second quadrant.
+  ASSERT_TRUE(updated_state == State({0, 0, M_PI / 2}, {}));
 
   // Trace a circular path and come back to the starting position.
   updated_state = euler_integrator.Integrate(
       State({0, 0, M_PI / 2}, {}), Input({2, 1}), (2 * M_PI) / 0.1, 0.001);
-  std::cout << updated_state << std::endl;
+  ASSERT_TRUE(updated_state == State({0, 0, M_PI / 2}, {}));
 }
 
 }  // namespace

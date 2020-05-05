@@ -92,7 +92,7 @@ bool operator==(const Velocity& velocity1, const Velocity& velocity2) {
   // Two velocities are equal if they are of the same size and their vector
   // values are equal.
   if (velocity1.size_ == velocity2.size_) {
-    if (velocity1.velocity_vector_.isApprox(velocity2.velocity_vector_)) {
+    if (velocity1.velocity_vector_.isApprox(velocity2.velocity_vector_, 1e-6)) {
       return true;
     }
   }

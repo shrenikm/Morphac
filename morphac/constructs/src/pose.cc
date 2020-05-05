@@ -83,7 +83,7 @@ bool operator==(const Pose& pose1, const Pose& pose2) {
   // Two poses are equal if they are of the same size and their vector values
   // are equal.
   if (pose1.size_ == pose2.size_) {
-    if (pose1.pose_vector_.isApprox(pose2.pose_vector_)) {
+    if (pose1.pose_vector_.isApprox(pose2.pose_vector_, 1e-6)) {
       return true;
     }
   }

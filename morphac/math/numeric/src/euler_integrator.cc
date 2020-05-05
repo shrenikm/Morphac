@@ -16,7 +16,9 @@ State EulerIntegrator::Step(const State& state, const Input& input,
                             double dt) const {
   auto derivative = kinematic_model_.ComputeStateDerivative(state, input);
 
-  return state + (dt * derivative);
+  // Integrate, normalize and return. We normalize to make sure that the output
+  // state is good to use in simulations, etc directly.
+  return kinematic_model_.NormalizeState(state + (dt * derivative));
 }
 
 }  // namespace numeric

@@ -86,7 +86,7 @@ bool operator==(const Input& input1, const Input& input2) {
   // Two inputs are equal if they are of the same size and their vector values
   // are equal.
   if (input1.size_ == input2.size_) {
-    if (input1.input_vector_.isApprox(input2.input_vector_)) {
+    if (input1.input_vector_.isApprox(input2.input_vector_, 1e-6)) {
       return true;
     }
   }
