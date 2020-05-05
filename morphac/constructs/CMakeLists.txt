@@ -30,10 +30,10 @@ add_subdirectory(binding)
 set(CONSTRUCTS_SRC
 
   coordinate2D.cc
-  pose.cc
-  velocity.cc
   input.cc
+  pose.cc
   state.cc
+  velocity.cc
 )
 
 foreach(file ${CONSTRUCTS_SRC})
@@ -69,10 +69,10 @@ target_link_libraries(state
 set(CONSTRUCTS_TEST_SRC
 
   coordinate2D_test.cc
-  pose_test.cc
-  velocity_test.cc
   input_test.cc
+  pose_test.cc
   state_test.cc
+  velocity_test.cc
 )
 
 # Creating the test executables.
@@ -97,23 +97,23 @@ target_link_libraries(coordinate2D_test
   gtest_main coordinate2D
 )
 
-target_link_libraries(pose_test
-  PUBLIC
-  gtest_main pose
-)
-
-target_link_libraries(velocity_test
-  PUBLIC
-  gtest_main velocity
-)
-
 target_link_libraries(input_test
   PUBLIC
   gtest_main input
 )
 
+target_link_libraries(pose_test
+  PUBLIC
+  gtest_main pose
+)
+
 target_link_libraries(state_test
   PUBLIC
   gtest_main state
+)
+
+target_link_libraries(velocity_test
+  PUBLIC
+  gtest_main velocity
 )
 

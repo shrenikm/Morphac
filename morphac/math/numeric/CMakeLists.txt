@@ -29,8 +29,9 @@ add_subdirectory(binding)
 # Numeric source files.
 set(NUMERIC_SRC
 
-  integrator.cc
   euler_integrator.cc
+  integrator.cc
+  mid_point_integrator.cc
 )
 
 foreach(file ${NUMERIC_SRC})
@@ -53,14 +54,19 @@ foreach(file ${NUMERIC_SRC})
 endforeach()
 
 # Adding library dependencies.
-target_link_libraries(integrator
-  PUBLIC
-  kinematic_model
-)
-
 target_link_libraries(euler_integrator
   PUBLIC
-  integrator kinematic_model
+  integrator kinematic_model state input
+)
+
+target_link_libraries(integrator
+  PUBLIC
+  kinematic_model state input
+)
+
+target_link_libraries(mid_point_integrator
+  PUBLIC
+  integrator kinematic_model state input
 )
 
 

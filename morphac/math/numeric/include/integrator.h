@@ -1,6 +1,8 @@
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
+#include "constructs/include/input.h"
+#include "constructs/include/state.h"
 #include "mechanics/models/include/kinematic_model.h"
 
 namespace morphac {
@@ -28,9 +30,13 @@ class Integrator {
   // together individual calls to Step so that don't lose too much accuracy.
   // We asume that the given state is the initial state and the same control
   // input is applied throughout the time step.
-  morphac::constructs::State Integrate(const morphac::constructs::State& state,
-                                       const morphac::constructs::Input& input,
-                                       const double time, const double dt);
+  // A solid base implementation is provded that need not be overriden unless
+  // the subclass has a better/more efficient way of handling large time step
+  // integration.
+  virtual morphac::constructs::State Integrate(
+      const morphac::constructs::State& state,
+      const morphac::constructs::Input& input, const double time,
+      const double dt);
 
  protected:
   morphac::mechanics::models::KinematicModel& kinematic_model_;
