@@ -767,7 +767,8 @@ TEST_F(StateTest, Equality) {
   ASSERT_TRUE(State(3, 2) != State({0, 0, 0}, {0, 0, 0}));
   ASSERT_TRUE(State(3, 2) != State({0, 0}, {0, 0}));
   ASSERT_TRUE(State({1, 2}, {3, 4}) != State({5, 6}, {7, 8}));
-  ASSERT_TRUE(State({1, 2}, {3, 4}) != State({1, 2}, {3, 4.000001}));
+  // Inequality for one digit more than the precision.
+  ASSERT_TRUE(State({1, 2}, {3, 4}) != State({1, 2}, {3, 4.00001}));
 }
 
 TEST_F(StateTest, PartialEquality) {
@@ -787,7 +788,8 @@ TEST_F(StateTest, PartialEquality) {
   ASSERT_TRUE(State(3, 0) != State({0, 0, 0}, {0}));
   ASSERT_TRUE(State(3, 0) != State({0, 0}, {}));
   ASSERT_TRUE(State({1, 2, 3}, {}) != State({4, 5, 6}, {}));
-  ASSERT_TRUE(State({1, 2, 3}, {}) != State({1, 2, 3.000001}, {}));
+  // Inequality for one digit more than the precision.
+  ASSERT_TRUE(State({1, 2, 3}, {}) != State({1, 2, 3.00001}, {}));
 
   ASSERT_TRUE(State(0, 3) != State(1, 3));
   ASSERT_TRUE(State(0, 3) != State(0, 2));
@@ -796,7 +798,8 @@ TEST_F(StateTest, PartialEquality) {
   ASSERT_TRUE(State(0, 3) != State({0}, {0, 0, 0}));
   ASSERT_TRUE(State(0, 3) != State({}, {0, 0}));
   ASSERT_TRUE(State({}, {1, 2, 3}) != State({}, {4, 5, 6}));
-  ASSERT_TRUE(State({}, {1, 2, 3}) != State({}, {1, 2, 3.000001}));
+  // Inequality for one digit more than the precision.
+  ASSERT_TRUE(State({}, {1, 2, 3}) != State({}, {1, 2, 3.00001}));
 }
 
 TEST_F(StateTest, StringRepresentation) {

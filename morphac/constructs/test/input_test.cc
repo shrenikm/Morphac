@@ -290,7 +290,8 @@ TEST_F(InputTest, Equality) {
   ASSERT_TRUE(Input(3) != Input(VectorXd::Zero(2)));
   ASSERT_TRUE(Input(2) != Input({0}));
   ASSERT_TRUE(Input({1, 2}) != Input({3, 4}));
-  ASSERT_TRUE(Input({1, 2}) != Input({1, 2.000001}));
+  // Inequality for one digit more than the precision.
+  ASSERT_TRUE(Input({1, 2}) != Input({1, 2.00001}));
 }
 
 TEST_F(InputTest, StringRepresentation) {

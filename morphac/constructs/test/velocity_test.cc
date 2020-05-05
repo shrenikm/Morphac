@@ -296,7 +296,8 @@ TEST_F(VelocityTest, Equality) {
   ASSERT_TRUE(Velocity(3) != Velocity(VectorXd::Zero(2)));
   ASSERT_TRUE(Velocity(2) != Velocity({0}));
   ASSERT_TRUE(Velocity({1, 2}) != Velocity({3, 4}));
-  ASSERT_TRUE(Velocity({1, 2}) != Velocity({1, 2.000001}));
+  // Inequality for one digit more than the precision.
+  ASSERT_TRUE(Velocity({1, 2}) != Velocity({1, 2.00001}));
 }
 
 TEST_F(VelocityTest, StringRepresentation) {
