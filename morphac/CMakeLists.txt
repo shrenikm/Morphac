@@ -16,6 +16,7 @@ add_subdirectory(environments)
 add_subdirectory(math)
 add_subdirectory(mechanics)
 add_subdirectory(robot)
+add_subdirectory(utils)
 
 
 # Installing

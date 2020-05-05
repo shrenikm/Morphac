@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "math/utils/include/angle_utils.h"
+#include "utils/include/angle_utils.h"
 
 namespace {
 

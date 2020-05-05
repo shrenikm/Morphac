@@ -13,8 +13,9 @@ set(CONSTRUCTS_BINDING_INCLUDE_DIR ${CONSTRUCTS_BINDING_DIR}/include)
 set(CONSTRUCTS_BINDING_SRC_DIR ${CONSTRUCTS_BINDING_DIR}/src)
 set(CONSTRUCTS_BINDING_BINARY_DIR ${CONSTRUCTS_BINARY_DIR}/binding)
 set(CONSTRUCTS_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/morphac/constructs
+  ${PYTHON_BINDING_INSTALL_DIR}/constructs
 )
+
 
 # Adding subdirectories
 # -------------------------------------------------

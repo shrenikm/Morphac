@@ -8,7 +8,7 @@
 #include "constructs/include/input.h"
 #include "constructs/include/state.h"
 
-#include "math/utils/include/angle_utils.h"
+#include "utils/include/angle_utils.h"
 
 #include "mechanics/models/include/kinematic_model.h"
 
