@@ -13,7 +13,10 @@ class Environment2DTest : public ::testing::Test {
  protected:
   Environment2DTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 };
 
 TEST_F(Environment2DTest, Construction) {

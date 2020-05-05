@@ -15,7 +15,10 @@ class DubinModelTest : public ::testing::Test {
  protected:
   DubinModelTest() {}
 
-  void SetUp() override{};
+  void SetUp() override{
+    // Set random seed for Eigen.
+    srand(7);
+  };
 };
 
 TEST_F(DubinModelTest, Construction) {

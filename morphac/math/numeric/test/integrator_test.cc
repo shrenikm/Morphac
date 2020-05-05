@@ -33,7 +33,10 @@ class IntegratorTest : public ::testing::Test {
  protected:
   IntegratorTest() {}
 
-  void SetUp() override { srand(7); }
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 };
 
 TEST_F(IntegratorTest, Step) {

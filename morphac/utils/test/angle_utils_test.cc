@@ -12,7 +12,10 @@ class AngleUtilsTest : public ::testing::Test {
  protected:
   AngleUtilsTest() : precision_(1e-6) {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
   double precision_;
 };
 

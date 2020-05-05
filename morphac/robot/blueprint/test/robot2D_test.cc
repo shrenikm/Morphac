@@ -48,6 +48,7 @@ class Robot2DTest : public ::testing::Test {
   Robot2DTest() {}
 
   void SetUp() override {
+    // Set random seed for Eigen.
     srand(7);
 
     pose_vector_ = VectorXd::Random(3);

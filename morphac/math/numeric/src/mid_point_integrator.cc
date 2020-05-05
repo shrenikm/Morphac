@@ -23,6 +23,7 @@ State MidPointIntegrator::Step(const State& state, const Input& input,
       kinematic_model_.ComputeStateDerivative(mid_point_state, input);
 
   // Using the derivative mid point to compute the updated state value.
+  // Also normalizing the state before returning.
   return kinematic_model_.NormalizeState(state + (dt * mid_point_derivative));
 }
 

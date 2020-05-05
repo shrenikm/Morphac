@@ -78,6 +78,7 @@ set(NUMERIC_TEST_SRC
 
   euler_integrator_test.cc
   integrator_test.cc
+  mid_point_integrator_test.cc
 )
 
 # Creating the test executables.
@@ -97,12 +98,17 @@ foreach(file ${NUMERIC_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
+target_link_libraries(euler_integrator_test
+  PUBLIC
+  gtest_main euler_integrator diffdrive_model
+)
+
 target_link_libraries(integrator_test
   PUBLIC
   gtest_main integrator diffdrive_model
 )
 
-target_link_libraries(euler_integrator_test
+target_link_libraries(mid_point_integrator_test
   PUBLIC
-  gtest_main euler_integrator diffdrive_model
+  gtest_main mid_point_integrator diffdrive_model
 )

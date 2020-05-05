@@ -15,7 +15,10 @@ class TricycleModelTest : public ::testing::Test {
  protected:
   TricycleModelTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 };
 
 TEST_F(TricycleModelTest, Construction) {

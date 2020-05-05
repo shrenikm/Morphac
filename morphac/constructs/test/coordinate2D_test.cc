@@ -14,7 +14,10 @@ class Coordinate2DTest : public ::testing::Test {
  protected:
   Coordinate2DTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 
   Coordinate2D<int> default_coord_int_{};
   Coordinate2D<int> zero_coord_int_{1, 2};
