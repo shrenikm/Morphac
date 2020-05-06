@@ -32,6 +32,7 @@ set(NUMERIC_SRC
   euler_integrator.cc
   integrator.cc
   mid_point_integrator.cc
+  rk4_integrator.cc
 )
 
 foreach(file ${NUMERIC_SRC})
@@ -69,6 +70,11 @@ target_link_libraries(mid_point_integrator
   integrator kinematic_model state input
 )
 
+target_link_libraries(rk4_integrator
+  PUBLIC
+  integrator kinematic_model state input
+)
+
 
 # Tests
 # -------------------------------------------------
@@ -79,6 +85,7 @@ set(NUMERIC_TEST_SRC
   euler_integrator_test.cc
   integrator_test.cc
   mid_point_integrator_test.cc
+  rk4_integrator_test.cc
 )
 
 # Creating the test executables.
@@ -111,4 +118,9 @@ target_link_libraries(integrator_test
 target_link_libraries(mid_point_integrator_test
   PUBLIC
   gtest_main mid_point_integrator diffdrive_model
+)
+
+target_link_libraries(rk4_integrator_test
+  PUBLIC
+  gtest_main rk4_integrator diffdrive_model
 )
