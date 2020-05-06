@@ -49,7 +49,11 @@ target_include_directories(${module_name}
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
-  coordinate2D input pose velocity state
+  coordinate2D
+  input
+  pose
+  velocity
+  state
 )
 
 # Setting binding target properties.

@@ -80,7 +80,8 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(angle_utils_test
   PUBLIC
-  gtest_main angle_utils
+  gtest_main
+  angle_utils
 )
 
 

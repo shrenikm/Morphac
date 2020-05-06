@@ -75,6 +75,7 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(environment2D_test
   PUBLIC
-  gtest_main environment2D
+  gtest_main
+  environment2D
 )
 

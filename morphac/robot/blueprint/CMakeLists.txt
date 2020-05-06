@@ -53,7 +53,12 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(robot2D
   PUBLIC
-  input pose state velocity kinematic_model footprint2D
+  input
+  pose
+  state
+  velocity
+  kinematic_model
+  footprint2D
 )
 
 
@@ -86,11 +91,13 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(footprint2D_test
   PUBLIC
-  gtest_main footprint2D
+  gtest_main
+  footprint2D
 )
 
 target_link_libraries(robot2D_test
   PUBLIC
-  gtest_main robot2D
+  gtest_main
+  robot2D
 )
 

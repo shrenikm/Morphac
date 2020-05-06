@@ -57,24 +57,34 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(rk4_integrator
   PUBLIC
-  integrator kinematic_model state input
+  integrator
+  kinematic_model
+  state
+  input
 )
 
 target_link_libraries(euler_integrator
   PUBLIC
-  integrator kinematic_model state input
+  integrator
+  kinematic_model
+  state
+  input
 )
 
 target_link_libraries(integrator
   PUBLIC
-  kinematic_model state input
+  kinematic_model
+  state
+  input
 )
 
 target_link_libraries(mid_point_integrator
   PUBLIC
-  integrator kinematic_model state input
+  integrator
+  kinematic_model
+  state
+  input
 )
-
 
 
 # Tests
@@ -108,20 +118,28 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(integrator_test
   PUBLIC
-  gtest_main integrator diffdrive_model
+  gtest_main
+  integrator
+  diffdrive_model
 )
 
 target_link_libraries(euler_integrator_test
   PUBLIC
-  gtest_main euler_integrator diffdrive_model
+  gtest_main
+  euler_integrator
+  diffdrive_model
 )
 
 target_link_libraries(mid_point_integrator_test
   PUBLIC
-  gtest_main mid_point_integrator diffdrive_model
+  gtest_main
+  mid_point_integrator
+  diffdrive_model
 )
 
 target_link_libraries(rk4_integrator_test
   PUBLIC
-  gtest_main rk4_integrator diffdrive_model
+  gtest_main
+  rk4_integrator
+  diffdrive_model
 )

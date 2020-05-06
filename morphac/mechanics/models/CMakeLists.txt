@@ -57,22 +57,32 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(kinematic_model
   PUBLIC
-  state input
+  state
+  input
 )
 
 target_link_libraries(diffdrive_model
   PUBLIC
-  kinematic_model state input angle_utils
+  kinematic_model
+  state
+  input
+  angle_utils
 )
 
 target_link_libraries(dubin_model
   PUBLIC
-  kinematic_model state input angle_utils
+  kinematic_model
+  state
+  input
+  angle_utils
 )
 
 target_link_libraries(tricycle_model
   PUBLIC
-  kinematic_model state input angle_utils
+  kinematic_model
+  state
+  input
+  angle_utils
 )
 
 
@@ -107,20 +117,24 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(tricycle_model_test
   PUBLIC
-  gtest_main tricycle_model
+  gtest_main
+  tricycle_model
 )
 
 target_link_libraries(diffdrive_model_test
   PUBLIC
-  gtest_main diffdrive_model
+  gtest_main
+  diffdrive_model
 )
 
 target_link_libraries(dubin_model_test
   PUBLIC
-  gtest_main dubin_model
+  gtest_main
+  dubin_model
 )
 
 target_link_libraries(kinematic_model_test
   PUBLIC
-  gtest_main kinematic_model
+  gtest_main
+  kinematic_model
 )

@@ -58,7 +58,8 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(state
   PUBLIC
-  pose velocity
+  pose
+  velocity
 )
 
 
@@ -94,26 +95,30 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(coordinate2D_test
   PUBLIC
-  gtest_main coordinate2D
+  gtest_main
+  coordinate2D
 )
 
 target_link_libraries(input_test
   PUBLIC
-  gtest_main input
+  gtest_main
+  input
 )
 
 target_link_libraries(pose_test
   PUBLIC
-  gtest_main pose
+  gtest_main
+  pose
 )
 
 target_link_libraries(state_test
   PUBLIC
-  gtest_main state
+  gtest_main
+  state
 )
 
 target_link_libraries(velocity_test
   PUBLIC
-  gtest_main velocity
+  gtest_main
+  velocity
 )
-

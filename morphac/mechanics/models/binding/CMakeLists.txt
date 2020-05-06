@@ -48,7 +48,12 @@ target_include_directories(${module_name}
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
-  kinematic_model state input diffdrive_model dubin_model tricycle_model
+  kinematic_model
+  state
+  input
+  diffdrive_model
+  dubin_model
+  tricycle_model
 )
 
 # Setting binding target properties.
