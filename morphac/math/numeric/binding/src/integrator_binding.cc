@@ -15,8 +15,10 @@ void define_integrator_binding(py::module& m) {
 
   integrator.def(py::init<KinematicModel&>(), py::arg("kinematic_model"),
                  py::keep_alive<1, 2>());
-  integrator.def("step", &Integrator::Step);
-  integrator.def("integrate", &Integrator::Integrate);
+  integrator.def("step", &Integrator::Step, py::arg("state"), py::arg("input"),
+                 py::arg("dt"));
+  integrator.def("integrate", &Integrator::Integrate, py::arg("state"),
+                 py::arg("input"), py::arg("time"), py::arg("dt"));
 }
 
 }  // namespace binding

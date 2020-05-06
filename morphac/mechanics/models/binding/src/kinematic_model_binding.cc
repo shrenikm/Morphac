@@ -17,7 +17,8 @@ void define_kinematic_model_binding(py::module& m) {
                       py::arg("size_pose"), py::arg("size_velocity"),
                       py::arg("size_input"));
   kinematic_model.def("compute_state_derivative",
-                      &KinematicModel::ComputeStateDerivative);
+                      &KinematicModel::ComputeStateDerivative,
+                      py::arg("robot_state"), py::arg("robot_input"));
   kinematic_model.def("normalize_state", &KinematicModel::NormalizeState);
   kinematic_model.def_readonly("size_pose", &KinematicModel::size_pose);
   kinematic_model.def_readonly("size_velocity", &KinematicModel::size_velocity);

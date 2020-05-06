@@ -228,9 +228,12 @@ def test_derivative_computation(generate_robot2D_list):
     # tested on the cpp side.
     der1 = r1.compute_state_derivative(Input([0, 0]))
     der2 = r2.compute_state_derivative(State([1, 1, 1, 1], []), Input([0, 0]))
+
+    # Test with positional arguments.
     der3 = r3.compute_state_derivative(
-        State([1, 0, 0], [-1, 0]), Input([2, 2, 2, -2, 2]))
-    der4 = r4.compute_state_derivative(Input([-1, 1, -2, 2]))
+        robot_state=State([1, 0, 0], [-1, 0]),
+        robot_input=Input([2, 2, 2, -2, 2]))
+    der4 = r4.compute_state_derivative(robot_input=Input([-1, 1, -2, 2]))
 
     assert np.allclose(der1.data, [0, 0, 0])
     assert np.allclose(der2.data, [0, 0, 0, 0])

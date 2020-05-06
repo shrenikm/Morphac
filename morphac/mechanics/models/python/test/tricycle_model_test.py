@@ -84,7 +84,10 @@ def test_derivative_computation(generate_tricycle_model_list):
 
     # We only test that the function is called and returns properly, not the
     # actual computation as the cpp side tests this.
-    der1 = t1.compute_state_derivative(State([1, 2, 3, 4], []), Input(2))
+
+    # Test with positional arguments.
+    der1 = t1.compute_state_derivative(
+        robot_state=State([1, 2, 3, 4], []), robot_input=Input(2))
 
     assert np.allclose(der1.data, [0, 0, 0, 0])
 

@@ -17,8 +17,11 @@ void define_mid_point_integrator_binding(py::module& m) {
 
   mid_point_integrator.def(py::init<KinematicModel&>(),
                            py::arg("kinematic_model"), py::keep_alive<1, 2>());
-  mid_point_integrator.def("step", &MidPointIntegrator::Step);
-  mid_point_integrator.def("integrate", &MidPointIntegrator::Integrate);
+  mid_point_integrator.def("step", &MidPointIntegrator::Step, py::arg("state"),
+                           py::arg("input"), py::arg("dt"));
+  mid_point_integrator.def("integrate", &MidPointIntegrator::Integrate,
+                           py::arg("state"), py::arg("input"), py::arg("time"),
+                           py::arg("dt"));
 }
 
 }  // namespace binding

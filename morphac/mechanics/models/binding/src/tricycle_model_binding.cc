@@ -16,7 +16,8 @@ void define_tricycle_model_binding(py::module& m) {
   tricycle_model.def(py::init<const double, const double>(), py::arg("radius"),
                      py::arg("length"));
   tricycle_model.def("compute_state_derivative",
-                     &TricycleModel::ComputeStateDerivative);
+                     &TricycleModel::ComputeStateDerivative,
+                     py::arg("robot_state"), py::arg("robot_input"));
   tricycle_model.def("normalize_state", &TricycleModel::NormalizeState);
   tricycle_model.def_readonly("radius", &TricycleModel::radius);
   tricycle_model.def_readonly("length", &TricycleModel::length);

@@ -34,10 +34,12 @@ void define_robot2D_binding(py::module& m) {
               py::arg("initial_state"), py::keep_alive<1, 3>());
   robot2D.def("compute_state_derivative",
               py::overload_cast<const Input&>(&Robot2D::ComputeStateDerivative,
-                                              py::const_));
+                                              py::const_),
+              py::arg("robot_input"));
   robot2D.def("compute_state_derivative",
               py::overload_cast<const State&, const Input&>(
-                  &Robot2D::ComputeStateDerivative, py::const_));
+                  &Robot2D::ComputeStateDerivative, py::const_),
+              py::arg("robot_state"), py::arg("robot_input"));
   robot2D.def_property_readonly("name", &Robot2D::get_name);
   robot2D.def_property_readonly("kinematic_model",
                                 &Robot2D::get_kinematic_model);

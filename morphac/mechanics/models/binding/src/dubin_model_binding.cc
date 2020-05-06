@@ -15,7 +15,8 @@ void define_dubin_model_binding(py::module& m) {
 
   dubin_model.def(py::init<const double>(), py::arg("speed"));
   dubin_model.def("compute_state_derivative",
-                  &DubinModel::ComputeStateDerivative);
+                  &DubinModel::ComputeStateDerivative, py::arg("robot_state"),
+                  py::arg("robot_input"));
   dubin_model.def("normalize_state", &DubinModel::NormalizeState);
   dubin_model.def_readonly("speed", &DubinModel::speed);
   dubin_model.def_readonly("size_pose", &KinematicModel::size_pose);

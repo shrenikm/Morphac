@@ -57,7 +57,10 @@ def test_derivative_computation(generate_dubin_model_list):
 
     # We only test that the function is called and returns properly, not the
     # actual computation as that cpp side tests this.
-    der1 = d1.compute_state_derivative(State([1, 2, 0], []), Input(1))
+
+    # Test with positional arguments.
+    der1 = d1.compute_state_derivative(
+        robot_state=State([1, 2, 0], []), robot_input=Input(1))
 
     # In this case, the input controls the angular velocity and the speed is
     # constant. Hence the robot must move horizontally (theta=0) with the

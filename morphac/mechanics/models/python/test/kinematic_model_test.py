@@ -82,8 +82,11 @@ def test_derivative_computation(generate_kinematic_model_list):
         State([1, 1, 1], [1, 1]), Input([1, 2, 3, 4, 5]))
     der2 = k2.compute_state_derivative(
         State([1], [0]), Input([-2, -1]))
+
+    # Test with positional arguments.
     der3 = k3.compute_state_derivative(
-        State([1, -1], [-0.1, 7, 9.5, 0]), Input([5, 0, -100, -5, 4, 0]))
+        robot_state=State([1, -1], [-0.1, 7, 9.5, 0]),
+        robot_input=Input([5, 0, -100, -5, 4, 0]))
 
     assert np.allclose(der1.data, [15. + 3.45] * 5)
     assert np.allclose(der2.data, [-2] * 2)
