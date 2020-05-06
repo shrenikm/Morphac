@@ -127,6 +127,15 @@ def test_multiplication(generate_velocity_list):
     assert np.allclose((v4 * (-2)).data, ((-2) * v4).data)
 
 
+def test_equality(generate_velocity_list):
+
+    v1, v2, v3, v4 = generate_velocity_list
+
+    assert v1 == Velocity([0, 0])
+    assert v2 == Velocity([1, 2, 3])
+    assert v1 != v2
+
+
 def test_repr(generate_velocity_list):
 
     for v in generate_velocity_list:

@@ -13,8 +13,10 @@ set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/morphac)
 
 add_subdirectory(constructs)
 add_subdirectory(environments)
+add_subdirectory(math)
 add_subdirectory(mechanics)
 add_subdirectory(robot)
+add_subdirectory(utils)
 
 
 # Installing

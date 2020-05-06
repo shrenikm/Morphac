@@ -5,8 +5,6 @@
 
 namespace {
 
-using std::string;
-
 using Eigen::VectorXd;
 
 using morphac::constructs::Input;
@@ -17,13 +15,15 @@ class TricycleModelTest : public ::testing::Test {
  protected:
   TricycleModelTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 };
 
 TEST_F(TricycleModelTest, Construction) {
-  TricycleModel tricycle_model{"tricycle_model", 1.5, 2.3};
+  TricycleModel tricycle_model{1.5, 2.3};
 
-  ASSERT_EQ(tricycle_model.name, "tricycle_model");
   ASSERT_EQ(tricycle_model.size_pose, 4);
   ASSERT_EQ(tricycle_model.size_velocity, 0);
   ASSERT_EQ(tricycle_model.size_input, 2);
@@ -32,14 +32,14 @@ TEST_F(TricycleModelTest, Construction) {
 }
 
 TEST_F(TricycleModelTest, InvalidConstruction) {
-  ASSERT_THROW(TricycleModel("invalid", -1, 1), std::invalid_argument);
-  ASSERT_THROW(TricycleModel("invalid", 0, 1), std::invalid_argument);
-  ASSERT_THROW(TricycleModel("invalid", 1, -1), std::invalid_argument);
-  ASSERT_THROW(TricycleModel("invalid", 1, -1), std::invalid_argument);
+  ASSERT_THROW(TricycleModel(-1, 1), std::invalid_argument);
+  ASSERT_THROW(TricycleModel(0, 1), std::invalid_argument);
+  ASSERT_THROW(TricycleModel(1, -1), std::invalid_argument);
+  ASSERT_THROW(TricycleModel(1, -1), std::invalid_argument);
 }
 
 TEST_F(TricycleModelTest, DerivativeComputation) {
-  TricycleModel tricycle_model{"tricycle_model", 1.5, 2.5};
+  TricycleModel tricycle_model{1.5, 2.5};
   VectorXd pose_vector1(4), pose_vector2(4), pose_vector3(4), pose_vector4(4);
   VectorXd input_vector1(2), input_vector2(2), input_vector3(2),
       input_vector4(2), input_vector5(2);
@@ -98,19 +98,35 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
 }
 
 TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
-  TricycleModel tricycle_model{"tricycle_model", 1, 1};
+  TricycleModel tricycle_model{1, 1};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{2}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 0), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{5, 0}, Input{2}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(5, 0), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 1}, Input{2}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 1), Input(2)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{1}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State{3, 0}, Input{3}),
+  ASSERT_THROW(tricycle_model.ComputeStateDerivative(State(3, 0), Input(3)),
                std::invalid_argument);
+}
+
+TEST_F(TricycleModelTest, StateNormalization) {
+  TricycleModel tricycle_model{1, 1};
+
+  // Making sure that the angle get normalized.
+  State state1({0, 0, 2 * M_PI, M_PI}, {});
+  State state2({0, 0, 2 * M_PI + 4 * M_PI / 3., -2 * M_PI - 4 * M_PI / 3.}, {});
+  State state3({0, 0, -2 * M_PI - 4 * M_PI / 3., 2 * M_PI + 4 * M_PI / 3.}, {});
+  State normalized_state1({0, 0, 0, M_PI}, {});
+  State normalized_state2({0, 0, -2 * M_PI / 3., 2 * M_PI / 3.}, {});
+  State normalized_state3({0, 0, 2 * M_PI / 3., -2 * M_PI / 3.}, {});
+
+  ASSERT_TRUE(tricycle_model.NormalizeState(state1) == normalized_state1);
+  ASSERT_TRUE(tricycle_model.NormalizeState(state2) == normalized_state2);
+  ASSERT_TRUE(tricycle_model.NormalizeState(state3) == normalized_state3);
 }
 
 }  // namespace

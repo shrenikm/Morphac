@@ -4,14 +4,19 @@ namespace morphac {
 namespace mechanics {
 namespace models {
 
-using std::string;
+using morphac::constructs::State;
 
-KinematicModel::KinematicModel(const string name, const int size_pose,
-                               const int size_velocity, const int size_input)
-    : name(name),
-      size_pose(size_pose),
+KinematicModel::KinematicModel(const int size_pose, const int size_velocity,
+                               const int size_input)
+    : size_pose(size_pose),
       size_velocity(size_velocity),
       size_input(size_input) {}
+
+State KinematicModel::NormalizeState(const State& state) const {
+    // Default implementation. If a KinematicModel subclass doesn't need any
+    // state normalization, we return the state itself.
+    return state;
+}
 
 }  // models
 }  // mechanics

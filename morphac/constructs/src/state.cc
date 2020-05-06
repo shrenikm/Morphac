@@ -3,13 +3,13 @@
 namespace morphac {
 namespace constructs {
 
-using std::make_unique;
-using std::move;
+using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
-using std::unique_ptr;
+using std::vector;
 
+using Eigen::Map;
 using Eigen::VectorXd;
 
 using morphac::constructs::Pose;
@@ -23,6 +23,22 @@ State::State(const int size_pose, const int size_velocity)
 State::State(const VectorXd& pose_vector, const VectorXd& velocity_vector)
     : pose_(Pose(pose_vector)), velocity_(Velocity(velocity_vector)) {
   // The Pose and Velocity constructors take care of invalid arguments.
+}
+
+State::State(initializer_list<double> pose_elements,
+             initializer_list<double> velocity_elements)
+    // Temporary initialization as we Pose and Velocity don't have defaults.
+    // TODO: Make this cleaner.
+    : pose_(Pose(pose_elements.size())),
+      velocity_(Velocity(velocity_elements)) {
+  // As they are initializers, the size always going to be >= 0 and need not
+  // be checked.
+  vector<double> pose_data(pose_elements);
+  vector<double> velocity_data(velocity_elements);
+
+  pose_ = Pose(Map<VectorXd>(&pose_data[0], pose_elements.size()));
+  velocity_ =
+      Velocity(Map<VectorXd>(&velocity_data[0], velocity_elements.size()));
 }
 
 State::State(const Pose& pose, const Velocity& velocity)
@@ -130,9 +146,23 @@ State operator*(State state, const double scalar) { return state *= scalar; }
 
 State operator*(const double scalar, State state) { return state *= scalar; }
 
+bool operator==(const State& state1, const State& state2) {
+  // Two states are equal if their pose and velocity sizes and vector values are
+  // equal. This is equivalent to their their corresponding pose and velocity
+  // components being equal to each other.
+  if (state1.pose_ == state2.pose_ && state1.velocity_ == state2.velocity_) {
+    return true;
+  }
+  return false;
+}
+
+bool operator!=(const State& state1, const State& state2) {
+  return !(state1 == state2);
+}
+
 double& State::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
-                "Pose index out of bounds.");
+                "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_size_pose()) {
@@ -145,7 +175,7 @@ double& State::operator()(const int index) {
 
 double State::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
-                "Pose index out of bounds.");
+                "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_size_pose()) {
@@ -204,36 +234,62 @@ int State::get_size_velocity() const { return velocity_.get_size(); }
 
 int State::get_size() const { return pose_.get_size() + velocity_.get_size(); }
 
-Pose& State::get_pose() { return pose_; }
+Pose& State::get_pose() {
+  // We return only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
+  return pose_;
+}
 
-const Pose& State::get_pose() const { return pose_; }
+const Pose& State::get_pose() const {
+  // We return only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
+  return pose_;
+}
 
-Velocity& State::get_velocity() { return velocity_; }
+Velocity& State::get_velocity() {
+  // We return only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
+  return velocity_;
+}
 
-const Velocity& State::get_velocity() const { return velocity_; }
+const Velocity& State::get_velocity() const {
+  // We return only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
+  return velocity_;
+}
 
 const VectorXd& State::get_pose_vector() const {
+  // We return the pose vector only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
   return pose_.get_pose_vector();
 }
 
 const VectorXd& State::get_velocity_vector() const {
+  // We return the velocity vector only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
   return velocity_.get_velocity_vector();
 }
 
 void State::set_pose(const Pose& pose) {
   MORPH_REQUIRE(pose_.get_size() == pose.get_size(), std::invalid_argument,
                 "Pose dimensions do not match.");
+  MORPH_REQUIRE(!pose.IsEmpty(), std::logic_error, "Pose object is empty.");
   pose_ = pose;
 }
 
 void State::set_velocity(const Velocity& velocity) {
   MORPH_REQUIRE(velocity_.get_size() == velocity.get_size(),
                 std::invalid_argument, "Velocity dimensions do not match.");
+  MORPH_REQUIRE(!velocity.IsEmpty(), std::logic_error,
+                "Velocity object is empty.");
   velocity_ = velocity;
 }
 
 const VectorXd State::get_state_vector() const {
-  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State is empty.");
   VectorXd state_vector(get_size());
   VectorXd pose_vector = VectorXd::Zero(0);
   VectorXd velocity_vector = VectorXd::Zero(0);
@@ -250,13 +306,37 @@ const VectorXd State::get_state_vector() const {
 }
 
 void State::set_pose_vector(const VectorXd& pose_vector) {
-  // The Pose class setter does the argument check.
+  // We allow setting only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
+
+  // The Pose class setter does the argument dimension check.
   pose_.set_pose_vector(pose_vector);
 }
 
+void State::set_pose_vector(initializer_list<double> pose_elements) {
+  // We allow setting only if the pose is non empty.
+  MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
+
+  // The Pose class setter does the argument check.
+  pose_.set_pose_vector(pose_elements);
+}
+
 void State::set_velocity_vector(const VectorXd& velocity_vector) {
+  // We allow setting only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
+
   // The Velocity class getter does the argument check.
   velocity_.set_velocity_vector(velocity_vector);
+}
+
+void State::set_velocity_vector(initializer_list<double> velocity_elements) {
+  // We allow setting only if the velocity is non empty.
+  MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
+                "Velocity component is empty.");
+
+  // The Velocity class getter does the argument check.
+  velocity_.set_velocity_vector(velocity_elements);
 }
 
 void State::set_state_vector(const VectorXd& state_vector) {
@@ -272,8 +352,25 @@ void State::set_state_vector(const VectorXd& state_vector) {
   }
 }
 
+void State::set_state_vector(initializer_list<double> state_elements) {
+  // Need to check if the dimensions are correct
+  MORPH_REQUIRE((int)state_elements.size() == get_size(), std::invalid_argument,
+                "State vector size is incorrect.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
+
+  vector<double> state_data(state_elements);
+  VectorXd state_vector = Map<VectorXd>(&state_data[0], get_size());
+
+  if (!IsPoseEmpty()) {
+    set_pose_vector(state_vector.head(get_size_pose()));
+  }
+  if (!IsVelocityEmpty()) {
+    set_velocity_vector(state_vector.tail(get_size_velocity()));
+  }
+}
+
 State State::CreateLike(const State& state) {
-  State new_state{state.get_size_pose(), state.get_size_velocity()};
+  State new_state(state.get_size_pose(), state.get_size_velocity());
   return new_state;
 }
 

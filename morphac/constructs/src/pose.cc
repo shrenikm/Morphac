@@ -3,9 +3,13 @@
 namespace morphac {
 namespace constructs {
 
+using std::initializer_list;
 using std::ostream;
 using std::ostringstream;
 using std::string;
+using std::vector;
+
+using Eigen::Map;
 using Eigen::VectorXd;
 
 Pose::Pose(const int size) : size_(size) {
@@ -17,6 +21,14 @@ Pose::Pose(const VectorXd& pose_vector)
     : size_(pose_vector.size()), pose_vector_(pose_vector) {
   MORPH_REQUIRE(pose_vector.size() >= 0, std::invalid_argument,
                 "Pose vector size is non-positive.");
+}
+
+Pose::Pose(initializer_list<double> pose_elements)
+    : size_(pose_elements.size()) {
+  // As it is an initializer list, the size is always going to be >= 0 and need
+  // not be checked.
+  vector<double> data(pose_elements);
+  pose_vector_ = Map<VectorXd>(&data[0], size_);
 }
 
 Pose& Pose::operator+=(const Pose& pose) {
@@ -67,6 +79,21 @@ Pose operator*(Pose pose, const double scalar) { return pose *= scalar; }
 
 Pose operator*(const double scalar, Pose pose) { return pose *= scalar; }
 
+bool operator==(const Pose& pose1, const Pose& pose2) {
+  // Two poses are equal if they are of the same size and their vector values
+  // are equal.
+  if (pose1.size_ == pose2.size_) {
+    if (pose1.pose_vector_.isApprox(pose2.pose_vector_, 1e-6)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool operator!=(const Pose& pose1, const Pose& pose2) {
+  return !(pose1 == pose2);
+}
+
 double& Pose::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
@@ -108,8 +135,16 @@ void Pose::set_pose_vector(const VectorXd& pose_vector) {
   pose_vector_ = pose_vector;
 }
 
+void Pose::set_pose_vector(initializer_list<double> pose_elements) {
+  MORPH_REQUIRE((int)pose_elements.size() == size_, std::invalid_argument,
+                "Pose vector size is incorrect.");
+  MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
+  vector<double> data(pose_elements);
+  pose_vector_ = Map<VectorXd>(&data[0], size_);
+}
+
 Pose Pose::CreateLike(const Pose& pose) {
-  Pose new_pose{pose.get_size()};
+  Pose new_pose(pose.get_size());
   return new_pose;
 }
 

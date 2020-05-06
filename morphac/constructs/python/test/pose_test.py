@@ -127,6 +127,15 @@ def test_multiplication(generate_pose_list):
     assert np.allclose((p4 * (-2)).data, ((-2) * p4).data)
 
 
+def test_equality(generate_pose_list):
+
+    p1, p2, p3, p4 = generate_pose_list
+
+    assert p1 == Pose([0, 0])
+    assert p2 == Pose([1, 2, 3])
+    assert p1 != p2
+
+
 def test_repr(generate_pose_list):
 
     for p in generate_pose_list:

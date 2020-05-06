@@ -5,8 +5,6 @@
 
 namespace {
 
-using std::string;
-
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
@@ -18,13 +16,15 @@ class DiffDriveModelTest : public ::testing::Test {
  protected:
   DiffDriveModelTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 };
 
 TEST_F(DiffDriveModelTest, Construction) {
-  DiffDriveModel diffdrive_model{"diffdrive_model", 1.5, 2.3};
+  DiffDriveModel diffdrive_model{1.5, 2.3};
 
-  ASSERT_EQ(diffdrive_model.name, "diffdrive_model");
   ASSERT_EQ(diffdrive_model.size_pose, 3);
   ASSERT_EQ(diffdrive_model.size_velocity, 0);
   ASSERT_EQ(diffdrive_model.size_input, 2);
@@ -33,14 +33,14 @@ TEST_F(DiffDriveModelTest, Construction) {
 }
 
 TEST_F(DiffDriveModelTest, InvalidConstruction) {
-  ASSERT_THROW(DiffDriveModel("invalid", -1, 1), std::invalid_argument);
-  ASSERT_THROW(DiffDriveModel("invalid", 0, 1), std::invalid_argument);
-  ASSERT_THROW(DiffDriveModel("invalid", 1, -1), std::invalid_argument);
-  ASSERT_THROW(DiffDriveModel("invalid", 1, 0), std::invalid_argument);
+  ASSERT_THROW(DiffDriveModel(-1, 1), std::invalid_argument);
+  ASSERT_THROW(DiffDriveModel(0, 1), std::invalid_argument);
+  ASSERT_THROW(DiffDriveModel(1, -1), std::invalid_argument);
+  ASSERT_THROW(DiffDriveModel(1, 0), std::invalid_argument);
 }
 
 TEST_F(DiffDriveModelTest, DerivativeComputation) {
-  DiffDriveModel diffdrive_model{"diffdrive_model", 1.5, 2.5};
+  DiffDriveModel diffdrive_model{1.5, 2.5};
   VectorXd pose_vector1(3), pose_vector2(3);
   VectorXd input_vector1(2), input_vector2(2), input_vector3(2),
       input_vector4(2), input_vector5(2);
@@ -68,8 +68,8 @@ TEST_F(DiffDriveModelTest, DerivativeComputation) {
 
   State state1{pose_vector1, VectorXd::Zero(0)};
   State state2{pose_vector2, VectorXd::Zero(0)};
-  Input input1{input_vector1}, input2{input_vector2},
-      input3{input_vector3}, input4{input_vector4}, input5{input_vector5};
+  Input input1{input_vector1}, input2{input_vector2}, input3{input_vector3},
+      input4{input_vector4}, input5{input_vector5};
 
   // Computing and verifying the derivative computation for different inputs.
   State derivative1 = diffdrive_model.ComputeStateDerivative(state1, input1);
@@ -94,24 +94,35 @@ TEST_F(DiffDriveModelTest, DerivativeComputation) {
 }
 
 TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
-  DiffDriveModel diffdrive_model{"diffdrive_model", 1, 1};
+  DiffDriveModel diffdrive_model{1, 1};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(
-      diffdrive_model.ComputeStateDerivative(State{2, 0}, Input{2}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      diffdrive_model.ComputeStateDerivative(State{4, 0}, Input{2}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      diffdrive_model.ComputeStateDerivative(State{3, 1}, Input{2}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      diffdrive_model.ComputeStateDerivative(State{3, 0}, Input{1}),
-      std::invalid_argument);
-  ASSERT_THROW(
-      diffdrive_model.ComputeStateDerivative(State{3, 0}, Input{3}),
-      std::invalid_argument);
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(2, 0), Input(2)),
+               std::invalid_argument);
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(4, 0), Input(2)),
+               std::invalid_argument);
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(3, 1), Input(2)),
+               std::invalid_argument);
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(3, 0), Input(1)),
+               std::invalid_argument);
+  ASSERT_THROW(diffdrive_model.ComputeStateDerivative(State(3, 0), Input(3)),
+               std::invalid_argument);
+}
+
+TEST_F(DiffDriveModelTest, StateNormalization) {
+  DiffDriveModel diffdrive_model{1, 1};
+
+  // Making sure that the angle get normalized.
+  State state1({0, 0, 2 * M_PI}, {});
+  State state2({0, 0, 2 * M_PI + 4 * M_PI / 3.}, {});
+  State state3({0, 0, -2 * M_PI - 4 * M_PI / 3.}, {});
+  State normalized_state1({0, 0, 0}, {});
+  State normalized_state2({0, 0, -2 * M_PI / 3.}, {});
+  State normalized_state3({0, 0, 2 * M_PI / 3.}, {});
+
+  ASSERT_TRUE(diffdrive_model.NormalizeState(state1) == normalized_state1);
+  ASSERT_TRUE(diffdrive_model.NormalizeState(state2) == normalized_state2);
+  ASSERT_TRUE(diffdrive_model.NormalizeState(state3) == normalized_state3);
 }
 
 }  // namespace

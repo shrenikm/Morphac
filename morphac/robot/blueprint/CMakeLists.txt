@@ -5,10 +5,12 @@ set(BLUEPRINT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(BLUEPRINT_SRC_DIR ${BLUEPRINT_DIR}/src)
 set(BLUEPRINT_INCLUDE_DIR ${BLUEPRINT_DIR}/include)
 set(BLUEPRINT_TEST_DIR ${BLUEPRINT_DIR}/test)
+
+set(BLUEPRINT_BINARY_DIR ${ROBOT_BINARY_DIR}/blueprint)
+
 set(BLUEPRINT_BINDING_DIR ${BLUEPRINT_DIR}/binding)
 set(BLUEPRINT_BINDING_INCLUDE_DIR ${BLUEPRINT_BINDING_DIR}/include)
 set(BLUEPRINT_BINDING_SRC_DIR ${BLUEPRINT_BINDING_DIR}/src)
-set(BLUEPRINT_BINARY_DIR ${ROBOT_BINARY_DIR}/blueprint)
 set(BLUEPRINT_BINDING_BINARY_DIR ${BLUEPRINT_BINARY_DIR}/binding)
 set(BLUEPRINT_BINDING_INSTALL_DIR ${ROBOT_BINDING_INSTALL_DIR}/blueprint)
 
@@ -41,6 +43,7 @@ foreach(file ${BLUEPRINT_SRC})
     ${BLUEPRINT_SRC_DIR}/${file}
     ${BLUEPRINT_INCLUDE_DIR}/${header_name}
   )
+
   target_include_directories(${lib_name}
     PUBLIC
     ${BLUEPRINT_INCLUDE_DIR}
@@ -50,7 +53,12 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(robot2D
   PUBLIC
-  input pose state velocity kinematic_model footprint2D
+  input
+  pose
+  state
+  velocity
+  kinematic_model
+  footprint2D
 )
 
 
@@ -74,6 +82,7 @@ foreach(file ${BLUEPRINT_TEST_SRC})
     ${test_name}
     ${BLUEPRINT_TEST_DIR}/${file}
   )
+
   add_test(NAME ${test_name}
     COMMAND ${test_name}
   )
@@ -82,10 +91,13 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(footprint2D_test
   PUBLIC
-  gtest_main footprint2D
+  gtest_main
+  footprint2D
 )
+
 target_link_libraries(robot2D_test
   PUBLIC
-  gtest_main robot2D
+  gtest_main
+  robot2D
 )
 

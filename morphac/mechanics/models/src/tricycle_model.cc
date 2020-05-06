@@ -6,18 +6,17 @@ namespace models {
 
 using std::cos;
 using std::sin;
-using std::string;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+using morphac::math::utils::NormalizeAngle;
 using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;
 
-TricycleModel::TricycleModel(const string name, const double radius,
-                             const double length)
-    : KinematicModel(name, 4, 0, 2), radius(radius), length(length) {
+TricycleModel::TricycleModel(const double radius, const double length)
+    : KinematicModel(4, 0, 2), radius(radius), length(length) {
   MORPH_REQUIRE(radius > 0, std::invalid_argument,
                 "Tricycle wheel radius must be positive.");
   MORPH_REQUIRE(
@@ -52,6 +51,15 @@ State TricycleModel::ComputeStateDerivative(const State& state,
   derivative.set_pose_vector(pose_derivative);
 
   return derivative;
+}
+
+State TricycleModel::NormalizeState(const State& state) const {
+  // For the tricycle model, we normalize the heading and steering angles.
+  State normalized_state = state;
+  normalized_state(2) = NormalizeAngle(normalized_state(2));
+  normalized_state(3) = NormalizeAngle(normalized_state(3));
+
+  return normalized_state;
 }
 
 }  // namespace models

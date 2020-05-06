@@ -48,7 +48,8 @@ function(find_python_site_packages_dir out)
     OUTPUT_VARIABLE tmp_dir
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  set(${out} ${tmp_dir} PARENT_SCOPE)
+  # Everything will be installed in a directory given by the project name.
+  set(${out} ${tmp_dir}/${MORPHAC_NAME} PARENT_SCOPE)
 endfunction()
 
 

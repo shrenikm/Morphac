@@ -8,6 +8,8 @@
 #include "constructs/include/input.h"
 #include "constructs/include/state.h"
 
+#include "utils/include/angle_utils.h"
+
 #include "mechanics/models/include/kinematic_model.h"
 
 namespace morphac {
@@ -16,12 +18,14 @@ namespace models {
 
 class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
  public:
-  DiffDriveModel(const std::string name, const double radius,
-                 const double length);
+  DiffDriveModel(const double radius, const double length);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::Input& input) const;
+      const morphac::constructs::Input& input) const override;
+
+  morphac::constructs::State NormalizeState(
+      const morphac::constructs::State& state) const override;
 
   const double radius;
   const double length;

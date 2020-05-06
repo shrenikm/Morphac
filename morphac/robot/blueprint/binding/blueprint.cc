@@ -1,12 +1,8 @@
 #include "pybind11/eigen.h"
-#include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
 #include "robot/blueprint/binding/include/footprint2D_binding.h"
 #include "robot/blueprint/binding/include/robot2D_binding.h"
-
-#include "robot/blueprint/include/footprint2D.h"
-#include "robot/blueprint/include/robot2D.h"
 
 namespace morphac {
 namespace robot {

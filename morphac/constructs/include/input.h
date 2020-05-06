@@ -1,7 +1,8 @@
-#ifndef CONTROL_INPUT_H
-#define CONTROL_INPUT_H
+#ifndef INPUT_H
+#define INPUT_H
 
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 
@@ -12,8 +13,9 @@ namespace constructs {
 
 class Input {
  public:
-  Input(const int size = 0);
+  Input(const int size);
   Input(const Eigen::VectorXd& input_vector);
+  Input(std::initializer_list<double> input_elements);
   // Copy constructor.
   Input(const Input& input) = default;
 
@@ -26,6 +28,9 @@ class Input {
   Input operator-(const Input& input) const;
   Input& operator*=(const double scalar);
 
+  friend bool operator==(const Input& input1, const Input& input2);
+  friend bool operator!=(const Input& input1, const Input& input2);
+
   double& operator()(const int index);
   double operator()(const int index) const;
 
@@ -37,10 +42,10 @@ class Input {
   int get_size() const;
   const Eigen::VectorXd& get_input_vector() const;
   void set_input_vector(const Eigen::VectorXd& input_vector);
+  void set_input_vector(std::initializer_list<double> input_elements);
 
   bool IsEmpty() const;
-  static Input CreateLike(
-      const morphac::constructs::Input& input);
+  static Input CreateLike(const morphac::constructs::Input& input);
 
  private:
   int size_;

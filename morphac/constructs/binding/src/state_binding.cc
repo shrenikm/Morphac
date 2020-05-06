@@ -14,6 +14,8 @@ using morphac::constructs::State;
 void define_state_binding(py::module& m) {
   py::class_<State> state(m, "State");
 
+  // We don't wrap the initializer_list constructor as we can use a list to
+  // Call the VectorXd constructor from python anyway.
   state.def(py::init<const int, const int>(), py::arg("size_pose"),
             py::arg("size_velocity"));
   state.def(py::init<const VectorXd&, const VectorXd&>(), py::arg("data_pose"),
@@ -27,10 +29,12 @@ void define_state_binding(py::module& m) {
   state.def(py::self *= double());
   state.def(py::self * double());
   state.def(double() * py::self);
+  state.def(py::self == py::self);
+  state.def(py::self != py::self);
   state.def("__repr__", &State::ToString);
-  // Pose and Velocity size are not exposed as we can always call it using
-  // state.pose.size and state.velocity.size
   state.def_property_readonly("size", &State::get_size);
+  state.def_property_readonly("size_pose", &State::get_size_pose);
+  state.def_property_readonly("size_velocity", &State::get_size_velocity);
 
   state.def_property("pose", py::overload_cast<>(&State::get_pose),
                      &State::set_pose);
@@ -40,11 +44,14 @@ void define_state_binding(py::module& m) {
   // vector is mapped to data in python to keep it consistent and pythonic.
   // Pose and Velocity data are not exposed as we can always call it using
   // state.pose.data and state.velocity.data
-  state.def_property("data", &State::get_state_vector,
-                     &State::set_state_vector);
+  state.def_property(
+      "data", &State::get_state_vector,
+      py::overload_cast<const VectorXd&>(&State::set_state_vector));
   // Pose and Velocity IsEmpty is not exposed as we can call it using
   // state.pose.is_empty and state.velocity.is_empty
   state.def("is_empty", &State::IsEmpty);
+  state.def("is_pose_empty", &State::IsPoseEmpty);
+  state.def("is_velocity_empty", &State::IsVelocityEmpty);
   state.def("create_like", &State::CreateLike);
 }
 

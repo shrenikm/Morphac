@@ -5,8 +5,6 @@
 
 namespace {
 
-using std::string;
-
 using Eigen::VectorXd;
 
 using morphac::constructs::Input;
@@ -17,13 +15,15 @@ class DubinModelTest : public ::testing::Test {
  protected:
   DubinModelTest() {}
 
-  void SetUp() override{};
+  void SetUp() override{
+    // Set random seed for Eigen.
+    srand(7);
+  };
 };
 
 TEST_F(DubinModelTest, Construction) {
-  DubinModel dubin_model{"dubin_model", 1.5};
+  DubinModel dubin_model{1.5};
 
-  ASSERT_EQ(dubin_model.name, "dubin_model");
   ASSERT_EQ(dubin_model.size_pose, 3);
   ASSERT_EQ(dubin_model.size_velocity, 0);
   ASSERT_EQ(dubin_model.size_input, 1);
@@ -31,7 +31,7 @@ TEST_F(DubinModelTest, Construction) {
 }
 
 TEST_F(DubinModelTest, DerivativeComputation) {
-  DubinModel dubin_model{"dubin_model", 2.5};
+  DubinModel dubin_model{2.5};
   VectorXd pose_vector1(3), pose_vector2(3);
   VectorXd input_vector1(1), input_vector2(1);
   VectorXd desired_vector1(3), desired_vector2(3);
@@ -57,19 +57,35 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 }
 
 TEST_F(DubinModelTest, InvalidDerivativeComputation) {
-  DubinModel dubin_model{"dubin_model", 1.0};
+  DubinModel dubin_model{1.0};
 
   // Computing the state derivative with incorrect state/input/derivative.
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{2, 0}, Input{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(2, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{4, 0}, Input{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(4, 0), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 1}, Input{1}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(3, 1), Input(1)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, Input{0}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(3, 0), Input(0)),
                std::invalid_argument);
-  ASSERT_THROW(dubin_model.ComputeStateDerivative(State{3, 0}, Input{2}),
+  ASSERT_THROW(dubin_model.ComputeStateDerivative(State(3, 0), Input(2)),
                std::invalid_argument);
+}
+
+TEST_F(DubinModelTest, StateNormalization) {
+  DubinModel dubin_model{1};
+
+  // Making sure that the angle get normalized.
+  State state1({0, 0, 2 * M_PI}, {});
+  State state2({0, 0, 2 * M_PI + 4 * M_PI / 3.}, {});
+  State state3({0, 0, -2 * M_PI - 4 * M_PI / 3.}, {});
+  State normalized_state1({0, 0, 0}, {});
+  State normalized_state2({0, 0, -2 * M_PI / 3.}, {});
+  State normalized_state3({0, 0, 2 * M_PI / 3.}, {});
+
+  ASSERT_TRUE(dubin_model.NormalizeState(state1) == normalized_state1);
+  ASSERT_TRUE(dubin_model.NormalizeState(state2) == normalized_state2);
+  ASSERT_TRUE(dubin_model.NormalizeState(state3) == normalized_state3);
 }
 
 }  // namespace

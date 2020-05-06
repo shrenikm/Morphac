@@ -7,19 +7,17 @@ namespace binding {
 
 namespace py = pybind11;
 
-using std::string;
-
 using morphac::mechanics::models::DubinModel;
 using morphac::mechanics::models::KinematicModel;
 
 void define_dubin_model_binding(py::module& m) {
   py::class_<DubinModel, KinematicModel> dubin_model(m, "DubinModel");
 
-  dubin_model.def(py::init<const string, const double>(), py::arg("name"),
-                  py::arg("speed"));
+  dubin_model.def(py::init<const double>(), py::arg("speed"));
   dubin_model.def("compute_state_derivative",
-                  &DubinModel::ComputeStateDerivative);
-  dubin_model.def_readonly("name", &DubinModel::name);
+                  &DubinModel::ComputeStateDerivative, py::arg("robot_state"),
+                  py::arg("robot_input"));
+  dubin_model.def("normalize_state", &DubinModel::NormalizeState);
   dubin_model.def_readonly("speed", &DubinModel::speed);
   dubin_model.def_readonly("size_pose", &KinematicModel::size_pose);
   dubin_model.def_readonly("size_velocity", &KinematicModel::size_velocity);

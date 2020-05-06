@@ -5,21 +5,20 @@
 
 namespace {
 
-using std::string;
-
 using Eigen::VectorXd;
 
 using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
 
-class SomeKinematicModel : public KinematicModel {
+class CustomKinematicModel : public KinematicModel {
  public:
-  SomeKinematicModel(string name, int size_pose, int size_velocity,
-                     int size_input, double a)
-      : KinematicModel(name, size_pose, size_velocity, size_input), a(a) {}
+  CustomKinematicModel(int size_pose, int size_velocity, int size_input,
+                       double a)
+      : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
 
-  State ComputeStateDerivative(const State& state, const Input& input) const {
+  State ComputeStateDerivative(const State& state,
+                               const Input& input) const override {
     // f(x, u) = x * a * u - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_state_vector();
@@ -42,10 +41,30 @@ class KinematicModelTest : public ::testing::Test {
  protected:
   KinematicModelTest() {}
 
-  void SetUp() override {}
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+  }
 };
 
-TEST_F(KinematicModelTest, Subclass) {
+TEST_F(KinematicModelTest, Sizes) {
+  CustomKinematicModel model1{2, 2, 3, 1};
+  CustomKinematicModel model2{20, 25, 13, 2.5};
+
+  ASSERT_EQ(model1.size_pose, 2);
+  ASSERT_EQ(model2.size_pose, 20);
+
+  ASSERT_EQ(model1.size_velocity, 2);
+  ASSERT_EQ(model2.size_velocity, 25);
+
+  ASSERT_EQ(model1.size_input, 3);
+  ASSERT_EQ(model2.size_input, 13);
+
+  ASSERT_EQ(model1.a, 1);
+  ASSERT_EQ(model2.a, 2.5);
+}
+
+TEST_F(KinematicModelTest, DerivativeComputation) {
   VectorXd pose_vector(3), velocity_vector(2), input_vector(5);
   pose_vector << 1, -2, 5;
   velocity_vector << -3, 2.5;
@@ -54,7 +73,7 @@ TEST_F(KinematicModelTest, Subclass) {
   State state(pose_vector, velocity_vector);
   Input input(input_vector);
 
-  SomeKinematicModel model{"model", 3, 2, 5, 1.0};
+  CustomKinematicModel model{3, 2, 5, 1.0};
 
   VectorXd expected_pose_derivative(3), expected_velocity_derivative(2);
   expected_pose_derivative << 0, -2, 10;
@@ -75,6 +94,16 @@ TEST_F(KinematicModelTest, Subclass) {
   ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
   ASSERT_TRUE(
       expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
+}
+
+TEST_F(KinematicModelTest, StateNormalization) {
+  // Making sure that the NormalizeState interface works.
+  // As we don't override NormalizeState in SomeKinematicModel, calling this
+  // function should return the same state.
+  CustomKinematicModel model{4, 2, 2, 0};
+  State state({1, 2, 3, 4}, {5, 6});
+
+  ASSERT_TRUE(model.NormalizeState(state) == state);
 }
 
 }  // namespace

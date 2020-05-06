@@ -2,6 +2,7 @@
 #define POSE_H
 
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 
@@ -12,8 +13,9 @@ namespace constructs {
 
 class Pose {
  public:
-  Pose(const int size = 0);
+  Pose(const int size);
   Pose(const Eigen::VectorXd& pose_vector);
+  Pose(std::initializer_list<double> pose_elements);
   // Copy constructor
   Pose(const Pose& pose) = default;
 
@@ -26,6 +28,9 @@ class Pose {
   Pose operator-(const Pose& pose) const;
   Pose& operator*=(const double scalar);
 
+  friend bool operator==(const Pose& pose1, const Pose& pose2);
+  friend bool operator!=(const Pose& pose1, const Pose& pose2);
+
   double& operator()(const int index);
   double operator()(const int index) const;
 
@@ -37,6 +42,7 @@ class Pose {
   int get_size() const;
   const Eigen::VectorXd& get_pose_vector() const;
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
+  void set_pose_vector(std::initializer_list<double> pose_elements);
 
   bool IsEmpty() const;
   static Pose CreateLike(const morphac::constructs::Pose& pose);

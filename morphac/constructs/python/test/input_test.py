@@ -127,6 +127,15 @@ def test_multiplication(generate_input_list):
     assert np.allclose((ci4 * (-2)).data, ((-2) * ci4).data)
 
 
+def test_equality(generate_input_list):
+
+    i1, i2, i3, i4 = generate_input_list
+
+    assert i1 == Input([0, 0])
+    assert i2 == Input([1, 2, 3])
+    assert i1 != i2
+
+
 def test_repr(generate_input_list):
 
     for ci in generate_input_list:

@@ -6,17 +6,17 @@ namespace models {
 
 using std::cos;
 using std::sin;
-using std::string;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+using morphac::math::utils::NormalizeAngle;
 using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;
 
-DubinModel::DubinModel(const string name, const double speed)
-    : KinematicModel(name, 3, 0, 1), speed(speed) {}
+DubinModel::DubinModel(const double speed)
+    : KinematicModel(3, 0, 1), speed(speed) {}
 
 State DubinModel::ComputeStateDerivative(const State& state,
                                          const Input& input) const {
@@ -42,6 +42,14 @@ State DubinModel::ComputeStateDerivative(const State& state,
   derivative.set_pose_vector(pose_derivative);
 
   return derivative;
+}
+
+State DubinModel::NormalizeState(const State& state) const {
+  // For the dubin model, we normalize the pose angle.
+  State normalized_state = state;
+  normalized_state(2) = NormalizeAngle(normalized_state(2));
+
+  return normalized_state;
 }
 
 }  // namespace models

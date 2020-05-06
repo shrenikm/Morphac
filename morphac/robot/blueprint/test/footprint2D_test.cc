@@ -13,7 +13,11 @@ class Footprint2DTest : public ::testing::Test {
  protected:
   Footprint2DTest() {}
 
-  void SetUp() override { footprint_matrix_ = MatrixXd::Random(10, 2); }
+  void SetUp() override {
+    // Set random seed for Eigen.
+    srand(7);
+    footprint_matrix_ = MatrixXd::Random(10, 2);
+  }
 
   MatrixXd footprint_matrix_;
 };

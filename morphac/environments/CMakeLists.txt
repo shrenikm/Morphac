@@ -5,13 +5,13 @@ set(ENVIRONMENTS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(ENVIRONMENTS_SRC_DIR ${ENVIRONMENTS_DIR}/src)
 set(ENVIRONMENTS_INCLUDE_DIR ${ENVIRONMENTS_DIR}/include)
 set(ENVIRONMENTS_TEST_DIR ${ENVIRONMENTS_DIR}/test)
+set(ENVIRONMENTS_BINARY_DIR ${MORPHAC_BINARY_DIR}/environments)
 set(ENVIRONMENTS_BINDING_DIR ${ENVIRONMENTS_DIR}/binding)
 set(ENVIRONMENTS_BINDING_INCLUDE_DIR ${ENVIRONMENTS_BINDING_DIR}/include)
 set(ENVIRONMENTS_BINDING_SRC_DIR ${ENVIRONMENTS_BINDING_DIR}/src)
-set(ENVIRONMENTS_BINARY_DIR ${MORPHAC_BINARY_DIR}/environments)
 set(ENVIRONMENTS_BINDING_BINARY_DIR ${ENVIRONMENTS_BINARY_DIR}/binding)
 set(ENVIRONMENTS_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/morphac/environments
+  ${PYTHON_BINDING_INSTALL_DIR}/environments
 )
 
 
@@ -39,6 +39,7 @@ foreach(file ${ENVIRONMENT_SRC})
     ${ENVIRONMENTS_SRC_DIR}/${file}
     ${ENVIRONMENTS_INCLUDE_DIR}/${header_name}
   )
+
   target_include_directories(${lib_name}
     PUBLIC
     ${ENVIRONMENTS_INCLUDE_DIR}
@@ -74,6 +75,7 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(environment2D_test
   PUBLIC
-  gtest_main environment2D
+  gtest_main
+  environment2D
 )
 

@@ -1,8 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <memory>
 #include <sstream>
+#include <vector>
 
 #include "Eigen/Dense"
 
@@ -18,9 +18,11 @@ class State {
  public:
   // Sometimes the state may only include the poses. In such cases the velocity
   // part in the constructor may be skipped.
-  State(const int size_pose = 0, const int size_velocity = 0);
+  State(const int size_pose, const int size_velocity);
   State(const Eigen::VectorXd& pose_vector,
         const Eigen::VectorXd& velocity_vector);
+  State(std::initializer_list<double> pose_elements,
+        std::initializer_list<double> velocity_elements);
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
   // Copy constructor.
@@ -34,6 +36,9 @@ class State {
   State& operator-=(const State& state);
   State operator-(const State& state) const;
   State& operator*=(const double scalar);
+
+  friend bool operator==(const State& state1, const State& state2);
+  friend bool operator!=(const State& state1, const State& state2);
 
   double& operator()(const int index);
   double operator()(const int index) const;
@@ -61,8 +66,11 @@ class State {
   void set_velocity(const morphac::constructs::Velocity& velocity);
 
   void set_pose_vector(const Eigen::VectorXd& pose_vector);
+  void set_pose_vector(std::initializer_list<double> pose_elements);
   void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
+  void set_velocity_vector(std::initializer_list<double> velocity_elements);
   void set_state_vector(const Eigen::VectorXd& state_vector);
+  void set_state_vector(std::initializer_list<double> state_elements);
 
   bool IsEmpty() const;
   bool IsPoseEmpty() const;
