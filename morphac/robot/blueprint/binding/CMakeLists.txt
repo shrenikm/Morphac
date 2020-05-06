@@ -46,7 +46,7 @@ target_include_directories(${module_name}
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
-  footprint2D robot2D
+  kinematic_model state input footprint2D robot2D
 )
 
 # Setting binding target properties.

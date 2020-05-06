@@ -29,8 +29,8 @@ add_subdirectory(binding)
 # Numeric source files.
 set(NUMERIC_SRC
 
-  euler_integrator.cc
   integrator.cc
+  euler_integrator.cc
   mid_point_integrator.cc
   rk4_integrator.cc
 )
@@ -55,6 +55,11 @@ foreach(file ${NUMERIC_SRC})
 endforeach()
 
 # Adding library dependencies.
+target_link_libraries(rk4_integrator
+  PUBLIC
+  integrator kinematic_model state input
+)
+
 target_link_libraries(euler_integrator
   PUBLIC
   integrator kinematic_model state input
@@ -70,10 +75,6 @@ target_link_libraries(mid_point_integrator
   integrator kinematic_model state input
 )
 
-target_link_libraries(rk4_integrator
-  PUBLIC
-  integrator kinematic_model state input
-)
 
 
 # Tests
@@ -82,8 +83,8 @@ target_link_libraries(rk4_integrator
 # Numeric test source files.
 set(NUMERIC_TEST_SRC
 
-  euler_integrator_test.cc
   integrator_test.cc
+  euler_integrator_test.cc
   mid_point_integrator_test.cc
   rk4_integrator_test.cc
 )
@@ -105,14 +106,14 @@ foreach(file ${NUMERIC_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(euler_integrator_test
-  PUBLIC
-  gtest_main euler_integrator diffdrive_model
-)
-
 target_link_libraries(integrator_test
   PUBLIC
   gtest_main integrator diffdrive_model
+)
+
+target_link_libraries(euler_integrator_test
+  PUBLIC
+  gtest_main euler_integrator diffdrive_model
 )
 
 target_link_libraries(mid_point_integrator_test

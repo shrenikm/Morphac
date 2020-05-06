@@ -36,7 +36,7 @@ class Integrator {
   virtual morphac::constructs::State Integrate(
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input, const double time,
-      const double dt);
+      const double dt) const;
 
  protected:
   morphac::mechanics::models::KinematicModel& kinematic_model_;

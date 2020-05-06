@@ -1,10 +1,8 @@
-#include "pybind11/eigen.h"
-#include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
+#include "mechanics/models/binding/include/kinematic_model_binding.h"
 #include "mechanics/models/binding/include/diffdrive_model_binding.h"
 #include "mechanics/models/binding/include/dubin_model_binding.h"
-#include "mechanics/models/binding/include/kinematic_model_binding.h"
 #include "mechanics/models/binding/include/tricycle_model_binding.h"
 
 namespace morphac {

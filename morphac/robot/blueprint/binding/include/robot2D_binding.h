@@ -1,7 +1,8 @@
 #include "pybind11/eigen.h"
-#include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
+#include "constructs/include/input.h"
+#include "constructs/include/state.h"
 #include "robot/blueprint/include/footprint2D.h"
 #include "robot/blueprint/include/robot2D.h"
 

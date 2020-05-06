@@ -14,7 +14,7 @@ Integrator::Integrator(KinematicModel& kinematic_model)
     : kinematic_model_(kinematic_model) {}
 
 State Integrator::Integrate(const State& state, const Input& input,
-                            const double time, const double dt) {
+                            const double time, const double dt) const {
   double elapsed_time = 0.0;
   auto updated_state = state;
   while (elapsed_time < time) {

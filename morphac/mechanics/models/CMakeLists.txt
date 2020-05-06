@@ -29,9 +29,9 @@ add_subdirectory(binding)
 # Models source files.
 set(MODELS_SRC
 
+  kinematic_model.cc
   diffdrive_model.cc
   dubin_model.cc
-  kinematic_model.cc
   tricycle_model.cc
 )
 
@@ -55,6 +55,11 @@ foreach(file ${MODELS_SRC})
 endforeach()
 
 # Adding library dependencies.
+target_link_libraries(kinematic_model
+  PUBLIC
+  state input
+)
+
 target_link_libraries(diffdrive_model
   PUBLIC
   kinematic_model state input angle_utils
@@ -63,11 +68,6 @@ target_link_libraries(diffdrive_model
 target_link_libraries(dubin_model
   PUBLIC
   kinematic_model state input angle_utils
-)
-
-target_link_libraries(kinematic_model
-  PUBLIC
-  state input
 )
 
 target_link_libraries(tricycle_model
@@ -82,9 +82,9 @@ target_link_libraries(tricycle_model
 # Models test source files.
 set(MODELS_TEST_SRC
 
+  kinematic_model_test.cc
   diffdrive_model_test.cc
   dubin_model_test.cc
-  kinematic_model_test.cc
   tricycle_model_test.cc
 )
 
@@ -105,6 +105,11 @@ foreach(file ${MODELS_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
+target_link_libraries(tricycle_model_test
+  PUBLIC
+  gtest_main tricycle_model
+)
+
 target_link_libraries(diffdrive_model_test
   PUBLIC
   gtest_main diffdrive_model
@@ -119,9 +124,3 @@ target_link_libraries(kinematic_model_test
   PUBLIC
   gtest_main kinematic_model
 )
-
-target_link_libraries(tricycle_model_test
-  PUBLIC
-  gtest_main tricycle_model
-)
-

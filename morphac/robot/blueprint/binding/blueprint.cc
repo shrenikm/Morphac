@@ -1,5 +1,4 @@
 #include "pybind11/eigen.h"
-#include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 
 #include "robot/blueprint/binding/include/footprint2D_binding.h"
