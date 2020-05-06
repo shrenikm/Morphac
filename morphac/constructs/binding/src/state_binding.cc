@@ -32,9 +32,9 @@ void define_state_binding(py::module& m) {
   state.def(py::self == py::self);
   state.def(py::self != py::self);
   state.def("__repr__", &State::ToString);
-  // Pose and Velocity size are not exposed as we can always call it using
-  // state.pose.size and state.velocity.size
   state.def_property_readonly("size", &State::get_size);
+  state.def_property_readonly("size_pose", &State::get_size_pose);
+  state.def_property_readonly("size_velocity", &State::get_size_velocity);
 
   state.def_property("pose", py::overload_cast<>(&State::get_pose),
                      &State::set_pose);
