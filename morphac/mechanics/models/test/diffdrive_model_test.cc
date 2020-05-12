@@ -14,12 +14,12 @@ using morphac::mechanics::models::DiffDriveModel;
 
 class DiffDriveModelTest : public ::testing::Test {
  protected:
-  DiffDriveModelTest() {}
-
-  void SetUp() override {
+  DiffDriveModelTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 };
 
 TEST_F(DiffDriveModelTest, Construction) {

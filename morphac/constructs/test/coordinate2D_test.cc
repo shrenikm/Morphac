@@ -12,12 +12,12 @@ using Eigen::VectorXd;
 
 class Coordinate2DTest : public ::testing::Test {
  protected:
-  Coordinate2DTest() {}
-
-  void SetUp() override {
+  Coordinate2DTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 
   Coordinate2D<int> default_coord_int_{};
   Coordinate2D<int> zero_coord_int_{1, 2};

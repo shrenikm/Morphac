@@ -39,12 +39,12 @@ class CustomKinematicModel : public KinematicModel {
 
 class KinematicModelTest : public ::testing::Test {
  protected:
-  KinematicModelTest() {}
-
-  void SetUp() override {
+  KinematicModelTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 };
 
 TEST_F(KinematicModelTest, Sizes) {

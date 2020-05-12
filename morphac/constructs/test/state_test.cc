@@ -21,6 +21,8 @@ using morphac::constructs::Velocity;
 class StateTest : public ::testing::Test {
  protected:
   StateTest() {
+    // Set random seed for Eigen.
+    srand(7);
     state1_ = make_unique<State>(3, 2);
     state2_ = make_unique<State>(VectorXd::Zero(4), VectorXd::Zero(2));
     state3_ = make_unique<State>(initializer_list<double>{0, 0},
@@ -28,10 +30,7 @@ class StateTest : public ::testing::Test {
     state4_ = make_unique<State>(Pose(1), Velocity(5));
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<State> state1_, state2_, state3_, state4_;
 };

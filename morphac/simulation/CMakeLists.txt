@@ -1,20 +1,58 @@
 # Directories
 # -------------------------------------------------
 
-set(CONSTRUCTS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(CONSTRUCTS_SRC_DIR ${CONSTRUCTS_DIR}/src)
-set(CONSTRUCTS_INCLUDE_DIR ${CONSTRUCTS_DIR}/include)
-set(CONSTRUCTS_TEST_DIR ${CONSTRUCTS_DIR}/test)
+set(SIMULATION_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(SIMULATION_SRC_DIR ${SIMULATION_DIR}/src)
+set(SIMULATION_INCLUDE_DIR ${SIMULATION_DIR}/include)
+set(SIMULATION_TEST_DIR ${SIMULATION_DIR}/test)
 
-set(CONSTRUCTS_BINARY_DIR ${MORPHAC_BINARY_DIR}/simulation)
+set(SIMULATION_BINARY_DIR ${MORPHAC_BINARY_DIR}/simulation)
 
-set(CONSTRUCTS_BINDING_DIR ${CONSTRUCTS_DIR}/binding)
-set(CONSTRUCTS_BINDING_INCLUDE_DIR ${CONSTRUCTS_BINDING_DIR}/include)
-set(CONSTRUCTS_BINDING_SRC_DIR ${CONSTRUCTS_BINDING_DIR}/src)
-set(CONSTRUCTS_BINDING_BINARY_DIR ${CONSTRUCTS_BINARY_DIR}/binding)
-set(CONSTRUCTS_BINDING_INSTALL_DIR
+set(SIMULATION_BINDING_DIR ${SIMULATION_DIR}/binding)
+set(SIMULATION_BINDING_INCLUDE_DIR ${SIMULATION_BINDING_DIR}/include)
+set(SIMULATION_BINDING_SRC_DIR ${SIMULATION_BINDING_DIR}/src)
+set(SIMULATION_BINDING_BINARY_DIR ${SIMULATION_BINARY_DIR}/binding)
+set(SIMULATION_BINDING_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/simulation
 )
 
+# Adding subdirectories
+# -------------------------------------------------
 
+add_subdirectory(binding)
+
+
+# Libraries
+# -------------------------------------------------
+
+# Constructs source files.
+set(SIMULATION_SRC
+
+  playground.cc
+)
+
+foreach(file ${SIMULATION_SRC})
+  get_filename_component(lib_name
+    ${file} NAME_WE
+  )
+
+  get_header_name(header_name ${file})
+
+  add_library(${lib_name}
+    SHARED
+    ${SIMULATION_SRC_DIR}/${file}
+    ${SIMULATION_INCLUDE_DIR}/${header_name}
+  )
+
+  target_include_directories(${lib_name}
+    PUBLIC
+    ${SIMULATION_INCLUDE_DIR}
+  )
+endforeach()
+
+# Adding library dependencies.
+target_link_libraries(playground
+  PUBLIC
+  environment2D
+)
 

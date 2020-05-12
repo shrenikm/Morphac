@@ -18,15 +18,14 @@ using morphac::constructs::Pose;
 class PoseTest : public ::testing::Test {
  protected:
   PoseTest() {
+    // Set random seed for Eigen.
+    srand(7);
     pose1_ = make_unique<Pose>(3);
     pose2_ = make_unique<Pose>(VectorXd::Zero(4));
     pose3_ = make_unique<Pose>(initializer_list<double>{0, 0, 0, 0, 0});
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<Pose> pose1_, pose2_, pose3_;
 };

@@ -45,9 +45,7 @@ class CustomKinematicModel : public KinematicModel {
 
 class Robot2DTest : public ::testing::Test {
  protected:
-  Robot2DTest() {}
-
-  void SetUp() override {
+  Robot2DTest() {
     // Set random seed for Eigen.
     srand(7);
 
@@ -56,6 +54,8 @@ class Robot2DTest : public ::testing::Test {
     input_vector_ = VectorXd::Random(5);
     footprint_matrix_ = MatrixXd::Random(10, 2);
   }
+
+  void SetUp() override {}
 
   VectorXd pose_vector_, velocity_vector_, input_vector_;
   MatrixXd footprint_matrix_;

@@ -31,12 +31,12 @@ class SomeIntegrator : public Integrator {
 
 class IntegratorTest : public ::testing::Test {
  protected:
-  IntegratorTest() {}
-
-  void SetUp() override {
+  IntegratorTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 };
 
 TEST_F(IntegratorTest, Step) {

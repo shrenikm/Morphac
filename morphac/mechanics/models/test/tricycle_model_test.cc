@@ -13,12 +13,12 @@ using morphac::mechanics::models::TricycleModel;
 
 class TricycleModelTest : public ::testing::Test {
  protected:
-  TricycleModelTest() {}
-
-  void SetUp() override {
+  TricycleModelTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 };
 
 TEST_F(TricycleModelTest, Construction) {

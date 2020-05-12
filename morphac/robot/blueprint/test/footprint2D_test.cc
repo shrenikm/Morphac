@@ -11,13 +11,13 @@ using morphac::robot::blueprint::Footprint2D;
 
 class Footprint2DTest : public ::testing::Test {
  protected:
-  Footprint2DTest() {}
-
-  void SetUp() override {
+  Footprint2DTest() {
     // Set random seed for Eigen.
     srand(7);
     footprint_matrix_ = MatrixXd::Random(10, 2);
   }
+
+  void SetUp() override {}
 
   MatrixXd footprint_matrix_;
 };

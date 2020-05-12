@@ -27,14 +27,13 @@ using morphac::mechanics::models::KinematicModel;
 class MidPointIntegratorTest : public ::testing::Test {
  protected:
   MidPointIntegratorTest() {
+    // Set random seed for Eigen.
+    srand(7);
     diffdrive_model_ = make_unique<DiffDriveModel>(0.1, 0.2);
     mid_point_integrator_ = make_unique<MidPointIntegrator>(*diffdrive_model_);
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<DiffDriveModel> diffdrive_model_;
   unique_ptr<MidPointIntegrator> mid_point_integrator_;

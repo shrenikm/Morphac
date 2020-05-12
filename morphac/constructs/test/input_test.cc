@@ -18,15 +18,14 @@ using morphac::constructs::Input;
 class InputTest : public ::testing::Test {
  protected:
   InputTest() {
+    // Set random seed for Eigen.
+    srand(7);
     input1_ = make_unique<Input>(3);
     input2_ = make_unique<Input>(VectorXd::Zero(4));
     input3_ = make_unique<Input>(initializer_list<double>{0, 0, 0, 0, 0});
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<Input> input1_, input2_, input3_;
 };

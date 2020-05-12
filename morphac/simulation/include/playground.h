@@ -6,17 +6,17 @@
 namespace morphac {
 namespace simulation {
 
-Struct PlaygroundSpec {
+struct PlaygroundSpec {
   std::string name;
   double dt;
 
   int gui_width;
   int gui_height;
-}
+};
 
 class Playground {
  public:
-  Playground(const PlaygroundSpec& playground_spec,
+  Playground(const PlaygroundSpec& spec,
              const morphac::environments::Environment2D& environment2D);
 
   // Delete copy constructor.
@@ -26,8 +26,8 @@ class Playground {
   Playground& operator=(const Playground& playground) = delete;
 
  private:
-  const PlaygroundSpec playground_spec_;
-  Environment2D environment2D_;
+  const PlaygroundSpec spec_;
+  morphac::environments::Environment2D environment2D_;
 };
 
 }  // namespace simulation

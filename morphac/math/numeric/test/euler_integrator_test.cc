@@ -27,14 +27,13 @@ using morphac::mechanics::models::KinematicModel;
 class EulerIntegratorTest : public ::testing::Test {
  protected:
   EulerIntegratorTest() {
+    // Set random seed for Eigen.
+    srand(7);
     diffdrive_model_ = make_unique<DiffDriveModel>(0.1, 0.2);
     euler_integrator_ = make_unique<EulerIntegrator>(*diffdrive_model_);
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<DiffDriveModel> diffdrive_model_;
   unique_ptr<EulerIntegrator> euler_integrator_;

@@ -18,15 +18,14 @@ using morphac::constructs::Velocity;
 class VelocityTest : public ::testing::Test {
  protected:
   VelocityTest() {
+    // Set random seed for Eigen.
+    srand(7);
     velocity1_ = make_unique<Velocity>(3);
     velocity2_ = make_unique<Velocity>(VectorXd::Zero(4));
     velocity3_ = make_unique<Velocity>(initializer_list<double>{0, 0, 0, 0, 0});
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<Velocity> velocity1_, velocity2_, velocity3_;
 };

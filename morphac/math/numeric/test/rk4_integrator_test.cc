@@ -27,14 +27,13 @@ using morphac::mechanics::models::KinematicModel;
 class RK4IntegratorTest : public ::testing::Test {
  protected:
   RK4IntegratorTest() {
+    // Set random seed for Eigen.
+    srand(7);
     diffdrive_model_ = make_unique<DiffDriveModel>(0.1, 0.2);
     rk4_integrator_ = make_unique<RK4Integrator>(*diffdrive_model_);
   }
 
-  void SetUp() override {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+  void SetUp() override {}
 
   unique_ptr<DiffDriveModel> diffdrive_model_;
   unique_ptr<RK4Integrator> rk4_integrator_;
@@ -75,24 +74,20 @@ TEST_F(RK4IntegratorTest, Step) {
 
   // First we test for when the robot is facing the x axis.
   // 0.5 rad/s for 0.1 seconds moves us forward by 0.05 * 0.1 seconds
-  auto updated_state =
-      rk4_integrator_->Step(State({0, 0, 0}, {}), input1, 0.1);
+  auto updated_state = rk4_integrator_->Step(State({0, 0, 0}, {}), input1, 0.1);
   ASSERT_TRUE(updated_state == State({0.005, 0, 0}, {}));
 
   // Moving backwards.
-  updated_state =
-      rk4_integrator_->Step(State({0, 0, 0}, {}), input2, 0.1);
+  updated_state = rk4_integrator_->Step(State({0, 0, 0}, {}), input2, 0.1);
   ASSERT_TRUE(updated_state == State({-0.005, 0, 0}, {}));
 
   // Turning in place to the left.
   // 0.5 rad/s for 0.1 seconds. (Angular velocity so only theta changes).
-  updated_state =
-      rk4_integrator_->Step(State({0, 0, 0}, {}), input3, 0.1);
+  updated_state = rk4_integrator_->Step(State({0, 0, 0}, {}), input3, 0.1);
   ASSERT_TRUE(updated_state == State({0, 0, 0.05}, {}));
 
   // Turning in place to the right.
-  updated_state =
-      rk4_integrator_->Step(State({0, 0, 0}, {}), input4, 0.1);
+  updated_state = rk4_integrator_->Step(State({0, 0, 0}, {}), input4, 0.1);
   ASSERT_TRUE(updated_state == State({0, 0, -0.05}, {}));
 
   // Straight line facing a 45 degree angle.
@@ -130,14 +125,12 @@ TEST_F(RK4IntegratorTest, Integrate) {
   ASSERT_TRUE(updated_state == State({0.5, 0, 0}, {}));
 
   // Backward.
-  updated_state =
-      rk4_integrator_->Integrate(State(3, 0), input2, 10, 0.01);
+  updated_state = rk4_integrator_->Integrate(State(3, 0), input2, 10, 0.01);
   ASSERT_TRUE(updated_state == State({-0.5, 0, 0}, {}));
 
   // Turn in place by 90 degrees to the left. For an angular velocity (theta) of
   // 0.5 (using input3), we need to turn by (pi/2) / 0.5 seconds.
-  updated_state =
-      rk4_integrator_->Integrate(State(3, 0), input3, M_PI, 0.01);
+  updated_state = rk4_integrator_->Integrate(State(3, 0), input3, M_PI, 0.01);
   ASSERT_TRUE(updated_state == State({0, 0, M_PI / 2}, {}));
 
   // Turn in place by 270 degrees to the right. For an angular velocity (theta)

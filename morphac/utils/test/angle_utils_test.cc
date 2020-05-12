@@ -10,12 +10,12 @@ using morphac::math::utils::NormalizeAngle;
 
 class AngleUtilsTest : public ::testing::Test {
  protected:
-  AngleUtilsTest() : precision_(1e-6) {}
-
-  void SetUp() override {
+  AngleUtilsTest() : precision_(1e-6) {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
   double precision_;
 };
 

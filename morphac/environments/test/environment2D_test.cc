@@ -11,7 +11,9 @@ using morphac::environments::Environment2D;
 
 class Environment2DTest : public ::testing::Test {
  protected:
-  Environment2DTest() {}
+  Environment2DTest() {
+    srand(7);
+  }
 
   void SetUp() override {
     // Set random seed for Eigen.
