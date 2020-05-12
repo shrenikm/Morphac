@@ -5,6 +5,9 @@
 
 namespace {
 
+using std::make_unique;
+using std::unique_ptr;
+
 using Eigen::MatrixXd;
 
 using morphac::environments::Environment2D;
@@ -12,18 +15,37 @@ using morphac::environments::Environment2D;
 class Environment2DTest : public ::testing::Test {
  protected:
   Environment2DTest() {
-    srand(7);
-  }
-
-  void SetUp() override {
     // Set random seed for Eigen.
     srand(7);
+    env1_ = make_unique<Environment2D>(10, 10, 0.01);
+    env2_ = make_unique<Environment2D>(MatrixXd::Random(500, 500), 0.01);
   }
+
+  void SetUp() override {}
+
+  unique_ptr<Environment2D> env1_, env2_;
 };
 
-TEST_F(Environment2DTest, Construction) {
-  Environment2D env1{10, 10, 0.01};
-  Environment2D env2{MatrixXd::Random(500, 500), 0.01};
+TEST_F(Environment2DTest, CopyConstruction) {
+  Environment2D env1(*env1_);
+
+  Environment2D env2(20, 30, 0.1);
+  Environment2D env3(env2);
+
+  ASSERT_EQ(env3.get_width(), 20);
+  ASSERT_EQ(env3.get_height(), 30);
+  ASSERT_EQ(env3.get_resolution(), 0.1);
+}
+
+TEST_F(Environment2DTest, CopyAssignment) {
+  Environment2D env1 = *env1_;
+
+  Environment2D env2(20, 30, 0.1);
+  Environment2D env3 = env2;
+
+  ASSERT_EQ(env3.get_width(), 20);
+  ASSERT_EQ(env3.get_height(), 30);
+  ASSERT_EQ(env3.get_resolution(), 0.1);
 }
 
 TEST_F(Environment2DTest, InvalidConstruction) {

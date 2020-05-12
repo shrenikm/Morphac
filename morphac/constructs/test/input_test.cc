@@ -41,6 +41,17 @@ TEST_F(InputTest, CopyConstructor) {
   ASSERT_TRUE(input3.get_input_vector().isApprox(input_vector));
 }
 
+TEST_F(InputTest, CopyAssignment) {
+  Input input1 = *input1_;
+
+  VectorXd input_vector = VectorXd::Random(4);
+  Input input2(input_vector);
+  Input input3 = input2;
+
+  ASSERT_TRUE(input1.get_input_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input3.get_input_vector().isApprox(input_vector));
+}
+
 TEST_F(InputTest, InvalidConstruction) {
   ASSERT_THROW(Input(-1), std::invalid_argument);
 }

@@ -41,6 +41,17 @@ TEST_F(PoseTest, CopyConstructor) {
   ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose_vector));
 }
 
+TEST_F(PoseTest, CopyAssignment) {
+  Pose pose1 = *pose1_;
+
+  VectorXd pose_vector = VectorXd::Random(4);
+  Pose pose2(pose_vector);
+  Pose pose3 = pose2;
+
+  ASSERT_TRUE(pose1.get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose_vector));
+}
+
 TEST_F(PoseTest, InvalidConstruction) {
   ASSERT_THROW(Pose(-1), std::invalid_argument);
 }

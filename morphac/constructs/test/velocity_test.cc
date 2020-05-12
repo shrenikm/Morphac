@@ -41,6 +41,17 @@ TEST_F(VelocityTest, CopyConstructor) {
   ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(velocity_vector));
 }
 
+TEST_F(VelocityTest, CopyAssignment) {
+  Velocity velocity1 = *velocity1_;
+
+  VectorXd velocity_vector = VectorXd::Random(4);
+  Velocity velocity2(velocity_vector);
+  Velocity velocity3 = velocity2;
+
+  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(velocity_vector));
+}
+
 TEST_F(VelocityTest, InvalidConstruction) {
   ASSERT_THROW(Velocity(-1), std::invalid_argument);
 }

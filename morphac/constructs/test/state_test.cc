@@ -46,6 +46,17 @@ TEST_F(StateTest, CopyConstructor) {
   ASSERT_TRUE(state3.get_state_vector().isApprox(state_vector));
 }
 
+TEST_F(StateTest, CopyAssignment) {
+  State state1 = *state1_;
+
+  VectorXd state_vector = VectorXd::Random(10);
+  State state2(state_vector.head(6), state_vector.tail(4));
+  State state3 = state2;
+
+  ASSERT_TRUE(state1.get_state_vector().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(state3.get_state_vector().isApprox(state_vector));
+}
+
 TEST_F(StateTest, ConstState) {
   const State state(3, 3);
 
