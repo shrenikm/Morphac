@@ -8,11 +8,10 @@
 namespace morphac {
 namespace environments {
 
-class Environment2D {
+class Environment {
  public:
-  Environment2D(const double width, const double height,
-                const double resolution);
-  Environment2D(const Eigen::MatrixXd& map, const double resolution);
+  Environment(const double width, const double height, const double resolution);
+  Environment(const Eigen::MatrixXd& map, const double resolution);
 
   double get_width() const;
   double get_height() const;

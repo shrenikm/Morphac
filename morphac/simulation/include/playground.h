@@ -1,7 +1,7 @@
 #ifndef PLAYGROUND_H
 #define PLAYGROUND_H
 
-#include "environments/include/environment2D.h"
+#include "environments/include/environment.h"
 
 namespace morphac {
 namespace simulation {
@@ -16,7 +16,7 @@ struct PlaygroundSpec {
 
 // class PlaygroundState {
 // public:
-//  PlaygroundState(const morphac::environments::Environment2D& environment2D);
+//  PlaygroundState(const morphac::environments::Environment& environment);
 //
 //  // Delete copy constructor. We don't want to copy the state to avoid
 //  incurring
@@ -28,15 +28,15 @@ struct PlaygroundSpec {
 //  delete;
 //
 // private:
-//  morphac::environments::Environment2D environment2D_;
-//  std::unordered_map<string, morphac::robot::blueprint::Robot2D>
+//  morphac::environments::Environment environment_;
+//  std::unordered_map<string, morphac::robot::blueprint::Robot>
 //  robot_oracle_;
 //};
 
 class Playground {
  public:
   Playground(const PlaygroundSpec& spec,
-             const morphac::environments::Environment2D& environment2D);
+             const morphac::environments::Environment& environment);
 
   // Delete copy constructor.
   Playground(const Playground& playground) = delete;
@@ -46,7 +46,7 @@ class Playground {
 
  private:
   const PlaygroundSpec spec_;
-  morphac::environments::Environment2D environment2D_;
+  morphac::environments::Environment environment_;
 };
 
 }  // namespace simulation

@@ -1,12 +1,12 @@
-#include "environments/include/environment2D.h"
+#include "environments/include/environment.h"
 
 namespace morphac {
 namespace environments {
 
 using Eigen::MatrixXd;
 
-Environment2D::Environment2D(const double width, const double height,
-                             const double resolution)
+Environment::Environment(const double width, const double height,
+                         const double resolution)
     : width_(width), height_(height), resolution_(resolution) {
   MORPH_REQUIRE(width_ > 0, std::invalid_argument,
                 "Non-positive environment width.");
@@ -34,7 +34,7 @@ Environment2D::Environment2D(const double width, const double height,
   map_ = MatrixXd::Zero(rows, cols);
 }
 
-Environment2D::Environment2D(const MatrixXd& map, const double resolution)
+Environment::Environment(const MatrixXd& map, const double resolution)
     : width_(map.cols() * resolution),
       height_(map.rows() * resolution),
       resolution_(resolution) {
@@ -63,15 +63,15 @@ Environment2D::Environment2D(const MatrixXd& map, const double resolution)
   map_ = map;
 }
 
-double Environment2D::get_width() const { return width_; }
+double Environment::get_width() const { return width_; }
 
-double Environment2D::get_height() const { return height_; }
+double Environment::get_height() const { return height_; }
 
-double Environment2D::get_resolution() const { return resolution_; }
+double Environment::get_resolution() const { return resolution_; }
 
-const MatrixXd& Environment2D::get_map() const { return map_; }
+const MatrixXd& Environment::get_map() const { return map_; }
 
-void Environment2D::set_map(const MatrixXd& map) {
+void Environment::set_map(const MatrixXd& map) {
   // The map needs to have the same dimensions
   MORPH_REQUIRE((map.cols() * resolution_) == width_, std::invalid_argument,
                 "Map width does not match.");

@@ -1,7 +1,7 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "robot/blueprint/include/robot2D.h"
+#include "robot/blueprint/include/robot.h"
 
 namespace {
 
@@ -18,8 +18,8 @@ using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
 using morphac::mechanics::models::KinematicModel;
-using morphac::robot::blueprint::Footprint2D;
-using morphac::robot::blueprint::Robot2D;
+using morphac::robot::blueprint::Footprint;
+using morphac::robot::blueprint::Robot;
 
 class CustomKinematicModel : public KinematicModel {
  public:
@@ -43,9 +43,9 @@ class CustomKinematicModel : public KinematicModel {
   }
 };
 
-class Robot2DTest : public ::testing::Test {
+class RobotTest : public ::testing::Test {
  protected:
-  Robot2DTest() {
+  RobotTest() {
     // Set random seed for Eigen.
     srand(7);
 
@@ -61,36 +61,36 @@ class Robot2DTest : public ::testing::Test {
   MatrixXd footprint_matrix_;
 };
 
-TEST_F(Robot2DTest, Construction) {
+TEST_F(RobotTest, Construction) {
   CustomKinematicModel model(3, 2, 5);
-  Footprint2D footprint(footprint_matrix_);
-  Robot2D robot1{"robot1", model, footprint};
+  Footprint footprint(footprint_matrix_);
+  Robot robot1{"robot1", model, footprint};
 
-  Robot2D robot2{"robot2", model, footprint, State(3, 2)};
+  Robot robot2{"robot2", model, footprint, State(3, 2)};
 }
 
-TEST_F(Robot2DTest, InvalidConstruction) {
+TEST_F(RobotTest, InvalidConstruction) {
   CustomKinematicModel model(3, 2, 5);
-  Footprint2D footprint(footprint_matrix_);
-  ASSERT_THROW(Robot2D("robot", model, footprint, State(3, 3)),
+  Footprint footprint(footprint_matrix_);
+  ASSERT_THROW(Robot("robot", model, footprint, State(3, 3)),
                std::invalid_argument);
-  ASSERT_THROW(Robot2D("robot", model, footprint, State(4, 2)),
+  ASSERT_THROW(Robot("robot", model, footprint, State(4, 2)),
                std::invalid_argument);
-  ASSERT_THROW(Robot2D("robot", model, footprint, State(4, 3)),
+  ASSERT_THROW(Robot("robot", model, footprint, State(4, 3)),
                std::invalid_argument);
 }
 
-TEST_F(Robot2DTest, Accessors) {
+TEST_F(RobotTest, Accessors) {
   CustomKinematicModel model(3, 2, 5);
-  Footprint2D footprint(footprint_matrix_);
-  Robot2D robot1{"robot1", model, footprint};
+  Footprint footprint(footprint_matrix_);
+  Robot robot1{"robot1", model, footprint};
 
   VectorXd initial_pose{VectorXd::Random(3)};
   VectorXd initial_velocity{VectorXd::Random(2)};
   VectorXd initial_state(5);
   initial_state << initial_pose, initial_velocity;
-  Robot2D robot2{"robot2", model, footprint,
-                 State(initial_pose, initial_velocity)};
+  Robot robot2{"robot2", model, footprint,
+               State(initial_pose, initial_velocity)};
 
   ASSERT_EQ(robot1.get_name(), "robot1");
   ASSERT_EQ(robot2.get_name(), "robot2");
@@ -111,10 +111,10 @@ TEST_F(Robot2DTest, Accessors) {
       robot2.get_state().get_velocity_vector().isApprox(initial_velocity));
 }
 
-TEST_F(Robot2DTest, SetState) {
+TEST_F(RobotTest, SetState) {
   CustomKinematicModel model(3, 2, 5);
-  Footprint2D footprint(footprint_matrix_);
-  Robot2D robot1{"robot1", model, footprint};
+  Footprint footprint(footprint_matrix_);
+  Robot robot1{"robot1", model, footprint};
 
   VectorXd pose_vector = VectorXd::Random(3);
   VectorXd velocity_vector = VectorXd::Random(2);
@@ -154,9 +154,9 @@ TEST_F(Robot2DTest, SetState) {
                std::invalid_argument);
 }
 
-TEST_F(Robot2DTest, Derivative) {
+TEST_F(RobotTest, Derivative) {
   CustomKinematicModel model(3, 2, 5);
-  Footprint2D footprint(footprint_matrix_);
+  Footprint footprint(footprint_matrix_);
   VectorXd initial_pose(3), initial_velocity(2), input(5),
       expected_state_derivative1(5), expected_state_derivative2(5);
 
@@ -165,8 +165,7 @@ TEST_F(Robot2DTest, Derivative) {
   input << 1, 2, 3, 2, 1;
   expected_state_derivative1 << 0, 1, -4, 3, 0;
 
-  Robot2D robot{"robot", model, footprint,
-                State(initial_pose, initial_velocity)};
+  Robot robot{"robot", model, footprint, State(initial_pose, initial_velocity)};
 
   // Testing derivative computation.
   State derivative1 = robot.ComputeStateDerivative(input);

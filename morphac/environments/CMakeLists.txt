@@ -27,7 +27,7 @@ add_subdirectory(binding)
 # Environment source files.
 set(ENVIRONMENT_SRC
 
-  environment2D.cc
+  environment.cc
 )
 
 foreach(file ${ENVIRONMENT_SRC})
@@ -53,7 +53,7 @@ endforeach()
 # Environment tests source files.
 set(ENVIRONMENT_TEST_SRC
 
-  environment2D_test.cc
+  environment_test.cc
 )
 
 # Creating the test executables.
@@ -73,9 +73,9 @@ foreach(file ${ENVIRONMENT_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(environment2D_test
+target_link_libraries(environment_test
   PUBLIC
   gtest_main
-  environment2D
+  environment
 )
 

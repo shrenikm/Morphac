@@ -1,14 +1,14 @@
 import numpy as np
 import pytest
 
-from morphac.robot.blueprint import Footprint2D
+from morphac.robot.blueprint import Footprint
 
 
 @pytest.fixture()
-def generate_footprint2D_list():
+def generate_footprint_list():
 
-    f1 = Footprint2D([[1, 2]])
-    f2 = Footprint2D(data=np.ones([10, 2]))
+    f1 = Footprint([[1, 2]])
+    f2 = Footprint(data=np.ones([10, 2]))
 
     return f1, f2
 
@@ -17,18 +17,18 @@ def test_invalid_construction():
 
     # Footprint data must be an nx2 matrix.
     with pytest.raises(ValueError):
-        Footprint2D([1, 2])
+        Footprint([1, 2])
     with pytest.raises(ValueError):
-        Footprint2D([[1, 2, 3]])
+        Footprint([[1, 2, 3]])
     with pytest.raises(ValueError):
-        Footprint2D(np.random.randn(10, 1))
+        Footprint(np.random.randn(10, 1))
     with pytest.raises(ValueError):
-        Footprint2D(np.random.randn(10, 3))
+        Footprint(np.random.randn(10, 3))
 
 
-def test_data(generate_footprint2D_list):
+def test_data(generate_footprint_list):
 
-    f1, f2 = generate_footprint2D_list
+    f1, f2 = generate_footprint_list
 
     assert np.allclose(f1.data, [[1, 2]])
     assert np.allclose(f2.data, np.ones([10, 2]))

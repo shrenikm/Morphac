@@ -7,7 +7,7 @@ from morphac.mechanics.models import (
     DiffDriveModel,
     TricycleModel
 )
-from morphac.robot.blueprint import Footprint2D, Robot2D
+from morphac.robot.blueprint import Footprint, Robot
 
 # KinematicModel extension class to ensure that a robot can be created from
 # a subclassed KinematicModel
@@ -32,25 +32,25 @@ class CustomKinematicModel(KinematicModel):
 
 
 @pytest.fixture()
-def generate_robot2D_list():
+def generate_robot_list():
 
-    r1 = Robot2D("r1", DiffDriveModel(1, 1), Footprint2D([[1, 2]]))
-    r2 = Robot2D("r2", TricycleModel(1, 1),
-                 Footprint2D(np.ones([20, 2])))
-    r3 = Robot2D("r3", CustomKinematicModel(3, 2, 5, 2.5, 2),
-                 Footprint2D([[1, 0], [0, 1]]))
-    r4 = Robot2D(name="r4",
-                 kinematic_model=CustomKinematicModel(2, 2, 4, 0, 0),
-                 footprint=Footprint2D([[0, 0]]),
-                 initial_state=State([1, 2], [3, 4])
-                 )
+    r1 = Robot("r1", DiffDriveModel(1, 1), Footprint([[1, 2]]))
+    r2 = Robot("r2", TricycleModel(1, 1),
+               Footprint(np.ones([20, 2])))
+    r3 = Robot("r3", CustomKinematicModel(3, 2, 5, 2.5, 2),
+               Footprint([[1, 0], [0, 1]]))
+    r4 = Robot(name="r4",
+               kinematic_model=CustomKinematicModel(2, 2, 4, 0, 0),
+               footprint=Footprint([[0, 0]]),
+               initial_state=State([1, 2], [3, 4])
+               )
 
     return r1, r2, r3, r4
 
 
-def test_name(generate_robot2D_list):
+def test_name(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     assert r1.name == "r1"
     assert r2.name == "r2"
@@ -62,9 +62,9 @@ def test_name(generate_robot2D_list):
         r1.name = "r2"
 
 
-def test_kinematic_model(generate_robot2D_list):
+def test_kinematic_model(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     # Making sure that they are of the right type.
     assert isinstance(r1.kinematic_model, DiffDriveModel)
@@ -104,9 +104,9 @@ def test_kinematic_model(generate_robot2D_list):
         r2.kinematic_model = TricycleModel(1, 1)
 
 
-def test_footprint(generate_robot2D_list):
+def test_footprint(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     assert np.allclose(r1.footprint.data, [[1, 2]])
     assert np.allclose(r2.footprint.data, np.ones([20, 2]))
@@ -120,9 +120,9 @@ def test_footprint(generate_robot2D_list):
         r2.footprint = np.ones([20, 2])
 
 
-def test_state(generate_robot2D_list):
+def test_state(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     # r1, r2, r3 have not been created using an initial state and must hence
     # be zero.
@@ -151,9 +151,9 @@ def test_state(generate_robot2D_list):
     assert np.allclose(r3.state.data, [-20, -20, -30, -40, -60])
 
 
-def test_pose(generate_robot2D_list):
+def test_pose(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     assert np.allclose(r1.pose.data, [0, 0, 0])
     assert np.allclose(r2.pose.data, [0, 0, 0, 0])
@@ -186,9 +186,9 @@ def test_pose(generate_robot2D_list):
     assert np.allclose(r3.state.data, [-2, -2, -2, 0, 0])
 
 
-def test_velocity(generate_robot2D_list):
+def test_velocity(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     assert np.allclose(r3.velocity.data, [0, 0])
     assert np.allclose(r4.velocity.data, [3, 4])
@@ -219,9 +219,9 @@ def test_velocity(generate_robot2D_list):
     assert np.allclose(r4.state.data, [1, 2, -10, -10])
 
 
-def test_derivative_computation(generate_robot2D_list):
+def test_derivative_computation(generate_robot_list):
 
-    r1, r2, r3, r4 = generate_robot2D_list
+    r1, r2, r3, r4 = generate_robot_list
 
     # We check for the actual derivative values only for r3 and r4 as they
     # have the custom kinematic model. The other models have already been

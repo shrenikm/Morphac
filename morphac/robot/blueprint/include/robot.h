@@ -1,5 +1,5 @@
-#ifndef ROBOT2D_H
-#define ROBOT2D_H
+#ifndef ROBOT_H
+#define ROBOT_H
 
 #include <unordered_map>
 
@@ -12,21 +12,21 @@
 
 #include "mechanics/models/include/kinematic_model.h"
 
-#include "robot/blueprint/include/footprint2D.h"
+#include "robot/blueprint/include/footprint.h"
 
 namespace morphac {
 namespace robot {
 namespace blueprint {
 
-class Robot2D {
+class Robot {
  public:
-  Robot2D(const std::string name,
-          morphac::mechanics::models::KinematicModel& kinematic_model,
-          const morphac::robot::blueprint::Footprint2D& footprint);
-  Robot2D(const std::string name,
-          morphac::mechanics::models::KinematicModel& kinematic_model,
-          const morphac::robot::blueprint::Footprint2D& footprint,
-          const morphac::constructs::State& initial_state);
+  Robot(const std::string name,
+        morphac::mechanics::models::KinematicModel& kinematic_model,
+        const morphac::robot::blueprint::Footprint& footprint);
+  Robot(const std::string name,
+        morphac::mechanics::models::KinematicModel& kinematic_model,
+        const morphac::robot::blueprint::Footprint& footprint,
+        const morphac::constructs::State& initial_state);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::Input& input) const;
@@ -37,7 +37,7 @@ class Robot2D {
 
   std::string get_name() const;
   const morphac::mechanics::models::KinematicModel& get_kinematic_model() const;
-  const morphac::robot::blueprint::Footprint2D& get_footprint() const;
+  const morphac::robot::blueprint::Footprint& get_footprint() const;
   const morphac::constructs::State& get_state() const;
   const morphac::constructs::Pose& get_pose() const;
   const morphac::constructs::Velocity& get_velocity() const;
@@ -48,7 +48,7 @@ class Robot2D {
  private:
   std::string name_;
   morphac::mechanics::models::KinematicModel& kinematic_model_;
-  morphac::robot::blueprint::Footprint2D footprint_;
+  morphac::robot::blueprint::Footprint footprint_;
   morphac::constructs::State state_;
 };
 

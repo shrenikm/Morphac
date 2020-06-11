@@ -3,11 +3,11 @@
 namespace morphac {
 namespace simulation {
 
-using morphac::environments::Environment2D;
+using morphac::environments::Environment;
 
 Playground::Playground(const PlaygroundSpec& spec,
-                       const Environment2D& environment2D)
-    : spec_(spec), environment2D_(environment2D) {}
+                       const Environment& environment)
+    : spec_(spec), environment_(environment) {}
 
 }  // namespace simulation
 }  // namespace morphac

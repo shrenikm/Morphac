@@ -27,8 +27,8 @@ add_subdirectory(binding)
 # Blueprint source files.
 set(BLUEPRINT_SRC
 
-  footprint2D.cc
-  robot2D.cc
+  footprint.cc
+  robot.cc
 )
 
 foreach(file ${BLUEPRINT_SRC})
@@ -51,14 +51,14 @@ foreach(file ${BLUEPRINT_SRC})
 endforeach()
 
 # Adding library dependencies.
-target_link_libraries(robot2D
+target_link_libraries(robot
   PUBLIC
   input
   pose
   state
   velocity
   kinematic_model
-  footprint2D
+  footprint
 )
 
 
@@ -68,8 +68,8 @@ target_link_libraries(robot2D
 # Blueprint tests source files.
 set(BLUEPRINT_TEST_SRC
 
-  footprint2D_test.cc
-  robot2D_test.cc
+  footprint_test.cc
+  robot_test.cc
 )
 
 # Creating the test executables.
@@ -89,15 +89,15 @@ foreach(file ${BLUEPRINT_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(footprint2D_test
+target_link_libraries(footprint_test
   PUBLIC
   gtest_main
-  footprint2D
+  footprint
 )
 
-target_link_libraries(robot2D_test
+target_link_libraries(robot_test
   PUBLIC
   gtest_main
-  robot2D
+  robot
 )
 

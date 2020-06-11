@@ -53,6 +53,6 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(playground
   PUBLIC
-  environment2D
+  environment
 )
 

@@ -16,8 +16,8 @@ set(BLUEPRINT_MODULE_FILE
 # They are split up into different files so that compilation is more efficient.
 set(BLUEPRINT_BINDING_FILES
 
-  footprint2D_binding.cc
-  robot2D_binding.cc
+  footprint_binding.cc
+  robot_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -49,8 +49,8 @@ target_link_libraries(${module_name}
   kinematic_model
   state
   input
-  footprint2D
-  robot2D
+  footprint
+  robot
 )
 
 # Setting binding target properties.
