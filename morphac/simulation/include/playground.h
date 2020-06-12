@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "environments/include/environment.h"
+#include "math/numeric/include/integrator.h"
 #include "robot/blueprint/include/robot.h"
 
 namespace morphac {
@@ -56,6 +57,8 @@ class Playground {
  private:
   const PlaygroundSpec spec_;
   PlaygroundState playground_state_;
+  std::unordered_map<int, morphac::math::numeric::Integrator&>
+      integrator_oracle_;
 };
 
 }  // namespace simulation
