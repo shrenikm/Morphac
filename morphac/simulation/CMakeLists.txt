@@ -29,6 +29,7 @@ add_subdirectory(binding)
 set(SIMULATION_SRC
 
   playground.cc
+  playground_state.cc
 )
 
 foreach(file ${SIMULATION_SRC})
@@ -51,10 +52,19 @@ foreach(file ${SIMULATION_SRC})
 endforeach()
 
 # Adding library dependencies.
+target_link_libraries(playground_state
+  PUBLIC
+  environment
+  robot
+)
+
 target_link_libraries(playground
   PUBLIC
   environment
   robot
   integrator
+  playground_state
 )
+
+
 
