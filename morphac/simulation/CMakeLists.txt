@@ -54,5 +54,6 @@ endforeach()
 target_link_libraries(playground
   PUBLIC
   environment
+  robot
 )
 
