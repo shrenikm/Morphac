@@ -1,8 +1,6 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include <unordered_map>
-
 #include "Eigen/Dense"
 
 #include "constructs/include/input.h"
@@ -20,13 +18,12 @@ namespace blueprint {
 
 class Robot {
  public:
-  Robot(const std::string name,
-        morphac::mechanics::models::KinematicModel& kinematic_model,
-        const morphac::robot::blueprint::Footprint& footprint);
-  Robot(const std::string name,
-        morphac::mechanics::models::KinematicModel& kinematic_model,
+  Robot(morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::robot::blueprint::Footprint& footprint,
-        const morphac::constructs::State& initial_state);
+        const int uid = 0);
+  Robot(morphac::mechanics::models::KinematicModel& kinematic_model,
+        const morphac::robot::blueprint::Footprint& footprint,
+        const morphac::constructs::State& initial_state, const int uid = 0);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::Input& input) const;
@@ -35,7 +32,7 @@ class Robot {
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input) const;
 
-  std::string get_name() const;
+  int get_uid() const;
   const morphac::mechanics::models::KinematicModel& get_kinematic_model() const;
   const morphac::robot::blueprint::Footprint& get_footprint() const;
   const morphac::constructs::State& get_state() const;
@@ -46,10 +43,10 @@ class Robot {
   void set_velocity(const morphac::constructs::Velocity& velocity);
 
  private:
-  std::string name_;
   morphac::mechanics::models::KinematicModel& kinematic_model_;
   morphac::robot::blueprint::Footprint footprint_;
   morphac::constructs::State state_;
+  int uid_;
 };
 
 }  // namespace blueprint

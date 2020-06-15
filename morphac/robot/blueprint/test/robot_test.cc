@@ -8,7 +8,6 @@ namespace {
 using std::make_shared;
 using std::shared_ptr;
 using std::srand;
-using std::string;
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -64,36 +63,33 @@ class RobotTest : public ::testing::Test {
 TEST_F(RobotTest, Construction) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
-  Robot robot1{"robot1", model, footprint};
+  Robot robot1{model, footprint};
 
-  Robot robot2{"robot2", model, footprint, State(3, 2)};
+  Robot robot2{model, footprint, State(3, 2)};
 }
 
 TEST_F(RobotTest, InvalidConstruction) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
-  ASSERT_THROW(Robot("robot", model, footprint, State(3, 3)),
-               std::invalid_argument);
-  ASSERT_THROW(Robot("robot", model, footprint, State(4, 2)),
-               std::invalid_argument);
-  ASSERT_THROW(Robot("robot", model, footprint, State(4, 3)),
-               std::invalid_argument);
+  ASSERT_THROW(Robot(model, footprint, State(3, 3)), std::invalid_argument);
+  ASSERT_THROW(Robot(model, footprint, State(4, 2)), std::invalid_argument);
+  ASSERT_THROW(Robot(model, footprint, State(4, 3)), std::invalid_argument);
 }
 
 TEST_F(RobotTest, Accessors) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
-  Robot robot1{"robot1", model, footprint};
+  // Robot with default id.
+  Robot robot1{model, footprint};
 
   VectorXd initial_pose{VectorXd::Random(3)};
   VectorXd initial_velocity{VectorXd::Random(2)};
   VectorXd initial_state(5);
   initial_state << initial_pose, initial_velocity;
-  Robot robot2{"robot2", model, footprint,
-               State(initial_pose, initial_velocity)};
+  Robot robot2{model, footprint, State(initial_pose, initial_velocity), 1};
 
-  ASSERT_EQ(robot1.get_name(), "robot1");
-  ASSERT_EQ(robot2.get_name(), "robot2");
+  ASSERT_EQ(robot1.get_uid(), 0);
+  ASSERT_EQ(robot2.get_uid(), 1);
 
   // Making sure that the initial state is correct.
   // For the robot object created without initial state, the initial pose and
@@ -114,7 +110,7 @@ TEST_F(RobotTest, Accessors) {
 TEST_F(RobotTest, SetState) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
-  Robot robot1{"robot1", model, footprint};
+  Robot robot1{model, footprint};
 
   VectorXd pose_vector = VectorXd::Random(3);
   VectorXd velocity_vector = VectorXd::Random(2);
@@ -165,7 +161,7 @@ TEST_F(RobotTest, Derivative) {
   input << 1, 2, 3, 2, 1;
   expected_state_derivative1 << 0, 1, -4, 3, 0;
 
-  Robot robot{"robot", model, footprint, State(initial_pose, initial_velocity)};
+  Robot robot{model, footprint, State(initial_pose, initial_velocity)};
 
   // Testing derivative computation.
   State derivative1 = robot.ComputeStateDerivative(input);

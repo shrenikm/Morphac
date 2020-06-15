@@ -4,9 +4,6 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
-using std::string;
-using std::unordered_map;
-
 using Eigen::MatrixXd;
 
 using morphac::constructs::Input;
@@ -16,19 +13,19 @@ using morphac::constructs::Velocity;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 
-Robot::Robot(const string name, KinematicModel& kinematic_model,
-             const Footprint& footprint)
-    : name_(name),
-      kinematic_model_(kinematic_model),
+Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
+             const int uid)
+    : kinematic_model_(kinematic_model),
       footprint_(footprint),
-      state_(State(kinematic_model.size_pose, kinematic_model.size_velocity)) {}
+      state_(State(kinematic_model.size_pose, kinematic_model.size_velocity)),
+      uid_(uid) {}
 
-Robot::Robot(const string name, KinematicModel& kinematic_model,
-             const Footprint& footprint, const State& initial_state)
-    : name_(name),
-      kinematic_model_(kinematic_model),
+Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
+             const State& initial_state, const int uid)
+    : kinematic_model_(kinematic_model),
       footprint_(footprint),
-      state_(initial_state) {
+      state_(initial_state),
+      uid_(uid) {
   MORPH_REQUIRE(
       initial_state.get_size_pose() == kinematic_model.size_pose &&
           initial_state.get_size_velocity() == kinematic_model.size_velocity,
@@ -58,7 +55,7 @@ State Robot::ComputeStateDerivative(const State& state,
   return kinematic_model_.ComputeStateDerivative(state, input);
 }
 
-string Robot::get_name() const { return name_; }
+int Robot::get_uid() const { return uid_; }
 
 const KinematicModel& Robot::get_kinematic_model() const {
   return kinematic_model_;

@@ -1,6 +1,8 @@
 #ifndef PLAYGROUND_STATE_H
 #define PLAYGROUND_STATE_H
 
+#include <unordered_map>
+
 #include "environments/include/environment.h"
 #include "robot/blueprint/include/robot.h"
 
