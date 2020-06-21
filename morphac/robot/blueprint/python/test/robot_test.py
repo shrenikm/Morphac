@@ -48,6 +48,19 @@ def generate_robot_list():
     return r1, r2, r3, r4
 
 
+def test_invalid_construction():
+
+    with pytest.raises(ValueError):
+        # Invalid State dimensions.
+        robot = Robot(DiffDriveModel(1, 1),
+                      Footprint([[0, 0]]), State(1, 1))
+
+        # Invalid ID
+        robot = Robot(DiffDriveModel(1, 1), Footprint([[0, 0]]), -1)
+        robot = Robot(DiffDriveModel(1, 1), Footprint(
+            [[0, 0]]), State(3, 0), -2)
+
+
 def test_uid(generate_robot_list):
 
     r1, r2, r3, r4 = generate_robot_list

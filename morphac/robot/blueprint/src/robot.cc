@@ -18,7 +18,10 @@ Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
     : kinematic_model_(kinematic_model),
       footprint_(footprint),
       state_(State(kinematic_model.size_pose, kinematic_model.size_velocity)),
-      uid_(uid) {}
+      uid_(uid) {
+  MORPH_REQUIRE(uid >= 0, std::invalid_argument,
+                "Robot ID must be non-negative.");
+}
 
 Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
              const State& initial_state, const int uid)
@@ -31,6 +34,8 @@ Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
           initial_state.get_size_velocity() == kinematic_model.size_velocity,
       std::invalid_argument,
       "Kinematic model and initial state dimensions do not match.");
+  MORPH_REQUIRE(uid >= 0, std::invalid_argument,
+                "Robot ID must be non-negative.");
 }
 
 State Robot::ComputeStateDerivative(const Input& input) const {

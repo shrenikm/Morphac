@@ -71,9 +71,15 @@ TEST_F(RobotTest, Construction) {
 TEST_F(RobotTest, InvalidConstruction) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
+
+  // Test invalid state/input dimensions.
   ASSERT_THROW(Robot(model, footprint, State(3, 3)), std::invalid_argument);
   ASSERT_THROW(Robot(model, footprint, State(4, 2)), std::invalid_argument);
   ASSERT_THROW(Robot(model, footprint, State(4, 3)), std::invalid_argument);
+
+  // Test invalid robot id.
+  ASSERT_THROW(Robot(model, footprint, -1), std::invalid_argument);
+  ASSERT_THROW(Robot(model, footprint, State(3, 2), -2), std::invalid_argument);
 }
 
 TEST_F(RobotTest, Accessors) {

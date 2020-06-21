@@ -24,12 +24,12 @@ void define_robot_binding(py::module& m) {
   // As the kinematic model object is temporary, gets deleted and the cpp side
   // throws a segfault.
   robot.def(py::init<KinematicModel&, const Footprint&, const int>(),
-            py::arg("kinematic_model"), py::arg("footprint"), py::arg("uid"),
-            py::keep_alive<1, 2>());
+            py::arg("kinematic_model"), py::arg("footprint"),
+            py::arg("uid") = 0, py::keep_alive<1, 2>());
   robot.def(
       py::init<KinematicModel&, const Footprint&, const State&, const int>(),
       py::arg("kinematic_model"), py::arg("footprint"),
-      py::arg("initial_state"), py::arg("uid"), py::keep_alive<1, 2>());
+      py::arg("initial_state"), py::arg("uid") = 0, py::keep_alive<1, 2>());
   robot.def("compute_state_derivative",
             py::overload_cast<const Input&>(&Robot::ComputeStateDerivative,
                                             py::const_),
