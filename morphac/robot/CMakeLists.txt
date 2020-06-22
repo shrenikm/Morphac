@@ -11,6 +11,7 @@ set(ROBOT_BINDING_INSTALL_DIR ${PYTHON_BINDING_INSTALL_DIR}/robot)
 # -------------------------------------------------
 
 add_subdirectory(blueprint)
+add_subdirectory(pilot)
 
 
 # Installing

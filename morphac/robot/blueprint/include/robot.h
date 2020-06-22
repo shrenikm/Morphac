@@ -1,8 +1,6 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include "Eigen/Dense"
-
 #include "constructs/include/input.h"
 #include "constructs/include/pose.h"
 #include "constructs/include/state.h"
