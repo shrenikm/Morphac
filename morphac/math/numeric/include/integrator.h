@@ -9,6 +9,12 @@ namespace morphac {
 namespace math {
 namespace numeric {
 
+enum class IntegratorType {
+  kEulerIntegrator,
+  kMidPointIntegrator,
+  kRK4Integrator
+};
+
 class Integrator {
  public:
   // Integrator takes in a KinematicModel as the morphac integrator is
