@@ -33,6 +33,8 @@ class PyIntegrator : public morphac::math::numeric::Integrator {
 
 void define_integrator_binding(pybind11::module& m);
 
+void define_integrator_type_binding(pybind11::module& m);
+
 }  // namespace binding
 }  // namespace numeric
 }  // namespace math
