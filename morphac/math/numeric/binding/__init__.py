@@ -1,6 +1,7 @@
 from ._binding_numeric import (
-    EulerIntegrator,
     Integrator,
+    IntegratorType,
+    EulerIntegrator,
     MidPointIntegrator,
     RK4Integrator,
 )

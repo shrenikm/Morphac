@@ -94,6 +94,7 @@ target_link_libraries(mid_point_integrator
 set(NUMERIC_TEST_SRC
 
   integrator_test.cc
+  integrator_type_test.cc
   euler_integrator_test.cc
   mid_point_integrator_test.cc
   rk4_integrator_test.cc
@@ -121,6 +122,12 @@ target_link_libraries(integrator_test
   gtest_main
   integrator
   diffdrive_model
+)
+
+target_link_libraries(integrator_type_test
+  PUBLIC
+  gtest_main
+  integrator
 )
 
 target_link_libraries(euler_integrator_test
