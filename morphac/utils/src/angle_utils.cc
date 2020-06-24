@@ -1,7 +1,6 @@
 #include "utils/include/angle_utils.h"
 
 namespace morphac {
-namespace math {
 namespace utils {
 
 double ToDegrees(const double angle_in_radians) {
@@ -33,5 +32,4 @@ double NormalizeAngle(const double angle_in_radians) {
 }
 
 }  // namespace utils
-}  // namespace math
 }  // namespace morphac

@@ -25,7 +25,7 @@ class PlaygroundState {
   get_robot_oracle() const;
 
   void set_environment(const morphac::environments::Environment& environment);
-  void AddRobot(int id, const morphac::robot::blueprint::Robot& robot);
+  void AddRobot(const morphac::robot::blueprint::Robot& robot);
 
  private:
   morphac::environments::Environment environment_;

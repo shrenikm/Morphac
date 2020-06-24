@@ -62,6 +62,7 @@ target_link_libraries(playground
   PUBLIC
   environment
   robot
+  pilot
   integrator
   playground_state
 )

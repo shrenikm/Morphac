@@ -30,6 +30,7 @@ add_subdirectory(binding)
 set(UTILS_SRC
 
   angle_utils.cc
+  integrator_utils.cc
 )
 
 foreach(file ${UTILS_SRC})
@@ -50,6 +51,16 @@ foreach(file ${UTILS_SRC})
     ${UTILS_INCLUDE_DIR}
   )
 endforeach()
+
+# Adding library dependencies.
+target_link_libraries(integrator_utils
+  PUBLIC
+  integrator
+  euler_integrator
+  mid_point_integrator
+  rk4_integrator
+  kinematic_model
+)
 
 
 # Tests

@@ -4,9 +4,9 @@
 
 namespace {
 
-using morphac::math::utils::ToDegrees;
-using morphac::math::utils::ToRadians;
-using morphac::math::utils::NormalizeAngle;
+using morphac::utils::ToDegrees;
+using morphac::utils::ToRadians;
+using morphac::utils::NormalizeAngle;
 
 class AngleUtilsTest : public ::testing::Test {
  protected:

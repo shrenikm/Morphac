@@ -6,6 +6,7 @@
 #include "environments/include/environment.h"
 #include "math/numeric/include/integrator.h"
 #include "robot/blueprint/include/robot.h"
+#include "robot/pilot/include/pilot.h"
 #include "simulation/include/playground_state.h"
 
 namespace morphac {
@@ -31,6 +32,10 @@ class Playground {
   Playground& operator=(const Playground& playground) = delete;
 
   const PlaygroundState& get_state() const;
+
+  void AddRobot(const morphac::robot::blueprint::Robot& robot,
+                const morphac::robot::pilot::Pilot& pilot,
+                const morphac::math::numeric::IntegratorType& integrator_type);
 
  private:
   const PlaygroundSpec spec_;

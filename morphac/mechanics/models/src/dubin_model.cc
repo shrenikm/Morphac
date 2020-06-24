@@ -10,7 +10,7 @@ using std::sin;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-using morphac::math::utils::NormalizeAngle;
+using morphac::utils::NormalizeAngle;
 using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::Input;
 using morphac::constructs::State;

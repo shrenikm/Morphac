@@ -23,8 +23,11 @@ void PlaygroundState::set_environment(const Environment& environment) {
   environment_ = environment;
 }
 
-void PlaygroundState::AddRobot(int id, const Robot& robot) {
-  robot_oracle_.insert({id, robot});
+void PlaygroundState::AddRobot(const Robot& robot) {
+  MORPH_REQUIRE(robot_oracle_.find(robot.get_uid()) == robot_oracle_.end(),
+                std::logic_error,
+                "Robot with this UID already exists in the state.");
+  robot_oracle_.insert({robot.get_uid(), robot});
 }
 
 }  // namespace simulation
