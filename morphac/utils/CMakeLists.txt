@@ -70,6 +70,7 @@ target_link_libraries(integrator_utils
 set(UTILS_TEST_SRC
 
   angle_utils_test.cc
+  integrator_utils_test.cc
 )
 
 # Creating the test executables.
@@ -93,6 +94,14 @@ target_link_libraries(angle_utils_test
   PUBLIC
   gtest_main
   angle_utils
+)
+
+target_link_libraries(integrator_utils_test
+  PUBLIC
+  gtest_main
+  integrator_utils
+  integrator
+  diffdrive_model
 )
 
 

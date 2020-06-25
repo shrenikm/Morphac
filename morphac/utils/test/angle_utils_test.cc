@@ -8,95 +8,86 @@ using morphac::utils::ToDegrees;
 using morphac::utils::ToRadians;
 using morphac::utils::NormalizeAngle;
 
-class AngleUtilsTest : public ::testing::Test {
- protected:
-  AngleUtilsTest() : precision_(1e-6) {
-    // Set random seed for Eigen.
-    srand(7);
-  }
+double precision = 1e-6;
 
-  void SetUp() override {}
-  double precision_;
-};
-
-TEST_F(AngleUtilsTest, ToDegrees) {
-  ASSERT_NEAR(ToDegrees(0), 0, precision_);
-  ASSERT_NEAR(ToDegrees(M_PI / 2), 90, precision_);
-  ASSERT_NEAR(ToDegrees(M_PI), 180, precision_);
-  ASSERT_NEAR(ToDegrees(3 * M_PI / 2), 270, precision_);
-  ASSERT_NEAR(ToDegrees(2 * M_PI), 360, precision_);
+TEST(AngleUtilsTest, ToDegrees) {
+  ASSERT_NEAR(ToDegrees(0), 0, precision);
+  ASSERT_NEAR(ToDegrees(M_PI / 2), 90, precision);
+  ASSERT_NEAR(ToDegrees(M_PI), 180, precision);
+  ASSERT_NEAR(ToDegrees(3 * M_PI / 2), 270, precision);
+  ASSERT_NEAR(ToDegrees(2 * M_PI), 360, precision);
 
   // Negative angles.
-  ASSERT_NEAR(ToDegrees(-M_PI / 2), -90, precision_);
-  ASSERT_NEAR(ToDegrees(-M_PI), -180, precision_);
-  ASSERT_NEAR(ToDegrees(-3 * M_PI / 2), -270, precision_);
-  ASSERT_NEAR(ToDegrees(-2 * M_PI), -360, precision_);
+  ASSERT_NEAR(ToDegrees(-M_PI / 2), -90, precision);
+  ASSERT_NEAR(ToDegrees(-M_PI), -180, precision);
+  ASSERT_NEAR(ToDegrees(-3 * M_PI / 2), -270, precision);
+  ASSERT_NEAR(ToDegrees(-2 * M_PI), -360, precision);
 }
 
-TEST_F(AngleUtilsTest, ToRadians) {
-  ASSERT_NEAR(ToRadians(0), 0., precision_);
-  ASSERT_NEAR(ToRadians(90), M_PI / 2, precision_);
-  ASSERT_NEAR(ToRadians(180), M_PI, precision_);
-  ASSERT_NEAR(ToRadians(270), 3 * M_PI / 2, precision_);
-  ASSERT_NEAR(ToRadians(360), 2 * M_PI, precision_);
+TEST(AngleUtilsTest, ToRadians) {
+  ASSERT_NEAR(ToRadians(0), 0., precision);
+  ASSERT_NEAR(ToRadians(90), M_PI / 2, precision);
+  ASSERT_NEAR(ToRadians(180), M_PI, precision);
+  ASSERT_NEAR(ToRadians(270), 3 * M_PI / 2, precision);
+  ASSERT_NEAR(ToRadians(360), 2 * M_PI, precision);
 
   // Negative angles.
-  ASSERT_NEAR(ToRadians(-90), -M_PI / 2, precision_);
-  ASSERT_NEAR(ToRadians(-180), -M_PI, precision_);
-  ASSERT_NEAR(ToRadians(-270), -3 * M_PI / 2, precision_);
-  ASSERT_NEAR(ToRadians(-360), -2 * M_PI, precision_);
+  ASSERT_NEAR(ToRadians(-90), -M_PI / 2, precision);
+  ASSERT_NEAR(ToRadians(-180), -M_PI, precision);
+  ASSERT_NEAR(ToRadians(-270), -3 * M_PI / 2, precision);
+  ASSERT_NEAR(ToRadians(-360), -2 * M_PI, precision);
 }
 
-TEST_F(AngleUtilsTest, NormalizeAngle) {
+TEST(AngleUtilsTest, NormalizeAngle) {
   // Test that already normalized angles remain unchanged.
-  ASSERT_NEAR(NormalizeAngle(0), 0, precision_);
-  ASSERT_NEAR(NormalizeAngle(M_PI / 2), M_PI / 2, precision_);
-  ASSERT_NEAR(NormalizeAngle(M_PI), M_PI, precision_);
-  ASSERT_NEAR(NormalizeAngle(-M_PI / 2), -M_PI / 2, precision_);
+  ASSERT_NEAR(NormalizeAngle(0), 0, precision);
+  ASSERT_NEAR(NormalizeAngle(M_PI / 2), M_PI / 2, precision);
+  ASSERT_NEAR(NormalizeAngle(M_PI), M_PI, precision);
+  ASSERT_NEAR(NormalizeAngle(-M_PI / 2), -M_PI / 2, precision);
 
   // Normalization of 2 * pi
-  ASSERT_NEAR(NormalizeAngle(2 * M_PI), 0, precision_);
+  ASSERT_NEAR(NormalizeAngle(2 * M_PI), 0, precision);
 
   // -pi should normalize to pi.
-  ASSERT_NEAR(NormalizeAngle(-M_PI), M_PI, precision_);
+  ASSERT_NEAR(NormalizeAngle(-M_PI), M_PI, precision);
 
   // Angles that are positive in the last two quadrants.
-  ASSERT_NEAR(NormalizeAngle(4 * M_PI / 3), -2 * M_PI / 3, precision_);
-  ASSERT_NEAR(NormalizeAngle(3 * M_PI / 2), -M_PI / 2, precision_);
-  ASSERT_NEAR(NormalizeAngle(5 * M_PI / 3), -M_PI / 3, precision_);
+  ASSERT_NEAR(NormalizeAngle(4 * M_PI / 3), -2 * M_PI / 3, precision);
+  ASSERT_NEAR(NormalizeAngle(3 * M_PI / 2), -M_PI / 2, precision);
+  ASSERT_NEAR(NormalizeAngle(5 * M_PI / 3), -M_PI / 3, precision);
 
   // Angles that are negative in the first two quadrants.
-  ASSERT_NEAR(NormalizeAngle(-4 * M_PI / 3), 2 * M_PI / 3, precision_);
-  ASSERT_NEAR(NormalizeAngle(-3 * M_PI / 2), M_PI / 2, precision_);
-  ASSERT_NEAR(NormalizeAngle(-5 * M_PI / 3), M_PI / 3, precision_);
+  ASSERT_NEAR(NormalizeAngle(-4 * M_PI / 3), 2 * M_PI / 3, precision);
+  ASSERT_NEAR(NormalizeAngle(-3 * M_PI / 2), M_PI / 2, precision);
+  ASSERT_NEAR(NormalizeAngle(-5 * M_PI / 3), M_PI / 3, precision);
 
   // Angles that are > 2 * pi but lie in the first two quadrants.
-  ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 3), M_PI / 3, precision_);
-  ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 2), M_PI / 2, precision_);
+  ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 3), M_PI / 3, precision);
+  ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 2), M_PI / 2, precision);
   ASSERT_NEAR(NormalizeAngle(2 * M_PI + 2 * M_PI / 3), 2 * M_PI / 3,
-              precision_);
-  ASSERT_NEAR(NormalizeAngle(14 * M_PI + M_PI / 2), M_PI / 2, precision_);
+              precision);
+  ASSERT_NEAR(NormalizeAngle(14 * M_PI + M_PI / 2), M_PI / 2, precision);
 
   // Angles that are < - 2 * pi but lie in the last two quadrants.
-  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - M_PI / 3), -M_PI / 3, precision_);
-  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - M_PI / 2), -M_PI / 2, precision_);
+  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - M_PI / 3), -M_PI / 3, precision);
+  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - M_PI / 2), -M_PI / 2, precision);
   ASSERT_NEAR(NormalizeAngle(-2 * M_PI - 2 * M_PI / 3), -2 * M_PI / 3,
-              precision_);
-  ASSERT_NEAR(NormalizeAngle(-14 * M_PI - M_PI / 2), -M_PI / 2, precision_);
+              precision);
+  ASSERT_NEAR(NormalizeAngle(-14 * M_PI - M_PI / 2), -M_PI / 2, precision);
 
   // Angles that are > 2 * pi but lie in the last two quadrants.
   ASSERT_NEAR(NormalizeAngle(2 * M_PI + 4 * M_PI / 3), -2 * M_PI / 3,
-              precision_);
-  ASSERT_NEAR(NormalizeAngle(2 * M_PI + 3 * M_PI / 2), -M_PI / 2, precision_);
-  ASSERT_NEAR(NormalizeAngle(2 * M_PI + 5 * M_PI / 3), -M_PI / 3, precision_);
-  ASSERT_NEAR(NormalizeAngle(14 * M_PI + 3 * M_PI / 2), -M_PI / 2, precision_);
+              precision);
+  ASSERT_NEAR(NormalizeAngle(2 * M_PI + 3 * M_PI / 2), -M_PI / 2, precision);
+  ASSERT_NEAR(NormalizeAngle(2 * M_PI + 5 * M_PI / 3), -M_PI / 3, precision);
+  ASSERT_NEAR(NormalizeAngle(14 * M_PI + 3 * M_PI / 2), -M_PI / 2, precision);
 
   // Angles that are < - 2 * pi but  lie in the first two quadrants.
   ASSERT_NEAR(NormalizeAngle(-2 * M_PI - 4 * M_PI / 3), 2 * M_PI / 3,
-              precision_);
-  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - 3 * M_PI / 2), M_PI / 2, precision_);
-  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - 5 * M_PI / 3), M_PI / 3, precision_);
-  ASSERT_NEAR(NormalizeAngle(-14 * M_PI - 3 * M_PI / 2), M_PI / 2, precision_);
+              precision);
+  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - 3 * M_PI / 2), M_PI / 2, precision);
+  ASSERT_NEAR(NormalizeAngle(-2 * M_PI - 5 * M_PI / 3), M_PI / 3, precision);
+  ASSERT_NEAR(NormalizeAngle(-14 * M_PI - 3 * M_PI / 2), M_PI / 2, precision);
 }
 
 }  // namespace
