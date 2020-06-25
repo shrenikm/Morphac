@@ -61,10 +61,12 @@ target_link_libraries(playground_state
 target_link_libraries(playground
   PUBLIC
   environment
+  kinematic_model
+  playground_state
   robot
   pilot
   integrator
-  playground_state
+  integrator_utils
 )
 
 
