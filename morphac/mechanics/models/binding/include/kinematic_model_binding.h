@@ -1,3 +1,6 @@
+#ifndef KINEMATIC_MODEL_BINDING_H
+#define KINEMATIC_MODEL_BINDING_H
+
 #include "pybind11/pybind11.h"
 
 #include "constructs/include/input.h"
@@ -29,3 +32,5 @@ void define_kinematic_model_binding(pybind11::module& m);
 }  // namespace models
 }  // namespace mechanics
 }  // namespace morphac
+
+#endif

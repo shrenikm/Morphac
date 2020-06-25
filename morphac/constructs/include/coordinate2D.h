@@ -1,5 +1,5 @@
-#ifndef COORDINATE_H
-#define COORDINATE_H
+#ifndef COORDINATE2D_H
+#define COORDINATE2D_H
 
 #include <sstream>
 

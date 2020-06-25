@@ -17,6 +17,7 @@ set(UTILS_MODULE_FILE
 set(UTILS_BINDING_FILES
 
   angle_utils_binding.cc
+  integrator_utils_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -46,6 +47,7 @@ target_include_directories(${module_name}
 target_link_libraries(${module_name}
   PUBLIC
   angle_utils
+  integrator_utils
 )
 
 # Setting binding target properties.

@@ -31,7 +31,7 @@ State DiffDriveModel::ComputeStateDerivative(const State& state,
   MORPH_REQUIRE(state.IsVelocityEmpty(), std::invalid_argument,
                 "Velocity component of the state must be empty.");
   MORPH_REQUIRE(input.get_size() == 2, std::invalid_argument,
-                "Input must be of size 1.");
+                "Input must be of size 2.");
 
   VectorXd pose_derivative(3);
   double theta = state.get_pose()(2);

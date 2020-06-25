@@ -1,3 +1,6 @@
+#ifndef INTEGRATOR_BINDING_H
+#define INTEGRATOR_BINDING_H
+
 #include "pybind11/pybind11.h"
 
 #include "constructs/include/input.h"
@@ -39,3 +42,5 @@ void define_integrator_type_binding(pybind11::module& m);
 }  // namespace numeric
 }  // namespace math
 }  // namespace morphac
+
+#endif

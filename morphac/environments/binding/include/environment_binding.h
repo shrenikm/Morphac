@@ -1,3 +1,6 @@
+#ifndef ENVIRONMENT_BINDING_H
+#define ENVIRONMENT_BINDING_H
+
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
 
@@ -13,3 +16,4 @@ void define_environment_binding(pybind11::module& m);
 }  // namespace environments
 }  // namespace morphac
 
+#endif

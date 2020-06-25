@@ -1,3 +1,6 @@
+#ifndef ROBOT_BINDING_H
+#define ROBOT_BINDING_H
+
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
 
@@ -17,3 +20,5 @@ void define_robot_binding(pybind11::module& m);
 }  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac
+
+#endif

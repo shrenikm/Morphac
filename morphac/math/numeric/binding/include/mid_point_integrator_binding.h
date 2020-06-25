@@ -1,3 +1,6 @@
+#ifndef MID_POINT_INTEGRATOR_BINDING_H
+#define MID_POINT_INTEGRATOR_BINDING_H
+
 #include "pybind11/pybind11.h"
 
 #include "constructs/include/input.h"
@@ -17,3 +20,5 @@ void define_mid_point_integrator_binding(pybind11::module& m);
 }  // namespace numeric
 }  // namespace math
 }  // namespace morphac
+
+#endif

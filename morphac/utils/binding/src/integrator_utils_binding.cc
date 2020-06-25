@@ -1,6 +1,3 @@
-#include "pybind11/pybind11.h"
-
-#include "utils/binding/include/angle_utils_binding.h"
 #include "utils/binding/include/integrator_utils_binding.h"
 
 namespace morphac {
@@ -9,9 +6,11 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_utils, m) {
-  define_angle_utils_binding(m);
-  define_integrator_utils_binding(m);
+using morphac::utils::IntegratorFromType;
+
+void define_integrator_utils_binding(py::module& m) {
+  m.def("integrator_from_type", &IntegratorFromType, py::arg("integrator_type"),
+        py::arg("kinematic_model"));
 }
 
 }  // namespace binding

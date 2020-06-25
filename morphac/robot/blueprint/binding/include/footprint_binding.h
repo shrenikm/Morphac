@@ -1,3 +1,6 @@
+#ifndef FOOTPRINT_BINDING_H
+#define FOOTPRINT_BINDING_H
+
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
 
@@ -15,3 +18,5 @@ void define_footprint_binding(pybind11::module& m);
 }  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac
+
+#endif

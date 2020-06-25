@@ -1,3 +1,6 @@
+#ifndef DIFFDRIVE_MODEL_BINDING_H
+#define DIFFDRIVE_MODEL_BINDING_H
+
 #include "pybind11/pybind11.h"
 
 #include "constructs/include/input.h"
@@ -16,3 +19,5 @@ void define_diffdrive_model_binding(pybind11::module& m);
 }  // namespace models
 }  // namespace mechanics
 }  // namespace morphac
+
+#endif
