@@ -13,7 +13,7 @@ class Pilot {
   Pilot(const int uid = -1);
 
   virtual morphac::constructs::Input Execute(
-      morphac::simulation::PlaygroundState playground_state) const = 0;
+      const morphac::simulation::PlaygroundState& playground_state) const = 0;
 
   int get_uid() const;
   void set_uid(const int uid);

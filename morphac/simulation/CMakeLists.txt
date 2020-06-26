@@ -55,12 +55,15 @@ endforeach()
 target_link_libraries(playground_state
   PUBLIC
   environment
+  state
   robot
 )
 
 target_link_libraries(playground
   PUBLIC
   environment
+  input
+  state
   kinematic_model
   playground_state
   robot

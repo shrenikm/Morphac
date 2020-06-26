@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 
+#include "constructs/include/state.h"
 #include "environments/include/environment.h"
 #include "robot/blueprint/include/robot.h"
 
@@ -21,15 +22,18 @@ class PlaygroundState {
   PlaygroundState& operator=(const PlaygroundState& playground_state) = delete;
 
   const morphac::environments::Environment& get_environment() const;
-  const std::unordered_map<int, morphac::robot::blueprint::Robot>&
+  const std::unordered_map<int, morphac::robot::blueprint::Robot&>&
   get_robot_oracle() const;
+  const morphac::constructs::State& get_robot_state(const int uid) const;
 
   void set_environment(const morphac::environments::Environment& environment);
+  void set_robot_state(const int uid, const morphac::constructs::State&);
+
   void AddRobot(const morphac::robot::blueprint::Robot& robot);
 
  private:
   morphac::environments::Environment environment_;
-  std::unordered_map<int, morphac::robot::blueprint::Robot> robot_oracle_;
+  std::unordered_map<int, morphac::robot::blueprint::Robot&> robot_oracle_;
 };
 
 }  // namespace simulation

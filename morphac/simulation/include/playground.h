@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 
+#include "constructs/include/state.h"
 #include "environments/include/environment.h"
 #include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/kinematic_model.h"
@@ -35,9 +36,15 @@ class Playground {
 
   const PlaygroundState& get_state() const;
 
+  const morphac::robot::blueprint::Robot& get_robot(const int uid) const;
+  const morphac::constructs::State& get_robot_state(const int uid) const;
+  void set_robot_state(const int uid, const morphac::constructs::State& state);
+
   void AddRobot(morphac::robot::blueprint::Robot& robot,
                 morphac::robot::pilot::Pilot& pilot,
                 const morphac::math::numeric::IntegratorType& integrator_type);
+
+  void Execute();
 
  private:
   const PlaygroundSpec spec_;
