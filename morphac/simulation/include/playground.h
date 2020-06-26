@@ -35,8 +35,8 @@ class Playground {
 
   const PlaygroundState& get_state() const;
 
-  void AddRobot(const morphac::robot::blueprint::Robot& robot,
-                const morphac::robot::pilot::Pilot& pilot,
+  void AddRobot(morphac::robot::blueprint::Robot& robot,
+                morphac::robot::pilot::Pilot& pilot,
                 const morphac::math::numeric::IntegratorType& integrator_type);
 
  private:
