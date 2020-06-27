@@ -12,12 +12,12 @@ using morphac::robot::blueprint::Robot;
 PlaygroundState::PlaygroundState(const Environment& environment)
     : environment_(environment) {}
 
-bool PlaygroundState::IsUidUnique(const int uid) const {
+bool PlaygroundState::UidExistsInOracle(const int uid) const {
   if (robot_oracle_.find(uid) == robot_oracle_.end()) {
-    // Given uid doesn't exist in the robot oracle and is hence unique.
-    return true;
+    // Given uid doesn't exist in the robot oracle.
+    return false;
   }
-  return false;
+  return true;
 }
 
 const Environment& PlaygroundState::get_environment() const {
@@ -31,7 +31,7 @@ const unordered_map<int, Robot&>& PlaygroundState::get_robot_oracle() const {
 const State& PlaygroundState::get_robot_state(const int uid) const {
   // Make sure that a robot with the given uid exists in the oracle.
   MORPH_REQUIRE(
-      !IsUidUnique(uid), std::logic_error,
+      UidExistsInOracle(uid), std::logic_error,
       "Robot with the given UID does not exist in the playground state.");
   // We can't use the [] operator as the values are references.
   return robot_oracle_.find(uid)->second.get_state();
@@ -44,13 +44,13 @@ void PlaygroundState::set_environment(const Environment& environment) {
 void PlaygroundState::set_robot_state(const State& state, const int uid) {
   // Make sure that a robot with the given uid exists in the oracle.
   MORPH_REQUIRE(
-      !IsUidUnique(uid), std::invalid_argument,
+      UidExistsInOracle(uid), std::invalid_argument,
       "Robot with the given UID does not exist in the playground state.");
   robot_oracle_.find(uid)->second.set_state(state);
 }
 
-void PlaygroundState::AddRobot(const Robot& robot, const int uid) {
-  MORPH_REQUIRE(IsUidUnique(uid), std::logic_error,
+void PlaygroundState::AddRobot(Robot& robot, const int uid) {
+  MORPH_REQUIRE(!UidExistsInOracle(uid), std::logic_error,
                 "Robot with this UID already exists in the state.");
   robot_oracle_.insert({uid, robot});
 }
