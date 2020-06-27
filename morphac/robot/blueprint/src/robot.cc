@@ -13,29 +13,21 @@ using morphac::constructs::Velocity;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 
-Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
-             const int uid)
+Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint)
     : kinematic_model_(kinematic_model),
       footprint_(footprint),
-      state_(State(kinematic_model.size_pose, kinematic_model.size_velocity)),
-      uid_(uid) {
-  MORPH_REQUIRE(uid >= 0, std::invalid_argument,
-                "UID must be non-negative.");
-}
+      state_(State(kinematic_model.size_pose, kinematic_model.size_velocity)) {}
 
 Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
-             const State& initial_state, const int uid)
+             const State& initial_state)
     : kinematic_model_(kinematic_model),
       footprint_(footprint),
-      state_(initial_state),
-      uid_(uid) {
+      state_(initial_state) {
   MORPH_REQUIRE(
       initial_state.get_size_pose() == kinematic_model.size_pose &&
           initial_state.get_size_velocity() == kinematic_model.size_velocity,
       std::invalid_argument,
       "Kinematic model and initial state dimensions do not match.");
-  MORPH_REQUIRE(uid >= 0, std::invalid_argument,
-                "UID must be non-negative.");
 }
 
 State Robot::ComputeStateDerivative(const Input& input) const {
@@ -59,8 +51,6 @@ State Robot::ComputeStateDerivative(const State& state,
       "Input dimension and kinematic model input dimensions do not match.");
   return kinematic_model_.ComputeStateDerivative(state, input);
 }
-
-int Robot::get_uid() const { return uid_; }
 
 const KinematicModel& Robot::get_kinematic_model() const {
   return kinematic_model_;

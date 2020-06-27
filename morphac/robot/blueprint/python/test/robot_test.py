@@ -34,15 +34,14 @@ class CustomKinematicModel(KinematicModel):
 @pytest.fixture()
 def generate_robot_list():
 
-    r1 = Robot(DiffDriveModel(1, 1), Footprint([[1, 2]]), 0)
+    r1 = Robot(DiffDriveModel(1, 1), Footprint([[1, 2]]))
     r2 = Robot(TricycleModel(1, 1),
-               Footprint(np.ones([20, 2])), 1)
+               Footprint(np.ones([20, 2])))
     r3 = Robot(CustomKinematicModel(3, 2, 5, 2.5, 2),
-               Footprint([[1, 0], [0, 1]]), 2)
+               Footprint([[1, 0], [0, 1]]))
     r4 = Robot(kinematic_model=CustomKinematicModel(2, 2, 4, 0, 0),
                footprint=Footprint([[0, 0]]),
-               initial_state=State([1, 2], [3, 4]),
-               uid=3
+               initial_state=State([1, 2], [3, 4])
                )
 
     return r1, r2, r3, r4
@@ -54,25 +53,6 @@ def test_invalid_construction():
         # Invalid State dimensions.
         robot = Robot(DiffDriveModel(1, 1),
                       Footprint([[0, 0]]), State(1, 1))
-
-        # Invalid ID
-        robot = Robot(DiffDriveModel(1, 1), Footprint([[0, 0]]), -1)
-        robot = Robot(DiffDriveModel(1, 1), Footprint(
-            [[0, 0]]), State(3, 0), -2)
-
-
-def test_uid(generate_robot_list):
-
-    r1, r2, r3, r4 = generate_robot_list
-
-    assert r1.uid == 0
-    assert r2.uid == 1
-    assert r3.uid == 2
-    assert r4.uid == 3
-
-    # Making sure that the name is read only.
-    with pytest.raises(AttributeError):
-        r1.id = 1
 
 
 def test_kinematic_model(generate_robot_list):

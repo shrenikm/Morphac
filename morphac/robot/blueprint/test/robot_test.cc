@@ -76,10 +76,6 @@ TEST_F(RobotTest, InvalidConstruction) {
   ASSERT_THROW(Robot(model, footprint, State(3, 3)), std::invalid_argument);
   ASSERT_THROW(Robot(model, footprint, State(4, 2)), std::invalid_argument);
   ASSERT_THROW(Robot(model, footprint, State(4, 3)), std::invalid_argument);
-
-  // Test invalid robot id.
-  ASSERT_THROW(Robot(model, footprint, -1), std::invalid_argument);
-  ASSERT_THROW(Robot(model, footprint, State(3, 2), -2), std::invalid_argument);
 }
 
 TEST_F(RobotTest, Accessors) {
@@ -92,10 +88,7 @@ TEST_F(RobotTest, Accessors) {
   VectorXd initial_velocity{VectorXd::Random(2)};
   VectorXd initial_state(5);
   initial_state << initial_pose, initial_velocity;
-  Robot robot2{model, footprint, State(initial_pose, initial_velocity), 1};
-
-  ASSERT_EQ(robot1.get_uid(), 0);
-  ASSERT_EQ(robot2.get_uid(), 1);
+  Robot robot2{model, footprint, State(initial_pose, initial_velocity)};
 
   // Making sure that the initial state is correct.
   // For the robot object created without initial state, the initial pose and

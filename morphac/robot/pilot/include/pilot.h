@@ -10,16 +10,11 @@ namespace pilot {
 
 class Pilot {
  public:
-  Pilot(const int uid = -1);
+  Pilot();
 
   virtual morphac::constructs::Input Execute(
-      const morphac::simulation::PlaygroundState& playground_state) const = 0;
-
-  int get_uid() const;
-  void set_uid(const int uid);
-
- private:
-  int uid_;
+      const morphac::simulation::PlaygroundState& playground_state,
+      const int uid) const = 0;
 };
 
 }  // namespace pilot

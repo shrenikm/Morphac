@@ -23,13 +23,13 @@ void define_robot_binding(py::module& m) {
   // r = Robot("name", KinematicModel(args), footprint)
   // As the kinematic model object is temporary, gets deleted and the cpp side
   // throws a segfault.
-  robot.def(py::init<KinematicModel&, const Footprint&, const int>(),
+  robot.def(py::init<KinematicModel&, const Footprint&>(),
             py::arg("kinematic_model"), py::arg("footprint"),
-            py::arg("uid") = 0, py::keep_alive<1, 2>());
+            py::keep_alive<1, 2>());
   robot.def(
-      py::init<KinematicModel&, const Footprint&, const State&, const int>(),
+      py::init<KinematicModel&, const Footprint&, const State&>(),
       py::arg("kinematic_model"), py::arg("footprint"),
-      py::arg("initial_state"), py::arg("uid") = 0, py::keep_alive<1, 2>());
+      py::arg("initial_state"), py::keep_alive<1, 2>());
   robot.def("compute_state_derivative",
             py::overload_cast<const Input&>(&Robot::ComputeStateDerivative,
                                             py::const_),
@@ -38,7 +38,6 @@ void define_robot_binding(py::module& m) {
             py::overload_cast<const State&, const Input&>(
                 &Robot::ComputeStateDerivative, py::const_),
             py::arg("robot_state"), py::arg("robot_input"));
-  robot.def_property_readonly("uid", &Robot::get_uid);
   robot.def_property_readonly("kinematic_model", &Robot::get_kinematic_model);
   robot.def_property_readonly("footprint", &Robot::get_footprint);
   robot.def_property("state", &Robot::get_state, &Robot::set_state);

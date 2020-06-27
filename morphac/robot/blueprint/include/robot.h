@@ -17,11 +17,10 @@ namespace blueprint {
 class Robot {
  public:
   Robot(morphac::mechanics::models::KinematicModel& kinematic_model,
-        const morphac::robot::blueprint::Footprint& footprint,
-        const int uid = 0);
+        const morphac::robot::blueprint::Footprint& footprint);
   Robot(morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::robot::blueprint::Footprint& footprint,
-        const morphac::constructs::State& initial_state, const int uid = 0);
+        const morphac::constructs::State& initial_state);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::Input& input) const;
@@ -30,7 +29,6 @@ class Robot {
       const morphac::constructs::State& state,
       const morphac::constructs::Input& input) const;
 
-  int get_uid() const;
   const morphac::mechanics::models::KinematicModel& get_kinematic_model() const;
   const morphac::robot::blueprint::Footprint& get_footprint() const;
   const morphac::constructs::State& get_state() const;
@@ -44,7 +42,6 @@ class Robot {
   morphac::mechanics::models::KinematicModel& kinematic_model_;
   morphac::robot::blueprint::Footprint footprint_;
   morphac::constructs::State state_;
-  int uid_;
 };
 
 }  // namespace blueprint

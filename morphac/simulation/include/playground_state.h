@@ -27,11 +27,12 @@ class PlaygroundState {
   const morphac::constructs::State& get_robot_state(const int uid) const;
 
   void set_environment(const morphac::environments::Environment& environment);
-  void set_robot_state(const int uid, const morphac::constructs::State&);
+  void set_robot_state(const morphac::constructs::State&, const int uid);
 
-  void AddRobot(const morphac::robot::blueprint::Robot& robot);
+  void AddRobot(const morphac::robot::blueprint::Robot& robot, const int uid);
 
  private:
+  bool IsUidUnique(const int uid) const;
   morphac::environments::Environment environment_;
   std::unordered_map<int, morphac::robot::blueprint::Robot&> robot_oracle_;
 };
