@@ -28,6 +28,14 @@ const unordered_map<int, Robot&>& PlaygroundState::get_robot_oracle() const {
   return robot_oracle_;
 }
 
+const Robot& PlaygroundState::get_robot(const int uid) const {
+  // Make sure that a robot with the given uid exists in the oracle.
+  MORPH_REQUIRE(
+      UidExistsInOracle(uid), std::logic_error,
+      "Robot with the given UID does not exist in the playground state.");
+  return robot_oracle_.find(uid)->second;
+}
+
 const State& PlaygroundState::get_robot_state(const int uid) const {
   // Make sure that a robot with the given uid exists in the oracle.
   MORPH_REQUIRE(

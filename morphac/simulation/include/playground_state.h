@@ -24,6 +24,7 @@ class PlaygroundState {
   const morphac::environments::Environment& get_environment() const;
   const std::unordered_map<int, morphac::robot::blueprint::Robot&>&
   get_robot_oracle() const;
+  const morphac::robot::blueprint::Robot& get_robot(const int uid) const;
   const morphac::constructs::State& get_robot_state(const int uid) const;
 
   void set_environment(const morphac::environments::Environment& environment);
