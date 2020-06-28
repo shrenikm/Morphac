@@ -27,9 +27,8 @@ void define_pose_binding(py::module& m) {
   pose.def(py::self != py::self);
   pose.def("__repr__", &Pose::ToString);
   pose.def_property_readonly("size", &Pose::get_size);
-  // vector is mapped to data in python to keep it consistent and pythonic.
-  pose.def_property("data", &Pose::get_pose_vector,
-                    py::overload_cast<const VectorXd&>(&Pose::set_pose_vector));
+  pose.def_property("data", &Pose::get_pose_data,
+                    py::overload_cast<const VectorXd&>(&Pose::set_pose_data));
   pose.def("is_empty", &Pose::IsEmpty);
   pose.def("create_like", &Pose::CreateLike);
 }

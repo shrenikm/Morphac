@@ -41,12 +41,11 @@ void define_state_binding(py::module& m) {
   state.def_property("velocity", py::overload_cast<>(&State::get_velocity),
                      &State::set_velocity);
 
-  // vector is mapped to data in python to keep it consistent and pythonic.
   // Pose and Velocity data are not exposed as we can always call it using
   // state.pose.data and state.velocity.data
   state.def_property(
-      "data", &State::get_state_vector,
-      py::overload_cast<const VectorXd&>(&State::set_state_vector));
+      "data", &State::get_state_data,
+      py::overload_cast<const VectorXd&>(&State::set_state_data));
   // Pose and Velocity IsEmpty is not exposed as we can call it using
   // state.pose.is_empty and state.velocity.is_empty
   state.def("is_empty", &State::IsEmpty);

@@ -73,4 +73,36 @@ target_link_libraries(playground
 )
 
 
+# Tests
+# -------------------------------------------------
+
+# Simulation tests source files.
+set(SIMULATION_TEST_SRC
+
+  playground_state_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${SIMULATION_TEST_SRC})
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
+
+  add_executable(
+    ${test_name}
+    ${SIMULATION_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
+endforeach()
+
+# Linking depending libraries.
+target_link_libraries(playground_state_test
+  PUBLIC
+  gtest_main
+  environment
+  playground_state
+)
 

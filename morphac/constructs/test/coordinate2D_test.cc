@@ -56,28 +56,28 @@ TEST_F(Coordinate2DTest, Initialization) {
   ASSERT_DOUBLE_EQ(zero_coord_double_.get_y(), 2.0);
 }
 
-TEST_F(Coordinate2DTest, GetVector) {
-  Matrix<int, 2, 1> coord_int_vector = coord1_int_.get_coordinate_vector();
-  ASSERT_EQ(coord_int_vector(0), 2);
-  ASSERT_EQ(coord_int_vector(1), 3);
+TEST_F(Coordinate2DTest, GetData) {
+  Matrix<int, 2, 1> coord_int_data = coord1_int_.get_coordinate_data();
+  ASSERT_EQ(coord_int_data(0), 2);
+  ASSERT_EQ(coord_int_data(1), 3);
 
-  VectorXd coord_double_vector = coord1_double_.get_coordinate_vector();
-  ASSERT_EQ(coord_double_vector.size(), 2);
-  ASSERT_EQ(coord_double_vector(0), 2.);
-  ASSERT_EQ(coord_double_vector(1), 3.);
+  VectorXd coord_double_data = coord1_double_.get_coordinate_data();
+  ASSERT_EQ(coord_double_data.size(), 2);
+  ASSERT_EQ(coord_double_data(0), 2.);
+  ASSERT_EQ(coord_double_data(1), 3.);
 }
 
-TEST_F(Coordinate2DTest, SetVector) {
-  Matrix<int, 2, 1> coord_int_vector;
-  coord_int_vector << -2, -3;
-  coord1_int_.set_coordinate_vector(coord_int_vector);
+TEST_F(Coordinate2DTest, SetData) {
+  Matrix<int, 2, 1> coord_int_data;
+  coord_int_data << -2, -3;
+  coord1_int_.set_coordinate_data(coord_int_data);
 
   ASSERT_EQ(coord1_int_.get_x(), -2);
   ASSERT_EQ(coord1_int_.get_y(), -3);
 
-  VectorXd coord_double_vector(2);
-  coord_double_vector << -2, -3;
-  coord1_double_.set_coordinate_vector(coord_double_vector);
+  VectorXd coord_double_data(2);
+  coord_double_data << -2, -3;
+  coord1_double_.set_coordinate_data(coord_double_data);
 
   ASSERT_EQ(coord1_double_.get_x(), -2);
   ASSERT_EQ(coord1_double_.get_y(), -3);

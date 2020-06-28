@@ -27,10 +27,9 @@ void define_velocity_binding(py::module& m) {
   velocity.def(py::self != py::self);
   velocity.def("__repr__", &Velocity::ToString);
   velocity.def_property_readonly("size", &Velocity::get_size);
-  // vector is mapped to data in python to keep it consistent and pythonic.
   velocity.def_property(
-      "data", &Velocity::get_velocity_vector,
-      py::overload_cast<const VectorXd&>(&Velocity::set_velocity_vector));
+      "data", &Velocity::get_velocity_data,
+      py::overload_cast<const VectorXd&>(&Velocity::set_velocity_data));
   velocity.def("is_empty", &Velocity::IsEmpty);
   velocity.def("create_like", &Velocity::CreateLike);
 }

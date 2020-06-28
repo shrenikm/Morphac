@@ -146,10 +146,10 @@ T Coordinate2D<T>::get_y() const {
 }
 
 template <typename T>
-const Matrix<T, 2, 1> Coordinate2D<T>::get_coordinate_vector() const {
-  Matrix<T, 2, 1> coord_vector(2);
-  coord_vector << this->get_x(), this->get_y();
-  return coord_vector;
+const Matrix<T, 2, 1> Coordinate2D<T>::get_coordinate_data() const {
+  Matrix<T, 2, 1> coord_data(2);
+  coord_data << this->get_x(), this->get_y();
+  return coord_data;
 }
 
 template <typename T>
@@ -169,12 +169,12 @@ void Coordinate2D<T>::set_coordinate(const T x, const T y) {
 }
 
 template <typename T>
-void Coordinate2D<T>::set_coordinate_vector(
-    const Matrix<T, 2, 1>& coord_vector) {
-  MORPH_REQUIRE(coord_vector.size() == 2, std::invalid_argument,
-                "Coordinate vector must be of size 2.");
-  this->set_x(coord_vector(0));
-  this->set_y(coord_vector(1));
+void Coordinate2D<T>::set_coordinate_data(
+    const Matrix<T, 2, 1>& coord_data) {
+  MORPH_REQUIRE(coord_data.size() == 2, std::invalid_argument,
+                "Coordinate data must be of size 2.");
+  this->set_x(coord_data(0));
+  this->set_y(coord_data(1));
 }
 
 // Template instantiations

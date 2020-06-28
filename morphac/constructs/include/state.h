@@ -19,8 +19,8 @@ class State {
   // Sometimes the state may only include the poses. In such cases the velocity
   // part in the constructor may be skipped.
   State(const int size_pose, const int size_velocity);
-  State(const Eigen::VectorXd& pose_vector,
-        const Eigen::VectorXd& velocity_vector);
+  State(const Eigen::VectorXd& pose_data,
+        const Eigen::VectorXd& velocity_data);
   State(std::initializer_list<double> pose_elements,
         std::initializer_list<double> velocity_elements);
   State(const morphac::constructs::Pose& pose,
@@ -58,19 +58,19 @@ class State {
   morphac::constructs::Velocity& get_velocity();
   const morphac::constructs::Velocity& get_velocity() const;
 
-  const Eigen::VectorXd& get_pose_vector() const;
-  const Eigen::VectorXd& get_velocity_vector() const;
-  const Eigen::VectorXd get_state_vector() const;
+  const Eigen::VectorXd& get_pose_data() const;
+  const Eigen::VectorXd& get_velocity_data() const;
+  const Eigen::VectorXd get_state_data() const;
 
   void set_pose(const morphac::constructs::Pose& pose);
   void set_velocity(const morphac::constructs::Velocity& velocity);
 
-  void set_pose_vector(const Eigen::VectorXd& pose_vector);
-  void set_pose_vector(std::initializer_list<double> pose_elements);
-  void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
-  void set_velocity_vector(std::initializer_list<double> velocity_elements);
-  void set_state_vector(const Eigen::VectorXd& state_vector);
-  void set_state_vector(std::initializer_list<double> state_elements);
+  void set_pose_data(const Eigen::VectorXd& pose_data);
+  void set_pose_data(std::initializer_list<double> pose_elements);
+  void set_velocity_data(const Eigen::VectorXd& velocity_data);
+  void set_velocity_data(std::initializer_list<double> velocity_elements);
+  void set_state_data(const Eigen::VectorXd& state_data);
+  void set_state_data(std::initializer_list<double> state_elements);
 
   bool IsEmpty() const;
   bool IsPoseEmpty() const;

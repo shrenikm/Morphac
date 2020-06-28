@@ -33,23 +33,23 @@ class PoseTest : public ::testing::Test {
 TEST_F(PoseTest, CopyConstructor) {
   Pose pose1(*pose1_);
 
-  VectorXd pose_vector = VectorXd::Random(4);
-  Pose pose2(pose_vector);
+  VectorXd pose_data = VectorXd::Random(4);
+  Pose pose2(pose_data);
   Pose pose3(pose2);
 
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(pose_data));
 }
 
 TEST_F(PoseTest, CopyAssignment) {
   Pose pose1 = *pose1_;
 
-  VectorXd pose_vector = VectorXd::Random(4);
-  Pose pose2(pose_vector);
+  VectorXd pose_data = VectorXd::Random(4);
+  Pose pose2(pose_data);
   Pose pose3 = pose2;
 
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(pose_data));
 }
 
 TEST_F(PoseTest, InvalidConstruction) {
@@ -63,16 +63,16 @@ TEST_F(PoseTest, ConstPose) {
   const Pose pose(3);
 
   ASSERT_EQ(pose.get_size(), 3);
-  ASSERT_TRUE(pose.get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose.get_pose_data().isApprox(VectorXd::Zero(3)));
 
   // Making sure position accessing works.
   for (int i = 0; i < pose.get_size(); ++i) {
     ASSERT_EQ(pose(i), 0);
   }
 
-  // After const casting, we should be able to modify the vector.
-  const_cast<Pose &>(pose).set_pose_vector(VectorXd::Ones(3));
-  ASSERT_TRUE(pose.get_pose_vector().isApprox(VectorXd::Ones(3)));
+  // After const casting, we should be able to modify the data.
+  const_cast<Pose &>(pose).set_pose_data(VectorXd::Ones(3));
+  ASSERT_TRUE(pose.get_pose_data().isApprox(VectorXd::Ones(3)));
 }
 
 TEST_F(PoseTest, EmptyConstruction) {
@@ -84,9 +84,9 @@ TEST_F(PoseTest, EmptyConstruction) {
   ASSERT_TRUE(Pose{}.IsEmpty());
 
   // Accessors are invalid for empty Pose
-  ASSERT_THROW(pose.get_pose_vector(), std::logic_error);
+  ASSERT_THROW(pose.get_pose_data(), std::logic_error);
   ASSERT_THROW(pose(0), std::logic_error);
-  ASSERT_THROW(pose.set_pose_vector(VectorXd::Random(0)), std::logic_error);
+  ASSERT_THROW(pose.set_pose_data(VectorXd::Random(0)), std::logic_error);
 }
 
 TEST_F(PoseTest, Sizes) {
@@ -98,15 +98,15 @@ TEST_F(PoseTest, Sizes) {
   ASSERT_EQ(Pose(0).get_size(), 0);
 }
 
-TEST_F(PoseTest, GetPoseVector) {
-  ASSERT_TRUE(pose1_->get_pose_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(VectorXd::Zero(4)));
-  ASSERT_TRUE(pose3_->get_pose_vector().isApprox(VectorXd::Zero(5)));
+TEST_F(PoseTest, GetPoseData) {
+  ASSERT_TRUE(pose1_->get_pose_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose2_->get_pose_data().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(pose3_->get_pose_data().isApprox(VectorXd::Zero(5)));
 
-  VectorXd pose_vector = VectorXd::Random(6);
-  Pose pose(pose_vector);
+  VectorXd pose_data = VectorXd::Random(6);
+  Pose pose(pose_data);
 
-  ASSERT_TRUE(pose.get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(pose.get_pose_data().isApprox(pose_data));
 }
 
 TEST_F(PoseTest, GetPoseAt) {
@@ -121,11 +121,11 @@ TEST_F(PoseTest, GetPoseAt) {
   }
 
   // Arbitrary Pose.
-  VectorXd pose_vector = VectorXd::Random(7);
-  Pose pose(pose_vector);
+  VectorXd pose_data = VectorXd::Random(7);
+  Pose pose(pose_data);
 
   for (int i = 0; i < pose.get_size(); ++i) {
-    ASSERT_EQ(pose(i), pose_vector(i));
+    ASSERT_EQ(pose(i), pose_data(i));
   }
 
   // Invalid get at.
@@ -139,27 +139,27 @@ TEST_F(PoseTest, GetPoseAt) {
   ASSERT_THROW((*pose2_)(5), std::out_of_range);
 }
 
-TEST_F(PoseTest, SetPoseVector) {
-  VectorXd pose_vector = VectorXd::Random(4);
-  VectorXd expected_vector(5);
-  expected_vector << 1, 0, -1, 2.5, 0;
+TEST_F(PoseTest, SetPoseData) {
+  VectorXd pose_data = VectorXd::Random(4);
+  VectorXd expected_data(5);
+  expected_data << 1, 0, -1, 2.5, 0;
 
-  pose1_->set_pose_vector(VectorXd::Ones(3));
-  pose2_->set_pose_vector(pose_vector);
-  pose3_->set_pose_vector({1, 0, -1, 2.5, 0});
+  pose1_->set_pose_data(VectorXd::Ones(3));
+  pose2_->set_pose_data(pose_data);
+  pose3_->set_pose_data({1, 0, -1, 2.5, 0});
 
-  ASSERT_TRUE(pose1_->get_pose_vector().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(pose_vector));
-  ASSERT_TRUE(pose3_->get_pose_vector().isApprox(expected_vector));
+  ASSERT_TRUE(pose1_->get_pose_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(pose2_->get_pose_data().isApprox(pose_data));
+  ASSERT_TRUE(pose3_->get_pose_data().isApprox(expected_data));
 
-  // Invalid set vector.
-  ASSERT_THROW(pose1_->set_pose_vector(VectorXd::Ones(2)),
+  // Invalid set data.
+  ASSERT_THROW(pose1_->set_pose_data(VectorXd::Ones(2)),
                std::invalid_argument);
-  ASSERT_THROW(pose2_->set_pose_vector(VectorXd::Ones(5)),
+  ASSERT_THROW(pose2_->set_pose_data(VectorXd::Ones(5)),
                std::invalid_argument);
-  ASSERT_THROW(pose3_->set_pose_vector({}), std::invalid_argument);
-  ASSERT_THROW(pose3_->set_pose_vector({1, 2, 3, 4}), std::invalid_argument);
-  ASSERT_THROW(pose3_->set_pose_vector({1, 2, 1, 2, 1, 2}),
+  ASSERT_THROW(pose3_->set_pose_data({}), std::invalid_argument);
+  ASSERT_THROW(pose3_->set_pose_data({1, 2, 3, 4}), std::invalid_argument);
+  ASSERT_THROW(pose3_->set_pose_data({1, 2, 1, 2, 1, 2}),
                std::invalid_argument);
 }
 
@@ -174,9 +174,9 @@ TEST_F(PoseTest, SetPoseAt) {
     (*pose3_)(i) = -3.;
   }
 
-  ASSERT_TRUE(pose1_->get_pose_vector().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(pose2_->get_pose_vector().isApprox(2 * VectorXd::Ones(4)));
-  ASSERT_TRUE(pose3_->get_pose_vector().isApprox(-3 * VectorXd::Ones(5)));
+  ASSERT_TRUE(pose1_->get_pose_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(pose2_->get_pose_data().isApprox(2 * VectorXd::Ones(4)));
+  ASSERT_TRUE(pose3_->get_pose_data().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
   ASSERT_THROW((*pose1_)(-1) = 0, std::out_of_range);
@@ -201,20 +201,20 @@ TEST_F(PoseTest, Addition) {
 
   // Trivial addition.
   pose1 += Pose::CreateLike(pose1);
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(p1));
 
   pose1 = pose1 + Pose::CreateLike(pose1);
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(p1));
 
   pose1 += pose2;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(d1));
 
   // Commutativity.
   Pose pose3 = pose1 + pose2;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(d2));
 
   Pose pose4 = pose2 + pose1;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(pose4.get_pose_vector()));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(pose4.get_pose_data()));
 
   // Empty addition.
   Pose empty_pose1(0), empty_pose2{};
@@ -235,19 +235,19 @@ TEST_F(PoseTest, Subtraction) {
 
   // Trivial subtraction.
   pose1 -= Pose::CreateLike(pose1);
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(p1));
 
   pose1 = pose1 - Pose::CreateLike(pose1);
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(p1));
 
   pose1 -= pose2;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(d1));
 
   Pose pose3 = pose1 - pose2;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(d2));
 
   Pose pose4 = pose2 - pose1;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(-1 * pose4.get_pose_vector()));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(-1 * pose4.get_pose_data()));
 
   // Empty subtraction.
   Pose empty_pose1(0), empty_pose2{};
@@ -268,17 +268,17 @@ TEST_F(PoseTest, Multiplication) {
 
   // Trivial multiplication.
   pose1 = pose1 * 1.0;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(p1));
-  ASSERT_TRUE((0.0 * pose1).get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(p1));
+  ASSERT_TRUE((0.0 * pose1).get_pose_data().isApprox(VectorXd::Zero(3)));
 
   pose1 *= 2.0;
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(d1));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(d1));
 
   // Commutativity.
   Pose pose3 = pose2 * -1.5;
   Pose pose4 = -1.5 * pose2;
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(d2));
-  ASSERT_TRUE(pose4.get_pose_vector().isApprox(d2));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(d2));
+  ASSERT_TRUE(pose4.get_pose_data().isApprox(d2));
 
   // Empty multiplication.
   Pose empty_pose1(0), empty_pose2{};
@@ -319,13 +319,13 @@ TEST_F(PoseTest, CreateLike) {
   Pose pose3 = Pose::CreateLike(*pose3_);
 
   ASSERT_EQ(pose1.get_size(), 3);
-  ASSERT_TRUE(pose1.get_pose_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(pose1.get_pose_data().isApprox(VectorXd::Zero(3)));
 
   ASSERT_EQ(pose2.get_size(), 4);
-  ASSERT_TRUE(pose2.get_pose_vector().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(pose2.get_pose_data().isApprox(VectorXd::Zero(4)));
 
   ASSERT_EQ(pose3.get_size(), 5);
-  ASSERT_TRUE(pose3.get_pose_vector().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(pose3.get_pose_data().isApprox(VectorXd::Zero(5)));
 }
 
 }  // namespace

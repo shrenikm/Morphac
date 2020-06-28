@@ -27,10 +27,9 @@ void define_input_binding(py::module& m) {
   input.def(py::self != py::self);
   input.def("__repr__", &Input::ToString);
   input.def_property_readonly("size", &Input::get_size);
-  // vector is mapped to data in python to keep it consistent and pythonic.
   input.def_property(
-      "data", &Input::get_input_vector,
-      py::overload_cast<const VectorXd&>(&Input::set_input_vector));
+      "data", &Input::get_input_data,
+      py::overload_cast<const VectorXd&>(&Input::set_input_data));
   input.def("is_empty", &Input::IsEmpty);
   input.def("create_like", &Input::CreateLike);
 }

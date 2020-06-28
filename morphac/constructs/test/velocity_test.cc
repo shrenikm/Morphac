@@ -33,23 +33,23 @@ class VelocityTest : public ::testing::Test {
 TEST_F(VelocityTest, CopyConstructor) {
   Velocity velocity1(*velocity1_);
 
-  VectorXd velocity_vector = VectorXd::Random(4);
-  Velocity velocity2(velocity_vector);
+  VectorXd velocity_data = VectorXd::Random(4);
+  Velocity velocity2(velocity_data);
   Velocity velocity3(velocity2);
 
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(velocity_vector));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(velocity_data));
 }
 
 TEST_F(VelocityTest, CopyAssignment) {
   Velocity velocity1 = *velocity1_;
 
-  VectorXd velocity_vector = VectorXd::Random(4);
-  Velocity velocity2(velocity_vector);
+  VectorXd velocity_data = VectorXd::Random(4);
+  Velocity velocity2(velocity_data);
   Velocity velocity3 = velocity2;
 
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(velocity_vector));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(velocity_data));
 }
 
 TEST_F(VelocityTest, InvalidConstruction) {
@@ -63,16 +63,16 @@ TEST_F(VelocityTest, ConstVelocity) {
   const Velocity velocity(3);
 
   ASSERT_EQ(velocity.get_size(), 3);
-  ASSERT_TRUE(velocity.get_velocity_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(velocity.get_velocity_data().isApprox(VectorXd::Zero(3)));
 
   // Making sure position accessing works.
   for (int i = 0; i < velocity.get_size(); ++i) {
     ASSERT_EQ(velocity(i), 0);
   }
 
-  // After const casting, we should be able to modify the vector.
-  const_cast<Velocity &>(velocity).set_velocity_vector(VectorXd::Ones(3));
-  ASSERT_TRUE(velocity.get_velocity_vector().isApprox(VectorXd::Ones(3)));
+  // After const casting, we should be able to modify the data.
+  const_cast<Velocity &>(velocity).set_velocity_data(VectorXd::Ones(3));
+  ASSERT_TRUE(velocity.get_velocity_data().isApprox(VectorXd::Ones(3)));
 }
 
 TEST_F(VelocityTest, EmptyConstruction) {
@@ -84,9 +84,9 @@ TEST_F(VelocityTest, EmptyConstruction) {
   ASSERT_TRUE(Velocity{}.IsEmpty());
 
   // Accessors are invalid for empty Velocity
-  ASSERT_THROW(velocity.get_velocity_vector(), std::logic_error);
+  ASSERT_THROW(velocity.get_velocity_data(), std::logic_error);
   ASSERT_THROW(velocity(0), std::logic_error);
-  ASSERT_THROW(velocity.set_velocity_vector(VectorXd::Random(0)),
+  ASSERT_THROW(velocity.set_velocity_data(VectorXd::Random(0)),
                std::logic_error);
 }
 
@@ -99,15 +99,15 @@ TEST_F(VelocityTest, Sizes) {
   ASSERT_EQ(Velocity(0).get_size(), 0);
 }
 
-TEST_F(VelocityTest, GetVelocityVector) {
-  ASSERT_TRUE(velocity1_->get_velocity_vector().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(velocity2_->get_velocity_vector().isApprox(VectorXd::Zero(4)));
-  ASSERT_TRUE(velocity3_->get_velocity_vector().isApprox(VectorXd::Zero(5)));
+TEST_F(VelocityTest, GetVelocityData) {
+  ASSERT_TRUE(velocity1_->get_velocity_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(velocity2_->get_velocity_data().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(velocity3_->get_velocity_data().isApprox(VectorXd::Zero(5)));
 
-  VectorXd velocity_vector = VectorXd::Random(6);
-  Velocity velocity(velocity_vector);
+  VectorXd velocity_data = VectorXd::Random(6);
+  Velocity velocity(velocity_data);
 
-  ASSERT_TRUE(velocity.get_velocity_vector().isApprox(velocity_vector));
+  ASSERT_TRUE(velocity.get_velocity_data().isApprox(velocity_data));
 }
 
 TEST_F(VelocityTest, GetVelocityAt) {
@@ -122,11 +122,11 @@ TEST_F(VelocityTest, GetVelocityAt) {
   }
 
   // Arbitrary Velocity.
-  VectorXd velocity_vector = VectorXd::Random(7);
-  Velocity velocity(velocity_vector);
+  VectorXd velocity_data = VectorXd::Random(7);
+  Velocity velocity(velocity_data);
 
   for (int i = 0; i < velocity.get_size(); ++i) {
-    ASSERT_EQ(velocity(i), velocity_vector(i));
+    ASSERT_EQ(velocity(i), velocity_data(i));
   }
 
   // Invalid get at.
@@ -140,28 +140,28 @@ TEST_F(VelocityTest, GetVelocityAt) {
   ASSERT_THROW((*velocity3_)(5), std::out_of_range);
 }
 
-TEST_F(VelocityTest, SetVelocityVector) {
-  VectorXd velocity_vector = VectorXd::Random(4);
-  VectorXd expected_vector(5);
-  expected_vector << 1, 0, -1, 2.5, 0;
+TEST_F(VelocityTest, SetVelocityData) {
+  VectorXd velocity_data = VectorXd::Random(4);
+  VectorXd expected_data(5);
+  expected_data << 1, 0, -1, 2.5, 0;
 
-  velocity1_->set_velocity_vector(VectorXd::Ones(3));
-  velocity2_->set_velocity_vector(velocity_vector);
-  velocity3_->set_velocity_vector({1, 0, -1, 2.5, 0});
+  velocity1_->set_velocity_data(VectorXd::Ones(3));
+  velocity2_->set_velocity_data(velocity_data);
+  velocity3_->set_velocity_data({1, 0, -1, 2.5, 0});
 
-  ASSERT_TRUE(velocity1_->get_velocity_vector().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(velocity2_->get_velocity_vector().isApprox(velocity_vector));
-  ASSERT_TRUE(velocity3_->get_velocity_vector().isApprox(expected_vector));
+  ASSERT_TRUE(velocity1_->get_velocity_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(velocity2_->get_velocity_data().isApprox(velocity_data));
+  ASSERT_TRUE(velocity3_->get_velocity_data().isApprox(expected_data));
 
-  // Invalid set vector.
-  ASSERT_THROW(velocity1_->set_velocity_vector(VectorXd::Ones(2)),
+  // Invalid set data.
+  ASSERT_THROW(velocity1_->set_velocity_data(VectorXd::Ones(2)),
                std::invalid_argument);
-  ASSERT_THROW(velocity2_->set_velocity_vector(VectorXd::Ones(5)),
+  ASSERT_THROW(velocity2_->set_velocity_data(VectorXd::Ones(5)),
                std::invalid_argument);
-  ASSERT_THROW(velocity3_->set_velocity_vector({}), std::invalid_argument);
-  ASSERT_THROW(velocity3_->set_velocity_vector({1, 2, 3, 4}),
+  ASSERT_THROW(velocity3_->set_velocity_data({}), std::invalid_argument);
+  ASSERT_THROW(velocity3_->set_velocity_data({1, 2, 3, 4}),
                std::invalid_argument);
-  ASSERT_THROW(velocity3_->set_velocity_vector({1, 2, 1, 2, 1, 2}),
+  ASSERT_THROW(velocity3_->set_velocity_data({1, 2, 1, 2, 1, 2}),
                std::invalid_argument);
 }
 
@@ -176,11 +176,11 @@ TEST_F(VelocityTest, SetVelocityAt) {
     (*velocity3_)(i) = -3.;
   }
 
-  ASSERT_TRUE(velocity1_->get_velocity_vector().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(velocity1_->get_velocity_data().isApprox(VectorXd::Ones(3)));
   ASSERT_TRUE(
-      velocity2_->get_velocity_vector().isApprox(2 * VectorXd::Ones(4)));
+      velocity2_->get_velocity_data().isApprox(2 * VectorXd::Ones(4)));
   ASSERT_TRUE(
-      velocity3_->get_velocity_vector().isApprox(-3 * VectorXd::Ones(5)));
+      velocity3_->get_velocity_data().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
   ASSERT_THROW((*velocity1_)(-1) = 0, std::out_of_range);
@@ -205,21 +205,21 @@ TEST_F(VelocityTest, Addition) {
 
   // Trivial addition.
   velocity1 += Velocity::CreateLike(velocity1);
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(v1));
 
   velocity1 = velocity1 + Velocity::CreateLike(velocity1);
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(v1));
 
   velocity1 += velocity2;
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(d1));
 
   // Commutativity.
   Velocity velocity3 = velocity1 + velocity2;
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(d2));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(d2));
 
   Velocity velocity4 = velocity2 + velocity1;
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(
-      velocity4.get_velocity_vector()));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(
+      velocity4.get_velocity_data()));
 
   // Empty addition.
   Velocity empty_velocity1(0), empty_velocity2{};
@@ -240,20 +240,20 @@ TEST_F(VelocityTest, Subtraction) {
 
   // Trivial subtraction.
   velocity1 -= Velocity::CreateLike(velocity1);
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(v1));
 
   velocity1 = velocity1 - Velocity::CreateLike(velocity1);
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(v1));
 
   velocity1 -= velocity2;
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(d1));
 
   Velocity velocity3 = velocity1 - velocity2;
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(d2));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(d2));
 
   Velocity velocity4 = velocity2 - velocity1;
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(
-      -1 * velocity4.get_velocity_vector()));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(
+      -1 * velocity4.get_velocity_data()));
 
   // Empty subtraction.
   Velocity empty_velocity1(0), empty_velocity2{};
@@ -274,18 +274,18 @@ TEST_F(VelocityTest, Multiplication) {
 
   // Trivial multiplication.
   velocity1 = velocity1 * 1.0;
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(v1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(v1));
   ASSERT_TRUE(
-      (0.0 * velocity1).get_velocity_vector().isApprox(VectorXd::Zero(3)));
+      (0.0 * velocity1).get_velocity_data().isApprox(VectorXd::Zero(3)));
 
   velocity1 *= 2.0;
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(d1));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(d1));
 
   // Commutativity.
   Velocity velocity3 = velocity2 * -1.5;
   Velocity velocity4 = -1.5 * velocity2;
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(d2));
-  ASSERT_TRUE(velocity4.get_velocity_vector().isApprox(d2));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(d2));
+  ASSERT_TRUE(velocity4.get_velocity_data().isApprox(d2));
 
   // Empty multiplication.
   Velocity empty_velocity1(0), empty_velocity2{};
@@ -326,13 +326,13 @@ TEST_F(VelocityTest, CreateLike) {
   Velocity velocity3 = Velocity::CreateLike(*velocity3_);
 
   ASSERT_EQ(velocity1.get_size(), 3);
-  ASSERT_TRUE(velocity1.get_velocity_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(velocity1.get_velocity_data().isApprox(VectorXd::Zero(3)));
 
   ASSERT_EQ(velocity2.get_size(), 4);
-  ASSERT_TRUE(velocity2.get_velocity_vector().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(velocity2.get_velocity_data().isApprox(VectorXd::Zero(4)));
 
   ASSERT_EQ(velocity3.get_size(), 5);
-  ASSERT_TRUE(velocity3.get_velocity_vector().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(velocity3.get_velocity_data().isApprox(VectorXd::Zero(5)));
 }
 
 }  // namespace
