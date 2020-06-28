@@ -28,8 +28,8 @@ void define_input_binding(py::module& m) {
   input.def("__repr__", &Input::ToString);
   input.def_property_readonly("size", &Input::get_size);
   input.def_property(
-      "data", &Input::get_input_data,
-      py::overload_cast<const VectorXd&>(&Input::set_input_data));
+      "data", &Input::get_data,
+      py::overload_cast<const VectorXd&>(&Input::set_data));
   input.def("is_empty", &Input::IsEmpty);
   input.def("create_like", &Input::CreateLike);
 }

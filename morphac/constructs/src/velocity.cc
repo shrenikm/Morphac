@@ -15,21 +15,21 @@ using Eigen::VectorXd;
 Velocity::Velocity(const int size) : size_(size) {
   MORPH_REQUIRE(size >= 0, std::invalid_argument,
                 "Velocity size is non-positive.");
-  velocity_data_ = VectorXd::Zero(size);
+  data_ = VectorXd::Zero(size);
 }
 
-Velocity::Velocity(const VectorXd& velocity_data)
-    : size_(velocity_data.size()), velocity_data_(velocity_data) {
-  MORPH_REQUIRE(velocity_data.size() >= 0, std::invalid_argument,
+Velocity::Velocity(const VectorXd& data)
+    : size_(data.size()), data_(data) {
+  MORPH_REQUIRE(data.size() >= 0, std::invalid_argument,
                 "Velocity data size is non-positive.");
 }
 
-Velocity::Velocity(initializer_list<double> velocity_elements)
-    : size_(velocity_elements.size()) {
+Velocity::Velocity(initializer_list<double> elements)
+    : size_(elements.size()) {
   // As it is an initializer list, the size is always going to be >= 0 and need
   // not be checked.
-  vector<double> velocity_data_vector(velocity_elements);
-  velocity_data_ = Map<VectorXd>(&velocity_data_vector[0], size_);
+  vector<double> data_vector(elements);
+  data_ = Map<VectorXd>(&data_vector[0], size_);
 }
 
 Velocity& Velocity::operator+=(const Velocity& velocity) {
@@ -38,7 +38,7 @@ Velocity& Velocity::operator+=(const Velocity& velocity) {
       "Velocities are not of the same size. The += operator requires them "
       "to be of the "
       "same size.");
-  this->velocity_data_ += velocity.velocity_data_;
+  this->data_ += velocity.data_;
   return *this;
 }
 
@@ -49,7 +49,7 @@ Velocity Velocity::operator+(const Velocity& velocity) const {
       "to be of the "
       "same size.");
   Velocity result(this->size_);
-  result.velocity_data_ = this->velocity_data_ + velocity.velocity_data_;
+  result.data_ = this->data_ + velocity.data_;
   return result;
 }
 
@@ -59,7 +59,7 @@ Velocity& Velocity::operator-=(const Velocity& velocity) {
       "Velocities are not of the same size. The -= operator requires them "
       "to be of the "
       "same size.");
-  this->velocity_data_ -= velocity.velocity_data_;
+  this->data_ -= velocity.data_;
   return *this;
 }
 
@@ -70,12 +70,12 @@ Velocity Velocity::operator-(const Velocity& velocity) const {
       "to be of the "
       "same size.");
   Velocity result(this->size_);
-  result.velocity_data_ = this->velocity_data_ - velocity.velocity_data_;
+  result.data_ = this->data_ - velocity.data_;
   return result;
 }
 
 Velocity& Velocity::operator*=(const double scalar) {
-  this->velocity_data_ = this->velocity_data_ * scalar;
+  this->data_ = this->data_ * scalar;
   return *this;
 }
 
@@ -92,7 +92,7 @@ bool operator==(const Velocity& velocity1, const Velocity& velocity2) {
   // Two velocities are equal if they are of the same size and their data
   // values are equal.
   if (velocity1.size_ == velocity2.size_) {
-    if (velocity1.velocity_data_.isApprox(velocity2.velocity_data_, 1e-6)) {
+    if (velocity1.data_.isApprox(velocity2.data_, 1e-6)) {
       return true;
     }
   }
@@ -107,18 +107,18 @@ double& Velocity::operator()(const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
-  return velocity_data_(index);
+  return data_(index);
 }
 
 double Velocity::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
-  return velocity_data_(index);
+  return data_(index);
 }
 
 ostream& operator<<(ostream& os, const Velocity& velocity) {
-  os << "Velocity[" << velocity.get_velocity_data().transpose() << "]";
+  os << "Velocity[" << velocity.get_data().transpose() << "]";
   return os;
 }
 
@@ -132,24 +132,24 @@ bool Velocity::IsEmpty() const { return size_ == 0; }
 
 int Velocity::get_size() const { return size_; }
 
-const VectorXd& Velocity::get_velocity_data() const {
+const VectorXd& Velocity::get_data() const {
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
-  return velocity_data_;
+  return data_;
 }
 
-void Velocity::set_velocity_data(const VectorXd& velocity_data) {
-  MORPH_REQUIRE(velocity_data.size() == size_, std::invalid_argument,
+void Velocity::set_data(const VectorXd& data) {
+  MORPH_REQUIRE(data.size() == size_, std::invalid_argument,
                 "Velocity data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
-  velocity_data_ = velocity_data;
+  data_ = data;
 }
 
-void Velocity::set_velocity_data(initializer_list<double> velocity_elements) {
-  MORPH_REQUIRE((int)velocity_elements.size() == size_, std::invalid_argument,
+void Velocity::set_data(initializer_list<double> elements) {
+  MORPH_REQUIRE((int)elements.size() == size_, std::invalid_argument,
                 "Velocity data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
-  vector<double> velocity_data_vector(velocity_elements);
-  velocity_data_ = Map<VectorXd>(&velocity_data_vector[0], size_);
+  vector<double> data_vector(elements);
+  data_ = Map<VectorXd>(&data_vector[0], size_);
 }
 
 Velocity Velocity::CreateLike(const Velocity& velocity) {

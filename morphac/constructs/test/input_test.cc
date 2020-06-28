@@ -33,23 +33,23 @@ class InputTest : public ::testing::Test {
 TEST_F(InputTest, CopyConstructor) {
   Input input1(*input1_);
 
-  VectorXd input_data = VectorXd::Random(4);
-  Input input2(input_data);
+  VectorXd data = VectorXd::Random(4);
+  Input input2(data);
   Input input3(input2);
 
-  ASSERT_TRUE(input1.get_input_data().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(input3.get_input_data().isApprox(input_data));
+  ASSERT_TRUE(input1.get_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input3.get_data().isApprox(data));
 }
 
 TEST_F(InputTest, CopyAssignment) {
   Input input1 = *input1_;
 
-  VectorXd input_data = VectorXd::Random(4);
-  Input input2(input_data);
+  VectorXd data = VectorXd::Random(4);
+  Input input2(data);
   Input input3 = input2;
 
-  ASSERT_TRUE(input1.get_input_data().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(input3.get_input_data().isApprox(input_data));
+  ASSERT_TRUE(input1.get_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input3.get_data().isApprox(data));
 }
 
 TEST_F(InputTest, InvalidConstruction) {
@@ -63,7 +63,7 @@ TEST_F(InputTest, ConstInput) {
   const Input input(3);
 
   ASSERT_EQ(input.get_size(), 3);
-  ASSERT_TRUE(input.get_input_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input.get_data().isApprox(VectorXd::Zero(3)));
 
   // Making sure position accessing works.
   for (int i = 0; i < input.get_size(); ++i) {
@@ -71,8 +71,8 @@ TEST_F(InputTest, ConstInput) {
   }
 
   // After const casting, we should be able to modify the data.
-  const_cast<Input &>(input).set_input_data(VectorXd::Ones(3));
-  ASSERT_TRUE(input.get_input_data().isApprox(VectorXd::Ones(3)));
+  const_cast<Input &>(input).set_data(VectorXd::Ones(3));
+  ASSERT_TRUE(input.get_data().isApprox(VectorXd::Ones(3)));
 }
 
 TEST_F(InputTest, EmptyConstruction) {
@@ -84,9 +84,9 @@ TEST_F(InputTest, EmptyConstruction) {
   ASSERT_TRUE(Input{}.IsEmpty());
 
   // Accessors are invalid for empty Input
-  ASSERT_THROW(input.get_input_data(), std::logic_error);
+  ASSERT_THROW(input.get_data(), std::logic_error);
   ASSERT_THROW(input(0), std::logic_error);
-  ASSERT_THROW(input.set_input_data(VectorXd::Random(0)), std::logic_error);
+  ASSERT_THROW(input.set_data(VectorXd::Random(0)), std::logic_error);
 }
 
 TEST_F(InputTest, Sizes) {
@@ -98,15 +98,15 @@ TEST_F(InputTest, Sizes) {
   ASSERT_EQ(Input(0).get_size(), 0);
 }
 
-TEST_F(InputTest, GetInputData) {
-  ASSERT_TRUE(input1_->get_input_data().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(input2_->get_input_data().isApprox(VectorXd::Zero(4)));
-  ASSERT_TRUE(input3_->get_input_data().isApprox(VectorXd::Zero(5)));
+TEST_F(InputTest, GetData) {
+  ASSERT_TRUE(input1_->get_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input2_->get_data().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(input3_->get_data().isApprox(VectorXd::Zero(5)));
 
-  VectorXd input_data = VectorXd::Random(6);
-  Input input(input_data);
+  VectorXd data = VectorXd::Random(6);
+  Input input(data);
 
-  ASSERT_TRUE(input.get_input_data().isApprox(input_data));
+  ASSERT_TRUE(input.get_data().isApprox(data));
 }
 
 TEST_F(InputTest, GetInputAt) {
@@ -121,11 +121,11 @@ TEST_F(InputTest, GetInputAt) {
   }
 
   // Arbitrary Input.
-  VectorXd input_data = VectorXd::Random(7);
-  Input input(input_data);
+  VectorXd data = VectorXd::Random(7);
+  Input input(data);
 
   for (int i = 0; i < input.get_size(); ++i) {
-    ASSERT_EQ(input(i), input_data(i));
+    ASSERT_EQ(input(i), data(i));
   }
 
   // Invalid get at.
@@ -139,28 +139,25 @@ TEST_F(InputTest, GetInputAt) {
   ASSERT_THROW((*input3_)(5), std::out_of_range);
 }
 
-TEST_F(InputTest, SetInputData) {
-  VectorXd input_data = VectorXd::Random(4);
+TEST_F(InputTest, SetData) {
+  VectorXd data = VectorXd::Random(4);
   VectorXd expected_data(5);
   expected_data << 1, 0, -1, 2.5, 0;
 
-  input1_->set_input_data(VectorXd::Ones(3));
-  input2_->set_input_data(input_data);
-  input3_->set_input_data({1, 0, -1, 2.5, 0});
+  input1_->set_data(VectorXd::Ones(3));
+  input2_->set_data(data);
+  input3_->set_data({1, 0, -1, 2.5, 0});
 
-  ASSERT_TRUE(input1_->get_input_data().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(input2_->get_input_data().isApprox(input_data));
-  ASSERT_TRUE(input3_->get_input_data().isApprox(expected_data));
+  ASSERT_TRUE(input1_->get_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(input2_->get_data().isApprox(data));
+  ASSERT_TRUE(input3_->get_data().isApprox(expected_data));
 
   // Invalid set data.
-  ASSERT_THROW(input1_->set_input_data(VectorXd::Ones(2)),
-               std::invalid_argument);
-  ASSERT_THROW(input2_->set_input_data(VectorXd::Ones(5)),
-               std::invalid_argument);
-  ASSERT_THROW(input3_->set_input_data({}), std::invalid_argument);
-  ASSERT_THROW(input3_->set_input_data({1, 2, 3, 4}), std::invalid_argument);
-  ASSERT_THROW(input3_->set_input_data({1, 2, 1, 2, 1, 2}),
-               std::invalid_argument);
+  ASSERT_THROW(input1_->set_data(VectorXd::Ones(2)), std::invalid_argument);
+  ASSERT_THROW(input2_->set_data(VectorXd::Ones(5)), std::invalid_argument);
+  ASSERT_THROW(input3_->set_data({}), std::invalid_argument);
+  ASSERT_THROW(input3_->set_data({1, 2, 3, 4}), std::invalid_argument);
+  ASSERT_THROW(input3_->set_data({1, 2, 1, 2, 1, 2}), std::invalid_argument);
 }
 
 TEST_F(InputTest, SetInputAt) {
@@ -174,9 +171,9 @@ TEST_F(InputTest, SetInputAt) {
     (*input3_)(i) = -3;
   }
 
-  ASSERT_TRUE(input1_->get_input_data().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(input2_->get_input_data().isApprox(2 * VectorXd::Ones(4)));
-  ASSERT_TRUE(input3_->get_input_data().isApprox(-3 * VectorXd::Ones(5)));
+  ASSERT_TRUE(input1_->get_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(input2_->get_data().isApprox(2 * VectorXd::Ones(4)));
+  ASSERT_TRUE(input3_->get_data().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
   ASSERT_THROW((*input1_)(-1) = 0, std::out_of_range);
@@ -201,20 +198,20 @@ TEST_F(InputTest, Addition) {
 
   // Trivial addition.
   input1 += Input::CreateLike(input1);
-  ASSERT_TRUE(input1.get_input_data().isApprox(i1));
+  ASSERT_TRUE(input1.get_data().isApprox(i1));
 
   input1 = input1 + Input::CreateLike(input1);
-  ASSERT_TRUE(input1.get_input_data().isApprox(i1));
+  ASSERT_TRUE(input1.get_data().isApprox(i1));
 
   input1 += input2;
-  ASSERT_TRUE(input1.get_input_data().isApprox(d1));
+  ASSERT_TRUE(input1.get_data().isApprox(d1));
 
   // Commutativity.
   Input input3 = input1 + input2;
-  ASSERT_TRUE(input3.get_input_data().isApprox(d2));
+  ASSERT_TRUE(input3.get_data().isApprox(d2));
 
   Input input4 = input2 + input1;
-  ASSERT_TRUE(input3.get_input_data().isApprox(input4.get_input_data()));
+  ASSERT_TRUE(input3.get_data().isApprox(input4.get_data()));
 
   // Empty addition.
   Input empty_input1(0), empty_input2{};
@@ -235,20 +232,19 @@ TEST_F(InputTest, Subtraction) {
 
   // Trivial subtraction.
   input1 -= Input::CreateLike(input1);
-  ASSERT_TRUE(input1.get_input_data().isApprox(i1));
+  ASSERT_TRUE(input1.get_data().isApprox(i1));
 
   input1 = input1 - Input::CreateLike(input1);
-  ASSERT_TRUE(input1.get_input_data().isApprox(i1));
+  ASSERT_TRUE(input1.get_data().isApprox(i1));
 
   input1 -= input2;
-  ASSERT_TRUE(input1.get_input_data().isApprox(d1));
+  ASSERT_TRUE(input1.get_data().isApprox(d1));
 
   Input input3 = input1 - input2;
-  ASSERT_TRUE(input3.get_input_data().isApprox(d2));
+  ASSERT_TRUE(input3.get_data().isApprox(d2));
 
   Input input4 = input2 - input1;
-  ASSERT_TRUE(
-      input3.get_input_data().isApprox(-1 * input4.get_input_data()));
+  ASSERT_TRUE(input3.get_data().isApprox(-1 * input4.get_data()));
 
   // Empty subtraction.
   Input empty_input1(0), empty_input2{};
@@ -269,17 +265,17 @@ TEST_F(InputTest, Multiplication) {
 
   // Trivial multiplication.
   input1 = input1 * 1.0;
-  ASSERT_TRUE(input1.get_input_data().isApprox(i1));
-  ASSERT_TRUE((0.0 * input1).get_input_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input1.get_data().isApprox(i1));
+  ASSERT_TRUE((0.0 * input1).get_data().isApprox(VectorXd::Zero(3)));
 
   input1 *= 2.0;
-  ASSERT_TRUE(input1.get_input_data().isApprox(d1));
+  ASSERT_TRUE(input1.get_data().isApprox(d1));
 
   // Commutativity.
   Input input3 = input2 * -1.5;
   Input input4 = -1.5 * input2;
-  ASSERT_TRUE(input3.get_input_data().isApprox(d2));
-  ASSERT_TRUE(input4.get_input_data().isApprox(d2));
+  ASSERT_TRUE(input3.get_data().isApprox(d2));
+  ASSERT_TRUE(input4.get_data().isApprox(d2));
 
   // Empty multiplication.
   Input empty_input1(0), empty_input2{};
@@ -320,13 +316,13 @@ TEST_F(InputTest, CreateLike) {
   Input input3 = Input::CreateLike(*input3_);
 
   ASSERT_EQ(input1.get_size(), 3);
-  ASSERT_TRUE(input1.get_input_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(input1.get_data().isApprox(VectorXd::Zero(3)));
 
   ASSERT_EQ(input2.get_size(), 4);
-  ASSERT_TRUE(input2.get_input_data().isApprox(VectorXd::Zero(4)));
+  ASSERT_TRUE(input2.get_data().isApprox(VectorXd::Zero(4)));
 
   ASSERT_EQ(input3.get_size(), 5);
-  ASSERT_TRUE(input3.get_input_data().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(input3.get_data().isApprox(VectorXd::Zero(5)));
 }
 
 }  // namespace

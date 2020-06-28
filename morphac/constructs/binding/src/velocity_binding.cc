@@ -28,8 +28,8 @@ void define_velocity_binding(py::module& m) {
   velocity.def("__repr__", &Velocity::ToString);
   velocity.def_property_readonly("size", &Velocity::get_size);
   velocity.def_property(
-      "data", &Velocity::get_velocity_data,
-      py::overload_cast<const VectorXd&>(&Velocity::set_velocity_data));
+      "data", &Velocity::get_data,
+      py::overload_cast<const VectorXd&>(&Velocity::set_data));
   velocity.def("is_empty", &Velocity::IsEmpty);
   velocity.def("create_like", &Velocity::CreateLike);
 }

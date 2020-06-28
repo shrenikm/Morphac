@@ -32,8 +32,8 @@ void define_coordinate2D_binding(py::module& m) {
   coordinate2D.def_property("y", &Coordinate2D<double>::get_y,
                             &Coordinate2D<double>::set_y);
   coordinate2D.def_property("data",
-                            &Coordinate2D<double>::get_coordinate_data,
-                            &Coordinate2D<double>::set_coordinate_data);
+                            &Coordinate2D<double>::get_data,
+                            &Coordinate2D<double>::set_data);
 }
 
 }  // namespace binding

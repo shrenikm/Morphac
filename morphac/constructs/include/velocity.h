@@ -14,8 +14,8 @@ namespace constructs {
 class Velocity {
  public:
   Velocity(const int size);
-  Velocity(const Eigen::VectorXd& velocity_data);
-  Velocity(std::initializer_list<double> velocity_elements);
+  Velocity(const Eigen::VectorXd& data);
+  Velocity(std::initializer_list<double> elements);
   // Copy constructor.
   Velocity(const Velocity& velocity) = default;
 
@@ -40,16 +40,16 @@ class Velocity {
   std::string ToString() const;
 
   int get_size() const;
-  const Eigen::VectorXd& get_velocity_data() const;
-  void set_velocity_data(const Eigen::VectorXd& velocity_data);
-  void set_velocity_data(std::initializer_list<double> velocity_elements);
+  const Eigen::VectorXd& get_data() const;
+  void set_data(const Eigen::VectorXd& data);
+  void set_data(std::initializer_list<double> elements);
 
   bool IsEmpty() const;
   static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
 
  private:
   int size_;
-  Eigen::VectorXd velocity_data_;
+  Eigen::VectorXd data_;
 };
 
 // Non-member multiplication operator functions to support lhs scalar

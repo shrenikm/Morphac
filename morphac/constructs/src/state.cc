@@ -263,14 +263,14 @@ const Velocity& State::get_velocity() const {
 const VectorXd& State::get_pose_data() const {
   // We return the pose data only if the pose is non empty.
   MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
-  return pose_.get_pose_data();
+  return pose_.get_data();
 }
 
 const VectorXd& State::get_velocity_data() const {
   // We return the velocity data only if the velocity is non empty.
   MORPH_REQUIRE(!velocity_.IsEmpty(), std::logic_error,
                 "Velocity component is empty.");
-  return velocity_.get_velocity_data();
+  return velocity_.get_data();
 }
 
 void State::set_pose(const Pose& pose) {
@@ -288,9 +288,9 @@ void State::set_velocity(const Velocity& velocity) {
   velocity_ = velocity;
 }
 
-const VectorXd State::get_state_data() const {
+const VectorXd State::get_data() const {
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State is empty.");
-  VectorXd state_data(get_size());
+  VectorXd data(get_size());
   VectorXd pose_data = VectorXd::Zero(0);
   VectorXd velocity_data = VectorXd::Zero(0);
 
@@ -301,8 +301,8 @@ const VectorXd State::get_state_data() const {
   if (!IsVelocityEmpty()) {
     velocity_data = get_velocity_data();
   }
-  state_data << pose_data, velocity_data;
-  return state_data;
+  data << pose_data, velocity_data;
+  return data;
 }
 
 void State::set_pose_data(const VectorXd& pose_data) {
@@ -310,7 +310,7 @@ void State::set_pose_data(const VectorXd& pose_data) {
   MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
 
   // The Pose class setter does the argument dimension check.
-  pose_.set_pose_data(pose_data);
+  pose_.set_data(pose_data);
 }
 
 void State::set_pose_data(initializer_list<double> pose_elements) {
@@ -318,7 +318,7 @@ void State::set_pose_data(initializer_list<double> pose_elements) {
   MORPH_REQUIRE(!pose_.IsEmpty(), std::logic_error, "Pose component is empty.");
 
   // The Pose class setter does the argument check.
-  pose_.set_pose_data(pose_elements);
+  pose_.set_data(pose_elements);
 }
 
 void State::set_velocity_data(const VectorXd& velocity_data) {
@@ -327,7 +327,7 @@ void State::set_velocity_data(const VectorXd& velocity_data) {
                 "Velocity component is empty.");
 
   // The Velocity class getter does the argument check.
-  velocity_.set_velocity_data(velocity_data);
+  velocity_.set_data(velocity_data);
 }
 
 void State::set_velocity_data(initializer_list<double> velocity_elements) {
@@ -336,36 +336,36 @@ void State::set_velocity_data(initializer_list<double> velocity_elements) {
                 "Velocity component is empty.");
 
   // The Velocity class getter does the argument check.
-  velocity_.set_velocity_data(velocity_elements);
+  velocity_.set_data(velocity_elements);
 }
 
-void State::set_state_data(const VectorXd& state_data) {
+void State::set_data(const VectorXd& data) {
   // Need to check if the dimensions are correct
-  MORPH_REQUIRE(state_data.size() == get_size(), std::invalid_argument,
+  MORPH_REQUIRE(data.size() == get_size(), std::invalid_argument,
                 "State data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   if (!IsPoseEmpty()) {
-    set_pose_data(state_data.head(get_size_pose()));
+    set_pose_data(data.head(get_size_pose()));
   }
   if (!IsVelocityEmpty()) {
-    set_velocity_data(state_data.tail(get_size_velocity()));
+    set_velocity_data(data.tail(get_size_velocity()));
   }
 }
 
-void State::set_state_data(initializer_list<double> state_elements) {
+void State::set_data(initializer_list<double> elements) {
   // Need to check if the dimensions are correct
-  MORPH_REQUIRE((int)state_elements.size() == get_size(), std::invalid_argument,
+  MORPH_REQUIRE((int)elements.size() == get_size(), std::invalid_argument,
                 "State data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
 
-  vector<double> state_data_vector(state_elements);
-  VectorXd state_data = Map<VectorXd>(&state_data_vector[0], get_size());
+  vector<double> data_vector(elements);
+  VectorXd data = Map<VectorXd>(&data_vector[0], get_size());
 
   if (!IsPoseEmpty()) {
-    set_pose_data(state_data.head(get_size_pose()));
+    set_pose_data(data.head(get_size_pose()));
   }
   if (!IsVelocityEmpty()) {
-    set_velocity_data(state_data.tail(get_size_velocity()));
+    set_velocity_data(data.tail(get_size_velocity()));
   }
 }
 

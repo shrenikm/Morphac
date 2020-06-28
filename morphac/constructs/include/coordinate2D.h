@@ -42,12 +42,11 @@ class Coordinate2D {
 
   T get_x() const;
   T get_y() const;
-  const Eigen::Matrix<T, 2, 1> get_coordinate_data() const;
+  const Eigen::Matrix<T, 2, 1> get_data() const;
   void set_x(const T x);
   void set_y(const T y);
-  void set_coordinate(const T x, const T y);
-  void set_coordinate_data(
-      const Eigen::Matrix<T, 2, 1>& coord_data);
+  void set_xy(const T x, const T y);
+  void set_data(const Eigen::Matrix<T, 2, 1>& data);
 
  private:
   T x_;

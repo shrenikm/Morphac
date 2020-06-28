@@ -40,16 +40,16 @@ class Input {
   std::string ToString() const;
 
   int get_size() const;
-  const Eigen::VectorXd& get_input_data() const;
-  void set_input_data(const Eigen::VectorXd& input_data);
-  void set_input_data(std::initializer_list<double> input_elements);
+  const Eigen::VectorXd& get_data() const;
+  void set_data(const Eigen::VectorXd& data);
+  void set_data(std::initializer_list<double> elements);
 
   bool IsEmpty() const;
   static Input CreateLike(const morphac::constructs::Input& input);
 
  private:
   int size_;
-  Eigen::VectorXd input_data_;
+  Eigen::VectorXd data_;
 };
 
 // Non-member multiplication operator functions to support lhs scalar

@@ -14,8 +14,8 @@ namespace constructs {
 class Pose {
  public:
   Pose(const int size);
-  Pose(const Eigen::VectorXd& pose_data);
-  Pose(std::initializer_list<double> pose_elements);
+  Pose(const Eigen::VectorXd& data);
+  Pose(std::initializer_list<double> elements);
   // Copy constructor
   Pose(const Pose& pose) = default;
 
@@ -40,16 +40,16 @@ class Pose {
   std::string ToString() const;
 
   int get_size() const;
-  const Eigen::VectorXd& get_pose_data() const;
-  void set_pose_data(const Eigen::VectorXd& pose_data);
-  void set_pose_data(std::initializer_list<double> pose_elements);
+  const Eigen::VectorXd& get_data() const;
+  void set_data(const Eigen::VectorXd& data);
+  void set_data(std::initializer_list<double> elements);
 
   bool IsEmpty() const;
   static Pose CreateLike(const morphac::constructs::Pose& pose);
 
  private:
   int size_;
-  Eigen::VectorXd pose_data_;
+  Eigen::VectorXd data_;
 };
 
 // Non-member multiplication operator functions to support lhs scalar

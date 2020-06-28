@@ -16,15 +16,15 @@ class Environment {
   double get_width() const;
   double get_height() const;
   double get_resolution() const;
-  const Eigen::MatrixXd& get_map() const;
+  const Eigen::MatrixXd& get_data() const;
 
-  void set_map(const Eigen::MatrixXd& map);
+  void set_data(const Eigen::MatrixXd& data);
 
  private:
   double width_;
   double height_;
   double resolution_;
-  Eigen::MatrixXd map_;
+  Eigen::MatrixXd data_;
 };
 
 }  // namespace environments

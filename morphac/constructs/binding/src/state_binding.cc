@@ -44,8 +44,8 @@ void define_state_binding(py::module& m) {
   // Pose and Velocity data are not exposed as we can always call it using
   // state.pose.data and state.velocity.data
   state.def_property(
-      "data", &State::get_state_data,
-      py::overload_cast<const VectorXd&>(&State::set_state_data));
+      "data", &State::get_data,
+      py::overload_cast<const VectorXd&>(&State::set_data));
   // Pose and Velocity IsEmpty is not exposed as we can call it using
   // state.pose.is_empty and state.velocity.is_empty
   state.def("is_empty", &State::IsEmpty);
