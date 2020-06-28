@@ -66,38 +66,38 @@ TEST_F(EnvironmentTest, InvalidConstruction) {
   // Constructing with an invalid resolution.
   ASSERT_THROW(Environment(10, 9.4, 0.123), std::invalid_argument);
   ASSERT_THROW(Environment(10, 9.12, 0.0489), std::invalid_argument);
-  // While creating the environment with a map, the resolution is always right
-  // as the width and height are computed from the map and resolution and the
-  // map is always valid dimension wise. Hence we don't test it.
+  // While creating the environment with a data, the resolution is always right
+  // as the width and height are computed from the data and resolution and the
+  // data is always valid dimension wise. Hence we don't test it.
 }
 
 TEST_F(EnvironmentTest, Accessors) {
   Environment env1{10, 9.5, 0.01};
-  MatrixXd map = MatrixXd::Random(480, 640);
-  Environment env2{map, 0.02};
+  MatrixXd data = MatrixXd::Random(480, 640);
+  Environment env2{data, 0.02};
 
   ASSERT_EQ(env1.get_width(), 10);
   ASSERT_EQ(env1.get_height(), 9.5);
   ASSERT_EQ(env1.get_resolution(), 0.01);
-  ASSERT_TRUE(env1.get_map().isApprox(MatrixXd::Zero(950, 1000)));
+  ASSERT_TRUE(env1.get_data().isApprox(MatrixXd::Zero(950, 1000)));
 
   ASSERT_EQ(env2.get_width(), 12.8);
   ASSERT_EQ(env2.get_height(), 9.6);
   ASSERT_EQ(env2.get_resolution(), 0.02);
-  ASSERT_TRUE(env2.get_map().isApprox(map));
+  ASSERT_TRUE(env2.get_data().isApprox(data));
 
-  // Setting a different map.
-  map = MatrixXd::Random(480, 640);
-  env2.set_map(map);
+  // Setting a different data.
+  data = MatrixXd::Random(480, 640);
+  env2.set_data(data);
 
   ASSERT_EQ(env2.get_width(), 12.8);
   ASSERT_EQ(env2.get_height(), 9.6);
   ASSERT_EQ(env2.get_resolution(), 0.02);
-  ASSERT_TRUE(env2.get_map().isApprox(map));
+  ASSERT_TRUE(env2.get_data().isApprox(data));
 
-  // Setting an invalid map.
-  ASSERT_THROW(env2.set_map(MatrixXd::Random(0, 0)), std::invalid_argument);
-  ASSERT_THROW(env2.set_map(MatrixXd::Random(640, 480)), std::invalid_argument);
+  // Setting an invalid data.
+  ASSERT_THROW(env2.set_data(MatrixXd::Random(0, 0)), std::invalid_argument);
+  ASSERT_THROW(env2.set_data(MatrixXd::Random(640, 480)), std::invalid_argument);
 }
 
 }  // namespace

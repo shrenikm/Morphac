@@ -19,9 +19,8 @@ void define_environment_binding(py::module& m) {
   environment.def_property_readonly("width", &Environment::get_width);
   environment.def_property_readonly("height", &Environment::get_height);
   environment.def_property_readonly("resolution", &Environment::get_resolution);
-  // map is mapped to data in python to keep it consistent and pythonic.
-  environment.def_property("data", &Environment::get_map,
-                           &Environment::set_map);
+  environment.def_property("data", &Environment::get_data,
+                           &Environment::set_data);
 }
 
 }  // namespace binding

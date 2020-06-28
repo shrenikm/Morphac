@@ -11,7 +11,7 @@ namespace environments {
 class Environment {
  public:
   Environment(const double width, const double height, const double resolution);
-  Environment(const Eigen::MatrixXd& map, const double resolution);
+  Environment(const Eigen::MatrixXd& data, const double resolution);
 
   double get_width() const;
   double get_height() const;
