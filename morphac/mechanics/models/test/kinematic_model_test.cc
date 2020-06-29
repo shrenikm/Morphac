@@ -21,15 +21,15 @@ class CustomKinematicModel : public KinematicModel {
                                const Input& input) const override {
     // f(x, u) = x * a * u - x
     VectorXd derivative_vector(state.get_size());
-    derivative_vector << state.get_state_vector();
+    derivative_vector << state.get_data();
     derivative_vector =
-        (derivative_vector.array() * a * input.get_input_vector().array() -
+        (derivative_vector.array() * a * input.get_data().array() -
          derivative_vector.array())
             .matrix();
 
     State derivative = State::CreateLike(state);
-    derivative.set_pose_vector(derivative_vector.head(size_pose));
-    derivative.set_velocity_vector(derivative_vector.tail(size_velocity));
+    derivative.set_pose_data(derivative_vector.head(size_pose));
+    derivative.set_velocity_data(derivative_vector.tail(size_velocity));
 
     return derivative;
   }
@@ -91,9 +91,9 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
   expected_velocity_derivative(1) = 42;
 
   // Checking if derivative has updated.
-  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
+  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_data()));
   ASSERT_TRUE(
-      expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
+      expected_velocity_derivative.isApprox(derivative.get_velocity_data()));
 }
 
 TEST_F(KinematicModelTest, StateNormalization) {

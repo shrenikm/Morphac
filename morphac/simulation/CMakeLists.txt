@@ -54,16 +54,16 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(playground_state
   PUBLIC
-  environment
   state
+  map
   robot
 )
 
 target_link_libraries(playground
   PUBLIC
-  environment
   input
   state
+  map
   kinematic_model
   playground_state
   robot
@@ -102,7 +102,7 @@ endforeach()
 target_link_libraries(playground_state_test
   PUBLIC
   gtest_main
-  environment
+  map
   playground_state
 )
 

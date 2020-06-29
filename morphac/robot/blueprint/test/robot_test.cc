@@ -28,15 +28,15 @@ class CustomKinematicModel : public KinematicModel {
   State ComputeStateDerivative(const State& state, const Input& input) const {
     // f(x, u) = x * u  - x
     VectorXd derivative_vector(state.get_size());
-    derivative_vector << state.get_state_vector();
+    derivative_vector << state.get_data();
     derivative_vector =
-        (derivative_vector.array() * input.get_input_vector().array() -
+        (derivative_vector.array() * input.get_data().array() -
          derivative_vector.array())
             .matrix();
 
     State derivative = State::CreateLike(state);
-    derivative.set_pose_vector(derivative_vector.head(size_pose));
-    derivative.set_velocity_vector(derivative_vector.tail(size_velocity));
+    derivative.set_pose_data(derivative_vector.head(size_pose));
+    derivative.set_velocity_data(derivative_vector.tail(size_velocity));
 
     return derivative;
   }
@@ -95,15 +95,15 @@ TEST_F(RobotTest, Accessors) {
   // velocity must be zero. For the case with an explicit initial state, it must
   // match the given initial state.
   ASSERT_TRUE(
-      robot1.get_state().get_state_vector().isApprox(VectorXd::Zero(5)));
-  ASSERT_TRUE(robot1.get_pose().get_pose_vector().isApprox(VectorXd::Zero(3)));
+      robot1.get_state().get_data().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(robot1.get_pose().get_data().isApprox(VectorXd::Zero(3)));
   ASSERT_TRUE(
-      robot1.get_velocity().get_velocity_vector().isApprox(VectorXd::Zero(2)));
+      robot1.get_velocity().get_data().isApprox(VectorXd::Zero(2)));
 
-  ASSERT_TRUE(robot2.get_state().get_state_vector().isApprox(initial_state));
-  ASSERT_TRUE(robot2.get_state().get_pose_vector().isApprox(initial_pose));
+  ASSERT_TRUE(robot2.get_state().get_data().isApprox(initial_state));
+  ASSERT_TRUE(robot2.get_state().get_pose_data().isApprox(initial_pose));
   ASSERT_TRUE(
-      robot2.get_state().get_velocity_vector().isApprox(initial_velocity));
+      robot2.get_state().get_velocity_data().isApprox(initial_velocity));
 }
 
 TEST_F(RobotTest, SetState) {
@@ -116,19 +116,19 @@ TEST_F(RobotTest, SetState) {
 
   robot1.set_state(State(VectorXd::Ones(3), VectorXd::Ones(2)));
   ASSERT_TRUE(
-      robot1.get_state().get_state_vector().isApprox(VectorXd::Ones(5)));
+      robot1.get_state().get_data().isApprox(VectorXd::Ones(5)));
 
   robot1.set_pose(Pose(pose_vector));
-  ASSERT_TRUE(robot1.get_pose().get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(robot1.get_pose().get_data().isApprox(pose_vector));
   // Making sure that the velocity has not changed.
   ASSERT_TRUE(
-      robot1.get_velocity().get_velocity_vector().isApprox(VectorXd::Ones(2)));
+      robot1.get_velocity().get_data().isApprox(VectorXd::Ones(2)));
 
   robot1.set_velocity(Velocity(velocity_vector));
   // Making sure that the pose has not changed.
-  ASSERT_TRUE(robot1.get_pose().get_pose_vector().isApprox(pose_vector));
+  ASSERT_TRUE(robot1.get_pose().get_data().isApprox(pose_vector));
   ASSERT_TRUE(
-      robot1.get_velocity().get_velocity_vector().isApprox(velocity_vector));
+      robot1.get_velocity().get_data().isApprox(velocity_vector));
 
   // Test invalid state, pose and velocity setting.
   ASSERT_THROW(robot1.set_state(State(4, 2)), std::invalid_argument);
@@ -166,7 +166,7 @@ TEST_F(RobotTest, Derivative) {
   State derivative1 = robot.ComputeStateDerivative(input);
 
   ASSERT_TRUE(
-      derivative1.get_state_vector().isApprox(expected_state_derivative1));
+      derivative1.get_data().isApprox(expected_state_derivative1));
 
   expected_state_derivative2 << 0, 1, 2, 1, 0;
 
@@ -175,7 +175,7 @@ TEST_F(RobotTest, Derivative) {
       State(VectorXd::Ones(3), VectorXd::Ones(2)), input);
 
   ASSERT_TRUE(
-      derivative2.get_state_vector().isApprox(expected_state_derivative2));
+      derivative2.get_data().isApprox(expected_state_derivative2));
 }
 
 }  // namespace

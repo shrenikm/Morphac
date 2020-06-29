@@ -5,7 +5,7 @@ namespace simulation {
 
 using morphac::constructs::Input;
 using morphac::constructs::State;
-using morphac::environments::Environment;
+using morphac::environment::Map;
 using morphac::math::numeric::Integrator;
 using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Robot;
@@ -14,8 +14,8 @@ using morphac::utils::IntegratorFromType;
 using morphac::mechanics::models::KinematicModel;
 
 Playground::Playground(const PlaygroundSpec& spec,
-                       const Environment& environment)
-    : spec_(spec), playground_state_(environment) {}
+                       const Map& map)
+    : spec_(spec), playground_state_(map) {}
 
 bool Playground::UidExistsInIntegratorOracle(const int uid) const {
     if (integrator_oracle_.find(uid) == integrator_oracle_.end()) {

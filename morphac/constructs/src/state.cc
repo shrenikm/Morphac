@@ -46,8 +46,8 @@ State::State(const Pose& pose, const Velocity& velocity)
 
 State& State::operator+=(const State& state) {
   MORPH_REQUIRE(
-      this->get_size_pose() == state.get_size_pose() &&
-          this->get_size_velocity() == state.get_size_velocity(),
+      this->get_pose_size() == state.get_pose_size() &&
+          this->get_velocity_size() == state.get_velocity_size(),
       std::invalid_argument,
       "States are not of the same size. The += operator requires them "
       "to be of the "
@@ -66,13 +66,13 @@ State& State::operator+=(const State& state) {
 }
 
 State State::operator+(const State& state) const {
-  MORPH_REQUIRE(this->get_size_pose() == state.get_size_pose() &&
-                    this->get_size_velocity() == state.get_size_velocity(),
+  MORPH_REQUIRE(this->get_pose_size() == state.get_pose_size() &&
+                    this->get_velocity_size() == state.get_velocity_size(),
                 std::invalid_argument,
                 "States are not of the same size. The + operator requires them "
                 "to be of the "
                 "same size.");
-  State result(this->get_size_pose(), this->get_size_velocity());
+  State result(this->get_pose_size(), this->get_velocity_size());
   // The pose and velocities are added and set if they are non empty. If they
   // are empty, the default empty objects are kept as is and the resulting
   // pose/velocity is also empty.
@@ -88,8 +88,8 @@ State State::operator+(const State& state) const {
 
 State& State::operator-=(const State& state) {
   MORPH_REQUIRE(
-      this->get_size_pose() == state.get_size_pose() &&
-          this->get_size_velocity() == state.get_size_velocity(),
+      this->get_pose_size() == state.get_pose_size() &&
+          this->get_velocity_size() == state.get_velocity_size(),
       std::invalid_argument,
       "States are not of the same size. The -= operator requires them "
       "to be of the "
@@ -108,13 +108,13 @@ State& State::operator-=(const State& state) {
 }
 
 State State::operator-(const State& state) const {
-  MORPH_REQUIRE(this->get_size_pose() == state.get_size_pose() &&
-                    this->get_size_velocity() == state.get_size_velocity(),
+  MORPH_REQUIRE(this->get_pose_size() == state.get_pose_size() &&
+                    this->get_velocity_size() == state.get_velocity_size(),
                 std::invalid_argument,
                 "States are not of the same size. The - operator requires them "
                 "to be of the "
                 "same size.");
-  State result(this->get_size_pose(), this->get_size_velocity());
+  State result(this->get_pose_size(), this->get_velocity_size());
   // The pose and velocities are subtracted and set if they are non empty. If
   // they are empty, the default empty objects are kept as is and the resulting
   // pose/velocity is also empty.
@@ -165,11 +165,11 @@ double& State::operator()(const int index) {
                 "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
-  if (index < get_size_pose()) {
+  if (index < get_pose_size()) {
     return pose_(index);
   } else {
     // Index corresponds to velocity
-    return velocity_(index - get_size_pose());
+    return velocity_(index - get_pose_size());
   }
 }
 
@@ -178,11 +178,11 @@ double State::operator()(const int index) const {
                 "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
-  if (index < get_size_pose()) {
+  if (index < get_pose_size()) {
     return pose_(index);
   } else {
     // Index corresponds to velocity
-    return velocity_(index - get_size_pose());
+    return velocity_(index - get_pose_size());
   }
 }
 
@@ -228,9 +228,9 @@ bool State::IsPoseEmpty() const { return pose_.IsEmpty(); }
 
 bool State::IsVelocityEmpty() const { return velocity_.IsEmpty(); }
 
-int State::get_size_pose() const { return pose_.get_size(); }
+int State::get_pose_size() const { return pose_.get_size(); }
 
-int State::get_size_velocity() const { return velocity_.get_size(); }
+int State::get_velocity_size() const { return velocity_.get_size(); }
 
 int State::get_size() const { return pose_.get_size() + velocity_.get_size(); }
 
@@ -345,10 +345,10 @@ void State::set_data(const VectorXd& data) {
                 "State data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   if (!IsPoseEmpty()) {
-    set_pose_data(data.head(get_size_pose()));
+    set_pose_data(data.head(get_pose_size()));
   }
   if (!IsVelocityEmpty()) {
-    set_velocity_data(data.tail(get_size_velocity()));
+    set_velocity_data(data.tail(get_velocity_size()));
   }
 }
 
@@ -362,15 +362,15 @@ void State::set_data(initializer_list<double> elements) {
   VectorXd data = Map<VectorXd>(&data_vector[0], get_size());
 
   if (!IsPoseEmpty()) {
-    set_pose_data(data.head(get_size_pose()));
+    set_pose_data(data.head(get_pose_size()));
   }
   if (!IsVelocityEmpty()) {
-    set_velocity_data(data.tail(get_size_velocity()));
+    set_velocity_data(data.tail(get_velocity_size()));
   }
 }
 
 State State::CreateLike(const State& state) {
-  State new_state(state.get_size_pose(), state.get_size_velocity());
+  State new_state(state.get_pose_size(), state.get_velocity_size());
   return new_state;
 }
 

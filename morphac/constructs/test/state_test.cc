@@ -62,8 +62,7 @@ TEST_F(StateTest, ConstState) {
   // We should be able to obtain const Pose and const Velocity objects from
   // this const state (these are read-only).
   ASSERT_TRUE(state.get_pose().get_data().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(
-      state.get_velocity().get_data().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(state.get_velocity().get_data().isApprox(VectorXd::Zero(3)));
 
   // For a const State, the values can only be accessed but not set, as a
   // reference (lvalue) is not returned for this overload of the operator.
@@ -76,8 +75,7 @@ TEST_F(StateTest, ConstState) {
   const_cast<State&>(state).get_pose().set_data(VectorXd::Ones(3));
   const_cast<State&>(state).get_velocity().set_data(VectorXd::Ones(3));
   ASSERT_TRUE(state.get_pose().get_data().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(
-      state.get_velocity().get_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(state.get_velocity().get_data().isApprox(VectorXd::Ones(3)));
 }
 
 TEST_F(StateTest, EmptyAndPartialConstruction) {
@@ -128,31 +126,31 @@ TEST_F(StateTest, EmptyAndPartialConstruction) {
 }
 
 TEST_F(StateTest, Sizes) {
-  ASSERT_EQ(state1_->get_size_pose(), 3);
-  ASSERT_EQ(state1_->get_size_velocity(), 2);
+  ASSERT_EQ(state1_->get_pose_size(), 3);
+  ASSERT_EQ(state1_->get_velocity_size(), 2);
   ASSERT_EQ(state1_->get_size(), 5);
 
-  ASSERT_EQ(state2_->get_size_pose(), 4);
-  ASSERT_EQ(state2_->get_size_velocity(), 2);
+  ASSERT_EQ(state2_->get_pose_size(), 4);
+  ASSERT_EQ(state2_->get_velocity_size(), 2);
   ASSERT_EQ(state2_->get_size(), 6);
 
-  ASSERT_EQ(state3_->get_size_pose(), 2);
-  ASSERT_EQ(state3_->get_size_velocity(), 3);
+  ASSERT_EQ(state3_->get_pose_size(), 2);
+  ASSERT_EQ(state3_->get_velocity_size(), 3);
   ASSERT_EQ(state3_->get_size(), 5);
 
-  ASSERT_EQ(state4_->get_size_pose(), 1);
-  ASSERT_EQ(state4_->get_size_velocity(), 5);
+  ASSERT_EQ(state4_->get_pose_size(), 1);
+  ASSERT_EQ(state4_->get_velocity_size(), 5);
   ASSERT_EQ(state4_->get_size(), 6);
 
   // Partial and empty states.
-  ASSERT_EQ(State(0, 0).get_size_pose(), 0);
-  ASSERT_EQ(State(0, 0).get_size_velocity(), 0);
+  ASSERT_EQ(State(0, 0).get_pose_size(), 0);
+  ASSERT_EQ(State(0, 0).get_velocity_size(), 0);
 
-  ASSERT_EQ(State(3, 0).get_size_pose(), 3);
-  ASSERT_EQ(State(3, 0).get_size_velocity(), 0);
+  ASSERT_EQ(State(3, 0).get_pose_size(), 3);
+  ASSERT_EQ(State(3, 0).get_velocity_size(), 0);
 
-  ASSERT_EQ(State(0, 2).get_size_pose(), 0);
-  ASSERT_EQ(State(0, 2).get_size_velocity(), 2);
+  ASSERT_EQ(State(0, 2).get_pose_size(), 0);
+  ASSERT_EQ(State(0, 2).get_velocity_size(), 2);
 }
 
 TEST_F(StateTest, GetPose) {
@@ -551,25 +549,18 @@ TEST_F(StateTest, SetData) {
   ASSERT_TRUE(state.get_data().isApprox(data));
 
   // Invalid set.
-  ASSERT_THROW(state1_->set_data(VectorXd::Zero(4)),
-               std::invalid_argument);
-  ASSERT_THROW(state1_->set_data(VectorXd::Zero(6)),
-               std::invalid_argument);
+  ASSERT_THROW(state1_->set_data(VectorXd::Zero(4)), std::invalid_argument);
+  ASSERT_THROW(state1_->set_data(VectorXd::Zero(6)), std::invalid_argument);
 
-  ASSERT_THROW(state2_->set_data(VectorXd::Zero(5)),
-               std::invalid_argument);
+  ASSERT_THROW(state2_->set_data(VectorXd::Zero(5)), std::invalid_argument);
   ASSERT_THROW(state2_->set_velocity_data(VectorXd::Zero(7)),
                std::invalid_argument);
 
-  ASSERT_THROW(state3_->set_data(VectorXd::Zero(4)),
-               std::invalid_argument);
-  ASSERT_THROW(state3_->set_data(VectorXd::Zero(6)),
-               std::invalid_argument);
+  ASSERT_THROW(state3_->set_data(VectorXd::Zero(4)), std::invalid_argument);
+  ASSERT_THROW(state3_->set_data(VectorXd::Zero(6)), std::invalid_argument);
 
-  ASSERT_THROW(state4_->set_data(VectorXd::Zero(5)),
-               std::invalid_argument);
-  ASSERT_THROW(state4_->set_data(VectorXd::Zero(7)),
-               std::invalid_argument);
+  ASSERT_THROW(state4_->set_data(VectorXd::Zero(5)), std::invalid_argument);
+  ASSERT_THROW(state4_->set_data(VectorXd::Zero(7)), std::invalid_argument);
 
   // Setting a state data to an empty state must throw an error.
   ASSERT_THROW(State(0, 0).set_data(VectorXd::Zero(1)), std::logic_error);
@@ -690,16 +681,14 @@ TEST_F(StateTest, PartialSubtraction) {
   ASSERT_TRUE((State({1, 2, 3}, {}) - State({0, 3, 2}, {}))
                   .get_pose_data()
                   .isApprox(res1));
-  ASSERT_TRUE((State({1, 2, 3}, {}) - State({0, 3, 2}, {}))
-                  .get_data()
-                  .isApprox(res1));
+  ASSERT_TRUE(
+      (State({1, 2, 3}, {}) - State({0, 3, 2}, {})).get_data().isApprox(res1));
 
   ASSERT_TRUE((State({}, {1, 2, 3}) - State({}, {0, 3, 2}))
                   .get_velocity_data()
                   .isApprox(res1));
-  ASSERT_TRUE((State({}, {1, 2, 3}) - State({}, {0, 3, 2}))
-                  .get_data()
-                  .isApprox(res1));
+  ASSERT_TRUE(
+      (State({}, {1, 2, 3}) - State({}, {0, 3, 2})).get_data().isApprox(res1));
 
   // Throw an error if trying to add incompatible partial states.
   ASSERT_THROW(State(3, 0) - State(2, 0), std::invalid_argument);

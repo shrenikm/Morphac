@@ -6,11 +6,11 @@ namespace simulation {
 using std::unordered_map;
 
 using morphac::constructs::State;
-using morphac::environments::Environment;
+using morphac::environment::Map;
 using morphac::robot::blueprint::Robot;
 
-PlaygroundState::PlaygroundState(const Environment& environment)
-    : environment_(environment) {}
+PlaygroundState::PlaygroundState(const Map& map)
+    : map_(map) {}
 
 bool PlaygroundState::UidExistsInRobotOracle(const int uid) const {
   if (robot_oracle_.find(uid) == robot_oracle_.end()) {
@@ -20,8 +20,8 @@ bool PlaygroundState::UidExistsInRobotOracle(const int uid) const {
   return true;
 }
 
-const Environment& PlaygroundState::get_environment() const {
-  return environment_;
+const Map& PlaygroundState::get_map() const {
+  return map_;
 }
 
 const unordered_map<int, Robot&>& PlaygroundState::get_robot_oracle() const {
@@ -45,8 +45,8 @@ const State& PlaygroundState::get_robot_state(const int uid) const {
   return robot_oracle_.find(uid)->second.get_state();
 }
 
-void PlaygroundState::set_environment(const Environment& environment) {
-  environment_ = environment;
+void PlaygroundState::set_map(const Map& map) {
+  map_ = map;
 }
 
 void PlaygroundState::set_robot_state(const State& state, const int uid) {

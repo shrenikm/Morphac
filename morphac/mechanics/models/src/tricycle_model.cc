@@ -27,7 +27,7 @@ TricycleModel::TricycleModel(const double radius, const double length)
 State TricycleModel::ComputeStateDerivative(const State& state,
                                             const Input& input) const {
   MORPH_REQUIRE(
-      state.get_size_pose() == 4, std::invalid_argument,
+      state.get_pose_size() == 4, std::invalid_argument,
       "Pose component of the state needs to be of size 3 [x, y, theta]");
   MORPH_REQUIRE(state.IsVelocityEmpty(), std::invalid_argument,
                 "Velocity component of the state must be empty.");
@@ -45,10 +45,10 @@ State TricycleModel::ComputeStateDerivative(const State& state,
   G << radius * cos(alpha) * cos(theta), 0, radius * cos(alpha) * sin(theta), 0,
       (radius / length) * sin(alpha), 0, 0, 1;
 
-  pose_derivative = F + G * input.get_input_vector();
+  pose_derivative = F + G * input.get_data();
 
   State derivative = State::CreateLike(state);
-  derivative.set_pose_vector(pose_derivative);
+  derivative.set_pose_data(pose_derivative);
 
   return derivative;
 }

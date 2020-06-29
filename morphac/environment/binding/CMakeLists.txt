@@ -7,45 +7,45 @@ if(NOT BUILD_PYTHON_BINDINGS)
 endif()
 
 # Src file that creates the python module.
-set(ENVIRONMENTS_MODULE_FILE
+set(ENVIRONMENT_MODULE_FILE
 
-  environments.cc
+  environment.cc
 )
 
 # Individual binding files called by the src module file.
 # They are split up into different files so that compilation is more efficient.
-set(ENVIRONMENTS_BINDING_FILES
+set(ENVIRONMENT_BINDING_FILES
 
-  environment_binding.cc
+  map_binding.cc
 )
 
 # Prepending the directory to the files.
-prepend_list(ENVIRONMENTS_BINDING_FILES
-  ${ENVIRONMENTS_BINDING_SRC_DIR}/
-  ${ENVIRONMENTS_BINDING_FILES}
+prepend_list(ENVIRONMENT_BINDING_FILES
+  ${ENVIRONMENT_BINDING_SRC_DIR}/
+  ${ENVIRONMENT_BINDING_FILES}
 )
 
 # Adding the module as a library.
 get_filename_component(module_name
-  ${ENVIRONMENTS_MODULE_FILE} NAME_WE
+  ${ENVIRONMENT_MODULE_FILE} NAME_WE
 )
 
 pybind11_add_module(${module_name}
   SHARED
-  ${ENVIRONMENTS_BINDING_DIR}/${ENVIRONMENTS_MODULE_FILE}
-  ${ENVIRONMENTS_BINDING_FILES}
+  ${ENVIRONMENT_BINDING_DIR}/${ENVIRONMENT_MODULE_FILE}
+  ${ENVIRONMENT_BINDING_FILES}
 )
 
 target_include_directories(${module_name}
   PUBLIC
   ${PYBIND11_INCLUDE_DIR}
-  ${ENVIRONMENTS_BINDING_DIR}/include
+  ${ENVIRONMENT_BINDING_DIR}/include
 )
 
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
-  environment
+  map
 )
 
 # Setting binding target properties.
@@ -71,14 +71,14 @@ set(binding_install_file_name
 
 # Installing compiled bindings.
 install(FILES
-  ${ENVIRONMENTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${ENVIRONMENTS_BINDING_INSTALL_DIR}
+  ${ENVIRONMENT_BINDING_BINARY_DIR}/${binding_install_file_name}
+  DESTINATION ${ENVIRONMENT_BINDING_INSTALL_DIR}
 )
 
 # Installing __init__ files.
 install(FILES
-  ${ENVIRONMENTS_BINDING_DIR}/__init__.py
-  DESTINATION ${ENVIRONMENTS_BINDING_INSTALL_DIR}
+  ${ENVIRONMENT_BINDING_DIR}/__init__.py
+  DESTINATION ${ENVIRONMENT_BINDING_INSTALL_DIR}
 )
 
 

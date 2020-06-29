@@ -60,13 +60,13 @@ TEST_F(IntegratorTest, Step) {
 
   // Checking if the integrated value has been computed as expected.
   ASSERT_TRUE(integrator.Step(state1, input1, 0.05)
-                  .get_state_vector()
+                  .get_data()
                   .isApprox(expected_derivative1));
   ASSERT_TRUE(integrator.Step(state2, input1, 1.)
-                  .get_state_vector()
+                  .get_data()
                   .isApprox(expected_derivative2));
   ASSERT_TRUE(integrator.Step(state2, input2, 0.1)
-                  .get_state_vector()
+                  .get_data()
                   .isApprox(expected_derivative3));
 }
 

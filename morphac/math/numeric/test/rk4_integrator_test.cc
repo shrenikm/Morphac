@@ -51,8 +51,8 @@ TEST_F(RK4IntegratorTest, TrivialStep) {
   // Derivative is zero when the time step is zero.
   auto derivative2 = rk4_integrator.Step(State(3, 0), Input({1, 1}), 0.);
 
-  ASSERT_TRUE(derivative1.get_state_vector().isApprox(VectorXd::Ones(3)));
-  ASSERT_TRUE(derivative2.get_state_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(derivative1.get_data().isApprox(VectorXd::Ones(3)));
+  ASSERT_TRUE(derivative2.get_data().isApprox(VectorXd::Zero(3)));
 }
 
 TEST_F(RK4IntegratorTest, Step) {

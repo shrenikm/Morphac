@@ -27,17 +27,17 @@ TEST(IntegratorUtilsTest, Construction) {
   auto integrator = IntegratorFromType(IntegratorType::kEulerIntegrator, model);
   ASSERT_TRUE(dynamic_cast<EulerIntegrator*>(integrator.get()) != nullptr);
   State integrated_state = integrator->Step(State(3, 0), Input(2), 0.05);
-  ASSERT_TRUE(integrated_state.get_state_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(integrated_state.get_data().isApprox(VectorXd::Zero(3)));
 
   integrator = IntegratorFromType(IntegratorType::kMidPointIntegrator, model);
   ASSERT_TRUE(dynamic_cast<MidPointIntegrator*>(integrator.get()) != nullptr);
   integrated_state = integrator->Step(State(3, 0), Input(2), 0.05);
-  ASSERT_TRUE(integrated_state.get_state_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(integrated_state.get_data().isApprox(VectorXd::Zero(3)));
 
   integrator = IntegratorFromType(IntegratorType::kRK4Integrator, model);
   ASSERT_TRUE(dynamic_cast<RK4Integrator*>(integrator.get()) != nullptr);
   integrated_state = integrator->Step(State(3, 0), Input(2), 0.05);
-  ASSERT_TRUE(integrated_state.get_state_vector().isApprox(VectorXd::Zero(3)));
+  ASSERT_TRUE(integrated_state.get_data().isApprox(VectorXd::Zero(3)));
 }
 
 }  // namespace

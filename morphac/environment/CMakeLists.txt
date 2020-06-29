@@ -1,17 +1,17 @@
 # Directories
 # -------------------------------------------------
 
-set(ENVIRONMENTS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(ENVIRONMENTS_SRC_DIR ${ENVIRONMENTS_DIR}/src)
-set(ENVIRONMENTS_INCLUDE_DIR ${ENVIRONMENTS_DIR}/include)
-set(ENVIRONMENTS_TEST_DIR ${ENVIRONMENTS_DIR}/test)
-set(ENVIRONMENTS_BINARY_DIR ${MORPHAC_BINARY_DIR}/environments)
-set(ENVIRONMENTS_BINDING_DIR ${ENVIRONMENTS_DIR}/binding)
-set(ENVIRONMENTS_BINDING_INCLUDE_DIR ${ENVIRONMENTS_BINDING_DIR}/include)
-set(ENVIRONMENTS_BINDING_SRC_DIR ${ENVIRONMENTS_BINDING_DIR}/src)
-set(ENVIRONMENTS_BINDING_BINARY_DIR ${ENVIRONMENTS_BINARY_DIR}/binding)
-set(ENVIRONMENTS_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/environments
+set(ENVIRONMENT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(ENVIRONMENT_SRC_DIR ${ENVIRONMENT_DIR}/src)
+set(ENVIRONMENT_INCLUDE_DIR ${ENVIRONMENT_DIR}/include)
+set(ENVIRONMENT_TEST_DIR ${ENVIRONMENT_DIR}/test)
+set(ENVIRONMENT_BINARY_DIR ${MORPHAC_BINARY_DIR}/environment)
+set(ENVIRONMENT_BINDING_DIR ${ENVIRONMENT_DIR}/binding)
+set(ENVIRONMENT_BINDING_INCLUDE_DIR ${ENVIRONMENT_BINDING_DIR}/include)
+set(ENVIRONMENT_BINDING_SRC_DIR ${ENVIRONMENT_BINDING_DIR}/src)
+set(ENVIRONMENT_BINDING_BINARY_DIR ${ENVIRONMENT_BINARY_DIR}/binding)
+set(ENVIRONMENT_BINDING_INSTALL_DIR
+  ${PYTHON_BINDING_INSTALL_DIR}/environment
 )
 
 
@@ -27,7 +27,7 @@ add_subdirectory(binding)
 # Environment source files.
 set(ENVIRONMENT_SRC
 
-  environment.cc
+  map.cc
 )
 
 foreach(file ${ENVIRONMENT_SRC})
@@ -36,13 +36,13 @@ foreach(file ${ENVIRONMENT_SRC})
 
   add_library(${lib_name}
     SHARED
-    ${ENVIRONMENTS_SRC_DIR}/${file}
-    ${ENVIRONMENTS_INCLUDE_DIR}/${header_name}
+    ${ENVIRONMENT_SRC_DIR}/${file}
+    ${ENVIRONMENT_INCLUDE_DIR}/${header_name}
   )
 
   target_include_directories(${lib_name}
     PUBLIC
-    ${ENVIRONMENTS_INCLUDE_DIR}
+    ${ENVIRONMENT_INCLUDE_DIR}
   )
 endforeach()
 
@@ -53,7 +53,7 @@ endforeach()
 # Environment tests source files.
 set(ENVIRONMENT_TEST_SRC
 
-  environment_test.cc
+  map_test.cc
 )
 
 # Creating the test executables.
@@ -64,7 +64,7 @@ foreach(file ${ENVIRONMENT_TEST_SRC})
 
   add_executable(
     ${test_name}
-    ${ENVIRONMENTS_TEST_DIR}/${file}
+    ${ENVIRONMENT_TEST_DIR}/${file}
   )
 
   add_test(NAME ${test_name}
@@ -73,9 +73,9 @@ foreach(file ${ENVIRONMENT_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(environment_test
+target_link_libraries(map_test
   PUBLIC
   gtest_main
-  environment
+  map
 )
 

@@ -26,7 +26,7 @@ DiffDriveModel::DiffDriveModel(const double radius, const double length)
 State DiffDriveModel::ComputeStateDerivative(const State& state,
                                              const Input& input) const {
   MORPH_REQUIRE(
-      state.get_size_pose() == 3, std::invalid_argument,
+      state.get_pose_size() == 3, std::invalid_argument,
       "Pose component of the state needs to be of size 3 [x, y, theta]");
   MORPH_REQUIRE(state.IsVelocityEmpty(), std::invalid_argument,
                 "Velocity component of the state must be empty.");
@@ -44,10 +44,10 @@ State DiffDriveModel::ComputeStateDerivative(const State& state,
       radius * 0.5 * sin(theta), radius * 0.5 * sin(theta), -radius / length,
       radius / length;
 
-  pose_derivative = F + G * input.get_input_vector();
+  pose_derivative = F + G * input.get_data();
 
   State derivative = State::CreateLike(state);
-  derivative.set_pose_vector(pose_derivative);
+  derivative.set_pose_data(pose_derivative);
 
   return derivative;
 }

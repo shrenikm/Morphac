@@ -1,7 +1,7 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "environments/include/environment.h"
+#include "environment/include/map.h"
 #include "simulation/include/playground_state.h"
 
 namespace {
@@ -12,7 +12,7 @@ using std::unique_ptr;
 
 using Eigen::MatrixXd;
 
-using morphac::environments::Environment;
+using morphac::environment::Map;
 using morphac::simulation::PlaygroundState;
 
 class PlaygroundStateTest : public ::testing::Test {
@@ -21,8 +21,8 @@ class PlaygroundStateTest : public ::testing::Test {
     // Set random seed for Eigen.
     srand(7);
 
-    playground_state1_ = make_unique<PlaygroundState>(Environment(30, 30, 0.1));
-    playground_state2_ = make_unique<PlaygroundState>(Environment(map_, 0.1));
+    playground_state1_ = make_unique<PlaygroundState>(Map(30, 30, 0.1));
+    playground_state2_ = make_unique<PlaygroundState>(Map(map_, 0.1));
   }
 
   void SetUp() override {}
@@ -31,17 +31,17 @@ class PlaygroundStateTest : public ::testing::Test {
   MatrixXd map_ = MatrixXd::Random(300, 300);
 };
 
-TEST_F(PlaygroundStateTest, GetEnvironment) {
-  ASSERT_TRUE(playground_state1_->get_environment().get_map().isApprox(
+TEST_F(PlaygroundStateTest, GetMap) {
+  ASSERT_TRUE(playground_state1_->get_map().get_data().isApprox(
       MatrixXd::Zero(300, 300)));
-  ASSERT_EQ(playground_state1_->get_environment().get_width(), 30.);
-  ASSERT_EQ(playground_state1_->get_environment().get_height(), 30.);
-  ASSERT_EQ(playground_state1_->get_environment().get_resolution(), 0.1);
+  ASSERT_EQ(playground_state1_->get_map().get_width(), 30.);
+  ASSERT_EQ(playground_state1_->get_map().get_height(), 30.);
+  ASSERT_EQ(playground_state1_->get_map().get_resolution(), 0.1);
 
-  ASSERT_TRUE(playground_state2_->get_environment().get_map().isApprox(map_));
-  ASSERT_EQ(playground_state2_->get_environment().get_width(), 30.);
-  ASSERT_EQ(playground_state2_->get_environment().get_height(), 30.);
-  ASSERT_EQ(playground_state2_->get_environment().get_resolution(), 0.1);
+  ASSERT_TRUE(playground_state2_->get_map().get_data().isApprox(map_));
+  ASSERT_EQ(playground_state2_->get_map().get_width(), 30.);
+  ASSERT_EQ(playground_state2_->get_map().get_height(), 30.);
+  ASSERT_EQ(playground_state2_->get_map().get_resolution(), 0.1);
 }
 
 }  // namespace

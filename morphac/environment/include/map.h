@@ -6,12 +6,12 @@
 #include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
-namespace environments {
+namespace environment {
 
-class Environment {
+class Map {
  public:
-  Environment(const double width, const double height, const double resolution);
-  Environment(const Eigen::MatrixXd& data, const double resolution);
+  Map(const double width, const double height, const double resolution);
+  Map(const Eigen::MatrixXd& data, const double resolution);
 
   double get_width() const;
   double get_height() const;
@@ -27,7 +27,7 @@ class Environment {
   Eigen::MatrixXd data_;
 };
 
-}  // namespace environments
+}  // namespace environment
 }  // namespace morphac
 
 #endif

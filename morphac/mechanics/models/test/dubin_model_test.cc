@@ -47,12 +47,12 @@ TEST_F(DubinModelTest, DerivativeComputation) {
 
   // Computing and verifying the derivative computation for different inputs.
   State derivative1 = dubin_model.ComputeStateDerivative(state1, input1);
-  ASSERT_TRUE(derivative1.get_pose_vector().isApprox(desired_vector1));
+  ASSERT_TRUE(derivative1.get_pose_data().isApprox(desired_vector1));
   ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
   State derivative2 = dubin_model.ComputeStateDerivative(
       State{pose_vector2, VectorXd::Zero(0)}, Input{input_vector2});
-  ASSERT_TRUE(derivative2.get_pose_vector().isApprox(desired_vector2));
+  ASSERT_TRUE(derivative2.get_pose_data().isApprox(desired_vector2));
   ASSERT_TRUE(derivative2.IsVelocityEmpty());
 }
 

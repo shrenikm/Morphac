@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "constructs/include/state.h"
-#include "environments/include/environment.h"
+#include "environment/include/map.h"
 #include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/robot.h"
@@ -26,7 +26,7 @@ struct PlaygroundSpec {
 class Playground {
  public:
   Playground(const PlaygroundSpec& spec,
-             const morphac::environments::Environment& environment);
+             const morphac::environment::Map& map);
 
   // Delete copy constructor.
   Playground(const Playground& playground) = delete;

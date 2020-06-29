@@ -73,23 +73,23 @@ TEST_F(DiffDriveModelTest, DerivativeComputation) {
 
   // Computing and verifying the derivative computation for different inputs.
   State derivative1 = diffdrive_model.ComputeStateDerivative(state1, input1);
-  ASSERT_TRUE(derivative1.get_pose_vector().isApprox(desired_vector1));
+  ASSERT_TRUE(derivative1.get_pose_data().isApprox(desired_vector1));
   ASSERT_TRUE(derivative1.IsVelocityEmpty());
 
   State derivative2 = diffdrive_model.ComputeStateDerivative(state2, input2);
-  ASSERT_TRUE(derivative2.get_pose_vector().isApprox(desired_vector2));
+  ASSERT_TRUE(derivative2.get_pose_data().isApprox(desired_vector2));
   ASSERT_TRUE(derivative2.IsVelocityEmpty());
 
   State derivative3 = diffdrive_model.ComputeStateDerivative(state1, input3);
-  ASSERT_TRUE(derivative3.get_pose_vector().isApprox(desired_vector3));
+  ASSERT_TRUE(derivative3.get_pose_data().isApprox(desired_vector3));
   ASSERT_TRUE(derivative3.IsVelocityEmpty());
 
   State derivative4 = diffdrive_model.ComputeStateDerivative(state2, input4);
-  ASSERT_TRUE(derivative4.get_pose_vector().isApprox(desired_vector4));
+  ASSERT_TRUE(derivative4.get_pose_data().isApprox(desired_vector4));
   ASSERT_TRUE(derivative4.IsVelocityEmpty());
 
   State derivative5 = diffdrive_model.ComputeStateDerivative(state1, input5);
-  ASSERT_TRUE(derivative5.get_pose_vector().isApprox(desired_vector5));
+  ASSERT_TRUE(derivative5.get_pose_data().isApprox(desired_vector5));
   ASSERT_TRUE(derivative5.IsVelocityEmpty());
 }
 

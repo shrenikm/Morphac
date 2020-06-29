@@ -1,26 +1,25 @@
-#include "environments/include/environment.h"
+#include "environment/include/map.h"
 
 namespace morphac {
-namespace environments {
+namespace environment {
 
 using Eigen::MatrixXd;
 
-Environment::Environment(const double width, const double height,
-                         const double resolution)
+using morphac::environment::Map;
+
+Map::Map(const double width, const double height, const double resolution)
     : width_(width), height_(height), resolution_(resolution) {
-  MORPH_REQUIRE(width_ > 0, std::invalid_argument,
-                "Non-positive environment width.");
-  MORPH_REQUIRE(height_ > 0, std::invalid_argument,
-                "Non-positive environment height.");
+  MORPH_REQUIRE(width_ > 0, std::invalid_argument, "Non-positive map width.");
+  MORPH_REQUIRE(height_ > 0, std::invalid_argument, "Non-positive map height.");
   MORPH_REQUIRE(resolution_ > 0, std::invalid_argument,
-                "Non-positive environment resolution.");
+                "Non-positive map resolution.");
 
   // The resolution is the real world size of one pixel. Once it is converted to
   // the image space, upon converting back, it should result in the same value.
   // If it does not, the resolution is invalid.
 
   // If this is not satisfied, we cannot guarantee the accurate image
-  // representation of the environment (Especially when obstacles are involved).
+  // representation of the map (Especially when obstacles are involved).
   int rows = height_ / resolution_;
   int cols = width_ / resolution_;
 
@@ -34,7 +33,7 @@ Environment::Environment(const double width, const double height,
   data_ = MatrixXd::Zero(rows, cols);
 }
 
-Environment::Environment(const MatrixXd& data, const double resolution)
+Map::Map(const MatrixXd& data, const double resolution)
     : width_(data.cols() * resolution),
       height_(data.rows() * resolution),
       resolution_(resolution) {
@@ -43,13 +42,13 @@ Environment::Environment(const MatrixXd& data, const double resolution)
   MORPH_REQUIRE(data.rows() > 0, std::invalid_argument,
                 "Non-positive data height.");
   MORPH_REQUIRE(resolution_ > 0, std::invalid_argument,
-                "Non-positive environment resolution.");
+                "Non-positive map resolution.");
 
   // The resolution is the real world size of one pixel. Once it is converted to
   // the image space, upon converting back, it should result in the same value.
   // If it does not, the resolution is invalid.
 
-  // While creating the environment with data, the resolution is always right
+  // While creating the map with data, the resolution is always right
   // as the width and height are computed from the data and resolution and the
   // data is always valid dimension wise. The check below is just a failsafe.
 
@@ -63,15 +62,15 @@ Environment::Environment(const MatrixXd& data, const double resolution)
   data_ = data;
 }
 
-double Environment::get_width() const { return width_; }
+double Map::get_width() const { return width_; }
 
-double Environment::get_height() const { return height_; }
+double Map::get_height() const { return height_; }
 
-double Environment::get_resolution() const { return resolution_; }
+double Map::get_resolution() const { return resolution_; }
 
-const MatrixXd& Environment::get_data() const { return data_; }
+const MatrixXd& Map::get_data() const { return data_; }
 
-void Environment::set_data(const MatrixXd& data) {
+void Map::set_data(const MatrixXd& data) {
   // The data needs to have the same dimensions
   MORPH_REQUIRE((data.cols() * resolution_) == width_, std::invalid_argument,
                 "Data width does not match.");
@@ -80,6 +79,6 @@ void Environment::set_data(const MatrixXd& data) {
   data_ = data;
 }
 
-}  // namespace environments
+}  // namespace environment
 }  // namespace morphac
 

@@ -47,8 +47,8 @@ class State {
   // This is what the python binding uses.
   std::string ToString() const;
 
-  int get_size_pose() const;
-  int get_size_velocity() const;
+  int get_pose_size() const;
+  int get_velocity_size() const;
   int get_size() const;
 
   // Pose and Velocity accessors for const and non-const States.
