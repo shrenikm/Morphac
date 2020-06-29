@@ -1,3 +1,3 @@
-from ._binding_environments import (
-    Environment
+from ._binding_environment import (
+    Map
 )
