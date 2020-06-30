@@ -74,6 +74,20 @@ TEST_F(PlaygroundStateTest, AddRobot) {
   ASSERT_EQ(playground_state2_->NumRobots(), 2);
 }
 
+TEST_F(PlaygroundStateTest, InvalidAddRobot) {
+  // Add robot with invalid UIDs
+  ASSERT_THROW(playground_state1_->AddRobot(*robot1_, -1),
+               std::invalid_argument);
+
+  // Add robot with duplicate UIDs
+  playground_state2_->AddRobot(*robot1_, 0);
+  ASSERT_THROW(playground_state2_->AddRobot(*robot2_, 0),
+               std::invalid_argument);
+
+  // It should be possible to add the same robot object multiple times.
+  playground_state2_->AddRobot(*robot1_, 1);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
