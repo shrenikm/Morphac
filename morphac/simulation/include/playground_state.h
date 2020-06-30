@@ -30,10 +30,12 @@ class PlaygroundState {
   void set_map(const morphac::environment::Map& map);
   void set_robot_state(const morphac::constructs::State&, const int uid);
 
+  int NumRobots() const;
   void AddRobot(const morphac::robot::blueprint::Robot& robot, const int uid);
 
  private:
   bool UidExistsInRobotOracle(const int uid) const;
+
   morphac::environment::Map map_;
   std::unordered_map<int, morphac::robot::blueprint::Robot&> robot_oracle_;
 };

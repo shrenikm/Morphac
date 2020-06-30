@@ -63,8 +63,6 @@ target_link_libraries(playground
   PUBLIC
   input
   state
-  map
-  kinematic_model
   playground_state
   robot
   pilot
@@ -102,7 +100,7 @@ endforeach()
 target_link_libraries(playground_state_test
   PUBLIC
   gtest_main
-  map
+  diffdrive_model
   playground_state
 )
 

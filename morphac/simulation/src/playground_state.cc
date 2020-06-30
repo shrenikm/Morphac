@@ -57,6 +57,10 @@ void PlaygroundState::set_robot_state(const State& state, const int uid) {
   robot_oracle_.find(uid)->second.set_state(state);
 }
 
+int PlaygroundState::NumRobots() const {
+  return robot_oracle_.size();
+}
+
 void PlaygroundState::AddRobot(const Robot& robot, const int uid) {
   MORPH_REQUIRE(!UidExistsInRobotOracle(uid), std::invalid_argument,
                 "Robot with this UID already exists in the state.");

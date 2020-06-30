@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 
 #include "environment/include/map.h"
+#include "mechanics/models/include/diffdrive_model.h"
 #include "simulation/include/playground_state.h"
 
 namespace {
@@ -13,6 +14,9 @@ using std::unique_ptr;
 using Eigen::MatrixXd;
 
 using morphac::environment::Map;
+using morphac::mechanics::models::DiffDriveModel;
+using morphac::robot::blueprint::Footprint;
+using morphac::robot::blueprint::Robot;
 using morphac::simulation::PlaygroundState;
 
 class PlaygroundStateTest : public ::testing::Test {
@@ -23,11 +27,18 @@ class PlaygroundStateTest : public ::testing::Test {
 
     playground_state1_ = make_unique<PlaygroundState>(Map(40, 20, 0.1));
     playground_state2_ = make_unique<PlaygroundState>(Map(map_data_, 0.1));
+    DiffDriveModel diffdrive_model1(1., 1.);
+    DiffDriveModel diffdrive_model2(2., 2.);
+    robot1_ =
+        make_unique<Robot>(diffdrive_model1, Footprint(MatrixXd::Zero(10, 2)));
+    robot2_ =
+        make_unique<Robot>(diffdrive_model2, Footprint(MatrixXd::Ones(10, 2)));
   }
 
   void SetUp() override {}
 
   unique_ptr<PlaygroundState> playground_state1_, playground_state2_;
+  unique_ptr<Robot> robot1_, robot2_;
   MatrixXd map_data_ = MatrixXd::Random(300, 300);
 };
 
@@ -52,6 +63,15 @@ TEST_F(PlaygroundStateTest, SetMap) {
   playground_state2_->set_map(Map(30., 30., 0.1));
   ASSERT_TRUE(playground_state2_->get_map().get_data().isApprox(
       MatrixXd::Zero(300, 300)));
+}
+
+TEST_F(PlaygroundStateTest, AddRobot) {
+  playground_state1_->AddRobot(*robot1_, 0);
+  ASSERT_EQ(playground_state1_->NumRobots(), 1);
+
+  playground_state2_->AddRobot(*robot1_, 0);
+  playground_state2_->AddRobot(*robot2_, 1);
+  ASSERT_EQ(playground_state2_->NumRobots(), 2);
 }
 
 }  // namespace
