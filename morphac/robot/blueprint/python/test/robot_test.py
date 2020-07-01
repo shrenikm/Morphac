@@ -27,7 +27,7 @@ class CustomKinematicModel(KinematicModel):
         tmp_der = tmp_der + self.a * self.b
         # tmp_der is a scalar, but the derivative must be a State object.
         # Copying tmp_der to each State element.
-        der = State([tmp_der] * self.size_pose, [tmp_der] * self.size_velocity)
+        der = State([tmp_der] * self.pose_size, [tmp_der] * self.velocity_size)
         return der
 
 
@@ -66,20 +66,20 @@ def test_kinematic_model(generate_robot_list):
     assert isinstance(r4.kinematic_model, CustomKinematicModel)
 
     # Testing the actual model details.
-    assert r1.kinematic_model.size_pose == 3
-    assert r2.kinematic_model.size_pose == 4
-    assert r3.kinematic_model.size_pose == 3
-    assert r4.kinematic_model.size_pose == 2
+    assert r1.kinematic_model.pose_size == 3
+    assert r2.kinematic_model.pose_size == 4
+    assert r3.kinematic_model.pose_size == 3
+    assert r4.kinematic_model.pose_size == 2
 
-    assert r1.kinematic_model.size_velocity == 0
-    assert r2.kinematic_model.size_velocity == 0
-    assert r3.kinematic_model.size_velocity == 2
-    assert r4.kinematic_model.size_velocity == 2
+    assert r1.kinematic_model.velocity_size == 0
+    assert r2.kinematic_model.velocity_size == 0
+    assert r3.kinematic_model.velocity_size == 2
+    assert r4.kinematic_model.velocity_size == 2
 
-    assert r1.kinematic_model.size_input == 2
-    assert r2.kinematic_model.size_input == 2
-    assert r3.kinematic_model.size_input == 5
-    assert r4.kinematic_model.size_input == 4
+    assert r1.kinematic_model.input_size == 2
+    assert r2.kinematic_model.input_size == 2
+    assert r3.kinematic_model.input_size == 5
+    assert r4.kinematic_model.input_size == 4
 
     assert r1.kinematic_model.radius == 1
     assert r1.kinematic_model.length == 1

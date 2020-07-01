@@ -22,7 +22,7 @@ class CustomKinematicModel(KinematicModel):
         tmp_der = tmp_der + self.a * self.b
         # tmp_der is a scalar, but the derivative must be a State object.
         # Copying tmp_der to each State element.
-        der = State([tmp_der] * self.size_pose, [tmp_der] * self.size_velocity)
+        der = State([tmp_der] * self.pose_size, [tmp_der] * self.velocity_size)
         return der
 
 
@@ -40,25 +40,25 @@ def test_size(generate_kinematic_model_list):
 
     k1, k2, k3 = generate_kinematic_model_list
 
-    assert k1.size_pose == 3
-    assert k2.size_pose == 1
-    assert k3.size_pose == 2
+    assert k1.pose_size == 3
+    assert k2.pose_size == 1
+    assert k3.pose_size == 2
 
-    assert k1.size_velocity == 2
-    assert k2.size_velocity == 1
-    assert k3.size_velocity == 4
+    assert k1.velocity_size == 2
+    assert k2.velocity_size == 1
+    assert k3.velocity_size == 4
 
-    assert k1.size_input == 5
-    assert k2.size_input == 2
-    assert k3.size_input == 6
+    assert k1.input_size == 5
+    assert k2.input_size == 2
+    assert k3.input_size == 6
 
     # Making sure that the sizes are read only.
     with pytest.raises(AttributeError):
-        k1.size_pose = 2
+        k1.pose_size = 2
     with pytest.raises(AttributeError):
-        k2.size_velocity = 1
+        k2.velocity_size = 1
     with pytest.raises(AttributeError):
-        k3.size_input = 2
+        k3.input_size = 2
 
 
 def test_members(generate_kinematic_model_list):

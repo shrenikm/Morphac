@@ -60,22 +60,22 @@ def test_size(generate_diffdrive_model_list):
     d1, d2 = generate_diffdrive_model_list
 
     # The sizes are fixed.
-    assert d1.size_pose == 3
-    assert d2.size_pose == 3
+    assert d1.pose_size == 3
+    assert d2.pose_size == 3
 
-    assert d1.size_velocity == 0
-    assert d2.size_velocity == 0
+    assert d1.velocity_size == 0
+    assert d2.velocity_size == 0
 
-    assert d1.size_input == 2
-    assert d2.size_input == 2
+    assert d1.input_size == 2
+    assert d2.input_size == 2
 
     # Make sure that these are read only.
     with pytest.raises(AttributeError):
-        d1.size_pose = 2
+        d1.pose_size = 2
     with pytest.raises(AttributeError):
-        d2.size_velocity = 0
+        d2.velocity_size = 0
     with pytest.raises(AttributeError):
-        d1.size_input = 3
+        d1.input_size = 3
 
 
 def test_derivative_computation(generate_diffdrive_model_list):

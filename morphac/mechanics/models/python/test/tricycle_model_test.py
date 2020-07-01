@@ -60,22 +60,22 @@ def test_size(generate_tricycle_model_list):
     t1, t2 = generate_tricycle_model_list
 
     # The sizes are fixed.
-    assert t1.size_pose == 4
-    assert t2.size_pose == 4
+    assert t1.pose_size == 4
+    assert t2.pose_size == 4
 
-    assert t1.size_velocity == 0
-    assert t2.size_velocity == 0
+    assert t1.velocity_size == 0
+    assert t2.velocity_size == 0
 
-    assert t1.size_input == 2
-    assert t2.size_input == 2
+    assert t1.input_size == 2
+    assert t2.input_size == 2
 
     # Make sure that these are read only.
     with pytest.raises(AttributeError):
-        t1.size_pose = 2
+        t1.pose_size = 2
     with pytest.raises(AttributeError):
-        t2.size_velocity = 0
+        t2.velocity_size = 0
     with pytest.raises(AttributeError):
-        t1.size_input = 3
+        t1.input_size = 3
 
 
 def test_derivative_computation(generate_tricycle_model_list):
