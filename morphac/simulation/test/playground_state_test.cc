@@ -15,6 +15,7 @@ using Eigen::MatrixXd;
 
 using morphac::environment::Map;
 using morphac::mechanics::models::DiffDriveModel;
+using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
 using morphac::simulation::PlaygroundState;
@@ -86,6 +87,33 @@ TEST_F(PlaygroundStateTest, InvalidAddRobot) {
 
   // It should be possible to add the same robot object multiple times.
   playground_state2_->AddRobot(*robot1_, 1);
+}
+
+TEST_F(PlaygroundStateTest, GetRobotOracle) {
+  // Adding robots.
+  playground_state1_->AddRobot(*robot1_, 0);
+  playground_state1_->AddRobot(*robot2_, 1);
+
+  auto robot_oracle = playground_state1_->get_robot_oracle();
+
+  // Making sure that the oracle has the right size
+  ASSERT_EQ(robot_oracle.size(), 2);
+
+  // Testing actual contents of the oracle. It must store the right robots
+  // against the right uids
+  //const DiffDriveModel &k =
+  //    dynamic_cast<const DiffDriveModel &>(robot1_->get_kinematic_model());
+
+  const KinematicModel& k = robot1_->get_kinematic_model();
+  std::cout << k.pose_size << std::endl;
+
+  ASSERT_TRUE(robot_oracle.find(0)->second.get_footprint().get_data().isApprox(
+      MatrixXd::Zero(10, 2)));
+  // ASSERT_EQ(dynamic_cast<DiffDriveModel &>(
+  //              const_cast<KinematicModel &>(
+  //                  robot_oracle.find(0)->second.get_kinematic_model()))
+  //              .radius,
+  //          1.);
 }
 
 }  // namespace

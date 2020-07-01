@@ -24,9 +24,9 @@ class TricycleModelTest : public ::testing::Test {
 TEST_F(TricycleModelTest, Construction) {
   TricycleModel tricycle_model{1.5, 2.3};
 
-  ASSERT_EQ(tricycle_model.size_pose, 4);
-  ASSERT_EQ(tricycle_model.size_velocity, 0);
-  ASSERT_EQ(tricycle_model.size_input, 2);
+  ASSERT_EQ(tricycle_model.pose_size, 4);
+  ASSERT_EQ(tricycle_model.velocity_size, 0);
+  ASSERT_EQ(tricycle_model.input_size, 2);
   ASSERT_EQ(tricycle_model.radius, 1.5);
   ASSERT_EQ(tricycle_model.length, 2.3);
 }

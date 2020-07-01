@@ -20,9 +20,9 @@ void define_kinematic_model_binding(py::module& m) {
                       &KinematicModel::ComputeStateDerivative,
                       py::arg("robot_state"), py::arg("robot_input"));
   kinematic_model.def("normalize_state", &KinematicModel::NormalizeState);
-  kinematic_model.def_readonly("size_pose", &KinematicModel::size_pose);
-  kinematic_model.def_readonly("size_velocity", &KinematicModel::size_velocity);
-  kinematic_model.def_readonly("size_input", &KinematicModel::size_input);
+  kinematic_model.def_readonly("pose_size", &KinematicModel::pose_size);
+  kinematic_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
+  kinematic_model.def_readonly("input_size", &KinematicModel::input_size);
 }
 
 }  // namespace binding

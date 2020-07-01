@@ -24,9 +24,9 @@ class DubinModelTest : public ::testing::Test {
 TEST_F(DubinModelTest, Construction) {
   DubinModel dubin_model{1.5};
 
-  ASSERT_EQ(dubin_model.size_pose, 3);
-  ASSERT_EQ(dubin_model.size_velocity, 0);
-  ASSERT_EQ(dubin_model.size_input, 1);
+  ASSERT_EQ(dubin_model.pose_size, 3);
+  ASSERT_EQ(dubin_model.velocity_size, 0);
+  ASSERT_EQ(dubin_model.input_size, 1);
   ASSERT_EQ(dubin_model.speed, 1.5);
 }
 

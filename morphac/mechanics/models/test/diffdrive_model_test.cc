@@ -25,9 +25,9 @@ class DiffDriveModelTest : public ::testing::Test {
 TEST_F(DiffDriveModelTest, Construction) {
   DiffDriveModel diffdrive_model{1.5, 2.3};
 
-  ASSERT_EQ(diffdrive_model.size_pose, 3);
-  ASSERT_EQ(diffdrive_model.size_velocity, 0);
-  ASSERT_EQ(diffdrive_model.size_input, 2);
+  ASSERT_EQ(diffdrive_model.pose_size, 3);
+  ASSERT_EQ(diffdrive_model.velocity_size, 0);
+  ASSERT_EQ(diffdrive_model.input_size, 2);
   ASSERT_EQ(diffdrive_model.radius, 1.5);
   ASSERT_EQ(diffdrive_model.length, 2.3);
 }

@@ -21,9 +21,9 @@ void define_tricycle_model_binding(py::module& m) {
   tricycle_model.def("normalize_state", &TricycleModel::NormalizeState);
   tricycle_model.def_readonly("radius", &TricycleModel::radius);
   tricycle_model.def_readonly("length", &TricycleModel::length);
-  tricycle_model.def_readonly("size_pose", &KinematicModel::size_pose);
-  tricycle_model.def_readonly("size_velocity", &KinematicModel::size_velocity);
-  tricycle_model.def_readonly("size_input", &KinematicModel::size_input);
+  tricycle_model.def_readonly("pose_size", &KinematicModel::pose_size);
+  tricycle_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
+  tricycle_model.def_readonly("input_size", &KinematicModel::input_size);
 }
 
 }  // namespace binding

@@ -14,19 +14,19 @@ class FootprintTest : public ::testing::Test {
   FootprintTest() {
     // Set random seed for Eigen.
     srand(7);
-    footprint_matrix_ = MatrixXd::Random(10, 2);
+    data_ = MatrixXd::Random(10, 2);
   }
 
   void SetUp() override {}
 
-  MatrixXd footprint_matrix_;
+  MatrixXd data_;
 };
 
-TEST_F(FootprintTest, Construction) { Footprint footprint(footprint_matrix_); }
+TEST_F(FootprintTest, Construction) { Footprint footprint(data_); }
 
 TEST_F(FootprintTest, Accessors) {
-  Footprint footprint(footprint_matrix_);
-  ASSERT_TRUE(footprint.get_footprint_matrix().isApprox(footprint_matrix_));
+  Footprint footprint(data_);
+  ASSERT_TRUE(footprint.get_data().isApprox(data_));
 }
 
 TEST_F(FootprintTest, InvalidConstruction) {

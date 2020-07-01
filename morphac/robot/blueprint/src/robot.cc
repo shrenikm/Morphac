@@ -16,7 +16,7 @@ using morphac::robot::blueprint::Footprint;
 Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint)
     : kinematic_model_(kinematic_model),
       footprint_(footprint),
-      state_(State(kinematic_model.size_pose, kinematic_model.size_velocity)) {}
+      state_(State(kinematic_model.pose_size, kinematic_model.velocity_size)) {}
 
 Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
              const State& initial_state)
@@ -24,15 +24,15 @@ Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
       footprint_(footprint),
       state_(initial_state) {
   MORPH_REQUIRE(
-      initial_state.get_pose_size() == kinematic_model.size_pose &&
-          initial_state.get_velocity_size() == kinematic_model.size_velocity,
+      initial_state.get_pose_size() == kinematic_model.pose_size &&
+          initial_state.get_velocity_size() == kinematic_model.velocity_size,
       std::invalid_argument,
       "Kinematic model and initial state dimensions do not match.");
 }
 
 State Robot::ComputeStateDerivative(const Input& input) const {
   MORPH_REQUIRE(
-      input.get_size() == kinematic_model_.size_input, std::invalid_argument,
+      input.get_size() == kinematic_model_.input_size, std::invalid_argument,
       "Input dimension and kinematic model input dimensions do not match.");
   return kinematic_model_.ComputeStateDerivative(state_, input);
 }
@@ -42,12 +42,12 @@ State Robot::ComputeStateDerivative(const State& state,
   // Even for a custom state, the dimensions must still match, meaning that
   // the state must correspond to the same robot.
   MORPH_REQUIRE(
-      state.get_pose_size() == kinematic_model_.size_pose &&
-          state.get_velocity_size() == kinematic_model_.size_velocity,
+      state.get_pose_size() == kinematic_model_.pose_size &&
+          state.get_velocity_size() == kinematic_model_.velocity_size,
       std::invalid_argument,
       "State dimension and kinematic model state dimensions do not match.");
   MORPH_REQUIRE(
-      input.get_size() == kinematic_model_.size_input, std::invalid_argument,
+      input.get_size() == kinematic_model_.input_size, std::invalid_argument,
       "Input dimension and kinematic model input dimensions do not match.");
   return kinematic_model_.ComputeStateDerivative(state, input);
 }

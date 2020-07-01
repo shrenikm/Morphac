@@ -22,9 +22,9 @@ void define_diffdrive_model_binding(py::module& m) {
   diffdrive_model.def("normalize_state", &DiffDriveModel::NormalizeState);
   diffdrive_model.def_readonly("radius", &DiffDriveModel::radius);
   diffdrive_model.def_readonly("length", &DiffDriveModel::length);
-  diffdrive_model.def_readonly("size_pose", &KinematicModel::size_pose);
-  diffdrive_model.def_readonly("size_velocity", &KinematicModel::size_velocity);
-  diffdrive_model.def_readonly("size_input", &KinematicModel::size_input);
+  diffdrive_model.def_readonly("pose_size", &KinematicModel::pose_size);
+  diffdrive_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
+  diffdrive_model.def_readonly("input_size", &KinematicModel::input_size);
 }
 
 }  // namespace binding

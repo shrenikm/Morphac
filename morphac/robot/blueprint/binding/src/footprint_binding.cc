@@ -15,7 +15,7 @@ void define_footprint_binding(py::module& m) {
   py::class_<Footprint> footprint(m, "Footprint");
 
   footprint.def(py::init<const MatrixXd>(), py::arg("data"));
-  footprint.def_property_readonly("data", &Footprint::get_footprint_matrix);
+  footprint.def_property_readonly("data", &Footprint::get_data);
 }
 
 }  // namespace binding

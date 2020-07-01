@@ -16,8 +16,8 @@ namespace models {
 // members
 class KinematicModel {
  public:
-  KinematicModel(const int size_pose, const int size_velocity,
-                 const int size_input);
+  KinematicModel(const int pose_size, const int velocity_size,
+                 const int input_size);
 
   virtual morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
@@ -30,9 +30,9 @@ class KinematicModel {
   virtual morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const;
 
-  const int size_pose;
-  const int size_velocity;
-  const int size_input;
+  const int pose_size;
+  const int velocity_size;
+  const int input_size;
 };
 
 }  // namespace models

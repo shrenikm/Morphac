@@ -13,9 +13,9 @@ using morphac::mechanics::models::KinematicModel;
 
 class CustomKinematicModel : public KinematicModel {
  public:
-  CustomKinematicModel(int size_pose, int size_velocity, int size_input,
+  CustomKinematicModel(int pose_size, int velocity_size, int input_size,
                        double a)
-      : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
+      : KinematicModel(pose_size, velocity_size, input_size), a(a) {}
 
   State ComputeStateDerivative(const State& state,
                                const Input& input) const override {
@@ -28,8 +28,8 @@ class CustomKinematicModel : public KinematicModel {
             .matrix();
 
     State derivative = State::CreateLike(state);
-    derivative.set_pose_data(derivative_vector.head(size_pose));
-    derivative.set_velocity_data(derivative_vector.tail(size_velocity));
+    derivative.set_pose_data(derivative_vector.head(pose_size));
+    derivative.set_velocity_data(derivative_vector.tail(velocity_size));
 
     return derivative;
   }
@@ -51,14 +51,14 @@ TEST_F(KinematicModelTest, Sizes) {
   CustomKinematicModel model1{2, 2, 3, 1};
   CustomKinematicModel model2{20, 25, 13, 2.5};
 
-  ASSERT_EQ(model1.size_pose, 2);
-  ASSERT_EQ(model2.size_pose, 20);
+  ASSERT_EQ(model1.pose_size, 2);
+  ASSERT_EQ(model2.pose_size, 20);
 
-  ASSERT_EQ(model1.size_velocity, 2);
-  ASSERT_EQ(model2.size_velocity, 25);
+  ASSERT_EQ(model1.velocity_size, 2);
+  ASSERT_EQ(model2.velocity_size, 25);
 
-  ASSERT_EQ(model1.size_input, 3);
-  ASSERT_EQ(model2.size_input, 13);
+  ASSERT_EQ(model1.input_size, 3);
+  ASSERT_EQ(model2.input_size, 13);
 
   ASSERT_EQ(model1.a, 1);
   ASSERT_EQ(model2.a, 2.5);

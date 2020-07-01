@@ -11,12 +11,12 @@ namespace blueprint {
 
 class Footprint {
  public:
-  Footprint(const Eigen::MatrixXd& footprint_matrix);
+  Footprint(const Eigen::MatrixXd& data);
 
-  const Eigen::MatrixXd& get_footprint_matrix() const;
+  const Eigen::MatrixXd& get_data() const;
 
  private:
-  Eigen::MatrixXd footprint_matrix_;
+  Eigen::MatrixXd data_;
 };
 
 }  // namespace blueprint
