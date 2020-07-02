@@ -115,8 +115,7 @@ TEST_F(PlaygroundStateTest, GetRobotOracle) {
   ASSERT_EQ(model1.input_size, 2);
   ASSERT_EQ(model1.length, 1.);
   ASSERT_EQ(model1.radius, 1.);
-  ASSERT_TRUE(robot_oracle.find(0)->second.get_footprint().get_data().isApprox(
-      MatrixXd::Zero(10, 2)));
+  ASSERT_TRUE(robot_oracle.find(0)->second.get_footprint().get_data().isZero());
 
   // Testing values for the second robot.
   ASSERT_EQ(model2.pose_size, 3);
@@ -124,13 +123,46 @@ TEST_F(PlaygroundStateTest, GetRobotOracle) {
   ASSERT_EQ(model2.input_size, 2);
   ASSERT_EQ(model2.length, 2.);
   ASSERT_EQ(model2.radius, 2.);
-  ASSERT_TRUE(robot_oracle.find(2)->second.get_footprint().get_data().isApprox(
-      MatrixXd::Ones(10, 2)));
+  ASSERT_TRUE(robot_oracle.find(2)->second.get_footprint().get_data().isOnes());
 
   // Make sure that if the uid is invalid, we cannot find it in the oracle.
   ASSERT_EQ(robot_oracle.find(-1), robot_oracle.end());
   ASSERT_EQ(robot_oracle.find(3), robot_oracle.end());
+}
 
+TEST_F(PlaygroundStateTest, GetRobot) {
+  // Adding robots.
+  playground_state1_->AddRobot(*robot1_, 1);
+  playground_state1_->AddRobot(*robot2_, 2);
+
+  auto robot1 = playground_state1_->get_robot(1);
+  auto robot2 = playground_state1_->get_robot(2);
+
+  // Getting the downcasted models.
+  const DiffDriveModel& model1 =
+      dynamic_cast<const DiffDriveModel&>(robot1_->get_kinematic_model());
+  const DiffDriveModel& model2 =
+      dynamic_cast<const DiffDriveModel&>(robot2_->get_kinematic_model());
+
+  // Verifying the robots.
+  ASSERT_EQ(robot1.get_kinematic_model().pose_size, 3);
+  ASSERT_EQ(robot1.get_kinematic_model().velocity_size, 0);
+  ASSERT_EQ(robot1.get_kinematic_model().input_size, 2);
+  ASSERT_EQ(model1.length, 1.);
+  ASSERT_EQ(model1.radius, 1.);
+  ASSERT_TRUE(robot1.get_footprint().get_data().isZero());
+
+  ASSERT_EQ(robot2.get_kinematic_model().pose_size, 3);
+  ASSERT_EQ(robot2.get_kinematic_model().velocity_size, 0);
+  ASSERT_EQ(robot2.get_kinematic_model().input_size, 2);
+  ASSERT_EQ(model2.length, 2.);
+  ASSERT_EQ(model2.radius, 2.);
+  ASSERT_TRUE(robot2.get_footprint().get_data().isOnes());
+
+  // Calling the function with an invalid id must throw an exception.
+  ASSERT_THROW(playground_state1_->get_robot(-1), std::invalid_argument);
+  ASSERT_THROW(playground_state1_->get_robot(0), std::invalid_argument);
+  ASSERT_THROW(playground_state1_->get_robot(3), std::invalid_argument);
 }
 
 }  // namespace
