@@ -22,8 +22,8 @@ using morphac::robot::blueprint::Robot;
 
 class CustomKinematicModel : public KinematicModel {
  public:
-  CustomKinematicModel(int pose_size, int velocity_size, int input_size)
-      : KinematicModel(pose_size, velocity_size, input_size) {}
+  CustomKinematicModel(int pose_size, int velocity_size, int size_input)
+      : KinematicModel(pose_size, velocity_size, size_input) {}
 
   State ComputeStateDerivative(const State& state, const Input& input) const {
     // f(x, u) = x * u  - x
