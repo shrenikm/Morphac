@@ -1,16 +1,19 @@
+#ifndef PLAYGROUND_STATE_BINDING_H
+#define PLAYGROUND_STATE_BINDING_H
+
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
 
-#include "simulation/binding/include/playground_state_binding.h"
+#include "simulation/include/playground_state.h"
 
 namespace morphac {
 namespace simulation {
 namespace binding {
 
-namespace py = pybind11;
-
-PYBIND11_MODULE(_binding_simulation, m) { define_playground_state_binding(m); }
+void define_playground_state_binding(pybind11::module& m);
 
 }  // namespace binding
 }  // namespace simulation
 }  // namespace morphac
+
+#endif
