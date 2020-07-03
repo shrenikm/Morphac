@@ -13,6 +13,7 @@ using std::unique_ptr;
 
 using Eigen::MatrixXd;
 
+using morphac::constructs::State;
 using morphac::environment::Map;
 using morphac::mechanics::models::DiffDriveModel;
 using morphac::mechanics::models::KinematicModel;
@@ -70,6 +71,7 @@ TEST_F(PlaygroundStateTest, SetMap) {
 }
 
 TEST_F(PlaygroundStateTest, AddRobot) {
+  // Also testing NumRobots.
   playground_state1_->AddRobot(*robot1_, 0);
   ASSERT_EQ(playground_state1_->NumRobots(), 1);
 
@@ -163,6 +165,44 @@ TEST_F(PlaygroundStateTest, GetRobot) {
   ASSERT_THROW(playground_state1_->get_robot(-1), std::invalid_argument);
   ASSERT_THROW(playground_state1_->get_robot(0), std::invalid_argument);
   ASSERT_THROW(playground_state1_->get_robot(3), std::invalid_argument);
+}
+
+TEST_F(PlaygroundStateTest, GetRobotState) {
+  // Adding robots.
+  // Changing the state.
+  State new_state({-1., 2., 1.57}, {});
+  robot2_->set_state(new_state);
+  playground_state1_->AddRobot(*robot1_, 1);
+  playground_state1_->AddRobot(*robot2_, 2);
+
+  ASSERT_EQ(playground_state1_->get_robot_state(1), State(3, 0));
+  ASSERT_EQ(playground_state1_->get_robot_state(2), new_state);
+}
+
+TEST_F(PlaygroundStateTest, SetRobotState) {
+  // Adding robots.
+  playground_state1_->AddRobot(*robot1_, 1);
+  playground_state1_->AddRobot(*robot2_, 2);
+
+  // Initial robot states.
+  ASSERT_EQ(playground_state1_->get_robot_state(1), State(3, 0));
+  ASSERT_EQ(playground_state1_->get_robot_state(2), State(3, 0));
+
+  // Changing the robot states through the playground states.
+  State new_state1({1., 2., 3.}, {});
+  State new_state2({0., -5., 0.1}, {});
+
+  playground_state1_->set_robot_state(new_state1, 1);
+  playground_state1_->set_robot_state(new_state2, 2);
+
+  ASSERT_EQ(playground_state1_->get_robot_state(1), new_state1);
+  ASSERT_EQ(playground_state1_->get_robot_state(2), new_state2);
+
+  // If we try setting the state for an invalid id, it should throw an error.
+  ASSERT_THROW(playground_state1_->set_robot_state(State(3, 0), 0),
+               std::invalid_argument);
+  ASSERT_THROW(playground_state1_->set_robot_state(State(3, 0), 3),
+               std::invalid_argument);
 }
 
 }  // namespace
