@@ -25,8 +25,7 @@ struct PlaygroundSpec {
 
 class Playground {
  public:
-  Playground(const PlaygroundSpec& spec,
-             const morphac::environment::Map& map);
+  Playground(const PlaygroundSpec& spec, const morphac::environment::Map& map);
 
   // Delete copy constructor.
   Playground(const Playground& playground) = delete;
@@ -34,11 +33,7 @@ class Playground {
   // Delete copy assignment.
   Playground& operator=(const Playground& playground) = delete;
 
-  const PlaygroundState& get_state() const;
-  const morphac::robot::blueprint::Robot& get_robot(const int uid) const;
-  const morphac::constructs::State& get_robot_state(const int uid) const;
-
-  void set_robot_state(const morphac::constructs::State& state, const int uid);
+  PlaygroundState& get_state();
 
   void AddRobot(const morphac::robot::blueprint::Robot& robot,
                 const morphac::robot::driver::Pilot& pilot,

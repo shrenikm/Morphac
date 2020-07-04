@@ -13,8 +13,7 @@ using morphac::robot::driver::Pilot;
 using morphac::utils::IntegratorFromType;
 using morphac::mechanics::models::KinematicModel;
 
-Playground::Playground(const PlaygroundSpec& spec,
-                       const Map& map)
+Playground::Playground(const PlaygroundSpec& spec, const Map& map)
     : spec_(spec), playground_state_(map) {}
 
 bool Playground::UidExistsInIntegratorOracle(const int uid) const {
@@ -33,24 +32,7 @@ bool Playground::UidExistsInPilotOracle(const int uid) const {
     return true;
 }
 
-const PlaygroundState& Playground::get_state() const {
-    return playground_state_;
-}
-
-const Robot& Playground::get_robot(const int uid) const {
-    // UID existence check happens within playground state.
-    return playground_state_.get_robot(uid);
-}
-
-const State& Playground::get_robot_state(const int uid) const {
-    // UID existence check happens within playground state.
-    return playground_state_.get_robot_state(uid);
-}
-
-void Playground::set_robot_state(const State& state, const int uid) {
-    // UID existence check happens within playground state.
-    playground_state_.set_robot_state(state, uid);
-}
+PlaygroundState& Playground::get_state() { return playground_state_; }
 
 void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
                           const IntegratorType& integrator_type,
@@ -78,9 +60,9 @@ void Playground::Execute() {
         auto input = pilot_element.second.Execute(playground_state_, uid);
 
         State updated_state = integrator_oracle_.find(uid)->second.Step(
-            get_robot_state(uid), input, spec_.dt);
+            playground_state_.get_robot_state(uid), input, spec_.dt);
 
-        set_robot_state(updated_state, uid);
+        playground_state_.set_robot_state(updated_state, uid);
     }
 }
 
