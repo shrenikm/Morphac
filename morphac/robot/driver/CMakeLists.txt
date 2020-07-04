@@ -1,18 +1,18 @@
 # Directories
 # -------------------------------------------------
 
-set(PILOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(PILOT_SRC_DIR ${PILOT_DIR}/src)
-set(PILOT_INCLUDE_DIR ${PILOT_DIR}/include)
-set(PILOT_TEST_DIR ${PILOT_DIR}/test)
+set(DRIVER_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(DRIVER_SRC_DIR ${DRIVER_DIR}/src)
+set(DRIVER_INCLUDE_DIR ${DRIVER_DIR}/include)
+set(DRIVER_TEST_DIR ${DRIVER_DIR}/test)
 
-set(PILOT_BINARY_DIR ${ROBOT_BINARY_DIR}/pilot)
+set(DRIVER_BINARY_DIR ${ROBOT_BINARY_DIR}/driver)
 
-set(PILOT_BINDING_DIR ${PILOT_DIR}/binding)
-set(PILOT_BINDING_INCLUDE_DIR ${PILOT_BINDING_DIR}/include)
-set(PILOT_BINDING_SRC_DIR ${PILOT_BINDING_DIR}/src)
-set(PILOT_BINDING_BINARY_DIR ${PILOT_BINARY_DIR}/binding)
-set(PILOT_BINDING_INSTALL_DIR ${ROBOT_BINDING_INSTALL_DIR}/pilot)
+set(DRIVER_BINDING_DIR ${DRIVER_DIR}/binding)
+set(DRIVER_BINDING_INCLUDE_DIR ${DRIVER_BINDING_DIR}/include)
+set(DRIVER_BINDING_SRC_DIR ${DRIVER_BINDING_DIR}/src)
+set(DRIVER_BINDING_BINARY_DIR ${DRIVER_BINARY_DIR}/binding)
+set(DRIVER_BINDING_INSTALL_DIR ${ROBOT_BINDING_INSTALL_DIR}/driver)
 
 
 # Adding subdirectories
@@ -23,13 +23,13 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Pilot source files.
-set(PILOT_SRC
+# Driver source files.
+set(DRIVER_SRC
 
   pilot.cc
 )
 
-foreach(file ${PILOT_SRC})
+foreach(file ${DRIVER_SRC})
   get_filename_component(lib_name
     ${file} NAME_WE
   )
@@ -38,13 +38,13 @@ foreach(file ${PILOT_SRC})
 
   add_library(${lib_name}
     SHARED
-    ${PILOT_SRC_DIR}/${file}
-    ${PILOT_INCLUDE_DIR}/${header_name}
+    ${DRIVER_SRC_DIR}/${file}
+    ${DRIVER_INCLUDE_DIR}/${header_name}
   )
 
   target_include_directories(${lib_name}
     PUBLIC
-    ${PILOT_INCLUDE_DIR}
+    ${DRIVER_INCLUDE_DIR}
   )
 endforeach()
 
@@ -59,21 +59,21 @@ target_link_libraries(pilot
 # Tests
 # -------------------------------------------------
 
-# Pilot tests source files.
-set(PILOT_TEST_SRC
+# Driver tests source files.
+set(DRIVER_TEST_SRC
 
   pilot_test.cc
 )
 
 # Creating the test executables.
-foreach(file ${PILOT_TEST_SRC})
+foreach(file ${DRIVER_TEST_SRC})
   get_filename_component(test_name
     ${file} NAME_WE
   )
 
   add_executable(
     ${test_name}
-    ${PILOT_TEST_DIR}/${file}
+    ${DRIVER_TEST_DIR}/${file}
   )
 
   add_test(NAME ${test_name}

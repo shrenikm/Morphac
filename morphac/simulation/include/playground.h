@@ -8,7 +8,7 @@
 #include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/robot.h"
-#include "robot/pilot/include/pilot.h"
+#include "robot/driver/include/pilot.h"
 #include "simulation/include/playground_state.h"
 #include "utils/include/integrator_utils.h"
 
@@ -41,7 +41,7 @@ class Playground {
   void set_robot_state(const morphac::constructs::State& state, const int uid);
 
   void AddRobot(const morphac::robot::blueprint::Robot& robot,
-                const morphac::robot::pilot::Pilot& pilot,
+                const morphac::robot::driver::Pilot& pilot,
                 const morphac::math::numeric::IntegratorType& integrator_type,
                 const int uid);
 
@@ -55,7 +55,7 @@ class Playground {
   PlaygroundState playground_state_;
   std::unordered_map<int, morphac::math::numeric::Integrator&>
       integrator_oracle_;
-  std::unordered_map<int, morphac::robot::pilot::Pilot&> pilot_oracle_;
+  std::unordered_map<int, morphac::robot::driver::Pilot&> pilot_oracle_;
 };
 
 }  // namespace simulation

@@ -9,7 +9,7 @@ using morphac::environment::Map;
 using morphac::math::numeric::Integrator;
 using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Robot;
-using morphac::robot::pilot::Pilot;
+using morphac::robot::driver::Pilot;
 using morphac::utils::IntegratorFromType;
 using morphac::mechanics::models::KinematicModel;
 

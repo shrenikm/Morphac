@@ -1,7 +1,7 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "robot/pilot/include/pilot.h"
+#include "robot/driver/include/pilot.h"
 
 namespace {
 
@@ -10,7 +10,7 @@ using Eigen::MatrixXd;
 
 using morphac::constructs::Input;
 using morphac::environment::Map;
-using morphac::robot::pilot::Pilot;
+using morphac::robot::driver::Pilot;
 using morphac::simulation::PlaygroundState;
 
 // Derived class from Pilot for testing.

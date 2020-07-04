@@ -6,7 +6,7 @@
 
 namespace morphac {
 namespace robot {
-namespace pilot {
+namespace driver {
 
 class Pilot {
  public:
@@ -17,7 +17,7 @@ class Pilot {
       const int uid) = 0;
 };
 
-}  // namespace pilot
+}  // namespace driver
 }  // namespace robot
 }  // namespace morphac
 

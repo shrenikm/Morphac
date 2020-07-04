@@ -12,7 +12,7 @@ namespace mechanics {
 namespace models {
 namespace binding {
 
-// Trampoline class as the kinematic model class is abstract.
+// Trampoline class as the KinematicModel class is abstract.
 class PyKinematicModel : public morphac::mechanics::models::KinematicModel {
  public:
   using KinematicModel::KinematicModel;
