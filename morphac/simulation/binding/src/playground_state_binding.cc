@@ -18,9 +18,14 @@ void define_playground_state_binding(py::module& m) {
                                          &PlaygroundState::get_robot_oracle);
   playground_state.def("get_robot", &PlaygroundState::get_robot,
                        py::arg("uid"));
-  playground_state.def_property("robot_state",
-                                &PlaygroundState::get_robot_state,
-                                &PlaygroundState::set_robot_state);
+  playground_state.def("get_robot_state", &PlaygroundState::get_robot_state,
+                       py::arg("uid"));
+  playground_state.def("set_robot_state", &PlaygroundState::set_robot_state,
+                       py::arg("state"), py::arg("uid"));
+  playground_state.def_property_readonly("num_robots",
+                                         &PlaygroundState::NumRobots);
+  playground_state.def("add_robot", &PlaygroundState::AddRobot,
+                       py::arg("robot"), py::arg("uid"));
 }
 
 }  // namespace binding
