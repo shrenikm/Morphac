@@ -23,7 +23,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Blueprint source files.
+# Pilot source files.
 set(PILOT_SRC
 
   pilot.cc
@@ -59,29 +59,31 @@ target_link_libraries(pilot
 # Tests
 # -------------------------------------------------
 
-## Blueprint tests source files.
-#set(PILOT_TEST_SRC
-#
-#  pilot_test.cc
-#)
-#
-## Creating the test executables.
-#foreach(file ${PILOT_TEST_SRC})
-#  get_filename_component(test_name
-#    ${file} NAME_WE
-#  )
-#
-#  add_executable(
-#    ${test_name}
-#    ${PILOT_TEST_DIR}/${file}
-#  )
-#
-#  add_test(NAME ${test_name}
-#    COMMAND ${test_name}
-#  )
-#endforeach()
-#
-## Linking depending libraries.
-#target_link_libraries(pilot_test
-#  PUBLIC
-#)
+# Pilot tests source files.
+set(PILOT_TEST_SRC
+
+  pilot_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${PILOT_TEST_SRC})
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
+
+  add_executable(
+    ${test_name}
+    ${PILOT_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
+endforeach()
+
+# Linking depending libraries.
+target_link_libraries(pilot_test
+  PUBLIC
+  gtest
+  pilot
+)

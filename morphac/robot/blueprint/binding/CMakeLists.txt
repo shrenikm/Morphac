@@ -46,10 +46,6 @@ target_include_directories(${module_name}
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
-  kinematic_model
-  state
-  input
-  footprint
   robot
 )
 
@@ -85,7 +81,3 @@ install(FILES
   ${BLUEPRINT_BINDING_DIR}/__init__.py
   DESTINATION ${BLUEPRINT_BINDING_INSTALL_DIR}
 )
-
-
-
-

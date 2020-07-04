@@ -48,9 +48,6 @@ target_include_directories(${module_name}
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
-  kinematic_model
-  state
-  input
   integrator
   euler_integrator
   mid_point_integrator
