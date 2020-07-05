@@ -76,8 +76,8 @@ target_link_libraries(playground
 # Simulation tests source files.
 set(SIMULATION_TEST_SRC
 
-  playground_state_test.cc
   playground_spec_test.cc
+  playground_state_test.cc
 )
 
 # Creating the test executables.
@@ -97,15 +97,15 @@ foreach(file ${SIMULATION_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
+target_link_libraries(playground_spec_test
+  PUBLIC
+  gtest_main
+)
+
 target_link_libraries(playground_state_test
   PUBLIC
   gtest_main
   diffdrive_model
   playground_state
-)
-
-target_link_libraries(playground_spec_test
-  PUBLIC
-  gtest_main
 )
 

@@ -17,6 +17,7 @@ set(SIMULATION_MODULE_FILE
 set(SIMULATION_BINDING_FILES
 
   playground_state_binding.cc
+  playground_spec_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -45,6 +46,7 @@ target_include_directories(${module_name}
 # Adding library dependencies.
 target_link_libraries(${module_name}
   PUBLIC
+  playground_spec
   playground_state
 )
 

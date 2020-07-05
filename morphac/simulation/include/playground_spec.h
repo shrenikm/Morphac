@@ -1,15 +1,17 @@
 #ifndef PLAYGROUND_SPEC_H
 #define PLAYGROUND_SPEC_H
 
+#include <string>
+
 namespace morphac {
 namespace simulation {
 
 struct PlaygroundSpec {
-  std::string name;
-  double dt;
+  const std::string name;
+  const double dt;
 
-  int gui_width;
-  int gui_height;
+  const int gui_width;
+  const int gui_height;
 };
 
 }  // namespace simulation
