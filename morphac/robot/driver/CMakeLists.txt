@@ -84,6 +84,6 @@ endforeach()
 # Linking depending libraries.
 target_link_libraries(pilot_test
   PUBLIC
-  gtest
+  gtest_main
   pilot
 )

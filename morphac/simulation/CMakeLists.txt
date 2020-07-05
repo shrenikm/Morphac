@@ -29,6 +29,7 @@ add_subdirectory(binding)
 set(SIMULATION_SRC
 
   playground.cc
+  playground_spec.cc
   playground_state.cc
 )
 
@@ -61,10 +62,8 @@ target_link_libraries(playground_state
 
 target_link_libraries(playground
   PUBLIC
-  input
-  state
+  playground_spec
   playground_state
-  robot
   pilot
   integrator
   integrator_utils
@@ -78,6 +77,7 @@ target_link_libraries(playground
 set(SIMULATION_TEST_SRC
 
   playground_state_test.cc
+  playground_spec_test.cc
 )
 
 # Creating the test executables.
@@ -102,5 +102,10 @@ target_link_libraries(playground_state_test
   gtest_main
   diffdrive_model
   playground_state
+)
+
+target_link_libraries(playground_spec_test
+  PUBLIC
+  gtest_main
 )
 

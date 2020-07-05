@@ -1,7 +1,6 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "environment/include/map.h"
 #include "mechanics/models/include/diffdrive_model.h"
 #include "simulation/include/playground_state.h"
 

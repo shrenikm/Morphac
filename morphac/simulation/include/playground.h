@@ -9,19 +9,12 @@
 #include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/robot.h"
 #include "robot/driver/include/pilot.h"
+#include "simulation/include/playground_spec.h"
 #include "simulation/include/playground_state.h"
 #include "utils/include/integrator_utils.h"
 
 namespace morphac {
 namespace simulation {
-
-struct PlaygroundSpec {
-  std::string name;
-  double dt;
-
-  int gui_width;
-  int gui_height;
-};
 
 class Playground {
  public:
