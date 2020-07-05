@@ -65,7 +65,8 @@ TEST_F(RobotTest, Construction) {
   Footprint footprint(footprint_matrix_);
   Robot robot1{model, footprint};
 
-  Robot robot2{model, footprint, State(3, 2)};
+  // Constructing with a temporary KinematicModel.
+  Robot robot2{CustomKinematicModel{3, 2, 5}, footprint, State(3, 2)};
 }
 
 TEST_F(RobotTest, InvalidConstruction) {

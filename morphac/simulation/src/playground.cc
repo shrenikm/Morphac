@@ -42,6 +42,15 @@ void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
         (!UidExistsInIntegratorOracle(uid)) && (!UidExistsInPilotOracle(uid)),
         std::invalid_argument, "Given UID already exists.");
 
+    // Also making sure that we have the same number of elements in each
+    // of the oracles. This is just a sanity check done before adding the new
+    // robot.
+    MORPH_REQUIRE(
+        (playground_state_.NumRobots() == (int)integrator_oracle_.size()) &&
+            (integrator_oracle_.size() == pilot_oracle_.size()),
+        std::logic_error,
+        "Oracles are of different sizes. Something has gone wrong.");
+
     // Casting the unique ptr integrator to a non const reference.
     Integrator& integrator = *(IntegratorFromType(
         integrator_type,
