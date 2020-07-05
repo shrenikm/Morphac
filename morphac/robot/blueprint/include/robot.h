@@ -16,9 +16,9 @@ namespace blueprint {
 
 class Robot {
  public:
-  Robot(morphac::mechanics::models::KinematicModel& kinematic_model,
+  Robot(const morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::robot::blueprint::Footprint& footprint);
-  Robot(morphac::mechanics::models::KinematicModel& kinematic_model,
+  Robot(const morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::robot::blueprint::Footprint& footprint,
         const morphac::constructs::State& initial_state);
 

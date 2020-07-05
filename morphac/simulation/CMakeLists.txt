@@ -78,6 +78,7 @@ set(SIMULATION_TEST_SRC
 
   playground_spec_test.cc
   playground_state_test.cc
+  playground_test.cc
 )
 
 # Creating the test executables.
@@ -107,5 +108,12 @@ target_link_libraries(playground_state_test
   gtest_main
   diffdrive_model
   playground_state
+)
+
+target_link_libraries(playground_test
+  PUBLIC
+  gtest_main
+  playground
+  diffdrive_model
 )
 

@@ -13,14 +13,14 @@ using morphac::constructs::Velocity;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 
-Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint)
-    : kinematic_model_(kinematic_model),
+Robot::Robot(const KinematicModel& kinematic_model, const Footprint& footprint)
+    : kinematic_model_(const_cast<KinematicModel&>(kinematic_model)),
       footprint_(footprint),
       state_(State(kinematic_model.pose_size, kinematic_model.velocity_size)) {}
 
-Robot::Robot(KinematicModel& kinematic_model, const Footprint& footprint,
+Robot::Robot(const KinematicModel& kinematic_model, const Footprint& footprint,
              const State& initial_state)
-    : kinematic_model_(kinematic_model),
+    : kinematic_model_(const_cast<KinematicModel&>(kinematic_model)),
       footprint_(footprint),
       state_(initial_state) {
   MORPH_REQUIRE(
