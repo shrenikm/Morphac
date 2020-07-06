@@ -63,13 +63,29 @@ void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
 }
 
 void Playground::Execute() {
+    std::cout << "start" << std::endl;
     for (auto pilot_element : pilot_oracle_) {
         int uid = pilot_element.first;
+        std::cout << "uid: " << uid << std::endl;
 
         auto input = pilot_element.second.Execute(playground_state_, uid);
+        std::cout << input.get_data().transpose() << std::endl;
 
-        State updated_state = integrator_oracle_.find(uid)->second.Step(
-            playground_state_.get_robot_state(uid), input, spec_.dt);
+        // Also making sure that the input is of the correct dimensions.
+        MORPH_REQUIRE(
+            playground_state_.get_robot(uid).get_kinematic_model().input_size ==
+                input.get_size(),
+            std::logic_error,
+            "Input computed by the pilot is of incorrect dimensions.");
+
+        std::cout << "here" << std::endl;
+        Integrator& in = integrator_oracle_.find(uid)->second;
+
+        // State updated_state = integrator_oracle_.find(uid)->second.Step(
+        //    playground_state_.get_robot_state(uid), input, spec_.dt);
+
+        State updated_state =
+            in.Step(playground_state_.get_robot_state(uid), input, spec_.dt);
 
         playground_state_.set_robot_state(updated_state, uid);
     }

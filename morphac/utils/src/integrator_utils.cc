@@ -17,11 +17,11 @@ unique_ptr<Integrator> IntegratorFromType(const IntegratorType& integrator_type,
                                           KinematicModel& kinematic_model) {
   switch (integrator_type) {
     case IntegratorType::kEulerIntegrator:
-      return make_unique<EulerIntegrator>(kinematic_model);
+      return std::move(make_unique<EulerIntegrator>(kinematic_model));
     case IntegratorType::kMidPointIntegrator:
-      return make_unique<MidPointIntegrator>(kinematic_model);
+      return std::move(make_unique<MidPointIntegrator>(kinematic_model));
     case IntegratorType::kRK4Integrator:
-      return make_unique<RK4Integrator>(kinematic_model);
+      return std::move(make_unique<RK4Integrator>(kinematic_model));
     default:
       MORPH_THROW(std::invalid_argument,
                   "Integrator type does not match any of the defined types.");

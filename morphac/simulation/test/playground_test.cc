@@ -32,7 +32,9 @@ DiffDriveModel diffdrive_model(1., 1.);
 // Derived class from Pilot for testing.
 class CustomPilot : public Pilot {
  public:
-  CustomPilot(VectorXd input_data) : Pilot(), input_data_(input_data) {}
+  CustomPilot(VectorXd input_data) : Pilot(), input_data_(input_data) {
+    std::cout << "Constructor: " << input_data_.transpose() << std::endl;
+  }
 
   Input Execute(const PlaygroundState& playground_state,
                 const int uid) override {
@@ -40,6 +42,7 @@ class CustomPilot : public Pilot {
     MORPH_REQUIRE(playground_state.NumRobots() >= 0, std::invalid_argument,
                   "Invalid PlaygroundState");
     MORPH_REQUIRE(uid >= 0, std::invalid_argument, "UID must be non negative");
+    std::cout << "in input: " << input_data_.transpose() << std::endl;
     return Input(input_data_);
   }
 
@@ -150,6 +153,36 @@ TEST_F(PlaygroundTest, InvalidAddRobot) {
   ASSERT_THROW(playground_->AddRobot(*robot3_, CustomPilot(VectorXd::Zero(3)),
                                      IntegratorType::kRK4Integrator, 7),
                std::logic_error);
+}
+
+TEST_F(PlaygroundTest, Execute) {
+  // Add Robots.
+  CustomPilot pilot1{VectorXd::Zero(2)};
+  CustomPilot pilot2{VectorXd::Ones(2)};
+  CustomPilot pilot3{3 * VectorXd::Ones(2)};
+
+  playground_->AddRobot(*robot1_, pilot1, IntegratorType::kRK4Integrator, 1);
+  // Change the initial state of the second robot.
+  robot2_->set_state(State({1., 2., 0.}, {}));
+  // The pilot drives both wheels at the same velocity.
+  playground_->AddRobot(*robot2_, pilot2, IntegratorType::kRK4Integrator, 2);
+
+  // Changing the intial state of the last robot. It points at a 45 degree
+  // angle.
+  robot3_->set_state(State({-5., -7., M_PI / 4}, {}));
+  // Constant velocities on both wheels.
+  playground_->AddRobot(*robot3_, pilot3, IntegratorType::kRK4Integrator, 3);
+
+  // Executing and testing if the new states of the robots after a dt step
+  // is correct.
+  playground_->Execute();
+
+  //// Initializing expected state data.
+  // VectorXd expected_state_data1(3), expected_state_data2(3),
+  //    expected_state_data3(3);
+  // expected_state_data1 << 0., 0., 0.;
+  // ASSERT_TRUE(playground_->get_state().get_robot_state(1).get_data().isApprox(
+  //    expected_state_data1));
 }
 
 }  // namespace

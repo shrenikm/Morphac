@@ -66,7 +66,7 @@ TEST_F(RobotTest, Construction) {
   Robot robot1{model, footprint};
 
   // Constructing with a temporary KinematicModel.
-  Robot robot2{CustomKinematicModel{3, 2, 5}, footprint, State(3, 2)};
+  Robot robot2{model, footprint, State(3, 2)};
 }
 
 TEST_F(RobotTest, InvalidConstruction) {
