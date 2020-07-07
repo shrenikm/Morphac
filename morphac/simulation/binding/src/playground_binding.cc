@@ -14,7 +14,8 @@ void define_playground_binding(py::module& m) {
 
   playground.def(py::init<const PlaygroundSpec&, const Map&>(),
                  py::arg("playground_spec"), py::arg("map"));
-  playground.def_property_readonly("state", &Playground::get_state);
+  playground.def_property_readonly("state", &Playground::get_state,
+                                   py::return_value_policy::reference);
   playground.def("add_robot", &Playground::AddRobot, py::arg("robot"),
                  py::arg("pilot"), py::arg("integrator_type"), py::arg("uid"));
   playground.def("execute", &Playground::Execute);
