@@ -7,6 +7,7 @@ using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::environment::Map;
 using morphac::math::numeric::Integrator;
+using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Robot;
 using morphac::robot::driver::Pilot;
@@ -51,25 +52,19 @@ void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
         std::logic_error,
         "Oracles are of different sizes. Something has gone wrong.");
 
-    // Casting the unique ptr integrator to a non const reference.
-    Integrator& integrator = *(IntegratorFromType(
-        integrator_type,
-        const_cast<KinematicModel&>(robot.get_kinematic_model())));
-
     // Updating the oracles.
     playground_state_.AddRobot(robot, uid);
-    integrator_oracle_.insert({uid, integrator});
+    integrator_oracle_[uid] = std::move(IntegratorFromType(
+        integrator_type,
+        const_cast<KinematicModel&>(robot.get_kinematic_model())));
     pilot_oracle_.insert({uid, const_cast<Pilot&>(pilot)});
 }
 
 void Playground::Execute() {
-    std::cout << "start" << std::endl;
     for (auto pilot_element : pilot_oracle_) {
         int uid = pilot_element.first;
-        std::cout << "uid: " << uid << std::endl;
 
         auto input = pilot_element.second.Execute(playground_state_, uid);
-        std::cout << input.get_data().transpose() << std::endl;
 
         // Also making sure that the input is of the correct dimensions.
         MORPH_REQUIRE(
@@ -78,14 +73,8 @@ void Playground::Execute() {
             std::logic_error,
             "Input computed by the pilot is of incorrect dimensions.");
 
-        std::cout << "here" << std::endl;
-        Integrator& in = integrator_oracle_.find(uid)->second;
-
-        // State updated_state = integrator_oracle_.find(uid)->second.Step(
-        //    playground_state_.get_robot_state(uid), input, spec_.dt);
-
-        State updated_state =
-            in.Step(playground_state_.get_robot_state(uid), input, spec_.dt);
+        State updated_state = integrator_oracle_.find(uid)->second->Step(
+            playground_state_.get_robot_state(uid), input, spec_.dt);
 
         playground_state_.set_robot_state(updated_state, uid);
     }

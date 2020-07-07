@@ -8,6 +8,7 @@ namespace {
 
 using std::make_unique;
 using std::srand;
+using std::sqrt;
 using std::unique_ptr;
 
 using Eigen::MatrixXd;
@@ -32,9 +33,7 @@ DiffDriveModel diffdrive_model(1., 1.);
 // Derived class from Pilot for testing.
 class CustomPilot : public Pilot {
  public:
-  CustomPilot(VectorXd input_data) : Pilot(), input_data_(input_data) {
-    std::cout << "Constructor: " << input_data_.transpose() << std::endl;
-  }
+  CustomPilot(VectorXd input_data) : Pilot(), input_data_(input_data) {}
 
   Input Execute(const PlaygroundState& playground_state,
                 const int uid) override {
@@ -42,7 +41,6 @@ class CustomPilot : public Pilot {
     MORPH_REQUIRE(playground_state.NumRobots() >= 0, std::invalid_argument,
                   "Invalid PlaygroundState");
     MORPH_REQUIRE(uid >= 0, std::invalid_argument, "UID must be non negative");
-    std::cout << "in input: " << input_data_.transpose() << std::endl;
     return Input(input_data_);
   }
 
@@ -178,11 +176,26 @@ TEST_F(PlaygroundTest, Execute) {
   playground_->Execute();
 
   //// Initializing expected state data.
-  // VectorXd expected_state_data1(3), expected_state_data2(3),
-  //    expected_state_data3(3);
-  // expected_state_data1 << 0., 0., 0.;
-  // ASSERT_TRUE(playground_->get_state().get_robot_state(1).get_data().isApprox(
-  //    expected_state_data1));
+  VectorXd expected_state_data1(3), expected_state_data2(3),
+      expected_state_data3(3);
+  expected_state_data1 << 0., 0., 0.;
+  // As the wheel radius is 1. and the angular velocities are 1., the robot
+  // moves forward along a straight line at a speed of 1 m/s. As dt is 0.05,
+  // it covers a net distance of 0.05 meters. It only moves along the x axis as
+  // it is facing this direction.
+  expected_state_data2 << 1.05, 2., 0.;
+  // For the last case, the robot moves forward at a speed of 3 m/s, thus
+  // covering a distance of 3 * 0.05 = 0.15 m. In this case, the robot is at
+  // a 45 degree angle and thus moves along x and y.
+  expected_state_data3 << -5. + (0.15 / sqrt(2)), -7. + (0.15 / sqrt(2)),
+      M_PI / 4;
+
+  ASSERT_TRUE(playground_->get_state().get_robot_state(1).get_data().isApprox(
+      expected_state_data1));
+  ASSERT_TRUE(playground_->get_state().get_robot_state(2).get_data().isApprox(
+      expected_state_data2));
+  ASSERT_TRUE(playground_->get_state().get_robot_state(3).get_data().isApprox(
+      expected_state_data3));
 }
 
 }  // namespace

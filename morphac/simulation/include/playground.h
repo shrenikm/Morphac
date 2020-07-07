@@ -5,6 +5,7 @@
 
 #include "constructs/include/state.h"
 #include "environment/include/map.h"
+#include "math/numeric/include/euler_integrator.h"
 #include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/robot.h"
@@ -41,7 +42,7 @@ class Playground {
 
   const PlaygroundSpec spec_;
   PlaygroundState playground_state_;
-  std::unordered_map<int, morphac::math::numeric::Integrator&>
+  std::unordered_map<int, std::unique_ptr<morphac::math::numeric::Integrator>>
       integrator_oracle_;
   std::unordered_map<int, morphac::robot::driver::Pilot&> pilot_oracle_;
 };
