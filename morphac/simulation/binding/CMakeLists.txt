@@ -16,8 +16,9 @@ set(SIMULATION_MODULE_FILE
 # They are split up into different files so that compilation is more efficient.
 set(SIMULATION_BINDING_FILES
 
-  playground_state_binding.cc
   playground_spec_binding.cc
+  playground_state_binding.cc
+  playground_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -48,6 +49,7 @@ target_link_libraries(${module_name}
   PUBLIC
   playground_spec
   playground_state
+  playground
 )
 
 # Setting binding target properties.
