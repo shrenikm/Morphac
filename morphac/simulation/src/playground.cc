@@ -35,12 +35,26 @@ bool Playground::UidExistsInPilotOracle(const int uid) const {
 
 PlaygroundState& Playground::get_state() { return playground_state_; }
 
+const Pilot& Playground::get_pilot(const int uid) {
+    // Making sure that the UID exists.
+    MORPH_REQUIRE(UidExistsInPilotOracle(uid), std::invalid_argument,
+                  "Given UID does not exist.");
+    return pilot_oracle_.find(uid)->second;
+}
+
+const Integrator& Playground::get_integrator(const int uid) {
+    // Making sure that the UID exists.
+    MORPH_REQUIRE(UidExistsInIntegratorOracle(uid), std::invalid_argument,
+                  "Given UID does not exist.");
+    return *integrator_oracle_[uid];
+}
+
 void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
                           const IntegratorType& integrator_type,
                           const int uid) {
     // Making sure that the robot uid doesn't exist in any of the oracles.
     MORPH_REQUIRE(
-        (!UidExistsInIntegratorOracle(uid)) && (!UidExistsInPilotOracle(uid)),
+        (!UidExistsInPilotOracle(uid)) && (!UidExistsInIntegratorOracle(uid)),
         std::invalid_argument, "Given UID already exists.");
 
     // Also making sure that we have the same number of elements in each
