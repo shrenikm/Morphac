@@ -61,15 +61,10 @@ void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
 }
 
 void Playground::Execute() {
-    std::cout << "num int: " << integrator_oracle_.size() << std::endl;
-    std::cout << "num pilot: " << pilot_oracle_.size() << std::endl;
     for (std::pair<int, Pilot&> pilot_element : pilot_oracle_) {
-        std::cout << "here" << std::endl;
         int uid = pilot_element.first;
-        std::cout << "here" << std::endl;
 
         Input input = pilot_element.second.Execute(playground_state_, uid);
-        std::cout << "here" << std::endl;
 
         // Also making sure that the input is of the correct dimensions.
         MORPH_REQUIRE(
@@ -77,14 +72,11 @@ void Playground::Execute() {
                 input.get_size(),
             std::logic_error,
             "Input computed by the pilot is of incorrect dimensions.");
-        std::cout << "here" << std::endl;
 
         State updated_state = integrator_oracle_.find(uid)->second->Step(
             playground_state_.get_robot_state(uid), input, spec_.dt);
-        std::cout << "here" << std::endl;
 
         playground_state_.set_robot_state(updated_state, uid);
-        std::cout << "here done" << std::endl;
     }
 }
 

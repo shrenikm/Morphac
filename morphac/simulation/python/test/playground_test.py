@@ -97,15 +97,15 @@ def test_add_robot(generate_playground, generate_robot_list):
         2).data, robot2.state.data)
 
 
-def test_execute(generate_playground, generate_robot_list):
-    playground = generate_playground
-    robot1, robot2 = generate_robot_list
-    pilot1, pilot2 = CustomPilot([0, 0]), CustomPilot([1., 1.])
-
-    # Adding the robots.
-    playground.add_robot(
-        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
-    playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
-
-    # Executing a playground cycle.
-    playground.execute()
+# def test_execute(generate_playground, generate_robot_list):
+#    playground = generate_playground
+#    robot1, robot2 = generate_robot_list
+#    pilot1, pilot2 = CustomPilot([0, 0]), CustomPilot([1., 1.])
+#
+#    # Adding the robots.
+#    playground.add_robot(
+#        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
+#    playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
+#
+#    # Executing a playground cycle.
+#    playground.execute()

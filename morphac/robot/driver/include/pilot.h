@@ -14,7 +14,7 @@ class Pilot {
 
   virtual morphac::constructs::Input Execute(
       const morphac::simulation::PlaygroundState& playground_state,
-      const int uid) = 0;
+      const int uid) const = 0;
 };
 
 }  // namespace driver

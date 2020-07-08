@@ -19,7 +19,7 @@ class CustomPilot : public Pilot {
   CustomPilot(VectorXd input_data) : Pilot(), input_data_(input_data) {}
 
   Input Execute(const PlaygroundState& playground_state,
-                const int uid) override {
+                const int uid) const override {
     // Some asserts to prevent the unused variable warning.
     MORPH_REQUIRE(playground_state.NumRobots() >= 0, std::invalid_argument,
                   "Invalid PlaygroundState");

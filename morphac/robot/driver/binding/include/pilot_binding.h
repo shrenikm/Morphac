@@ -18,7 +18,7 @@ class PyPilot : public morphac::robot::driver::Pilot {
 
   morphac::constructs::Input Execute(
       const morphac::simulation::PlaygroundState& playground_state,
-      const int uid) override {
+      const int uid) const override {
     PYBIND11_OVERLOAD_PURE_NAME(morphac::constructs::Input, Pilot, "execute",
                                 Execute, playground_state, uid);
   }
