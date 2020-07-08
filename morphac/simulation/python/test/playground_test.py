@@ -4,7 +4,12 @@ import pytest
 from morphac.constructs import Input, State
 from morphac.environment import Map
 from morphac.mechanics.models import DiffDriveModel
-from morphac.math.numeric import IntegratorType
+from morphac.math.numeric import (
+    IntegratorType,
+    Integrator,
+    MidPointIntegrator,
+    RK4Integrator
+)
 from morphac.robot.driver import Pilot
 from morphac.robot.blueprint import Footprint, Robot
 from morphac.simulation import Playground
@@ -79,14 +84,63 @@ def test_state_write(generate_playground, generate_robot_list):
     assert playground.state.num_robots == 2
 
 
+def test_get_pilot(generate_playground, generate_robot_list):
+    playground = generate_playground
+    robot1, robot2 = generate_robot_list
+
+    pilot1 = CustomPilot([0, 0])
+    pilot2 = CustomPilot([1., 2])
+
+    # Adding the robots.
+    playground.add_robot(robot1, pilot1, IntegratorType.EULER_INTEGRATOR, 1)
+    playground.add_robot(
+        robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
+
+    # Making sure the right pilots are returned.
+    assert np.allclose(playground.get_pilot(1).input_data, [0, 0])
+    assert np.allclose(playground.get_pilot(2).input_data, [1., 2])
+
+    # Invalid uid.
+    with pytest.raises(ValueError):
+        _ = playground.get_pilot(0)
+    with pytest.raises(ValueError):
+        _ = playground.get_pilot(3)
+
+
+def test_get_integrator(generate_playground, generate_robot_list):
+    playground = generate_playground
+    robot1, robot2 = generate_robot_list
+
+    pilot1 = CustomPilot([0, 0])
+    pilot2 = CustomPilot([1., 2])
+
+    # Adding the robots.
+    playground.add_robot(
+        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
+    playground.add_robot(
+        robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
+
+    # Making sure the right integrators are returned.
+    assert isinstance(playground.get_integrator(1), MidPointIntegrator)
+    assert isinstance(playground.get_integrator(2), RK4Integrator)
+
+    # Invalid uid.
+    with pytest.raises(ValueError):
+        _ = playground.get_integrator(0)
+    with pytest.raises(ValueError):
+        _ = playground.get_integrator(3)
+
+
 def test_add_robot(generate_playground, generate_robot_list):
     playground = generate_playground
     robot1, robot2 = generate_robot_list
 
-    playground.add_robot(robot1, CustomPilot(
-        [0, 0]), IntegratorType.EULER_INTEGRATOR, 1)
-    playground.add_robot(robot2, CustomPilot(
-        [0, 0]), IntegratorType.MID_POINT_INTEGRATOR, 2)
+    pilot1 = CustomPilot([0, 0])
+    pilot2 = CustomPilot([1., 2])
+
+    playground.add_robot(robot1, pilot1, IntegratorType.EULER_INTEGRATOR, 1)
+    playground.add_robot(
+        robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
 
     # Make sure that the robots have been added correctly.
     assert playground.state.num_robots == 2
