@@ -4,15 +4,15 @@
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
 
-#include "robot/driver/include/pilot.h"
+#include "robot/pilot/include/pilot.h"
 
 namespace morphac {
 namespace robot {
-namespace driver {
+namespace pilot {
 namespace binding {
 
 // Trampoline class as the Pilot class is abstract.
-class PyPilot : public morphac::robot::driver::Pilot {
+class PyPilot : public morphac::robot::pilot::Pilot {
  public:
   using Pilot::Pilot;
 
@@ -27,7 +27,7 @@ class PyPilot : public morphac::robot::driver::Pilot {
 void define_pilot_binding(pybind11::module& m);
 
 }  // namespace binding
-}  // namespace driver
+}  // namespace pilot
 }  // namespace robot
 }  // namespace morphac
 

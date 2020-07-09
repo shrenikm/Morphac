@@ -10,7 +10,7 @@ from morphac.math.numeric import (
     MidPointIntegrator,
     RK4Integrator
 )
-from morphac.robot.driver import Pilot
+from morphac.robot.pilot import Pilot
 from morphac.robot.blueprint import Footprint, Robot
 from morphac.simulation.playground import Playground
 from morphac.simulation.playground import PlaygroundSpec

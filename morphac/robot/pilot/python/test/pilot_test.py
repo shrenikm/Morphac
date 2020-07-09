@@ -3,7 +3,7 @@ import pytest
 
 from morphac.constructs import Input
 from morphac.environment import Map
-from morphac.robot.driver import Pilot
+from morphac.robot.pilot import Pilot
 from morphac.simulation.playground import PlaygroundState
 
 

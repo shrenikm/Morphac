@@ -1,13 +1,13 @@
-#include "robot/driver/binding/include/pilot_binding.h"
+#include "robot/pilot/binding/include/pilot_binding.h"
 
 namespace morphac {
 namespace robot {
-namespace driver {
+namespace pilot {
 namespace binding {
 
 namespace py = pybind11;
 
-using morphac::robot::driver::Pilot;
+using morphac::robot::pilot::Pilot;
 
 void define_pilot_binding(py::module& m) {
   py::class_<Pilot, PyPilot> pilot(m, "Pilot");
@@ -18,6 +18,6 @@ void define_pilot_binding(py::module& m) {
 }
 
 }  // namespace binding
-}  // namespace driver
+}  // namespace pilot
 }  // namespace robot
 }  // namespace morphac

@@ -21,7 +21,7 @@ using morphac::mechanics::models::DiffDriveModel;
 using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
-using morphac::robot::driver::Pilot;
+using morphac::robot::pilot::Pilot;
 using morphac::simulation::playground::PlaygroundSpec;
 using morphac::simulation::playground::PlaygroundState;
 using morphac::simulation::playground::Playground;

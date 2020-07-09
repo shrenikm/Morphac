@@ -1,11 +1,11 @@
-#include "robot/driver/include/pilot.h"
+#include "robot/pilot/include/pilot.h"
 
 namespace morphac {
 namespace robot {
-namespace driver {
+namespace pilot {
 
 Pilot::Pilot() {}
 
-}  // namespace driver
+}  // namespace pilot
 }  // namespace robot
 }  // namespace morphac

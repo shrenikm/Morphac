@@ -7,27 +7,27 @@ if(NOT BUILD_PYTHON_BINDINGS)
 endif()
 
 # Src file that creates the python module.
-set(DRIVER_MODULE_FILE
+set(PILOT_MODULE_FILE
 
-  driver.cc
+  pilot.cc
 )
 
 # Individual binding files called by the src module file.
 # They are split up into different files so that compilation is more efficient.
-set(DRIVER_BINDING_FILES
+set(PILOT_BINDING_FILES
 
   pilot_binding.cc
 )
 
 # Prepending the directory to the files.
-prepend_list(DRIVER_BINDING_FILES
-  ${DRIVER_BINDING_SRC_DIR}/
-  ${DRIVER_BINDING_FILES}
+prepend_list(PILOT_BINDING_FILES
+  ${PILOT_BINDING_SRC_DIR}/
+  ${PILOT_BINDING_FILES}
 )
 
 # Adding the module as a library.
 get_filename_component(module_name
-  ${DRIVER_MODULE_FILE} NAME_WE
+  ${PILOT_MODULE_FILE} NAME_WE
 )
 
 ## Get python target name. This is to prevent clashes with similar named cpp
@@ -36,14 +36,14 @@ get_python_target_name(python_target ${module_name})
 
 pybind11_add_module(${python_target}
   SHARED
-  ${DRIVER_BINDING_DIR}/${DRIVER_MODULE_FILE}
-  ${DRIVER_BINDING_FILES}
+  ${PILOT_BINDING_DIR}/${PILOT_MODULE_FILE}
+  ${PILOT_BINDING_FILES}
 )
 
 target_include_directories(${python_target}
   PUBLIC
   ${PYBIND11_INCLUDE_DIR}
-  ${DRIVER_BINDING_DIR}/include
+  ${PILOT_BINDING_DIR}/include
 )
 
 # Adding library dependencies.
@@ -75,12 +75,12 @@ set(binding_install_file_name
 
 # Installing compiled bindings.
 install(FILES
-  ${DRIVER_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${DRIVER_BINDING_INSTALL_DIR}
+  ${PILOT_BINDING_BINARY_DIR}/${binding_install_file_name}
+  DESTINATION ${PILOT_BINDING_INSTALL_DIR}
 )
 
 # Installing __init__ files.
 install(FILES
-  ${DRIVER_BINDING_DIR}/__init__.py
-  DESTINATION ${DRIVER_BINDING_INSTALL_DIR}
+  ${PILOT_BINDING_DIR}/__init__.py
+  DESTINATION ${PILOT_BINDING_INSTALL_DIR}
 )

@@ -11,7 +11,7 @@ using morphac::math::numeric::Integrator;
 using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Robot;
-using morphac::robot::driver::Pilot;
+using morphac::robot::pilot::Pilot;
 using morphac::utils::IntegratorFromType;
 using morphac::mechanics::models::KinematicModel;
 

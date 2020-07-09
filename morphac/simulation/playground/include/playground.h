@@ -9,7 +9,7 @@
 #include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/robot.h"
-#include "robot/driver/include/pilot.h"
+#include "robot/pilot/include/pilot.h"
 #include "simulation/playground/include/playground_spec.h"
 #include "simulation/playground/include/playground_state.h"
 #include "utils/include/integrator_utils.h"
@@ -30,11 +30,11 @@ class Playground {
 
   PlaygroundState& get_state();
 
-  const morphac::robot::driver::Pilot& get_pilot(const int uid);
+  const morphac::robot::pilot::Pilot& get_pilot(const int uid);
   const morphac::math::numeric::Integrator& get_integrator(const int uid);
 
   void AddRobot(const morphac::robot::blueprint::Robot& robot,
-                const morphac::robot::driver::Pilot& pilot,
+                const morphac::robot::pilot::Pilot& pilot,
                 const morphac::math::numeric::IntegratorType& integrator_type,
                 const int uid);
 
@@ -46,7 +46,7 @@ class Playground {
 
   const PlaygroundSpec spec_;
   PlaygroundState playground_state_;
-  std::unordered_map<int, morphac::robot::driver::Pilot&> pilot_oracle_;
+  std::unordered_map<int, morphac::robot::pilot::Pilot&> pilot_oracle_;
   std::unordered_map<int, std::unique_ptr<morphac::math::numeric::Integrator>>
       integrator_oracle_;
 };
