@@ -1,4 +1,4 @@
-from ._binding_blueprint import (
+from ._binding_blueprint_python import (
     Footprint,
     Robot,
 )

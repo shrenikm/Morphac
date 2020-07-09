@@ -11,7 +11,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_blueprint, m) {
+PYBIND11_MODULE(_binding_blueprint_python, m) {
   define_footprint_binding(m);
   define_robot_binding(m);
 }

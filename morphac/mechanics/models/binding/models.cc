@@ -12,7 +12,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_models, m) {
+PYBIND11_MODULE(_binding_models_python, m) {
   define_kinematic_model_binding(m);
   define_diffdrive_model_binding(m);
   define_dubin_model_binding(m);

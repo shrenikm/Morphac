@@ -1,3 +1,3 @@
-from ._binding_environment import (
+from ._binding_environment_python import (
     Map
 )

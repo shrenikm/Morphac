@@ -10,7 +10,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_driver, m) {
+PYBIND11_MODULE(_binding_driver_python, m) {
   define_pilot_binding(m);
 }
 

@@ -9,7 +9,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_environment, m) { define_map_binding(m); }
+PYBIND11_MODULE(_binding_environment_python, m) { define_map_binding(m); }
 
 }  // namespace binding
 }  // namespace environment

@@ -9,7 +9,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_utils, m) {
+PYBIND11_MODULE(_binding_utils_python, m) {
   define_angle_utils_binding(m);
   define_integrator_utils_binding(m);
 }

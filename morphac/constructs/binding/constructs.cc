@@ -14,7 +14,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_constructs, m) {
+PYBIND11_MODULE(_binding_constructs_python, m) {
   define_coordinate2D_binding(m);
   define_input_binding(m);
   define_pose_binding(m);

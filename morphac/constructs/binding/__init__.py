@@ -1,4 +1,4 @@
-from ._binding_constructs import (
+from ._binding_constructs_python import (
     Coordinate2D,
     Input,
     Pose,

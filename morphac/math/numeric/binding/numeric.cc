@@ -13,7 +13,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_numeric, m) {
+PYBIND11_MODULE(_binding_numeric_python, m) {
   define_integrator_binding(m);
   define_integrator_type_binding(m);
   define_euler_integrator_binding(m);
