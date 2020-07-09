@@ -2,7 +2,7 @@
 #define PILOT_H
 
 #include "constructs/include/input.h"
-#include "simulation/include/playground_state.h"
+#include "simulation/playground/include/playground_state.h"
 
 namespace morphac {
 namespace robot {
@@ -13,7 +13,7 @@ class Pilot {
   Pilot();
 
   virtual morphac::constructs::Input Execute(
-      const morphac::simulation::PlaygroundState& playground_state,
+      const morphac::simulation::playground::PlaygroundState& playground_state,
       const int uid) const = 0;
 };
 

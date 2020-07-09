@@ -1,7 +1,8 @@
-#include "simulation/include/playground_state.h"
+#include "simulation/playground/include/playground_state.h"
 
 namespace morphac {
 namespace simulation {
+namespace playground {
 
 using std::unordered_map;
 
@@ -64,5 +65,6 @@ void PlaygroundState::AddRobot(const Robot& robot, const int uid) {
   robot_oracle_.insert({uid, const_cast<Robot&>(robot)});
 }
 
+}  // namespace playground
 }  // namespace simulation
 }  // namespace morphac

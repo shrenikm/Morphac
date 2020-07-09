@@ -9,6 +9,7 @@
 
 namespace morphac {
 namespace simulation {
+namespace playground {
 
 class PlaygroundState {
  public:
@@ -40,6 +41,7 @@ class PlaygroundState {
   std::unordered_map<int, morphac::robot::blueprint::Robot&> robot_oracle_;
 };
 
+}  // namespace playground
 }  // namespace simulation
 }  // namespace morphac
 

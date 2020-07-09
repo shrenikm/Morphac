@@ -1,7 +1,8 @@
-#include "simulation/include/playground.h"
+#include "simulation/playground/include/playground.h"
 
 namespace morphac {
 namespace simulation {
+namespace playground {
 
 using morphac::constructs::Input;
 using morphac::constructs::State;
@@ -94,5 +95,6 @@ void Playground::Execute() {
     }
 }
 
+}  // namespace playground
 }  // namespace simulation
 }  // namespace morphac

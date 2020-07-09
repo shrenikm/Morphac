@@ -1,11 +1,11 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "simulation/include/playground_spec.h"
+#include "simulation/playground/include/playground_spec.h"
 
 namespace {
 
-using morphac::simulation::PlaygroundSpec;
+using morphac::simulation::playground::PlaygroundSpec;
 
 class PlaygroundSpecTest : public ::testing::Test {
  protected:

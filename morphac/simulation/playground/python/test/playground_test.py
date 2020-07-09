@@ -12,8 +12,8 @@ from morphac.math.numeric import (
 )
 from morphac.robot.driver import Pilot
 from morphac.robot.blueprint import Footprint, Robot
-from morphac.simulation import Playground
-from morphac.simulation import PlaygroundSpec
+from morphac.simulation.playground import Playground
+from morphac.simulation.playground import PlaygroundSpec
 
 
 # Custom derived Pilot class to be used for testing.

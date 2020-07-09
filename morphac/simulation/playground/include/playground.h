@@ -10,12 +10,13 @@
 #include "mechanics/models/include/kinematic_model.h"
 #include "robot/blueprint/include/robot.h"
 #include "robot/driver/include/pilot.h"
-#include "simulation/include/playground_spec.h"
-#include "simulation/include/playground_state.h"
+#include "simulation/playground/include/playground_spec.h"
+#include "simulation/playground/include/playground_state.h"
 #include "utils/include/integrator_utils.h"
 
 namespace morphac {
 namespace simulation {
+namespace playground {
 
 class Playground {
  public:
@@ -50,6 +51,7 @@ class Playground {
       integrator_oracle_;
 };
 
+}  // namespace playground
 }  // namespace simulation
 }  // namespace morphac
 

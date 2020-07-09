@@ -4,7 +4,7 @@ import pytest
 from morphac.constructs import Input
 from morphac.environment import Map
 from morphac.robot.driver import Pilot
-from morphac.simulation import PlaygroundState
+from morphac.simulation.playground import PlaygroundState
 
 
 class CustomPilot(Pilot):

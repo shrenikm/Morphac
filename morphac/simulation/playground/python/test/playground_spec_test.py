@@ -1,6 +1,6 @@
 import pytest
 
-from morphac.simulation import PlaygroundSpec
+from morphac.simulation.playground import PlaygroundSpec
 
 
 @pytest.fixture()

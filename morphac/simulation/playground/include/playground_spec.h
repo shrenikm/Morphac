@@ -5,6 +5,7 @@
 
 namespace morphac {
 namespace simulation {
+namespace playground {
 
 struct PlaygroundSpec {
   const std::string name;
@@ -14,6 +15,7 @@ struct PlaygroundSpec {
   const int gui_height;
 };
 
+}  // namespace playground
 }  // namespace simulation
 }  // namespace morphac
 

@@ -11,7 +11,7 @@ using Eigen::MatrixXd;
 using morphac::constructs::Input;
 using morphac::environment::Map;
 using morphac::robot::driver::Pilot;
-using morphac::simulation::PlaygroundState;
+using morphac::simulation::playground::PlaygroundState;
 
 // Derived class from Pilot for testing.
 class CustomPilot : public Pilot {

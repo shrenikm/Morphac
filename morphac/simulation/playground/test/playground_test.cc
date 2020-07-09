@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 
 #include "mechanics/models/include/diffdrive_model.h"
-#include "simulation/include/playground.h"
+#include "simulation/playground/include/playground.h"
 
 namespace {
 
@@ -22,9 +22,9 @@ using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
 using morphac::robot::driver::Pilot;
-using morphac::simulation::PlaygroundSpec;
-using morphac::simulation::PlaygroundState;
-using morphac::simulation::Playground;
+using morphac::simulation::playground::PlaygroundSpec;
+using morphac::simulation::playground::PlaygroundState;
+using morphac::simulation::playground::Playground;
 
 // Global kinematic models as if they're destroyed, the reference to the model
 // in Robot points to nothing and we get strange results.

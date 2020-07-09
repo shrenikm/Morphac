@@ -5,7 +5,7 @@ from morphac.constructs import State
 from morphac.environment import Map
 from morphac.mechanics.models import DiffDriveModel
 from morphac.robot.blueprint import Footprint, Robot
-from morphac.simulation import PlaygroundState
+from morphac.simulation.playground import PlaygroundState
 
 
 @pytest.fixture()

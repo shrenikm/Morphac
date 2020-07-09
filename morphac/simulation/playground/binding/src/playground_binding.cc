@@ -1,13 +1,15 @@
-#include "simulation/binding/include/playground_binding.h"
+#include "simulation/playground/binding/include/playground_binding.h"
 
 namespace morphac {
 namespace simulation {
+namespace playground {
 namespace binding {
 
 namespace py = pybind11;
 
 using morphac::environment::Map;
-using morphac::simulation::PlaygroundSpec;
+using morphac::simulation::playground::Playground;
+using morphac::simulation::playground::PlaygroundSpec;
 
 void define_playground_binding(py::module& m) {
   py::class_<Playground> playground(m, "Playground");
@@ -26,5 +28,6 @@ void define_playground_binding(py::module& m) {
 }
 
 }  // namespace binding
+}  // namespace playground
 }  // namespace simulation
 }  // namespace morphac

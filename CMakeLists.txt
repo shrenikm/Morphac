@@ -84,6 +84,14 @@ function(prepend_list out prefix)
 endfunction()
 
 
+# Function that takes in a target name and converts it to a python target
+# name. The string '_python' is appended to the target name. These are used
+# on the cpp src files that builds some python module.
+function(get_python_target_name out target_name)
+  set(${out} ${target_name}_python PARENT_SCOPE)
+endfunction()
+
+
 # Project details
 # -------------------------------------------------
 

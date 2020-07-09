@@ -1,4 +1,4 @@
-from ._binding_simulation import (
+from ._binding_playground_python import (
     PlaygroundSpec,
     PlaygroundState,
     Playground,
