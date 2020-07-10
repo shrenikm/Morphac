@@ -16,6 +16,7 @@ void define_playground_binding(py::module& m) {
 
   playground.def(py::init<const PlaygroundSpec&, const Map&>(),
                  py::arg("playground_spec"), py::arg("map"));
+  playground.def_property_readonly("spec", &Playground::get_spec);
   playground.def_property_readonly("state", &Playground::get_state,
                                    py::return_value_policy::reference);
   playground.def("get_pilot_oracle", &Playground::get_pilot_oracle);

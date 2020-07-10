@@ -17,8 +17,8 @@ using morphac::robot::pilot::Pilot;
 using morphac::utils::IntegratorFromType;
 using morphac::mechanics::models::KinematicModel;
 
-Playground::Playground(const PlaygroundSpec& spec, const Map& map)
-    : spec_(spec), playground_state_(map) {}
+Playground::Playground(const PlaygroundSpec& playground_spec, const Map& map)
+    : playground_spec_(playground_spec), playground_state_(map) {}
 
 bool Playground::UidExistsInIntegratorOracle(const int uid) const {
     if (integrator_oracle_.find(uid) == integrator_oracle_.end()) {
@@ -35,6 +35,8 @@ bool Playground::UidExistsInPilotOracle(const int uid) const {
     }
     return true;
 }
+
+const PlaygroundSpec& Playground::get_spec() const { return playground_spec_; }
 
 PlaygroundState& Playground::get_state() { return playground_state_; }
 
@@ -99,7 +101,8 @@ void Playground::Execute() {
             "ControlInput computed by the pilot is of incorrect dimensions.");
 
         State updated_state = integrator_oracle_.find(uid)->second->Step(
-            playground_state_.get_robot_state(uid), control_input, spec_.dt);
+            playground_state_.get_robot_state(uid), control_input,
+            playground_spec_.dt);
 
         playground_state_.set_robot_state(updated_state, uid);
     }

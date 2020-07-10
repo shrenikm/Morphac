@@ -5,6 +5,7 @@ set(PLAYGROUND_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(PLAYGROUND_SRC_DIR ${PLAYGROUND_DIR}/src)
 set(PLAYGROUND_INCLUDE_DIR ${PLAYGROUND_DIR}/include)
 set(PLAYGROUND_TEST_DIR ${PLAYGROUND_DIR}/test)
+set(PLAYGROUND_PYTHON_DIR ${PLAYGROUND_DIR}/python)
 
 set(PLAYGROUND_BINARY_DIR ${SIMULATION_BINARY_DIR}/playground)
 
@@ -115,5 +116,30 @@ target_link_libraries(playground_test
   gtest_main
   playground
   diffdrive_model
+)
+
+
+# Python files
+# -------------------------------------------------
+
+# List of python files.
+set(PLAYGROUND_PYTHON_FILES
+  playground.py
+)
+
+# Appending the directory of the python files.
+prepend_list(PLAYGROUND_PYTHON_FILES
+  ${PLAYGROUND_PYTHON_DIR}/
+  ${PLAYGROUND_PYTHON_FILES}
+)
+
+message("------------------------")
+message(${PLAYGROUND_PYTHON_FILES})
+
+# Install the python files.
+install(FILES
+  ${PLAYGROUND_PYTHON_FILES}
+  DESTINATION
+  ${PLAYGROUND_BINDING_INSTALL_DIR}
 )
 

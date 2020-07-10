@@ -28,6 +28,8 @@ class Playground {
   // Delete copy assignment.
   Playground& operator=(const Playground& playground) = delete;
 
+  const PlaygroundSpec& get_spec() const;
+
   PlaygroundState& get_state();
 
   const std::unordered_map<int, morphac::robot::pilot::Pilot&>&
@@ -46,7 +48,7 @@ class Playground {
   bool UidExistsInIntegratorOracle(const int uid) const;
   bool UidExistsInPilotOracle(const int uid) const;
 
-  const PlaygroundSpec spec_;
+  const PlaygroundSpec playground_spec_;
   PlaygroundState playground_state_;
   std::unordered_map<int, morphac::robot::pilot::Pilot&> pilot_oracle_;
   std::unordered_map<int, std::unique_ptr<morphac::math::numeric::Integrator>>

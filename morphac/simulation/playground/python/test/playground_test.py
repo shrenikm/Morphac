@@ -31,7 +31,7 @@ class CustomPilot(Pilot):
 
 @pytest.fixture()
 def generate_playground():
-    playground_spec = PlaygroundSpec("playground", 0.01, 500, 500)
+    playground_spec = PlaygroundSpec("playground", 0.01, 640, 480)
     playground = Playground(playground_spec, Map(50, 50, 0.1))
 
     return playground
@@ -44,6 +44,16 @@ def generate_robot_list():
         [[0, 0]]), State([1., 2., 0.], []))
 
     return r1, r2
+
+
+def test_spec(generate_playground):
+    playground = generate_playground
+
+    # Testing the specs of the playground.
+    assert playground.spec.name == "playground"
+    assert playground.spec.dt == 0.01
+    assert playground.spec.gui_width == 640
+    assert playground.spec.gui_height == 480
 
 
 def test_state_read(generate_playground):
@@ -183,15 +193,15 @@ def test_add_robot(generate_playground, generate_robot_list):
         2).data, robot2.state.data)
 
 
-# def test_execute(generate_playground, generate_robot_list):
-#    playground = generate_playground
-#    robot1, robot2 = generate_robot_list
-#    pilot1, pilot2 = CustomPilot([0, 0]), CustomPilot([1., 1.])
-#
-#    # Adding the robots.
-#    playground.add_robot(
-#        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
-#    playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
-#
-#    # Executing a playground cycle.
-#    playground.execute()
+def test_execute(generate_playground, generate_robot_list):
+    playground = generate_playground
+    robot1, robot2 = generate_robot_list
+    pilot1, pilot2 = CustomPilot([0, 0]), CustomPilot([1., 1.])
+
+    # Adding the robots.
+    playground.add_robot(
+        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
+    playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
+
+    # Executing a playground cycle.
+    playground.execute()
