@@ -7,7 +7,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
@@ -26,18 +26,17 @@ void define_robot_binding(py::module& m) {
   robot.def(py::init<KinematicModel&, const Footprint&>(),
             py::arg("kinematic_model"), py::arg("footprint"),
             py::keep_alive<1, 2>());
-  robot.def(
-      py::init<KinematicModel&, const Footprint&, const State&>(),
-      py::arg("kinematic_model"), py::arg("footprint"),
-      py::arg("initial_state"), py::keep_alive<1, 2>());
+  robot.def(py::init<KinematicModel&, const Footprint&, const State&>(),
+            py::arg("kinematic_model"), py::arg("footprint"),
+            py::arg("initial_state"), py::keep_alive<1, 2>());
   robot.def("compute_state_derivative",
-            py::overload_cast<const Input&>(&Robot::ComputeStateDerivative,
-                                            py::const_),
-            py::arg("robot_input"));
-  robot.def("compute_state_derivative",
-            py::overload_cast<const State&, const Input&>(
+            py::overload_cast<const ControlInput&>(
                 &Robot::ComputeStateDerivative, py::const_),
-            py::arg("robot_state"), py::arg("robot_input"));
+            py::arg("control_input"));
+  robot.def("compute_state_derivative",
+            py::overload_cast<const State&, const ControlInput&>(
+                &Robot::ComputeStateDerivative, py::const_),
+            py::arg("robot_state"), py::arg("control_input"));
   robot.def_property_readonly("kinematic_model", &Robot::get_kinematic_model);
   robot.def_property_readonly("footprint", &Robot::get_footprint);
   robot.def_property("state", &Robot::get_state, &Robot::set_state);

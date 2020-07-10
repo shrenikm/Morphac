@@ -3,11 +3,11 @@
 
 #include "pybind11/pybind11.h"
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
-#include "mechanics/models/include/kinematic_model.h"
 #include "math/numeric/include/euler_integrator.h"
 #include "math/numeric/include/integrator.h"
+#include "mechanics/models/include/kinematic_model.h"
 
 namespace morphac {
 namespace math {

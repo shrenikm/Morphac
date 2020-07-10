@@ -6,7 +6,7 @@ namespace playground {
 
 using std::unordered_map;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::environment::Map;
 using morphac::math::numeric::Integrator;
@@ -87,17 +87,19 @@ void Playground::Execute() {
     for (std::pair<int, Pilot&> pilot_element : pilot_oracle_) {
         int uid = pilot_element.first;
 
-        Input input = pilot_element.second.Execute(playground_state_, uid);
+        ControlInput control_input =
+            pilot_element.second.Execute(playground_state_, uid);
 
-        // Also making sure that the input is of the correct dimensions.
+        // Also making sure that the control input is of the correct dimensions.
         MORPH_REQUIRE(
-            playground_state_.get_robot(uid).get_kinematic_model().input_size ==
-                input.get_size(),
+            playground_state_.get_robot(uid)
+                    .get_kinematic_model()
+                    .control_input_size == control_input.get_size(),
             std::logic_error,
-            "Input computed by the pilot is of incorrect dimensions.");
+            "ControlInput computed by the pilot is of incorrect dimensions.");
 
         State updated_state = integrator_oracle_.find(uid)->second->Step(
-            playground_state_.get_robot_state(uid), input, spec_.dt);
+            playground_state_.get_robot_state(uid), control_input, spec_.dt);
 
         playground_state_.set_robot_state(updated_state, uid);
     }

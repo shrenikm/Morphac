@@ -53,7 +53,7 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(robot
   PUBLIC
-  input
+  control_input
   pose
   state
   velocity

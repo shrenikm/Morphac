@@ -51,7 +51,7 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(pilot
   PUBLIC
-  input
+  control_input
   playground_state
 )
 

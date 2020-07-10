@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Input, State
+from morphac.constructs import ControlInput, State
 from morphac.mechanics.models import KinematicModel
 
 # Class that extends from KinematicModel. Testing if a functional subclass of
@@ -16,9 +16,9 @@ class CustomKinematicModel(KinematicModel):
         self.a = a
         self.b = b
 
-    def compute_state_derivative(self, robot_state, robot_input):
+    def compute_state_derivative(self, robot_state, control_input):
 
-        tmp_der = np.sum(np.multiply(robot_state.data, robot_input.data))
+        tmp_der = np.sum(np.multiply(robot_state.data, control_input.data))
         tmp_der = tmp_der + self.a * self.b
         # tmp_der is a scalar, but the derivative must be a State object.
         # Copying tmp_der to each State element.
@@ -48,9 +48,9 @@ def test_size(generate_kinematic_model_list):
     assert k2.velocity_size == 1
     assert k3.velocity_size == 4
 
-    assert k1.input_size == 5
-    assert k2.input_size == 2
-    assert k3.input_size == 6
+    assert k1.control_input_size == 5
+    assert k2.control_input_size == 2
+    assert k3.control_input_size == 6
 
     # Making sure that the sizes are read only.
     with pytest.raises(AttributeError):
@@ -58,7 +58,7 @@ def test_size(generate_kinematic_model_list):
     with pytest.raises(AttributeError):
         k2.velocity_size = 1
     with pytest.raises(AttributeError):
-        k3.input_size = 2
+        k3.control_input_size = 2
 
 
 def test_members(generate_kinematic_model_list):
@@ -79,14 +79,14 @@ def test_derivative_computation(generate_kinematic_model_list):
     k1, k2, k3 = generate_kinematic_model_list
 
     der1 = k1.compute_state_derivative(
-        State([1, 1, 1], [1, 1]), Input([1, 2, 3, 4, 5]))
+        State([1, 1, 1], [1, 1]), ControlInput([1, 2, 3, 4, 5]))
     der2 = k2.compute_state_derivative(
-        State([1], [0]), Input([-2, -1]))
+        State([1], [0]), ControlInput([-2, -1]))
 
     # Test with positional arguments.
     der3 = k3.compute_state_derivative(
         robot_state=State([1, -1], [-0.1, 7, 9.5, 0]),
-        robot_input=Input([5, 0, -100, -5, 4, 0]))
+        control_input=ControlInput([5, 0, -100, -5, 4, 0]))
 
     assert np.allclose(der1.data, [15. + 3.45] * 5)
     assert np.allclose(der2.data, [-2] * 2)

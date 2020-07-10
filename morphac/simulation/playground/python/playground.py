@@ -1,3 +1,3 @@
 
 def execute(self):
-    pass
+    for uid, pilot in self.get_pilot_oracle():

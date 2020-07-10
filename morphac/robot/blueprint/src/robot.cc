@@ -6,7 +6,7 @@ namespace blueprint {
 
 using Eigen::MatrixXd;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
@@ -30,15 +30,17 @@ Robot::Robot(const KinematicModel& kinematic_model, const Footprint& footprint,
       "Kinematic model and initial state dimensions do not match.");
 }
 
-State Robot::ComputeStateDerivative(const Input& input) const {
+State Robot::ComputeStateDerivative(const ControlInput& control_input) const {
   MORPH_REQUIRE(
-      input.get_size() == kinematic_model_.input_size, std::invalid_argument,
-      "Input dimension and kinematic model input dimensions do not match.");
-  return kinematic_model_.ComputeStateDerivative(state_, input);
+      control_input.get_size() == kinematic_model_.control_input_size,
+      std::invalid_argument,
+      "ControlInput dimension and kinematic model control input dimensions "
+      "do not match.");
+  return kinematic_model_.ComputeStateDerivative(state_, control_input);
 }
 
 State Robot::ComputeStateDerivative(const State& state,
-                                    const Input& input) const {
+                                    const ControlInput& control_input) const {
   // Even for a custom state, the dimensions must still match, meaning that
   // the state must correspond to the same robot.
   MORPH_REQUIRE(
@@ -47,9 +49,11 @@ State Robot::ComputeStateDerivative(const State& state,
       std::invalid_argument,
       "State dimension and kinematic model state dimensions do not match.");
   MORPH_REQUIRE(
-      input.get_size() == kinematic_model_.input_size, std::invalid_argument,
-      "Input dimension and kinematic model input dimensions do not match.");
-  return kinematic_model_.ComputeStateDerivative(state, input);
+      control_input.get_size() == kinematic_model_.control_input_size,
+      std::invalid_argument,
+      "ControlInput dimension and kinematic model control input dimensions "
+      "do not match.");
+  return kinematic_model_.ComputeStateDerivative(state, control_input);
 }
 
 const KinematicModel& Robot::get_kinematic_model() const {

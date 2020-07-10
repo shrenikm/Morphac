@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Pose, Input, State, Velocity
+from morphac.constructs import Pose, ControlInput, State, Velocity
 from morphac.mechanics.models import (
     KinematicModel,
     DiffDriveModel,
@@ -21,9 +21,9 @@ class CustomKinematicModel(KinematicModel):
         self.a = a
         self.b = b
 
-    def compute_state_derivative(self, robot_state, robot_input):
+    def compute_state_derivative(self, robot_state, control_input):
 
-        tmp_der = np.sum(np.multiply(robot_state.data, robot_input.data))
+        tmp_der = np.sum(np.multiply(robot_state.data, control_input.data))
         tmp_der = tmp_der + self.a * self.b
         # tmp_der is a scalar, but the derivative must be a State object.
         # Copying tmp_der to each State element.
@@ -76,10 +76,10 @@ def test_kinematic_model(generate_robot_list):
     assert r3.kinematic_model.velocity_size == 2
     assert r4.kinematic_model.velocity_size == 2
 
-    assert r1.kinematic_model.input_size == 2
-    assert r2.kinematic_model.input_size == 2
-    assert r3.kinematic_model.input_size == 5
-    assert r4.kinematic_model.input_size == 4
+    assert r1.kinematic_model.control_input_size == 2
+    assert r2.kinematic_model.control_input_size == 2
+    assert r3.kinematic_model.control_input_size == 5
+    assert r4.kinematic_model.control_input_size == 4
 
     assert r1.kinematic_model.radius == 1
     assert r1.kinematic_model.length == 1
@@ -219,14 +219,16 @@ def test_derivative_computation(generate_robot_list):
     # We check for the actual derivative values only for r3 and r4 as they
     # have the custom kinematic model. The other models have already been
     # tested on the cpp side.
-    der1 = r1.compute_state_derivative(Input([0, 0]))
-    der2 = r2.compute_state_derivative(State([1, 1, 1, 1], []), Input([0, 0]))
+    der1 = r1.compute_state_derivative(ControlInput([0, 0]))
+    der2 = r2.compute_state_derivative(
+        State([1, 1, 1, 1], []), ControlInput([0, 0]))
 
     # Test with positional arguments.
     der3 = r3.compute_state_derivative(
         robot_state=State([1, 0, 0], [-1, 0]),
-        robot_input=Input([2, 2, 2, -2, 2]))
-    der4 = r4.compute_state_derivative(robot_input=Input([-1, 1, -2, 2]))
+        control_input=ControlInput([2, 2, 2, -2, 2]))
+    der4 = r4.compute_state_derivative(
+        control_input=ControlInput([-1, 1, -2, 2]))
 
     assert np.allclose(der1.data, [0, 0, 0])
     assert np.allclose(der2.data, [0, 0, 0, 0])
@@ -234,14 +236,14 @@ def test_derivative_computation(generate_robot_list):
     assert np.allclose(der4.data, [3] * 4)
 
     # Making sure that the derivative computation cannot be called with
-    # incorrect state/input dimensions, even with a custom kinematic model.
+    # incorrect state/control input dimensions, even with a custom kinematic model.
     with pytest.raises(ValueError):
-        r1.compute_state_derivative(Input([1, 1, 1]))
+        r1.compute_state_derivative(ControlInput([1, 1, 1]))
     with pytest.raises(ValueError):
-        r2.compute_state_derivative(State(3, 0), Input(2))
+        r2.compute_state_derivative(State(3, 0), ControlInput(2))
     with pytest.raises(ValueError):
-        r3.compute_state_derivative(Input(3))
+        r3.compute_state_derivative(ControlInput(3))
     with pytest.raises(ValueError):
-        r4.compute_state_derivative(State([1, 1], [2, 2]), Input(5))
+        r4.compute_state_derivative(State([1, 1], [2, 2]), ControlInput(5))
     with pytest.raises(ValueError):
-        r4.compute_state_derivative(State([1, 1, 0], [2, 2]), Input(2))
+        r4.compute_state_derivative(State([1, 1, 0], [2, 2]), ControlInput(2))

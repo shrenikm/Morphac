@@ -30,7 +30,7 @@ add_subdirectory(binding)
 set(CONSTRUCTS_SRC
 
   coordinate2D.cc
-  input.cc
+  control_input.cc
   pose.cc
   state.cc
   velocity.cc
@@ -70,7 +70,7 @@ target_link_libraries(state
 set(CONSTRUCTS_TEST_SRC
 
   coordinate2D_test.cc
-  input_test.cc
+  control_input_test.cc
   pose_test.cc
   state_test.cc
   velocity_test.cc
@@ -99,10 +99,10 @@ target_link_libraries(coordinate2D_test
   coordinate2D
 )
 
-target_link_libraries(input_test
+target_link_libraries(control_input_test
   PUBLIC
   gtest_main
-  input
+  control_input
 )
 
 target_link_libraries(pose_test

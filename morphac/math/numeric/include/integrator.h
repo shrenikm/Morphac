@@ -1,7 +1,7 @@
 #ifndef INTEGRATOR_H
 #define INTEGRATOR_H
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
 #include "mechanics/models/include/kinematic_model.h"
 
@@ -30,7 +30,8 @@ class Integrator {
   // Function to take compute the state after a small time dt.
   virtual morphac::constructs::State Step(
       const morphac::constructs::State& state,
-      const morphac::constructs::Input& input, const double dt) const = 0;
+      const morphac::constructs::ControlInput& control_input,
+      const double dt) const = 0;
 
   // Function to integrate through a larger time step. In this case, we chain
   // together individual calls to Step so that don't lose too much accuracy.
@@ -41,7 +42,7 @@ class Integrator {
   // integration.
   virtual morphac::constructs::State Integrate(
       const morphac::constructs::State& state,
-      const morphac::constructs::Input& input, const double time,
+      const morphac::constructs::ControlInput& control_input, const double time,
       const double dt) const;
 
  protected:

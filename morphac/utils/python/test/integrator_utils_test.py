@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import State, Input
+from morphac.constructs import State, ControlInput
 from morphac.math.numeric import (
     IntegratorType,
     EulerIntegrator,
@@ -39,4 +39,4 @@ def test_construction(generate_integrator_list):
 
         # Also making sure that the integrator is usable.
         assert np.allclose(integrator.step(
-            State(3, 0), Input(2), 0.05).data, [0., 0., 0.])
+            State(3, 0), ControlInput(2), 0.05).data, [0., 0., 0.])

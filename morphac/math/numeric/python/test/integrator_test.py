@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Input, State
+from morphac.constructs import ControlInput, State
 from morphac.math.numeric import Integrator
 from morphac.mechanics.models import DiffDriveModel
 
@@ -23,10 +23,10 @@ class CustomIntegrator(Integrator):
         self.a = a
         self.b = b
 
-    def step(self, robot_state, robot_input, dt):
+    def step(self, robot_state, control_input, dt):
 
         updated_state_data = dt * \
-            (self.a * robot_state.data + self.b * robot_input.data)
+            (self.a * robot_state.data + self.b * control_input.data)
         return State(updated_state_data, [])
 
 
@@ -42,7 +42,7 @@ def test_step_computation(generate_integrator):
 
     # Test with positional arguments.
     updated_state = custom_integrator.step(
-        State([1, 2, 3, 4], []), Input([1, -1, 2, -3]), 0.1)
+        State([1, 2, 3, 4], []), ControlInput([1, -1, 2, -3]), 0.1)
 
     assert np.allclose(updated_state.data, [0.1, 0.5, 0.4, 1.1])
 
@@ -56,7 +56,7 @@ def test_integration(generate_integrator):
 
     # Test with positional arguments.
     updated_state = custom_integrator.integrate(robot_state=State(
-        [1, 2, 3, 4], []), robot_input=Input([1, -1, 2, -3]), time=10, dt=0.01)
+        [1, 2, 3, 4], []), control_input=ControlInput([1, -1, 2, -3]), time=10, dt=0.01)
 
     # Making sure that the output state dimensions and configuration is
     # correct.

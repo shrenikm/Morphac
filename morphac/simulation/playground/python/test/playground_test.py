@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Input, State
+from morphac.constructs import ControlInput, State
 from morphac.environment import Map
 from morphac.mechanics.models import DiffDriveModel
 from morphac.math.numeric import (
@@ -19,14 +19,14 @@ from morphac.simulation.playground import PlaygroundSpec
 # Custom derived Pilot class to be used for testing.
 class CustomPilot(Pilot):
 
-    def __init__(self, input_data):
+    def __init__(self, control_input_data):
 
         Pilot.__init__(self)
-        self.input_data = input_data
+        self.control_input_data = control_input_data
 
     def execute(self, playground_state, uid):
 
-        return Input(self.input_data)
+        return ControlInput(self.control_input_data)
 
 
 @pytest.fixture()
@@ -106,8 +106,8 @@ def test_get_pilot_oracle(generate_playground, generate_robot_list):
     assert len(pilot_oracle) == 2
 
     # Individual pilot elements.
-    assert np.allclose(pilot_oracle[1].input_data, [0, 0])
-    assert np.allclose(pilot_oracle[2].input_data, [1, 2])
+    assert np.allclose(pilot_oracle[1].control_input_data, [0, 0])
+    assert np.allclose(pilot_oracle[2].control_input_data, [1, 2])
 
     # Invalid oracle key.
     with pytest.raises(KeyError):
@@ -129,8 +129,8 @@ def test_get_pilot(generate_playground, generate_robot_list):
         robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
 
     # Making sure the right pilots are returned.
-    assert np.allclose(playground.get_pilot(1).input_data, [0, 0])
-    assert np.allclose(playground.get_pilot(2).input_data, [1., 2])
+    assert np.allclose(playground.get_pilot(1).control_input_data, [0, 0])
+    assert np.allclose(playground.get_pilot(2).control_input_data, [1., 2])
 
     # Invalid uid.
     with pytest.raises(ValueError):

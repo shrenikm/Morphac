@@ -4,7 +4,6 @@
 
 namespace {
 
-
 using morphac::math::numeric::IntegratorType;
 
 TEST(IntegratorTypeTest, Equality) {
@@ -27,5 +26,4 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
 

@@ -14,7 +14,7 @@ using std::unique_ptr;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::environment::Map;
 using morphac::mechanics::models::DiffDriveModel;
@@ -33,19 +33,20 @@ DiffDriveModel diffdrive_model(1., 1.);
 // Derived class from Pilot for testing.
 class CustomPilot : public Pilot {
  public:
-  CustomPilot(VectorXd input_data) : Pilot(), input_data_(input_data) {}
+  CustomPilot(VectorXd control_input_data)
+      : Pilot(), control_input_data_(control_input_data) {}
 
-  Input Execute(const PlaygroundState& playground_state,
-                const int uid) const override {
+  ControlInput Execute(const PlaygroundState& playground_state,
+                       const int uid) const override {
     // Some asserts to prevent the unused variable warning.
     MORPH_REQUIRE(playground_state.NumRobots() >= 0, std::invalid_argument,
                   "Invalid PlaygroundState");
     MORPH_REQUIRE(uid >= 0, std::invalid_argument, "UID must be non negative");
-    return Input(input_data_);
+    return ControlInput(control_input_data_);
   }
 
  private:
-  VectorXd input_data_;
+  VectorXd control_input_data_;
 };
 
 class PlaygroundTest : public ::testing::Test {

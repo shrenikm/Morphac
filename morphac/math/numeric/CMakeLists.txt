@@ -60,7 +60,7 @@ target_link_libraries(rk4_integrator
   integrator
   kinematic_model
   state
-  input
+  control_input
 )
 
 target_link_libraries(euler_integrator
@@ -68,14 +68,14 @@ target_link_libraries(euler_integrator
   integrator
   kinematic_model
   state
-  input
+  control_input
 )
 
 target_link_libraries(integrator
   PUBLIC
   kinematic_model
   state
-  input
+  control_input
 )
 
 target_link_libraries(mid_point_integrator
@@ -83,7 +83,7 @@ target_link_libraries(mid_point_integrator
   integrator
   kinematic_model
   state
-  input
+  control_input
 )
 
 

@@ -18,10 +18,10 @@ void define_mid_point_integrator_binding(py::module& m) {
   mid_point_integrator.def(py::init<KinematicModel&>(),
                            py::arg("kinematic_model"), py::keep_alive<1, 2>());
   mid_point_integrator.def("step", &MidPointIntegrator::Step,
-                           py::arg("robot_state"), py::arg("robot_input"),
+                           py::arg("robot_state"), py::arg("control_input"),
                            py::arg("dt"));
   mid_point_integrator.def("integrate", &MidPointIntegrator::Integrate,
-                           py::arg("robot_state"), py::arg("robot_input"),
+                           py::arg("robot_state"), py::arg("control_input"),
                            py::arg("time"), py::arg("dt"));
 }
 

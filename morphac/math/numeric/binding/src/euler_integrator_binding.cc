@@ -18,9 +18,9 @@ void define_euler_integrator_binding(py::module& m) {
   euler_integrator.def(py::init<KinematicModel&>(), py::arg("kinematic_model"),
                        py::keep_alive<1, 2>());
   euler_integrator.def("step", &EulerIntegrator::Step, py::arg("robot_state"),
-                       py::arg("robot_input"), py::arg("dt"));
+                       py::arg("control_input"), py::arg("dt"));
   euler_integrator.def("integrate", &EulerIntegrator::Integrate,
-                       py::arg("robot_state"), py::arg("robot_input"),
+                       py::arg("robot_state"), py::arg("control_input"),
                        py::arg("time"), py::arg("dt"));
 }
 

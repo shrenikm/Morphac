@@ -3,7 +3,7 @@
 
 #include "pybind11/pybind11.h"
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
 #include "mechanics/models/include/diffdrive_model.h"
 #include "mechanics/models/include/kinematic_model.h"

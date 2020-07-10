@@ -1,7 +1,7 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "constructs/include/pose.h"
 #include "constructs/include/state.h"
 #include "constructs/include/velocity.h"
@@ -23,11 +23,11 @@ class Robot {
         const morphac::constructs::State& initial_state);
 
   morphac::constructs::State ComputeStateDerivative(
-      const morphac::constructs::Input& input) const;
+      const morphac::constructs::ControlInput& control_input) const;
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::Input& input) const;
+      const morphac::constructs::ControlInput& control_input) const;
 
   const morphac::mechanics::models::KinematicModel& get_kinematic_model() const;
   const morphac::robot::blueprint::Footprint& get_footprint() const;

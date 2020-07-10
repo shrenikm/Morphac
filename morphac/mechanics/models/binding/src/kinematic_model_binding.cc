@@ -15,14 +15,15 @@ void define_kinematic_model_binding(py::module& m) {
 
   kinematic_model.def(py::init<const int, const int, const int>(),
                       py::arg("size_pose"), py::arg("size_velocity"),
-                      py::arg("size_input"));
+                      py::arg("size_control_input"));
   kinematic_model.def("compute_state_derivative",
                       &KinematicModel::ComputeStateDerivative,
-                      py::arg("robot_state"), py::arg("robot_input"));
+                      py::arg("robot_state"), py::arg("control_input"));
   kinematic_model.def("normalize_state", &KinematicModel::NormalizeState);
   kinematic_model.def_readonly("pose_size", &KinematicModel::pose_size);
   kinematic_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
-  kinematic_model.def_readonly("input_size", &KinematicModel::input_size);
+  kinematic_model.def_readonly("control_input_size",
+                               &KinematicModel::control_input_size);
 }
 
 }  // namespace binding

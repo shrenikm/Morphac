@@ -54,7 +54,7 @@ target_link_libraries(${python_target}
   PUBLIC
   kinematic_model
   state
-  input
+  control_input
   diffdrive_model
   dubin_model
   tricycle_model

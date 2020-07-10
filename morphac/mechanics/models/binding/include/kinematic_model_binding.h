@@ -3,7 +3,7 @@
 
 #include "pybind11/pybind11.h"
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
 #include "mechanics/models/include/kinematic_model.h"
 
@@ -19,10 +19,10 @@ class PyKinematicModel : public morphac::mechanics::models::KinematicModel {
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
-      const morphac::constructs::Input& input) const override {
+      const morphac::constructs::ControlInput& control_input) const override {
     PYBIND11_OVERLOAD_PURE_NAME(morphac::constructs::State, KinematicModel,
                                 "compute_state_derivative",
-                                ComputeStateDerivative, state, input);
+                                ComputeStateDerivative, state, control_input);
   }
 };
 

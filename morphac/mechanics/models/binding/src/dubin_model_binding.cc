@@ -16,12 +16,13 @@ void define_dubin_model_binding(py::module& m) {
   dubin_model.def(py::init<const double>(), py::arg("speed"));
   dubin_model.def("compute_state_derivative",
                   &DubinModel::ComputeStateDerivative, py::arg("robot_state"),
-                  py::arg("robot_input"));
+                  py::arg("control_input"));
   dubin_model.def("normalize_state", &DubinModel::NormalizeState);
   dubin_model.def_readonly("speed", &DubinModel::speed);
   dubin_model.def_readonly("pose_size", &KinematicModel::pose_size);
   dubin_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
-  dubin_model.def_readonly("input_size", &KinematicModel::input_size);
+  dubin_model.def_readonly("control_input_size",
+                           &KinematicModel::control_input_size);
 }
 
 }  // namespace binding

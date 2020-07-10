@@ -12,7 +12,7 @@ using std::srand;
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
@@ -22,15 +22,16 @@ using morphac::robot::blueprint::Robot;
 
 class CustomKinematicModel : public KinematicModel {
  public:
-  CustomKinematicModel(int pose_size, int velocity_size, int size_input)
-      : KinematicModel(pose_size, velocity_size, size_input) {}
+  CustomKinematicModel(int pose_size, int velocity_size, int size_control_input)
+      : KinematicModel(pose_size, velocity_size, size_control_input) {}
 
-  State ComputeStateDerivative(const State& state, const Input& input) const {
+  State ComputeStateDerivative(const State& state,
+                               const ControlInput& control_input) const {
     // f(x, u) = x * u  - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_data();
     derivative_vector =
-        (derivative_vector.array() * input.get_data().array() -
+        (derivative_vector.array() * control_input.get_data().array() -
          derivative_vector.array())
             .matrix();
 
@@ -50,13 +51,13 @@ class RobotTest : public ::testing::Test {
 
     pose_vector_ = VectorXd::Random(3);
     velocity_vector_ = VectorXd::Random(2);
-    input_vector_ = VectorXd::Random(5);
+    control_input_vector_ = VectorXd::Random(5);
     footprint_matrix_ = MatrixXd::Random(10, 2);
   }
 
   void SetUp() override {}
 
-  VectorXd pose_vector_, velocity_vector_, input_vector_;
+  VectorXd pose_vector_, velocity_vector_, control_input_vector_;
   MatrixXd footprint_matrix_;
 };
 
@@ -73,7 +74,7 @@ TEST_F(RobotTest, InvalidConstruction) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
 
-  // Test invalid state/input dimensions.
+  // Test invalid state/control input dimensions.
   ASSERT_THROW(Robot(model, footprint, State(3, 3)), std::invalid_argument);
   ASSERT_THROW(Robot(model, footprint, State(4, 2)), std::invalid_argument);
   ASSERT_THROW(Robot(model, footprint, State(4, 3)), std::invalid_argument);
@@ -95,11 +96,9 @@ TEST_F(RobotTest, Accessors) {
   // For the robot object created without initial state, the initial pose and
   // velocity must be zero. For the case with an explicit initial state, it must
   // match the given initial state.
-  ASSERT_TRUE(
-      robot1.get_state().get_data().isApprox(VectorXd::Zero(5)));
+  ASSERT_TRUE(robot1.get_state().get_data().isApprox(VectorXd::Zero(5)));
   ASSERT_TRUE(robot1.get_pose().get_data().isApprox(VectorXd::Zero(3)));
-  ASSERT_TRUE(
-      robot1.get_velocity().get_data().isApprox(VectorXd::Zero(2)));
+  ASSERT_TRUE(robot1.get_velocity().get_data().isApprox(VectorXd::Zero(2)));
 
   ASSERT_TRUE(robot2.get_state().get_data().isApprox(initial_state));
   ASSERT_TRUE(robot2.get_state().get_pose_data().isApprox(initial_pose));
@@ -116,20 +115,17 @@ TEST_F(RobotTest, SetState) {
   VectorXd velocity_vector = VectorXd::Random(2);
 
   robot1.set_state(State(VectorXd::Ones(3), VectorXd::Ones(2)));
-  ASSERT_TRUE(
-      robot1.get_state().get_data().isApprox(VectorXd::Ones(5)));
+  ASSERT_TRUE(robot1.get_state().get_data().isApprox(VectorXd::Ones(5)));
 
   robot1.set_pose(Pose(pose_vector));
   ASSERT_TRUE(robot1.get_pose().get_data().isApprox(pose_vector));
   // Making sure that the velocity has not changed.
-  ASSERT_TRUE(
-      robot1.get_velocity().get_data().isApprox(VectorXd::Ones(2)));
+  ASSERT_TRUE(robot1.get_velocity().get_data().isApprox(VectorXd::Ones(2)));
 
   robot1.set_velocity(Velocity(velocity_vector));
   // Making sure that the pose has not changed.
   ASSERT_TRUE(robot1.get_pose().get_data().isApprox(pose_vector));
-  ASSERT_TRUE(
-      robot1.get_velocity().get_data().isApprox(velocity_vector));
+  ASSERT_TRUE(robot1.get_velocity().get_data().isApprox(velocity_vector));
 
   // Test invalid state, pose and velocity setting.
   ASSERT_THROW(robot1.set_state(State(4, 2)), std::invalid_argument);
@@ -153,30 +149,28 @@ TEST_F(RobotTest, SetState) {
 TEST_F(RobotTest, Derivative) {
   CustomKinematicModel model(3, 2, 5);
   Footprint footprint(footprint_matrix_);
-  VectorXd initial_pose(3), initial_velocity(2), input(5),
+  VectorXd initial_pose(3), initial_velocity(2), control_input(5),
       expected_state_derivative1(5), expected_state_derivative2(5);
 
   initial_pose << 1, 1, -2;
   initial_velocity << 3, -5;
-  input << 1, 2, 3, 2, 1;
+  control_input << 1, 2, 3, 2, 1;
   expected_state_derivative1 << 0, 1, -4, 3, 0;
 
   Robot robot{model, footprint, State(initial_pose, initial_velocity)};
 
   // Testing derivative computation.
-  State derivative1 = robot.ComputeStateDerivative(input);
+  State derivative1 = robot.ComputeStateDerivative(control_input);
 
-  ASSERT_TRUE(
-      derivative1.get_data().isApprox(expected_state_derivative1));
+  ASSERT_TRUE(derivative1.get_data().isApprox(expected_state_derivative1));
 
   expected_state_derivative2 << 0, 1, 2, 1, 0;
 
   // Testing derivative computation for a different state.
   State derivative2 = robot.ComputeStateDerivative(
-      State(VectorXd::Ones(3), VectorXd::Ones(2)), input);
+      State(VectorXd::Ones(3), VectorXd::Ones(2)), control_input);
 
-  ASSERT_TRUE(
-      derivative2.get_data().isApprox(expected_state_derivative2));
+  ASSERT_TRUE(derivative2.get_data().isApprox(expected_state_derivative2));
 }
 
 }  // namespace

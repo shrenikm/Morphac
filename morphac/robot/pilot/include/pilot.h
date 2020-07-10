@@ -1,7 +1,7 @@
 #ifndef PILOT_H
 #define PILOT_H
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "simulation/playground/include/playground_state.h"
 
 namespace morphac {
@@ -12,7 +12,7 @@ class Pilot {
  public:
   Pilot();
 
-  virtual morphac::constructs::Input Execute(
+  virtual morphac::constructs::ControlInput Execute(
       const morphac::simulation::playground::PlaygroundState& playground_state,
       const int uid) const = 0;
 };

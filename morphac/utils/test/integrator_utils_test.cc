@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "constructs/include/input.h"
+#include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
 #include "math/numeric/include/all_integrators.h"
 #include "mechanics/models/include/diffdrive_model.h"
@@ -9,7 +9,7 @@
 namespace {
 
 using Eigen::VectorXd;
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::math::numeric::Integrator;
 using morphac::math::numeric::IntegratorType;
@@ -26,17 +26,17 @@ TEST(IntegratorUtilsTest, Construction) {
   DiffDriveModel model{1., 1.};
   auto integrator = IntegratorFromType(IntegratorType::kEulerIntegrator, model);
   ASSERT_TRUE(dynamic_cast<EulerIntegrator*>(integrator.get()) != nullptr);
-  State integrated_state = integrator->Step(State(3, 0), Input(2), 0.05);
+  State integrated_state = integrator->Step(State(3, 0), ControlInput(2), 0.05);
   ASSERT_TRUE(integrated_state.get_data().isApprox(VectorXd::Zero(3)));
 
   integrator = IntegratorFromType(IntegratorType::kMidPointIntegrator, model);
   ASSERT_TRUE(dynamic_cast<MidPointIntegrator*>(integrator.get()) != nullptr);
-  integrated_state = integrator->Step(State(3, 0), Input(2), 0.05);
+  integrated_state = integrator->Step(State(3, 0), ControlInput(2), 0.05);
   ASSERT_TRUE(integrated_state.get_data().isApprox(VectorXd::Zero(3)));
 
   integrator = IntegratorFromType(IntegratorType::kRK4Integrator, model);
   ASSERT_TRUE(dynamic_cast<RK4Integrator*>(integrator.get()) != nullptr);
-  integrated_state = integrator->Step(State(3, 0), Input(2), 0.05);
+  integrated_state = integrator->Step(State(3, 0), ControlInput(2), 0.05);
   ASSERT_TRUE(integrated_state.get_data().isApprox(VectorXd::Zero(3)));
 }
 

@@ -17,7 +17,7 @@ set(CONSTRUCTS_MODULE_FILE
 set(CONSTRUCTS_BINDING_FILES
 
   coordinate2D_binding.cc
-  input_binding.cc
+  control_input_binding.cc
   pose_binding.cc
   velocity_binding.cc
   state_binding.cc
@@ -54,7 +54,7 @@ target_include_directories(${python_target}
 target_link_libraries(${python_target}
   PUBLIC
   coordinate2D
-  input
+  control_input
   pose
   velocity
   state

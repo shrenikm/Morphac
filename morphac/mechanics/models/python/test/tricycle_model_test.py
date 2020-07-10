@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Input, State
+from morphac.constructs import ControlInput, State
 from morphac.mechanics.models import TricycleModel
 
 
@@ -66,8 +66,8 @@ def test_size(generate_tricycle_model_list):
     assert t1.velocity_size == 0
     assert t2.velocity_size == 0
 
-    assert t1.input_size == 2
-    assert t2.input_size == 2
+    assert t1.control_input_size == 2
+    assert t2.control_input_size == 2
 
     # Make sure that these are read only.
     with pytest.raises(AttributeError):
@@ -75,7 +75,7 @@ def test_size(generate_tricycle_model_list):
     with pytest.raises(AttributeError):
         t2.velocity_size = 0
     with pytest.raises(AttributeError):
-        t1.input_size = 3
+        t1.control_input_size = 3
 
 
 def test_derivative_computation(generate_tricycle_model_list):
@@ -87,20 +87,20 @@ def test_derivative_computation(generate_tricycle_model_list):
 
     # Test with positional arguments.
     der1 = t1.compute_state_derivative(
-        robot_state=State([1, 2, 3, 4], []), robot_input=Input(2))
+        robot_state=State([1, 2, 3, 4], []), control_input=ControlInput(2))
 
     assert np.allclose(der1.data, [0, 0, 0, 0])
 
-    # Making sure that the derivative can only be computed from inputs that
-    # are of the correct dimensions.
+    # Making sure that the derivative can only be computed from control inputs
+    # that are of the correct dimensions.
     with pytest.raises(ValueError):
-        t1.compute_state_derivative(State(0, 4), Input(2))
+        t1.compute_state_derivative(State(0, 4), ControlInput(2))
     with pytest.raises(ValueError):
-        t1.compute_state_derivative(State(4, 1), Input(2))
+        t1.compute_state_derivative(State(4, 1), ControlInput(2))
     with pytest.raises(ValueError):
-        t2.compute_state_derivative(State(3, 0), Input(2))
+        t2.compute_state_derivative(State(3, 0), ControlInput(2))
     with pytest.raises(ValueError):
-        t2.compute_state_derivative(State(4, 0), Input(3))
+        t2.compute_state_derivative(State(4, 0), ControlInput(3))
 
 
 def test_normalize_state():
