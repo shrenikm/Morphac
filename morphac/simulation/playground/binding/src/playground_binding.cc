@@ -18,6 +18,11 @@ void define_playground_binding(py::module& m) {
                  py::arg("playground_spec"), py::arg("map"));
   playground.def_property_readonly("state", &Playground::get_state,
                                    py::return_value_policy::reference);
+  playground.def("get_pilot_oracle", &Playground::get_pilot_oracle);
+  // Careful while using the python bindings as both the get_pilot and
+  // get_integrator functions return references. This is because the
+  // integrator is non copyable as it is a dereferenced unique_ptr and the
+  // pilot object could potentially be non-copyable.
   playground.def("get_pilot", &Playground::get_pilot, py::arg("uid"),
                  py::return_value_policy::reference);
   playground.def("get_integrator", &Playground::get_integrator, py::arg("uid"),

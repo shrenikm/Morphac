@@ -84,6 +84,38 @@ def test_state_write(generate_playground, generate_robot_list):
     assert playground.state.num_robots == 2
 
 
+def test_get_pilot_oracle(generate_playground, generate_robot_list):
+    playground = generate_playground
+    robot1, robot2 = generate_robot_list
+
+    pilot1 = CustomPilot([0, 0])
+    pilot2 = CustomPilot([1., 2])
+
+    # Adding the robots.
+    playground.add_robot(robot1, pilot1, IntegratorType.EULER_INTEGRATOR, 1)
+    playground.add_robot(
+        robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
+
+    pilot_oracle = playground.get_pilot_oracle()
+
+    # Making sure the oracle is a dict object as is wrapped from an unordered
+    # map.
+    assert isinstance(pilot_oracle, dict)
+
+    # Length of the dict.
+    assert len(pilot_oracle) == 2
+
+    # Individual pilot elements.
+    assert np.allclose(pilot_oracle[1].input_data, [0, 0])
+    assert np.allclose(pilot_oracle[2].input_data, [1, 2])
+
+    # Invalid oracle key.
+    with pytest.raises(KeyError):
+        _ = pilot_oracle[0]
+    with pytest.raises(KeyError):
+        _ = pilot_oracle[3]
+
+
 def test_get_pilot(generate_playground, generate_robot_list):
     playground = generate_playground
     robot1, robot2 = generate_robot_list

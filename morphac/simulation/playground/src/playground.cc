@@ -4,6 +4,8 @@ namespace morphac {
 namespace simulation {
 namespace playground {
 
+using std::unordered_map;
+
 using morphac::constructs::Input;
 using morphac::constructs::State;
 using morphac::environment::Map;
@@ -36,23 +38,29 @@ bool Playground::UidExistsInPilotOracle(const int uid) const {
 
 PlaygroundState& Playground::get_state() { return playground_state_; }
 
-const Pilot& Playground::get_pilot(const int uid) {
+const unordered_map<int, Pilot&>& Playground::get_pilot_oracle() const {
+    return pilot_oracle_;
+}
+
+const Pilot& Playground::get_pilot(const int uid) const {
     // Making sure that the UID exists.
     MORPH_REQUIRE(UidExistsInPilotOracle(uid), std::invalid_argument,
                   "Given UID does not exist.");
     return pilot_oracle_.find(uid)->second;
 }
 
-const Integrator& Playground::get_integrator(const int uid) {
+const Integrator& Playground::get_integrator(const int uid) const {
     // Making sure that the UID exists.
     MORPH_REQUIRE(UidExistsInIntegratorOracle(uid), std::invalid_argument,
                   "Given UID does not exist.");
-    return *integrator_oracle_[uid];
+    return *(integrator_oracle_.find(uid)->second);
 }
 
 void Playground::AddRobot(const Robot& robot, const Pilot& pilot,
                           const IntegratorType& integrator_type,
                           const int uid) {
+    // Making sure that the uid is valid.
+    MORPH_REQUIRE(uid >= 0, std::invalid_argument, "UID must be positive");
     // Making sure that the robot uid doesn't exist in any of the oracles.
     MORPH_REQUIRE(
         (!UidExistsInPilotOracle(uid)) && (!UidExistsInIntegratorOracle(uid)),

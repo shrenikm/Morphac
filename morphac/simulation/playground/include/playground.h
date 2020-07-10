@@ -30,8 +30,10 @@ class Playground {
 
   PlaygroundState& get_state();
 
-  const morphac::robot::pilot::Pilot& get_pilot(const int uid);
-  const morphac::math::numeric::Integrator& get_integrator(const int uid);
+  const std::unordered_map<int, morphac::robot::pilot::Pilot&>&
+  get_pilot_oracle() const;
+  const morphac::robot::pilot::Pilot& get_pilot(const int uid) const;
+  const morphac::math::numeric::Integrator& get_integrator(const int uid) const;
 
   void AddRobot(const morphac::robot::blueprint::Robot& robot,
                 const morphac::robot::pilot::Pilot& pilot,
