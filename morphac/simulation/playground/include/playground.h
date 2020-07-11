@@ -42,8 +42,6 @@ class Playground {
                 const morphac::math::numeric::IntegratorType& integrator_type,
                 const int uid);
 
-  void Execute();
-
  private:
   bool UidExistsInIntegratorOracle(const int uid) const;
   bool UidExistsInPilotOracle(const int uid) const;

@@ -30,7 +30,6 @@ void define_playground_binding(py::module& m) {
                  py::return_value_policy::reference);
   playground.def("add_robot", &Playground::AddRobot, py::arg("robot"),
                  py::arg("pilot"), py::arg("integrator_type"), py::arg("uid"));
-  playground.def("execute", &Playground::Execute);
 }
 
 }  // namespace binding

@@ -106,3 +106,24 @@ target_link_libraries(integrator_utils_test
 )
 
 
+# Python files
+# -------------------------------------------------
+
+# List of python files.
+set(UTILS_PYTHON_FILES
+  decorator_utils.py
+  python_utils.py
+)
+
+# Appending the directory of the python files.
+prepend_list(UTILS_PYTHON_FILES
+  ${UTILS_PYTHON_DIR}/
+  ${UTILS_PYTHON_FILES}
+)
+
+# Install the python files.
+install(FILES
+  ${UTILS_PYTHON_FILES}
+  DESTINATION
+  ${UTILS_BINDING_INSTALL_DIR}
+)

@@ -133,9 +133,6 @@ prepend_list(PLAYGROUND_PYTHON_FILES
   ${PLAYGROUND_PYTHON_FILES}
 )
 
-message("------------------------")
-message(${PLAYGROUND_PYTHON_FILES})
-
 # Install the python files.
 install(FILES
   ${PLAYGROUND_PYTHON_FILES}

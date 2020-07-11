@@ -154,51 +154,6 @@ TEST_F(PlaygroundTest, InvalidAddRobot) {
                std::logic_error);
 }
 
-TEST_F(PlaygroundTest, Execute) {
-  // Add Robots.
-  CustomPilot pilot1{VectorXd::Zero(2)};
-  CustomPilot pilot2{VectorXd::Ones(2)};
-  CustomPilot pilot3{3 * VectorXd::Ones(2)};
-
-  playground_->AddRobot(*robot1_, pilot1, IntegratorType::kRK4Integrator, 1);
-  // Change the initial state of the second robot.
-  robot2_->set_state(State({1., 2., 0.}, {}));
-  // The pilot drives both wheels at the same velocity.
-  playground_->AddRobot(*robot2_, pilot2, IntegratorType::kRK4Integrator, 2);
-
-  // Changing the intial state of the last robot. It points at a 45 degree
-  // angle.
-  robot3_->set_state(State({-5., -7., M_PI / 4}, {}));
-  // Constant velocities on both wheels.
-  playground_->AddRobot(*robot3_, pilot3, IntegratorType::kRK4Integrator, 3);
-
-  // Executing and testing if the new states of the robots after a dt step
-  // is correct.
-  playground_->Execute();
-
-  //// Initializing expected state data.
-  VectorXd expected_state_data1(3), expected_state_data2(3),
-      expected_state_data3(3);
-  expected_state_data1 << 0., 0., 0.;
-  // As the wheel radius is 1. and the angular velocities are 1., the robot
-  // moves forward along a straight line at a speed of 1 m/s. As dt is 0.05,
-  // it covers a net distance of 0.05 meters. It only moves along the x axis as
-  // it is facing this direction.
-  expected_state_data2 << 1.05, 2., 0.;
-  // For the last case, the robot moves forward at a speed of 3 m/s, thus
-  // covering a distance of 3 * 0.05 = 0.15 m. In this case, the robot is at
-  // a 45 degree angle and thus moves along x and y.
-  expected_state_data3 << -5. + (0.15 / sqrt(2)), -7. + (0.15 / sqrt(2)),
-      M_PI / 4;
-
-  ASSERT_TRUE(playground_->get_state().get_robot_state(1).get_data().isApprox(
-      expected_state_data1));
-  ASSERT_TRUE(playground_->get_state().get_robot_state(2).get_data().isApprox(
-      expected_state_data2));
-  ASSERT_TRUE(playground_->get_state().get_robot_state(3).get_data().isApprox(
-      expected_state_data3));
-}
-
 }  // namespace
 
 int main(int argc, char** argv) {
