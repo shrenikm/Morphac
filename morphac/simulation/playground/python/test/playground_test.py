@@ -205,3 +205,15 @@ def test_execute(generate_playground, generate_robot_list):
 
     # Executing a playground cycle.
     playground.execute()
+
+    # Test the states of the robots.
+    # The first pilot gives zero control inputs, hence the state must remain
+    # unchanged.
+    assert np.allclose(playground.state.get_robot_state(1).data, [0., 0., 0.])
+
+    # The second robot receives a constant input of [1., 1.]. As the wheel
+    # radius = 1 m, the robot moves forward with a velocity of 1 m/s. Hence
+    # it moves a total distance of dt m in the x direction (The initial angle
+    # is zero).
+    assert np.allclose(playground.state.get_robot_state(
+        2).data, [1. + playground.spec.dt, 2., 0.])
