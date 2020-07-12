@@ -13,7 +13,7 @@ using morphac::environment::Map;
 using morphac::robot::pilot::Pilot;
 using morphac::simulation::playground::PlaygroundState;
 
-// Derived class from Pilot for testing.
+// Derived Pilot class for testing.
 class CustomPilot : public Pilot {
  public:
   CustomPilot(VectorXd control_input_data)
@@ -71,4 +71,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
