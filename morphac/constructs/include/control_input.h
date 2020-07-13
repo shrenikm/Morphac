@@ -16,6 +16,7 @@ class ControlInput {
   ControlInput(const int size);
   ControlInput(const Eigen::VectorXd& control_input_data);
   ControlInput(std::initializer_list<double> control_input_elements);
+
   // Copy constructor.
   ControlInput(const ControlInput& control_input) = default;
 

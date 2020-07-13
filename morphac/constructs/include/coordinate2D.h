@@ -14,6 +14,7 @@ template <typename T>
 class Coordinate2D {
  public:
   Coordinate2D(const T x = 0, const T y = 0);
+
   // Copy constructor.
   Coordinate2D(const Coordinate2D& coord);
 

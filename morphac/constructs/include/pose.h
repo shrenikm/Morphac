@@ -16,7 +16,8 @@ class Pose {
   Pose(const int size);
   Pose(const Eigen::VectorXd& data);
   Pose(std::initializer_list<double> elements);
-  // Copy constructor
+
+  // Copy constructor.
   Pose(const Pose& pose) = default;
 
   // Copy assignment.

@@ -24,6 +24,7 @@ class State {
         std::initializer_list<double> velocity_elements);
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
+
   // Copy constructor.
   State(const State& state) = default;
 

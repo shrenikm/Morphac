@@ -16,6 +16,7 @@ class Velocity {
   Velocity(const int size);
   Velocity(const Eigen::VectorXd& data);
   Velocity(std::initializer_list<double> elements);
+
   // Copy constructor.
   Velocity(const Velocity& velocity) = default;
 
