@@ -68,6 +68,9 @@ def test_state_read(generate_playground):
     # Making sure that there are currently no robots.
     assert playground_state.num_robots == 0
 
+    # Testing default time.
+    assert playground_state.time == 0
+
 
 def test_state_write(generate_playground, generate_robot_list):
     # Make sure that the returned state is a reference and the value of the
@@ -76,6 +79,11 @@ def test_state_write(generate_playground, generate_robot_list):
     robot1, robot2 = generate_robot_list
 
     playground_state = playground.state
+
+    # Change time.
+    playground_state.time = 0.01
+
+    assert playground.state.time == 0.
 
     playground_state.map = Map(np.ones([500, 500]), 0.1)
 

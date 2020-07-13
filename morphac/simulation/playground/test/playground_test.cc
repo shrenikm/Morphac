@@ -79,12 +79,20 @@ TEST_F(PlaygroundTest, GetState) {
   // Making sure that we get can get the correct state from the playground.
   PlaygroundState& playground_state = playground_->get_state();
 
+  ASSERT_EQ(playground_state.get_time(), 0);
+
   ASSERT_TRUE(playground_state.get_map().get_data().isApprox(map_data_));
   ASSERT_EQ(playground_state.NumRobots(), 0);
+}
 
+TEST_F(PlaygroundTest, SetState) {
   // Making sure that the state reference works correctly. If we change the
   // value of the state through the reference, it should reflect back in the
   // state stored by the Playground.
+  PlaygroundState& playground_state = playground_->get_state();
+
+  playground_state.set_time(0.002);
+  ASSERT_EQ(playground_->get_state().get_time(), 0.002);
 
   MatrixXd new_map_data = MatrixXd::Random(20, 10);
   Map new_map{new_map_data, 0.1};
