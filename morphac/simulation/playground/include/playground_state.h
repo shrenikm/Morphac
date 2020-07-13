@@ -22,12 +22,14 @@ class PlaygroundState {
   // Also deleting copy assignment.
   PlaygroundState& operator=(const PlaygroundState& playground_state) = delete;
 
+  double get_time() const;
   const morphac::environment::Map& get_map() const;
   const std::unordered_map<int, morphac::robot::blueprint::Robot&>&
   get_robot_oracle() const;
   const morphac::robot::blueprint::Robot& get_robot(const int uid) const;
   const morphac::constructs::State& get_robot_state(const int uid) const;
 
+  void set_time(const double time);
   void set_map(const morphac::environment::Map& map);
   void set_robot_state(const morphac::constructs::State&, const int uid);
 
@@ -37,6 +39,7 @@ class PlaygroundState {
  private:
   bool UidExistsInRobotOracle(const int uid) const;
 
+  double time_;
   morphac::environment::Map map_;
   std::unordered_map<int, morphac::robot::blueprint::Robot&> robot_oracle_;
 };

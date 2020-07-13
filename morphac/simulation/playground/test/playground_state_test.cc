@@ -46,6 +46,18 @@ class PlaygroundStateTest : public ::testing::Test {
   MatrixXd map_data_ = MatrixXd::Random(300, 300);
 };
 
+TEST_F(PlaygroundStateTest, GetTime) {
+  ASSERT_EQ(playground_state1_->get_time(), 0);
+  ASSERT_EQ(playground_state2_->get_time(), 0);
+}
+
+TEST_F(PlaygroundStateTest, SetTime) {
+  playground_state1_->set_time(0.005);
+  playground_state2_->set_time(15.7);
+  ASSERT_EQ(playground_state1_->get_time(), 0.005);
+  ASSERT_EQ(playground_state2_->get_time(), 15.7);
+}
+
 TEST_F(PlaygroundStateTest, GetMap) {
   ASSERT_TRUE(playground_state1_->get_map().get_data().isApprox(
       MatrixXd::Zero(200, 400)));

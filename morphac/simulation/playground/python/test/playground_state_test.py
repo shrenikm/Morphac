@@ -48,6 +48,21 @@ def test_map(generate_playground_state_list):
     assert np.all(ps2.map.data == 0.)
 
 
+def test_time(generate_playground_state_list):
+    ps1, ps2 = generate_playground_state_list
+
+    # Default time
+    assert ps1.time == 0
+    assert ps2.time == 0
+
+    # Set time.
+    ps1.time = 0.001
+    ps2.time = 15.
+
+    assert ps1.time == 0.001
+    assert ps2.time == 15
+
+
 def test_add_robot(generate_playground_state_list, generate_robot_list):
     ps1, _ = generate_playground_state_list
     r1, r2 = generate_robot_list

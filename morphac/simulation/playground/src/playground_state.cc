@@ -10,7 +10,7 @@ using morphac::constructs::State;
 using morphac::environment::Map;
 using morphac::robot::blueprint::Robot;
 
-PlaygroundState::PlaygroundState(const Map& map) : map_(map) {}
+PlaygroundState::PlaygroundState(const Map& map) : time_(0), map_(map) {}
 
 bool PlaygroundState::UidExistsInRobotOracle(const int uid) const {
   if (robot_oracle_.find(uid) == robot_oracle_.end()) {
@@ -19,6 +19,8 @@ bool PlaygroundState::UidExistsInRobotOracle(const int uid) const {
   }
   return true;
 }
+
+double PlaygroundState::get_time() const { return time_; }
 
 const Map& PlaygroundState::get_map() const { return map_; }
 
@@ -42,6 +44,8 @@ const State& PlaygroundState::get_robot_state(const int uid) const {
   // We can't use the [] operator as the values are references.
   return robot_oracle_.find(uid)->second.get_state();
 }
+
+void PlaygroundState::set_time(const double time) { time_ = time; }
 
 void PlaygroundState::set_map(const Map& map) { map_ = map; }
 

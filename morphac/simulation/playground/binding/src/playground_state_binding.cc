@@ -15,6 +15,8 @@ void define_playground_state_binding(py::module& m) {
   py::class_<PlaygroundState> playground_state(m, "PlaygroundState");
 
   playground_state.def(py::init<const Map&>(), py::arg("map"));
+  playground_state.def_property("time", &PlaygroundState::get_time,
+                                &PlaygroundState::set_time);
   playground_state.def_property("map", &PlaygroundState::get_map,
                                 &PlaygroundState::set_map);
   playground_state.def_property_readonly("robot_oracle",
