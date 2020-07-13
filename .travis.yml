@@ -53,7 +53,6 @@ script:
   - make
   - make install
 
-after_script:
   # Running tests
   # Cpp tests
   - make test
