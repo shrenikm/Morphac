@@ -72,7 +72,7 @@ class PlaygroundTest : public ::testing::Test {
   unique_ptr<Playground> playground_;
   unique_ptr<Robot> robot1_, robot2_, robot3_;
   MatrixXd map_data_ = MatrixXd::Random(20, 10);
-  PlaygroundSpec playground_spec_{"playground", 0.05, 640, 480};
+  PlaygroundSpec playground_spec_{"playground", 0.05};
 };
 
 TEST_F(PlaygroundTest, GetState) {

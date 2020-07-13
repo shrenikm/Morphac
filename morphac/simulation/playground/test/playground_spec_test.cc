@@ -13,20 +13,16 @@ class PlaygroundSpecTest : public ::testing::Test {
 
   void SetUp() override {}
 
-  PlaygroundSpec playground_spec1_{"playground1", 0.1, 500, 500};
-  PlaygroundSpec playground_spec2_{"playground2", 0.05, 800, 400};
+  PlaygroundSpec playground_spec1_{"playground1", 0.1};
+  PlaygroundSpec playground_spec2_{"playground2", 0.05};
 };
 
 TEST_F(PlaygroundSpecTest, Members) {
   ASSERT_EQ(playground_spec1_.name, "playground1");
   ASSERT_EQ(playground_spec1_.dt, 0.1);
-  ASSERT_EQ(playground_spec1_.gui_width, 500);
-  ASSERT_EQ(playground_spec1_.gui_height, 500);
 
   ASSERT_EQ(playground_spec2_.name, "playground2");
   ASSERT_EQ(playground_spec2_.dt, 0.05);
-  ASSERT_EQ(playground_spec2_.gui_width, 800);
-  ASSERT_EQ(playground_spec2_.gui_height, 400);
 }
 
 }  // namespace

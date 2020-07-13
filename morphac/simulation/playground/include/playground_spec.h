@@ -10,9 +10,6 @@ namespace playground {
 struct PlaygroundSpec {
   const std::string name;
   const double dt;
-
-  const int gui_width;
-  const int gui_height;
 };
 
 }  // namespace playground

@@ -31,7 +31,7 @@ class CustomPilot(Pilot):
 
 @pytest.fixture()
 def generate_playground():
-    playground_spec = PlaygroundSpec("playground", 0.01, 640, 480)
+    playground_spec = PlaygroundSpec("playground", 0.01)
     playground = Playground(playground_spec, Map(50, 50, 0.1))
 
     return playground
@@ -52,8 +52,6 @@ def test_spec(generate_playground):
     # Testing the specs of the playground.
     assert playground.spec.name == "playground"
     assert playground.spec.dt == 0.01
-    assert playground.spec.gui_width == 640
-    assert playground.spec.gui_height == 480
 
 
 def test_state_read(generate_playground):
@@ -83,7 +81,7 @@ def test_state_write(generate_playground, generate_robot_list):
     # Change time.
     playground_state.time = 0.01
 
-    assert playground.state.time == 0.
+    assert playground.state.time == 0.01
 
     playground_state.map = Map(np.ones([500, 500]), 0.1)
 
