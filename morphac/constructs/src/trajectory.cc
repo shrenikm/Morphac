@@ -17,5 +17,24 @@ Trajectory::Trajectory(const MatrixXd& data) : dim_(data.cols()), data_(data) {
                 "Trajectory data must not have zero rows or columns.");
 }
 
+Trajectory& Trajectory::operator+=(const Trajectory& trajectory) {
+  MORPH_REQUIRE(this->dim_ == trajectory.dim_, std::invalid_argument,
+                "Trajectories do not have the same dimension. The += operator "
+                "requires them to have the same dimension.");
+  MatrixXd new_data(this->data_.rows() + trajectory.data_.rows(), this->dim_);
+  new_data << this->data_, trajectory.data_;
+  this->data_ = new_data;
+  return *this;
+}
+
+Trajectory Trajectory::operator+(const Trajectory& trajectory) const {
+  MORPH_REQUIRE(this->dim_ == trajectory.dim_, std::invalid_argument,
+                "Trajectories do not have the same dimension. The + operator "
+                "requires them to have the same dimension.");
+  Trajectory result(this->data_);
+  result += trajectory;
+  return result;
+}
+
 }  // namespace constructs
 }  // namespace morphac

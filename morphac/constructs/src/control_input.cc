@@ -46,8 +46,8 @@ ControlInput ControlInput::operator+(const ControlInput& control_input) const {
       this->size_ == control_input.size_, std::invalid_argument,
       "Control inputs are not of the same size. The + operator requires them "
       "to be of the same size.");
-  ControlInput result(this->size_);
-  result.data_ = this->data_ + control_input.data_;
+  ControlInput result(this->data_);
+  result += control_input;
   return result;
 }
 
@@ -65,8 +65,8 @@ ControlInput ControlInput::operator-(const ControlInput& control_input) const {
       this->size_ == control_input.size_, std::invalid_argument,
       "Control inputs are not of the same size. The - operator requires them "
       "to be of the same size.");
-  ControlInput result(this->size_);
-  result.data_ = this->data_ - control_input.data_;
+  ControlInput result(this->data_);
+  result -= control_input;
   return result;
 }
 

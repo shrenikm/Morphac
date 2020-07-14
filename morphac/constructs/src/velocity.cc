@@ -48,8 +48,8 @@ Velocity Velocity::operator+(const Velocity& velocity) const {
       "Velocities are not of the same size. The + operator requires them "
       "to be of the "
       "same size.");
-  Velocity result(this->size_);
-  result.data_ = this->data_ + velocity.data_;
+  Velocity result(this->data_);
+  result += velocity;
   return result;
 }
 
@@ -69,8 +69,8 @@ Velocity Velocity::operator-(const Velocity& velocity) const {
       "Velocities are not of the same size. The - operator requires them "
       "to be of the "
       "same size.");
-  Velocity result(this->size_);
-  result.data_ = this->data_ - velocity.data_;
+  Velocity result(this->data_);
+  result -= velocity;
   return result;
 }
 
