@@ -24,6 +24,9 @@ class Trajectory {
   // Copy assignment.
   Trajectory& operator=(const Trajectory& trajectory) = default;
 
+  Trajectory& operator+=(const Trajectory& trajectory);
+  Trajectory operator+(const Trajectory& trajectory) const;
+
   friend bool operator==(const Trajectory& trajectory1,
                          const Trajectory& trajectory2);
   friend bool operator!=(const Trajectory& trajectory1,
@@ -39,16 +42,19 @@ class Trajectory {
   std::string ToString() const;
 
   const Eigen::MatrixXd& get_data() const;
+
   void set_data(const Eigen::MatrixXd& data);
   void set_data(std::initializer_list<std::initializer_list<double>> elements);
 
   void AddPoint(const morphac::constructs& State state, const int index = -1);
+  void AddPoint(std::initializer_list<double> elements, const int index = -1);
+
   void RemovePoint(const int index);
+  void RemovePoints(std::vector<const int> indices);
 
  private:
   int dim_;
   Eigen::MatrixXd data_;
-  std::vector<morphac::constructs::State> trajectory_;
 };
 
 }  // namespace constructs
