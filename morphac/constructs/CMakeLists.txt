@@ -34,6 +34,7 @@ set(CONSTRUCTS_SRC
   control_input.cc
   pose.cc
   state.cc
+  trajectory.cc
   velocity.cc
 )
 
@@ -61,6 +62,11 @@ target_link_libraries(state
   PUBLIC
   pose
   velocity
+)
+
+target_link_libraries(trajectory
+  PUBLIC
+  state
 )
 
 

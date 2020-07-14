@@ -68,3 +68,5 @@ class Trajectory {
 
 }  // namespace constructs
 }  // namespace morphac
+
+#endif
