@@ -42,11 +42,8 @@ ControlInput& ControlInput::operator+=(const ControlInput& control_input) {
 }
 
 ControlInput ControlInput::operator+(const ControlInput& control_input) const {
-  MORPH_REQUIRE(
-      this->size_ == control_input.size_, std::invalid_argument,
-      "Control inputs are not of the same size. The + operator requires them "
-      "to be of the same size.");
-  ControlInput result(this->data_);
+  // Argument validation happens in the += function call.
+  ControlInput result(*this);
   result += control_input;
   return result;
 }
@@ -61,11 +58,8 @@ ControlInput& ControlInput::operator-=(const ControlInput& control_input) {
 }
 
 ControlInput ControlInput::operator-(const ControlInput& control_input) const {
-  MORPH_REQUIRE(
-      this->size_ == control_input.size_, std::invalid_argument,
-      "Control inputs are not of the same size. The - operator requires them "
-      "to be of the same size.");
-  ControlInput result(this->data_);
+  // Argument validation happens in the -= function call.
+  ControlInput result(*this);
   result -= control_input;
   return result;
 }

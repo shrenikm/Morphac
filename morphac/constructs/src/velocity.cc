@@ -43,12 +43,8 @@ Velocity& Velocity::operator+=(const Velocity& velocity) {
 }
 
 Velocity Velocity::operator+(const Velocity& velocity) const {
-  MORPH_REQUIRE(
-      this->size_ == velocity.size_, std::invalid_argument,
-      "Velocities are not of the same size. The + operator requires them "
-      "to be of the "
-      "same size.");
-  Velocity result(this->data_);
+  // Argument validation happens in the += function call.
+  Velocity result(*this);
   result += velocity;
   return result;
 }
@@ -64,12 +60,8 @@ Velocity& Velocity::operator-=(const Velocity& velocity) {
 }
 
 Velocity Velocity::operator-(const Velocity& velocity) const {
-  MORPH_REQUIRE(
-      this->size_ == velocity.size_, std::invalid_argument,
-      "Velocities are not of the same size. The - operator requires them "
-      "to be of the "
-      "same size.");
-  Velocity result(this->data_);
+  // Argument validation happens in the -= function call.
+  Velocity result(*this);
   result -= velocity;
   return result;
 }

@@ -15,7 +15,8 @@ namespace constructs {
 class Trajectory {
  public:
   Trajectory(const morphac::constructs::State& initial_state);
-  Trajectory(const Eigen::MatrixXd& data);
+  Trajectory(const Eigen::MatrixXd& data, const int pose_size,
+             const int velocity_size);
 
   // Copy constructor.
   Trajectory(const Trajectory& trajectory) = default;
@@ -52,17 +53,15 @@ class Trajectory {
   void RemoveKnotPoint(const int index);
   void RemoveKnotPoints(std::vector<const int> indices);
 
-  void ReplaceKnotPoint(const morphac::constructs::State& state,
-                        const int index);
-  void ReplaceKnotPoints(std::vector<morphac::constructs::State> states,
-                         std::vector<const int> indices);
-
  private:
   // Dim is constant for a trajectory once it is defined. Even if the entire
   // data of the trajectory is changed, it must maintain the original dimension.
   // This is because dim is the identity of the trajectory and changing this
   // probably warrants the creation of a new Trajectory object.
   int dim_;
+  int size_;
+  int pose_size_;
+  int velocity_size_;
   Eigen::MatrixXd data_;
 };
 

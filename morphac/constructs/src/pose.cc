@@ -41,11 +41,8 @@ Pose& Pose::operator+=(const Pose& pose) {
 }
 
 Pose Pose::operator+(const Pose& pose) const {
-  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
-                "Poses are not of the same size. The + operator requires them "
-                "to be of the "
-                "same size.");
-  Pose result(this->data_);
+  // Argument validation happens in the += function call.
+  Pose result(*this);
   result += pose;
   return result;
 }
@@ -60,11 +57,8 @@ Pose& Pose::operator-=(const Pose& pose) {
 }
 
 Pose Pose::operator-(const Pose& pose) const {
-  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
-                "Poses are not of the same size. The - operator requires them "
-                "to be of the "
-                "same size.");
-  Pose result(this->data_);
+  // Argument validation happens in the -= function call.
+  Pose result(*this);
   result -= pose;
   return result;
 }

@@ -66,23 +66,9 @@ State& State::operator+=(const State& state) {
 }
 
 State State::operator+(const State& state) const {
-  MORPH_REQUIRE(this->get_pose_size() == state.get_pose_size() &&
-                    this->get_velocity_size() == state.get_velocity_size(),
-                std::invalid_argument,
-                "States are not of the same size. The + operator requires them "
-                "to be of the "
-                "same size.");
-  State result(this->get_pose_size(), this->get_velocity_size());
-  // The pose and velocities are added and set if they are non empty. If they
-  // are empty, the default empty objects are kept as is and the resulting
-  // pose/velocity is also empty.
-  if (!IsPoseEmpty()) {
-    result.set_pose_data(this->get_pose_data() + state.get_pose_data());
-  }
-  if (!IsVelocityEmpty()) {
-    result.set_velocity_data(this->get_velocity_data() +
-                             state.get_velocity_data());
-  }
+  // Argument validation happens in the += function call.
+  State result(*this);
+  result += state;
   return result;
 }
 
@@ -108,23 +94,9 @@ State& State::operator-=(const State& state) {
 }
 
 State State::operator-(const State& state) const {
-  MORPH_REQUIRE(this->get_pose_size() == state.get_pose_size() &&
-                    this->get_velocity_size() == state.get_velocity_size(),
-                std::invalid_argument,
-                "States are not of the same size. The - operator requires them "
-                "to be of the "
-                "same size.");
-  State result(this->get_pose_size(), this->get_velocity_size());
-  // The pose and velocities are subtracted and set if they are non empty. If
-  // they are empty, the default empty objects are kept as is and the resulting
-  // pose/velocity is also empty.
-  if (!IsPoseEmpty()) {
-    result.set_pose_data(this->get_pose_data() - state.get_pose_data());
-  }
-  if (!IsVelocityEmpty()) {
-    result.set_velocity_data(this->get_velocity_data() -
-                             state.get_velocity_data());
-  }
+  // Argument validation happens in the += function call.
+  State result(*this);
+  result -= state;
   return result;
 }
 
