@@ -32,8 +32,8 @@ class Trajectory {
   friend bool operator!=(const Trajectory& trajectory1,
                          const Trajectory& trajectory2);
 
-  // We don't allow for setting a trajectory point through the () operator.
-  // Replacing a point on the trajectory should not be required.
+  // We don't allow for setting a trajectory point through the () operator as
+  // we don't keep track of each row of the data matrix as a State object.
   morphac::constructs::State operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
@@ -53,6 +53,11 @@ class Trajectory {
 
   void RemoveKnotPoint(const int index);
   void RemoveKnotPoints(std::vector<const int> indices);
+
+  void ReplaceKnotPoint(const morphac::constructs::State& state,
+                        const int index);
+  void ReplaceKnotPoints(const morphac::constructs::State& state,
+                         std::vector<const int> indices);
 
  private:
   // Dim is constant for a trajectory once it is defined. Even if the entire
