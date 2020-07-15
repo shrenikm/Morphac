@@ -3,6 +3,7 @@
 namespace morphac {
 namespace constructs {
 
+using std::ostream;
 using std::vector;
 
 using Eigen::MatrixXd;
@@ -79,6 +80,21 @@ State Trajectory::operator()(const int index) const {
                 "Trajectory index out of range.");
   return State(data_.row(index).head(pose_size_),
                data_.row(index).tail(velocity_size_));
+}
+
+ostream& operator<<(ostream& os, const Trajectory& trajectory) {
+  os << "Trajectory[\n";
+  for (int i = 0; i < size_; ++i) {
+    os << "\t" << State(data_.row(i), pose_size_, velocity_size_) << "\n";
+  }
+  os << "]";
+  return os;
+}
+
+string Trajectory::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
 }
 
 }  // namespace constructs
