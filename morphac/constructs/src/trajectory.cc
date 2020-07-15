@@ -23,8 +23,12 @@ Trajectory::Trajectory(const MatrixXd& data, const int pose_size,
       pose_size_(pose_size),
       velocity_size_(velocity_size),
       data_(data) {
+  // Data matrix must be valid.
   MORPH_REQUIRE(data.rows() > 0 && data.cols() > 0, std::invalid_argument,
                 "Trajectory data must not have zero rows or columns.");
+  // pose_size + velocity_dim must equal dim.
+  MORPH_REQUIRE(data.rows() == pose_size + velocity_size, std::invalid_argument,
+                "Trajectory data and pose/velocity sizes are incompatible.");
 }
 
 Trajectory& Trajectory::operator+=(const Trajectory& trajectory) {
@@ -55,11 +59,27 @@ Trajectory Trajectory::operator+(const Trajectory& trajectory) const {
   return result;
 }
 
-//State& operator()(const int index) {
-//  MORPH_REQUIRE(index >= 0 && index < this->size_, std::out_of_range,
-//                "Trajectory index out of range.");
-//  return State
-//}
+bool operator==(const Trajectory& trajectory1, const Trajectory& trajectory2) {
+  // Two trajectories are equal if all of their member values are equal.
+  if ((trajectory1.dim_ == trajectory2.dim_) &&
+      (trajectory1.size_ == trajectory2.size_) &&
+      (trajectory1.pose_size_ == trajectory2.pose_size_) &&
+      (trajectory1.data_.isApprox(trajectory2.data_, 1e-6))) {
+    return true;
+  }
+  return false;
+}
+
+bool operator!=(const Trajectory& trajectory1, const Trajectory& trajectory2) {
+  return !(trajectory1 == trajectory2);
+}
+
+State Trajectory::operator()(const int index) const {
+  MORPH_REQUIRE(index >= 0 && index < this->size_, std::out_of_range,
+                "Trajectory index out of range.");
+  return State(data_.row(index).head(pose_size_),
+               data_.row(index).tail(velocity_size_));
+}
 
 }  // namespace constructs
 }  // namespace morphac

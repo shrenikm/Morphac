@@ -32,7 +32,8 @@ class Trajectory {
   friend bool operator!=(const Trajectory& trajectory1,
                          const Trajectory& trajectory2);
 
-  morphac::constructs::State& operator()(const int index);
+  // We don't allow for setting a trajectory point through the () operator.
+  // Replacing a point on the trajectory should not be required.
   morphac::constructs::State operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
