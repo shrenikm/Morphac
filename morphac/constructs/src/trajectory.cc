@@ -4,6 +4,8 @@ namespace morphac {
 namespace constructs {
 
 using std::ostream;
+using std::ostringstream;
+using std::string;
 using std::vector;
 
 using Eigen::MatrixXd;
@@ -84,8 +86,12 @@ State Trajectory::operator()(const int index) const {
 
 ostream& operator<<(ostream& os, const Trajectory& trajectory) {
   os << "Trajectory[\n";
-  for (int i = 0; i < size_; ++i) {
-    os << "\t" << State(data_.row(i), pose_size_, velocity_size_) << "\n";
+  for (int i = 0; i < trajectory.get_size(); ++i) {
+    os << "\t"
+       << State(
+              trajectory.get_data().row(i).head(trajectory.get_pose_size()),
+              trajectory.get_data().row(i).tail(trajectory.get_velocity_size()))
+       << "\n";
   }
   os << "]";
   return os;
@@ -96,6 +102,16 @@ string Trajectory::ToString() const {
   os << *this;
   return os.str();
 }
+
+int Trajectory::get_dim() const { return dim_; }
+
+int Trajectory::get_size() const { return size_; }
+
+int Trajectory::get_pose_size() const { return pose_size_; }
+
+int Trajectory::get_velocity_size() const { return velocity_size_; }
+
+const MatrixXd& Trajectory::get_data() const { return data_; }
 
 }  // namespace constructs
 }  // namespace morphac

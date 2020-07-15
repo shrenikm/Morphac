@@ -42,6 +42,10 @@ class Trajectory {
   // This is what the python binding uses.
   std::string ToString() const;
 
+  int get_dim() const;
+  int get_size() const;
+  int get_pose_size() const;
+  int get_velocity_size() const;
   const Eigen::MatrixXd& get_data() const;
 
   void set_data(const Eigen::MatrixXd& data);
