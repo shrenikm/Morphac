@@ -34,6 +34,7 @@ class Trajectory {
 
   // We don't allow for setting a trajectory point through the () operator as
   // we don't keep track of each row of the data matrix as a State object.
+  // The ReplaceKnotPoint function needs to be used for this.
   morphac::constructs::State operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
@@ -50,18 +51,20 @@ class Trajectory {
 
   void set_data(const Eigen::MatrixXd& data);
 
-  void AddKnotPoint(const morphac::constructs::State& state,
-                    const int index = -1);
-  void AddKnotPoints(std::vector<morphac::constructs::State> states,
-                     const int index = -1);
+  void AddKnotPoint(const morphac::constructs::State& state, const int index);
+  void AddKnotPoint(const morphac::constructs::State& state);
+  void AddKnotPoints(
+      const std::vector<morphac::constructs::State>& states,
+      const std::vector<int>& indices);
 
   void RemoveKnotPoint(const int index);
   void RemoveKnotPoints(std::vector<const int> indices);
 
   void ReplaceKnotPoint(const morphac::constructs::State& state,
                         const int index);
-  void ReplaceKnotPoints(const morphac::constructs::State& state,
-                         std::vector<const int> indices);
+  void ReplaceKnotPoints(
+      const std::vector<const morphac::constructs::State>& states,
+      std::vector<const int> indices);
 
  private:
   // Dim is constant for a trajectory once it is defined. Even if the entire

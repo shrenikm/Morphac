@@ -113,5 +113,56 @@ int Trajectory::get_velocity_size() const { return velocity_size_; }
 
 const MatrixXd& Trajectory::get_data() const { return data_; }
 
+void Trajectory::set_data(const MatrixXd& data) {
+  // The given data must have the right number of columns. The size of the
+  // trajectory could be different.
+  MORPH_REQUIRE(data.cols() == dim_, std::invalid_argument,
+                "Trajectory data has an incompatible number of columns. The "
+                "number of columns must equal the dimension of the "
+                "Trajectory.");
+  data_ = data;
+}
+
+void Trajectory::AddKnotPoint(const State& state, const int index) {
+  // Make sure that the state is compatible.
+  MORPH_REQUIRE(
+      state.get_pose_size() == pose_size_ &&
+          state.get_velocity_size() == velocity_size_,
+      std::invalid_argument,
+      "State's pose and velocity sizes do not match that of the trajectory.");
+  // Making sure that the index is correct.
+  MORPH_REQUIRE(index >= -1 && index < size_, std::out_of_range,
+                "Index out of bounds. Indices must be between -1 and size - 1 "
+                "(both inclusive).");
+
+  MatrixXd new_data = MatrixXd::Zero(size_ + 1, dim_);
+  new_data.block(0, 0, index + 1, dim_) = data_.block(0, 0, index + 1, dim_);
+  new_data.row(index + 1) = state.get_data();
+  new_data.block(index + 2, 0, size_ - index - 1, dim_) =
+      data_.block(index + 1, 0, size_ - index - 1, dim_);
+
+  data_ = new_data;
+}
+
+void Trajectory::AddKnotPoint(const State& state) {
+  // If the index is not given, it means the given point needs to be added to
+  // the end of the trajectory.
+  // AddKnotPoint is called with index = size_ - 1. The state validation is
+  // done there.
+  AddKnotPoint(state, size_ - 1);
+}
+
+void Trajectory::AddKnotPoints(const vector<State>& states,
+                               const vector<int>& indices) {
+  // Making sure that both vectors have the same number of elements.
+  MORPH_REQUIRE(states.size() == indices.size(), std::invalid_argument,
+                "States and indices must have the same number of elements");
+
+  for (unsigned int i = 0; i < states.size(); ++i) {
+    // State validation is done in the AddKnotPoint function.
+    AddKnotPoint(states.at(i), indices.at(i));
+  }
+}
+
 }  // namespace constructs
 }  // namespace morphac
