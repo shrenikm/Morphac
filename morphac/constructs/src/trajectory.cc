@@ -3,8 +3,10 @@
 namespace morphac {
 namespace constructs {
 
+using std::greater;
 using std::ostream;
 using std::ostringstream;
+using std::sort;
 using std::string;
 using std::vector;
 
@@ -148,8 +150,7 @@ void Trajectory::AddKnotPoint(const State& state, const int index) {
       "State's pose and velocity sizes do not match that of the trajectory.");
   // Making sure that the index is correct.
   MORPH_REQUIRE(index >= 0 && index <= get_size(), std::out_of_range,
-                "Index out of bounds. Indices must be between 0 and size"
-                "(both inclusive).");
+                "Index out of bounds. Indices must lie in [0, size]");
 
   knot_points_.insert(knot_points_.begin() + index, state);
 }
@@ -163,14 +164,39 @@ void Trajectory::AddKnotPoint(const State& state) {
 }
 
 void Trajectory::AddKnotPoints(const vector<State>& states,
-                               const vector<int>& indices) {
+                               vector<int> indices) {
   // Making sure that both vectors have the same number of elements.
   MORPH_REQUIRE(states.size() == indices.size(), std::invalid_argument,
                 "States and indices must have the same number of elements");
 
+  // As the length of the vector changes as we keep inserting points, we cannot
+  // do this in a loop directly.
+  // We first sort the indices in ascending order, after which the points
+  // can be inserted in loop.
+  sort(indices.begin(), indices.end());
+
   for (unsigned int i = 0; i < states.size(); ++i) {
     // State validation is done in the AddKnotPoint function.
     AddKnotPoint(states.at(i), indices.at(i));
+  }
+}
+
+void Trajectory::RemoveKnotPoint(const int index) {
+  MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
+                "Index out of bounds");
+  knot_points_.erase(knot_points_.begin() + index);
+}
+
+void Trajectory::RemoveKnotPoints(vector<int> indices) {
+  // Validity check for the indices happens in the RemoveKnotPoint function.
+
+  // As the length of the vector changes as we keep removing points, we cannot
+  // do this in a loop directly.
+  // We first sort the indices in descending order, after which the points
+  // can be removed in loop.
+  sort(indices.begin(), indices.end(), greater<int>());
+  for (unsigned int i = 0; i < indices.size(); ++i) {
+    RemoveKnotPoint(indices.at(i));
   }
 }
 

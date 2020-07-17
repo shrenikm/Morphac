@@ -1,6 +1,7 @@
 #ifndef TRAJECTORY_H
 #define TRAJECTORY_H
 
+#include <algorithm>
 #include <sstream>
 #include <vector>
 
@@ -54,18 +55,11 @@ class Trajectory {
 
   void AddKnotPoint(const morphac::constructs::State& state, const int index);
   void AddKnotPoint(const morphac::constructs::State& state);
-  void AddKnotPoints(
-      const std::vector<morphac::constructs::State>& states,
-      const std::vector<int>& indices);
+  void AddKnotPoints(const std::vector<morphac::constructs::State>& states,
+                     std::vector<int> indices);
 
   void RemoveKnotPoint(const int index);
-  void RemoveKnotPoints(std::vector<const int> indices);
-
-  void ReplaceKnotPoint(const morphac::constructs::State& state,
-                        const int index);
-  void ReplaceKnotPoints(
-      const std::vector<const morphac::constructs::State>& states,
-      std::vector<const int> indices);
+  void RemoveKnotPoints(std::vector<int> indices);
 
  private:
   // Dim is constant for a trajectory once it is defined. Even if the entire
