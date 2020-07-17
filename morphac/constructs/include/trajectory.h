@@ -35,6 +35,7 @@ class Trajectory {
   // We don't allow for setting a trajectory point through the () operator as
   // we don't keep track of each row of the data matrix as a State object.
   // The ReplaceKnotPoint function needs to be used for this.
+  morphac::constructs::State& operator()(const int index);
   morphac::constructs::State operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
@@ -47,7 +48,7 @@ class Trajectory {
   int get_size() const;
   int get_pose_size() const;
   int get_velocity_size() const;
-  const Eigen::MatrixXd& get_data() const;
+  Eigen::MatrixXd get_data() const;
 
   void set_data(const Eigen::MatrixXd& data);
 
@@ -71,11 +72,13 @@ class Trajectory {
   // data of the trajectory is changed, it must maintain the original dimension.
   // This is because dim is the identity of the trajectory and changing this
   // probably warrants the creation of a new Trajectory object.
+
+  void copy_data_to_knot_points(const Eigen::MatrixXd& data);
+
   int dim_;
-  int size_;
   int pose_size_;
   int velocity_size_;
-  Eigen::MatrixXd data_;
+  std::vector<morphac::constructs::State> knot_points_;
 };
 
 }  // namespace constructs

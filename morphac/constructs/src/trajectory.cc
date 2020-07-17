@@ -12,26 +12,30 @@ using Eigen::MatrixXd;
 
 using morphac::constructs::State;
 
+void Trajectory::copy_data_to_knot_points(const MatrixXd& data) {
+  for (unsigned int i = 0; i < data.rows(); ++i) {
+    knot_points_.push_back(
+        State(data.row(i).head(pose_size_), data.row(i).tail(velocity_size_)));
+  }
+}
+
 Trajectory::Trajectory(const State& initial_state)
     : dim_(initial_state.get_size()),
-      size_(1),
       pose_size_(initial_state.get_pose_size()),
-      velocity_size_(initial_state.get_velocity_size()),
-      data_(initial_state.get_data()) {}
+      velocity_size_(initial_state.get_velocity_size()) {
+  knot_points_.push_back(initial_state);
+}
 
 Trajectory::Trajectory(const MatrixXd& data, const int pose_size,
                        const int velocity_size)
-    : dim_(data.cols()),
-      size_(data.rows()),
-      pose_size_(pose_size),
-      velocity_size_(velocity_size),
-      data_(data) {
+    : dim_(data.cols()), pose_size_(pose_size), velocity_size_(velocity_size) {
   // Data matrix must be valid.
   MORPH_REQUIRE(data.rows() > 0 && data.cols() > 0, std::invalid_argument,
                 "Trajectory data must not have zero rows or columns.");
   // pose_size + velocity_dim must equal dim.
   MORPH_REQUIRE(data.rows() == pose_size + velocity_size, std::invalid_argument,
                 "Trajectory data and pose/velocity sizes are incompatible.");
+  copy_data_to_knot_points(data);
 }
 
 Trajectory& Trajectory::operator+=(const Trajectory& trajectory) {
@@ -47,11 +51,9 @@ Trajectory& Trajectory::operator+=(const Trajectory& trajectory) {
                 std::invalid_argument,
                 "Trajectories do not have the same velocity size. The += "
                 "operator requires them to have the same velocity sizes.");
-  MatrixXd new_data(this->size_ + trajectory.size_, this->dim_);
-  new_data << this->data_, trajectory.data_;
-  this->data_ = new_data;
-  // Update size.
-  this->size_ = this->size_ + trajectory.size_;
+  this->knot_points_.insert(this->knot_points_.end(),
+                            trajectory.knot_points_.begin(),
+                            trajectory.knot_points_.end());
   return *this;
 }
 
@@ -64,34 +66,40 @@ Trajectory Trajectory::operator+(const Trajectory& trajectory) const {
 
 bool operator==(const Trajectory& trajectory1, const Trajectory& trajectory2) {
   // Two trajectories are equal if all of their member values are equal.
-  if ((trajectory1.dim_ == trajectory2.dim_) &&
-      (trajectory1.size_ == trajectory2.size_) &&
-      (trajectory1.pose_size_ == trajectory2.pose_size_) &&
-      (trajectory1.data_.isApprox(trajectory2.data_, 1e-6))) {
-    return true;
+  if ((trajectory1.dim_ != trajectory2.dim_) ||
+      (trajectory1.get_size() != trajectory2.get_size()) ||
+      (trajectory1.pose_size_ != trajectory2.pose_size_)) {
+    return false;
   }
-  return false;
+  for (int i = 0; i < trajectory1.get_size(); ++i) {
+    if (trajectory1.knot_points_.at(i) != trajectory2.knot_points_.at(i)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 bool operator!=(const Trajectory& trajectory1, const Trajectory& trajectory2) {
   return !(trajectory1 == trajectory2);
 }
 
-State Trajectory::operator()(const int index) const {
-  MORPH_REQUIRE(index >= 0 && index < this->size_, std::out_of_range,
+State& Trajectory::operator()(const int index) {
+  MORPH_REQUIRE(index >= 0 && index < this->get_size(), std::out_of_range,
                 "Trajectory index out of range.");
-  return State(data_.row(index).head(pose_size_),
-               data_.row(index).tail(velocity_size_));
+  return knot_points_.at(index);
+}
+
+State Trajectory::operator()(const int index) const {
+  MORPH_REQUIRE(index >= 0 && index < this->get_size(), std::out_of_range,
+                "Trajectory index out of range.");
+  return knot_points_.at(index);
 }
 
 ostream& operator<<(ostream& os, const Trajectory& trajectory) {
   os << "Trajectory[\n";
   for (int i = 0; i < trajectory.get_size(); ++i) {
-    os << "\t"
-       << State(
-              trajectory.get_data().row(i).head(trajectory.get_pose_size()),
-              trajectory.get_data().row(i).tail(trajectory.get_velocity_size()))
-       << "\n";
+    os << "\t" << trajectory.knot_points_.at(i) << "\n";
   }
   os << "]";
   return os;
@@ -105,13 +113,21 @@ string Trajectory::ToString() const {
 
 int Trajectory::get_dim() const { return dim_; }
 
-int Trajectory::get_size() const { return size_; }
+int Trajectory::get_size() const { return knot_points_.size(); }
 
 int Trajectory::get_pose_size() const { return pose_size_; }
 
 int Trajectory::get_velocity_size() const { return velocity_size_; }
 
-const MatrixXd& Trajectory::get_data() const { return data_; }
+MatrixXd Trajectory::get_data() const {
+  MatrixXd data(get_size(), dim_);
+
+  for (int i = 0; i < get_size(); ++i) {
+    data.row(i) = knot_points_.at(i).get_data();
+  }
+
+  return data;
+}
 
 void Trajectory::set_data(const MatrixXd& data) {
   // The given data must have the right number of columns. The size of the
@@ -120,7 +136,7 @@ void Trajectory::set_data(const MatrixXd& data) {
                 "Trajectory data has an incompatible number of columns. The "
                 "number of columns must equal the dimension of the "
                 "Trajectory.");
-  data_ = data;
+  copy_data_to_knot_points(data);
 }
 
 void Trajectory::AddKnotPoint(const State& state, const int index) {
@@ -131,25 +147,19 @@ void Trajectory::AddKnotPoint(const State& state, const int index) {
       std::invalid_argument,
       "State's pose and velocity sizes do not match that of the trajectory.");
   // Making sure that the index is correct.
-  MORPH_REQUIRE(index >= -1 && index < size_, std::out_of_range,
-                "Index out of bounds. Indices must be between -1 and size - 1 "
+  MORPH_REQUIRE(index >= 0 && index <= get_size(), std::out_of_range,
+                "Index out of bounds. Indices must be between 0 and size"
                 "(both inclusive).");
 
-  MatrixXd new_data = MatrixXd::Zero(size_ + 1, dim_);
-  new_data.block(0, 0, index + 1, dim_) = data_.block(0, 0, index + 1, dim_);
-  new_data.row(index + 1) = state.get_data();
-  new_data.block(index + 2, 0, size_ - index - 1, dim_) =
-      data_.block(index + 1, 0, size_ - index - 1, dim_);
-
-  data_ = new_data;
+  knot_points_.insert(knot_points_.begin() + index, state);
 }
 
 void Trajectory::AddKnotPoint(const State& state) {
   // If the index is not given, it means the given point needs to be added to
   // the end of the trajectory.
-  // AddKnotPoint is called with index = size_ - 1. The state validation is
+  // AddKnotPoint is called with index = size. The state validation is
   // done there.
-  AddKnotPoint(state, size_ - 1);
+  AddKnotPoint(state, get_size());
 }
 
 void Trajectory::AddKnotPoints(const vector<State>& states,
