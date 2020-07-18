@@ -15,6 +15,8 @@ using Eigen::MatrixXd;
 using morphac::constructs::State;
 
 void Trajectory::copy_data_to_knot_points(const MatrixXd& data) {
+  // First we clear all of the existing points.
+  knot_points_.clear();
   for (unsigned int i = 0; i < data.rows(); ++i) {
     knot_points_.push_back(
         State(data.row(i).head(pose_size_), data.row(i).tail(velocity_size_)));
@@ -22,8 +24,7 @@ void Trajectory::copy_data_to_knot_points(const MatrixXd& data) {
 }
 
 Trajectory::Trajectory(const State& state)
-    : dim_(state.get_size()),
-      pose_size_(state.get_pose_size()),
+    : pose_size_(state.get_pose_size()),
       velocity_size_(state.get_velocity_size()) {
   MORPH_REQUIRE(!state.IsEmpty(), std::invalid_argument,
                 "State must not be empty.");
@@ -42,7 +43,6 @@ Trajectory::Trajectory(const vector<State>& knot_points) {
         std::invalid_argument,
         "Each state element needs to have the same pose and velocity sizes.");
   }
-  dim_ = knot_points.at(0).get_size();
   pose_size_ = knot_points.at(0).get_pose_size();
   velocity_size_ = knot_points.at(0).get_velocity_size();
   knot_points_ = knot_points;
@@ -50,7 +50,7 @@ Trajectory::Trajectory(const vector<State>& knot_points) {
 
 Trajectory::Trajectory(const MatrixXd& data, const int pose_size,
                        const int velocity_size)
-    : dim_(data.cols()), pose_size_(pose_size), velocity_size_(velocity_size) {
+    : pose_size_(pose_size), velocity_size_(velocity_size) {
   // Data matrix must be valid.
   MORPH_REQUIRE(data.rows() > 0 && data.cols() > 0, std::invalid_argument,
                 "Trajectory data must not have zero rows or columns.");
@@ -62,7 +62,7 @@ Trajectory::Trajectory(const MatrixXd& data, const int pose_size,
 
 Trajectory& Trajectory::operator+=(const Trajectory& trajectory) {
   // Making sure they have the same dimensions and pose and velocity sizes.
-  MORPH_REQUIRE(this->dim_ == trajectory.dim_, std::invalid_argument,
+  MORPH_REQUIRE(this->get_dim() == trajectory.get_dim(), std::invalid_argument,
                 "Trajectories do not have the same dimension. The += operator "
                 "requires them to have the same dimension.");
   MORPH_REQUIRE(this->pose_size_ == trajectory.pose_size_,
@@ -88,7 +88,7 @@ Trajectory Trajectory::operator+(const Trajectory& trajectory) const {
 
 bool operator==(const Trajectory& trajectory1, const Trajectory& trajectory2) {
   // Two trajectories are equal if all of their member values are equal.
-  if ((trajectory1.dim_ != trajectory2.dim_) ||
+  if ((trajectory1.get_dim() != trajectory2.get_dim()) ||
       (trajectory1.get_size() != trajectory2.get_size()) ||
       (trajectory1.pose_size_ != trajectory2.pose_size_)) {
     return false;
@@ -133,7 +133,7 @@ string Trajectory::ToString() const {
   return os.str();
 }
 
-int Trajectory::get_dim() const { return dim_; }
+int Trajectory::get_dim() const { return pose_size_ + velocity_size_; }
 
 int Trajectory::get_size() const { return knot_points_.size(); }
 
@@ -142,7 +142,7 @@ int Trajectory::get_pose_size() const { return pose_size_; }
 int Trajectory::get_velocity_size() const { return velocity_size_; }
 
 MatrixXd Trajectory::get_data() const {
-  MatrixXd data(get_size(), dim_);
+  MatrixXd data(get_size(), get_dim());
 
   for (int i = 0; i < get_size(); ++i) {
     data.row(i) = knot_points_.at(i).get_data();
@@ -154,7 +154,7 @@ MatrixXd Trajectory::get_data() const {
 void Trajectory::set_data(const MatrixXd& data) {
   // The given data must have the right number of columns. The size of the
   // trajectory could be different.
-  MORPH_REQUIRE(data.cols() == dim_, std::invalid_argument,
+  MORPH_REQUIRE(data.cols() == get_dim(), std::invalid_argument,
                 "Trajectory data has an incompatible number of columns. The "
                 "number of columns must equal the dimension of the "
                 "Trajectory.");

@@ -70,7 +70,6 @@ class Trajectory {
 
   void copy_data_to_knot_points(const Eigen::MatrixXd& data);
 
-  int dim_;
   int pose_size_;
   int velocity_size_;
   std::vector<morphac::constructs::State> knot_points_;

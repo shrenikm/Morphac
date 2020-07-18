@@ -79,11 +79,49 @@ TEST_F(TrajectoryTest, CopyAssignment) {
 TEST_F(TrajectoryTest, InvalidConstruction) {
   // The following ways of construction must throw an exception.
   // Constructing with an empty state.
-  ASSERT_THROW(Trajectory{State(0, 0)}, std::invalid_argument);
+  ASSERT_THROW(Trajectory trajectory{State(0, 0)}, std::invalid_argument);
 
   // Constructing with an empty knot points vector.
   vector<State> knot_points;
-  ASSERT_THROW(Trajectory{knot_points}, std::invalid_argument);
+  ASSERT_THROW(Trajectory trajectory{knot_points}, std::invalid_argument);
+
+  // Constructing with a vector of States that don't have the same sizes.
+  knot_points.push_back(State(3, 4));
+  knot_points.push_back(State(3, 4));
+  knot_points.push_back(State(3, 3));
+  ASSERT_THROW(Trajectory trajectory{knot_points}, std::invalid_argument);
+
+  // Constructing with an empty matrix.
+  ASSERT_THROW(Trajectory trajectory(MatrixXd::Zero(0, 0), 0, 0),
+               std::invalid_argument);
+
+  // Constructing with incorrect pose/velocity sizes.
+  ASSERT_THROW(Trajectory trajectory(MatrixXd::Zero(20, 3), 3, 1),
+               std::invalid_argument);
+  ASSERT_THROW(Trajectory trajectory(MatrixXd::Zero(20, 3), 2, 0),
+               std::invalid_argument);
+}
+
+TEST_F(TrajectoryTest, ConstTrajectory) {
+  State state({1, 2}, {3, 4});
+  const Trajectory trajectory{state};
+  VectorXd data(4);
+  data << 1, 2, 3, 4;
+
+  // Get members.
+  ASSERT_EQ(trajectory.get_dim(), 4);
+  ASSERT_EQ(trajectory.get_size(), 1);
+  ASSERT_EQ(trajectory.get_pose_size(), 2);
+  ASSERT_EQ(trajectory.get_velocity_size(), 2);
+  ASSERT_TRUE(trajectory.get_data().isApprox(data.transpose()));
+
+  // Positional accessing.
+  ASSERT_EQ(trajectory(0), state);
+
+  // After const casting, we should be able to modify the data.
+  MatrixXd new_data = MatrixXd::Random(100, 4);
+  const_cast<Trajectory &>(trajectory).set_data(new_data);
+  ASSERT_TRUE(trajectory.get_data().isApprox(new_data));
 }
 
 }  // namespace
