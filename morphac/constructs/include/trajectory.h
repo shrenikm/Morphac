@@ -38,7 +38,7 @@ class Trajectory {
   // we don't keep track of each row of the data matrix as a State object.
   // The ReplaceKnotPoint function needs to be used for this.
   morphac::constructs::State& operator()(const int index);
-  morphac::constructs::State operator()(const int index) const;
+  const morphac::constructs::State& operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
                                   const Trajectory& trajectory);

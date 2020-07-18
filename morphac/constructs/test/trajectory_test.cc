@@ -124,6 +124,138 @@ TEST_F(TrajectoryTest, ConstTrajectory) {
   ASSERT_TRUE(trajectory.get_data().isApprox(new_data));
 }
 
+TEST_F(TrajectoryTest, GetDim) {
+  ASSERT_EQ(trajectory1_->get_dim(), 5);
+  ASSERT_EQ(trajectory2_->get_dim(), 3);
+  ASSERT_EQ(trajectory3_->get_dim(), 2);
+  ASSERT_EQ(trajectory4_->get_dim(), 6);
+}
+
+TEST_F(TrajectoryTest, GetSize) {
+  ASSERT_EQ(trajectory1_->get_size(), 1);
+  ASSERT_EQ(trajectory2_->get_size(), 3);
+  ASSERT_EQ(trajectory3_->get_size(), 10);
+  ASSERT_EQ(trajectory4_->get_size(), 200);
+}
+
+TEST_F(TrajectoryTest, GetPoseSize) {
+  ASSERT_EQ(trajectory1_->get_pose_size(), 3);
+  ASSERT_EQ(trajectory2_->get_pose_size(), 2);
+  ASSERT_EQ(trajectory3_->get_pose_size(), 2);
+  ASSERT_EQ(trajectory4_->get_pose_size(), 4);
+}
+
+TEST_F(TrajectoryTest, GetVelocitySize) {
+  ASSERT_EQ(trajectory1_->get_velocity_size(), 2);
+  ASSERT_EQ(trajectory2_->get_velocity_size(), 1);
+  ASSERT_EQ(trajectory3_->get_velocity_size(), 0);
+  ASSERT_EQ(trajectory4_->get_velocity_size(), 2);
+}
+
+TEST_F(TrajectoryTest, GetData) {
+  MatrixXd trajectory2_data(3, 3);
+  trajectory2_data << 1., 2., 0., -7., 0., 3., 4., 6., 8.;
+  ASSERT_TRUE(trajectory1_->get_data().isApprox(MatrixXd::Zero(1, 5)));
+  ASSERT_TRUE(trajectory2_->get_data().isApprox(trajectory2_data));
+  ASSERT_TRUE(trajectory3_->get_data().isApprox(trajectory_data1_));
+  ASSERT_TRUE(trajectory4_->get_data().isApprox(trajectory_data2_));
+}
+
+TEST_F(TrajectoryTest, SetData) {
+  MatrixXd data1 = MatrixXd::Random(50, 5);
+  MatrixXd data2 = MatrixXd::Random(500, 6);
+
+  trajectory1_->set_data(data1);
+  trajectory4_->set_data(data2);
+
+  ASSERT_TRUE(trajectory1_->get_data().isApprox(data1));
+  ASSERT_TRUE(trajectory4_->get_data().isApprox(data2));
+}
+
+TEST_F(TrajectoryTest, InvalidSetData) {
+  // Making sure that if the data's number of columns do not equal dim, it
+  // throws an exception.
+  ASSERT_THROW(trajectory1_->set_data(MatrixXd::Random(1, 4)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory1_->set_data(MatrixXd::Random(10, 6)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory2_->set_data(MatrixXd::Random(3, 2)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory2_->set_data(MatrixXd::Random(10, 4)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory3_->set_data(MatrixXd::Random(10, 1)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory3_->set_data(MatrixXd::Random(20, 3)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory4_->set_data(MatrixXd::Random(200, 5)),
+               std::invalid_argument);
+  ASSERT_THROW(trajectory4_->set_data(MatrixXd::Random(20, 7)),
+               std::invalid_argument);
+}
+
+TEST_F(TrajectoryTest, GetKnotPointAt) {
+  // Tests the () overload.
+  ASSERT_EQ((*trajectory1_)(0), State(3, 2));
+
+  for (int i = 0; i < trajectory2_->get_size(); ++i) {
+    ASSERT_EQ((*trajectory2_)(i), knot_points_.at(i));
+  }
+
+  for (int i = 0; i < trajectory3_->get_size(); ++i) {
+    VectorXd pose_data =
+        trajectory3_->get_data().row(i).head(trajectory3_->get_pose_size());
+    VectorXd velocity_data =
+        trajectory3_->get_data().row(i).tail(trajectory3_->get_velocity_size());
+    ASSERT_EQ((*trajectory3_)(i), State(pose_data, velocity_data));
+  }
+
+  for (int i = 0; i < trajectory4_->get_size(); ++i) {
+    VectorXd pose_data =
+        trajectory4_->get_data().row(i).head(trajectory4_->get_pose_size());
+    VectorXd velocity_data =
+        trajectory4_->get_data().row(i).tail(trajectory4_->get_velocity_size());
+    ASSERT_EQ((*trajectory4_)(i), State(pose_data, velocity_data));
+  }
+}
+
+TEST_F(TrajectoryTest, GetKnotPointAtAfterSetData) {
+  // Test that if the data is changed, the knot point State object retrieved
+  // also reflects this change.
+  MatrixXd data = MatrixXd::Random(75, 5);
+  trajectory1_->set_data(data);
+
+  for (int i = 0; i < data.rows(); ++i) {
+    VectorXd pose_data =
+        trajectory1_->get_data().row(i).head(trajectory1_->get_pose_size());
+    VectorXd velocity_data =
+        trajectory1_->get_data().row(i).tail(trajectory1_->get_velocity_size());
+    ASSERT_EQ((*trajectory1_)(i), State(pose_data, velocity_data));
+  }
+}
+
+TEST_F(TrajectoryTest, InvalidGetKnotPointAt) {
+  // Calling the () overload with out of bounds indices must throw an exception.
+  ASSERT_THROW((*trajectory1_)(-1), std::out_of_range);
+  ASSERT_THROW((*trajectory1_)(1), std::out_of_range);
+  ASSERT_THROW((*trajectory2_)(-1), std::out_of_range);
+  ASSERT_THROW((*trajectory2_)(3), std::out_of_range);
+  ASSERT_THROW((*trajectory3_)(-1), std::out_of_range);
+  ASSERT_THROW((*trajectory3_)(10), std::out_of_range);
+  ASSERT_THROW((*trajectory4_)(-1), std::out_of_range);
+  ASSERT_THROW((*trajectory4_)(200), std::out_of_range);
+}
+
+TEST_F(TrajectoryTest, SetKnotPointAt) {
+  // Test that the () overload can be used for setting.
+  (*trajectory1_)(0) = State({1, 1, 1}, {1, 1});
+  ASSERT_TRUE(trajectory1_->get_data().isApprox(MatrixXd::Ones(1, 5)));
+
+  for (int i = 0; i < trajectory4_->get_size(); ++i) {
+    (*trajectory4_)(i) = State({0, 0, 0, 0}, {0, 0});
+  }
+  ASSERT_TRUE(trajectory4_->get_data().isApprox(MatrixXd::Zero(200, 6)));
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

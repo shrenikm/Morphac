@@ -18,14 +18,12 @@ Velocity::Velocity(const int size) : size_(size) {
   data_ = VectorXd::Zero(size);
 }
 
-Velocity::Velocity(const VectorXd& data)
-    : size_(data.size()), data_(data) {
+Velocity::Velocity(const VectorXd& data) : size_(data.size()), data_(data) {
   MORPH_REQUIRE(data.size() >= 0, std::invalid_argument,
                 "Velocity data size is non-positive.");
 }
 
-Velocity::Velocity(initializer_list<double> elements)
-    : size_(elements.size()) {
+Velocity::Velocity(initializer_list<double> elements) : size_(elements.size()) {
   // As it is an initializer list, the size is always going to be >= 0 and need
   // not be checked.
   vector<double> data_vector(elements);
@@ -102,7 +100,7 @@ double& Velocity::operator()(const int index) {
   return data_(index);
 }
 
-double Velocity::operator()(const int index) const {
+const double& Velocity::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");

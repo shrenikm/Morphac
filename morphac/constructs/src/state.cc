@@ -27,7 +27,7 @@ State::State(const VectorXd& pose_data, const VectorXd& velocity_data)
 
 State::State(initializer_list<double> pose_elements,
              initializer_list<double> velocity_elements)
-    // Temporary initialization as we Pose and Velocity don't have defaults.
+    // Temporary initialization as the Pose and Velocity don't have defaults.
     // TODO: Make this cleaner.
     : pose_(Pose(pose_elements.size())),
       velocity_(Velocity(velocity_elements)) {
@@ -145,7 +145,7 @@ double& State::operator()(const int index) {
   }
 }
 
-double State::operator()(const int index) const {
+const double& State::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
                 "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");

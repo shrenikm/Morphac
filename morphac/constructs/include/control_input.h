@@ -35,7 +35,7 @@ class ControlInput {
                          const ControlInput& control_input2);
 
   double& operator()(const int index);
-  double operator()(const int index) const;
+  const double& operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
                                   const ControlInput& control_input);

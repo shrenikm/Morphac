@@ -17,14 +17,12 @@ Pose::Pose(const int size) : size_(size) {
   data_ = VectorXd::Zero(size);
 }
 
-Pose::Pose(const VectorXd& data)
-    : size_(data.size()), data_(data) {
+Pose::Pose(const VectorXd& data) : size_(data.size()), data_(data) {
   MORPH_REQUIRE(data.size() >= 0, std::invalid_argument,
                 "Pose data size is non-positive.");
 }
 
-Pose::Pose(initializer_list<double> elements)
-    : size_(elements.size()) {
+Pose::Pose(initializer_list<double> elements) : size_(elements.size()) {
   // As it is an initializer list, the size is always going to be >= 0 and need
   // not be checked.
   vector<double> data_vector(elements);
@@ -95,7 +93,7 @@ double& Pose::operator()(const int index) {
   return data_(index);
 }
 
-double Pose::operator()(const int index) const {
+const double& Pose::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");

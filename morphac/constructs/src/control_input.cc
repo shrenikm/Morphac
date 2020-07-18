@@ -103,7 +103,7 @@ double& ControlInput::operator()(const int index) {
   return data_(index);
 }
 
-double ControlInput::operator()(const int index) const {
+const double& ControlInput::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "ControlInput index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "ControlInput object is empty");

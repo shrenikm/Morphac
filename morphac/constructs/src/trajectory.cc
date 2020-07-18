@@ -112,7 +112,7 @@ State& Trajectory::operator()(const int index) {
   return knot_points_.at(index);
 }
 
-State Trajectory::operator()(const int index) const {
+const State& Trajectory::operator()(const int index) const {
   MORPH_REQUIRE(index >= 0 && index < this->get_size(), std::out_of_range,
                 "Trajectory index out of range.");
   return knot_points_.at(index);

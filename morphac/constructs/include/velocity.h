@@ -33,7 +33,7 @@ class Velocity {
   friend bool operator!=(const Velocity& velocity1, const Velocity& velocity2);
 
   double& operator()(const int index);
-  double operator()(const int index) const;
+  const double& operator()(const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os, const Velocity& velocity);
   // String representation that uses the << overload.
