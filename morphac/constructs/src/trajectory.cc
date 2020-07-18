@@ -21,11 +21,31 @@ void Trajectory::copy_data_to_knot_points(const MatrixXd& data) {
   }
 }
 
-Trajectory::Trajectory(const State& initial_state)
-    : dim_(initial_state.get_size()),
-      pose_size_(initial_state.get_pose_size()),
-      velocity_size_(initial_state.get_velocity_size()) {
-  knot_points_.push_back(initial_state);
+Trajectory::Trajectory(const State& state)
+    : dim_(state.get_size()),
+      pose_size_(state.get_pose_size()),
+      velocity_size_(state.get_velocity_size()) {
+  MORPH_REQUIRE(!state.IsEmpty(), std::invalid_argument,
+                "State must not be empty.");
+  knot_points_.push_back(state);
+}
+
+Trajectory::Trajectory(const vector<State>& knot_points) {
+  // First we make sure that the vector is not empty each state element has the
+  // same dimensions.
+  MORPH_REQUIRE(knot_points.size() > 0, std::invalid_argument,
+                "Vector of knot points must not be empty.");
+  for (auto& state : knot_points) {
+    MORPH_REQUIRE(
+        state.get_pose_size() == knot_points.at(0).get_pose_size() &&
+            state.get_velocity_size() == knot_points.at(0).get_velocity_size(),
+        std::invalid_argument,
+        "Each state element needs to have the same pose and velocity sizes.");
+  }
+  dim_ = knot_points.at(0).get_size();
+  pose_size_ = knot_points.at(0).get_pose_size();
+  velocity_size_ = knot_points.at(0).get_velocity_size();
+  knot_points_ = knot_points;
 }
 
 Trajectory::Trajectory(const MatrixXd& data, const int pose_size,
@@ -35,7 +55,7 @@ Trajectory::Trajectory(const MatrixXd& data, const int pose_size,
   MORPH_REQUIRE(data.rows() > 0 && data.cols() > 0, std::invalid_argument,
                 "Trajectory data must not have zero rows or columns.");
   // pose_size + velocity_dim must equal dim.
-  MORPH_REQUIRE(data.rows() == pose_size + velocity_size, std::invalid_argument,
+  MORPH_REQUIRE(data.cols() == pose_size + velocity_size, std::invalid_argument,
                 "Trajectory data and pose/velocity sizes are incompatible.");
   copy_data_to_knot_points(data);
 }

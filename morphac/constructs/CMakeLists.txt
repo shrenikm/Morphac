@@ -80,6 +80,7 @@ set(CONSTRUCTS_TEST_SRC
   control_input_test.cc
   pose_test.cc
   state_test.cc
+  trajectory_test.cc
   velocity_test.cc
 )
 
@@ -122,6 +123,12 @@ target_link_libraries(state_test
   PUBLIC
   gtest_main
   state
+)
+
+target_link_libraries(trajectory_test
+  PUBLIC
+  gtest_main
+  trajectory
 )
 
 target_link_libraries(velocity_test

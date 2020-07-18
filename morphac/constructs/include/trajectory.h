@@ -15,7 +15,8 @@ namespace constructs {
 
 class Trajectory {
  public:
-  Trajectory(const morphac::constructs::State& initial_state);
+  Trajectory(const morphac::constructs::State& state);
+  Trajectory(const std::vector<morphac::constructs::State>& knot_points);
   Trajectory(const Eigen::MatrixXd& data, const int pose_size,
              const int velocity_size);
 
