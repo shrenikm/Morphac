@@ -345,6 +345,78 @@ TEST_F(TrajectoryTest, StringRepresentation) {
   os << " " << (*trajectory2_) << std::endl;
 }
 
+TEST_F(TrajectoryTest, AddKnotPoint) {
+  // Test that knot points can be added anywhere in the trajectory.
+  trajectory1_->AddKnotPoint(State({1, 1, 1}, {1, 1}), 0);
+  trajectory1_->AddKnotPoint(State({2, 2, 2}, {2, 2}), 1);
+  trajectory1_->AddKnotPoint(State({3, 3, 3}, {3, 3}), 3);
+
+  ASSERT_EQ(trajectory1_->get_size(), 4);
+  ASSERT_EQ((*trajectory1_)(0), State({1, 1, 1}, {1, 1}));
+  ASSERT_EQ((*trajectory1_)(1), State({2, 2, 2}, {2, 2}));
+  ASSERT_EQ((*trajectory1_)(2), State({0, 0, 0}, {0, 0}));
+  ASSERT_EQ((*trajectory1_)(3), State({3, 3, 3}, {3, 3}));
+
+  // Testing on a trajectory with size > 1.
+  // Add a point in the middle of the trajectory.
+  trajectory4_->AddKnotPoint(State({1, 2, 3, 4}, {5, 6}), 99);
+
+  // Test that the point has been added correctly.
+  ASSERT_EQ(trajectory4_->get_size(), 201);
+  ASSERT_EQ((*trajectory4_)(99), State({1, 2, 3, 4}, {5, 6}));
+  // Making sure that the rest of the data has not been affected and is ordered
+  // correctly.
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(0, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(0, 0, 99, 6)));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(100, 0, 101, 6)
+                  .isApprox(trajectory_data2_.block(99, 0, 101, 6)));
+
+  // Adding a knot point at the start of the trajectory.
+  trajectory4_->AddKnotPoint(State(4, 2), 0);
+  ASSERT_EQ(trajectory4_->get_size(), 202);
+  ASSERT_EQ((*trajectory4_)(0), State({0, 0, 0, 0}, {0, 0}));
+  ASSERT_EQ((*trajectory4_)(100), State({1, 2, 3, 4}, {5, 6}));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(1, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(0, 0, 99, 6)));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(101, 0, 101, 6)
+                  .isApprox(trajectory_data2_.block(99, 0, 101, 6)));
+
+  // Adding a knot point at the end of the trajectory. We use the overload that
+  // doesn't take in an index.
+  trajectory4_->AddKnotPoint(State({1, 1, 1, 1}, {1, 1}));
+  ASSERT_EQ(trajectory4_->get_size(), 203);
+  ASSERT_EQ((*trajectory4_)(0), State({0, 0, 0, 0}, {0, 0}));
+  ASSERT_EQ((*trajectory4_)(100), State({1, 2, 3, 4}, {5, 6}));
+  ASSERT_EQ((*trajectory4_)(202), State({1, 1, 1, 1}, {1, 1}));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(1, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(0, 0, 99, 6)));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(101, 0, 101, 6)
+                  .isApprox(trajectory_data2_.block(99, 0, 101, 6)));
+}
+
+TEST_F(TrajectoryTest, InvalidAddKnotPoint) {
+  // The function is invalid either if the state or the index is invalid.
+  // Invalid state.
+  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 3)), std::invalid_argument);
+  ASSERT_THROW(trajectory4_->AddKnotPoint(State(3, 2)), std::invalid_argument);
+
+  // Invalid index.
+  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 2), -1),
+               std::out_of_range);
+  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 2), 2),
+               std::out_of_range);
+  ASSERT_THROW(trajectory4_->AddKnotPoint(State(4, 2), -1),
+               std::out_of_range);
+  ASSERT_THROW(trajectory4_->AddKnotPoint(State(4, 2), 201),
+               std::out_of_range);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
