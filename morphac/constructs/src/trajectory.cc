@@ -121,7 +121,8 @@ const State& Trajectory::operator()(const int index) const {
 ostream& operator<<(ostream& os, const Trajectory& trajectory) {
   os << "Trajectory[\n";
   for (int i = 0; i < trajectory.get_size(); ++i) {
-    os << "\t" << trajectory.knot_points_.at(i) << "\n";
+    // Print states with some offset.
+    os << "  " << trajectory.knot_points_.at(i) << "\n";
   }
   os << "]";
   return os;

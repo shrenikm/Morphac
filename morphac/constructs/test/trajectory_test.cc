@@ -256,6 +256,95 @@ TEST_F(TrajectoryTest, SetKnotPointAt) {
   ASSERT_TRUE(trajectory4_->get_data().isApprox(MatrixXd::Zero(200, 6)));
 }
 
+TEST_F(TrajectoryTest, Addition) {
+  // Test the += operator.
+  Trajectory trajectory1{*trajectory1_};
+
+  trajectory1 += (*trajectory1_);
+
+  ASSERT_EQ(trajectory1.get_dim(), 5);
+  ASSERT_EQ(trajectory1.get_size(), 2);
+  ASSERT_EQ(trajectory1.get_pose_size(), 3);
+  ASSERT_EQ(trajectory1.get_velocity_size(), 2);
+  ASSERT_TRUE(trajectory1.get_data().isApprox(MatrixXd::Zero(2, 5)));
+
+  // Test adding with self.
+  trajectory1 += trajectory1;
+
+  ASSERT_EQ(trajectory1.get_dim(), 5);
+  ASSERT_EQ(trajectory1.get_size(), 4);
+  ASSERT_EQ(trajectory1.get_pose_size(), 3);
+  ASSERT_EQ(trajectory1.get_velocity_size(), 2);
+  ASSERT_TRUE(trajectory1.get_data().isApprox(MatrixXd::Zero(4, 5)));
+
+  //// Test the + operator.
+  MatrixXd end_trajectory_data = MatrixXd::Random(100, 6);
+  MatrixXd trajectory_data(300, 6);
+  trajectory_data << trajectory_data2_, end_trajectory_data;
+
+  Trajectory end_trajectory{end_trajectory_data, 4, 2};
+
+  Trajectory trajectory = (*trajectory4_) + end_trajectory;
+
+  ASSERT_EQ(trajectory.get_dim(), 6);
+  ASSERT_EQ(trajectory.get_size(), 300);
+  ASSERT_EQ(trajectory.get_pose_size(), 4);
+  ASSERT_EQ(trajectory.get_velocity_size(), 2);
+  ASSERT_TRUE(trajectory.get_data().isApprox(trajectory_data));
+}
+
+TEST_F(TrajectoryTest, InvalidAddition) {
+  // Addition is invalid if the trajectories don't have the same dimensions.
+  ASSERT_THROW((*trajectory1_) += Trajectory(State(3, 3)),
+               std::invalid_argument);
+  ASSERT_THROW((*trajectory1_) += Trajectory(MatrixXd::Ones(10, 4), 2, 2),
+               std::invalid_argument);
+
+  // Addition is invalid if the trajectories don't have the same pose and
+  // velocity sizes.
+  ASSERT_THROW((*trajectory1_) += Trajectory(State(2, 2)),
+               std::invalid_argument);
+  ASSERT_THROW((*trajectory1_) += Trajectory(MatrixXd::Ones(10, 5), 2, 3),
+               std::invalid_argument);
+
+  ASSERT_THROW((*trajectory1_) += Trajectory(State(3, 3)),
+               std::invalid_argument);
+  ASSERT_THROW((*trajectory1_) += Trajectory(MatrixXd::Ones(10, 5), 2, 3),
+               std::invalid_argument);
+}
+
+TEST_F(TrajectoryTest, Equality) {
+  Trajectory trajectory1{MatrixXd::Zero(1, 5), 3, 2};
+  Trajectory trajectory2{*trajectory2_};
+  Trajectory trajectory3{trajectory_data1_, 2, 0};
+
+  ASSERT_TRUE(trajectory1 == *trajectory1_);
+  ASSERT_TRUE(trajectory2 == *trajectory2_);
+  ASSERT_TRUE(trajectory3 == *trajectory3_);
+
+  ASSERT_TRUE(trajectory1 != trajectory2);
+  ASSERT_TRUE(trajectory2 != trajectory3);
+  ASSERT_TRUE(trajectory3 != trajectory1);
+
+  // Make sure that even if the dimensions are different, the trajectories
+  // cannot be equal if they have different individual pose and velocity sizes.
+  ASSERT_TRUE(trajectory1 != Trajectory(MatrixXd::Zero(1, 5), 2, 3));
+
+  // Make sure that even if all the dimensions and sizes are equal, the
+  // trajectories cannot be equal if they have different data.
+  ASSERT_TRUE(trajectory1 != Trajectory(MatrixXd::Ones(1, 5), 3, 2));
+}
+
+TEST_F(TrajectoryTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << (*trajectory1_);
+
+  // Multiple pose object representations in the stream.
+  os << " " << (*trajectory2_) << std::endl;
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
