@@ -407,13 +407,101 @@ TEST_F(TrajectoryTest, InvalidAddKnotPoint) {
   ASSERT_THROW(trajectory4_->AddKnotPoint(State(3, 2)), std::invalid_argument);
 
   // Invalid index.
-  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 2), -1),
+  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 2), -1), std::out_of_range);
+  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 2), 2), std::out_of_range);
+  ASSERT_THROW(trajectory4_->AddKnotPoint(State(4, 2), -1), std::out_of_range);
+  ASSERT_THROW(trajectory4_->AddKnotPoint(State(4, 2), 201), std::out_of_range);
+}
+
+TEST_F(TrajectoryTest, AddKnotPoints) {
+  // Adding 4 knot points. One at the start, one at the end, and two other
+  // between the existing points.
+  // Making a few copies for testing.
+  Trajectory trajectory2_copy1{*trajectory2_};
+  Trajectory trajectory2_copy2{*trajectory2_};
+  Trajectory trajectory2_copy3{*trajectory2_};
+
+  State state1{{1., 1.}, {1.}};
+  State state2{{2., 2.}, {2.}};
+  State state3{{3., 3.}, {3.}};
+  State state4{{4., 4.}, {4.}};
+  vector<State> knot_points{state1, state2, state3, state4};
+  vector<int> indices1{0, 2, 4, 6};
+  vector<int> indices2{4, 2, 6, 0};
+  vector<int> indices3{2, 6, 0, 4};
+
+  trajectory2_copy1.AddKnotPoints(knot_points, indices1);
+
+  // Making sure that the knot points are ordered correctly.
+  ASSERT_EQ(trajectory2_copy1.get_size(), 7);
+  ASSERT_EQ(trajectory2_copy1(0), state1);
+  ASSERT_EQ(trajectory2_copy1(1), knot_points_.at(0));
+  ASSERT_EQ(trajectory2_copy1(2), state2);
+  ASSERT_EQ(trajectory2_copy1(3), knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy1(4), state3);
+  ASSERT_EQ(trajectory2_copy1(5), knot_points_.at(2));
+  ASSERT_EQ(trajectory2_copy1(6), state4);
+
+  // Making sure that we get the same result even if the indices are not
+  // ordered.
+  trajectory2_copy2.AddKnotPoints(knot_points, indices2);
+
+  ASSERT_EQ(trajectory2_copy2.get_size(), 7);
+  ASSERT_EQ(trajectory2_copy2(0), state1);
+  ASSERT_EQ(trajectory2_copy2(1), knot_points_.at(0));
+  ASSERT_EQ(trajectory2_copy2(2), state2);
+  ASSERT_EQ(trajectory2_copy2(3), knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy2(4), state3);
+  ASSERT_EQ(trajectory2_copy2(5), knot_points_.at(2));
+  ASSERT_EQ(trajectory2_copy2(6), state4);
+
+  trajectory2_copy3.AddKnotPoints(knot_points, indices3);
+
+  ASSERT_EQ(trajectory2_copy3.get_size(), 7);
+  ASSERT_EQ(trajectory2_copy3(0), state1);
+  ASSERT_EQ(trajectory2_copy3(1), knot_points_.at(0));
+  ASSERT_EQ(trajectory2_copy3(2), state2);
+  ASSERT_EQ(trajectory2_copy3(3), knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy3(4), state3);
+  ASSERT_EQ(trajectory2_copy3(5), knot_points_.at(2));
+  ASSERT_EQ(trajectory2_copy3(6), state4);
+}
+
+TEST_F(TrajectoryTest, InvalidAddKnotPoints) {
+  Trajectory trajectory2_copy1{*trajectory2_};
+  Trajectory trajectory2_copy2{*trajectory2_};
+  Trajectory trajectory2_copy3{*trajectory2_};
+  Trajectory trajectory2_copy4{*trajectory2_};
+  Trajectory trajectory2_copy5{*trajectory2_};
+
+  State state1{{1., 1.}, {1.}};
+  State state2{{2., 2.}, {2.}};
+  State state3{{3., 3.}, {3.}};
+  State state4{{4., 4.}, {4.}};
+  vector<State> knot_points{state1, state2, state3, state4};
+  vector<int> indices0{0, 2};
+  vector<int> indices1{-1, 2, 4, 6};
+  vector<int> indices2{6, 3, 7, 1};
+  vector<int> indices3{3, 7, 6, -1};
+
+  // Make sure that if the knot points and indices sizes don't match, it throws
+  // an exception.
+  ASSERT_THROW(trajectory2_copy1.AddKnotPoints(knot_points, indices0),
+               std::invalid_argument);
+
+  // Make sure that if the knot points sizes are invalid, it throws an
+  // exception.
+  ASSERT_THROW(trajectory2_copy2.AddKnotPoints(
+                   vector<State>{State(2, 1), State(2, 2)}, indices0),
+               std::invalid_argument);
+
+  // Also make sure that even if there is any invalid index, it throws an
+  // exception.
+  ASSERT_THROW(trajectory2_copy3.AddKnotPoints(knot_points, indices1),
                std::out_of_range);
-  ASSERT_THROW(trajectory1_->AddKnotPoint(State(3, 2), 2),
+  ASSERT_THROW(trajectory2_copy4.AddKnotPoints(knot_points, indices2),
                std::out_of_range);
-  ASSERT_THROW(trajectory4_->AddKnotPoint(State(4, 2), -1),
-               std::out_of_range);
-  ASSERT_THROW(trajectory4_->AddKnotPoint(State(4, 2), 201),
+  ASSERT_THROW(trajectory2_copy5.AddKnotPoints(knot_points, indices3),
                std::out_of_range);
 }
 

@@ -184,10 +184,10 @@ void Trajectory::AddKnotPoint(const State& state) {
   AddKnotPoint(state, get_size());
 }
 
-void Trajectory::AddKnotPoints(const vector<State>& states,
+void Trajectory::AddKnotPoints(const vector<State>& knot_points,
                                vector<int> indices) {
   // Making sure that both vectors have the same number of elements.
-  MORPH_REQUIRE(states.size() == indices.size(), std::invalid_argument,
+  MORPH_REQUIRE(knot_points.size() == indices.size(), std::invalid_argument,
                 "States and indices must have the same number of elements");
 
   // As the length of the vector changes as we keep inserting points, we cannot
@@ -196,9 +196,9 @@ void Trajectory::AddKnotPoints(const vector<State>& states,
   // can be inserted in loop.
   sort(indices.begin(), indices.end());
 
-  for (unsigned int i = 0; i < states.size(); ++i) {
+  for (unsigned int i = 0; i < knot_points.size(); ++i) {
     // State validation is done in the AddKnotPoint function.
-    AddKnotPoint(states.at(i), indices.at(i));
+    AddKnotPoint(knot_points.at(i), indices.at(i));
   }
 }
 
