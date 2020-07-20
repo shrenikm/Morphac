@@ -198,6 +198,11 @@ void Trajectory::AddKnotPoints(const vector<State>& knot_points,
 
   for (unsigned int i = 0; i < knot_points.size(); ++i) {
     // State validation is done in the AddKnotPoint function.
+
+    // Note that even if a knot point is invalid, any valid knot point that
+    // occurs before the invalid one will get added to the trajectory. It is
+    // recommended to not not catch any exception arising from these functions
+    // as it would mean that the trajectory might have mutated.
     AddKnotPoint(knot_points.at(i), indices.at(i));
   }
 }
@@ -208,6 +213,12 @@ void Trajectory::RemoveKnotPoint(const int index) {
   knot_points_.erase(knot_points_.begin() + index);
 }
 
+void Trajectory::RemoveKnotPoint() {
+  // If the index is not given, it means the last point in the trajectory needs
+  // to be removed. RemoveKnotPoint is called with index = size - 1.
+  RemoveKnotPoint(get_size() - 1);
+}
+
 void Trajectory::RemoveKnotPoints(vector<int> indices) {
   // Validity check for the indices happens in the RemoveKnotPoint function.
 
@@ -216,8 +227,8 @@ void Trajectory::RemoveKnotPoints(vector<int> indices) {
   // We first sort the indices in descending order, after which the points
   // can be removed in loop.
   sort(indices.begin(), indices.end(), greater<int>());
-  for (unsigned int i = 0; i < indices.size(); ++i) {
-    RemoveKnotPoint(indices.at(i));
+  for (auto& index : indices) {
+    RemoveKnotPoint(index);
   }
 }
 

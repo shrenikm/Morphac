@@ -60,6 +60,7 @@ class Trajectory {
                      std::vector<int> indices);
 
   void RemoveKnotPoint(const int index);
+  void RemoveKnotPoint();
   void RemoveKnotPoints(std::vector<int> indices);
 
  private:

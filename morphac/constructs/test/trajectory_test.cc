@@ -505,6 +505,97 @@ TEST_F(TrajectoryTest, InvalidAddKnotPoints) {
                std::out_of_range);
 }
 
+TEST_F(TrajectoryTest, RemoveKnotPoint) {
+  trajectory1_->RemoveKnotPoint(0);
+
+  ASSERT_EQ(trajectory1_->get_size(), 0);
+  ASSERT_TRUE(trajectory1_->get_data().isApprox(MatrixXd::Zero(0, 5)));
+
+  // Remove points from a trajectory with size > 1.
+  trajectory4_->RemoveKnotPoint(0);
+  ASSERT_EQ(trajectory4_->get_size(), 199);
+  ASSERT_TRUE(
+      trajectory4_->get_data().isApprox(trajectory_data2_.block(1, 0, 199, 6)));
+
+  // Remove a point from the middle.
+  trajectory4_->RemoveKnotPoint(99);
+  ASSERT_EQ(trajectory4_->get_size(), 198);
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(0, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(1, 0, 99, 6)));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(99, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(101, 0, 99, 6)));
+
+  // Remove the last point. We use the overload that doesn't take an index.
+  trajectory4_->RemoveKnotPoint();
+  ASSERT_EQ(trajectory4_->get_size(), 197);
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(0, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(1, 0, 99, 6)));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(99, 0, 98, 6)
+                  .isApprox(trajectory_data2_.block(101, 0, 98, 6)));
+}
+
+TEST_F(TrajectoryTest, InvalidRemoveKnotPoint) {
+  // It should throw an exception if the index is invalid.
+  ASSERT_THROW(trajectory1_->RemoveKnotPoint(-1), std::out_of_range);
+  ASSERT_THROW(trajectory1_->RemoveKnotPoint(1), std::out_of_range);
+
+  trajectory1_->RemoveKnotPoint(0);
+  ASSERT_THROW(trajectory1_->RemoveKnotPoint(0), std::out_of_range);
+
+  // Test for a trajectory with size > 1.
+  ASSERT_THROW(trajectory4_->RemoveKnotPoint(-1), std::out_of_range);
+  ASSERT_THROW(trajectory4_->RemoveKnotPoint(200), std::out_of_range);
+}
+
+TEST_F(TrajectoryTest, RemoveKnotPoints) {
+  Trajectory trajectory2_copy1{*trajectory2_};
+  Trajectory trajectory2_copy2{*trajectory2_};
+
+  vector<int> indices1{2, 0};
+  vector<int> indices2{0, 2};
+
+  trajectory2_copy1.RemoveKnotPoints(indices1);
+  ASSERT_EQ(trajectory2_copy1.get_size(), 1);
+  ASSERT_EQ(trajectory2_copy1(0), knot_points_.at(1));
+
+  // Making sure that it works even if the indices are not ordered.
+  trajectory2_copy2.RemoveKnotPoints(indices2);
+  ASSERT_EQ(trajectory2_copy2.get_size(), 1);
+  ASSERT_EQ(trajectory2_copy2(0), knot_points_.at(1));
+
+  // Testing the same on a bigger trajectory.
+  trajectory4_->RemoveKnotPoints(vector<int>{0, 99, 199});
+  ASSERT_EQ(trajectory4_->get_size(), 197);
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(0, 0, 98, 6)
+                  .isApprox(trajectory_data2_.block(1, 0, 98, 6)));
+  ASSERT_TRUE(trajectory4_->get_data()
+                  .block(98, 0, 99, 6)
+                  .isApprox(trajectory_data2_.block(100, 0, 99, 6)));
+}
+
+TEST_F(TrajectoryTest, InvalidRemoveKnotPoints) {
+  Trajectory trajectory2_copy1{*trajectory2_};
+  Trajectory trajectory2_copy2{*trajectory2_};
+
+  Trajectory trajectory4_copy1{*trajectory4_};
+  Trajectory trajectory4_copy2{*trajectory4_};
+
+  ASSERT_THROW(trajectory2_copy1.RemoveKnotPoints(vector<int>{-1, 0}),
+               std::out_of_range);
+  ASSERT_THROW(trajectory2_copy2.RemoveKnotPoints(vector<int>{1, 3}),
+               std::out_of_range);
+
+  ASSERT_THROW(trajectory4_copy1.RemoveKnotPoints(vector<int>{-1, 0, 100}),
+               std::out_of_range);
+  ASSERT_THROW(trajectory4_copy2.RemoveKnotPoints(vector<int>{100, 200}),
+               std::out_of_range);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
