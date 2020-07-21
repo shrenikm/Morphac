@@ -16,8 +16,8 @@ void define_state_binding(py::module& m) {
 
   // We don't wrap the initializer_list constructor as we can use a list to
   // Call the VectorXd constructor from python anyway.
-  state.def(py::init<const int, const int>(), py::arg("size_pose"),
-            py::arg("size_velocity"));
+  state.def(py::init<const int, const int>(), py::arg("pose_size"),
+            py::arg("velocity_size"));
   state.def(py::init<const VectorXd&, const VectorXd&>(), py::arg("data_pose"),
             py::arg("data_velocity"));
   state.def(py::init<const Pose&, const Velocity&>(), py::arg("pose"),
@@ -33,19 +33,16 @@ void define_state_binding(py::module& m) {
   state.def(py::self != py::self);
   state.def("__repr__", &State::ToString);
   state.def_property_readonly("size", &State::get_size);
-  state.def_property_readonly("size_pose", &State::get_pose_size);
-  state.def_property_readonly("size_velocity", &State::get_velocity_size);
-
+  state.def_property_readonly("pose_size", &State::get_pose_size);
+  state.def_property_readonly("velocity_size", &State::get_velocity_size);
   state.def_property("pose", py::overload_cast<>(&State::get_pose),
                      &State::set_pose);
   state.def_property("velocity", py::overload_cast<>(&State::get_velocity),
                      &State::set_velocity);
-
   // Pose and Velocity data are not exposed as we can always call it using
   // state.pose.data and state.velocity.data
-  state.def_property(
-      "data", &State::get_data,
-      py::overload_cast<const VectorXd&>(&State::set_data));
+  state.def_property("data", &State::get_data,
+                     py::overload_cast<const VectorXd&>(&State::set_data));
   // Pose and Velocity IsEmpty is not exposed as we can call it using
   // state.pose.is_empty and state.velocity.is_empty
   state.def("is_empty", &State::IsEmpty);

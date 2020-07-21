@@ -3,5 +3,6 @@ from ._binding_constructs_python import (
     Coordinate2D,
     Pose,
     State,
+    Trajectory,
     Velocity,
 )

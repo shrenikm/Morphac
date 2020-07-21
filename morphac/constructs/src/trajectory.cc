@@ -23,12 +23,12 @@ void Trajectory::copy_data_to_knot_points(const MatrixXd& data) {
   }
 }
 
-Trajectory::Trajectory(const State& state)
-    : pose_size_(state.get_pose_size()),
-      velocity_size_(state.get_velocity_size()) {
-  MORPH_REQUIRE(!state.IsEmpty(), std::invalid_argument,
+Trajectory::Trajectory(const State& knot_point)
+    : pose_size_(knot_point.get_pose_size()),
+      velocity_size_(knot_point.get_velocity_size()) {
+  MORPH_REQUIRE(!knot_point.IsEmpty(), std::invalid_argument,
                 "State must not be empty.");
-  knot_points_.push_back(state);
+  knot_points_.push_back(knot_point);
 }
 
 Trajectory::Trajectory(const vector<State>& knot_points) {
@@ -36,10 +36,11 @@ Trajectory::Trajectory(const vector<State>& knot_points) {
   // same dimensions.
   MORPH_REQUIRE(knot_points.size() > 0, std::invalid_argument,
                 "Vector of knot points must not be empty.");
-  for (auto& state : knot_points) {
+  for (auto& knot_point : knot_points) {
     MORPH_REQUIRE(
-        state.get_pose_size() == knot_points.at(0).get_pose_size() &&
-            state.get_velocity_size() == knot_points.at(0).get_velocity_size(),
+        knot_point.get_pose_size() == knot_points.at(0).get_pose_size() &&
+            knot_point.get_velocity_size() ==
+                knot_points.at(0).get_velocity_size(),
         std::invalid_argument,
         "Each state element needs to have the same pose and velocity sizes.");
   }
@@ -162,26 +163,26 @@ void Trajectory::set_data(const MatrixXd& data) {
   copy_data_to_knot_points(data);
 }
 
-void Trajectory::AddKnotPoint(const State& state, const int index) {
+void Trajectory::AddKnotPoint(const State& knot_point, const int index) {
   // Make sure that the state is compatible.
   MORPH_REQUIRE(
-      state.get_pose_size() == pose_size_ &&
-          state.get_velocity_size() == velocity_size_,
+      knot_point.get_pose_size() == pose_size_ &&
+          knot_point.get_velocity_size() == velocity_size_,
       std::invalid_argument,
       "State's pose and velocity sizes do not match that of the trajectory.");
   // Making sure that the index is correct.
   MORPH_REQUIRE(index >= 0 && index <= get_size(), std::out_of_range,
                 "Index out of bounds. Indices must lie in [0, size]");
 
-  knot_points_.insert(knot_points_.begin() + index, state);
+  knot_points_.insert(knot_points_.begin() + index, knot_point);
 }
 
-void Trajectory::AddKnotPoint(const State& state) {
+void Trajectory::AddKnotPoint(const State& knot_point) {
   // If the index is not given, it means the given point needs to be added to
   // the end of the trajectory.
   // AddKnotPoint is called with index = size. The state validation is
   // done there.
-  AddKnotPoint(state, get_size());
+  AddKnotPoint(knot_point, get_size());
 }
 
 void Trajectory::AddKnotPoints(const vector<State>& knot_points,

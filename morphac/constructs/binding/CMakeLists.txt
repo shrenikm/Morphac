@@ -19,8 +19,9 @@ set(CONSTRUCTS_BINDING_FILES
   coordinate2D_binding.cc
   control_input_binding.cc
   pose_binding.cc
-  velocity_binding.cc
   state_binding.cc
+  trajectory_binding.cc
+  velocity_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -56,8 +57,9 @@ target_link_libraries(${python_target}
   coordinate2D
   control_input
   pose
-  velocity
   state
+  trajectory
+  velocity
 )
 
 # Setting binding target properties.

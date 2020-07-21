@@ -6,6 +6,7 @@
 #include "constructs/binding/include/coordinate2D_binding.h"
 #include "constructs/binding/include/pose_binding.h"
 #include "constructs/binding/include/state_binding.h"
+#include "constructs/binding/include/trajectory_binding.h"
 #include "constructs/binding/include/velocity_binding.h"
 
 namespace morphac {
@@ -20,6 +21,7 @@ PYBIND11_MODULE(_binding_constructs_python, m) {
   define_pose_binding(m);
   define_velocity_binding(m);
   define_state_binding(m);
+  define_trajectory_binding(m);
 }
 
 }  // namespace binding

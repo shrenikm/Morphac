@@ -18,7 +18,7 @@ class State {
  public:
   // Sometimes the state may only include the poses. In such cases the velocity
   // part in the constructor may be skipped.
-  State(const int size_pose, const int size_velocity);
+  State(const int pose_size, const int velocity_size);
   State(const Eigen::VectorXd& pose_data, const Eigen::VectorXd& velocity_data);
   State(std::initializer_list<double> pose_elements,
         std::initializer_list<double> velocity_elements);

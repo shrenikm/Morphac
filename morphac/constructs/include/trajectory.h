@@ -15,7 +15,7 @@ namespace constructs {
 
 class Trajectory {
  public:
-  Trajectory(const morphac::constructs::State& state);
+  Trajectory(const morphac::constructs::State& knot_point);
   Trajectory(const std::vector<morphac::constructs::State>& knot_points);
   Trajectory(const Eigen::MatrixXd& data, const int pose_size,
              const int velocity_size);
@@ -54,9 +54,10 @@ class Trajectory {
 
   void set_data(const Eigen::MatrixXd& data);
 
-  void AddKnotPoint(const morphac::constructs::State& state, const int index);
-  void AddKnotPoint(const morphac::constructs::State& state);
-  void AddKnotPoints(const std::vector<morphac::constructs::State>& states,
+  void AddKnotPoint(const morphac::constructs::State& knot_point,
+                    const int index);
+  void AddKnotPoint(const morphac::constructs::State& knot_point);
+  void AddKnotPoints(const std::vector<morphac::constructs::State>& knot_points,
                      std::vector<int> indices);
 
   void RemoveKnotPoint(const int index);

@@ -15,8 +15,8 @@ using Eigen::VectorXd;
 using morphac::constructs::Pose;
 using morphac::constructs::Velocity;
 
-State::State(const int size_pose, const int size_velocity)
-    : pose_(Pose(size_pose)), velocity_(Velocity(size_velocity)) {
+State::State(const int pose_size, const int velocity_size)
+    : pose_(Pose(pose_size)), velocity_(Velocity(velocity_size)) {
   // The Pose and Velocity constructors take care of invalid arguments.
 }
 
