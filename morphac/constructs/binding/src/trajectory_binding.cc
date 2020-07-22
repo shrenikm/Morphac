@@ -20,6 +20,17 @@ void define_trajectory_binding(py::module& m) {
   trajectory.def(py::init<const MatrixXd&, const int, const int>(),
                  py::arg("data"), py::arg("pose_size"),
                  py::arg("velocity_size"));
+  trajectory.def("__getitem__",
+                 [](const Trajectory& trajectory, const int index) {
+                   return trajectory(index);
+                 },
+                 py::is_operator());
+  trajectory.def(
+      "__setitem__",
+      [](Trajectory& trajectory, const int index, const State& knot_point) {
+        trajectory(index) = knot_point;
+      },
+      py::is_operator());
   trajectory.def(py::self += py::self);
   trajectory.def(py::self + py::self);
   trajectory.def(py::self == py::self);

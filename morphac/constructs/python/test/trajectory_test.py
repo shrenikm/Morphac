@@ -18,6 +18,20 @@ def generate_trajectory_list():
     return t1, t2, t3
 
 
+def test_invalid_construction():
+
+    with pytest.raises(ValueError):
+        _ = Trajectory(State(0, 0))
+    with pytest.raises(ValueError):
+        _ = Trajectory([])
+    with pytest.raises(ValueError):
+        _ = Trajectory([State(3, 2), State(2, 2)])
+    with pytest.raises(ValueError):
+        _ = Trajectory(np.empty([0, 0]))
+    with pytest.raises(ValueError):
+        _ = Trajectory(np.zeros([100, 2]), 1, 0)
+
+
 def test_dim(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
@@ -33,3 +47,103 @@ def test_dim(generate_trajectory_list):
         t2.dim = 2
     with pytest.raises(AttributeError):
         t3.dim = 5
+
+
+def test_size(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    assert t1.size == 1
+    assert t2.size == 3
+    assert t3.size == 100
+
+    # Making sure that the size is read only.
+    with pytest.raises(AttributeError):
+        t1.size = 2
+    with pytest.raises(AttributeError):
+        t2.size = 4
+    with pytest.raises(AttributeError):
+        t3.size = 100
+
+
+def test_pose_size(generate_trajectory_list):
+
+    t1, t2, t3, = generate_trajectory_list
+
+    assert t1.pose_size == 2
+    assert t2.pose_size == 2
+    assert t3.pose_size == 3
+
+    # Making sure that the size is read only.
+    with pytest.raises(AttributeError):
+        t1.pose_size = 1
+    with pytest.raises(AttributeError):
+        t2.pose_size = 3
+    with pytest.raises(AttributeError):
+        t3.pose_size = 3
+
+
+def test_velocity_size(generate_trajectory_list):
+
+    t1, t2, t3, = generate_trajectory_list
+
+    assert t1.velocity_size == 2
+    assert t2.velocity_size == 1
+    assert t3.velocity_size == 2
+
+    # Making sure that the size is read only.
+    with pytest.raises(AttributeError):
+        t1.velocity_size = 1
+    with pytest.raises(AttributeError):
+        t2.velocity_size = 2
+    with pytest.raises(AttributeError):
+        t3.velocity_size = 2
+
+
+def test_data(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    # Test getting data.
+    # Data for t3
+    np.random.seed(7)
+    data3 = np.random.randn(100, 5)
+
+    assert np.allclose(t1.data, [0, 0, 0, 0])
+    assert np.allclose(t2.data, [[1, 1, 1], [2, 2, 2], [3, 3, 3]])
+    assert np.allclose(t3.data, data3)
+
+    # Test setting data.
+    t1.data = [[1, 2, 3, 4]]
+    t2.data = np.ones([3, 3])
+    np.random.seed(0)
+    data3 = np.random.randn(100, 5)
+    t3.data = data3
+
+    assert np.allclose(t1.data, [1, 2, 3, 4])
+    assert np.allclose(t2.data, [[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+    assert np.allclose(t3.data, data3)
+
+
+def test_invalid_set_data(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    with pytest.raises(ValueError):
+        t1.data = [[1, 2, 3]]
+    with pytest.raises(ValueError):
+        t2.data = np.zeros([4, 4])
+    with pytest.raises(ValueError):
+        t3.data = np.zeros([100, 4])
+
+
+def test_getitem(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+
+def test_addition(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    t1 += Trajectory(State([1, 1], [1, 1]))
