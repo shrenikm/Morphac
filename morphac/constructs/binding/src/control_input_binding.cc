@@ -16,6 +16,15 @@ void define_control_input_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   control_input.def(py::init<const int>(), py::arg("size"));
   control_input.def(py::init<const VectorXd&>(), py::arg("data"));
+  control_input.def("__getitem__",
+                    [](const ControlInput& control_input, const int index) {
+                      return control_input[index];
+                    },
+                    py::is_operator());
+  control_input.def("__setitem__",
+                    [](ControlInput& control_input, const int index,
+                       const double scalar) { control_input[index] = scalar; },
+                    py::is_operator());
   control_input.def(py::self += py::self);
   control_input.def(py::self + py::self);
   control_input.def(py::self -= py::self);

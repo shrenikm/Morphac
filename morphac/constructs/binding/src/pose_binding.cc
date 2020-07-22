@@ -16,6 +16,12 @@ void define_pose_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   pose.def(py::init<const int>(), py::arg("size"));
   pose.def(py::init<const VectorXd&>(), py::arg("data"));
+  pose.def("__getitem__",
+           [](const Pose& pose, const int index) { return pose[index]; },
+           py::is_operator());
+  pose.def("__setitem__", [](Pose& pose, const int index,
+                             const double scalar) { pose[index] = scalar; },
+           py::is_operator());
   pose.def(py::self += py::self);
   pose.def(py::self + py::self);
   pose.def(py::self -= py::self);

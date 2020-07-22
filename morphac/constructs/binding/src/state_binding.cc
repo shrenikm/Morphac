@@ -22,6 +22,12 @@ void define_state_binding(py::module& m) {
             py::arg("data_velocity"));
   state.def(py::init<const Pose&, const Velocity&>(), py::arg("pose"),
             py::arg("velocity"));
+  state.def("__getitem__",
+            [](const State& state, const int index) { return state[index]; },
+            py::is_operator());
+  state.def("__setitem__", [](State& state, const int index,
+                              const double scalar) { state[index] = scalar; },
+            py::is_operator());
   state.def(py::self += py::self);
   state.def(py::self + py::self);
   state.def(py::self -= py::self);

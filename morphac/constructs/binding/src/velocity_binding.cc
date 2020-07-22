@@ -16,6 +16,14 @@ void define_velocity_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   velocity.def(py::init<const int>(), py::arg("size"));
   velocity.def(py::init<const VectorXd&>(), py::arg("data"));
+  velocity.def("__getitem__", [](const Velocity& velocity,
+                                 const int index) { return velocity[index]; },
+               py::is_operator());
+  velocity.def("__setitem__",
+               [](Velocity& velocity, const int index, const double scalar) {
+                 velocity[index] = scalar;
+               },
+               py::is_operator());
   velocity.def(py::self += py::self);
   velocity.def(py::self + py::self);
   velocity.def(py::self -= py::self);
