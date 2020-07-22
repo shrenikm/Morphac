@@ -141,9 +141,125 @@ def test_getitem(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
 
+    assert t1[0] == State(2, 2)
+
+    for i in range(t2.size):
+        assert t2[i] == State(t2.data[i, :t2.pose_size],
+                              t2.data[i, t2.pose_size:])
+
+    for i in range(t3.size):
+        assert t3[i] == State(t3.data[i, :t3.pose_size],
+                              t3.data[i, t3.pose_size:])
+
+
+def test_invalid_getitem(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    with pytest.raises(IndexError):
+        _ = t1[-1]
+    with pytest.raises(IndexError):
+        _ = t2[3]
+    with pytest.raises(IndexError):
+        _ = t3[200]
+
+
+def test_setitem(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    t1[0] = State([1, 1], [1, 1])
+    t2[1] = State([1, 1], [1])
+    np.random.seed(0)
+    data3 = np.random.randn(100, 5)
+    for i in range(100):
+        t3[i] = State(data3[i, :3], data3[i, 3:])
+
+    assert np.allclose(t1.data, [1, 1, 1, 1])
+    assert np.allclose(t2.data, [[1, 1, 1], [1, 1, 1], [3, 3, 3]])
+    assert np.allclose(t3.data, data3)
+
+
+def test_invalid_setitem(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    # Note that this check for invalid state setting is only applicable for
+    # the python binding. In cpp, this is done through the [] operator that
+    # returns a reference and thus no state validation can take place.
+    with pytest.raises(ValueError):
+        t1[0] = State(0, 0)
+    with pytest.raises(ValueError):
+        t2[0] = State(2, 2)
+    with pytest.raises(ValueError):
+        t3[0] = State(2, 2)
+
 
 def test_addition(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
 
     t1 += Trajectory(State([1, 1], [1, 1]))
+
+    assert t1.size == 2
+    assert np.allclose(t1.data, [[0, 0, 0, 0], [1, 1, 1, 1]])
+
+    t2 += t2
+
+    assert t2.size == 6
+    assert np.allclose(t2.data, [[1, 1, 1], [2, 2, 2], [
+                       3, 3, 3], [1, 1, 1], [2, 2, 2], [3, 3, 3]])
+
+    np.random.seed(0)
+    data3 = np.random.randn(200, 5)
+    t4 = t3 + Trajectory(data3, 3, 2)
+
+    # Make sure that t3 is unchanged.
+    assert t3.size == 100
+
+    assert t4.size == 300
+    assert np.allclose(t4.data, np.vstack([t3.data, data3]))
+
+
+def test_invalid_addition(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    with pytest.raises(ValueError):
+        t1 += t2
+    with pytest.raises(ValueError):
+        t2 += t3
+    with pytest.raises(ValueError):
+        t3 += t1
+    with pytest.raises(ValueError):
+        t1 += Trajectory(State(0, 0))
+    with pytest.raises(ValueError):
+        t2 += Trajectory(State(2, 2))
+    with pytest.raises(ValueError):
+        t2 += Trajectory(State(2, 2))
+
+
+def test_equality(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    assert t1 == t1
+    assert t2 == t2
+    assert t3 == t3
+
+    assert t1 == Trajectory(State(2, 2))
+    assert t2 == Trajectory([[1, 1, 1], [2, 2, 2], [3, 3, 3]], 2, 1)
+
+    assert t1 != t2
+    assert t2 != t3
+    assert t3 != t1
+
+    assert t1 != Trajectory(State(2, 1))
+    assert t1 != Trajectory(State(1, 2))
+    assert t2 != Trajectory([[1, 1, 1], [2, 2, 2], [3, 3, 3]], 1, 2)
+
+
+def test_repr(generate_trajectory_list):
+
+    for t in generate_trajectory_list:
+        assert isinstance(repr(t), str)

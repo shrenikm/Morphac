@@ -28,6 +28,13 @@ void define_trajectory_binding(py::module& m) {
   trajectory.def(
       "__setitem__",
       [](Trajectory& trajectory, const int index, const State& knot_point) {
+        MORPH_REQUIRE(
+            knot_point.get_pose_size() == trajectory.get_pose_size() &&
+                knot_point.get_velocity_size() ==
+                    trajectory.get_velocity_size(),
+            std::invalid_argument,
+            "State pose/velocity dimensions do not match that of the "
+            "trajectory.");
         trajectory(index) = knot_point;
       },
       py::is_operator());
