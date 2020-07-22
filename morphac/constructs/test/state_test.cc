@@ -67,7 +67,7 @@ TEST_F(StateTest, ConstState) {
   // For a const State, the values can only be accessed but not set, as a
   // reference (lvalue) is not returned for this overload of the operator.
   for (int i = 0; i < state.get_size(); ++i) {
-    ASSERT_EQ(state(i), 0);
+    ASSERT_EQ(state[i], 0);
   }
 
   // After const casting to a non-const, we should be able to modify the Pose
@@ -108,7 +108,7 @@ TEST_F(StateTest, EmptyAndPartialConstruction) {
   ASSERT_THROW(state1.get_velocity_data(), std::logic_error);
   ASSERT_THROW(state1.set_pose_data(VectorXd::Zero(0)), std::logic_error);
   ASSERT_THROW(state1.set_velocity_data(VectorXd::Zero(0)), std::logic_error);
-  ASSERT_THROW(state1(0), std::out_of_range);
+  ASSERT_THROW(state1[0], std::out_of_range);
 
   ASSERT_TRUE(state2.get_pose_data().isApprox(VectorXd::Zero(1)));
   ASSERT_THROW(state2.get_velocity_data(), std::logic_error);
@@ -288,16 +288,16 @@ TEST_F(StateTest, GetData) {
 
 TEST_F(StateTest, GetStateAt) {
   for (int i = 0; i < state1_->get_size(); ++i) {
-    ASSERT_EQ((*state1_)(i), 0);
+    ASSERT_EQ((*state1_)[i], 0);
   }
   for (int i = 0; i < state2_->get_size(); ++i) {
-    ASSERT_EQ((*state2_)(i), 0);
+    ASSERT_EQ((*state2_)[i], 0);
   }
   for (int i = 0; i < state3_->get_size(); ++i) {
-    ASSERT_EQ((*state3_)(i), 0);
+    ASSERT_EQ((*state3_)[i], 0);
   }
   for (int i = 0; i < state4_->get_size(); ++i) {
-    ASSERT_EQ((*state4_)(i), 0);
+    ASSERT_EQ((*state4_)[i], 0);
   }
 
   // Arbitrary State.
@@ -308,7 +308,7 @@ TEST_F(StateTest, GetStateAt) {
   State state(pose_data, velocity_data);
 
   for (int i = 0; i < state.get_size(); ++i) {
-    ASSERT_EQ(state(i), data(i));
+    ASSERT_EQ(state[i], data(i));
   }
 
   // Partial States.
@@ -318,31 +318,64 @@ TEST_F(StateTest, GetStateAt) {
   State partial_state2(VectorXd::Zero(0), partial_velocity_data);
 
   for (int i = 0; i < 3; ++i) {
-    ASSERT_EQ(partial_state1(i), partial_pose_data(i));
+    ASSERT_EQ(partial_state1[i], partial_pose_data(i));
   }
 
   for (int i = 0; i < 2; ++i) {
-    ASSERT_EQ(partial_state2(i), partial_velocity_data(i));
+    ASSERT_EQ(partial_state2[i], partial_velocity_data(i));
   }
 
   // Invalid get at.
-  ASSERT_THROW((*state1_)(-1), std::out_of_range);
-  ASSERT_THROW((*state1_)(5), std::out_of_range);
+  ASSERT_THROW((*state1_)[-1], std::out_of_range);
+  ASSERT_THROW((*state1_)[5], std::out_of_range);
 
-  ASSERT_THROW((*state2_)(-1), std::out_of_range);
-  ASSERT_THROW((*state2_)(6), std::out_of_range);
+  ASSERT_THROW((*state2_)[-1], std::out_of_range);
+  ASSERT_THROW((*state2_)[6], std::out_of_range);
 
-  ASSERT_THROW((*state3_)(-1), std::out_of_range);
-  ASSERT_THROW((*state3_)(5), std::out_of_range);
+  ASSERT_THROW((*state3_)[-1], std::out_of_range);
+  ASSERT_THROW((*state3_)[5], std::out_of_range);
 
-  ASSERT_THROW((*state4_)(-1), std::out_of_range);
-  ASSERT_THROW((*state4_)(6), std::out_of_range);
+  ASSERT_THROW((*state4_)[-1], std::out_of_range);
+  ASSERT_THROW((*state4_)[6], std::out_of_range);
 
-  ASSERT_THROW(partial_state1(-1), std::out_of_range);
-  ASSERT_THROW(partial_state1(3), std::out_of_range);
+  ASSERT_THROW(partial_state1[-1], std::out_of_range);
+  ASSERT_THROW(partial_state1[3], std::out_of_range);
 
-  ASSERT_THROW(partial_state2(-1), std::out_of_range);
-  ASSERT_THROW(partial_state2(2), std::out_of_range);
+  ASSERT_THROW(partial_state2[-1], std::out_of_range);
+  ASSERT_THROW(partial_state2[2], std::out_of_range);
+}
+
+TEST_F(StateTest, SetStateAt) {
+  for (int i = 0; i < state1_->get_size(); ++i) {
+    (*state1_)[i] = 1;
+  }
+  for (int i = 0; i < state2_->get_size(); ++i) {
+    (*state2_)[i] = 2;
+  }
+  for (int i = 0; i < state3_->get_size(); ++i) {
+    (*state3_)[i] = 3;
+  }
+  for (int i = 0; i < state4_->get_size(); ++i) {
+    (*state4_)[i] = 4;
+  }
+
+  ASSERT_TRUE(state1_->get_data().isApprox(VectorXd::Ones(5)));
+  ASSERT_TRUE(state2_->get_data().isApprox(2 * VectorXd::Ones(6)));
+  ASSERT_TRUE(state3_->get_data().isApprox(3 * VectorXd::Ones(5)));
+  ASSERT_TRUE(state4_->get_data().isApprox(4 * VectorXd::Ones(6)));
+
+  // Invalid set at.
+  ASSERT_THROW((*state1_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*state1_)[5] = 1, std::out_of_range);
+
+  ASSERT_THROW((*state2_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*state2_)[6] = 1, std::out_of_range);
+
+  ASSERT_THROW((*state3_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*state3_)[7] = 1, std::out_of_range);
+
+  ASSERT_THROW((*state4_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*state4_)[8] = 1, std::out_of_range);
 }
 
 TEST_F(StateTest, SetPose) {

@@ -35,8 +35,8 @@ State TricycleModel::ComputeStateDerivative(
                 "ControlInput must be of size 2.");
 
   VectorXd pose_derivative(4);
-  double theta = state.get_pose()(2);
-  double alpha = state.get_pose()(3);
+  double theta = state.get_pose()[2];
+  double alpha = state.get_pose()[3];
 
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F = VectorXd::Zero(4);
@@ -56,8 +56,8 @@ State TricycleModel::ComputeStateDerivative(
 State TricycleModel::NormalizeState(const State& state) const {
   // For the tricycle model, we normalize the heading and steering angles.
   State normalized_state = state;
-  normalized_state(2) = NormalizeAngle(normalized_state(2));
-  normalized_state(3) = NormalizeAngle(normalized_state(3));
+  normalized_state[2] = NormalizeAngle(normalized_state[2]);
+  normalized_state[3] = NormalizeAngle(normalized_state[3]);
 
   return normalized_state;
 }

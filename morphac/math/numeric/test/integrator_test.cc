@@ -25,7 +25,7 @@ class SomeIntegrator : public Integrator {
 
   State Step(const State& state, const ControlInput& control_input,
              double dt) const override {
-    auto derivative = (control_input(0) + control_input(1)) * dt * state;
+    auto derivative = (control_input[0] + control_input[1]) * dt * state;
     return derivative;
   }
 };

@@ -34,7 +34,7 @@ State DiffDriveModel::ComputeStateDerivative(
                 "ControlInput must be of size 2.");
 
   VectorXd pose_derivative(3);
-  double theta = state.get_pose()(2);
+  double theta = state.get_pose()[2];
 
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F = VectorXd::Zero(3);
@@ -55,7 +55,7 @@ State DiffDriveModel::ComputeStateDerivative(
 State DiffDriveModel::NormalizeState(const State& state) const {
   // For the diffdrive model, we normalize the pose angle.
   State normalized_state = state;
-  normalized_state(2) = NormalizeAngle(normalized_state(2));
+  normalized_state[2] = NormalizeAngle(normalized_state[2]);
 
   return normalized_state;
 }

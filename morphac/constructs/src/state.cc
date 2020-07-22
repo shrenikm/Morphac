@@ -132,29 +132,29 @@ bool operator!=(const State& state1, const State& state2) {
   return !(state1 == state2);
 }
 
-double& State::operator()(const int index) {
+double& State::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
                 "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_pose_size()) {
-    return pose_(index);
+    return pose_[index];
   } else {
     // Index corresponds to velocity
-    return velocity_(index - get_pose_size());
+    return velocity_[index - get_pose_size()];
   }
 }
 
-const double& State::operator()(const int index) const {
+const double& State::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < get_size(), std::out_of_range,
                 "State index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "State object is empty.");
   // If the index corresponds to the pose
   if (index < get_pose_size()) {
-    return pose_(index);
+    return pose_[index];
   } else {
     // Index corresponds to velocity
-    return velocity_(index - get_pose_size());
+    return velocity_[index - get_pose_size()];
   }
 }
 

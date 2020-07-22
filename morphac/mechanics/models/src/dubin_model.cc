@@ -29,7 +29,7 @@ State DubinModel::ComputeStateDerivative(
                 "ControlInput must be of size 1.");
 
   VectorXd pose_derivative(3);
-  double theta = state.get_pose()(2);
+  double theta = state.get_pose()[2];
 
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F(3, 1), G(3, 1);
@@ -47,7 +47,7 @@ State DubinModel::ComputeStateDerivative(
 State DubinModel::NormalizeState(const State& state) const {
   // For the dubin model, we normalize the pose angle.
   State normalized_state = state;
-  normalized_state(2) = NormalizeAngle(normalized_state(2));
+  normalized_state[2] = NormalizeAngle(normalized_state[2]);
 
   return normalized_state;
 }

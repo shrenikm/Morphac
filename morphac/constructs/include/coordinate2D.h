@@ -24,8 +24,8 @@ class Coordinate2D {
   Coordinate2D operator-(const Coordinate2D& coord) const;
   Coordinate2D operator*=(const T scalar);
 
-  T& operator()(const int index);
-  T operator()(const int index) const;
+  T& operator[](const int index);
+  T operator[](const int index) const;
 
   bool operator==(const Coordinate2D& coord) const;
   bool operator!=(const Coordinate2D& coord) const;

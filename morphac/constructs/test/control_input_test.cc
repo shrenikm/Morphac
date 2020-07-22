@@ -68,7 +68,7 @@ TEST_F(ControlInputTest, ConstControlInput) {
 
   // Making sure position accessing works.
   for (int i = 0; i < control_input.get_size(); ++i) {
-    ASSERT_EQ(control_input(i), 0);
+    ASSERT_EQ(control_input[i], 0);
   }
 
   // After const casting, we should be able to modify the data.
@@ -86,7 +86,7 @@ TEST_F(ControlInputTest, EmptyConstruction) {
 
   // Accessors are invalid for empty ControlInput
   ASSERT_THROW(control_input.get_data(), std::logic_error);
-  ASSERT_THROW(control_input(0), std::logic_error);
+  ASSERT_THROW(control_input[0], std::logic_error);
   ASSERT_THROW(control_input.set_data(VectorXd::Random(0)), std::logic_error);
 }
 
@@ -112,13 +112,13 @@ TEST_F(ControlInputTest, GetData) {
 
 TEST_F(ControlInputTest, GetControlInputAt) {
   for (int i = 0; i < control_input1_->get_size(); ++i) {
-    ASSERT_EQ((*control_input1_)(i), 0);
+    ASSERT_EQ((*control_input1_)[i], 0);
   }
   for (int i = 0; i < control_input2_->get_size(); ++i) {
-    ASSERT_EQ((*control_input2_)(i), 0);
+    ASSERT_EQ((*control_input2_)[i], 0);
   }
   for (int i = 0; i < control_input3_->get_size(); ++i) {
-    ASSERT_EQ((*control_input3_)(i), 0);
+    ASSERT_EQ((*control_input3_)[i], 0);
   }
 
   // Arbitrary ControlInput.
@@ -126,18 +126,18 @@ TEST_F(ControlInputTest, GetControlInputAt) {
   ControlInput control_input(data);
 
   for (int i = 0; i < control_input.get_size(); ++i) {
-    ASSERT_EQ(control_input(i), data(i));
+    ASSERT_EQ(control_input[i], data(i));
   }
 
   // Invalid get at.
-  ASSERT_THROW((*control_input1_)(-1), std::out_of_range);
-  ASSERT_THROW((*control_input1_)(3), std::out_of_range);
+  ASSERT_THROW((*control_input1_)[-1], std::out_of_range);
+  ASSERT_THROW((*control_input1_)[3], std::out_of_range);
 
-  ASSERT_THROW((*control_input2_)(-1), std::out_of_range);
-  ASSERT_THROW((*control_input2_)(4), std::out_of_range);
+  ASSERT_THROW((*control_input2_)[-1], std::out_of_range);
+  ASSERT_THROW((*control_input2_)[4], std::out_of_range);
 
-  ASSERT_THROW((*control_input3_)(-1), std::out_of_range);
-  ASSERT_THROW((*control_input3_)(5), std::out_of_range);
+  ASSERT_THROW((*control_input3_)[-1], std::out_of_range);
+  ASSERT_THROW((*control_input3_)[5], std::out_of_range);
 }
 
 TEST_F(ControlInputTest, SetData) {
@@ -166,13 +166,13 @@ TEST_F(ControlInputTest, SetData) {
 
 TEST_F(ControlInputTest, SetControlInputAt) {
   for (int i = 0; i < control_input1_->get_size(); ++i) {
-    (*control_input1_)(i) = 1;
+    (*control_input1_)[i] = 1;
   }
   for (int i = 0; i < control_input2_->get_size(); ++i) {
-    (*control_input2_)(i) = 2;
+    (*control_input2_)[i] = 2;
   }
   for (int i = 0; i < control_input3_->get_size(); ++i) {
-    (*control_input3_)(i) = -3;
+    (*control_input3_)[i] = -3;
   }
 
   ASSERT_TRUE(control_input1_->get_data().isApprox(VectorXd::Ones(3)));
@@ -180,14 +180,14 @@ TEST_F(ControlInputTest, SetControlInputAt) {
   ASSERT_TRUE(control_input3_->get_data().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
-  ASSERT_THROW((*control_input1_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*control_input1_)(3) = 1, std::out_of_range);
+  ASSERT_THROW((*control_input1_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*control_input1_)[3] = 1, std::out_of_range);
 
-  ASSERT_THROW((*control_input2_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*control_input2_)(4) = 1, std::out_of_range);
+  ASSERT_THROW((*control_input2_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*control_input2_)[4] = 1, std::out_of_range);
 
-  ASSERT_THROW((*control_input3_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*control_input3_)(5) = 1, std::out_of_range);
+  ASSERT_THROW((*control_input3_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*control_input3_)[5] = 1, std::out_of_range);
 }
 
 TEST_F(ControlInputTest, Addition) {

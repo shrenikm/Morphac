@@ -40,8 +40,8 @@ class State {
   friend bool operator==(const State& state1, const State& state2);
   friend bool operator!=(const State& state1, const State& state2);
 
-  double& operator()(const int index);
-  const double& operator()(const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os, const State& state);
   // String representation that uses the << overload.

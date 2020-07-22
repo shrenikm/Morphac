@@ -32,8 +32,8 @@ class Pose {
   friend bool operator==(const Pose& pose1, const Pose& pose2);
   friend bool operator!=(const Pose& pose1, const Pose& pose2);
 
-  double& operator()(const int index);
-  const double& operator()(const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os, const Pose& pose);
   // String representation that uses the << overload.

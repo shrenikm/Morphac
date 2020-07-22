@@ -96,14 +96,14 @@ bool operator!=(const ControlInput& control_input1,
   return !(control_input1 == control_input2);
 }
 
-double& ControlInput::operator()(const int index) {
+double& ControlInput::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "ControlInput index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "ControlInput object is empty");
   return data_(index);
 }
 
-const double& ControlInput::operator()(const int index) const {
+const double& ControlInput::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "ControlInput index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "ControlInput object is empty");

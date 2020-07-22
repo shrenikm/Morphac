@@ -176,9 +176,9 @@ TEST_F(EulerIntegratorTest, OrderOfIntegration) {
     double dt = 1. / pow(10, i);
     auto updated_state = euler_integrator_->Integrate(
         State(3, 0), ControlInput({10, 5}), (4 * M_PI + M_PI / 2) / 2.5, dt);
-    ASSERT_TRUE(abs(updated_state(0) - true_x) < dt);
-    ASSERT_TRUE(abs(updated_state(1) - true_y) < dt);
-    ASSERT_TRUE(abs(updated_state(2) - true_theta) < dt);
+    ASSERT_TRUE(abs(updated_state[0] - true_x) < dt);
+    ASSERT_TRUE(abs(updated_state[1] - true_y) < dt);
+    ASSERT_TRUE(abs(updated_state[2] - true_theta) < dt);
   }
 }
 

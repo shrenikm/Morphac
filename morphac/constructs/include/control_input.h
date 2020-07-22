@@ -34,8 +34,8 @@ class ControlInput {
   friend bool operator!=(const ControlInput& control_input1,
                          const ControlInput& control_input2);
 
-  double& operator()(const int index);
-  const double& operator()(const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
                                   const ControlInput& control_input);

@@ -67,7 +67,7 @@ TEST_F(PoseTest, ConstPose) {
 
   // Making sure position accessing works.
   for (int i = 0; i < pose.get_size(); ++i) {
-    ASSERT_EQ(pose(i), 0);
+    ASSERT_EQ(pose[i], 0);
   }
 
   // After const casting, we should be able to modify the data.
@@ -85,7 +85,7 @@ TEST_F(PoseTest, EmptyConstruction) {
 
   // Accessors are invalid for empty Pose
   ASSERT_THROW(pose.get_data(), std::logic_error);
-  ASSERT_THROW(pose(0), std::logic_error);
+  ASSERT_THROW(pose[0], std::logic_error);
   ASSERT_THROW(pose.set_data(VectorXd::Random(0)), std::logic_error);
 }
 
@@ -111,13 +111,13 @@ TEST_F(PoseTest, GetData) {
 
 TEST_F(PoseTest, GetPoseAt) {
   for (int i = 0; i < pose1_->get_size(); ++i) {
-    ASSERT_EQ((*pose1_)(i), 0);
+    ASSERT_EQ((*pose1_)[i], 0);
   }
   for (int i = 0; i < pose2_->get_size(); ++i) {
-    ASSERT_EQ((*pose2_)(i), 0);
+    ASSERT_EQ((*pose2_)[i], 0);
   }
   for (int i = 0; i < pose3_->get_size(); ++i) {
-    ASSERT_EQ((*pose3_)(i), 0);
+    ASSERT_EQ((*pose3_)[i], 0);
   }
 
   // Arbitrary Pose.
@@ -125,18 +125,18 @@ TEST_F(PoseTest, GetPoseAt) {
   Pose pose(data);
 
   for (int i = 0; i < pose.get_size(); ++i) {
-    ASSERT_EQ(pose(i), data(i));
+    ASSERT_EQ(pose[i], data(i));
   }
 
   // Invalid get at.
-  ASSERT_THROW((*pose1_)(-1), std::out_of_range);
-  ASSERT_THROW((*pose1_)(3), std::out_of_range);
+  ASSERT_THROW((*pose1_)[-1], std::out_of_range);
+  ASSERT_THROW((*pose1_)[3], std::out_of_range);
 
-  ASSERT_THROW((*pose2_)(-1), std::out_of_range);
-  ASSERT_THROW((*pose2_)(4), std::out_of_range);
+  ASSERT_THROW((*pose2_)[-1], std::out_of_range);
+  ASSERT_THROW((*pose2_)[4], std::out_of_range);
 
-  ASSERT_THROW((*pose2_)(-1), std::out_of_range);
-  ASSERT_THROW((*pose2_)(5), std::out_of_range);
+  ASSERT_THROW((*pose2_)[-1], std::out_of_range);
+  ASSERT_THROW((*pose2_)[5], std::out_of_range);
 }
 
 TEST_F(PoseTest, SetData) {
@@ -162,13 +162,13 @@ TEST_F(PoseTest, SetData) {
 
 TEST_F(PoseTest, SetPoseAt) {
   for (int i = 0; i < pose1_->get_size(); ++i) {
-    (*pose1_)(i) = 1;
+    (*pose1_)[i] = 1;
   }
   for (int i = 0; i < pose2_->get_size(); ++i) {
-    (*pose2_)(i) = 2;
+    (*pose2_)[i] = 2;
   }
   for (int i = 0; i < pose3_->get_size(); ++i) {
-    (*pose3_)(i) = -3.;
+    (*pose3_)[i] = -3.;
   }
 
   ASSERT_TRUE(pose1_->get_data().isApprox(VectorXd::Ones(3)));
@@ -176,14 +176,14 @@ TEST_F(PoseTest, SetPoseAt) {
   ASSERT_TRUE(pose3_->get_data().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
-  ASSERT_THROW((*pose1_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*pose1_)(3) = 1, std::out_of_range);
+  ASSERT_THROW((*pose1_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*pose1_)[3] = 1, std::out_of_range);
 
-  ASSERT_THROW((*pose2_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*pose2_)(4) = 1, std::out_of_range);
+  ASSERT_THROW((*pose2_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*pose2_)[4] = 1, std::out_of_range);
 
-  ASSERT_THROW((*pose3_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*pose3_)(5) = 1, std::out_of_range);
+  ASSERT_THROW((*pose3_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*pose3_)[5] = 1, std::out_of_range);
 }
 
 TEST_F(PoseTest, Addition) {

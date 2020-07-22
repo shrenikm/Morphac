@@ -93,14 +93,14 @@ bool operator!=(const Velocity& velocity1, const Velocity& velocity2) {
   return !(velocity1 == velocity2);
 }
 
-double& Velocity::operator()(const int index) {
+double& Velocity::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");
   return data_(index);
 }
 
-const double& Velocity::operator()(const int index) const {
+const double& Velocity::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Velocity index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Velocity object is empty");

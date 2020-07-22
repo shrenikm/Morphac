@@ -107,13 +107,13 @@ bool operator!=(const Trajectory& trajectory1, const Trajectory& trajectory2) {
   return !(trajectory1 == trajectory2);
 }
 
-State& Trajectory::operator()(const int index) {
+State& Trajectory::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < this->get_size(), std::out_of_range,
                 "Trajectory index out of range.");
   return knot_points_.at(index);
 }
 
-const State& Trajectory::operator()(const int index) const {
+const State& Trajectory::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < this->get_size(), std::out_of_range,
                 "Trajectory index out of range.");
   return knot_points_.at(index);

@@ -67,7 +67,7 @@ TEST_F(VelocityTest, ConstVelocity) {
 
   // Making sure position accessing works.
   for (int i = 0; i < velocity.get_size(); ++i) {
-    ASSERT_EQ(velocity(i), 0);
+    ASSERT_EQ(velocity[i], 0);
   }
 
   // After const casting, we should be able to modify the data.
@@ -85,7 +85,7 @@ TEST_F(VelocityTest, EmptyConstruction) {
 
   // Accessors are invalid for empty Velocity
   ASSERT_THROW(velocity.get_data(), std::logic_error);
-  ASSERT_THROW(velocity(0), std::logic_error);
+  ASSERT_THROW(velocity[0], std::logic_error);
   ASSERT_THROW(velocity.set_data(VectorXd::Random(0)), std::logic_error);
 }
 
@@ -111,13 +111,13 @@ TEST_F(VelocityTest, GetData) {
 
 TEST_F(VelocityTest, GetVelocityAt) {
   for (int i = 0; i < velocity1_->get_size(); ++i) {
-    ASSERT_EQ((*velocity1_)(i), 0);
+    ASSERT_EQ((*velocity1_)[i], 0);
   }
   for (int i = 0; i < velocity2_->get_size(); ++i) {
-    ASSERT_EQ((*velocity2_)(i), 0);
+    ASSERT_EQ((*velocity2_)[i], 0);
   }
   for (int i = 0; i < velocity3_->get_size(); ++i) {
-    ASSERT_EQ((*velocity3_)(i), 0);
+    ASSERT_EQ((*velocity3_)[i], 0);
   }
 
   // Arbitrary Velocity.
@@ -125,18 +125,18 @@ TEST_F(VelocityTest, GetVelocityAt) {
   Velocity velocity(data);
 
   for (int i = 0; i < velocity.get_size(); ++i) {
-    ASSERT_EQ(velocity(i), data(i));
+    ASSERT_EQ(velocity[i], data(i));
   }
 
   // Invalid get at.
-  ASSERT_THROW((*velocity1_)(-1), std::out_of_range);
-  ASSERT_THROW((*velocity1_)(3), std::out_of_range);
+  ASSERT_THROW((*velocity1_)[-1], std::out_of_range);
+  ASSERT_THROW((*velocity1_)[3], std::out_of_range);
 
-  ASSERT_THROW((*velocity2_)(-1), std::out_of_range);
-  ASSERT_THROW((*velocity2_)(4), std::out_of_range);
+  ASSERT_THROW((*velocity2_)[-1], std::out_of_range);
+  ASSERT_THROW((*velocity2_)[4], std::out_of_range);
 
-  ASSERT_THROW((*velocity3_)(-1), std::out_of_range);
-  ASSERT_THROW((*velocity3_)(5), std::out_of_range);
+  ASSERT_THROW((*velocity3_)[-1], std::out_of_range);
+  ASSERT_THROW((*velocity3_)[5], std::out_of_range);
 }
 
 TEST_F(VelocityTest, SetData) {
@@ -162,13 +162,13 @@ TEST_F(VelocityTest, SetData) {
 
 TEST_F(VelocityTest, SetVelocityAt) {
   for (int i = 0; i < velocity1_->get_size(); ++i) {
-    (*velocity1_)(i) = 1;
+    (*velocity1_)[i] = 1;
   }
   for (int i = 0; i < velocity2_->get_size(); ++i) {
-    (*velocity2_)(i) = 2;
+    (*velocity2_)[i] = 2;
   }
   for (int i = 0; i < velocity3_->get_size(); ++i) {
-    (*velocity3_)(i) = -3.;
+    (*velocity3_)[i] = -3.;
   }
 
   ASSERT_TRUE(velocity1_->get_data().isApprox(VectorXd::Ones(3)));
@@ -176,14 +176,14 @@ TEST_F(VelocityTest, SetVelocityAt) {
   ASSERT_TRUE(velocity3_->get_data().isApprox(-3 * VectorXd::Ones(5)));
 
   // Invalid set at.
-  ASSERT_THROW((*velocity1_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*velocity1_)(3) = 1, std::out_of_range);
+  ASSERT_THROW((*velocity1_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*velocity1_)[3] = 1, std::out_of_range);
 
-  ASSERT_THROW((*velocity2_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*velocity2_)(4) = 1, std::out_of_range);
+  ASSERT_THROW((*velocity2_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*velocity2_)[4] = 1, std::out_of_range);
 
-  ASSERT_THROW((*velocity3_)(-1) = 0, std::out_of_range);
-  ASSERT_THROW((*velocity3_)(5) = 1, std::out_of_range);
+  ASSERT_THROW((*velocity3_)[-1] = 0, std::out_of_range);
+  ASSERT_THROW((*velocity3_)[5] = 1, std::out_of_range);
 }
 
 TEST_F(VelocityTest, Addition) {

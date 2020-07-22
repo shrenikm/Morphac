@@ -80,8 +80,8 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
   expected_velocity_derivative << -9, 15;
 
   // Changing the values of the state.
-  state.get_pose()(2) = 3;
-  state.get_velocity()(1) = 7;
+  state.get_pose()[2] = 3;
+  state.get_velocity()[1] = 7;
 
   // Computing the derivative.
   State derivative = model.ComputeStateDerivative(state, control_input);

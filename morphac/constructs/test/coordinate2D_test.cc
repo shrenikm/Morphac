@@ -140,18 +140,30 @@ TEST_F(Coordinate2DTest, Multiplication) {
   ASSERT_DOUBLE_EQ(coord3_double_.get_y(), -9.4);
 }
 
-TEST_F(Coordinate2DTest, Parenthesis) {
-  ASSERT_EQ(coord1_int_(0), 2);
-  ASSERT_EQ(coord1_int_(1), 3);
-  ASSERT_DOUBLE_EQ(coord3_double_(0), -1.5);
-  ASSERT_DOUBLE_EQ(coord3_double_(1), 4.7);
+TEST_F(Coordinate2DTest, GetAt) {
+  ASSERT_EQ(coord1_int_[0], 2);
+  ASSERT_EQ(coord1_int_[1], 3);
+  ASSERT_DOUBLE_EQ(coord3_double_[0], -1.5);
+  ASSERT_DOUBLE_EQ(coord3_double_[1], 4.7);
 }
 
-TEST_F(Coordinate2DTest, InvalidParenthesis) {
-  ASSERT_THROW(coord1_int_(-1), std::out_of_range);
-  ASSERT_THROW(coord1_int_(2), std::out_of_range);
-  ASSERT_THROW(coord3_double_(-1), std::out_of_range);
-  ASSERT_THROW(coord3_double_(2), std::out_of_range);
+TEST_F(Coordinate2DTest, InvalidGetAt) {
+  ASSERT_THROW(coord1_int_[-1], std::out_of_range);
+  ASSERT_THROW(coord1_int_[2], std::out_of_range);
+  ASSERT_THROW(coord3_double_[-1], std::out_of_range);
+  ASSERT_THROW(coord3_double_[2], std::out_of_range);
+}
+
+TEST_F(Coordinate2DTest, SetAt) {
+  coord1_int_[0] = 0;
+  coord1_int_[1] = 7;
+  coord3_int_[0] = -7;
+  coord3_int_[1] = 0;
+
+  ASSERT_EQ(coord1_int_[0], 0);
+  ASSERT_EQ(coord1_int_[1], 7);
+  ASSERT_EQ(coord3_int_[0], -7);
+  ASSERT_EQ(coord3_int_[1], 0);
 }
 
 TEST_F(Coordinate2DTest, StringRepresentation) {

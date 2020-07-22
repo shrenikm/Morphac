@@ -116,7 +116,7 @@ TEST_F(TrajectoryTest, ConstTrajectory) {
   ASSERT_TRUE(trajectory.get_data().isApprox(data.transpose()));
 
   // Positional accessing.
-  ASSERT_EQ(trajectory(0), state);
+  ASSERT_EQ(trajectory[0], state);
 
   // After const casting, we should be able to modify the data.
   MatrixXd new_data = MatrixXd::Random(100, 4);
@@ -195,10 +195,10 @@ TEST_F(TrajectoryTest, InvalidSetData) {
 
 TEST_F(TrajectoryTest, GetKnotPointAt) {
   // Tests the () overload.
-  ASSERT_EQ((*trajectory1_)(0), State(3, 2));
+  ASSERT_EQ((*trajectory1_)[0], State(3, 2));
 
   for (int i = 0; i < trajectory2_->get_size(); ++i) {
-    ASSERT_EQ((*trajectory2_)(i), knot_points_.at(i));
+    ASSERT_EQ((*trajectory2_)[i], knot_points_.at(i));
   }
 
   for (int i = 0; i < trajectory3_->get_size(); ++i) {
@@ -206,7 +206,7 @@ TEST_F(TrajectoryTest, GetKnotPointAt) {
         trajectory3_->get_data().row(i).head(trajectory3_->get_pose_size());
     VectorXd velocity_data =
         trajectory3_->get_data().row(i).tail(trajectory3_->get_velocity_size());
-    ASSERT_EQ((*trajectory3_)(i), State(pose_data, velocity_data));
+    ASSERT_EQ((*trajectory3_)[i], State(pose_data, velocity_data));
   }
 
   for (int i = 0; i < trajectory4_->get_size(); ++i) {
@@ -214,7 +214,7 @@ TEST_F(TrajectoryTest, GetKnotPointAt) {
         trajectory4_->get_data().row(i).head(trajectory4_->get_pose_size());
     VectorXd velocity_data =
         trajectory4_->get_data().row(i).tail(trajectory4_->get_velocity_size());
-    ASSERT_EQ((*trajectory4_)(i), State(pose_data, velocity_data));
+    ASSERT_EQ((*trajectory4_)[i], State(pose_data, velocity_data));
   }
 }
 
@@ -229,29 +229,29 @@ TEST_F(TrajectoryTest, GetKnotPointAtAfterSetData) {
         trajectory1_->get_data().row(i).head(trajectory1_->get_pose_size());
     VectorXd velocity_data =
         trajectory1_->get_data().row(i).tail(trajectory1_->get_velocity_size());
-    ASSERT_EQ((*trajectory1_)(i), State(pose_data, velocity_data));
+    ASSERT_EQ((*trajectory1_)[i], State(pose_data, velocity_data));
   }
 }
 
 TEST_F(TrajectoryTest, InvalidGetKnotPointAt) {
   // Calling the () overload with out of bounds indices must throw an exception.
-  ASSERT_THROW((*trajectory1_)(-1), std::out_of_range);
-  ASSERT_THROW((*trajectory1_)(1), std::out_of_range);
-  ASSERT_THROW((*trajectory2_)(-1), std::out_of_range);
-  ASSERT_THROW((*trajectory2_)(3), std::out_of_range);
-  ASSERT_THROW((*trajectory3_)(-1), std::out_of_range);
-  ASSERT_THROW((*trajectory3_)(10), std::out_of_range);
-  ASSERT_THROW((*trajectory4_)(-1), std::out_of_range);
-  ASSERT_THROW((*trajectory4_)(200), std::out_of_range);
+  ASSERT_THROW((*trajectory1_)[-1], std::out_of_range);
+  ASSERT_THROW((*trajectory1_)[1], std::out_of_range);
+  ASSERT_THROW((*trajectory2_)[-1], std::out_of_range);
+  ASSERT_THROW((*trajectory2_)[3], std::out_of_range);
+  ASSERT_THROW((*trajectory3_)[-1], std::out_of_range);
+  ASSERT_THROW((*trajectory3_)[10], std::out_of_range);
+  ASSERT_THROW((*trajectory4_)[-1], std::out_of_range);
+  ASSERT_THROW((*trajectory4_)[200], std::out_of_range);
 }
 
 TEST_F(TrajectoryTest, SetKnotPointAt) {
   // Test that the () overload can be used for setting.
-  (*trajectory1_)(0) = State({1, 1, 1}, {1, 1});
+  (*trajectory1_)[0] = State({1, 1, 1}, {1, 1});
   ASSERT_TRUE(trajectory1_->get_data().isApprox(MatrixXd::Ones(1, 5)));
 
   for (int i = 0; i < trajectory4_->get_size(); ++i) {
-    (*trajectory4_)(i) = State({0, 0, 0, 0}, {0, 0});
+    (*trajectory4_)[i] = State({0, 0, 0, 0}, {0, 0});
   }
   ASSERT_TRUE(trajectory4_->get_data().isApprox(MatrixXd::Zero(200, 6)));
 }
@@ -352,10 +352,10 @@ TEST_F(TrajectoryTest, AddKnotPoint) {
   trajectory1_->AddKnotPoint(State({3, 3, 3}, {3, 3}), 3);
 
   ASSERT_EQ(trajectory1_->get_size(), 4);
-  ASSERT_EQ((*trajectory1_)(0), State({1, 1, 1}, {1, 1}));
-  ASSERT_EQ((*trajectory1_)(1), State({2, 2, 2}, {2, 2}));
-  ASSERT_EQ((*trajectory1_)(2), State({0, 0, 0}, {0, 0}));
-  ASSERT_EQ((*trajectory1_)(3), State({3, 3, 3}, {3, 3}));
+  ASSERT_EQ((*trajectory1_)[0], State({1, 1, 1}, {1, 1}));
+  ASSERT_EQ((*trajectory1_)[1], State({2, 2, 2}, {2, 2}));
+  ASSERT_EQ((*trajectory1_)[2], State({0, 0, 0}, {0, 0}));
+  ASSERT_EQ((*trajectory1_)[3], State({3, 3, 3}, {3, 3}));
 
   // Testing on a trajectory with size > 1.
   // Add a point in the middle of the trajectory.
@@ -363,7 +363,7 @@ TEST_F(TrajectoryTest, AddKnotPoint) {
 
   // Test that the point has been added correctly.
   ASSERT_EQ(trajectory4_->get_size(), 201);
-  ASSERT_EQ((*trajectory4_)(99), State({1, 2, 3, 4}, {5, 6}));
+  ASSERT_EQ((*trajectory4_)[99], State({1, 2, 3, 4}, {5, 6}));
   // Making sure that the rest of the data has not been affected and is ordered
   // correctly.
   ASSERT_TRUE(trajectory4_->get_data()
@@ -376,8 +376,8 @@ TEST_F(TrajectoryTest, AddKnotPoint) {
   // Adding a knot point at the start of the trajectory.
   trajectory4_->AddKnotPoint(State(4, 2), 0);
   ASSERT_EQ(trajectory4_->get_size(), 202);
-  ASSERT_EQ((*trajectory4_)(0), State({0, 0, 0, 0}, {0, 0}));
-  ASSERT_EQ((*trajectory4_)(100), State({1, 2, 3, 4}, {5, 6}));
+  ASSERT_EQ((*trajectory4_)[0], State({0, 0, 0, 0}, {0, 0}));
+  ASSERT_EQ((*trajectory4_)[100], State({1, 2, 3, 4}, {5, 6}));
   ASSERT_TRUE(trajectory4_->get_data()
                   .block(1, 0, 99, 6)
                   .isApprox(trajectory_data2_.block(0, 0, 99, 6)));
@@ -389,9 +389,9 @@ TEST_F(TrajectoryTest, AddKnotPoint) {
   // doesn't take in an index.
   trajectory4_->AddKnotPoint(State({1, 1, 1, 1}, {1, 1}));
   ASSERT_EQ(trajectory4_->get_size(), 203);
-  ASSERT_EQ((*trajectory4_)(0), State({0, 0, 0, 0}, {0, 0}));
-  ASSERT_EQ((*trajectory4_)(100), State({1, 2, 3, 4}, {5, 6}));
-  ASSERT_EQ((*trajectory4_)(202), State({1, 1, 1, 1}, {1, 1}));
+  ASSERT_EQ((*trajectory4_)[0], State({0, 0, 0, 0}, {0, 0}));
+  ASSERT_EQ((*trajectory4_)[100], State({1, 2, 3, 4}, {5, 6}));
+  ASSERT_EQ((*trajectory4_)[202], State({1, 1, 1, 1}, {1, 1}));
   ASSERT_TRUE(trajectory4_->get_data()
                   .block(1, 0, 99, 6)
                   .isApprox(trajectory_data2_.block(0, 0, 99, 6)));
@@ -434,37 +434,37 @@ TEST_F(TrajectoryTest, AddKnotPoints) {
 
   // Making sure that the knot points are ordered correctly.
   ASSERT_EQ(trajectory2_copy1.get_size(), 7);
-  ASSERT_EQ(trajectory2_copy1(0), state1);
-  ASSERT_EQ(trajectory2_copy1(1), knot_points_.at(0));
-  ASSERT_EQ(trajectory2_copy1(2), state2);
-  ASSERT_EQ(trajectory2_copy1(3), knot_points_.at(1));
-  ASSERT_EQ(trajectory2_copy1(4), state3);
-  ASSERT_EQ(trajectory2_copy1(5), knot_points_.at(2));
-  ASSERT_EQ(trajectory2_copy1(6), state4);
+  ASSERT_EQ(trajectory2_copy1[0], state1);
+  ASSERT_EQ(trajectory2_copy1[1], knot_points_.at(0));
+  ASSERT_EQ(trajectory2_copy1[2], state2);
+  ASSERT_EQ(trajectory2_copy1[3], knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy1[4], state3);
+  ASSERT_EQ(trajectory2_copy1[5], knot_points_.at(2));
+  ASSERT_EQ(trajectory2_copy1[6], state4);
 
   // Making sure that we get the same result even if the indices are not
   // ordered.
   trajectory2_copy2.AddKnotPoints(knot_points, indices2);
 
   ASSERT_EQ(trajectory2_copy2.get_size(), 7);
-  ASSERT_EQ(trajectory2_copy2(0), state1);
-  ASSERT_EQ(trajectory2_copy2(1), knot_points_.at(0));
-  ASSERT_EQ(trajectory2_copy2(2), state2);
-  ASSERT_EQ(trajectory2_copy2(3), knot_points_.at(1));
-  ASSERT_EQ(trajectory2_copy2(4), state3);
-  ASSERT_EQ(trajectory2_copy2(5), knot_points_.at(2));
-  ASSERT_EQ(trajectory2_copy2(6), state4);
+  ASSERT_EQ(trajectory2_copy2[0], state1);
+  ASSERT_EQ(trajectory2_copy2[1], knot_points_.at(0));
+  ASSERT_EQ(trajectory2_copy2[2], state2);
+  ASSERT_EQ(trajectory2_copy2[3], knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy2[4], state3);
+  ASSERT_EQ(trajectory2_copy2[5], knot_points_.at(2));
+  ASSERT_EQ(trajectory2_copy2[6], state4);
 
   trajectory2_copy3.AddKnotPoints(knot_points, indices3);
 
   ASSERT_EQ(trajectory2_copy3.get_size(), 7);
-  ASSERT_EQ(trajectory2_copy3(0), state1);
-  ASSERT_EQ(trajectory2_copy3(1), knot_points_.at(0));
-  ASSERT_EQ(trajectory2_copy3(2), state2);
-  ASSERT_EQ(trajectory2_copy3(3), knot_points_.at(1));
-  ASSERT_EQ(trajectory2_copy3(4), state3);
-  ASSERT_EQ(trajectory2_copy3(5), knot_points_.at(2));
-  ASSERT_EQ(trajectory2_copy3(6), state4);
+  ASSERT_EQ(trajectory2_copy3[0], state1);
+  ASSERT_EQ(trajectory2_copy3[1], knot_points_.at(0));
+  ASSERT_EQ(trajectory2_copy3[2], state2);
+  ASSERT_EQ(trajectory2_copy3[3], knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy3[4], state3);
+  ASSERT_EQ(trajectory2_copy3[5], knot_points_.at(2));
+  ASSERT_EQ(trajectory2_copy3[6], state4);
 }
 
 TEST_F(TrajectoryTest, InvalidAddKnotPoints) {
@@ -560,12 +560,12 @@ TEST_F(TrajectoryTest, RemoveKnotPoints) {
 
   trajectory2_copy1.RemoveKnotPoints(indices1);
   ASSERT_EQ(trajectory2_copy1.get_size(), 1);
-  ASSERT_EQ(trajectory2_copy1(0), knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy1[0], knot_points_.at(1));
 
   // Making sure that it works even if the indices are not ordered.
   trajectory2_copy2.RemoveKnotPoints(indices2);
   ASSERT_EQ(trajectory2_copy2.get_size(), 1);
-  ASSERT_EQ(trajectory2_copy2(0), knot_points_.at(1));
+  ASSERT_EQ(trajectory2_copy2[0], knot_points_.at(1));
 
   // Testing the same on a bigger trajectory.
   trajectory4_->RemoveKnotPoints(vector<int>{0, 99, 199});

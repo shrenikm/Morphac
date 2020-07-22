@@ -37,8 +37,8 @@ class Trajectory {
   // We don't allow for setting a trajectory point through the () operator as
   // we don't keep track of each row of the data matrix as a State object.
   // The ReplaceKnotPoint function needs to be used for this.
-  morphac::constructs::State& operator()(const int index);
-  const morphac::constructs::State& operator()(const int index) const;
+  morphac::constructs::State& operator[](const int index);
+  const morphac::constructs::State& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os,
                                   const Trajectory& trajectory);

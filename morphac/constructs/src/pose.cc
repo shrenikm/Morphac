@@ -86,14 +86,14 @@ bool operator!=(const Pose& pose1, const Pose& pose2) {
   return !(pose1 == pose2);
 }
 
-double& Pose::operator()(const int index) {
+double& Pose::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
   return data_(index);
 }
 
-const double& Pose::operator()(const int index) const {
+const double& Pose::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
