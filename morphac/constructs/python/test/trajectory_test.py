@@ -141,15 +141,10 @@ def test_getitem(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
 
-    assert t1[0] == State(2, 2)
-
-    for i in range(t2.size):
-        assert t2[i] == State(t2.data[i, :t2.pose_size],
-                              t2.data[i, t2.pose_size:])
-
-    for i in range(t3.size):
-        assert t3[i] == State(t3.data[i, :t3.pose_size],
-                              t3.data[i, t3.pose_size:])
+    for t in [t1, t2, t3]:
+        for i in range(t.size):
+            assert t[i] == State(t.data[i, :t.pose_size],
+                                 t.data[i, t.pose_size:])
 
 
 def test_invalid_getitem(generate_trajectory_list):
@@ -183,6 +178,13 @@ def test_setitem(generate_trajectory_list):
 def test_invalid_setitem(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
+
+    with pytest.raises(IndexError):
+        t1[-1] = State(2, 2)
+    with pytest.raises(IndexError):
+        t2[-1] = State(2, 1)
+    with pytest.raises(IndexError):
+        t3[100] = State(3, 2)
 
     # Note that this check for invalid state setting is only applicable for
     # the python binding. In cpp, this is done through the [] operator that
