@@ -124,11 +124,7 @@ def test_data(generate_trajectory_list):
     assert np.allclose(t2.data, [[1, 1, 1], [1, 1, 1], [1, 1, 1]])
     assert np.allclose(t3.data, data3)
 
-
-def test_invalid_set_data(generate_trajectory_list):
-
-    t1, t2, t3 = generate_trajectory_list
-
+    # test invalid set data.
     with pytest.raises(ValueError):
         t1.data = [[1, 2, 3]]
     with pytest.raises(ValueError):
@@ -146,11 +142,7 @@ def test_getitem(generate_trajectory_list):
             assert t[i] == State(t.data[i, :t.pose_size],
                                  t.data[i, t.pose_size:])
 
-
-def test_invalid_getitem(generate_trajectory_list):
-
-    t1, t2, t3 = generate_trajectory_list
-
+    # Test invalid getitem
     with pytest.raises(IndexError):
         _ = t1[-1]
     with pytest.raises(IndexError):
@@ -174,11 +166,7 @@ def test_setitem(generate_trajectory_list):
     assert np.allclose(t2.data, [[1, 1, 1], [1, 1, 1], [3, 3, 3]])
     assert np.allclose(t3.data, data3)
 
-
-def test_invalid_setitem(generate_trajectory_list):
-
-    t1, t2, t3 = generate_trajectory_list
-
+    # Test invalid setitem
     with pytest.raises(IndexError):
         t1[-1] = State(2, 2)
     with pytest.raises(IndexError):
@@ -222,11 +210,7 @@ def test_addition(generate_trajectory_list):
     assert t4.size == 300
     assert np.allclose(t4.data, np.vstack([t3.data, data3]))
 
-
-def test_invalid_addition(generate_trajectory_list):
-
-    t1, t2, t3 = generate_trajectory_list
-
+    # Test invalid addition.
     with pytest.raises(ValueError):
         t1 += t2
     with pytest.raises(ValueError):
