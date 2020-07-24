@@ -68,16 +68,18 @@ def test_getitem(generate_velocity_list):
     for v in [v1, v2, v3, v4]:
         for i in range(v.size):
             assert v[i] == v.data[i]
+            # Test negative indexing.
+            assert v[-(v.size - i)] == v.data[i]
 
     # Test invalid getitem.
     with pytest.raises(IndexError):
-        _ = v1[-1]
+        _ = v1[-3]
     with pytest.raises(IndexError):
         _ = v2[3]
     with pytest.raises(IndexError):
-        _ = v1[-2]
+        _ = v3[-5]
     with pytest.raises(IndexError):
-        _ = v1[7]
+        _ = v4[7]
 
 
 def test_setitem(generate_velocity_list):
@@ -86,7 +88,7 @@ def test_setitem(generate_velocity_list):
     v1[0] = 1
     v2[1] = 1
     v3[2] = 7
-    v4[0], v4[4] = -1, 8
+    v4[0], v4[-1] = -1, 8
 
     assert np.allclose(v1.data, [1, 0])
     assert np.allclose(v2.data, [1, 1, 3])
@@ -95,11 +97,11 @@ def test_setitem(generate_velocity_list):
 
     # Test invalid setitem
     with pytest.raises(IndexError):
-        v1[-1] = 0
+        v1[-3] = 0
     with pytest.raises(IndexError):
         v2[3] = 1
     with pytest.raises(IndexError):
-        v3[-2] = 2
+        v3[-5] = 2
     with pytest.raises(IndexError):
         v4[7] = 3
 

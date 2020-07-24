@@ -68,16 +68,18 @@ def test_getitem(generate_pose_list):
     for p in [p1, p2, p3, p4]:
         for i in range(p.size):
             assert p[i] == p.data[i]
+            # Test negative indexing.
+            assert p[-(p.size - i)] == p.data[i]
 
     # Test invalid getitem.
     with pytest.raises(IndexError):
-        _ = p1[-1]
+        _ = p1[-3]
     with pytest.raises(IndexError):
         _ = p2[3]
     with pytest.raises(IndexError):
-        _ = p1[-2]
+        _ = p3[-5]
     with pytest.raises(IndexError):
-        _ = p1[7]
+        _ = p4[7]
 
 
 def test_setitem(generate_pose_list):
@@ -86,7 +88,7 @@ def test_setitem(generate_pose_list):
     p1[0] = 1
     p2[1] = 1
     p3[2] = 7
-    p4[0], p4[4] = -1, 8
+    p4[0], p4[-1] = -1, 8
 
     assert np.allclose(p1.data, [1, 0])
     assert np.allclose(p2.data, [1, 1, 3])
@@ -95,11 +97,11 @@ def test_setitem(generate_pose_list):
 
     # Test invalid setitem
     with pytest.raises(IndexError):
-        p1[-1] = 0
+        p1[-3] = 0
     with pytest.raises(IndexError):
         p2[3] = 1
     with pytest.raises(IndexError):
-        p3[-2] = 2
+        p3[-5] = 2
     with pytest.raises(IndexError):
         p4[7] = 3
 

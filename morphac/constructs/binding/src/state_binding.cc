@@ -23,10 +23,24 @@ void define_state_binding(py::module& m) {
   state.def(py::init<const Pose&, const Velocity&>(), py::arg("pose"),
             py::arg("velocity"));
   state.def("__getitem__",
-            [](const State& state, const int index) { return state[index]; },
+            [](const State& state, const int index) {
+              // Implementing python's negative indexing.
+              if (index >= 0) {
+                return state[index];
+              } else {
+                return state[index + state.get_size()];
+              }
+            },
             py::is_operator());
-  state.def("__setitem__", [](State& state, const int index,
-                              const double scalar) { state[index] = scalar; },
+  state.def("__setitem__",
+            [](State& state, const int index, const double scalar) {
+              // Implementing python's negative indexing.
+              if (index >= 0) {
+                state[index] = scalar;
+              } else {
+                state[index + state.get_size()] = scalar;
+              }
+            },
             py::is_operator());
   state.def(py::self += py::self);
   state.def(py::self + py::self);

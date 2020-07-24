@@ -252,14 +252,16 @@ def test_getitem(generate_state_list):
     for s in [sf1, sf2, sf3, sf4, sf5, sp1, sp2]:
         for i in range(s.size):
             assert s[i] == s.data[i]
+            # Test negative indexing.
+            assert s[-(s.size - i)] == s.data[i]
 
     # Test invalid getitem.
     with pytest.raises(IndexError):
-        _ = sf1[-1]
+        _ = sf1[-5]
     with pytest.raises(IndexError):
         _ = sf2[4]
     with pytest.raises(IndexError):
-        _ = sp1[-1]
+        _ = sp1[-3]
     with pytest.raises(IndexError):
         _ = sp2[3]
 
@@ -271,7 +273,7 @@ def test_setitem(generate_state_list):
     sf1[0] = 1
     sf2[1] = -2
     sf3[2] = 3
-    sf4[0], sf4[6] = -1, 9
+    sf4[0], sf4[-1] = -1, 9
     sf5[0], sf5[2], sf5[4] = -3, 9, 0
     sp1[0] = 1
     sp2[1], sp2[2] = 5.9, 6
@@ -289,11 +291,11 @@ def test_setitem(generate_state_list):
 
     # Test invalid setitem
     with pytest.raises(IndexError):
-        sf1[-1] = 0
+        sf1[-5] = 0
     with pytest.raises(IndexError):
         sf2[4] = 1
     with pytest.raises(IndexError):
-        sp1[-1] = 2
+        sp1[-3] = 2
     with pytest.raises(IndexError):
         sp2[3] = 3
 

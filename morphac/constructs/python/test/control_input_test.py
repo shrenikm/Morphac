@@ -68,16 +68,18 @@ def test_getitem(generate_control_input_list):
     for ci in [ci1, ci2, ci3, ci4]:
         for i in range(ci.size):
             assert ci[i] == ci.data[i]
+            # Test negative indexing.
+            assert ci[-(ci.size - i)] == ci.data[i]
 
     # Test invalid getitem.
     with pytest.raises(IndexError):
-        _ = ci1[-1]
+        _ = ci1[-3]
     with pytest.raises(IndexError):
         _ = ci2[3]
     with pytest.raises(IndexError):
-        _ = ci1[-2]
+        _ = ci3[-5]
     with pytest.raises(IndexError):
-        _ = ci1[7]
+        _ = ci4[7]
 
 
 def test_setitem(generate_control_input_list):
@@ -86,7 +88,7 @@ def test_setitem(generate_control_input_list):
     ci1[0] = 1
     ci2[1] = 1
     ci3[2] = 7
-    ci4[0], ci4[4] = -1, 8
+    ci4[0], ci4[-1] = -1, 8
 
     assert np.allclose(ci1.data, [1, 0])
     assert np.allclose(ci2.data, [1, 1, 3])
@@ -95,11 +97,11 @@ def test_setitem(generate_control_input_list):
 
     # Test invalid setitem
     with pytest.raises(IndexError):
-        ci1[-1] = 0
+        ci1[-3] = 0
     with pytest.raises(IndexError):
         ci2[3] = 1
     with pytest.raises(IndexError):
-        ci3[-2] = 2
+        ci3[-5] = 2
     with pytest.raises(IndexError):
         ci4[7] = 3
 

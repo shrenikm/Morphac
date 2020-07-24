@@ -13,13 +13,27 @@ void define_coordinate2D_binding(py::module& m) {
 
   coordinate2D.def(py::init<const double, const double>(), py::arg("x"),
                    py::arg("y"));
-  coordinate2D.def("__getitem__", [](const Coordinate2D<double>& coord,
-                                     const int index) { return coord[index]; },
+  coordinate2D.def("__getitem__",
+                   [](const Coordinate2D<double>& coord, const int index) {
+                     // Implementing python's negative indexing.
+                     if (index >= 0) {
+                       return coord[index];
+                     } else {
+                       return coord[index + 2];
+                     }
+                   },
                    py::is_operator());
-  coordinate2D.def("__setitem__",
-                   [](Coordinate2D<double>& coord, const int index,
-                      const double scalar) { coord[index] = scalar; },
-                   py::is_operator());
+  coordinate2D.def(
+      "__setitem__",
+      [](Coordinate2D<double>& coord, const int index, const double scalar) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          coord[index] = scalar;
+        } else {
+          coord[index + 2] = scalar;
+        }
+      },
+      py::is_operator());
   coordinate2D.def(py::self += py::self);
   coordinate2D.def(py::self + py::self);
   coordinate2D.def(py::self -= py::self);

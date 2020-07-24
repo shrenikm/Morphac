@@ -18,13 +18,25 @@ void define_control_input_binding(py::module& m) {
   control_input.def(py::init<const VectorXd&>(), py::arg("data"));
   control_input.def("__getitem__",
                     [](const ControlInput& control_input, const int index) {
-                      return control_input[index];
+                      // Implementing python's negative indexing.
+                      if (index >= 0) {
+                        return control_input[index];
+                      } else {
+                        return control_input[index + control_input.get_size()];
+                      }
                     },
                     py::is_operator());
-  control_input.def("__setitem__",
-                    [](ControlInput& control_input, const int index,
-                       const double scalar) { control_input[index] = scalar; },
-                    py::is_operator());
+  control_input.def(
+      "__setitem__",
+      [](ControlInput& control_input, const int index, const double scalar) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          control_input[index] = scalar;
+        } else {
+          control_input[index + control_input.get_size()] = scalar;
+        }
+      },
+      py::is_operator());
   control_input.def(py::self += py::self);
   control_input.def(py::self + py::self);
   control_input.def(py::self -= py::self);

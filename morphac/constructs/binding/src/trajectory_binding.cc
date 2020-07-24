@@ -22,7 +22,12 @@ void define_trajectory_binding(py::module& m) {
                  py::arg("velocity_size"));
   trajectory.def("__getitem__",
                  [](const Trajectory& trajectory, const int index) {
-                   return trajectory[index];
+                   // Implementing python's negative indexing.
+                   if (index >= 0) {
+                     return trajectory[index];
+                   } else {
+                     return trajectory[index + trajectory.get_size()];
+                   }
                  },
                  py::is_operator());
   trajectory.def(
@@ -35,7 +40,12 @@ void define_trajectory_binding(py::module& m) {
             std::invalid_argument,
             "State pose/velocity dimensions do not match that of the "
             "trajectory.");
-        trajectory[index] = knot_point;
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          trajectory[index] = knot_point;
+        } else {
+          trajectory[index + trajectory.get_size()] = knot_point;
+        }
       },
       py::is_operator());
   trajectory.def(py::self += py::self);

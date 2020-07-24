@@ -51,18 +51,14 @@ def test_getitem(generate_coord_list):
     assert c1[1] == 0
     assert c2[0] == 1.5
     assert c2[1] == 2.
-    assert c3[0] == 1.5
-    assert c3[1] == -5.
-    assert c4[0] == -9.
-    assert c4[1] == -1.2
+    assert c3[-2] == 1.5
+    assert c3[-1] == -5.
+    assert c4[-2] == -9.
+    assert c4[-1] == -1.2
 
-
-def test_invalid_getitem(generate_coord_list):
-
-    c1, c2, _, _ = generate_coord_list
-
+    # Test invalid getitem.
     with pytest.raises(IndexError):
-        _ = c1[-1]
+        _ = c1[-3]
     with pytest.raises(IndexError):
         _ = c2[2]
 
@@ -73,8 +69,8 @@ def test_setitem(generate_coord_list):
 
     c1[0], c1[1] = 1, 1
     c2[0], c2[1] = 2, 2
-    c3[0], c3[1] = 3, 3
-    c4[0], c4[1] = 4, 4
+    c3[-2], c3[-1] = 3, 3
+    c4[-2], c4[-1] = 4, 4
 
     assert c1[0] == 1
     assert c1[1] == 1
@@ -85,13 +81,9 @@ def test_setitem(generate_coord_list):
     assert c4[0] == 4
     assert c4[1] == 4
 
-
-def test_invalid_setitem(generate_coord_list):
-
-    c1, c2, _, _ = generate_coord_list
-
+    # Test invalid setitem.
     with pytest.raises(IndexError):
-        c1[-1] = 0
+        c1[-3] = 0
     with pytest.raises(IndexError):
         c2[2] = 0
 
