@@ -308,3 +308,30 @@ def test_add_knot_points(generate_trajectory_list):
                   [0, 0, 0]])
     assert t3[0] == State(3, 2)
     assert t3[-1] == State(3, 2)
+
+    # Invalid add knot points.
+
+    # Invalid points and indices sizes.
+    with pytest.raises(ValueError):
+        t1.add_knot_points([State(2, 2), State(2, 2)], [0, 1, 2])
+    with pytest.raises(ValueError):
+        t2.add_knot_points([State(2, 1), State(2, 1)], [0])
+
+    # Invalid state sizes.
+    with pytest.raises(ValueError):
+        t1.add_knot_points([State(2, 3), State(2, 2)], [1, 2])
+    with pytest.raises(ValueError):
+        t2.add_knot_points([State(2, 1), State(2, 1), State(1, 1)], [0, 2, 5])
+    with pytest.raises(ValueError):
+        t3.add_knot_points([State(3, 2), State(2, 3)], [0, 101])
+
+    # Invalid indices.
+    # We do not allow for negative indexing here.
+    # Also the sizes have changed from the previous add_knot_points calls.
+    with pytest.raises(IndexError):
+        t1.add_knot_points([State(2, 2), State(2, 2)], [-1, 2])
+    with pytest.raises(IndexError):
+        t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 10])
+    with pytest.raises(IndexError):
+        t3.add_knot_points(
+            [State(3, 2), State(3, 2), State(3, 2)], [0, 101, 203])

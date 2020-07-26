@@ -169,7 +169,7 @@ void Trajectory::AddKnotPoint(const State& knot_point, const int index) {
       knot_point.get_pose_size() == pose_size_ &&
           knot_point.get_velocity_size() == velocity_size_,
       std::invalid_argument,
-      "State's pose and velocity sizes do not match that of the trajectory.");
+      "State pose/velocity sizes do not match that of the trajectory.");
   // Making sure that the index is correct.
   MORPH_REQUIRE(index >= 0 && index <= get_size(), std::out_of_range,
                 "Index out of bounds. Indices must lie in [0, size]");
