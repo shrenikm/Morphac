@@ -259,11 +259,11 @@ def test_add_knot_point(generate_trajectory_list):
     t1, t2, t3 = generate_trajectory_list
 
     t1.add_knot_point(State([1, 1], [1, 1]), 0)
-    t2.add_knot_point(State([1.5, 1.5], [1.5]), 1)
+    t2.add_knot_point(knot_point=State([1.5, 1.5], [1.5]), index=1)
     # Test the overload without an index.
     np.random.seed(7)
     data3 = np.random.randn(100, 5)
-    t3.add_knot_point(State(3, 2))
+    t3.add_knot_point(knot_point=State(3, 2))
 
     assert np.allclose(t1.data, [[1, 1, 1, 1], [0, 0, 0, 0]])
     assert np.allclose(
@@ -294,12 +294,10 @@ def test_add_knot_points(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
 
-    # Making copies as the values of the trajectories might change while
-    # catching exceptions caused by add_knot_point.
-
     t1.add_knot_points([State(2, 2), State(2, 2)], [1, 2])
     t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 5])
-    t3.add_knot_points([State(3, 2), State(3, 2)], [0, 101])
+    t3.add_knot_points(
+        knot_points=[State(3, 2), State(3, 2)], indices=[0, 101])
 
     assert np.allclose(t1.data, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
     assert np.allclose(
@@ -351,3 +349,62 @@ def test_invalid_add_knot_points_due_to_indices(generate_trajectory_list):
     with pytest.raises(IndexError):
         t3.add_knot_points(
             [State(3, 2), State(3, 2), State(3, 2)], [0, 50, 103])
+
+
+def test_remove_knot_point(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    t1.remove_knot_point(0)
+    t2.remove_knot_point(1)
+
+    np.random.seed(7)
+    data3 = np.random.randn(100, 5)
+    t3.remove_knot_point(index=50)
+    # Test the overload without an index.
+    t3.remove_knot_point()
+
+    assert t1.size == 0
+    assert np.allclose(t1.data, np.empty([0, t1.dim]))
+    assert np.allclose(
+        t2.data, [[1, 1, 1],  [3, 3, 3]])
+    assert np.allclose(t3.data, np.vstack([data3[:50], data3[51:-1]]))
+
+    # Test invalid remove_knot_point.
+    # Note that the size of each trajectory has now increased by one.
+
+    # Invalid indices.
+    with pytest.raises(IndexError):
+        t1.remove_knot_point(0)
+    with pytest.raises(IndexError):
+        t2.remove_knot_point(-1)
+    with pytest.raises(IndexError):
+        t3.remove_knot_point(200)
+
+
+def test_remove_knot_points(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    t1.remove_knot_points([0])
+    t2.remove_knot_points([1, 2])
+
+    np.random.seed(7)
+    data3 = np.random.randn(100, 5)
+    t3.remove_knot_points(indices=[0, 1, 2, 99, 98, 97])
+
+    assert np.allclose(t1.data, np.empty([0, t1.dim]))
+    assert np.allclose(t2.data, [[1, 1, 1]])
+    assert np.allclose(t3.data, data3[3:97, :])
+
+
+def test_invalid_remove_knot_points(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
+    with pytest.raises(IndexError):
+        t1.remove_knot_points([0, 1])
+    with pytest.raises(IndexError):
+        t2.remove_knot_points([-1, 2])
+    with pytest.raises(IndexError):
+        t3.remove_knot_points([0, 100])
