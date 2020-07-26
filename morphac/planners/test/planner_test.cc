@@ -1,27 +1,27 @@
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "constructs/include/control_input.h"
+#include "constructs/include/trajectory.h"
 #include "planners/include/planner.h"
 
 namespace {
 
-using Eigen::VectorXd;
+using Eigen::MatrixXd;
 
-using morphac::constructs::ControlInput;
+using morphac::constructs::Trajectory;
 using morphac::planners::Planner;
 
 // Derived Planner class for testing.
 class CustomPlanner : public Planner {
  public:
-  CustomPlanner(VectorXd control_input_data)
-      : Planner(), control_input_data_(control_input_data) {}
+  CustomPlanner(MatrixXd trajectory_data, int pose_size, int velocity_size)
+      : Planner(), trajectory_(trajectory_data, pose_size, velocity_size) {}
 
   // ControlInput computation that always returns the same control input.
-  ControlInput Compute() { return ControlInput(control_input_data_); }
+  Trajectory Compute() { return trajectory_; }
 
  private:
-  VectorXd control_input_data_;
+  Trajectory trajectory_;
 };
 
 class PlannerTest : public ::testing::Test {
@@ -35,20 +35,20 @@ class PlannerTest : public ::testing::Test {
 };
 
 TEST_F(PlannerTest, Construction) {
-  VectorXd control_input_data1 = VectorXd::Random(1);
-  VectorXd control_input_data2 = VectorXd::Random(6);
-  CustomPlanner planner1{control_input_data1};
-  CustomPlanner planner2{control_input_data2};
+  MatrixXd trajectory_data1 = MatrixXd::Random(1, 5);
+  MatrixXd trajectory_data2 = MatrixXd::Random(60, 6);
+  CustomPlanner planner1{trajectory_data1, 3, 2};
+  CustomPlanner planner2{trajectory_data2, 2, 4};
 }
 
 TEST_F(PlannerTest, Compute) {
-  VectorXd control_input_data1 = VectorXd::Random(1);
-  VectorXd control_input_data2 = VectorXd::Random(6);
-  CustomPlanner planner1{control_input_data1};
-  CustomPlanner planner2{control_input_data2};
+  MatrixXd trajectory_data1 = MatrixXd::Random(1, 5);
+  MatrixXd trajectory_data2 = MatrixXd::Random(60, 6);
+  CustomPlanner planner1{trajectory_data1, 3, 2};
+  CustomPlanner planner2{trajectory_data2, 2, 4};
 
-  ASSERT_TRUE(planner1.Compute().get_data().isApprox(control_input_data1));
-  ASSERT_TRUE(planner2.Compute().get_data().isApprox(control_input_data2));
+  ASSERT_TRUE(planner1.Compute().get_data().isApprox(trajectory_data1));
+  ASSERT_TRUE(planner2.Compute().get_data().isApprox(trajectory_data2));
 }
 
 }  // namespace

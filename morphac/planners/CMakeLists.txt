@@ -81,6 +81,6 @@ endforeach()
 target_link_libraries(planner_test
   PUBLIC
   gtest_main
-  control_input
+  trajectory
   planner
 )
