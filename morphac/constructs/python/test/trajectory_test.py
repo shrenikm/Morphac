@@ -294,6 +294,9 @@ def test_add_knot_points(generate_trajectory_list):
 
     t1, t2, t3 = generate_trajectory_list
 
+    # Making copies as the values of the trajectories might change while
+    # catching exceptions caused by add_knot_point.
+
     t1.add_knot_points([State(2, 2), State(2, 2)], [1, 2])
     t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 5])
     t3.add_knot_points([State(3, 2), State(3, 2)], [0, 101])
@@ -308,6 +311,14 @@ def test_add_knot_points(generate_trajectory_list):
                   [0, 0, 0]])
     assert t3[0] == State(3, 2)
     assert t3[-1] == State(3, 2)
+
+# Separate invalid test functions as these may modify the trajectory depending
+# on which index the invalidity is present at.
+
+
+def test_invalid_add_knot_points_due_to_sizes(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
 
     # Invalid add knot points.
 
@@ -325,13 +336,18 @@ def test_add_knot_points(generate_trajectory_list):
     with pytest.raises(ValueError):
         t3.add_knot_points([State(3, 2), State(2, 3)], [0, 101])
 
+
+def test_invalid_add_knot_points_due_to_indices(generate_trajectory_list):
+
+    t1, t2, t3 = generate_trajectory_list
+
     # Invalid indices.
     # We do not allow for negative indexing here.
     # Also the sizes have changed from the previous add_knot_points calls.
     with pytest.raises(IndexError):
         t1.add_knot_points([State(2, 2), State(2, 2)], [-1, 2])
     with pytest.raises(IndexError):
-        t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 10])
+        t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 6])
     with pytest.raises(IndexError):
         t3.add_knot_points(
-            [State(3, 2), State(3, 2), State(3, 2)], [0, 101, 203])
+            [State(3, 2), State(3, 2), State(3, 2)], [0, 50, 103])
