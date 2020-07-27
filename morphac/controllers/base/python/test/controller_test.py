@@ -3,6 +3,7 @@ import pytest
 
 from morphac.constructs import ControlInput
 from morphac.controllers.base import Controller
+from morphac.utils.pytest_utils import set_standard_testing_random_seed
 
 
 class CustomController(Controller):
@@ -18,8 +19,9 @@ class CustomController(Controller):
 
 @pytest.fixture()
 def generate_controller_list():
-    c1 = CustomController([-1, 2, 3])
-    c2 = CustomController([7., 8., 9.])
+    set_standard_testing_random_seed()
+    c1 = CustomController(np.random.randn(3))
+    c2 = CustomController(np.random.randn(6))
 
     return c1, c2
 
@@ -28,5 +30,9 @@ def test_compute(generate_controller_list):
 
     c1, c2 = generate_controller_list
 
-    assert np.allclose(c1.compute().data, [-1., 2., 3.])
-    assert np.allclose(c2.compute().data, [7, 8, 9])
+    set_standard_testing_random_seed()
+    data1 = np.random.randn(3)
+    data2 = np.random.randn(6)
+
+    assert np.allclose(c1.compute().data, data1)
+    assert np.allclose(c2.compute().data, data2)

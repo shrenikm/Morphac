@@ -3,6 +3,7 @@ import pytest
 
 from morphac.constructs import Trajectory
 from morphac.planners.base import Planner
+from morphac.utils.pytest_utils import set_standard_testing_random_seed
 
 
 class CustomPlanner(Planner):
@@ -21,7 +22,8 @@ class CustomPlanner(Planner):
 
 @pytest.fixture()
 def generate_planner_list():
-    np.random.seed(7)
+
+    set_standard_testing_random_seed()
     p1 = CustomPlanner(np.random.randn(1, 3), 2, 1)
     p2 = CustomPlanner(np.random.randn(20, 5), 2, 3)
 
@@ -32,7 +34,7 @@ def test_compute(generate_planner_list):
 
     p1, p2 = generate_planner_list
 
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     data1 = np.random.randn(1, 3)
     data2 = np.random.randn(20, 5)
 

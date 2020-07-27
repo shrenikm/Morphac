@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from morphac.constructs import State, Trajectory
+from morphac.utils.pytest_utils import set_standard_testing_random_seed
 
 
 @pytest.fixture()
@@ -12,7 +13,7 @@ def generate_trajectory_list():
         knot_points=[State([1, 1], [1]),
                      State([2, 2], [2]),
                      State([3, 3], [3])])
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     t3 = Trajectory(data=np.random.randn(100, 5), pose_size=3, velocity_size=2)
 
     return t1, t2, t3
@@ -106,7 +107,7 @@ def test_data(generate_trajectory_list):
 
     # Test getting data.
     # Data for t3
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     data3 = np.random.randn(100, 5)
 
     assert np.allclose(t1.data, [0, 0, 0, 0])
@@ -116,7 +117,8 @@ def test_data(generate_trajectory_list):
     # Test setting data.
     t1.data = [[1, 2, 3, 4]]
     t2.data = np.ones([3, 3])
-    np.random.seed(0)
+
+    set_standard_testing_random_seed()
     data3 = np.random.randn(100, 5)
     t3.data = data3
 
@@ -160,7 +162,7 @@ def test_setitem(generate_trajectory_list):
 
     t1[0] = State([1, 1], [1, 1])
     t2[1] = State([1, 1], [1])
-    np.random.seed(0)
+    set_standard_testing_random_seed()
     data3 = np.random.randn(100, 5)
     for i in range(100):
         t3[i] = State(data3[i, :3], data3[i, 3:])
@@ -203,7 +205,7 @@ def test_addition(generate_trajectory_list):
     assert np.allclose(t2.data, [[1, 1, 1], [2, 2, 2], [
                        3, 3, 3], [1, 1, 1], [2, 2, 2], [3, 3, 3]])
 
-    np.random.seed(0)
+    set_standard_testing_random_seed()
     data3 = np.random.randn(200, 5)
     t4 = t3 + Trajectory(data3, 3, 2)
 
@@ -261,7 +263,7 @@ def test_add_knot_point(generate_trajectory_list):
     t1.add_knot_point(State([1, 1], [1, 1]), 0)
     t2.add_knot_point(knot_point=State([1.5, 1.5], [1.5]), index=1)
     # Test the overload without an index.
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     data3 = np.random.randn(100, 5)
     t3.add_knot_point(knot_point=State(3, 2))
 
@@ -358,7 +360,7 @@ def test_remove_knot_point(generate_trajectory_list):
     t1.remove_knot_point(0)
     t2.remove_knot_point(1)
 
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     data3 = np.random.randn(100, 5)
     t3.remove_knot_point(index=50)
     # Test the overload without an index.
@@ -389,7 +391,7 @@ def test_remove_knot_points(generate_trajectory_list):
     t1.remove_knot_points([0])
     t2.remove_knot_points([1, 2])
 
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     data3 = np.random.randn(100, 5)
     t3.remove_knot_points(indices=[0, 1, 2, 99, 98, 97])
 

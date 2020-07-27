@@ -113,6 +113,7 @@ target_link_libraries(integrator_utils_test
 set(UTILS_PYTHON_FILES
   decorator_utils.py
   python_utils.py
+  pytest_utils.py
 )
 
 # Appending the directory of the python files.
