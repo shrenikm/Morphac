@@ -14,8 +14,9 @@ namespace constructs {
 class Velocity {
  public:
   Velocity(const int size);
-  Velocity(const Eigen::VectorXd& velocity_vector);
-  Velocity(std::initializer_list<double> velocity_elements);
+  Velocity(const Eigen::VectorXd& data);
+  Velocity(std::initializer_list<double> elements);
+
   // Copy constructor.
   Velocity(const Velocity& velocity) = default;
 
@@ -31,8 +32,8 @@ class Velocity {
   friend bool operator==(const Velocity& velocity1, const Velocity& velocity2);
   friend bool operator!=(const Velocity& velocity1, const Velocity& velocity2);
 
-  double& operator()(const int index);
-  double operator()(const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os, const Velocity& velocity);
   // String representation that uses the << overload.
@@ -40,16 +41,16 @@ class Velocity {
   std::string ToString() const;
 
   int get_size() const;
-  const Eigen::VectorXd& get_velocity_vector() const;
-  void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
-  void set_velocity_vector(std::initializer_list<double> velocity_elements);
+  const Eigen::VectorXd& get_data() const;
+  void set_data(const Eigen::VectorXd& data);
+  void set_data(std::initializer_list<double> elements);
 
   bool IsEmpty() const;
   static Velocity CreateLike(const morphac::constructs::Velocity& velocity);
 
  private:
   int size_;
-  Eigen::VectorXd velocity_vector_;
+  Eigen::VectorXd data_;
 };
 
 // Non-member multiplication operator functions to support lhs scalar

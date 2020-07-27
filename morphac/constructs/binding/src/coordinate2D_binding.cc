@@ -13,6 +13,27 @@ void define_coordinate2D_binding(py::module& m) {
 
   coordinate2D.def(py::init<const double, const double>(), py::arg("x"),
                    py::arg("y"));
+  coordinate2D.def("__getitem__",
+                   [](const Coordinate2D<double>& coord, const int index) {
+                     // Implementing python's negative indexing.
+                     if (index >= 0) {
+                       return coord[index];
+                     } else {
+                       return coord[index + 2];
+                     }
+                   },
+                   py::is_operator());
+  coordinate2D.def(
+      "__setitem__",
+      [](Coordinate2D<double>& coord, const int index, const double scalar) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          coord[index] = scalar;
+        } else {
+          coord[index + 2] = scalar;
+        }
+      },
+      py::is_operator());
   coordinate2D.def(py::self += py::self);
   coordinate2D.def(py::self + py::self);
   coordinate2D.def(py::self -= py::self);
@@ -31,10 +52,8 @@ void define_coordinate2D_binding(py::module& m) {
                             &Coordinate2D<double>::set_x);
   coordinate2D.def_property("y", &Coordinate2D<double>::get_y,
                             &Coordinate2D<double>::set_y);
-  // vector is mapped to data in python to keep it consistent and pythonic.
-  coordinate2D.def_property("data",
-                            &Coordinate2D<double>::get_coordinate_vector,
-                            &Coordinate2D<double>::set_coordinate_vector);
+  coordinate2D.def_property("data", &Coordinate2D<double>::get_data,
+                            &Coordinate2D<double>::set_data);
 }
 
 }  // namespace binding

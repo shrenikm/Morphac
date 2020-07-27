@@ -5,6 +5,7 @@ set(MODELS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(MODELS_SRC_DIR ${MODELS_DIR}/src)
 set(MODELS_INCLUDE_DIR ${MODELS_DIR}/include)
 set(MODELS_TEST_DIR ${MODELS_DIR}/test)
+set(MODELS_PYTHON_DIR ${MODELS_DIR}/python)
 
 set(MODELS_BINARY_DIR ${MECHANICS_BINARY_DIR}/models)
 
@@ -58,14 +59,14 @@ endforeach()
 target_link_libraries(kinematic_model
   PUBLIC
   state
-  input
+  control_input
 )
 
 target_link_libraries(diffdrive_model
   PUBLIC
   kinematic_model
   state
-  input
+  control_input
   angle_utils
 )
 
@@ -73,7 +74,7 @@ target_link_libraries(dubin_model
   PUBLIC
   kinematic_model
   state
-  input
+  control_input
   angle_utils
 )
 
@@ -81,7 +82,7 @@ target_link_libraries(tricycle_model
   PUBLIC
   kinematic_model
   state
-  input
+  control_input
   angle_utils
 )
 

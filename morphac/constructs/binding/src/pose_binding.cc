@@ -16,6 +16,26 @@ void define_pose_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   pose.def(py::init<const int>(), py::arg("size"));
   pose.def(py::init<const VectorXd&>(), py::arg("data"));
+  pose.def("__getitem__",
+           [](const Pose& pose, const int index) {
+             // Implementing python's negative indexing.
+             if (index >= 0) {
+               return pose[index];
+             } else {
+               return pose[index + pose.get_size()];
+             }
+           },
+           py::is_operator());
+  pose.def("__setitem__",
+           [](Pose& pose, const int index, const double scalar) {
+             // Implementing python's negative indexing.
+             if (index >= 0) {
+               pose[index] = scalar;
+             } else {
+               pose[index + pose.get_size()] = scalar;
+             }
+           },
+           py::is_operator());
   pose.def(py::self += py::self);
   pose.def(py::self + py::self);
   pose.def(py::self -= py::self);
@@ -27,9 +47,8 @@ void define_pose_binding(py::module& m) {
   pose.def(py::self != py::self);
   pose.def("__repr__", &Pose::ToString);
   pose.def_property_readonly("size", &Pose::get_size);
-  // vector is mapped to data in python to keep it consistent and pythonic.
-  pose.def_property("data", &Pose::get_pose_vector,
-                    py::overload_cast<const VectorXd&>(&Pose::set_pose_vector));
+  pose.def_property("data", &Pose::get_data,
+                    py::overload_cast<const VectorXd&>(&Pose::set_data));
   pose.def("is_empty", &Pose::IsEmpty);
   pose.def("create_like", &Pose::CreateLike);
 }

@@ -7,29 +7,29 @@ namespace {
 
 using Eigen::VectorXd;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
 
 class CustomKinematicModel : public KinematicModel {
  public:
-  CustomKinematicModel(int size_pose, int size_velocity, int size_input,
+  CustomKinematicModel(int pose_size, int velocity_size, int control_input_size,
                        double a)
-      : KinematicModel(size_pose, size_velocity, size_input), a(a) {}
+      : KinematicModel(pose_size, velocity_size, control_input_size), a(a) {}
 
-  State ComputeStateDerivative(const State& state,
-                               const Input& input) const override {
+  State ComputeStateDerivative(
+      const State& state, const ControlInput& control_input) const override {
     // f(x, u) = x * a * u - x
     VectorXd derivative_vector(state.get_size());
-    derivative_vector << state.get_state_vector();
+    derivative_vector << state.get_data();
     derivative_vector =
-        (derivative_vector.array() * a * input.get_input_vector().array() -
+        (derivative_vector.array() * a * control_input.get_data().array() -
          derivative_vector.array())
             .matrix();
 
     State derivative = State::CreateLike(state);
-    derivative.set_pose_vector(derivative_vector.head(size_pose));
-    derivative.set_velocity_vector(derivative_vector.tail(size_velocity));
+    derivative.set_pose_data(derivative_vector.head(pose_size));
+    derivative.set_velocity_data(derivative_vector.tail(velocity_size));
 
     return derivative;
   }
@@ -39,39 +39,39 @@ class CustomKinematicModel : public KinematicModel {
 
 class KinematicModelTest : public ::testing::Test {
  protected:
-  KinematicModelTest() {}
-
-  void SetUp() override {
+  KinematicModelTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 };
 
 TEST_F(KinematicModelTest, Sizes) {
   CustomKinematicModel model1{2, 2, 3, 1};
   CustomKinematicModel model2{20, 25, 13, 2.5};
 
-  ASSERT_EQ(model1.size_pose, 2);
-  ASSERT_EQ(model2.size_pose, 20);
+  ASSERT_EQ(model1.pose_size, 2);
+  ASSERT_EQ(model2.pose_size, 20);
 
-  ASSERT_EQ(model1.size_velocity, 2);
-  ASSERT_EQ(model2.size_velocity, 25);
+  ASSERT_EQ(model1.velocity_size, 2);
+  ASSERT_EQ(model2.velocity_size, 25);
 
-  ASSERT_EQ(model1.size_input, 3);
-  ASSERT_EQ(model2.size_input, 13);
+  ASSERT_EQ(model1.control_input_size, 3);
+  ASSERT_EQ(model2.control_input_size, 13);
 
   ASSERT_EQ(model1.a, 1);
   ASSERT_EQ(model2.a, 2.5);
 }
 
 TEST_F(KinematicModelTest, DerivativeComputation) {
-  VectorXd pose_vector(3), velocity_vector(2), input_vector(5);
+  VectorXd pose_vector(3), velocity_vector(2), control_input_vector(5);
   pose_vector << 1, -2, 5;
   velocity_vector << -3, 2.5;
-  input_vector << 1, 2, 3, 4, 7;
+  control_input_vector << 1, 2, 3, 4, 7;
 
   State state(pose_vector, velocity_vector);
-  Input input(input_vector);
+  ControlInput control_input(control_input_vector);
 
   CustomKinematicModel model{3, 2, 5, 1.0};
 
@@ -80,20 +80,20 @@ TEST_F(KinematicModelTest, DerivativeComputation) {
   expected_velocity_derivative << -9, 15;
 
   // Changing the values of the state.
-  state.get_pose()(2) = 3;
-  state.get_velocity()(1) = 7;
+  state.get_pose()[2] = 3;
+  state.get_velocity()[1] = 7;
 
   // Computing the derivative.
-  State derivative = model.ComputeStateDerivative(state, input);
+  State derivative = model.ComputeStateDerivative(state, control_input);
 
   // Updating expected values.
   expected_pose_derivative(2) = 6;
   expected_velocity_derivative(1) = 42;
 
   // Checking if derivative has updated.
-  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_vector()));
+  ASSERT_TRUE(expected_pose_derivative.isApprox(derivative.get_pose_data()));
   ASSERT_TRUE(
-      expected_velocity_derivative.isApprox(derivative.get_velocity_vector()));
+      expected_velocity_derivative.isApprox(derivative.get_velocity_data()));
 }
 
 TEST_F(KinematicModelTest, StateNormalization) {

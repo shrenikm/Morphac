@@ -11,7 +11,7 @@ def generate_state_list():
     # Also tests initialization.
 
     # Full states.
-    sf1 = State(size_pose=2, size_velocity=2)
+    sf1 = State(pose_size=2, velocity_size=2)
     sf2 = State([1, 2], [3, 4])
     sf3 = State((5, 6), (7, 8, 9))
     sf4 = State(data_pose=np.array([1, 1, 2]), data_velocity=np.array(
@@ -51,34 +51,34 @@ def test_size(generate_state_list):
         sp2.size = 3
 
 
-def test_size_pose(generate_state_list):
+def test_pose_size(generate_state_list):
 
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
 
-    assert sf1.size_pose == 2
-    assert sf2.size_pose == 2
-    assert sf3.size_pose == 2
-    assert sf4.size_pose == 3
-    assert sf5.size_pose == 2
+    assert sf1.pose_size == 2
+    assert sf2.pose_size == 2
+    assert sf3.pose_size == 2
+    assert sf4.pose_size == 3
+    assert sf5.pose_size == 2
 
-    # Partial state size_pose.
-    assert sp1.size_pose == 0
-    assert sp2.size_pose == 3
+    # Partial state pose_size.
+    assert sp1.pose_size == 0
+    assert sp2.pose_size == 3
 
 
-def test_size_velocity(generate_state_list):
+def test_velocity_size(generate_state_list):
 
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
 
-    assert sf1.size_velocity == 2
-    assert sf2.size_velocity == 2
-    assert sf3.size_velocity == 3
-    assert sf4.size_velocity == 4
-    assert sf5.size_velocity == 3
+    assert sf1.velocity_size == 2
+    assert sf2.velocity_size == 2
+    assert sf3.velocity_size == 3
+    assert sf4.velocity_size == 4
+    assert sf5.velocity_size == 3
 
-    # Partial state size_pose.
-    assert sp1.size_velocity == 2
-    assert sp2.size_velocity == 0
+    # Partial state pose_size.
+    assert sp1.velocity_size == 2
+    assert sp2.velocity_size == 0
 
 
 def test_state_pose(generate_state_list):
@@ -86,22 +86,22 @@ def test_state_pose(generate_state_list):
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
 
     # Full state pose.
-    assert sf1.size_pose == 2
+    assert sf1.pose_size == 2
     assert np.allclose(sf1.pose.data, [0, 0])
-    assert sf2.size_pose == 2
+    assert sf2.pose_size == 2
     assert np.allclose(sf2.pose.data, [1, 2])
-    assert sf3.size_pose == 2
+    assert sf3.pose_size == 2
     assert np.allclose(sf3.pose.data, [5, 6])
-    assert sf4.size_pose == 3
+    assert sf4.pose_size == 3
     assert np.allclose(sf4.pose.data, [1, 1, 2])
-    assert sf5.size_pose == 2
+    assert sf5.pose_size == 2
     assert np.allclose(sf5.pose.data, [0, -1])
 
     # Partial state pose.
     # Shouldn't be able to access the pose of a state whose pose is empty.
     with pytest.raises(RuntimeError):
         sp1.pose
-    assert sp2.size_pose == 3
+    assert sp2.pose_size == 3
     assert np.allclose(sp2.pose.data, [4, 6, 5.9])
 
     # Testing setting pose data.
@@ -143,19 +143,19 @@ def test_state_velocity(generate_state_list):
     sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
 
     # Full state velocity.
-    assert sf1.size_velocity == 2
+    assert sf1.velocity_size == 2
     assert np.allclose(sf1.velocity.data, [0, 0])
-    assert sf2.size_velocity == 2
+    assert sf2.velocity_size == 2
     assert np.allclose(sf2.velocity.data, [3, 4])
-    assert sf3.size_velocity == 3
+    assert sf3.velocity_size == 3
     assert np.allclose(sf3.velocity.data, [7, 8, 9])
-    assert sf4.size_velocity == 4
+    assert sf4.velocity_size == 4
     assert np.allclose(sf4.velocity.data, [3, 5, 8, 13])
-    assert sf5.size_velocity == 3
+    assert sf5.velocity_size == 3
     assert np.allclose(sf5.velocity.data, [-3, -7, 9])
 
     # Partial state velocity.
-    assert sp1.size_velocity == 2
+    assert sp1.velocity_size == 2
     assert np.allclose(sp1.velocity.data, [0, 0])
     # Shouldn't be able to access the pose of a state whose pose is empty.
     with pytest.raises(RuntimeError):
@@ -243,6 +243,61 @@ def test_data(generate_state_list):
         sp1.data = [1, 1, 1]
     with pytest.raises(ValueError):
         sp2.data = [1, 1]
+
+
+def test_getitem(generate_state_list):
+
+    sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
+
+    for s in [sf1, sf2, sf3, sf4, sf5, sp1, sp2]:
+        for i in range(s.size):
+            assert s[i] == s.data[i]
+            # Test negative indexing.
+            assert s[-(s.size - i)] == s.data[i]
+
+    # Test invalid getitem.
+    with pytest.raises(IndexError):
+        _ = sf1[-5]
+    with pytest.raises(IndexError):
+        _ = sf2[4]
+    with pytest.raises(IndexError):
+        _ = sp1[-3]
+    with pytest.raises(IndexError):
+        _ = sp2[3]
+
+
+def test_setitem(generate_state_list):
+
+    sf1, sf2, sf3, sf4, sf5, sp1, sp2 = generate_state_list
+
+    sf1[0] = 1
+    sf2[1] = -2
+    sf3[2] = 3
+    sf4[0], sf4[-1] = -1, 9
+    sf5[0], sf5[2], sf5[4] = -3, 9, 0
+    sp1[0] = 1
+    sp2[1], sp2[2] = 5.9, 6
+
+    # Make sure that the full states are updated correctly.
+    assert np.allclose(sf1.data, [1, 0, 0, 0])
+    assert np.allclose(sf2.data, [1, -2, 3, 4])
+    assert np.allclose(sf3.data, [5, 6, 3, 8, 9])
+    assert np.allclose(sf4.data, [-1, 1, 2, 3, 5, 8, 9])
+    assert np.allclose(sf5.data, [-3, -1, 9, -7, 0])
+
+    # Make sure that the partial states are updated correctly.
+    assert np.allclose(sp1.data, [1, 0])
+    assert np.allclose(sp2.data, [4, 5.9, 6])
+
+    # Test invalid setitem
+    with pytest.raises(IndexError):
+        sf1[-5] = 0
+    with pytest.raises(IndexError):
+        sf2[4] = 1
+    with pytest.raises(IndexError):
+        sp1[-3] = 2
+    with pytest.raises(IndexError):
+        sp2[3] = 3
 
 
 def test_addition(generate_state_list):

@@ -63,7 +63,7 @@ Coordinate2D<T> operator*(const T scalar, Coordinate2D<T> coord) {
 }
 
 template <typename T>
-T& Coordinate2D<T>::operator()(const int index) {
+T& Coordinate2D<T>::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
                 "Coordinate2D index out of bounds.");
   if (index == 0) {
@@ -74,7 +74,7 @@ T& Coordinate2D<T>::operator()(const int index) {
 }
 
 template <typename T>
-T Coordinate2D<T>::operator()(const int index) const {
+T Coordinate2D<T>::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
                 "Coordinate2D index out of bounds.");
   if (index == 0) {
@@ -146,10 +146,10 @@ T Coordinate2D<T>::get_y() const {
 }
 
 template <typename T>
-const Matrix<T, 2, 1> Coordinate2D<T>::get_coordinate_vector() const {
-  Matrix<T, 2, 1> coord_vector(2);
-  coord_vector << this->get_x(), this->get_y();
-  return coord_vector;
+const Matrix<T, 2, 1> Coordinate2D<T>::get_data() const {
+  Matrix<T, 2, 1> data(2);
+  data << this->get_x(), this->get_y();
+  return data;
 }
 
 template <typename T>
@@ -163,18 +163,17 @@ void Coordinate2D<T>::set_y(const T y) {
 }
 
 template <typename T>
-void Coordinate2D<T>::set_coordinate(const T x, const T y) {
+void Coordinate2D<T>::set_xy(const T x, const T y) {
   x_ = x;
   y_ = y;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_coordinate_vector(
-    const Matrix<T, 2, 1>& coord_vector) {
-  MORPH_REQUIRE(coord_vector.size() == 2, std::invalid_argument,
-                "Coordinate vector must be of size 2.");
-  this->set_x(coord_vector(0));
-  this->set_y(coord_vector(1));
+void Coordinate2D<T>::set_data(const Matrix<T, 2, 1>& data) {
+  MORPH_REQUIRE(data.size() == 2, std::invalid_argument,
+                "Coordinate data must be of size 2.");
+  this->set_x(data(0));
+  this->set_y(data(1));
 }
 
 // Template instantiations

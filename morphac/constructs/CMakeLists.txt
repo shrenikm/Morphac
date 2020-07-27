@@ -5,6 +5,7 @@ set(CONSTRUCTS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CONSTRUCTS_SRC_DIR ${CONSTRUCTS_DIR}/src)
 set(CONSTRUCTS_INCLUDE_DIR ${CONSTRUCTS_DIR}/include)
 set(CONSTRUCTS_TEST_DIR ${CONSTRUCTS_DIR}/test)
+set(CONSTRUCTS_PYTHON_DIR ${CONSTRUCTS_DIR}/python)
 
 set(CONSTRUCTS_BINARY_DIR ${MORPHAC_BINARY_DIR}/constructs)
 
@@ -30,9 +31,10 @@ add_subdirectory(binding)
 set(CONSTRUCTS_SRC
 
   coordinate2D.cc
-  input.cc
+  control_input.cc
   pose.cc
   state.cc
+  trajectory.cc
   velocity.cc
 )
 
@@ -62,6 +64,11 @@ target_link_libraries(state
   velocity
 )
 
+target_link_libraries(trajectory
+  PUBLIC
+  state
+)
+
 
 # Tests
 # -------------------------------------------------
@@ -70,9 +77,10 @@ target_link_libraries(state
 set(CONSTRUCTS_TEST_SRC
 
   coordinate2D_test.cc
-  input_test.cc
+  control_input_test.cc
   pose_test.cc
   state_test.cc
+  trajectory_test.cc
   velocity_test.cc
 )
 
@@ -99,10 +107,10 @@ target_link_libraries(coordinate2D_test
   coordinate2D
 )
 
-target_link_libraries(input_test
+target_link_libraries(control_input_test
   PUBLIC
   gtest_main
-  input
+  control_input
 )
 
 target_link_libraries(pose_test
@@ -115,6 +123,12 @@ target_link_libraries(state_test
   PUBLIC
   gtest_main
   state
+)
+
+target_link_libraries(trajectory_test
+  PUBLIC
+  gtest_main
+  trajectory
 )
 
 target_link_libraries(velocity_test

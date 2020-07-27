@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Input, State
+from morphac.constructs import ControlInput, State
 from morphac.mechanics.models import DubinModel
 
 
@@ -33,22 +33,22 @@ def test_size(generate_dubin_model_list):
     d1, d2 = generate_dubin_model_list
 
     # The sizes are fixed.
-    assert d1.size_pose == 3
-    assert d2.size_pose == 3
+    assert d1.pose_size == 3
+    assert d2.pose_size == 3
 
-    assert d1.size_velocity == 0
-    assert d2.size_velocity == 0
+    assert d1.velocity_size == 0
+    assert d2.velocity_size == 0
 
-    assert d1.size_input == 1
-    assert d2.size_input == 1
+    assert d1.control_input_size == 1
+    assert d2.control_input_size == 1
 
     # Make sure that the sizes are read only.
     with pytest.raises(AttributeError):
-        d1.size_pose = 2
+        d1.pose_size = 2
     with pytest.raises(AttributeError):
-        d2.size_velocity = 0
+        d2.velocity_size = 0
     with pytest.raises(AttributeError):
-        d1.size_input = 3
+        d1.control_input_size = 3
 
 
 def test_derivative_computation(generate_dubin_model_list):
@@ -60,23 +60,23 @@ def test_derivative_computation(generate_dubin_model_list):
 
     # Test with positional arguments.
     der1 = d1.compute_state_derivative(
-        robot_state=State([1, 2, 0], []), robot_input=Input(1))
+        robot_state=State([1, 2, 0], []), control_input=ControlInput(1))
 
-    # In this case, the input controls the angular velocity and the speed is
-    # constant. Hence the robot must move horizontally (theta=0) with the
-    # given speed.
+    # In this case, the control input controls the angular velocity and the
+    # speed i# constant. Hence the robot must move horizontally (theta=0) with
+    # the given speed.
     assert np.allclose(der1.data, [1, 0, 0])
 
-    # Making sure that the derivative can only be computed from inputs that
-    # are of the correct dimensions.
+    # Making sure that the derivative can only be computed from control inputs
+    # that are of the correct dimensions.
     with pytest.raises(ValueError):
-        d1.compute_state_derivative(State(0, 3), Input(1))
+        d1.compute_state_derivative(State(0, 3), ControlInput(1))
     with pytest.raises(ValueError):
-        d1.compute_state_derivative(State(3, 1), Input(1))
+        d1.compute_state_derivative(State(3, 1), ControlInput(1))
     with pytest.raises(ValueError):
-        d2.compute_state_derivative(State(2, 0), Input(1))
+        d2.compute_state_derivative(State(2, 0), ControlInput(1))
     with pytest.raises(ValueError):
-        d2.compute_state_derivative(State(3, 0), Input(2))
+        d2.compute_state_derivative(State(3, 0), ControlInput(2))
 
 
 def test_normalize_state():

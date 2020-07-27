@@ -1,4 +1,4 @@
-from ._binding_blueprint import (
-    Footprint2D,
-    Robot2D,
+from ._binding_blueprint_python import (
+    Footprint,
+    Robot,
 )

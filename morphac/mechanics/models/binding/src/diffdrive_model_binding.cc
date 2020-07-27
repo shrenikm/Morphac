@@ -18,13 +18,14 @@ void define_diffdrive_model_binding(py::module& m) {
                       py::arg("length"));
   diffdrive_model.def("compute_state_derivative",
                       &DiffDriveModel::ComputeStateDerivative,
-                      py::arg("robot_state"), py::arg("robot_input"));
+                      py::arg("robot_state"), py::arg("control_input"));
   diffdrive_model.def("normalize_state", &DiffDriveModel::NormalizeState);
   diffdrive_model.def_readonly("radius", &DiffDriveModel::radius);
   diffdrive_model.def_readonly("length", &DiffDriveModel::length);
-  diffdrive_model.def_readonly("size_pose", &KinematicModel::size_pose);
-  diffdrive_model.def_readonly("size_velocity", &KinematicModel::size_velocity);
-  diffdrive_model.def_readonly("size_input", &KinematicModel::size_input);
+  diffdrive_model.def_readonly("pose_size", &KinematicModel::pose_size);
+  diffdrive_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
+  diffdrive_model.def_readonly("control_input_size",
+                               &KinematicModel::control_input_size);
 }
 
 }  // namespace binding

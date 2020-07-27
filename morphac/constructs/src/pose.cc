@@ -14,21 +14,19 @@ using Eigen::VectorXd;
 
 Pose::Pose(const int size) : size_(size) {
   MORPH_REQUIRE(size >= 0, std::invalid_argument, "Pose size is non-positive.");
-  pose_vector_ = VectorXd::Zero(size);
+  data_ = VectorXd::Zero(size);
 }
 
-Pose::Pose(const VectorXd& pose_vector)
-    : size_(pose_vector.size()), pose_vector_(pose_vector) {
-  MORPH_REQUIRE(pose_vector.size() >= 0, std::invalid_argument,
-                "Pose vector size is non-positive.");
+Pose::Pose(const VectorXd& data) : size_(data.size()), data_(data) {
+  MORPH_REQUIRE(data.size() >= 0, std::invalid_argument,
+                "Pose data size is non-positive.");
 }
 
-Pose::Pose(initializer_list<double> pose_elements)
-    : size_(pose_elements.size()) {
+Pose::Pose(initializer_list<double> elements) : size_(elements.size()) {
   // As it is an initializer list, the size is always going to be >= 0 and need
   // not be checked.
-  vector<double> data(pose_elements);
-  pose_vector_ = Map<VectorXd>(&data[0], size_);
+  vector<double> data_vector(elements);
+  data_ = Map<VectorXd>(&data_vector[0], size_);
 }
 
 Pose& Pose::operator+=(const Pose& pose) {
@@ -36,17 +34,14 @@ Pose& Pose::operator+=(const Pose& pose) {
                 "Poses are not of the same size. The += operator requires them "
                 "to be of the "
                 "same size.");
-  this->pose_vector_ += pose.pose_vector_;
+  this->data_ += pose.data_;
   return *this;
 }
 
 Pose Pose::operator+(const Pose& pose) const {
-  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
-                "Poses are not of the same size. The + operator requires them "
-                "to be of the "
-                "same size.");
-  Pose result(this->size_);
-  result.pose_vector_ = this->pose_vector_ + pose.pose_vector_;
+  // Argument validation happens in the += function call.
+  Pose result(*this);
+  result += pose;
   return result;
 }
 
@@ -55,22 +50,19 @@ Pose& Pose::operator-=(const Pose& pose) {
                 "Poses are not of the same size. The -= operator requires them "
                 "to be of the "
                 "same size.");
-  this->pose_vector_ -= pose.pose_vector_;
+  this->data_ -= pose.data_;
   return *this;
 }
 
 Pose Pose::operator-(const Pose& pose) const {
-  MORPH_REQUIRE(this->size_ == pose.size_, std::invalid_argument,
-                "Poses are not of the same size. The - operator requires them "
-                "to be of the "
-                "same size.");
-  Pose result(this->size_);
-  result.pose_vector_ = this->pose_vector_ - pose.pose_vector_;
+  // Argument validation happens in the -= function call.
+  Pose result(*this);
+  result -= pose;
   return result;
 }
 
 Pose& Pose::operator*=(const double scalar) {
-  this->pose_vector_ = this->pose_vector_ * scalar;
+  this->data_ = this->data_ * scalar;
   return *this;
 }
 
@@ -80,10 +72,10 @@ Pose operator*(Pose pose, const double scalar) { return pose *= scalar; }
 Pose operator*(const double scalar, Pose pose) { return pose *= scalar; }
 
 bool operator==(const Pose& pose1, const Pose& pose2) {
-  // Two poses are equal if they are of the same size and their vector values
+  // Two poses are equal if they are of the same size and their data values
   // are equal.
   if (pose1.size_ == pose2.size_) {
-    if (pose1.pose_vector_.isApprox(pose2.pose_vector_, 1e-6)) {
+    if (pose1.data_.isApprox(pose2.data_, 1e-6)) {
       return true;
     }
   }
@@ -94,22 +86,22 @@ bool operator!=(const Pose& pose1, const Pose& pose2) {
   return !(pose1 == pose2);
 }
 
-double& Pose::operator()(const int index) {
+double& Pose::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  return pose_vector_(index);
+  return data_(index);
 }
 
-double Pose::operator()(const int index) const {
+const double& Pose::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < size_, std::out_of_range,
                 "Pose index out of bounds.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  return pose_vector_(index);
+  return data_(index);
 }
 
 ostream& operator<<(ostream& os, const Pose& pose) {
-  os << "Pose[" << pose.get_pose_vector().transpose() << "]";
+  os << "Pose[" << pose.get_data().transpose() << "]";
   return os;
 }
 
@@ -123,24 +115,24 @@ bool Pose::IsEmpty() const { return size_ == 0; }
 
 int Pose::get_size() const { return size_; }
 
-const VectorXd& Pose::get_pose_vector() const {
+const VectorXd& Pose::get_data() const {
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  return pose_vector_;
+  return data_;
 }
 
-void Pose::set_pose_vector(const VectorXd& pose_vector) {
-  MORPH_REQUIRE(pose_vector.size() == size_, std::invalid_argument,
-                "Pose vector size is incorrect.");
+void Pose::set_data(const VectorXd& data) {
+  MORPH_REQUIRE(data.size() == size_, std::invalid_argument,
+                "Pose data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  pose_vector_ = pose_vector;
+  data_ = data;
 }
 
-void Pose::set_pose_vector(initializer_list<double> pose_elements) {
-  MORPH_REQUIRE((int)pose_elements.size() == size_, std::invalid_argument,
-                "Pose vector size is incorrect.");
+void Pose::set_data(initializer_list<double> elements) {
+  MORPH_REQUIRE((int)elements.size() == size_, std::invalid_argument,
+                "Pose data size is incorrect.");
   MORPH_REQUIRE(!IsEmpty(), std::logic_error, "Pose object is empty");
-  vector<double> data(pose_elements);
-  pose_vector_ = Map<VectorXd>(&data[0], size_);
+  vector<double> data_vector(elements);
+  data_ = Map<VectorXd>(&data_vector[0], size_);
 }
 
 Pose Pose::CreateLike(const Pose& pose) {

@@ -38,4 +38,7 @@
     }                                                                        \
   }
 
+#define MORPH_THROW(exception, error_message) \
+  { throw exception(error_message); }
+
 #endif

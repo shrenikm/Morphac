@@ -11,7 +11,7 @@ using std::srand;
 
 using Eigen::VectorXd;
 
-using morphac::constructs::Input;
+using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::math::numeric::Integrator;
 using morphac::mechanics::models::DiffDriveModel;
@@ -23,20 +23,21 @@ class SomeIntegrator : public Integrator {
   SomeIntegrator(DiffDriveModel& diffdrive_model)
       : Integrator(diffdrive_model) {}
 
-  State Step(const State& state, const Input& input, double dt) const override {
-    auto derivative = (input(0) + input(1)) * dt * state;
+  State Step(const State& state, const ControlInput& control_input,
+             double dt) const override {
+    auto derivative = (control_input[0] + control_input[1]) * dt * state;
     return derivative;
   }
 };
 
 class IntegratorTest : public ::testing::Test {
  protected:
-  IntegratorTest() {}
-
-  void SetUp() override {
+  IntegratorTest() {
     // Set random seed for Eigen.
     srand(7);
   }
+
+  void SetUp() override {}
 };
 
 TEST_F(IntegratorTest, Step) {
@@ -49,8 +50,8 @@ TEST_F(IntegratorTest, Step) {
   State state1(VectorXd::Zero(3), VectorXd::Zero(0));
   State state2({1, -2, 3}, {});
 
-  Input input1({1., 2.});
-  Input input2({-5., 3.});
+  ControlInput control_input1({1., 2.});
+  ControlInput control_input2({-5., 3.});
 
   VectorXd expected_derivative1(3), expected_derivative2(3),
       expected_derivative3(3);
@@ -59,14 +60,14 @@ TEST_F(IntegratorTest, Step) {
   expected_derivative3 << -0.2, 0.4, -0.6;
 
   // Checking if the integrated value has been computed as expected.
-  ASSERT_TRUE(integrator.Step(state1, input1, 0.05)
-                  .get_state_vector()
+  ASSERT_TRUE(integrator.Step(state1, control_input1, 0.05)
+                  .get_data()
                   .isApprox(expected_derivative1));
-  ASSERT_TRUE(integrator.Step(state2, input1, 1.)
-                  .get_state_vector()
+  ASSERT_TRUE(integrator.Step(state2, control_input1, 1.)
+                  .get_data()
                   .isApprox(expected_derivative2));
-  ASSERT_TRUE(integrator.Step(state2, input2, 0.1)
-                  .get_state_vector()
+  ASSERT_TRUE(integrator.Step(state2, control_input2, 0.1)
+                  .get_data()
                   .isApprox(expected_derivative3));
 }
 
@@ -82,23 +83,23 @@ TEST_F(IntegratorTest, Integrate) {
 
   // When the time is zero, we should obtain the same state
   State integrated_state =
-      integrator.Integrate(initial_state, Input({1, 2}), 0, 0.5);
+      integrator.Integrate(initial_state, ControlInput({1, 2}), 0, 0.5);
   ASSERT_TRUE(integrated_state == initial_state);
 
   // Integration for when time is a multiple of dt.
   integrated_state =
-      integrator.Integrate(initial_state, Input({2., 3.}), 2., 0.5);
+      integrator.Integrate(initial_state, ControlInput({2., 3.}), 2., 0.5);
   ASSERT_TRUE(integrated_state == 39.0625 * initial_state);
 
   // Integration for when time is not a multiple of dt.
   integrated_state =
-      integrator.Integrate(initial_state, Input({6., 4.}), 2., 0.3);
+      integrator.Integrate(initial_state, ControlInput({6., 4.}), 2., 0.3);
   ASSERT_TRUE(integrated_state == pow(3, 6) * 2 * initial_state);
 
   // Integration when dt is larger than the total time. In this case, it should
   // only be integrated over time and not dt.
   integrated_state =
-      integrator.Integrate(initial_state, Input({6., 4.}), 0.2, 0.5);
+      integrator.Integrate(initial_state, ControlInput({6., 4.}), 0.2, 0.5);
   ASSERT_TRUE(integrated_state == 2. * initial_state);
 }
 

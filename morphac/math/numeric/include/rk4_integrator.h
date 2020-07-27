@@ -12,9 +12,10 @@ class RK4Integrator : public morphac::math::numeric::Integrator {
  public:
   RK4Integrator(morphac::mechanics::models::KinematicModel& kinematic_model);
 
-  morphac::constructs::State Step(const morphac::constructs::State& state,
-                                  const morphac::constructs::Input& input,
-                                  const double dt) const override;
+  morphac::constructs::State Step(
+      const morphac::constructs::State& state,
+      const morphac::constructs::ControlInput& control_input,
+      const double dt) const override;
 };
 
 }  // namespace numeric

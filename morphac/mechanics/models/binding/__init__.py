@@ -1,4 +1,4 @@
-from ._binding_models import (
+from ._binding_models_python import (
     DiffDriveModel,
     DubinModel,
     KinematicModel,

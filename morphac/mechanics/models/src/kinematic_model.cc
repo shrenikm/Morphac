@@ -6,11 +6,11 @@ namespace models {
 
 using morphac::constructs::State;
 
-KinematicModel::KinematicModel(const int size_pose, const int size_velocity,
-                               const int size_input)
-    : size_pose(size_pose),
-      size_velocity(size_velocity),
-      size_input(size_input) {}
+KinematicModel::KinematicModel(const int pose_size, const int velocity_size,
+                               const int control_input_size)
+    : pose_size(pose_size),
+      velocity_size(velocity_size),
+      control_input_size(control_input_size) {}
 
 State KinematicModel::NormalizeState(const State& state) const {
     // Default implementation. If a KinematicModel subclass doesn't need any

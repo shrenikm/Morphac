@@ -18,13 +18,13 @@ class State {
  public:
   // Sometimes the state may only include the poses. In such cases the velocity
   // part in the constructor may be skipped.
-  State(const int size_pose, const int size_velocity);
-  State(const Eigen::VectorXd& pose_vector,
-        const Eigen::VectorXd& velocity_vector);
+  State(const int pose_size, const int velocity_size);
+  State(const Eigen::VectorXd& pose_data, const Eigen::VectorXd& velocity_data);
   State(std::initializer_list<double> pose_elements,
         std::initializer_list<double> velocity_elements);
   State(const morphac::constructs::Pose& pose,
         const morphac::constructs::Velocity& velocity);
+
   // Copy constructor.
   State(const State& state) = default;
 
@@ -40,16 +40,16 @@ class State {
   friend bool operator==(const State& state1, const State& state2);
   friend bool operator!=(const State& state1, const State& state2);
 
-  double& operator()(const int index);
-  double operator()(const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os, const State& state);
   // String representation that uses the << overload.
   // This is what the python binding uses.
   std::string ToString() const;
 
-  int get_size_pose() const;
-  int get_size_velocity() const;
+  int get_pose_size() const;
+  int get_velocity_size() const;
   int get_size() const;
 
   // Pose and Velocity accessors for const and non-const States.
@@ -58,19 +58,19 @@ class State {
   morphac::constructs::Velocity& get_velocity();
   const morphac::constructs::Velocity& get_velocity() const;
 
-  const Eigen::VectorXd& get_pose_vector() const;
-  const Eigen::VectorXd& get_velocity_vector() const;
-  const Eigen::VectorXd get_state_vector() const;
+  const Eigen::VectorXd& get_pose_data() const;
+  const Eigen::VectorXd& get_velocity_data() const;
+  const Eigen::VectorXd get_data() const;
 
   void set_pose(const morphac::constructs::Pose& pose);
   void set_velocity(const morphac::constructs::Velocity& velocity);
 
-  void set_pose_vector(const Eigen::VectorXd& pose_vector);
-  void set_pose_vector(std::initializer_list<double> pose_elements);
-  void set_velocity_vector(const Eigen::VectorXd& velocity_vector);
-  void set_velocity_vector(std::initializer_list<double> velocity_elements);
-  void set_state_vector(const Eigen::VectorXd& state_vector);
-  void set_state_vector(std::initializer_list<double> state_elements);
+  void set_pose_data(const Eigen::VectorXd& pose_data);
+  void set_pose_data(std::initializer_list<double> pose_elements);
+  void set_velocity_data(const Eigen::VectorXd& velocity_data);
+  void set_velocity_data(std::initializer_list<double> velocity_elements);
+  void set_data(const Eigen::VectorXd& data);
+  void set_data(std::initializer_list<double> elements);
 
   bool IsEmpty() const;
   bool IsPoseEmpty() const;

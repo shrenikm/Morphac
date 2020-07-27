@@ -5,6 +5,7 @@ set(UTILS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(UTILS_SRC_DIR ${UTILS_DIR}/src)
 set(UTILS_INCLUDE_DIR ${UTILS_DIR}/include)
 set(UTILS_TEST_DIR ${UTILS_DIR}/test)
+set(UTILS_PYTHON_DIR ${UTILS_DIR}/python)
 
 set(UTILS_BINARY_DIR ${MORPHAC_BINARY_DIR}/utils)
 
@@ -30,6 +31,7 @@ add_subdirectory(binding)
 set(UTILS_SRC
 
   angle_utils.cc
+  integrator_utils.cc
 )
 
 foreach(file ${UTILS_SRC})
@@ -51,6 +53,16 @@ foreach(file ${UTILS_SRC})
   )
 endforeach()
 
+# Adding library dependencies.
+target_link_libraries(integrator_utils
+  PUBLIC
+  integrator
+  euler_integrator
+  mid_point_integrator
+  rk4_integrator
+  kinematic_model
+)
+
 
 # Tests
 # -------------------------------------------------
@@ -59,6 +71,7 @@ endforeach()
 set(UTILS_TEST_SRC
 
   angle_utils_test.cc
+  integrator_utils_test.cc
 )
 
 # Creating the test executables.
@@ -84,4 +97,34 @@ target_link_libraries(angle_utils_test
   angle_utils
 )
 
+target_link_libraries(integrator_utils_test
+  PUBLIC
+  gtest_main
+  integrator_utils
+  integrator
+  diffdrive_model
+)
 
+
+# Python files
+# -------------------------------------------------
+
+# List of python files.
+set(UTILS_PYTHON_FILES
+  decorator_utils.py
+  python_utils.py
+  pytest_utils.py
+)
+
+# Appending the directory of the python files.
+prepend_list(UTILS_PYTHON_FILES
+  ${UTILS_PYTHON_DIR}/
+  ${UTILS_PYTHON_FILES}
+)
+
+# Install the python files.
+install(FILES
+  ${UTILS_PYTHON_FILES}
+  DESTINATION
+  ${UTILS_BINDING_INSTALL_DIR}
+)

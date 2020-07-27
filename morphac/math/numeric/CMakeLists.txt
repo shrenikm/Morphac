@@ -5,6 +5,7 @@ set(NUMERIC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(NUMERIC_SRC_DIR ${NUMERIC_DIR}/src)
 set(NUMERIC_INCLUDE_DIR ${NUMERIC_DIR}/include)
 set(NUMERIC_TEST_DIR ${NUMERIC_DIR}/test)
+set(NUMERIC_PYTHON_DIR ${NUMERIC_DIR}/python)
 
 set(NUMERIC_BINARY_DIR ${MATH_BINARY_DIR}/numeric)
 
@@ -60,7 +61,7 @@ target_link_libraries(rk4_integrator
   integrator
   kinematic_model
   state
-  input
+  control_input
 )
 
 target_link_libraries(euler_integrator
@@ -68,14 +69,14 @@ target_link_libraries(euler_integrator
   integrator
   kinematic_model
   state
-  input
+  control_input
 )
 
 target_link_libraries(integrator
   PUBLIC
   kinematic_model
   state
-  input
+  control_input
 )
 
 target_link_libraries(mid_point_integrator
@@ -83,7 +84,7 @@ target_link_libraries(mid_point_integrator
   integrator
   kinematic_model
   state
-  input
+  control_input
 )
 
 
@@ -94,6 +95,7 @@ target_link_libraries(mid_point_integrator
 set(NUMERIC_TEST_SRC
 
   integrator_test.cc
+  integrator_type_test.cc
   euler_integrator_test.cc
   mid_point_integrator_test.cc
   rk4_integrator_test.cc
@@ -121,6 +123,12 @@ target_link_libraries(integrator_test
   gtest_main
   integrator
   diffdrive_model
+)
+
+target_link_libraries(integrator_type_test
+  PUBLIC
+  gtest_main
+  integrator
 )
 
 target_link_libraries(euler_integrator_test

@@ -1,7 +1,8 @@
-from ._binding_constructs import (
+from ._binding_constructs_python import (
+    ControlInput,
     Coordinate2D,
-    Input,
     Pose,
     State,
+    Trajectory,
     Velocity,
 )

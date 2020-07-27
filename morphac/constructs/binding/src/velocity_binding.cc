@@ -16,6 +16,26 @@ void define_velocity_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   velocity.def(py::init<const int>(), py::arg("size"));
   velocity.def(py::init<const VectorXd&>(), py::arg("data"));
+  velocity.def("__getitem__",
+               [](const Velocity& velocity, const int index) {
+                 // Implementing python's negative indexing.
+                 if (index >= 0) {
+                   return velocity[index];
+                 } else {
+                   return velocity[index + velocity.get_size()];
+                 }
+               },
+               py::is_operator());
+  velocity.def("__setitem__",
+               [](Velocity& velocity, const int index, const double scalar) {
+                 // Implementing python's negative indexing.
+                 if (index >= 0) {
+                   velocity[index] = scalar;
+                 } else {
+                   velocity[index + velocity.get_size()] = scalar;
+                 }
+               },
+               py::is_operator());
   velocity.def(py::self += py::self);
   velocity.def(py::self + py::self);
   velocity.def(py::self -= py::self);
@@ -27,10 +47,9 @@ void define_velocity_binding(py::module& m) {
   velocity.def(py::self != py::self);
   velocity.def("__repr__", &Velocity::ToString);
   velocity.def_property_readonly("size", &Velocity::get_size);
-  // vector is mapped to data in python to keep it consistent and pythonic.
   velocity.def_property(
-      "data", &Velocity::get_velocity_vector,
-      py::overload_cast<const VectorXd&>(&Velocity::set_velocity_vector));
+      "data", &Velocity::get_data,
+      py::overload_cast<const VectorXd&>(&Velocity::set_data));
   velocity.def("is_empty", &Velocity::IsEmpty);
   velocity.def("create_like", &Velocity::CreateLike);
 }

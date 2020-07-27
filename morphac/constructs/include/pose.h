@@ -14,9 +14,10 @@ namespace constructs {
 class Pose {
  public:
   Pose(const int size);
-  Pose(const Eigen::VectorXd& pose_vector);
-  Pose(std::initializer_list<double> pose_elements);
-  // Copy constructor
+  Pose(const Eigen::VectorXd& data);
+  Pose(std::initializer_list<double> elements);
+
+  // Copy constructor.
   Pose(const Pose& pose) = default;
 
   // Copy assignment.
@@ -31,8 +32,8 @@ class Pose {
   friend bool operator==(const Pose& pose1, const Pose& pose2);
   friend bool operator!=(const Pose& pose1, const Pose& pose2);
 
-  double& operator()(const int index);
-  double operator()(const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   friend std::ostream& operator<<(std::ostream& os, const Pose& pose);
   // String representation that uses the << overload.
@@ -40,16 +41,16 @@ class Pose {
   std::string ToString() const;
 
   int get_size() const;
-  const Eigen::VectorXd& get_pose_vector() const;
-  void set_pose_vector(const Eigen::VectorXd& pose_vector);
-  void set_pose_vector(std::initializer_list<double> pose_elements);
+  const Eigen::VectorXd& get_data() const;
+  void set_data(const Eigen::VectorXd& data);
+  void set_data(std::initializer_list<double> elements);
 
   bool IsEmpty() const;
   static Pose CreateLike(const morphac::constructs::Pose& pose);
 
  private:
   int size_;
-  Eigen::VectorXd pose_vector_;
+  Eigen::VectorXd data_;
 };
 
 // Non-member multiplication operator functions to support lhs scalar

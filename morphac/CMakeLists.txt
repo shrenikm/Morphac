@@ -12,10 +12,13 @@ set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/morphac)
 # -------------------------------------------------
 
 add_subdirectory(constructs)
-add_subdirectory(environments)
+add_subdirectory(controllers)
+add_subdirectory(environment)
 add_subdirectory(math)
 add_subdirectory(mechanics)
+add_subdirectory(planners)
 add_subdirectory(robot)
+add_subdirectory(simulation)
 add_subdirectory(utils)
 
 
