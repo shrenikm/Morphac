@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from morphac.constructs import Trajectory
-from morphac.planners import Planner
+from morphac.planners.base import Planner
 
 
 class CustomPlanner(Planner):

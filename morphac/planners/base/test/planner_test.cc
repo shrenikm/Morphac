@@ -2,14 +2,14 @@
 #include "gtest/gtest.h"
 
 #include "constructs/include/trajectory.h"
-#include "planners/include/planner.h"
+#include "planners/base/include/planner.h"
 
 namespace {
 
 using Eigen::MatrixXd;
 
 using morphac::constructs::Trajectory;
-using morphac::planners::Planner;
+using morphac::planners::base::Planner;
 
 // Derived Planner class for testing.
 class CustomPlanner : public Planner {

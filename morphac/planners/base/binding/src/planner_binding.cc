@@ -1,12 +1,13 @@
-#include "planners/binding/include/planner_binding.h"
+#include "planners/base/binding/include/planner_binding.h"
 
 namespace morphac {
 namespace planners {
+namespace base {
 namespace binding {
 
 namespace py = pybind11;
 
-using morphac::planners::Planner;
+using morphac::planners::base::Planner;
 
 void define_planner_binding(py::module& m) {
   py::class_<Planner, PyPlanner> planner(m, "Planner");
@@ -15,5 +16,6 @@ void define_planner_binding(py::module& m) {
 }
 
 }  // binding
+}  // base
 }  // planners
 }  // morphac

@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from morphac.constructs import ControlInput
-from morphac.controllers import Controller
+from morphac.controllers.base import Controller
 
 
 class CustomController(Controller):

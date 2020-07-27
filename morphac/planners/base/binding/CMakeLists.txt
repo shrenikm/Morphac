@@ -7,27 +7,27 @@ if(NOT BUILD_PYTHON_BINDINGS)
 endif()
 
 # Src file that creates the python module.
-set(PLANNERS_MODULE_FILE
+set(PLANNERS_BASE_MODULE_FILE
 
   planners.cc
 )
 
 # Individual binding files called by the src module file.
 # They are split up into different files so that compilation is more efficient.
-set(PLANNERS_BINDING_FILES
+set(PLANNERS_BASE_BINDING_FILES
 
   planner_binding.cc
 )
 
 # Prepending the directory to the files.
-prepend_list(PLANNERS_BINDING_FILES
-  ${PLANNERS_BINDING_SRC_DIR}/
-  ${PLANNERS_BINDING_FILES}
+prepend_list(PLANNERS_BASE_BINDING_FILES
+  ${PLANNERS_BASE_BINDING_SRC_DIR}/
+  ${PLANNERS_BASE_BINDING_FILES}
 )
 
 # Adding the module as a library.
 get_filename_component(module_name
-  ${PLANNERS_MODULE_FILE} NAME_WE
+  ${PLANNERS_BASE_MODULE_FILE} NAME_WE
 )
 
 ## Get python target name. This is to prevent clashes with similar named cpp
@@ -36,14 +36,14 @@ get_python_target_name(python_target ${module_name})
 
 pybind11_add_module(${python_target}
   SHARED
-  ${PLANNERS_BINDING_DIR}/${PLANNERS_MODULE_FILE}
-  ${PLANNERS_BINDING_FILES}
+  ${PLANNERS_BASE_BINDING_DIR}/${PLANNERS_BASE_MODULE_FILE}
+  ${PLANNERS_BASE_BINDING_FILES}
 )
 
 target_include_directories(${python_target}
   PUBLIC
   ${PYBIND11_INCLUDE_DIR}
-  ${PLANNERS_BINDING_DIR}/include
+  ${PLANNERS_BASE_BINDING_DIR}/include
 )
 
 # Adding library dependencies.
@@ -75,12 +75,12 @@ set(binding_install_file_name
 
 # Installing compiled bindings.
 install(FILES
-  ${PLANNERS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${PLANNERS_BINDING_INSTALL_DIR}
+  ${PLANNERS_BASE_BINDING_BINARY_DIR}/${binding_install_file_name}
+  DESTINATION ${PLANNERS_BASE_BINDING_INSTALL_DIR}
 )
 
 # Installing __init__ files.
 install(FILES
-  ${PLANNERS_BINDING_DIR}/__init__.py
-  DESTINATION ${PLANNERS_BINDING_INSTALL_DIR}
+  ${PLANNERS_BASE_BINDING_DIR}/__init__.py
+  DESTINATION ${PLANNERS_BASE_BINDING_INSTALL_DIR}
 )

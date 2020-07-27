@@ -3,6 +3,7 @@
 
 namespace morphac {
 namespace planners {
+namespace base {
 
 class Planner {
   public:
@@ -13,6 +14,7 @@ class Planner {
     // computes and returns a Trajectory or ControlInput object.
 };
 
+} // namespace base
 } // namespace planners
 } // namespace morphac
 
