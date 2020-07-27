@@ -10,7 +10,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_controllers_python, m) {
+PYBIND11_MODULE(_binding_controllers_base_python, m) {
   define_controller_binding(m);
 }
 

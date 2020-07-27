@@ -9,7 +9,7 @@ endif()
 # Src file that creates the python module.
 set(CONTROLLERS_BASE_MODULE_FILE
 
-  controllers.cc
+  controllers_base.cc
 )
 
 # Individual binding files called by the src module file.

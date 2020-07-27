@@ -10,9 +10,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_binding_planners_python, m) {
-  define_planner_binding(m);
-}
+PYBIND11_MODULE(_binding_planners_base_python, m) { define_planner_binding(m); }
 
 }  // namespace binding
 }  // namespace base

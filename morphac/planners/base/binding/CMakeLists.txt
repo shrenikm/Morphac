@@ -9,7 +9,7 @@ endif()
 # Src file that creates the python module.
 set(PLANNERS_BASE_MODULE_FILE
 
-  planners.cc
+  planners_base.cc
 )
 
 # Individual binding files called by the src module file.

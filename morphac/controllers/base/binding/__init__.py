@@ -1,3 +1,3 @@
-from ._binding_controllers_python import (
+from ._binding_controllers_base_python import (
     Controller,
 )

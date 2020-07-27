@@ -4,8 +4,6 @@ namespace morphac {
 namespace controllers {
 namespace basic {
 
-using Eigen::VectorXd;
-
 using morphac::constructs::ControlInput;
 
 ZeroController::ZeroController(const int control_input_size)
