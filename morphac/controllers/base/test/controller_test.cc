@@ -35,10 +35,8 @@ class ControllerTest : public ::testing::Test {
 };
 
 TEST_F(ControllerTest, Construction) {
-  VectorXd control_input_data1 = VectorXd::Random(1);
-  VectorXd control_input_data2 = VectorXd::Random(6);
-  CustomController controller1{control_input_data1};
-  CustomController controller2{control_input_data2};
+  CustomController controller1{VectorXd::Random(1)};
+  CustomController controller2{VectorXd::Random(6)};
 }
 
 TEST_F(ControllerTest, Compute) {
