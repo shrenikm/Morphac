@@ -2,14 +2,14 @@
 #include "gtest/gtest.h"
 
 #include "constructs/include/control_input.h"
-#include "controllers/include/controller.h"
+#include "controllers/base/include/controller.h"
 
 namespace {
 
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
-using morphac::controllers::Controller;
+using morphac::controllers::base::Controller;
 
 // Derived Controller class for testing.
 class CustomController : public Controller {

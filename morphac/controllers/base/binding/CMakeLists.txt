@@ -7,27 +7,27 @@ if(NOT BUILD_PYTHON_BINDINGS)
 endif()
 
 # Src file that creates the python module.
-set(CONTROLLERS_MODULE_FILE
+set(CONTROLLERS_BASE_MODULE_FILE
 
   controllers.cc
 )
 
 # Individual binding files called by the src module file.
 # They are split up into different files so that compilation is more efficient.
-set(CONTROLLERS_BINDING_FILES
+set(CONTROLLERS_BASE_BINDING_FILES
 
   controller_binding.cc
 )
 
 # Prepending the directory to the files.
-prepend_list(CONTROLLERS_BINDING_FILES
-  ${CONTROLLERS_BINDING_SRC_DIR}/
-  ${CONTROLLERS_BINDING_FILES}
+prepend_list(CONTROLLERS_BASE_BINDING_FILES
+  ${CONTROLLERS_BASE_BINDING_SRC_DIR}/
+  ${CONTROLLERS_BASE_BINDING_FILES}
 )
 
 # Adding the module as a library.
 get_filename_component(module_name
-  ${CONTROLLERS_MODULE_FILE} NAME_WE
+  ${CONTROLLERS_BASE_MODULE_FILE} NAME_WE
 )
 
 ## Get python target name. This is to prevent clashes with similar named cpp
@@ -36,14 +36,14 @@ get_python_target_name(python_target ${module_name})
 
 pybind11_add_module(${python_target}
   SHARED
-  ${CONTROLLERS_BINDING_DIR}/${CONTROLLERS_MODULE_FILE}
-  ${CONTROLLERS_BINDING_FILES}
+  ${CONTROLLERS_BASE_BINDING_DIR}/${CONTROLLERS_BASE_MODULE_FILE}
+  ${CONTROLLERS_BASE_BINDING_FILES}
 )
 
 target_include_directories(${python_target}
   PUBLIC
   ${PYBIND11_INCLUDE_DIR}
-  ${CONTROLLERS_BINDING_DIR}/include
+  ${CONTROLLERS_BASE_BINDING_DIR}/include
 )
 
 # Adding library dependencies.
@@ -75,12 +75,12 @@ set(binding_install_file_name
 
 # Installing compiled bindings.
 install(FILES
-  ${CONTROLLERS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${CONTROLLERS_BINDING_INSTALL_DIR}
+  ${CONTROLLERS_BASE_BINDING_BINARY_DIR}/${binding_install_file_name}
+  DESTINATION ${CONTROLLERS_BASE_BINDING_INSTALL_DIR}
 )
 
 # Installing __init__ files.
 install(FILES
-  ${CONTROLLERS_BINDING_DIR}/__init__.py
-  DESTINATION ${CONTROLLERS_BINDING_INSTALL_DIR}
+  ${CONTROLLERS_BASE_BINDING_DIR}/__init__.py
+  DESTINATION ${CONTROLLERS_BASE_BINDING_INSTALL_DIR}
 )

@@ -3,6 +3,7 @@
 
 namespace morphac {
 namespace controllers {
+namespace base {
 
 class Controller {
   public:
@@ -13,6 +14,7 @@ class Controller {
     // computes and returns a ControlInput object.
 };
 
+} // namespace base
 } // namespace controllers
 } // namespace morphac
 
