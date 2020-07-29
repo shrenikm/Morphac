@@ -17,23 +17,13 @@ PlaygroundVisualizer(object):
     _playground = attr.ib(type=Playground)
     _spec = attr.ib(type=PlaygroundVisualizerSpec)
 
-    def run(*, time=None, iters=None):
+    def run(metric_type='time', metric_limit=np.inf):
 
-        assert not (time is not None and iters is not None),
-        "Both time and iters arguments cannot be provided"
+        assert metric_type == 'time' or metric_type == 'iters',
+        "The metric type must be either 'time' or 'iters'"
 
-        # Defining the run metric. For time, it is the elapsed time in seconds.
-        # For iters, it is the number of completed iterations.
-        current_run_metric = 0
+        current_metric = 0
 
-        # If both the value are none, the simulation is run without stopping.
-        if time is None and iters is None:
-            run_metric_limit = np.inf
-        elif time is None:
-            run_metric_limit = iters
-        else:
-            run_metric_limit = time
-
-        while current_run_metric < run_metric_limit:
+        while current_metric < metric_limit:
 
             pass
