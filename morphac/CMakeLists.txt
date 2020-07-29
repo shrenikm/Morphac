@@ -20,6 +20,7 @@ add_subdirectory(planners)
 add_subdirectory(robot)
 add_subdirectory(simulation)
 add_subdirectory(utils)
+add_subdirectory(visualization)
 
 
 # Installing
