@@ -111,6 +111,7 @@ target_link_libraries(integrator_utils_test
 
 # List of python files.
 set(UTILS_PYTHON_FILES
+  canvas_utils.py
   decorator_utils.py
   python_utils.py
   pytest_utils.py

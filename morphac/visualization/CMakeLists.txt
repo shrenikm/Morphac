@@ -22,7 +22,9 @@ install(FILES
 
 # List of python files.
 set(VISUALIZATION_PYTHON_FILES
-  playground_visualizer.py
+  colors.py
+  map_visualization.py
+  playground_visualization.py
 )
 
 # Appending the directory of the python files.
