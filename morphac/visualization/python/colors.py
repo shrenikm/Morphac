@@ -3,5 +3,5 @@
 
 class MapColors(object):
 
-    WHITE = (50, 50, 50)
+    WHITE = (200, 200, 200)
     BLACK = (200, 200, 200)

@@ -1,3 +1,5 @@
+import numpy as np
+
 from morphac.visualization.colors import MapColors
 from morphac.utils.canvas_utils import paint_canvas
 
@@ -14,6 +16,6 @@ def canvas_from_map(environment_map):
 
     # Paint obstacles.
     # TODO: Modify this accordingly when Map has obstacle passes.
-    paint_canvas(canvas, not free_space_mask, MapColors.BLACK)
+    paint_canvas(canvas, np.logical_not(free_space_mask), MapColors.BLACK)
 
     return canvas
