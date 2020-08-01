@@ -33,4 +33,3 @@ install(FILES
   DESTINATION
   ${PYTHON_BINDING_INSTALL_DIR}/morphac
 )
-
