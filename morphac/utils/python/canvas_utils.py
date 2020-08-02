@@ -1,6 +1,10 @@
+import numpy as np
+
+
 def paint_canvas(canvas, mask, color):
 
     assert canvas.ndim == 3
+    assert canvas.dtype == np.uint8
     assert canvas.shape[0] == mask.shape[0]
     assert canvas.shape[1] == mask.shape[1]
     assert len(color) == 3

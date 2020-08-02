@@ -11,6 +11,7 @@ set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/morphac)
 # Adding subdirectories
 # -------------------------------------------------
 
+add_subdirectory(constants)
 add_subdirectory(constructs)
 add_subdirectory(controllers)
 add_subdirectory(environment)
