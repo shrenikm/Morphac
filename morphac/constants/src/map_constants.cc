@@ -3,7 +3,8 @@
 namespace morphac {
 namespace constants {
 
-MapConstants::MapConstants() : empty(0.), obstacle(-1.) {}
+const double MapConstants::EMPTY{0.};
+const double MapConstants::OBSTACLE{-1.};
 
-} // namespace constants
-} // namespace morphac
+}  // namespace constants
+}  // namespace morphac

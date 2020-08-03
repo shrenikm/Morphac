@@ -5,14 +5,12 @@ namespace morphac {
 namespace constants {
 
 struct MapConstants {
-  MapConstants();
-  const double empty;
-  const double obstacle;
+  static const double EMPTY;
+  static const double OBSTACLE;
 };
 
-} // namespace constants
-} // namespace morphac
-
+}  // namespace constants
+}  // namespace morphac
 
 #endif
 

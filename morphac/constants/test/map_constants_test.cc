@@ -11,13 +11,11 @@ class MapConstantsTest : public ::testing::Test {
   MapConstantsTest() {}
 
   void SetUp() override {}
-
-  MapConstants map_constants_;
 };
 
 TEST_F(MapConstantsTest, Members) {
-  ASSERT_EQ(map_constants_.empty, 0.);
-  ASSERT_EQ(map_constants_.obstacle, -1.);
+  ASSERT_EQ(MapConstants::EMPTY, 0.);
+  ASSERT_EQ(MapConstants::OBSTACLE, -1.);
 }
 
 }  // namespace
