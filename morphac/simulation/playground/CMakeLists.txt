@@ -26,7 +26,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Constructs source files.
+# Playground source files.
 set(PLAYGROUND_SRC
 
   playground.cc
@@ -74,7 +74,7 @@ target_link_libraries(playground
 # Tests
 # -------------------------------------------------
 
-# Simulation tests source files.
+# Playground tests source files.
 set(PLAYGROUND_TEST_SRC
 
   playground_spec_test.cc

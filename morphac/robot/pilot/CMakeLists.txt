@@ -24,7 +24,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Driver source files.
+# Pilot source files.
 set(PILOT_SRC
 
   pilot.cc
@@ -60,7 +60,7 @@ target_link_libraries(pilot
 # Tests
 # -------------------------------------------------
 
-# Driver tests source files.
+# Pilot tests source files.
 set(PILOT_TEST_SRC
 
   pilot_test.cc

@@ -26,7 +26,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Constructs source files.
+# Planners base source files.
 set(PLANNERS_BASE_SRC
 
   planner.cc
@@ -55,7 +55,7 @@ endforeach()
 # Tests
 # -------------------------------------------------
 
-# Simulation tests source files.
+# Planners base tests source files.
 set(PLANNERS_BASE_TEST_SRC
 
   planner_test.cc

@@ -26,7 +26,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Constructs source files.
+# Controllers basic source files.
 set(CONTROLLERS_BASIC_SRC
 
   constant_controller.cc
@@ -69,7 +69,7 @@ target_link_libraries(zero_controller
 # Tests
 # -------------------------------------------------
 
-# Simulation tests source files.
+# Controllers basic tests source files.
 set(CONTROLLERS_BASIC_TEST_SRC
 
   constant_controller_test.cc
