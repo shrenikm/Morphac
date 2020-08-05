@@ -8,9 +8,7 @@ from morphac.visualization.map_visualization import canvas_from_map
 def run():
 
     env_map = Map(width=10., height=10., resolution=0.02)
-    env_map_data = np.copy(env_map.data)
-    env_map_data[50:100, 50:100] = 1
-    env_map.data = env_map_data
+    env_map.data[50:100, 50:100] = -1
 
     canvas = canvas_from_map(env_map)
 
