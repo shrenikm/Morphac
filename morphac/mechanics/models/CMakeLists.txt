@@ -31,6 +31,7 @@ add_subdirectory(binding)
 set(MODELS_SRC
 
   kinematic_model.cc
+  ackermann_model.cc
   diffdrive_model.cc
   dubin_model.cc
   tricycle_model.cc
@@ -60,6 +61,14 @@ target_link_libraries(kinematic_model
   PUBLIC
   state
   control_input
+)
+
+target_link_libraries(ackermann_model
+  PUBLIC
+  kinematic_model
+  state
+  control_input
+  angle_utils
 )
 
 target_link_libraries(diffdrive_model
