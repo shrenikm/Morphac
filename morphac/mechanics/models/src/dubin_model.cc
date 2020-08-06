@@ -29,7 +29,7 @@ State DubinModel::ComputeStateDerivative(
                 "ControlInput must be of size 1.");
 
   VectorXd pose_derivative(3);
-  double theta = state.get_pose()[2];
+  double theta = state[2];
 
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F(3, 1), G(3, 1);

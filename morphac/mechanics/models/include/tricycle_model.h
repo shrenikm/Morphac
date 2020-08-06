@@ -4,10 +4,8 @@
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"
-
-#include "utils/include/angle_utils.h"
-
 #include "mechanics/models/include/kinematic_model.h"
+#include "utils/include/angle_utils.h"
 
 namespace morphac {
 namespace mechanics {

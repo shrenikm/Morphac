@@ -1,5 +1,5 @@
-#ifndef DUBIN_MODEL_H
-#define DUBIN_MODEL_H
+#ifndef ACKERMANN_MODEL_H
+#define ACKERMANN_MODEL_H
 
 #include "Eigen/Dense"
 
@@ -11,23 +11,22 @@ namespace morphac {
 namespace mechanics {
 namespace models {
 
-class DubinModel : public morphac::mechanics::models::KinematicModel {
+class AckermannModel : public morphac::mechanics::models::KinematicModel {
  public:
-  DubinModel(const double speed);
+  AckermannModel(const double width, const double length);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& control_input) const override;
-
   morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const override;
 
-  const double speed;
+  const double width;
+  const double length;
 };
 
 }  // namespace models
-}  // namespace constructs
+}  // namespace mechancis
 }  // namespace morphac
 
 #endif
-
