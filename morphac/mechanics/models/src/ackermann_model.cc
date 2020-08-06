@@ -42,6 +42,22 @@ State AckermannModel::ComputeStateDerivative(
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F = VectorXd::Zero(4);
   MatrixXd G(4, 2);
+
+  G << cos(theta), 0, sin(theta), 0, tan(phi) / length, 0, 0, 1;
+
+  pose_derivative = F + G * control_input.get_data();
+
+  // Return the derivative.
+  return State(pose_derivative, VectorXd::Zero(0));
+}
+
+State AckermannModel::NormalizeState(const State& state) const {
+  // Normalizing the heading and steering angles.
+  State normalized_state = state;
+  normalized_state[2] = NormalizeAngle(normalized_state[2]);
+  normalized_state[3] = NormalizeAngle(normalized_state[3]);
+
+  return normalized_state;
 }
 
 }  // namespace models

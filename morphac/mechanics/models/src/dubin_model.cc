@@ -38,10 +38,8 @@ State DubinModel::ComputeStateDerivative(
 
   pose_derivative = F + G * control_input.get_data();
 
-  State derivative = State::CreateLike(state);
-  derivative.set_pose_data(pose_derivative);
-
-  return derivative;
+  // Return the derivative.
+  return State(pose_derivative, VectorXd::Zero(0));
 }
 
 State DubinModel::NormalizeState(const State& state) const {
