@@ -1,6 +1,8 @@
 #ifndef ACKERMANN_MODEL_H
 #define ACKERMANN_MODEL_H
 
+#include <vector>
+
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"
@@ -18,8 +20,13 @@ class AckermannModel : public morphac::mechanics::models::KinematicModel {
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& control_input) const override;
+  double ComputeInnerSteeringAngle(const double steering_angle) const;
+  double ComputeOuterSteeringAngle(const double steering_angle) const;
+  std::vector<double> ComputeSteeringAngles(const double steering_angle) const;
   morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const override;
+
+
 
   const double width;
   const double length;

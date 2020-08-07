@@ -4,9 +4,11 @@ namespace morphac {
 namespace mechanics {
 namespace models {
 
+using std::atan2;
 using std::cos;
 using std::sin;
 using std::tan;
+using std::vector;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -49,6 +51,27 @@ State AckermannModel::ComputeStateDerivative(
 
   // Return the derivative.
   return State(pose_derivative, VectorXd::Zero(0));
+}
+
+double AckermannModel::ComputeInnerSteeringAngle(
+    const double steering_angle) const {
+  return NormalizeAngle(
+      atan2(2 * length * sin(steering_angle),
+            2 * length * cos(steering_angle) - width * sin(steering_angle)));
+}
+
+double AckermannModel::ComputeOuterSteeringAngle(
+    const double steering_angle) const {
+  return NormalizeAngle(
+      atan2(2 * length * sin(steering_angle),
+            2 * length * cos(steering_angle) + width * sin(steering_angle)));
+}
+
+vector<double> AckermannModel::ComputeSteeringAngles(
+    const double steering_angle) const {
+  vector<double> steering_angles = {ComputeInnerSteeringAngle(steering_angle),
+                                    ComputeOuterSteeringAngle(steering_angle)};
+  return steering_angles;
 }
 
 State AckermannModel::NormalizeState(const State& state) const {
