@@ -79,7 +79,7 @@ TEST_F(DubinModelTest, InvalidDerivativeComputation) {
 TEST_F(DubinModelTest, StateNormalization) {
   DubinModel dubin_model{1};
 
-  // Making sure that the angle get normalized.
+  // Making sure that the angle gets normalized.
   State state1({0, 0, 2 * M_PI}, {});
   State state2({0, 0, 2 * M_PI + 4 * M_PI / 3.}, {});
   State state3({0, 0, -2 * M_PI - 4 * M_PI / 3.}, {});

@@ -52,6 +52,11 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
   pose_vector3 << 5, -13, M_PI / 2, 0;
   pose_vector4 << -2, -7, 0, M_PI / 2;
 
+  State state1{pose_vector1, VectorXd::Zero(0)};
+  State state2{pose_vector2, VectorXd::Zero(0)};
+  State state3{pose_vector3, VectorXd::Zero(0)};
+  State state4{pose_vector4, VectorXd::Zero(0)};
+
   // Forward velocity is zero.
   control_input_vector1 << 0, 1.;
   // Turning left.
@@ -62,10 +67,6 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
   control_input_vector4 << 2, -2;
   control_input_vector5 << 10, 5;
 
-  State state1{pose_vector1, VectorXd::Zero(0)};
-  State state2{pose_vector2, VectorXd::Zero(0)};
-  State state3{pose_vector3, VectorXd::Zero(0)};
-  State state4{pose_vector4, VectorXd::Zero(0)};
   ControlInput control_input1{control_input_vector1},
       control_input2{control_input_vector2},
       control_input3{control_input_vector3},
@@ -110,8 +111,7 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
 TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
   TricycleModel tricycle_model{1, 1};
 
-  // Computing the state derivative with incorrect state/control
-  // input/derivative.
+  // Computing the state derivative with incorrect state/control.
   ASSERT_THROW(
       tricycle_model.ComputeStateDerivative(State(3, 0), ControlInput(2)),
       std::invalid_argument);
@@ -132,7 +132,7 @@ TEST_F(TricycleModelTest, InvalidDerivativeComputation) {
 TEST_F(TricycleModelTest, StateNormalization) {
   TricycleModel tricycle_model{1, 1};
 
-  // Making sure that the angle get normalized.
+  // Making sure that the angle gets normalized.
   State state1({0, 0, 2 * M_PI, M_PI}, {});
   State state2({0, 0, 2 * M_PI + 4 * M_PI / 3., -2 * M_PI - 4 * M_PI / 3.}, {});
   State state3({0, 0, -2 * M_PI - 4 * M_PI / 3., 2 * M_PI + 4 * M_PI / 3.}, {});

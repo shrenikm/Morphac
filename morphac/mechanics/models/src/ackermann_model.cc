@@ -41,6 +41,14 @@ State AckermannModel::ComputeStateDerivative(
   double theta = state[2];
   double phi = state[3];
 
+  // Phi cannot be greater than 90 degrees (in either direction) as it is not a
+  // valid steering angle for the ackermann model. The kinematic model contains
+  // a tan(phi) which makes this undefined.
+  // Note that we assume that the state is already normalized.
+  MORPH_REQUIRE(
+      (phi > -M_PI / 2) && (phi < M_PI / 2), std::invalid_argument,
+      "Invalid steering angle. It must lie between -pi / 2 and pi / 2.");
+
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F = VectorXd::Zero(4);
   MatrixXd G(4, 2);

@@ -103,6 +103,7 @@ target_link_libraries(tricycle_model
 set(MODELS_TEST_SRC
 
   kinematic_model_test.cc
+  ackermann_model_test.cc
   diffdrive_model_test.cc
   dubin_model_test.cc
   tricycle_model_test.cc
@@ -124,6 +125,18 @@ foreach(file ${MODELS_TEST_SRC})
   )
 endforeach()
 
+target_link_libraries(kinematic_model_test
+  PUBLIC
+  gtest_main
+  kinematic_model
+)
+
+target_link_libraries(ackermann_model_test
+  PUBLIC
+  gtest_main
+  ackermann_model
+)
+
 # Linking depending libraries.
 target_link_libraries(tricycle_model_test
   PUBLIC
@@ -143,8 +156,4 @@ target_link_libraries(dubin_model_test
   dubin_model
 )
 
-target_link_libraries(kinematic_model_test
-  PUBLIC
-  gtest_main
-  kinematic_model
-)
+
