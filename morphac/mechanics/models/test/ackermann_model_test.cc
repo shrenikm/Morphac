@@ -5,6 +5,8 @@
 
 namespace {
 
+using std::vector;
+
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
@@ -128,22 +130,6 @@ TEST_F(AckermannModelTest, InvalidDerivativeComputation) {
                std::invalid_argument);
 }
 
-TEST_F(AckermannModelTest, StateNormalization) {
-  AckermannModel ackermann_model{1, 1};
-
-  // Making sure that the angle gets normalized.
-  State state1({0, 0, 2 * M_PI, M_PI}, {});
-  State state2({0, 0, 2 * M_PI + 4 * M_PI / 3., -2 * M_PI - 4 * M_PI / 3.}, {});
-  State state3({0, 0, -2 * M_PI - 4 * M_PI / 3., 2 * M_PI + 4 * M_PI / 3.}, {});
-  State normalized_state1({0, 0, 0, M_PI}, {});
-  State normalized_state2({0, 0, -2 * M_PI / 3., 2 * M_PI / 3.}, {});
-  State normalized_state3({0, 0, 2 * M_PI / 3., -2 * M_PI / 3.}, {});
-
-  ASSERT_TRUE(ackermann_model.NormalizeState(state1) == normalized_state1);
-  ASSERT_TRUE(ackermann_model.NormalizeState(state2) == normalized_state2);
-  ASSERT_TRUE(ackermann_model.NormalizeState(state3) == normalized_state3);
-}
-
 TEST_F(AckermannModelTest, ComputeSteeringAngles) {
   AckermannModel ackermann_model{1., 2.};
 
@@ -170,15 +156,30 @@ TEST_F(AckermannModelTest, ComputeSteeringAngles) {
   ASSERT_GT(ideal_steering_angle, outer_steering);
 
   // The same thing applies for when the ideal steering is to the right.
+  // Testing if the function that returns both the inner and outer angles works.
 
   ideal_steering_angle = -M_PI / 4;
-  inner_steering =
-      ackermann_model.ComputeInnerSteeringAngle(ideal_steering_angle);
-  outer_steering =
-      ackermann_model.ComputeOuterSteeringAngle(ideal_steering_angle);
+  vector<double> steering_angles =
+      ackermann_model.ComputeSteeringAngles(ideal_steering_angle);
 
-  ASSERT_GT(inner_steering, ideal_steering_angle);
-  ASSERT_GT(ideal_steering_angle, outer_steering);
+  ASSERT_GT(steering_angles[0], ideal_steering_angle);
+  ASSERT_GT(ideal_steering_angle, steering_angles[1]);
+}
+
+TEST_F(AckermannModelTest, StateNormalization) {
+  AckermannModel ackermann_model{1, 1};
+
+  // Making sure that the angle gets normalized.
+  State state1({0, 0, 2 * M_PI, M_PI}, {});
+  State state2({0, 0, 2 * M_PI + 4 * M_PI / 3., -2 * M_PI - 4 * M_PI / 3.}, {});
+  State state3({0, 0, -2 * M_PI - 4 * M_PI / 3., 2 * M_PI + 4 * M_PI / 3.}, {});
+  State normalized_state1({0, 0, 0, M_PI}, {});
+  State normalized_state2({0, 0, -2 * M_PI / 3., 2 * M_PI / 3.}, {});
+  State normalized_state3({0, 0, 2 * M_PI / 3., -2 * M_PI / 3.}, {});
+
+  ASSERT_TRUE(ackermann_model.NormalizeState(state1) == normalized_state1);
+  ASSERT_TRUE(ackermann_model.NormalizeState(state2) == normalized_state2);
+  ASSERT_TRUE(ackermann_model.NormalizeState(state3) == normalized_state3);
 }
 
 }  // namespace

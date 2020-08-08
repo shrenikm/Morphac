@@ -2,9 +2,10 @@
 #define ACKERMANN_MODEL_BINDING_H
 
 #include "pybind11/pybind11.h"
+#include "pybind11/stl.h"
 
-#include "mechanics/models/include/kinematic_model.h"
 #include "mechanics/models/include/ackermann_model.h"
+#include "mechanics/models/include/kinematic_model.h"
 
 namespace morphac {
 namespace mechanics {
