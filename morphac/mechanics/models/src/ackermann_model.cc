@@ -62,23 +62,24 @@ State AckermannModel::ComputeStateDerivative(
 }
 
 double AckermannModel::ComputeInnerSteeringAngle(
-    const double steering_angle) const {
-  return NormalizeAngle(
-      atan2(2 * length * sin(steering_angle),
-            2 * length * cos(steering_angle) - width * sin(steering_angle)));
+    const double ideal_steering_angle) const {
+  return NormalizeAngle(atan2(2 * length * sin(ideal_steering_angle),
+                              2 * length * cos(ideal_steering_angle) -
+                                  width * sin(ideal_steering_angle)));
 }
 
 double AckermannModel::ComputeOuterSteeringAngle(
-    const double steering_angle) const {
-  return NormalizeAngle(
-      atan2(2 * length * sin(steering_angle),
-            2 * length * cos(steering_angle) + width * sin(steering_angle)));
+    const double ideal_steering_angle) const {
+  return NormalizeAngle(atan2(2 * length * sin(ideal_steering_angle),
+                              2 * length * cos(ideal_steering_angle) +
+                                  width * sin(ideal_steering_angle)));
 }
 
 vector<double> AckermannModel::ComputeSteeringAngles(
-    const double steering_angle) const {
-  vector<double> steering_angles = {ComputeInnerSteeringAngle(steering_angle),
-                                    ComputeOuterSteeringAngle(steering_angle)};
+    const double ideal_steering_angle) const {
+  vector<double> steering_angles = {
+      ComputeInnerSteeringAngle(ideal_steering_angle),
+      ComputeOuterSteeringAngle(ideal_steering_angle)};
   return steering_angles;
 }
 

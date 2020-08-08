@@ -110,4 +110,5 @@ def test_normalize_state():
     # As the cpp side tests the actual computation, we just check that the
     # normalize_state interface works.
 
-    assert tricycle_model.normalize_state(State(4, 0)) == State(4, 0)
+    assert tricycle_model.normalize_state(
+        robot_state=State(4, 0)) == State(4, 0)

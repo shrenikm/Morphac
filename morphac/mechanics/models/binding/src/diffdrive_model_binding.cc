@@ -19,7 +19,8 @@ void define_diffdrive_model_binding(py::module& m) {
   diffdrive_model.def("compute_state_derivative",
                       &DiffDriveModel::ComputeStateDerivative,
                       py::arg("robot_state"), py::arg("control_input"));
-  diffdrive_model.def("normalize_state", &DiffDriveModel::NormalizeState);
+  diffdrive_model.def("normalize_state", &DiffDriveModel::NormalizeState,
+                      py::arg("robot_state"));
   diffdrive_model.def_readonly("radius", &DiffDriveModel::radius);
   diffdrive_model.def_readonly("length", &DiffDriveModel::length);
   diffdrive_model.def_readonly("pose_size", &KinematicModel::pose_size);

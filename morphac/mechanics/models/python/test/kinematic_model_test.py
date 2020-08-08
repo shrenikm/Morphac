@@ -105,4 +105,4 @@ def test_normalize_state(generate_kinematic_model_list):
 
     assert k1.normalize_state(state1) == state1
     assert k2.normalize_state(state2) == state2
-    assert k3.normalize_state(state3) == state3
+    assert k3.normalize_state(robot_state=state3) == state3
