@@ -89,12 +89,12 @@ target_link_libraries(map_constants_test
 # Python files
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
-  ${CONSTANTS_DIR}/__init__.py
-  DESTINATION
-  ${CONSTANTS_BINDING_INSTALL_DIR}
-)
+## Installing __init__ files.
+#install(FILES
+#  ${CONSTANTS_DIR}/__init__.py
+#  DESTINATION
+#  ${CONSTANTS_BINDING_INSTALL_DIR}
+#)
 
 # List of python files.
 set(CONSTANTS_PYTHON_FILES
