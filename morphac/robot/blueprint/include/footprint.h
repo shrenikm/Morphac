@@ -15,6 +15,14 @@ class Footprint {
 
   const Eigen::MatrixXd& get_data() const;
 
+  static Footprint CreateRectangularFootprint(const double size_x,
+                                              const double size_y);
+  static Footprint CreateStadiumFootprint(const double size_x,
+                                          const double size_y,
+                                          const double radius);
+  static Footprint CreateCircularFootprint(const double radius,
+                                           const double resolution);
+
  private:
   Eigen::MatrixXd data_;
 };
