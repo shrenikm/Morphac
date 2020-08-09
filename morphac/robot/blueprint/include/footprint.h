@@ -4,6 +4,7 @@
 #include "Eigen/Dense"
 
 #include "common/error_handling/include/error_macros.h"
+#include "constructs/include/coordinate.h"
 
 namespace morphac {
 namespace robot {
@@ -12,6 +13,12 @@ namespace blueprint {
 class Footprint {
  public:
   Footprint(const Eigen::MatrixXd& data);
+
+  // Copy constructor.
+  Footprint(const Footprint& footprint) = default;
+
+  // Copy assignment.
+  Footprint& operator=(const Footprint& footprint) = default;
 
   const Eigen::MatrixXd& get_data() const;
 

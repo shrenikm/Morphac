@@ -24,6 +24,22 @@ class FootprintTest : public ::testing::Test {
 
 TEST_F(FootprintTest, Construction) { Footprint footprint(data_); }
 
+TEST_F(FootprintTest, CopyConstructor) {
+  Footprint footprint1(data_);
+
+  Footprint footprint2(footprint1);
+
+  ASSERT_TRUE(footprint1.get_data().isApprox(footprint2.get_data()));
+}
+
+TEST_F(FootprintTest, CopyAssignment) {
+  Footprint footprint1(data_);
+
+  Footprint footprint2 = footprint1;
+
+  ASSERT_TRUE(footprint1.get_data().isApprox(footprint2.get_data()));
+}
+
 TEST_F(FootprintTest, Accessors) {
   Footprint footprint(data_);
   ASSERT_TRUE(footprint.get_data().isApprox(data_));
