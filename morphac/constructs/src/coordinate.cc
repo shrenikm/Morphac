@@ -6,64 +6,53 @@ namespace constructs {
 using std::ostream;
 using std::ostringstream;
 using std::string;
-using Eigen::Matrix;
+using Eigen::Vector2d;
 
-template <typename T>
-Coordinate<T>::Coordinate(const T x, const T y) : x_(x), y_(y) {}
+Coordinate::Coordinate(const double x, const double y) : x_(x), y_(y) {}
 
-template <typename T>
-Coordinate<T>::Coordinate(const Coordinate<T>& coord)
-    : x_(coord.x_), y_(coord.y_) {}
+Coordinate::Coordinate(const Coordinate& coord) : x_(coord.x_), y_(coord.y_) {}
 
-template <typename T>
-Coordinate<T>& Coordinate<T>::operator+=(const Coordinate& coord) {
+Coordinate& Coordinate::operator+=(const Coordinate& coord) {
   this->x_ += coord.x_;
   this->y_ += coord.y_;
   return *this;
 }
 
-template <typename T>
-Coordinate<T> Coordinate<T>::operator+(const Coordinate& coord) const {
+Coordinate Coordinate::operator+(const Coordinate& coord) const {
   Coordinate result;
   result.x_ = this->x_ + coord.x_;
   result.y_ = this->y_ + coord.y_;
   return result;
 }
 
-template <typename T>
-Coordinate<T>& Coordinate<T>::operator-=(const Coordinate& coord) {
+Coordinate& Coordinate::operator-=(const Coordinate& coord) {
   this->x_ -= coord.x_;
   this->y_ -= coord.y_;
   return *this;
 }
 
-template <typename T>
-Coordinate<T> Coordinate<T>::operator-(const Coordinate& coord) const {
+Coordinate Coordinate::operator-(const Coordinate& coord) const {
   Coordinate result;
   result.x_ = this->x_ - coord.x_;
   result.y_ = this->y_ - coord.y_;
   return result;
 }
 
-template <typename T>
-Coordinate<T> Coordinate<T>::operator*=(const T scalar) {
+Coordinate Coordinate::operator*=(const double scalar) {
   this->x_ *= scalar;
   this->y_ *= scalar;
   return *this;
 }
 
-template <typename T>
-Coordinate<T> operator*(Coordinate<T> coord, const T scalar) {
+Coordinate operator*(Coordinate coord, const double scalar) {
   return coord *= scalar;
 }
 
-template <typename T>
-Coordinate<T> operator*(const T scalar, Coordinate<T> coord) {
+Coordinate operator*(const double scalar, Coordinate coord) {
   return coord *= scalar;
 }
 
-template <typename T>
-T& Coordinate<T>::operator[](const int index) {
+double& Coordinate::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
                 "Coordinate index out of bounds.");
   if (index == 0) {
@@ -73,8 +62,7 @@ T& Coordinate<T>::operator[](const int index) {
   }
 }
 
-template <typename T>
-T Coordinate<T>::operator[](const int index) const {
+const double& Coordinate::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
                 "Coordinate index out of bounds.");
   if (index == 0) {
@@ -84,18 +72,15 @@ T Coordinate<T>::operator[](const int index) const {
   }
 }
 
-template <typename T>
-bool Coordinate<T>::operator==(const Coordinate& coord) const {
+bool Coordinate::operator==(const Coordinate& coord) const {
   return (this->x_ == coord.x_) && (this->y_ == coord.y_);
 }
 
-template <typename T>
-bool Coordinate<T>::operator!=(const Coordinate& coord) const {
+bool Coordinate::operator!=(const Coordinate& coord) const {
   return !(*this == coord);
 }
 
-template <typename T>
-bool Coordinate<T>::operator<(const Coordinate& coord) const {
+bool Coordinate::operator<(const Coordinate& coord) const {
   if ((this->x_ < coord.x_) ||
       ((this->x_ == coord.x_) && (this->y_ < coord.y_))) {
     return true;
@@ -103,8 +88,7 @@ bool Coordinate<T>::operator<(const Coordinate& coord) const {
   return false;
 }
 
-template <typename T>
-bool Coordinate<T>::operator>(const Coordinate& coord) const {
+bool Coordinate::operator>(const Coordinate& coord) const {
   if ((this->x_ > coord.x_) ||
       ((this->x_ == coord.x_) && (this->y_ > coord.y_))) {
     return true;
@@ -112,78 +96,50 @@ bool Coordinate<T>::operator>(const Coordinate& coord) const {
   return false;
 }
 
-template <typename T>
-bool Coordinate<T>::operator<=(const Coordinate& coord) const {
+bool Coordinate::operator<=(const Coordinate& coord) const {
   return (*this == coord) || (*this < coord);
 }
 
-template <typename T>
-bool Coordinate<T>::operator>=(const Coordinate& coord) const {
+bool Coordinate::operator>=(const Coordinate& coord) const {
   return (*this == coord) || (*this > coord);
 }
 
-template <typename T>
-ostream& operator<<(ostream& os, const Coordinate<T>& coord) {
+ostream& operator<<(ostream& os, const Coordinate& coord) {
   os << "Coordinate[" << coord.get_x() << ", " << coord.get_y() << "]";
   return os;
 }
 
-template <typename T>
-string Coordinate<T>::ToString() const {
+string Coordinate::ToString() const {
   ostringstream os;
   os << *this;
   return os.str();
 }
 
-template <typename T>
-T Coordinate<T>::get_x() const {
-  return x_;
-}
+double Coordinate::get_x() const { return x_; }
 
-template <typename T>
-T Coordinate<T>::get_y() const {
-  return y_;
-}
+double Coordinate::get_y() const { return y_; }
 
-template <typename T>
-const Matrix<T, 2, 1> Coordinate<T>::get_data() const {
-  Matrix<T, 2, 1> data(2);
+const Vector2d Coordinate::get_data() const {
+  Vector2d data(2);
   data << this->get_x(), this->get_y();
   return data;
 }
 
-template <typename T>
-void Coordinate<T>::set_x(const T x) {
-  x_ = x;
-}
+void Coordinate::set_x(const double x) { x_ = x; }
 
-template <typename T>
-void Coordinate<T>::set_y(const T y) {
-  y_ = y;
-}
+void Coordinate::set_y(const double y) { y_ = y; }
 
-template <typename T>
-void Coordinate<T>::set_xy(const T x, const T y) {
+void Coordinate::set_xy(const double x, const double y) {
   x_ = x;
   y_ = y;
 }
 
-template <typename T>
-void Coordinate<T>::set_data(const Matrix<T, 2, 1>& data) {
+void Coordinate::set_data(const Vector2d& data) {
   MORPH_REQUIRE(data.size() == 2, std::invalid_argument,
                 "Coordinate data must be of size 2.");
   this->set_x(data(0));
   this->set_y(data(1));
 }
-
-// Template instantiations
-template class Coordinate<int>;
-template Coordinate<int> operator*(const int, Coordinate<int>);
-template Coordinate<int> operator*(Coordinate<int>, const int);
-
-template class Coordinate<double>;
-template Coordinate<double> operator*(const double, Coordinate<double>);
-template Coordinate<double> operator*(Coordinate<double>, const double);
 
 }  // namespace constructs
 }  // namespace morphac

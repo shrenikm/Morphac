@@ -22,13 +22,19 @@ class Footprint {
 
   const Eigen::MatrixXd& get_data() const;
 
-  static Footprint CreateRectangularFootprint(const double size_x,
-                                              const double size_y);
-  static Footprint CreateStadiumFootprint(const double size_x,
-                                          const double size_y,
-                                          const double radius);
-  static Footprint CreateCircularFootprint(const double radius,
-                                           const double resolution);
+  //static Footprint OffsetFootprint(
+  //    const Footprint& footprint,
+  //    const morphac::constructs::Coordinate& center_offset);
+
+  //static Footprint CreateRectangularFootprint(
+  //    const double size_x, const double size_y,
+  //    const morphac::constructs::Coordinate& center_offset);
+  //static Footprint CreateStadiumFootprint(
+  //    const double size_x, const double size_y, const double radius,
+  //    const morphac::constructs::Coordinate& center_offset);
+  //static Footprint CreateCircularFootprint(
+  //    const double radius, const double resolution,
+  //    const morphac::constructs::Coordinate& center_offset);
 
  private:
   Eigen::MatrixXd data_;

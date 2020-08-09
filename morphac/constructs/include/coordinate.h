@@ -10,10 +10,9 @@
 namespace morphac {
 namespace constructs {
 
-template <typename T>
 class Coordinate {
  public:
-  Coordinate(const T x = 0, const T y = 0);
+  Coordinate(const double x = 0, const double y = 0);
 
   // Copy constructor.
   Coordinate(const Coordinate& coord);
@@ -22,10 +21,10 @@ class Coordinate {
   Coordinate operator+(const Coordinate& coord) const;
   Coordinate& operator-=(const Coordinate& coord);
   Coordinate operator-(const Coordinate& coord) const;
-  Coordinate operator*=(const T scalar);
+  Coordinate operator*=(const double scalar);
 
-  T& operator[](const int index);
-  T operator[](const int index) const;
+  double& operator[](const int index);
+  const double& operator[](const int index) const;
 
   bool operator==(const Coordinate& coord) const;
   bool operator!=(const Coordinate& coord) const;
@@ -34,32 +33,29 @@ class Coordinate {
   bool operator<=(const Coordinate& coord) const;
   bool operator>=(const Coordinate& coord) const;
 
-  template <typename U>
-  friend std::ostream& operator<<(std::ostream& os, const Coordinate<U>& coord);
+  friend std::ostream& operator<<(std::ostream& os, const Coordinate& coord);
   // String representation that uses the << overload.
   // This is what the python binding uses.
   std::string ToString() const;
 
-  T get_x() const;
-  T get_y() const;
-  const Eigen::Matrix<T, 2, 1> get_data() const;
-  void set_x(const T x);
-  void set_y(const T y);
-  void set_xy(const T x, const T y);
-  void set_data(const Eigen::Matrix<T, 2, 1>& data);
+  double get_x() const;
+  double get_y() const;
+  const Eigen::Vector2d get_data() const;
+  void set_x(const double x);
+  void set_y(const double y);
+  void set_xy(const double x, const double y);
+  void set_data(const Eigen::Vector2d& data);
 
  private:
-  T x_;
-  T y_;
+  double x_;
+  double y_;
 };
 
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
-template <typename T>
-Coordinate<T> operator*(Coordinate<T> coord, const T scalar);
+Coordinate operator*(Coordinate coord, const double scalar);
 
-template <typename T>
-Coordinate<T> operator*(const T scalar, Coordinate<T> coord);
+Coordinate operator*(const double scalar, Coordinate coord);
 
 }  // namespace constructs
 }  // namespace morphac
