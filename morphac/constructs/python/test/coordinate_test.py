@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.constructs import Coordinate2D
+from morphac.constructs import Coordinate
 
 
 @pytest.fixture()
@@ -9,10 +9,10 @@ def generate_coord_list():
 
     # List of coordinates constructed in every single way.
     # This is also an initialization test.
-    c1 = Coordinate2D(0, 0)
-    c2 = Coordinate2D(1.5, 2.)
-    c3 = Coordinate2D(x=1.5, y=-5.)
-    c4 = Coordinate2D(x=-9., y=-1.2)
+    c1 = Coordinate(0, 0)
+    c2 = Coordinate(1.5, 2.)
+    c3 = Coordinate(x=1.5, y=-5.)
+    c4 = Coordinate(x=-9., y=-1.2)
 
     return c1, c2, c3, c4
 
@@ -92,16 +92,16 @@ def test_addition(generate_coord_list):
 
     c1, c2, c3, c4 = generate_coord_list
 
-    c1 += Coordinate2D(0, 0)
+    c1 += Coordinate(0, 0)
     assert np.allclose(c1.data, [0, 0])
 
-    res = c2 + Coordinate2D(0, 0)
+    res = c2 + Coordinate(0, 0)
     assert np.allclose(res.data, c2.data)
 
-    res = c3 + Coordinate2D(-1.5, 5.)
+    res = c3 + Coordinate(-1.5, 5.)
     assert np.allclose(res.data, [0, 0])
 
-    res = c4 + Coordinate2D(-1, 5)
+    res = c4 + Coordinate(-1, 5)
     assert np.allclose(res.data, [-10, 3.8])
 
 
@@ -109,16 +109,16 @@ def test_subtraction(generate_coord_list):
 
     c1, c2, c3, c4 = generate_coord_list
 
-    c1 -= Coordinate2D(0, 0)
+    c1 -= Coordinate(0, 0)
     assert np.allclose(c1.data, [0, 0])
 
-    res = c2 - Coordinate2D(0, 0)
+    res = c2 - Coordinate(0, 0)
     assert np.allclose(res.data, c2.data)
 
-    res = c3 - Coordinate2D(1.5, -5)
+    res = c3 - Coordinate(1.5, -5)
     assert np.allclose(res.data, [0, 0])
 
-    res = c4 - Coordinate2D(1, -5)
+    res = c4 - Coordinate(1, -5)
     assert np.allclose(res.data, [-10, 3.8])
 
 

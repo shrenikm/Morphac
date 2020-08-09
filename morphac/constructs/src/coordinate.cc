@@ -1,4 +1,4 @@
-#include "constructs/include/coordinate2D.h"
+#include "constructs/include/coordinate.h"
 
 namespace morphac {
 namespace constructs {
@@ -9,63 +9,63 @@ using std::string;
 using Eigen::Matrix;
 
 template <typename T>
-Coordinate2D<T>::Coordinate2D(const T x, const T y) : x_(x), y_(y) {}
+Coordinate<T>::Coordinate(const T x, const T y) : x_(x), y_(y) {}
 
 template <typename T>
-Coordinate2D<T>::Coordinate2D(const Coordinate2D<T>& coord)
+Coordinate<T>::Coordinate(const Coordinate<T>& coord)
     : x_(coord.x_), y_(coord.y_) {}
 
 template <typename T>
-Coordinate2D<T>& Coordinate2D<T>::operator+=(const Coordinate2D& coord) {
+Coordinate<T>& Coordinate<T>::operator+=(const Coordinate& coord) {
   this->x_ += coord.x_;
   this->y_ += coord.y_;
   return *this;
 }
 
 template <typename T>
-Coordinate2D<T> Coordinate2D<T>::operator+(const Coordinate2D& coord) const {
-  Coordinate2D result;
+Coordinate<T> Coordinate<T>::operator+(const Coordinate& coord) const {
+  Coordinate result;
   result.x_ = this->x_ + coord.x_;
   result.y_ = this->y_ + coord.y_;
   return result;
 }
 
 template <typename T>
-Coordinate2D<T>& Coordinate2D<T>::operator-=(const Coordinate2D& coord) {
+Coordinate<T>& Coordinate<T>::operator-=(const Coordinate& coord) {
   this->x_ -= coord.x_;
   this->y_ -= coord.y_;
   return *this;
 }
 
 template <typename T>
-Coordinate2D<T> Coordinate2D<T>::operator-(const Coordinate2D& coord) const {
-  Coordinate2D result;
+Coordinate<T> Coordinate<T>::operator-(const Coordinate& coord) const {
+  Coordinate result;
   result.x_ = this->x_ - coord.x_;
   result.y_ = this->y_ - coord.y_;
   return result;
 }
 
 template <typename T>
-Coordinate2D<T> Coordinate2D<T>::operator*=(const T scalar) {
+Coordinate<T> Coordinate<T>::operator*=(const T scalar) {
   this->x_ *= scalar;
   this->y_ *= scalar;
   return *this;
 }
 
 template <typename T>
-Coordinate2D<T> operator*(Coordinate2D<T> coord, const T scalar) {
+Coordinate<T> operator*(Coordinate<T> coord, const T scalar) {
   return coord *= scalar;
 }
 
 template <typename T>
-Coordinate2D<T> operator*(const T scalar, Coordinate2D<T> coord) {
+Coordinate<T> operator*(const T scalar, Coordinate<T> coord) {
   return coord *= scalar;
 }
 
 template <typename T>
-T& Coordinate2D<T>::operator[](const int index) {
+T& Coordinate<T>::operator[](const int index) {
   MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
-                "Coordinate2D index out of bounds.");
+                "Coordinate index out of bounds.");
   if (index == 0) {
     return this->x_;
   } else {
@@ -74,9 +74,9 @@ T& Coordinate2D<T>::operator[](const int index) {
 }
 
 template <typename T>
-T Coordinate2D<T>::operator[](const int index) const {
+T Coordinate<T>::operator[](const int index) const {
   MORPH_REQUIRE(index >= 0 && index < 2, std::out_of_range,
-                "Coordinate2D index out of bounds.");
+                "Coordinate index out of bounds.");
   if (index == 0) {
     return this->x_;
   } else {
@@ -85,17 +85,17 @@ T Coordinate2D<T>::operator[](const int index) const {
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator==(const Coordinate2D& coord) const {
+bool Coordinate<T>::operator==(const Coordinate& coord) const {
   return (this->x_ == coord.x_) && (this->y_ == coord.y_);
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator!=(const Coordinate2D& coord) const {
+bool Coordinate<T>::operator!=(const Coordinate& coord) const {
   return !(*this == coord);
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator<(const Coordinate2D& coord) const {
+bool Coordinate<T>::operator<(const Coordinate& coord) const {
   if ((this->x_ < coord.x_) ||
       ((this->x_ == coord.x_) && (this->y_ < coord.y_))) {
     return true;
@@ -104,7 +104,7 @@ bool Coordinate2D<T>::operator<(const Coordinate2D& coord) const {
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator>(const Coordinate2D& coord) const {
+bool Coordinate<T>::operator>(const Coordinate& coord) const {
   if ((this->x_ > coord.x_) ||
       ((this->x_ == coord.x_) && (this->y_ > coord.y_))) {
     return true;
@@ -113,63 +113,63 @@ bool Coordinate2D<T>::operator>(const Coordinate2D& coord) const {
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator<=(const Coordinate2D& coord) const {
+bool Coordinate<T>::operator<=(const Coordinate& coord) const {
   return (*this == coord) || (*this < coord);
 }
 
 template <typename T>
-bool Coordinate2D<T>::operator>=(const Coordinate2D& coord) const {
+bool Coordinate<T>::operator>=(const Coordinate& coord) const {
   return (*this == coord) || (*this > coord);
 }
 
 template <typename T>
-ostream& operator<<(ostream& os, const Coordinate2D<T>& coord) {
-  os << "Coordinate2D[" << coord.get_x() << ", " << coord.get_y() << "]";
+ostream& operator<<(ostream& os, const Coordinate<T>& coord) {
+  os << "Coordinate[" << coord.get_x() << ", " << coord.get_y() << "]";
   return os;
 }
 
 template <typename T>
-string Coordinate2D<T>::ToString() const {
+string Coordinate<T>::ToString() const {
   ostringstream os;
   os << *this;
   return os.str();
 }
 
 template <typename T>
-T Coordinate2D<T>::get_x() const {
+T Coordinate<T>::get_x() const {
   return x_;
 }
 
 template <typename T>
-T Coordinate2D<T>::get_y() const {
+T Coordinate<T>::get_y() const {
   return y_;
 }
 
 template <typename T>
-const Matrix<T, 2, 1> Coordinate2D<T>::get_data() const {
+const Matrix<T, 2, 1> Coordinate<T>::get_data() const {
   Matrix<T, 2, 1> data(2);
   data << this->get_x(), this->get_y();
   return data;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_x(const T x) {
+void Coordinate<T>::set_x(const T x) {
   x_ = x;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_y(const T y) {
+void Coordinate<T>::set_y(const T y) {
   y_ = y;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_xy(const T x, const T y) {
+void Coordinate<T>::set_xy(const T x, const T y) {
   x_ = x;
   y_ = y;
 }
 
 template <typename T>
-void Coordinate2D<T>::set_data(const Matrix<T, 2, 1>& data) {
+void Coordinate<T>::set_data(const Matrix<T, 2, 1>& data) {
   MORPH_REQUIRE(data.size() == 2, std::invalid_argument,
                 "Coordinate data must be of size 2.");
   this->set_x(data(0));
@@ -177,13 +177,13 @@ void Coordinate2D<T>::set_data(const Matrix<T, 2, 1>& data) {
 }
 
 // Template instantiations
-template class Coordinate2D<int>;
-template Coordinate2D<int> operator*(const int, Coordinate2D<int>);
-template Coordinate2D<int> operator*(Coordinate2D<int>, const int);
+template class Coordinate<int>;
+template Coordinate<int> operator*(const int, Coordinate<int>);
+template Coordinate<int> operator*(Coordinate<int>, const int);
 
-template class Coordinate2D<double>;
-template Coordinate2D<double> operator*(const double, Coordinate2D<double>);
-template Coordinate2D<double> operator*(Coordinate2D<double>, const double);
+template class Coordinate<double>;
+template Coordinate<double> operator*(const double, Coordinate<double>);
+template Coordinate<double> operator*(Coordinate<double>, const double);
 
 }  // namespace constructs
 }  // namespace morphac

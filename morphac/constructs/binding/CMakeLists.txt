@@ -16,7 +16,7 @@ set(CONSTRUCTS_MODULE_FILE
 # They are split up into different files so that compilation is more efficient.
 set(CONSTRUCTS_BINDING_FILES
 
-  coordinate2D_binding.cc
+  coordinate_binding.cc
   control_input_binding.cc
   pose_binding.cc
   state_binding.cc
@@ -54,7 +54,7 @@ target_include_directories(${python_target}
 # Adding library dependencies.
 target_link_libraries(${python_target}
   PUBLIC
-  coordinate2D
+  coordinate
   control_input
   pose
   state
