@@ -13,9 +13,13 @@ namespace constructs {
 class Coordinate {
  public:
   Coordinate(const double x = 0, const double y = 0);
+  Coordinate(const Eigen::Vector2d& data);
 
   // Copy constructor.
-  Coordinate(const Coordinate& coord);
+  Coordinate(const Coordinate& coord) = default;
+
+  // Copy assignment.
+  Coordinate& operator=(const Coordinate& coord) = default;
 
   Coordinate& operator+=(const Coordinate& coord);
   Coordinate operator+(const Coordinate& coord) const;
@@ -54,7 +58,6 @@ class Coordinate {
 // Non-member multiplication operator functions to support lhs scalar
 // multiplication
 Coordinate operator*(Coordinate coord, const double scalar);
-
 Coordinate operator*(const double scalar, Coordinate coord);
 
 }  // namespace constructs

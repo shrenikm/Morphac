@@ -10,7 +10,7 @@ using Eigen::Vector2d;
 
 Coordinate::Coordinate(const double x, const double y) : x_(x), y_(y) {}
 
-Coordinate::Coordinate(const Coordinate& coord) : x_(coord.x_), y_(coord.y_) {}
+Coordinate::Coordinate(const Vector2d& data) : x_(data(0)), y_(data(1)) {}
 
 Coordinate& Coordinate::operator+=(const Coordinate& coord) {
   this->x_ += coord.x_;

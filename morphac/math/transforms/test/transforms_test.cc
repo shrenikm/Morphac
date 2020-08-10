@@ -10,6 +10,7 @@ using std::sqrt;
 using Eigen::MatrixXd;
 using Eigen::Vector2d;
 
+using morphac::constructs::Coordinate;
 using morphac::math::transforms::RotationMatrix;
 using morphac::math::transforms::TransformationMatrix;
 
@@ -71,6 +72,23 @@ TEST_F(TransformsTest, RotationMatrixFunctionality) {
   ASSERT_TRUE(
       RotationMatrix(angle).isApprox(RotationMatrix(-(2 * M_PI - angle))));
 }
+
+//TEST_F(TransformsTest, TransformationMatrixProperties) {
+//  // Tests the properties of the transformation matrix.
+//  // Test trivial zero rotation and translation.
+//  MatrixXd tf = TransformationMatrix(0., Vector2d::Zero(2));
+//
+//  // Obvious but ensures structured testing.
+//  ASSERT_EQ(tf.rows(), 2);
+//  ASSERT_EQ(tf.cols(), 2);
+//
+//  ASSERT_TRUE(tf.isApprox(MatrixXd::Identity(2, 2)));
+//
+//  // Transformation matrix need to be orthogonal, for any angle.
+//  tf = TransformationMatrix(0.7, Coordinate());
+//  ASSERT_TRUE((rot * rot.transpose()).isApprox(MatrixXd::Identity(2, 2)));
+//  ASSERT_TRUE((rot.transpose() * rot).isApprox(MatrixXd::Identity(2, 2)));
+//}
 
 }  // namespace
 
