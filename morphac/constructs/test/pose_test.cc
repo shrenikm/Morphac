@@ -291,7 +291,9 @@ TEST_F(PoseTest, Equality) {
   ASSERT_TRUE(Pose(3) == Pose(VectorXd::Zero(3)));
   ASSERT_TRUE(Pose(VectorXd::Ones(2)) == Pose({1, 1}));
   ASSERT_TRUE(Pose({1, 2}) == Pose({1, 2}));
+}
 
+TEST_F(PoseTest, Inequality) {
   ASSERT_TRUE(Pose(3) != Pose(2));
   ASSERT_TRUE(Pose(3) != Pose(VectorXd::Zero(2)));
   ASSERT_TRUE(Pose(2) != Pose({0}));

@@ -111,6 +111,20 @@ TEST_F(CoordinateTest, GetData) {
   ASSERT_TRUE(coord5_.get_data().isApprox(coord_data5));
 }
 
+TEST_F(CoordinateTest, GetCoordinateAt) {
+  ASSERT_DOUBLE_EQ(coord1_[0], 2.0);
+  ASSERT_DOUBLE_EQ(coord1_[1], 3.0);
+  ASSERT_DOUBLE_EQ(coord2_[0], -1.5);
+  ASSERT_DOUBLE_EQ(coord2_[1], 4.7);
+
+  // Invalid get at.
+
+  ASSERT_THROW(coord1_[-1], std::out_of_range);
+  ASSERT_THROW(coord1_[2], std::out_of_range);
+  ASSERT_THROW(coord2_[-1], std::out_of_range);
+  ASSERT_THROW(coord2_[2], std::out_of_range);
+}
+
 TEST_F(CoordinateTest, SetData) {
   VectorXd coord_data1(2), coord_data2(2), coord_data3(2), coord_data4(2),
       coord_data5(2);
@@ -133,80 +147,85 @@ TEST_F(CoordinateTest, SetData) {
   ASSERT_TRUE(coord5_.get_data().isApprox(coord_data5));
 }
 
-// TEST_F(CoordinateTest, Addition) {
-//  Coordinate result = coord1_ + coord3_;
-//
-//  ASSERT_DOUBLE_EQ(result.get_x(), 0.5);
-//  ASSERT_DOUBLE_EQ(result.get_y(), 7.7);
-//
-//  coord1_ += coord3_;
-//
-//  ASSERT_DOUBLE_EQ(coord1_.get_x(), 0.5);
-//  ASSERT_DOUBLE_EQ(coord1_.get_y(), 7.7);
-//}
-//
-// TEST_F(CoordinateTest, Subtraction) {
-//  Coordinate result = coord1_ - coord3_;
-//
-//  ASSERT_DOUBLE_EQ(result.get_x(), 3.5);
-//  ASSERT_DOUBLE_EQ(result.get_y(), -1.7);
-//
-//  coord1_ -= coord3_;
-//
-//  ASSERT_DOUBLE_EQ(coord1_.get_x(), 3.5);
-//  ASSERT_DOUBLE_EQ(coord1_.get_y(), -1.7);
-//}
-//
-// TEST_F(CoordinateTest, Multiplication) {
-//  Coordinate result = 1.5 * coord3_;
-//
-//  ASSERT_DOUBLE_EQ(result.get_x(), -2.25);
-//  ASSERT_DOUBLE_EQ(result.get_y(), 7.05);
-//
-//  coord3_ *= -2;
-//  ASSERT_DOUBLE_EQ(coord3_.get_x(), 3.);
-//  ASSERT_DOUBLE_EQ(coord3_.get_y(), -9.4);
-//}
-//
-// TEST_F(CoordinateTest, GetAt) {
-//  ASSERT_DOUBLE_EQ(coord3_[0], -1.5);
-//  ASSERT_DOUBLE_EQ(coord3_[1], 4.7);
-//}
-//
-// TEST_F(CoordinateTest, InvalidGetAt) {
-//  ASSERT_THROW(coord3_[-1], std::out_of_range);
-//  ASSERT_THROW(coord3_[2], std::out_of_range);
-//}
-//
-// TEST_F(CoordinateTest, SetAt) {
-//  coord1_[0] = 0;
-//  coord1_[1] = 7;
-//  coord3_[0] = -7;
-//  coord3_[1] = 0;
-//
-//  ASSERT_EQ(coord1_[0], 0);
-//  ASSERT_EQ(coord1_[1], 7);
-//  ASSERT_EQ(coord3_[0], -7);
-//  ASSERT_EQ(coord3_[1], 0);
-//}
-//
-// TEST_F(CoordinateTest, StringRepresentation) {
-//  // Testing that the << operator is overloaded properly.
-//  // We don't test the actual string representation.
-//  ostringstream os;
-//  os << coord1_;
-//
-//  // Multiple Coordinate object representations in the stream.
-//  os << " " << coord3_ << std::endl;
-//}
-//
-// TEST_F(CoordinateTest, Equality) { ASSERT_TRUE(coord1_ == coord2_); }
-//
-// TEST_F(CoordinateTest, Inequality) {
-//  ASSERT_TRUE(coord1_ != coord3_);
-//  ASSERT_TRUE(coord1_ != coord4_);
-//}
-//
+TEST_F(CoordinateTest, SetCoordinateAt) {
+  coord1_[0] = 0;
+  coord1_[1] = 7;
+  coord2_[0] = -7;
+  coord2_[1] = 0;
+
+  ASSERT_EQ(coord1_[0], 0);
+  ASSERT_EQ(coord1_[1], 7);
+  ASSERT_EQ(coord2_[0], -7);
+  ASSERT_EQ(coord2_[1], 0);
+
+  // Invalid set at.
+  ASSERT_THROW(coord1_[-1] = 0, std::out_of_range);
+  ASSERT_THROW(coord1_[2] = 0, std::out_of_range);
+  ASSERT_THROW(coord2_[-1] = 0, std::out_of_range);
+  ASSERT_THROW(coord2_[2] = 0, std::out_of_range);
+}
+
+TEST_F(CoordinateTest, Addition) {
+  Coordinate result = coord1_ + coord2_;
+
+  ASSERT_DOUBLE_EQ(result.get_x(), 0.5);
+  ASSERT_DOUBLE_EQ(result.get_y(), 7.7);
+
+  coord1_ += coord2_;
+
+  ASSERT_DOUBLE_EQ(coord1_.get_x(), 0.5);
+  ASSERT_DOUBLE_EQ(coord1_.get_y(), 7.7);
+}
+
+TEST_F(CoordinateTest, Subtraction) {
+  Coordinate result = coord1_ - coord2_;
+
+  ASSERT_DOUBLE_EQ(result.get_x(), 3.5);
+  ASSERT_DOUBLE_EQ(result.get_y(), -1.7);
+
+  coord1_ -= coord2_;
+
+  ASSERT_DOUBLE_EQ(coord1_.get_x(), 3.5);
+  ASSERT_DOUBLE_EQ(coord1_.get_y(), -1.7);
+}
+
+TEST_F(CoordinateTest, Multiplication) {
+  Coordinate result = 1.5 * coord3_;
+
+  ASSERT_DOUBLE_EQ(result.get_x(), 3.9);
+  ASSERT_DOUBLE_EQ(result.get_y(), 3.15);
+
+  coord3_ *= -2;
+  ASSERT_DOUBLE_EQ(coord3_.get_x(), -5.2);
+  ASSERT_DOUBLE_EQ(coord3_.get_y(), -4.2);
+}
+
+TEST_F(CoordinateTest, Equality) {
+  ASSERT_TRUE(coord1_ == Coordinate{coord1_});
+  ASSERT_TRUE(coord2_ == Coordinate{coord2_});
+  ASSERT_TRUE(coord3_ == Coordinate{coord3_});
+  ASSERT_TRUE(coord4_ == Coordinate{coord4_});
+  ASSERT_TRUE(coord5_ == Coordinate{coord5_});
+}
+
+TEST_F(CoordinateTest, Inequality) {
+  ASSERT_TRUE(coord1_ != coord2_);
+  ASSERT_TRUE(coord2_ != coord3_);
+  ASSERT_TRUE(coord3_ != coord4_);
+  ASSERT_TRUE(coord4_ != coord5_);
+  ASSERT_TRUE(coord5_ != coord1_);
+}
+
+TEST_F(CoordinateTest, StringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << coord1_;
+
+  // Multiple Coordinate object representations in the stream.
+  os << " " << coord2_ << std::endl;
+}
+
 // TEST_F(CoordinateTest, Lesser) {
 //  ASSERT_TRUE(zero_coord_ < coord1_);
 //  ASSERT_TRUE(coord1_ < coord6_);

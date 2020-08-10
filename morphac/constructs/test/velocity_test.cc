@@ -291,7 +291,9 @@ TEST_F(VelocityTest, Equality) {
   ASSERT_TRUE(Velocity(3) == Velocity(VectorXd::Zero(3)));
   ASSERT_TRUE(Velocity(VectorXd::Ones(2)) == Velocity({1, 1}));
   ASSERT_TRUE(Velocity({1, 2}) == Velocity({1, 2}));
+}
 
+TEST_F(VelocityTest, Inequality) {
   ASSERT_TRUE(Velocity(3) != Velocity(2));
   ASSERT_TRUE(Velocity(3) != Velocity(VectorXd::Zero(2)));
   ASSERT_TRUE(Velocity(2) != Velocity({0}));

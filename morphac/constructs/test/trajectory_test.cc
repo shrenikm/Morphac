@@ -321,6 +321,12 @@ TEST_F(TrajectoryTest, Equality) {
   ASSERT_TRUE(trajectory1 == *trajectory1_);
   ASSERT_TRUE(trajectory2 == *trajectory2_);
   ASSERT_TRUE(trajectory3 == *trajectory3_);
+}
+
+TEST_F(TrajectoryTest, Inequality) {
+  Trajectory trajectory1{MatrixXd::Zero(1, 5), 3, 2};
+  Trajectory trajectory2{*trajectory2_};
+  Trajectory trajectory3{trajectory_data1_, 2, 0};
 
   ASSERT_TRUE(trajectory1 != trajectory2);
   ASSERT_TRUE(trajectory2 != trajectory3);

@@ -298,7 +298,9 @@ TEST_F(ControlInputTest, Equality) {
   ASSERT_TRUE(ControlInput(3) == ControlInput(VectorXd::Zero(3)));
   ASSERT_TRUE(ControlInput(VectorXd::Ones(2)) == ControlInput({1, 1}));
   ASSERT_TRUE(ControlInput({1, 2}) == ControlInput({1, 2}));
+}
 
+TEST_F(ControlInputTest, Inequality) {
   ASSERT_TRUE(ControlInput(3) != ControlInput(2));
   ASSERT_TRUE(ControlInput(3) != ControlInput(VectorXd::Zero(2)));
   ASSERT_TRUE(ControlInput(2) != ControlInput({0}));
