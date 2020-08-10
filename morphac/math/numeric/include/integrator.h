@@ -21,7 +21,7 @@ class Integrator {
   // specifically designed for mobile robot integration in the simulation.
   // We assume that it is not going to be as an integrator for arbitrary
   // functions.
-  // We don't use std::function as the derivative funciton would have to be
+  // We don't use std::function as the derivative function would have to be
   // provided through KinematicModel (through std::bind) anyway and the python
   // binding calls might be inefficient (especially as they are called each
   // simulation step).
