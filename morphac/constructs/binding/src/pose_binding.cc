@@ -7,6 +7,7 @@ namespace binding {
 namespace py = pybind11;
 
 using Eigen::VectorXd;
+
 using morphac::constructs::Pose;
 
 void define_pose_binding(py::module& m) {

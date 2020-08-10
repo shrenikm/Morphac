@@ -7,6 +7,7 @@ namespace binding {
 namespace py = pybind11;
 
 using Eigen::VectorXd;
+
 using morphac::constructs::ControlInput;
 
 void define_control_input_binding(py::module& m) {

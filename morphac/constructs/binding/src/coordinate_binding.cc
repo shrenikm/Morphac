@@ -6,6 +6,8 @@ namespace binding {
 
 namespace py = pybind11;
 
+using Eigen::Vector2d;
+
 using morphac::constructs::Coordinate;
 
 void define_coordinate_binding(py::module& m) {
@@ -13,6 +15,7 @@ void define_coordinate_binding(py::module& m) {
 
   coordinate.def(py::init<const double, const double>(), py::arg("x"),
                  py::arg("y"));
+  coordinate.def(py::init<const Vector2d&>(), py::arg("data"));
   coordinate.def("__getitem__",
                  [](const Coordinate& coord, const int index) {
                    // Implementing python's negative indexing.

@@ -9,6 +9,7 @@ namespace py = pybind11;
 using std::vector;
 
 using Eigen::MatrixXd;
+
 using morphac::constructs::State;
 using morphac::constructs::Trajectory;
 
