@@ -9,8 +9,8 @@ def generate_coord_list():
 
     # List of coordinates constructed in every single way.
     # This is also an initialization test.
-    c1 = Coordinate(0, 0)
-    c2 = Coordinate(1.5, 2.)
+    c1 = Coordinate()
+    c2 = Coordinate(data=[1.5, 2.])
     c3 = Coordinate(x=1.5, y=-5.)
     c4 = Coordinate(x=-9., y=-1.2)
 

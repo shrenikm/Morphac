@@ -9,6 +9,7 @@ using std::sqrt;
 
 using Eigen::MatrixXd;
 using Eigen::Vector2d;
+using Eigen::VectorXd;
 
 using morphac::constructs::Coordinate;
 using morphac::math::transforms::RotationMatrix;
@@ -73,22 +74,50 @@ TEST_F(TransformsTest, RotationMatrixFunctionality) {
       RotationMatrix(angle).isApprox(RotationMatrix(-(2 * M_PI - angle))));
 }
 
-//TEST_F(TransformsTest, TransformationMatrixProperties) {
-//  // Tests the properties of the transformation matrix.
-//  // Test trivial zero rotation and translation.
-//  MatrixXd tf = TransformationMatrix(0., Vector2d::Zero(2));
-//
-//  // Obvious but ensures structured testing.
-//  ASSERT_EQ(tf.rows(), 2);
-//  ASSERT_EQ(tf.cols(), 2);
-//
-//  ASSERT_TRUE(tf.isApprox(MatrixXd::Identity(2, 2)));
-//
-//  // Transformation matrix need to be orthogonal, for any angle.
-//  tf = TransformationMatrix(0.7, Coordinate());
-//  ASSERT_TRUE((rot * rot.transpose()).isApprox(MatrixXd::Identity(2, 2)));
-//  ASSERT_TRUE((rot.transpose() * rot).isApprox(MatrixXd::Identity(2, 2)));
-//}
+TEST_F(TransformsTest, TransformationMatrixProperties) {
+  // Tests the properties of the transformation matrix.
+  // Test trivial zero rotation and translation.
+  MatrixXd tf = TransformationMatrix(0., Vector2d::Zero(2));
+
+  // Obvious but ensures structured testing.
+  ASSERT_EQ(tf.rows(), 3);
+  ASSERT_EQ(tf.cols(), 3);
+
+  ASSERT_TRUE(tf.isApprox(MatrixXd::Identity(3, 3)));
+
+  // Transformation matrix need to be orthogonal, for any angle and zero
+  // translation.
+  tf = TransformationMatrix(0.7, Coordinate());
+  ASSERT_TRUE((tf * tf.transpose()).isApprox(MatrixXd::Identity(3, 3)));
+  ASSERT_TRUE((tf.transpose() * tf).isApprox(MatrixXd::Identity(3, 3)));
+}
+
+TEST_F(TransformsTest, TransformationMatrixFunctionality) {
+  // Tests that the transformation matrix can be used to perform rotations and
+  // translations.
+
+  // Matrix that rotates by 45 degrees and doesn't translate.
+  MatrixXd tf = TransformationMatrix(M_PI / 4, Coordinate());
+
+  // Point to rotate. (Homogeneous coordinates in 3d).
+  VectorXd point(3), desired_point(3);
+  point << 2., 0., 1;
+  desired_point << sqrt(2), sqrt(2), 1;
+
+  VectorXd transformed_point = tf * point;
+
+  ASSERT_TRUE(transformed_point.isApprox(desired_point));
+
+  // Test the same for a negative angle and non zero translation.
+  Vector2d translation;
+  translation << 0., 5.;
+  tf = TransformationMatrix(-M_PI / 4, translation);
+  desired_point(1) = -sqrt(2) + 5.;
+
+  transformed_point = tf * point;
+
+  ASSERT_TRUE(transformed_point.isApprox(desired_point));
+}
 
 }  // namespace
 

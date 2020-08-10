@@ -13,8 +13,8 @@ using morphac::constructs::Coordinate;
 void define_coordinate_binding(py::module& m) {
   py::class_<Coordinate> coordinate(m, "Coordinate");
 
-  coordinate.def(py::init<const double, const double>(), py::arg("x"),
-                 py::arg("y"));
+  coordinate.def(py::init<const double, const double>(), py::arg("x") = 0.,
+                 py::arg("y") = 0.);
   coordinate.def(py::init<const Vector2d&>(), py::arg("data"));
   coordinate.def("__getitem__",
                  [](const Coordinate& coord, const int index) {
