@@ -23,8 +23,8 @@ class CoordinateTest : public ::testing::Test {
   Coordinate coord1_{2.0, 3.0};
   Coordinate coord2_{-1.5, 4.7};
   Coordinate coord3_{2.6, 2.1};
-  Coordinate coord4_{3.1, 2.8};
-  Coordinate coord5_{2.2, 5.9};
+  Coordinate coord4_{2.0, 4.0};
+  Coordinate coord5_{2.6, -1.};
 };
 
 TEST_F(CoordinateTest, EigenConstruction) {
@@ -83,16 +83,16 @@ TEST_F(CoordinateTest, XCoordinates) {
   ASSERT_DOUBLE_EQ(coord1_.get_x(), 2.0);
   ASSERT_DOUBLE_EQ(coord2_.get_x(), -1.5);
   ASSERT_DOUBLE_EQ(coord3_.get_x(), 2.6);
-  ASSERT_DOUBLE_EQ(coord4_.get_x(), 3.1);
-  ASSERT_DOUBLE_EQ(coord5_.get_x(), 2.2);
+  ASSERT_DOUBLE_EQ(coord4_.get_x(), 2.0);
+  ASSERT_DOUBLE_EQ(coord5_.get_x(), 2.6);
 }
 
 TEST_F(CoordinateTest, YCoordinates) {
   ASSERT_DOUBLE_EQ(coord1_.get_y(), 3.0);
   ASSERT_DOUBLE_EQ(coord2_.get_y(), 4.7);
   ASSERT_DOUBLE_EQ(coord3_.get_y(), 2.1);
-  ASSERT_DOUBLE_EQ(coord4_.get_y(), 2.8);
-  ASSERT_DOUBLE_EQ(coord5_.get_y(), 5.9);
+  ASSERT_DOUBLE_EQ(coord4_.get_y(), 4.);
+  ASSERT_DOUBLE_EQ(coord5_.get_y(), -1);
 }
 
 TEST_F(CoordinateTest, GetData) {
@@ -101,8 +101,8 @@ TEST_F(CoordinateTest, GetData) {
   coord_data1 << 2, 3;
   coord_data2 << -1.5, 4.7;
   coord_data3 << 2.6, 2.1;
-  coord_data4 << 3.1, 2.8;
-  coord_data5 << 2.2, 5.9;
+  coord_data4 << 2.0, 4.;
+  coord_data5 << 2.6, -1;
 
   ASSERT_TRUE(coord1_.get_data().isApprox(coord_data1));
   ASSERT_TRUE(coord2_.get_data().isApprox(coord_data2));
@@ -216,6 +216,86 @@ TEST_F(CoordinateTest, Inequality) {
   ASSERT_TRUE(coord5_ != coord1_);
 }
 
+TEST_F(CoordinateTest, Lesser) {
+  ASSERT_TRUE(coord1_ < coord3_);
+  ASSERT_TRUE(coord1_ < coord4_);
+  ASSERT_TRUE(coord1_ < coord5_);
+
+  ASSERT_TRUE(coord2_ < coord1_);
+  ASSERT_TRUE(coord2_ < coord3_);
+  ASSERT_TRUE(coord2_ < coord4_);
+  ASSERT_TRUE(coord2_ < coord5_);
+
+  ASSERT_TRUE(coord4_ < coord3_);
+  ASSERT_TRUE(coord4_ < coord5_);
+
+  ASSERT_TRUE(coord5_ < coord3_);
+}
+
+TEST_F(CoordinateTest, Greater) {
+  ASSERT_TRUE(coord1_ > coord2_);
+
+  ASSERT_TRUE(coord3_ > coord1_);
+  ASSERT_TRUE(coord3_ > coord2_);
+  ASSERT_TRUE(coord3_ > coord4_);
+  ASSERT_TRUE(coord3_ > coord5_);
+
+  ASSERT_TRUE(coord4_ > coord1_);
+  ASSERT_TRUE(coord4_ > coord2_);
+
+  ASSERT_TRUE(coord5_ > coord1_);
+  ASSERT_TRUE(coord5_ > coord2_);
+  ASSERT_TRUE(coord5_ > coord4_);
+}
+
+TEST_F(CoordinateTest, LesserEqual) {
+  // Test regular lesser.
+  ASSERT_TRUE(coord1_ < coord3_);
+  ASSERT_TRUE(coord1_ < coord4_);
+  ASSERT_TRUE(coord1_ < coord5_);
+
+  ASSERT_TRUE(coord2_ < coord1_);
+  ASSERT_TRUE(coord2_ < coord3_);
+  ASSERT_TRUE(coord2_ < coord4_);
+  ASSERT_TRUE(coord2_ < coord5_);
+
+  ASSERT_TRUE(coord4_ < coord3_);
+  ASSERT_TRUE(coord4_ < coord5_);
+
+  ASSERT_TRUE(coord5_ < coord3_);
+
+  // Test equality.
+  ASSERT_TRUE(coord1_ <= coord1_);
+  ASSERT_TRUE(coord2_ <= coord2_);
+  ASSERT_TRUE(coord3_ <= coord3_);
+  ASSERT_TRUE(coord4_ <= coord4_);
+  ASSERT_TRUE(coord5_ <= coord5_);
+}
+
+TEST_F(CoordinateTest, GreaterEqual) {
+  // Test regular greater.
+  ASSERT_TRUE(coord1_ > coord2_);
+
+  ASSERT_TRUE(coord3_ > coord1_);
+  ASSERT_TRUE(coord3_ > coord2_);
+  ASSERT_TRUE(coord3_ > coord4_);
+  ASSERT_TRUE(coord3_ > coord5_);
+
+  ASSERT_TRUE(coord4_ > coord1_);
+  ASSERT_TRUE(coord4_ > coord2_);
+
+  ASSERT_TRUE(coord5_ > coord1_);
+  ASSERT_TRUE(coord5_ > coord2_);
+  ASSERT_TRUE(coord5_ > coord4_);
+
+  // Test equality.
+  ASSERT_TRUE(coord1_ >= coord1_);
+  ASSERT_TRUE(coord2_ >= coord2_);
+  ASSERT_TRUE(coord3_ >= coord3_);
+  ASSERT_TRUE(coord4_ >= coord4_);
+  ASSERT_TRUE(coord5_ >= coord5_);
+}
+
 TEST_F(CoordinateTest, StringRepresentation) {
   // Testing that the << operator is overloaded properly.
   // We don't test the actual string representation.
@@ -225,34 +305,6 @@ TEST_F(CoordinateTest, StringRepresentation) {
   // Multiple Coordinate object representations in the stream.
   os << " " << coord2_ << std::endl;
 }
-
-// TEST_F(CoordinateTest, Lesser) {
-//  ASSERT_TRUE(zero_coord_ < coord1_);
-//  ASSERT_TRUE(coord1_ < coord6_);
-//  ASSERT_FALSE(coord1_ < coord2_);
-//  ASSERT_FALSE(coord1_ < coord3_);
-//}
-//
-// TEST_F(CoordinateTest, Greater) {
-//  ASSERT_TRUE(coord1_ > coord3_);
-//  ASSERT_FALSE(coord1_ > coord4_);
-//  ASSERT_FALSE(coord1_ > coord2_);
-//  ASSERT_FALSE(coord1_ > coord6_);
-//}
-//
-// TEST_F(CoordinateTest, LesserEqual) {
-//  ASSERT_TRUE(zero_coord_ <= coord1_);
-//  ASSERT_TRUE(coord1_ <= coord6_);
-//  ASSERT_TRUE(coord1_ <= coord2_);
-//  ASSERT_FALSE(coord1_ <= coord3_);
-//}
-//
-// TEST_F(CoordinateTest, GreaterEqual) {
-//  ASSERT_TRUE(coord1_ >= coord3_);
-//  ASSERT_FALSE(coord1_ >= coord4_);
-//  ASSERT_TRUE(coord1_ >= coord2_);
-//  ASSERT_FALSE(coord1_ >= coord6_);
-//}
 
 }  // namespace
 
