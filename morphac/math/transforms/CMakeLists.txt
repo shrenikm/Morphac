@@ -62,32 +62,31 @@ target_link_libraries(transforms
 # Tests
 # -------------------------------------------------
 
-## Transforms test source files.
-#set(TRANSFORMS_TEST_SRC
-#
-#  integrator_test.cc
-#)
-#
-## Creating the test executables.
-#foreach(file ${TRANSFORMS_TEST_SRC})
-#  get_filename_component(test_name
-#    ${file} NAME_WE
-#  )
-#
-#  add_executable(
-#    ${test_name}
-#    ${TRANSFORMS_TEST_DIR}/${file}
-#  )
-#
-#  add_test(NAME ${test_name}
-#    COMMAND ${test_name}
-#  )
-#endforeach()
-#
-## Linking depending libraries.
-#target_link_libraries(integrator_test
-#  PUBLIC
-#  gtest_main
-#  integrator
-#  diffdrive_model
-#)
+# Transforms test source files.
+set(TRANSFORMS_TEST_SRC
+
+  transforms_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${TRANSFORMS_TEST_SRC})
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
+
+  add_executable(
+    ${test_name}
+    ${TRANSFORMS_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
+endforeach()
+
+# Linking depending libraries.
+target_link_libraries(transforms_test
+  PUBLIC
+  gtest_main
+  transforms
+)

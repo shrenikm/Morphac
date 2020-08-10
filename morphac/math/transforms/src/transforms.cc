@@ -4,13 +4,13 @@ namespace morphac {
 namespace math {
 namespace transforms {
 
-using std::cost;
+using std::cos;
 using std::sin;
 
 using Eigen::MatrixXd;
 using Eigen::Vector2d;
 
-using morphac::contructs::Coordinate;
+using morphac::constructs::Coordinate;
 
 const MatrixXd RotationMatrix(const double angle) {
   MatrixXd rotation_matrix(2, 2);
