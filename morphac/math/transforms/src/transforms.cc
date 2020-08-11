@@ -6,9 +6,11 @@ namespace transforms {
 
 using std::cos;
 using std::sin;
+using std::vector;
 
 using Eigen::MatrixXd;
 using Eigen::Vector2d;
+using Eigen::VectorXd;
 
 using morphac::constructs::Coordinate;
 
@@ -51,16 +53,19 @@ const Coordinate CanvasToWorld(const Coordinate& canvas_coord,
 
 const Vector2d WorldToCanvas(const Vector2d& world_coord,
                              const double resolution,
-                             const Vector2d& canvas_size) {
+                             const vector<int>& canvas_size) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
                 "Resolution must be positive.");
   Vector2d canvas_coord = (1 / resolution) * world_coord;
   canvas_coord = canvas_coord.array().round().matrix();
 
   if (canvas_size.size()) {
+    MORPH_REQUIRE(
+        canvas_size.size() == 2, std::invalid_argument,
+        "If the canvas size is provided, it must be two dimensional.");
     // Check if the coordinate lies within the canvas.
-    if ((canvas_coord(0) >= 0 && canvas_coord(0) < canvas_size(0)) &&
-        (canvas_coord(1) >= 0 && canvas_coord(1) < canvas_size(1))) {
+    if ((canvas_coord(0) >= 0 && canvas_coord[0] < canvas_size[0]) &&
+        (canvas_coord(1) >= 0 && canvas_coord[1] < canvas_size[1])) {
       return canvas_coord;
     } else {
       // Invalid coordinate.
@@ -75,7 +80,7 @@ const Vector2d WorldToCanvas(const Vector2d& world_coord,
 
 const Coordinate WorldToCanvas(const Coordinate& world_coord,
                                const double resolution,
-                               const Vector2d& canvas_size) {
+                               const vector<int>& canvas_size) {
   return Coordinate(
       WorldToCanvas(world_coord.get_data(), resolution, canvas_size));
 }

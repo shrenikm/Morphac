@@ -1,6 +1,8 @@
 #ifndef TRANSFORMS_H
 #define TRANSFORMS_H
 
+#include <vector>
+
 #include "Eigen/Dense"
 
 #include "constructs/include/coordinate.h"
@@ -24,13 +26,13 @@ const morphac::constructs::Coordinate CanvasToWorld(
     const morphac::constructs::Coordinate& canvas_coord,
     const double resolution);
 
-const Eigen::Vector2d WorldToCanvas(
-    const Eigen::Vector2d& world_coord, const double resolution,
-    const Eigen::Vector2d& canvas_size = Eigen::Vector2d::Zero(0));
+const Eigen::Vector2d WorldToCanvas(const Eigen::Vector2d& world_coord,
+                                    const double resolution,
+                                    const std::vector<int>& canvas_size = {});
 
 const morphac::constructs::Coordinate WorldToCanvas(
     const morphac::constructs::Coordinate& world_coord, const double resolution,
-    const Eigen::Vector2d& canvas_size = Eigen::Vector2d::Zero(0));
+    const std::vector<int>& canvas_size = {});
 
 }  // namespace transforms
 }  // namespace math
