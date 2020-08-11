@@ -66,7 +66,6 @@ const Vector2d WorldToCanvas(const Vector2d& world_coord,
       // Invalid coordinate.
       return -1 * Vector2d::Ones(2);
     }
-
   } else {
     // If not canvas size is provided, we don't care about the validity of
     // the point.
