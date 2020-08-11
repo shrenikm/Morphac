@@ -35,6 +35,52 @@ const MatrixXd TransformationMatrix(const double angle,
   return TransformationMatrix(angle, translation.get_data());
 }
 
+const Vector2d CanvasToWorld(const Vector2d& canvas_coord,
+                             const double resolution) {
+  MORPH_REQUIRE(resolution > 0, std::invalid_argument,
+                "Resolution must be positive.");
+  return resolution * canvas_coord;
+}
+
+const Coordinate CanvasToWorld(const Coordinate& canvas_coord,
+                               const double resolution) {
+  MORPH_REQUIRE(resolution > 0, std::invalid_argument,
+                "Resolution must be positive.");
+  return resolution * canvas_coord;
+}
+
+const Vector2d WorldToCanvas(const Vector2d& world_coord,
+                             const double resolution,
+                             const Vector2d& canvas_size) {
+  MORPH_REQUIRE(resolution > 0, std::invalid_argument,
+                "Resolution must be positive.");
+  Vector2d canvas_coord = (1 / resolution) * world_coord;
+  canvas_coord = canvas_coord.array().round().matrix();
+
+  if (canvas_size.size()) {
+    // Check if the coordinate lies within the canvas.
+    if ((canvas_coord(0) >= 0 && canvas_coord(0) < canvas_size(0)) &&
+        (canvas_coord(1) >= 0 && canvas_coord(1) < canvas_size(1))) {
+      return canvas_coord;
+    } else {
+      // Invalid coordinate.
+      return -1 * Vector2d::Ones(2);
+    }
+
+  } else {
+    // If not canvas size is provided, we don't care about the validity of
+    // the point.
+    return canvas_coord;
+  }
+}
+
+const Coordinate WorldToCanvas(const Coordinate& world_coord,
+                               const double resolution,
+                               const Vector2d& canvas_size) {
+  return Coordinate(
+      WorldToCanvas(world_coord.get_data(), resolution, canvas_size));
+}
+
 }  // namespace transforms
 }  // namespace math
 }  // namespace morphac
