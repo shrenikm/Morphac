@@ -1,18 +1,23 @@
+#ifndef TRANSFORMS_BINDING_H
+#define TRANSFORMS_BINDING_H
+
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
+#include "pybind11/stl.h"
 
-#include "math/transforms/binding/include/transforms_binding.h"
+#include "constructs/include/coordinate.h"
+#include "math/transforms/include/transforms.h"
 
 namespace morphac {
 namespace math {
 namespace transforms {
 namespace binding {
 
-namespace py = pybind11;
-
-PYBIND11_MODULE(_binding_transforms_python, m) { define_transforms_binding(m); }
+void define_transforms_binding(pybind11::module& m);
 
 }  // namespace binding
 }  // namespace transforms
 }  // namespace math
 }  // namespace morphac
+
+#endif
