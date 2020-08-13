@@ -23,6 +23,10 @@ void define_transforms_binding(py::module& m) {
         py::arg("resolution"));
   m.def("world_to_canvas", &WorldToCanvas, py::arg("world_coord"),
         py::arg("resolution"), py::arg("canvas_size"));
+  m.def("world_to_canvas",
+        [](const Vector2d& world_coord, const double resolution) {
+          return WorldToCanvas(world_coord, resolution);
+        }, py::arg("world_coord"), py::arg("resolution"));
 }
 
 }  // namespace binding
