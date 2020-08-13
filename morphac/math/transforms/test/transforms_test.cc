@@ -156,6 +156,20 @@ TEST_F(TransformsTest, WorldToCanvas) {
                   .isApprox(-1 * Vector2i::Ones()));
 }
 
+TEST_F(TransformsTest, WorldToCanvasRounding) {
+  // Test if while converting from world to canvas, we round the vector
+  // correctly.
+  Vector2d world_coord;
+  Vector2i desired_canvas_coord;
+  double resolution = 0.1;
+
+  world_coord << 2.225, 3.775;
+  desired_canvas_coord << 22, 38;
+
+  ASSERT_TRUE(
+      WorldToCanvas(world_coord, resolution).isApprox(desired_canvas_coord));
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
