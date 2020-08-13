@@ -10,9 +10,9 @@ using std::vector;
 
 using Eigen::MatrixXd;
 using Eigen::Vector2d;
+using Eigen::Vector2i;
 using Eigen::VectorXd;
 
-using morphac::constructs::Coordinate;
 using morphac::math::transforms::CanvasToWorld;
 using morphac::math::transforms::RotationMatrix;
 using morphac::math::transforms::TransformationMatrix;
@@ -80,7 +80,7 @@ TEST_F(TransformsTest, RotationMatrixFunctionality) {
 TEST_F(TransformsTest, TransformationMatrixProperties) {
   // Tests the properties of the transformation matrix.
   // Test trivial zero rotation and translation.
-  MatrixXd tf = TransformationMatrix(0., Vector2d::Zero(2));
+  MatrixXd tf = TransformationMatrix(0., Vector2d::Zero());
 
   // Obvious but ensures structured testing.
   ASSERT_EQ(tf.rows(), 3);
@@ -90,7 +90,7 @@ TEST_F(TransformsTest, TransformationMatrixProperties) {
 
   // Transformation matrix need to be orthogonal, for any angle and zero
   // translation.
-  tf = TransformationMatrix(0.7, Coordinate());
+  tf = TransformationMatrix(0.7, Vector2d::Zero());
   ASSERT_TRUE((tf * tf.transpose()).isApprox(MatrixXd::Identity(3, 3)));
   ASSERT_TRUE((tf.transpose() * tf).isApprox(MatrixXd::Identity(3, 3)));
 }
@@ -100,7 +100,7 @@ TEST_F(TransformsTest, TransformationMatrixFunctionality) {
   // translations.
 
   // Matrix that rotates by 45 degrees and doesn't translate.
-  MatrixXd tf = TransformationMatrix(M_PI / 4, Coordinate());
+  MatrixXd tf = TransformationMatrix(M_PI / 4, Vector2d::Zero());
 
   // Point to rotate. (Homogeneous coordinates in 3d).
   VectorXd point(3), desired_point(3);
@@ -124,44 +124,36 @@ TEST_F(TransformsTest, TransformationMatrixFunctionality) {
 
 TEST_F(TransformsTest, CanvasToWorld) {
   // Trivial conversion.
-  ASSERT_TRUE(CanvasToWorld(Vector2d::Zero(), 1.).isApprox(Vector2d::Zero()));
-  ASSERT_TRUE(CanvasToWorld(Coordinate(0, 0), 1.) == Coordinate(0, 0));
+  ASSERT_TRUE(CanvasToWorld(Vector2i::Zero(), 1.).isApprox(Vector2d::Zero()));
 
   // Test conversion.
-  Vector2d canvas_coord, desired_world_coord;
+  Vector2i canvas_coord;
+  Vector2d desired_world_coord;
   canvas_coord << 10, 50;
   desired_world_coord << 0.2, 1;
   ASSERT_TRUE(CanvasToWorld(canvas_coord, 0.02).isApprox(desired_world_coord));
-  ASSERT_TRUE(CanvasToWorld(Coordinate(canvas_coord), 0.02) ==
-              Coordinate(0.2, 1));
 }
 
 TEST_F(TransformsTest, WorldToCanvas) {
   // Trivial conversion.
-  ASSERT_TRUE(WorldToCanvas(Vector2d::Zero(), 1.).isApprox(Vector2d::Zero()));
-  ASSERT_TRUE(WorldToCanvas(Coordinate(0, 0), 1.) == Coordinate(0, 0));
+  ASSERT_TRUE(WorldToCanvas(Vector2d::Zero(), 1.).isApprox(Vector2i::Zero()));
 
   // Test conversion without bounds checking.
-  Vector2d world_coord, desired_canvas_coord;
+  Vector2d world_coord;
+  Vector2i desired_canvas_coord;
   world_coord << -1., 10.;
   desired_canvas_coord << -50, 500;
   ASSERT_TRUE(WorldToCanvas(world_coord, 0.02).isApprox(desired_canvas_coord));
-  ASSERT_TRUE(WorldToCanvas(Coordinate(world_coord), 0.02) ==
-              Coordinate(-50, 500));
 
   // Bounds checking.
   vector<int> canvas_size = {5, 5};
   ASSERT_TRUE(WorldToCanvas(world_coord, 0.02, canvas_size)
-                  .isApprox(-1. * Vector2d::Ones()));
-  ASSERT_TRUE(WorldToCanvas(Coordinate(world_coord), 0.02, canvas_size) ==
-              Coordinate(-1, -1));
+                  .isApprox(-1 * Vector2i::Ones()));
 
   // More bounds.
   world_coord(0) = 2.;
   ASSERT_TRUE(WorldToCanvas(world_coord, 0.02, canvas_size)
-                  .isApprox(-1. * Vector2d::Ones()));
-  ASSERT_TRUE(WorldToCanvas(Coordinate(world_coord), 0.02, canvas_size) ==
-              Coordinate(-1, -1));
+                  .isApprox(-1 * Vector2i::Ones()));
 }
 
 }  // namespace
