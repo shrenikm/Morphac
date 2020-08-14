@@ -22,37 +22,37 @@ class Footprint {
 
   const Eigen::MatrixXd& get_data() const;
 
-  static Footprint OffsetFootprint(const Footprint& footprint,
-                                   const Eigen::Vector2d& center);
-  static Footprint OffsetFootprint(
-      const Footprint& footprint,
-      const morphac::constructs::Coordinate& center);
+  //static Footprint OffsetFootprint(const Footprint& footprint,
+  //                                 const Eigen::Vector2d& center);
+  //static Footprint OffsetFootprint(
+  //    const Footprint& footprint,
+  //    const morphac::constructs::Coordinate& center);
 
-  static Footprint CreateRectangularFootprint(
-      const double size_x, const double size_y,
-      const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
-  static Footprint CreateRectangularFootprint(
-      const double size_x, const double size_y,
-      const morphac::constructs::Coordinate& center =
-          morphac::constructs::Coordinate());
+  //static Footprint CreateRectangularFootprint(
+  //    const double size_x, const double size_y,
+  //    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+  //static Footprint CreateRectangularFootprint(
+  //    const double size_x, const double size_y,
+  //    const morphac::constructs::Coordinate& center =
+  //        morphac::constructs::Coordinate());
 
-  static Footprint CreateCircularFootprint(
-      const double radius, const double angular_resolution,
-      const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
-  static Footprint CreateCircularFootprint(
-      const double radius, const double angular_resolution,
-      const morphac::constructs::Coordinate& center =
-          morphac::constructs::Coordinate());
+  //static Footprint CreateCircularFootprint(
+  //    const double radius, const double angular_resolution,
+  //    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+  //static Footprint CreateCircularFootprint(
+  //    const double radius, const double angular_resolution,
+  //    const morphac::constructs::Coordinate& center =
+  //        morphac::constructs::Coordinate());
 
-  static Footprint CreateRoundedRectangularFootprint(
-      const double size_x, const double size_y, const double radius,
-      const double angular_resolution,
-      const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
-  static Footprint CreateRoundedRectangularFootprint(
-      const double size_x, const double size_y, const double radius,
-      const double angular_resolution,
-      const morphac::constructs::Coordinate& center =
-          morphac::constructs::Coordinate());
+  //static Footprint CreateRoundedRectangularFootprint(
+  //    const double size_x, const double size_y, const double radius,
+  //    const double angular_resolution,
+  //    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+  //static Footprint CreateRoundedRectangularFootprint(
+  //    const double size_x, const double size_y, const double radius,
+  //    const double angular_resolution,
+  //    const morphac::constructs::Coordinate& center =
+  //        morphac::constructs::Coordinate());
 
  private:
   Eigen::MatrixXd data_;

@@ -31,6 +31,7 @@ add_subdirectory(binding)
 set(UTILS_SRC
 
   angle_utils.cc
+  geometry_utils.cc
   integrator_utils.cc
 )
 
@@ -54,6 +55,11 @@ foreach(file ${UTILS_SRC})
 endforeach()
 
 # Adding library dependencies.
+target_link_libraries(geometry_utils
+  PUBLIC
+  transforms
+)
+
 target_link_libraries(integrator_utils
   PUBLIC
   integrator
