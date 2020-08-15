@@ -18,8 +18,6 @@ using morphac::utils::HomogenizePoints;
 using morphac::utils::TransformPoints;
 using morphac::utils::UnHomogenizePoints;
 
-// double precision = 1e-3;
-
 TEST(GeometryUtilsTest, HomogenizePoints) {
   srand(7);
   Points points = Points::Random(10, 2);
