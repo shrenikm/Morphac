@@ -14,7 +14,9 @@
 namespace morphac {
 namespace utils {
 
-Points HomogenizePoints(const Points& points);
+HomogeneousPoints HomogenizePoints(const Points& points);
+
+Points UnHomogenizePoints(const HomogeneousPoints& homogenous_points);
 
 Points TransformPoints(const Points& points, const double angle,
                        const Eigen::Vector2d& translation);
