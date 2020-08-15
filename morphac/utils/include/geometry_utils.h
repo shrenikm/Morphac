@@ -7,35 +7,35 @@
 
 #include "Eigen/Dense"
 
+#include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
 #include "math/transforms/include/transforms.h"
 
 namespace morphac {
 namespace utils {
 
-Eigen::MatrixXd TransformPoints(const Eigen::MatrixXd& polygon,
-                                 const double angle,
-                                 const Eigen::Vector2d& translation);
+Points HomogenizePoints(const Points& points);
 
-Eigen::MatrixXd CreateRectangularPolygon(const double size_x,
-                                         const double size_y,
-                                         const double angle,
-                                         const Eigen::Vector2d& center);
+Points TransformPoints(const Points& points, const double angle,
+                       const Eigen::Vector2d& translation);
 
-Eigen::MatrixXd CreateArc(const double start_angle, const double end_angle,
-                          const double radius, const double angular_resolution,
-                          const Eigen::Vector2d& center);
+Points CreateRectangularPolygon(const double size_x, const double size_y,
+                                const double angle,
+                                const Eigen::Vector2d& center);
 
-Eigen::MatrixXd CreateCircularPolygon(const double radius,
-                                      const double angular_resolution,
-                                      const Eigen::Vector2d& center);
+Points CreateArc(const double start_angle, const double end_angle,
+                 const double radius, const double angular_resolution,
+                 const Eigen::Vector2d& center);
 
-Eigen::MatrixXd CreateRoundedRectangularPolygon(const double size_x,
-                                                const double size_y,
-                                                const double radius,
-                                                const double angular_resolution,
-                                                const double angle,
-                                                const Eigen::Vector2d& center);
+Points CreateCircularPolygon(const double radius,
+                             const double angular_resolution,
+                             const Eigen::Vector2d& center);
+
+Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
+                                       const double radius,
+                                       const double angular_resolution,
+                                       const double angle,
+                                       const Eigen::Vector2d& center);
 
 }  // namespace utils
 }  // namespace morphac

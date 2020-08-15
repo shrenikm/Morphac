@@ -5,37 +5,34 @@ namespace utils {
 
 using std::fabs;
 
-using Eigen::MatrixXd;
 using Eigen::Vector2d;
 using Eigen::VectorXd;
 
 using morphac::math::transforms::TransformationMatrix;
 
-MatrixXd TransformPoints(const MatrixXd& polygon, const double angle,
-                         const Vector2d& translation) {
-  MORPH_REQUIRE(polygon.rows() > 0 && polygon.cols() == 2,
-                std::invalid_argument, "The polygon must be of size n x 2.");
-  return (TransformationMatrix(angle, translation) * polygon.transpose())
+Points TransformPoints(const Points& points, const double angle,
+                       const Vector2d& translation) {
+  return (TransformationMatrix(angle, translation) * points.transpose())
       .transpose();
 }
 
-MatrixXd CreateRectangularPolygon(const double size_x, const double size_y,
-                                  const double angle, const Vector2d& center) {
-  MatrixXd polygon(4, 2);
+Points CreateRectangularPolygon(const double size_x, const double size_y,
+                                const double angle, const Vector2d& center) {
+  Points polygon(4, 2);
   polygon << -size_x / 2, size_y / 2, size_x / 2, size_y / 2, size_x / 2,
       -size_y / 2, -size_x / 2, -size_y / 2;
 
   return TransformPoints(polygon, angle, center);
 }
 
-MatrixXd CreateArc(const double start_angle, const double end_angle,
-                   const double radius, const double angular_resolution,
-                   const Vector2d& center) {
+Points CreateArc(const double start_angle, const double end_angle,
+                 const double radius, const double angular_resolution,
+                 const Vector2d& center) {
   // We have num_points * angular_resolution = 2 * pi (360 degrees).
   int num_points =
       std::round(fabs(end_angle - start_angle) / angular_resolution);
 
-  MatrixXd arc(num_points, 2);
+  Points arc(num_points, 2);
 
   VectorXd angles = VectorXd::LinSpaced(num_points, start_angle, end_angle);
 
@@ -48,21 +45,20 @@ MatrixXd CreateArc(const double start_angle, const double end_angle,
   return TransformPoints(arc, 0., center);
 }
 
-MatrixXd CreateCircularPolygon(const double radius,
-                               const double angular_resolution,
-                               const Vector2d& center) {
+Points CreateCircularPolygon(const double radius,
+                             const double angular_resolution,
+                             const Vector2d& center) {
   // A circle is basically an arc from 0 to 2 * pi. We make sure that both 0 and
   // 2 * pi isn't included as we don't want duplicate corners in the polygon.
   return CreateArc(0., 2 * M_PI - angular_resolution, radius,
                    angular_resolution, center);
 }
 
-MatrixXd CreateRoundedRectangularPolygon(const double size_x,
-                                         const double size_y,
-                                         const double radius,
-                                         const double angular_resolution,
-                                         const double angle,
-                                         const Vector2d& center) {
+Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
+                                       const double radius,
+                                       const double angular_resolution,
+                                       const double angle,
+                                       const Vector2d& center) {
   MORPH_REQUIRE(radius <= (size_x / 2) && radius <= (size_y / 2),
                 std::invalid_argument,
                 "The radius is too large compared to the rectangle sizes.");
@@ -71,19 +67,19 @@ MatrixXd CreateRoundedRectangularPolygon(const double size_x,
 
   // Computing the centers of the arcs. This is basically the corners of a
   // rectangle with sizes - 2 * radius.
-  MatrixXd centers = CreateRectangularPolygon(
+  Points centers = CreateRectangularPolygon(
       size_x - 2 * radius, size_y - 2 * radius, 0, Vector2d::Zero());
 
-  MatrixXd arc1 = CreateArc(M_PI, M_PI / 2, radius, angular_resolution,
-                            centers.row(0).transpose());
-  MatrixXd arc2 = CreateArc(M_PI / 2, 0 / 2, radius, angular_resolution,
-                            centers.row(1).transpose());
-  MatrixXd arc3 = CreateArc(0, -M_PI / 2 / 2, radius, angular_resolution,
-                            centers.row(2).transpose());
-  MatrixXd arc4 = CreateArc(-M_PI / 2, -M_PI, radius, angular_resolution,
-                            centers.row(3).transpose());
+  Points arc1 = CreateArc(M_PI, M_PI / 2, radius, angular_resolution,
+                          centers.row(0).transpose());
+  Points arc2 = CreateArc(M_PI / 2, 0 / 2, radius, angular_resolution,
+                          centers.row(1).transpose());
+  Points arc3 = CreateArc(0, -M_PI / 2 / 2, radius, angular_resolution,
+                          centers.row(2).transpose());
+  Points arc4 = CreateArc(-M_PI / 2, -M_PI, radius, angular_resolution,
+                          centers.row(3).transpose());
 
-  MatrixXd polygon(arc1.rows() + arc2.rows() + arc3.rows() + arc4.rows(), 2);
+  Points polygon(arc1.rows() + arc2.rows() + arc3.rows() + arc4.rows(), 2);
   polygon << arc1, arc2, arc3, arc4;
 
   return TransformPoints(polygon, angle, center);
