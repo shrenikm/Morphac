@@ -19,6 +19,10 @@ Points UnHomogenizePoints(const HomogeneousPoints& homogeneous_points) {
   return homogeneous_points.block(0, 0, homogeneous_points.rows(), 2);
 }
 
+Points TranslatePoints(const Points& points, const Vector2d& translation) {
+  return points.rowwise() + translation.transpose();
+}
+
 Points TransformPoints(const Points& points, const double angle,
                        const Vector2d& translation) {
   return UnHomogenizePoints((TransformationMatrix(angle, translation) *

@@ -18,11 +18,11 @@ HomogeneousPoints HomogenizePoints(const Points& points);
 
 Points UnHomogenizePoints(const HomogeneousPoints& homogenous_points);
 
-Points RotatePoints(const Points& points, const double angle,
-                    const Eigen::Vector2d& center);
-
 Points TranslatePoints(const Points& points,
                        const Eigen::Vector2d& translation);
+
+Points RotatePoints(const Points& points, const double angle,
+                    const Eigen::Vector2d& center);
 
 Points TransformPoints(const Points& points, const double angle,
                        const Eigen::Vector2d& translation);
