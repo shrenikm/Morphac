@@ -33,6 +33,7 @@ set(UTILS_SRC
   angle_utils.cc
   geometry_utils.cc
   integrator_utils.cc
+  transforms_utils.cc
 )
 
 foreach(file ${UTILS_SRC})
@@ -57,7 +58,7 @@ endforeach()
 # Adding library dependencies.
 target_link_libraries(geometry_utils
   PUBLIC
-  transforms
+  transforms_utils
 )
 
 target_link_libraries(integrator_utils
@@ -69,6 +70,11 @@ target_link_libraries(integrator_utils
   kinematic_model
 )
 
+target_link_libraries(transforms_utils
+  PUBLIC
+  transforms
+)
+
 
 # Tests
 # -------------------------------------------------
@@ -77,8 +83,8 @@ target_link_libraries(integrator_utils
 set(UTILS_TEST_SRC
 
   angle_utils_test.cc
-  geometry_utils_test.cc
   integrator_utils_test.cc
+  transforms_utils_test.cc
 )
 
 # Creating the test executables.
@@ -104,18 +110,18 @@ target_link_libraries(angle_utils_test
   angle_utils
 )
 
-target_link_libraries(geometry_utils_test
-  PUBLIC
-  gtest_main
-  geometry_utils
-)
-
 target_link_libraries(integrator_utils_test
   PUBLIC
   gtest_main
   integrator_utils
   integrator
   diffdrive_model
+)
+
+target_link_libraries(transforms_utils_test
+  PUBLIC
+  gtest_main
+  transforms_utils
 )
 
 

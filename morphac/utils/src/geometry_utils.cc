@@ -9,23 +9,9 @@ using Eigen::Vector2d;
 using Eigen::VectorXd;
 
 using morphac::math::transforms::TransformationMatrix;
-
-HomogeneousPoints HomogenizePoints(const Points& points) {
-  HomogeneousPoints homogeneous_points(points.rows(), 3);
-  homogeneous_points << points, VectorXd::Ones(points.rows());
-  return homogeneous_points;
-}
-
-Points UnHomogenizePoints(const HomogeneousPoints& homogeneous_points) {
-  return homogeneous_points.block(0, 0, homogeneous_points.rows(), 2);
-}
-
-Points TransformPoints(const Points& points, const double angle,
-                       const Vector2d& translation) {
-  return UnHomogenizePoints((TransformationMatrix(angle, translation) *
-                             HomogenizePoints(points).transpose())
-                                .transpose());
-}
+using morphac::utils::HomogenizePoints;
+using morphac::utils::TransformPoints;
+using morphac::utils::UnHomogenizePoints;
 
 Points CreateRectangularPolygon(const double size_x, const double size_y,
                                 const double angle, const Vector2d& center) {
