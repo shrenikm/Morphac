@@ -60,6 +60,25 @@ TEST_F(TransformsUtilsTest, TranslatePoints) {
   }
 }
 
+TEST_F(TransformsUtilsTest, RotatePoints) {
+  Points rotated_cube1(4, 2), rotated_cube2(4, 2);
+
+  // Testing the default rotation without providing a center.
+  rotated_cube1 << 0, 2 * sqrt(2), 2 * sqrt(2), 0, 0, -2 * sqrt(2),
+      -2 * sqrt(2), 0;
+
+  ASSERT_TRUE(RotatePoints(cube_, -M_PI / 4).isApprox(rotated_cube1));
+
+  // Testing rotation about a center.
+  rotated_cube2 << -2 - 2 * sqrt(2), -2 + 2 * sqrt(2), -2, -2 + 4 * sqrt(2),
+      -2 + 2 * sqrt(2), -2 + 2 * sqrt(2), -2, -2;
+
+  std::cout << RotatePoints(cube_, M_PI / 4, Vector2d{-2, -2}) << std::endl;
+
+  ASSERT_TRUE(
+      RotatePoints(cube_, M_PI / 4, Vector2d{-2, -2}).isApprox(rotated_cube2));
+}
+
 TEST_F(TransformsUtilsTest, TransformPoints) {
   // A square polygon for testing.
   MatrixXd points(4, 2), rotated_points(4, 2), translated_points(4, 2),

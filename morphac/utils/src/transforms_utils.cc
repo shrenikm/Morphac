@@ -29,7 +29,8 @@ Points RotatePoints(const Points& points, const double angle,
   Points rotated_points = TranslatePoints(points, -center);
 
   // Now we rotate.
-  rotated_points = (RotationMatrix(angle) * points.transpose()).transpose();
+  rotated_points =
+      (RotationMatrix(angle) * rotated_points.transpose()).transpose();
 
   // Translating back.
   return TranslatePoints(rotated_points, center);
