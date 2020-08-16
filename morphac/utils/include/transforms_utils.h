@@ -22,7 +22,7 @@ Points TranslatePoints(const Points& points,
                        const Eigen::Vector2d& translation);
 
 Points RotatePoints(const Points& points, const double angle,
-                    const Eigen::Vector2d& center);
+                    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
 
 Points TransformPoints(const Points& points, const double angle,
                        const Eigen::Vector2d& translation);

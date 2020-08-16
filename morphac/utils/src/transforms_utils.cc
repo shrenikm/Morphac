@@ -23,6 +23,18 @@ Points TranslatePoints(const Points& points, const Vector2d& translation) {
   return points.rowwise() + translation.transpose();
 }
 
+Points RotatePoints(const Points& points, const double angle,
+                    const Vector2d& center) {
+  // First we translate such that the center is now the origin.
+  Points rotated_points = TranslatePoints(points, -center);
+
+  // Now we rotate.
+  rotated_points = (RotationMatrix(angle) * points.transpose()).transpose();
+
+  // Translating back.
+  return TranslatePoints(rotated_points, center);
+}
+
 Points TransformPoints(const Points& points, const double angle,
                        const Vector2d& translation) {
   return UnHomogenizePoints((TransformationMatrix(angle, translation) *
