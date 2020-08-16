@@ -73,17 +73,14 @@ TEST_F(TransformsUtilsTest, RotatePoints) {
   rotated_cube2 << -2 - 2 * sqrt(2), -2 + 2 * sqrt(2), -2, -2 + 4 * sqrt(2),
       -2 + 2 * sqrt(2), -2 + 2 * sqrt(2), -2, -2;
 
-  std::cout << RotatePoints(cube_, M_PI / 4, Vector2d{-2, -2}) << std::endl;
-
   ASSERT_TRUE(
       RotatePoints(cube_, M_PI / 4, Vector2d{-2, -2}).isApprox(rotated_cube2));
 }
 
 TEST_F(TransformsUtilsTest, TransformPoints) {
   // A square polygon for testing.
-  MatrixXd points(4, 2), rotated_points(4, 2), translated_points(4, 2),
+  MatrixXd rotated_points(4, 2), translated_points(4, 2),
       transformed_points(4, 2);
-  points << -2, 2, 2, 2, 2, -2, -2, -2;
   rotated_points << 0, 2 * sqrt(2), 2 * sqrt(2), 0, 0, -2 * sqrt(2),
       -2 * sqrt(2), 0;
   translated_points << 1, 4, 5, 4, 5, 0, 1, 0;
@@ -91,33 +88,34 @@ TEST_F(TransformsUtilsTest, TransformPoints) {
       -2 * sqrt(2), 7.;
 
   // Test identity transformation.
-  ASSERT_TRUE(TransformPoints(points, 0., Vector2d::Zero()).isApprox(points));
+  ASSERT_TRUE(TransformPoints(cube_, 0., Vector2d::Zero()).isApprox(cube_));
 
   // Test rotation.
-  ASSERT_TRUE(TransformPoints(points, -M_PI / 4, Vector2d::Zero())
+  ASSERT_TRUE(TransformPoints(cube_, -M_PI / 4, Vector2d::Zero())
                   .isApprox(rotated_points));
   // Invariance.
   ASSERT_TRUE(
-      TransformPoints(TransformPoints(points, M_PI / 3, Vector2d::Zero()),
+      TransformPoints(TransformPoints(cube_, M_PI / 3, Vector2d::Zero()),
                       -M_PI / 3, Vector2d::Zero())
-          .isApprox(points));
+          .isApprox(cube_));
 
   // Test translation.
-  ASSERT_TRUE(TransformPoints(points, 0., Vector2d{3., 2.})
-                  .isApprox(translated_points));
+  ASSERT_TRUE(
+      TransformPoints(cube_, 0., Vector2d{3., 2.}).isApprox(translated_points));
   // Invariance.
-  ASSERT_TRUE(TransformPoints(TransformPoints(points, 0., Vector2d{-8., 13.}),
+  ASSERT_TRUE(TransformPoints(TransformPoints(cube_, 0., Vector2d{-8., 13.}),
                               0., Vector2d{8., -13.})
-                  .isApprox(points));
+                  .isApprox(cube_));
 
   // Transformation.
-  ASSERT_TRUE(TransformPoints(points, -M_PI / 4, Vector2d{0., 7.})
+  ASSERT_TRUE(TransformPoints(cube_, -M_PI / 4, Vector2d{0., 7.})
                   .isApprox(transformed_points));
   // Invariance.
-  // ASSERT_TRUE(
-  //    TransformPoints(TransformPoints(points, -M_PI / 4, Vector2d{0., 7.}),
-  //                    M_PI / 4, Vector2d{0., -7.})
-  //        .isApprox(points));
+  ASSERT_TRUE(TransformPoints(TransformPoints(TransformPoints(cube_, -M_PI / 4,
+                                                              Vector2d{0., 7.}),
+                                              0., Vector2d{0., -7.}),
+                              M_PI / 4, Vector2d::Zero())
+                  .isApprox(cube_));
 }
 
 }  // namespace
