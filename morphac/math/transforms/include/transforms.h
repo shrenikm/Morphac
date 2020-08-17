@@ -21,10 +21,10 @@ const Eigen::MatrixXd RotationMatrix(const double angle);
 const Eigen::MatrixXd TransformationMatrix(const double angle,
                                            const Eigen::Vector2d& translation);
 
-const Eigen::Vector2d CanvasToWorld(const Eigen::Vector2i& canvas_coord,
+Eigen::Vector2d CanvasToWorld(const Eigen::Vector2i& canvas_coord,
                                     const double resolution);
 
-const Eigen::Vector2i WorldToCanvas(const Eigen::Vector2d& world_coord,
+Eigen::Vector2i WorldToCanvas(const Eigen::Vector2d& world_coord,
                                     const double resolution,
                                     const std::vector<int>& canvas_size = {});
 

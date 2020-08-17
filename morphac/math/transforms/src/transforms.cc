@@ -30,16 +30,14 @@ const MatrixXd TransformationMatrix(const double angle,
   return transformation_matrix;
 }
 
-const Vector2d CanvasToWorld(const Vector2i& canvas_coord,
-                             const double resolution) {
+Vector2d CanvasToWorld(const Vector2i& canvas_coord, const double resolution) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
                 "Resolution must be positive.");
   return resolution * canvas_coord.cast<double>();
 }
 
-const Vector2i WorldToCanvas(const Vector2d& world_coord,
-                             const double resolution,
-                             const vector<int>& canvas_size) {
+Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
+                       const vector<int>& canvas_size) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
                 "Resolution must be positive.");
   Vector2i canvas_coord =

@@ -83,6 +83,7 @@ target_link_libraries(transforms_utils
 set(UTILS_TEST_SRC
 
   angle_utils_test.cc
+  geometry_utils_test.cc
   integrator_utils_test.cc
   transforms_utils_test.cc
 )
@@ -108,6 +109,12 @@ target_link_libraries(angle_utils_test
   PUBLIC
   gtest_main
   angle_utils
+)
+
+target_link_libraries(geometry_utils_test
+  PUBLIC
+  gtest_main
+  geometry_utils
 )
 
 target_link_libraries(integrator_utils_test
