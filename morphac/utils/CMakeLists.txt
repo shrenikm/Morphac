@@ -86,6 +86,7 @@ set(UTILS_TEST_SRC
   angle_utils_test.cc
   geometry_utils_test.cc
   integrator_utils_test.cc
+	numeric_utils_test.cc
   transforms_utils_test.cc
 )
 
@@ -124,6 +125,12 @@ target_link_libraries(integrator_utils_test
   integrator_utils
   integrator
   diffdrive_model
+)
+
+target_link_libraries(numeric_utils_test
+	PUBLIC
+	gtest_main
+	numeric_utils
 )
 
 target_link_libraries(transforms_utils_test
