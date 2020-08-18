@@ -33,6 +33,7 @@ set(UTILS_SRC
   angle_utils.cc
   geometry_utils.cc
   integrator_utils.cc
+  numeric_utils.cc
   transforms_utils.cc
 )
 
