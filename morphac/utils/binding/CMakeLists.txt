@@ -18,6 +18,7 @@ set(UTILS_BINDING_FILES
 
   angle_utils_binding.cc
   integrator_utils_binding.cc
+  numeric_utils_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -52,6 +53,7 @@ target_link_libraries(${python_target}
   PUBLIC
   angle_utils
   integrator_utils
+  numeric_utils
 )
 
 # Setting binding target properties.
