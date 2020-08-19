@@ -52,6 +52,13 @@ foreach(file ${GEOMETRY_SRC})
   )
 endforeach()
 
+# Adding library dependencies.
+
+target_link_libraries(lines
+  PUBLIC
+  numeric_utils
+)
+
 
 # Tests
 # -------------------------------------------------

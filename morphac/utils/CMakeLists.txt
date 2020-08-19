@@ -57,6 +57,7 @@ foreach(file ${UTILS_SRC})
 endforeach()
 
 # Adding library dependencies.
+
 target_link_libraries(geometry_utils
   PUBLIC
   transforms_utils

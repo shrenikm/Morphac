@@ -7,6 +7,8 @@
 
 #include "Eigen/Dense"
 
+#include "utils/include/numeric_utils.h"
+
 namespace morphac {
 namespace math {
 namespace geometry {
