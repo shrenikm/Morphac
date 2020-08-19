@@ -4,6 +4,7 @@ namespace morphac {
 namespace math {
 namespace geometry {
 
+using std::isinf;
 using std::numeric_limits;
 
 using Eigen::Vector2d;
@@ -38,6 +39,47 @@ LineSpec ComputeLineSpec(const Vector2d& start_point,
   }
 
   return LineSpec{a, b, c, slope};
+}
+
+bool AreLinesParallel(const LineSpec& line_spec1, const LineSpec& line_spec2) {
+  // The only special condition is when either of the slopes are infinity, and
+  // we are better off using the == operator for comparison.
+  if (isinf(line_spec1.slope) || isinf(line_spec2.slope)) {
+    return line_spec1.slope == line_spec2.slope;
+  }
+
+  return IsEqual(line_spec1.slope, line_spec2.slope);
+}
+
+bool AreLinesParallel(const Vector2d& start_point1, const Vector2d& end_point1,
+                      const Vector2d& start_point2,
+                      const Vector2d& end_point2) {
+  return AreLinesParallel(ComputeLineSpec(start_point1, end_point1),
+                          ComputeLineSpec(start_point2, end_point2));
+}
+
+bool AreLinesPerpendicular(const LineSpec& line_spec1,
+                           const LineSpec& line_spec2) {
+  // The only special condition is when one of the slopes is infinity and the
+  // other is zero. In this case, they are perpendicular.
+  if ((isinf(line_spec1.slope) && IsEqual(line_spec2.slope, 0.)) ||
+      ((IsEqual(line_spec1.slope, 0.) && isinf(line_spec2.slope)))) {
+    return true;
+  }
+
+  if (IsEqual(line_spec1.slope * line_spec2.slope, -1)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool AreLinesPerpendicular(const Vector2d& start_point1,
+                           const Vector2d& end_point1,
+                           const Vector2d& start_point2,
+                           const Vector2d& end_point2) {
+  return AreLinesPerpendicular(ComputeLineSpec(start_point1, end_point1),
+                               ComputeLineSpec(start_point2, end_point2));
 }
 
 }  // namespace geometry

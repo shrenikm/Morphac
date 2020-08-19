@@ -35,6 +35,14 @@ bool AreLinesParallel(const Eigen::Vector2d& start_point1,
                       const Eigen::Vector2d& start_point2,
                       const Eigen::Vector2d& end_point2);
 
+bool AreLinesPerpendicular(const LineSpec& line_spec1,
+                           const LineSpec& line_spec2);
+
+bool AreLinesPerpendicular(const Eigen::Vector2d& start_point1,
+                           const Eigen::Vector2d& end_point1,
+                           const Eigen::Vector2d& start_point2,
+                           const Eigen::Vector2d& end_point2);
+
 }  // namespace geometry
 }  // namespace math
 }  // namespace morphac
