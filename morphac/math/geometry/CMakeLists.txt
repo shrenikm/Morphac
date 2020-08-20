@@ -63,31 +63,31 @@ target_link_libraries(lines
 # Tests
 # -------------------------------------------------
 
-## Geometry test source files.
-#set(GEOMETRY_TEST_SRC
-#
-#  lines_test.cc
-#)
-#
-## Creating the test executables.
-#foreach(file ${GEOMETRY_TEST_SRC})
-#  get_filename_component(test_name
-#    ${file} NAME_WE
-#  )
-#
-#  add_executable(
-#    ${test_name}
-#    ${GEOMETRY_TEST_DIR}/${file}
-#  )
-#
-#  add_test(NAME ${test_name}
-#    COMMAND ${test_name}
-#  )
-#endforeach()
-#
-## Linking depending libraries.
-#target_link_libraries(lines_test
-#  PUBLIC
-#  gtest_main
-#  lines
-#)
+# Geometry test source files.
+set(GEOMETRY_TEST_SRC
+
+  lines_test.cc
+)
+
+# Creating the test executables.
+foreach(file ${GEOMETRY_TEST_SRC})
+  get_filename_component(test_name
+    ${file} NAME_WE
+  )
+
+  add_executable(
+    ${test_name}
+    ${GEOMETRY_TEST_DIR}/${file}
+  )
+
+  add_test(NAME ${test_name}
+    COMMAND ${test_name}
+  )
+endforeach()
+
+# Linking depending libraries.
+target_link_libraries(lines_test
+  PUBLIC
+  gtest_main
+  lines
+)

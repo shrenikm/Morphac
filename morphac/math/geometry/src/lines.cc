@@ -4,8 +4,12 @@ namespace morphac {
 namespace math {
 namespace geometry {
 
+using std::endl;
 using std::isinf;
 using std::numeric_limits;
+using std::ostream;
+using std::ostringstream;
+using std::string;
 
 using Eigen::Vector2d;
 
@@ -20,6 +24,18 @@ bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
 
 bool operator!=(const LineSpec& line_spec1, const LineSpec& line_spec2) {
   return !(line_spec1 == line_spec2);
+}
+
+ostream& operator<<(ostream& os, const LineSpec& line_spec) {
+  os << "LineSpec[" << line_spec.a << " " << line_spec.b << " " << line_spec.c
+     << " " << line_spec.slope << "]";
+  return os;
+}
+
+string LineSpec::ToString() const {
+  ostringstream os;
+  os << *this;
+  return os.str();
 }
 
 LineSpec ComputeLineSpec(const Vector2d& start_point,
@@ -53,12 +69,6 @@ LineSpec ComputeLineSpec(const Vector2d& start_point,
 }
 
 bool AreLinesParallel(const LineSpec& line_spec1, const LineSpec& line_spec2) {
-  // The only special condition is when either of the slopes are infinity, and
-  // we are better off using the == operator for comparison.
-  if (isinf(line_spec1.slope) || isinf(line_spec2.slope)) {
-    return line_spec1.slope == line_spec2.slope;
-  }
-
   return IsEqual(line_spec1.slope, line_spec2.slope);
 }
 

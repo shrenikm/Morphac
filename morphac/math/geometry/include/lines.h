@@ -3,7 +3,8 @@
 
 #define _USE_MATH_DEFINES
 
-#include <math.h>
+#include <cmath>
+#include <sstream>
 
 #include "Eigen/Dense"
 
@@ -23,12 +24,21 @@ struct LineSpec {
   const double b;
   const double c;
   const double slope;
-};
 
-// Comparison operators for LineSpec. We define these ourselves so that we can
-// use our float comparison functions to ensure robust checking.
-bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2);
-bool operator!=(const LineSpec& line_spec1, const LineSpec& line_spec2);
+  // Comparison operators for LineSpec. We define these ourselves so that we can
+  // use our float comparison functions to ensure robust checking.
+  // We could also make these non friend, but we make the decision to packaging
+  // it all up inside the class.
+  friend bool operator==(const LineSpec& line_spec1,
+                         const LineSpec& line_spec2);
+  friend bool operator!=(const LineSpec& line_spec1,
+                         const LineSpec& line_spec2);
+
+  friend std::ostream& operator<<(std::ostream& os, const LineSpec& line_spec);
+  // String representation that uses the << overload.
+  // This is what the python binding uses.
+  std::string ToString() const;
+};
 
 LineSpec ComputeLineSpec(const Eigen::Vector2d& start_point,
                          const Eigen::Vector2d& end_point);
