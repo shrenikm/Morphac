@@ -24,8 +24,8 @@ class LinesTest : public ::testing::Test {
   void SetUp() override {}
 
   // Some standard lines defined by LineSpec.
+  LineSpec line_spec2_{0, 0, 0};
   LineSpec line_spec1_{1, 0, 0, numeric_limits<double>::infinity()};
-  LineSpec line_spec2_{0, 1, 0, 0};
   LineSpec line_spec3_{1, 1, 0, 0};
   LineSpec line_spec4_{-1, 1, 0, 0};
 };

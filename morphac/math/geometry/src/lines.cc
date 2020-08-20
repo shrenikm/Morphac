@@ -51,6 +51,12 @@ LineSpec ComputeLineSpec(const Vector2d& start_point,
   // The y intercept is infinity if the slope is infinity.
   if (!isinf(slope)) {
     y_intercept = start_point(1) - slope * start_point(0);
+  } else {
+    // Special case when the slope is inf and the line passes through the
+    // origin. In this case, the intercept is not infinity, but zero.
+    if (IsEqual(start_point(0), 0.)) {
+      y_intercept = 0.;
+    }
   }
 
   // The x intercept is infinity if the slope is zero.
@@ -61,6 +67,12 @@ LineSpec ComputeLineSpec(const Vector2d& start_point,
       x_intercept = start_point(0);
     } else {
       x_intercept = -y_intercept / slope;
+    }
+  } else {
+    // Special case then the slope is zero and the line passes through the
+    // origin. In this case, the intercept is not infinity, but zero.
+    if (IsEqual(start_point(1), 0.)) {
+      x_intercept = 0.;
     }
   }
 
