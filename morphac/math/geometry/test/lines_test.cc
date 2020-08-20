@@ -7,6 +7,8 @@ namespace {
 using std::numeric_limits;
 using std::ostringstream;
 
+using Eigen::Vector2d;
+
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::LineSpec;
 using morphac::math::geometry::AreLinesParallel;
@@ -46,6 +48,13 @@ TEST_F(LinesTest, StringRepresentation) {
 
   // Multiple pose object representations in the stream.
   os << " " << line_spec2_ << std::endl;
+}
+
+TEST_F(LinesTest, ComputeLineSpec) {
+  // Standard lines.
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(0., 1.)) == line_spec1_);
+  std::cout << ComputeLineSpec(Vector2d(0., -10.), Vector2d(0., 5.));
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., -10.), Vector2d(0., 5.)) == line_spec1_);
 }
 
 }  // namespace

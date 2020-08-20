@@ -48,12 +48,15 @@ LineSpec ComputeLineSpec(const Vector2d& start_point,
 
   // To avoid floating point issues, if the values are close enough to zero, we
   // set them to zero.
+  int num_zero_coeffs = 0;
   if (IsEqual(a, 0.)) {
     a = 0.;
+    num_zero_coeffs++;
   }
 
   if (IsEqual(b, 0.)) {
     b = 0.;
+    num_zero_coeffs++;
   } else {
     // The slope is well defined in this case.
     // This is because the slope is (y2 - y1) / (x2 - x1) and if
@@ -63,6 +66,7 @@ LineSpec ComputeLineSpec(const Vector2d& start_point,
 
   if (IsEqual(c, 0.)) {
     c = 0.;
+    num_zero_coeffs++;
   }
 
   return LineSpec{a, b, c, slope};
