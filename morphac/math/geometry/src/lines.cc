@@ -16,10 +16,9 @@ using Eigen::Vector2d;
 using morphac::utils::IsEqual;
 
 bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
-  return IsEqual(line_spec1.a, line_spec2.a) &&
-         IsEqual(line_spec1.b, line_spec2.b) &&
-         IsEqual(line_spec1.c, line_spec2.c) &&
-         IsEqual(line_spec1.slope, line_spec2.slope);
+  return IsEqual(line_spec1.slope, line_spec2.slope) &&
+         IsEqual(line_spec1.x_intercept, line_spec2.x_intercept) &&
+         IsEqual(line_spec1.y_intercept, line_spec2.y_intercept);
 }
 
 bool operator!=(const LineSpec& line_spec1, const LineSpec& line_spec2) {
@@ -27,8 +26,8 @@ bool operator!=(const LineSpec& line_spec1, const LineSpec& line_spec2) {
 }
 
 ostream& operator<<(ostream& os, const LineSpec& line_spec) {
-  os << "LineSpec[" << line_spec.a << " " << line_spec.b << " " << line_spec.c
-     << " " << line_spec.slope << "]";
+  os << "LineSpec[" << line_spec.slope << " " << line_spec.x_intercept << " "
+     << line_spec.y_intercept << "]";
   return os;
 }
 
@@ -40,36 +39,32 @@ string LineSpec::ToString() const {
 
 LineSpec ComputeLineSpec(const Vector2d& start_point,
                          const Vector2d& end_point) {
-  double a = end_point(1) - start_point(1);
-  double b = -(end_point(0) - start_point(0));
-  double c = (end_point(0) - start_point(0)) * start_point(1) -
-             (end_point(1) - start_point(1)) * start_point(0);
   double slope = numeric_limits<double>::infinity();
+  double x_intercept = numeric_limits<double>::infinity();
+  double y_intercept = numeric_limits<double>::infinity();
 
-  // To avoid floating point issues, if the values are close enough to zero, we
-  // set them to zero.
-  int num_zero_coeffs = 0;
-  if (IsEqual(a, 0.)) {
-    a = 0.;
-    num_zero_coeffs++;
+  if (!IsEqual(start_point(0), end_point(0))) {
+    // The slope is well defined.
+    slope = (end_point(1) - start_point(1)) / (end_point(0) - start_point(0));
   }
 
-  if (IsEqual(b, 0.)) {
-    b = 0.;
-    num_zero_coeffs++;
-  } else {
-    // The slope is well defined in this case.
-    // This is because the slope is (y2 - y1) / (x2 - x1) and if
-    // b = -(x2 - x1) != 0, we can compute the division.
-    slope = -a / b;
+  // The y intercept is infinity if the slope is infinity.
+  if (!isinf(slope)) {
+    y_intercept = start_point(1) - slope * start_point(0);
   }
 
-  if (IsEqual(c, 0.)) {
-    c = 0.;
-    num_zero_coeffs++;
+  // The x intercept is infinity if the slope is zero.
+  if (!IsEqual(slope, 0.)) {
+    // If the y intercept is also infinity, the x intercept is just the x
+    // coordinate.
+    if (isinf(y_intercept)) {
+      x_intercept = start_point(0);
+    } else {
+      x_intercept = -y_intercept / slope;
+    }
   }
 
-  return LineSpec{a, b, c, slope};
+  return LineSpec{slope, x_intercept, y_intercept};
 }
 
 bool AreLinesParallel(const LineSpec& line_spec1, const LineSpec& line_spec2) {

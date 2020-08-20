@@ -20,10 +20,9 @@ struct LineSpec {
   // which case it is better to recreate such an object.
   // This also means that we don't have copy/assignment constructors, which
   // isn't that big of an issue.
-  const double a;
-  const double b;
-  const double c;
   const double slope;
+  const double x_intercept;
+  const double y_intercept;
 
   // Comparison operators for LineSpec. We define these ourselves so that we can
   // use our float comparison functions to ensure robust checking.
