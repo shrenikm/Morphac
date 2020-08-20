@@ -25,16 +25,16 @@ class LinesTest : public ::testing::Test {
 
   // Some standard lines defined by LineSpec.
   LineSpec line_spec2_{0, 0, 0};
-  LineSpec line_spec1_{1, 0, 0, numeric_limits<double>::infinity()};
-  LineSpec line_spec3_{1, 1, 0, 0};
-  LineSpec line_spec4_{-1, 1, 0, 0};
+  LineSpec line_spec1_{numeric_limits<double>::infinity(), 0., 0};
+  LineSpec line_spec3_{1, 0, 0};
+  LineSpec line_spec4_{-1, 0, 0};
 };
 
 TEST_F(LinesTest, Equality) {
-  LineSpec l1{1., 2., 3., 0.};
-  LineSpec l2{0.5 + 0.5, 7. - 5., 18. / 6., 0.};
-  LineSpec l3{0., 0., 0., numeric_limits<double>::infinity()};
-  LineSpec l4{1. - 1., 0., 0., numeric_limits<double>::infinity()};
+  LineSpec l1{1., 2., 3.};
+  LineSpec l2{0.5 + 0.5, 7. - 5., 18. / 6.};
+  LineSpec l3{numeric_limits<double>::infinity(), 0., 0.};
+  LineSpec l4{numeric_limits<double>::infinity(), 1. - 1., 3. - 3.};
 
   ASSERT_TRUE(l1 == l2);
   ASSERT_TRUE(l3 == l4);
@@ -52,9 +52,10 @@ TEST_F(LinesTest, StringRepresentation) {
 
 TEST_F(LinesTest, ComputeLineSpec) {
   // Standard lines.
-  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(0., 1.)) == line_spec1_);
-  std::cout << ComputeLineSpec(Vector2d(0., -10.), Vector2d(0., 5.));
-  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., -10.), Vector2d(0., 5.)) == line_spec1_);
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(0., 1.)) ==
+              line_spec1_);
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., -10.), Vector2d(0., 5.)) ==
+              line_spec1_);
 }
 
 }  // namespace
