@@ -25,6 +25,11 @@ struct LineSpec {
   const double slope;
 };
 
+// Comparison operators for LineSpec. We define these ourselves so that we can
+// use our float comparison functions to ensure robust checking.
+bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2);
+bool operator!=(const LineSpec& line_spec1, const LineSpec& line_spec2);
+
 LineSpec ComputeLineSpec(const Eigen::Vector2d& start_point,
                          const Eigen::Vector2d& end_point);
 

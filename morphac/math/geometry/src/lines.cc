@@ -11,6 +11,17 @@ using Eigen::Vector2d;
 
 using morphac::utils::IsEqual;
 
+bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
+  return IsEqual(line_spec1.a, line_spec2.a) &&
+         IsEqual(line_spec1.b, line_spec2.b) &&
+         IsEqual(line_spec1.c, line_spec2.c) &&
+         IsEqual(line_spec1.slope, line_spec2.slope);
+}
+
+bool operator!=(const LineSpec& line_spec1, const LineSpec& line_spec2) {
+  return !(line_spec1 == line_spec2);
+}
+
 LineSpec ComputeLineSpec(const Vector2d& start_point,
                          const Vector2d& end_point) {
   double a = end_point(1) - start_point(1);
