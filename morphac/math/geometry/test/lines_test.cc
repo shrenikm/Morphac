@@ -4,8 +4,10 @@
 
 namespace {
 
+using std::atan2;
 using std::numeric_limits;
 using std::ostringstream;
+using std::tan;
 
 using Eigen::Vector2d;
 
@@ -86,6 +88,19 @@ TEST_F(LinesTest, ComputeAxesLineSpec) {
               LineSpec(Infinity<double>, 7., Infinity<double>));
   ASSERT_TRUE(ComputeLineSpec(Vector2d(-7., -2.), Vector2d(-7., 2.)) ==
               LineSpec(Infinity<double>, -7., Infinity<double>));
+}
+
+TEST_F(LinesTest, ComputeCustomLineSpec) {
+  // Tests LineSpecs of custom lines.
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 2.), Vector2d(5., 7.)) ==
+              LineSpec(1., -2., 2.));
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-3., 0.), Vector2d(-8., 5.)) ==
+              LineSpec(-1., -3., -3.));
+
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(9., 0.), Vector2d(0., 3.)) ==
+              LineSpec(tan(M_PI - atan2(3., 9.)), 9., 3.));
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-12., 0.), Vector2d(0., 21.)) ==
+              LineSpec(21. / 12., -12., 21.));
 }
 
 }  // namespace
