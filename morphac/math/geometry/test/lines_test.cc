@@ -103,6 +103,47 @@ TEST_F(LinesTest, ComputeCustomLineSpec) {
               LineSpec(21. / 12., -12., 21.));
 }
 
+TEST_F(LinesTest, AreLinesParallel) {
+  // We don't test the LineSpec overload as that gets called internally anyway.
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(1., 0.),
+                               Vector2d(-5., 0.), Vector2d(-2., 0.)));
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(1., 0.),
+                               Vector2d(-2., 10.), Vector2d(2., 10.)));
+
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(0., 1.),
+                               Vector2d(0., 10.), Vector2d(0., 20.)));
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(0., 1.),
+                               Vector2d(-10., -2.), Vector2d(-10, 2.)));
+
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(1., 1.),
+                               Vector2d(2., 2.), Vector2d(4., 4.)));
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(1., 1.),
+                               Vector2d(-5., 0.), Vector2d(15., 20.)));
+
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(-1., 1.),
+                               Vector2d(-2., 2.), Vector2d(4., -4.)));
+  ASSERT_TRUE(AreLinesParallel(Vector2d(0., 0.), Vector2d(-1., 1.),
+                               Vector2d(-5., 0.), Vector2d(15., -20.)));
+}
+
+TEST_F(LinesTest, AreLinesPerpendicular) {
+  // We don't test the LineSpec overload as that gets called internally anyway.
+  ASSERT_TRUE(AreLinesPerpendicular(Vector2d(0., 0.), Vector2d(1., 0.),
+                                    Vector2d(0., 0.), Vector2d(0., 1.)));
+  ASSERT_TRUE(AreLinesPerpendicular(Vector2d(0., 0.), Vector2d(1., 1.),
+                                    Vector2d(0., 0.), Vector2d(-1., 1.)));
+
+  ASSERT_TRUE(AreLinesPerpendicular(Vector2d(0., 0.), Vector2d(1., 0.),
+                                    Vector2d(10., -2.), Vector2d(10., 2.)));
+  ASSERT_TRUE(AreLinesPerpendicular(Vector2d(0., 0.), Vector2d(0., 1.),
+                                    Vector2d(-2., 10.), Vector2d(2., 10.)));
+
+  ASSERT_TRUE(AreLinesPerpendicular(Vector2d(0., 0.), Vector2d(1., 1.),
+                                    Vector2d(-10., 15.), Vector2d(2., 3.)));
+  ASSERT_TRUE(AreLinesPerpendicular(Vector2d(0., 0.), Vector2d(-1., 1.),
+                                    Vector2d(-23., -20.), Vector2d(-1., 2.)));
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
