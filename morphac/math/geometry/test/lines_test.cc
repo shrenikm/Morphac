@@ -24,8 +24,8 @@ class LinesTest : public ::testing::Test {
   void SetUp() override {}
 
   // Some standard lines defined by LineSpec.
-  LineSpec line_spec2_{0, 0, 0};
-  LineSpec line_spec1_{numeric_limits<double>::infinity(), 0., 0};
+  LineSpec line_spec1_{0, 0, 0};
+  LineSpec line_spec2_{numeric_limits<double>::infinity(), 0., 0};
   LineSpec line_spec3_{1, 0, 0};
   LineSpec line_spec4_{-1, 0, 0};
 };
@@ -50,12 +50,33 @@ TEST_F(LinesTest, StringRepresentation) {
   os << " " << line_spec2_ << std::endl;
 }
 
-TEST_F(LinesTest, ComputeLineSpec) {
+TEST_F(LinesTest, ComputeStandardLineSpec) {
   // Standard lines.
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(1., 0.)) ==
+              line_spec1_);
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-10., 0.), Vector2d(5., 0.)) ==
+              line_spec1_);
+
   ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(0., 1.)) ==
-              line_spec1_);
+              line_spec2_);
   ASSERT_TRUE(ComputeLineSpec(Vector2d(0., -10.), Vector2d(0., 5.)) ==
-              line_spec1_);
+              line_spec2_);
+
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(1., 1.)) ==
+              line_spec3_);
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-10., -10.), Vector2d(5., 5.)) ==
+              line_spec3_);
+
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 0.), Vector2d(-1., 1.)) ==
+              line_spec4_);
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-10., 10.), Vector2d(5., -5.)) ==
+              line_spec4_);
+}
+
+TEST_F(LinesTest, ComputeAxesLineSpec) {
+  // Test the LineSpecs of lines that are parallel to the x and y axes.
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 7.), Vector2d(1., 7.)) ==
+              LineSpec(0., numeric_limits<double>::infinity(), 7.));
 }
 
 }  // namespace

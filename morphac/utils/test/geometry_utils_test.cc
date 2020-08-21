@@ -10,6 +10,7 @@ using Eigen::MatrixXd;
 using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Points;
 using morphac::utils::CreateArc;
 using morphac::utils::CreateCircularPolygon;
 using morphac::utils::CreateRectangularPolygon;

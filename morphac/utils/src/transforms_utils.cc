@@ -6,6 +6,8 @@ namespace utils {
 using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::HomogeneousPoints;
+using morphac::common::aliases::Points;
 using morphac::math::transforms::RotationMatrix;
 using morphac::math::transforms::TransformationMatrix;
 

@@ -24,6 +24,9 @@ struct LineSpec {
   const double x_intercept;
   const double y_intercept;
 
+  LineSpec(const double slope, const double x_intercept,
+           const double y_intercept);
+
   // Comparison operators for LineSpec. We define these ourselves so that we can
   // use our float comparison functions to ensure robust checking.
   // We could also make these non friend, but we make the decision to packaging

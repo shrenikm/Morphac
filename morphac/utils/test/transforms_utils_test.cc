@@ -10,6 +10,8 @@ using Eigen::MatrixXd;
 using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::HomogeneousPoints;
+using morphac::common::aliases::Points;
 using morphac::utils::HomogenizePoints;
 using morphac::utils::RotatePoints;
 using morphac::utils::TransformPoints;

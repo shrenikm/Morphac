@@ -14,18 +14,23 @@
 namespace morphac {
 namespace utils {
 
-HomogeneousPoints HomogenizePoints(const Points& points);
+morphac::common::aliases::HomogeneousPoints HomogenizePoints(
+    const morphac::common::aliases::Points& points);
 
-Points UnHomogenizePoints(const HomogeneousPoints& homogenous_points);
+morphac::common::aliases::Points UnHomogenizePoints(
+    const morphac::common::aliases::HomogeneousPoints& homogenous_points);
 
-Points TranslatePoints(const Points& points,
-                       const Eigen::Vector2d& translation);
+morphac::common::aliases::Points TranslatePoints(
+    const morphac::common::aliases::Points& points,
+    const Eigen::Vector2d& translation);
 
-Points RotatePoints(const Points& points, const double angle,
-                    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+morphac::common::aliases::Points RotatePoints(
+    const morphac::common::aliases::Points& points, const double angle,
+    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
 
-Points TransformPoints(const Points& points, const double angle,
-                       const Eigen::Vector2d& translation);
+morphac::common::aliases::Points TransformPoints(
+    const morphac::common::aliases::Points& points, const double angle,
+    const Eigen::Vector2d& translation);
 
 }  // namespace utils
 }  // namespace morphac

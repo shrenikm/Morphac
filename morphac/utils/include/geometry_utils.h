@@ -15,24 +15,24 @@
 namespace morphac {
 namespace utils {
 
+morphac::common::aliases::Points CreateRectangularPolygon(
+    const double size_x, const double size_y, const double angle,
+    const Eigen::Vector2d& center);
 
-Points CreateRectangularPolygon(const double size_x, const double size_y,
-                                const double angle,
-                                const Eigen::Vector2d& center);
+morphac::common::aliases::Points CreateArc(const double start_angle,
+                                           const double end_angle,
+                                           const double radius,
+                                           const double angular_resolution,
+                                           const Eigen::Vector2d& center);
 
-Points CreateArc(const double start_angle, const double end_angle,
-                 const double radius, const double angular_resolution,
-                 const Eigen::Vector2d& center);
+morphac::common::aliases::Points CreateCircularPolygon(
+    const double radius, const double angular_resolution,
+    const Eigen::Vector2d& center);
 
-Points CreateCircularPolygon(const double radius,
-                             const double angular_resolution,
-                             const Eigen::Vector2d& center);
-
-Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
-                                       const double radius,
-                                       const double angular_resolution,
-                                       const double angle,
-                                       const Eigen::Vector2d& center);
+morphac::common::aliases::Points CreateRoundedRectangularPolygon(
+    const double size_x, const double size_y, const double radius,
+    const double angular_resolution, const double angle,
+    const Eigen::Vector2d& center);
 
 }  // namespace utils
 }  // namespace morphac

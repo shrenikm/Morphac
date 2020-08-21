@@ -8,6 +8,7 @@ using std::fabs;
 using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Points;
 using morphac::math::transforms::TransformationMatrix;
 using morphac::utils::HomogenizePoints;
 using morphac::utils::TransformPoints;
