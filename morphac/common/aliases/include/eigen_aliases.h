@@ -15,4 +15,3 @@ using HomogeneousPoints = Eigen::Matrix<double, Eigen::Dynamic, 3>;
 }  // namespace morphac
 
 #endif
-

@@ -9,6 +9,8 @@ using std::ostringstream;
 
 using Eigen::Vector2d;
 
+using morphac::common::aliases::Epsilon;
+using morphac::common::aliases::Infinity;
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::LineSpec;
 using morphac::math::geometry::AreLinesParallel;
@@ -25,7 +27,7 @@ class LinesTest : public ::testing::Test {
 
   // Some standard lines defined by LineSpec.
   LineSpec line_spec1_{0, 0, 0};
-  LineSpec line_spec2_{numeric_limits<double>::infinity(), 0., 0};
+  LineSpec line_spec2_{Infinity<double>, 0., 0};
   LineSpec line_spec3_{1, 0, 0};
   LineSpec line_spec4_{-1, 0, 0};
 };
@@ -33,8 +35,8 @@ class LinesTest : public ::testing::Test {
 TEST_F(LinesTest, Equality) {
   LineSpec l1{1., 2., 3.};
   LineSpec l2{0.5 + 0.5, 7. - 5., 18. / 6.};
-  LineSpec l3{numeric_limits<double>::infinity(), 0., 0.};
-  LineSpec l4{numeric_limits<double>::infinity(), 1. - 1., 3. - 3.};
+  LineSpec l3{Infinity<double>, 0., 0.};
+  LineSpec l4{Infinity<double>, 1. - 1., 3. - 3.};
 
   ASSERT_TRUE(l1 == l2);
   ASSERT_TRUE(l3 == l4);
@@ -76,7 +78,14 @@ TEST_F(LinesTest, ComputeStandardLineSpec) {
 TEST_F(LinesTest, ComputeAxesLineSpec) {
   // Test the LineSpecs of lines that are parallel to the x and y axes.
   ASSERT_TRUE(ComputeLineSpec(Vector2d(0., 7.), Vector2d(1., 7.)) ==
-              LineSpec(0., numeric_limits<double>::infinity(), 7.));
+              LineSpec(0., Infinity<double>, 7.));
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-2., -7.), Vector2d(2., -7.)) ==
+              LineSpec(0., Infinity<double>, -7.));
+
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(7., 0.), Vector2d(7., 1.)) ==
+              LineSpec(Infinity<double>, 7., Infinity<double>));
+  ASSERT_TRUE(ComputeLineSpec(Vector2d(-7., -2.), Vector2d(-7., 2.)) ==
+              LineSpec(Infinity<double>, -7., Infinity<double>));
 }
 
 }  // namespace

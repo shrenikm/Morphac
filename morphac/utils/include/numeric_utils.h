@@ -7,6 +7,8 @@
 #include <cmath>
 #include <limits>
 
+#include "common/aliases/include/numeric_aliases.h"
+
 namespace morphac {
 namespace utils {
 
@@ -14,7 +16,7 @@ namespace utils {
 // argument types.
 bool IsEqual(
     const double value1, const double value2,
-    const double absolute_tolerance = std::numeric_limits<double>::epsilon(),
+    const double absolute_tolerance = morphac::common::aliases::Epsilon<double>,
     const double relative_tolerance = 1e-9);
 
 }  // namespace utils

@@ -8,6 +8,7 @@
 
 #include "Eigen/Dense"
 
+#include "common/aliases/include/numeric_aliases.h"
 #include "utils/include/numeric_utils.h"
 
 namespace morphac {

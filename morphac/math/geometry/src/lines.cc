@@ -13,6 +13,8 @@ using std::string;
 
 using Eigen::Vector2d;
 
+using morphac::common::aliases::Epsilon;
+using morphac::common::aliases::Infinity;
 using morphac::utils::IsEqual;
 
 LineSpec::LineSpec(const double slope, const double x_intercept,
@@ -43,9 +45,9 @@ string LineSpec::ToString() const {
 
 LineSpec ComputeLineSpec(const Vector2d& start_point,
                          const Vector2d& end_point) {
-  double slope = numeric_limits<double>::infinity();
-  double x_intercept = numeric_limits<double>::infinity();
-  double y_intercept = numeric_limits<double>::infinity();
+  double slope = Infinity<double>;
+  double x_intercept = Infinity<double>;
+  double y_intercept = Infinity<double>;
 
   if (!IsEqual(start_point(0), end_point(0))) {
     // The slope is well defined.
