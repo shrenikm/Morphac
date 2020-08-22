@@ -36,6 +36,28 @@ bool IsValidRectangle(const Points& rectangle) {
   return true;
 }
 
+bool IsValidArc(const Points& arc, const double radius, const Vector2d& center,
+                const double angular_spread) {
+  // Test if each point is the same distance from the center.
+  for (int i = 0; i < arc.rows(); ++i) {
+    if (!IsEqual((arc.row(i).transpose() - center).norm(), radius)) {
+      return false;
+    }
+  }
+
+  // Test the arc length.
+  double arc_length = 0;
+  for (int i = 0; i < arc.rows() - 1; ++i) {
+    arc_length += (arc.row(i) - arc.row(i + 1)).norm();
+  }
+
+  if (!IsEqual(arc_length, radius * angular_spread, 1e-3)) {
+    return false;
+  }
+
+  return true;
+}
+
 class GeometryUtilsTest : public ::testing::Test {
  protected:
   GeometryUtilsTest() {
@@ -47,6 +69,10 @@ class GeometryUtilsTest : public ::testing::Test {
   Points rectangle2_ = CreateRectangularPolygon(2., 2., 0., Vector2d(-5., 6.));
   Points rectangle3_ =
       CreateRectangularPolygon(2., 2., M_PI / 4., Vector2d(5, 4));
+  Points arc1_ = CreateArc(0., M_PI / 2., 1., 0.1, Vector2d::Zero());
+  Points arc2_ = CreateArc(M_PI, M_PI / 2., 2., 0.01, Vector2d::Zero());
+  Points arc3_ =
+      CreateArc(-M_PI / 2, -3 * M_PI / 2., 3., 0.01, Vector2d(-2, 3));
 };
 
 TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
@@ -97,6 +123,13 @@ TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
 
   // Test if the rectangle is valid.
   ASSERT_TRUE(IsValidRectangle(rectangle3_));
+}
+
+TEST_F(GeometryUtilsTest, CreateArc) {
+  // Test the validity of each arc.
+  ASSERT_TRUE(IsValidArc(arc1_, 1., Vector2d::Zero(), M_PI / 2));
+  ASSERT_TRUE(IsValidArc(arc2_, 2., Vector2d::Zero(), M_PI / 2));
+  ASSERT_TRUE(IsValidArc(arc3_, 3., Vector2d(-2, 3), M_PI));
 }
 
 }  // namespace
