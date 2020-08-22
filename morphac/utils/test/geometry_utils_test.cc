@@ -14,31 +14,12 @@ using Eigen::VectorXd;
 
 using morphac::common::aliases::Points;
 using morphac::math::geometry::AreLinesPerpendicular;
+using morphac::math::geometry::ComputeLineSpec;
 using morphac::utils::CreateArc;
 using morphac::utils::CreateCircularPolygon;
 using morphac::utils::CreateRectangularPolygon;
 using morphac::utils::CreateRoundedRectangularPolygon;
 using morphac::utils::IsEqual;
-
-// bool IsValidRectangle(const Points& rectangle, const double expected_size_x,
-//                      const double expected_size_y,
-//                      const Vector2d& expected_center) {
-//  // Test that the size is correct.
-//  double size_x = rectangle.col(0).maxCoeff() - rectangle.col(0).minCoeff();
-//  double size_y = rectangle.col(1).maxCoeff() - rectangle.col(1).minCoeff();
-//
-//  if (!IsEqual(size_x, expected_size_x)) {
-//    return false;
-//  }
-//
-//  if (!IsEqual(size_y, expected_size_y)) {
-//    return false;
-//  }
-//
-//  // Test the center.
-//  double center_x = rectangle.col(0).minCoeff() + size_x / 2;
-//  double center_y = rectangle.col(1).minCoeff() + size_y / 2;
-//}
 
 bool IsValidRectangle(const Points& rectangle) {
   // Tests if the sides of the rectangle are perpendicular.
@@ -75,7 +56,47 @@ TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
 
   ASSERT_DOUBLE_EQ(size_x, 6.);
   ASSERT_DOUBLE_EQ(size_y, 4.);
+
+  // Test if the rectangle is valid.
   ASSERT_TRUE(IsValidRectangle(rectangle1_));
+}
+
+TEST_F(GeometryUtilsTest, RectangularPolygonCenter) {
+  // Make sure tha the rectangle center is correct.
+  double size_x = rectangle2_.col(0).maxCoeff() - rectangle2_.col(0).minCoeff();
+  double size_y = rectangle2_.col(1).maxCoeff() - rectangle2_.col(1).minCoeff();
+  double center_x = rectangle2_.col(0).minCoeff() + size_x / 2;
+  double center_y = rectangle2_.col(1).minCoeff() + size_y / 2;
+
+  ASSERT_DOUBLE_EQ(center_x, -5.);
+  ASSERT_DOUBLE_EQ(center_y, 6.);
+
+  // Test if the rectangle is valid.
+  ASSERT_TRUE(IsValidRectangle(rectangle2_));
+}
+
+TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
+  // Test center. As the rectangle is oriented, max - min does not give the
+  // size, but the value can still be used to compute the center.
+  double diff_x = rectangle3_.col(0).maxCoeff() - rectangle3_.col(0).minCoeff();
+  double diff_y = rectangle3_.col(1).maxCoeff() - rectangle3_.col(1).minCoeff();
+  double center_x = rectangle3_.col(0).minCoeff() + diff_x / 2;
+  double center_y = rectangle3_.col(1).minCoeff() + diff_y / 2;
+
+  ASSERT_DOUBLE_EQ(center_x, 5.);
+  ASSERT_DOUBLE_EQ(center_y, 4.);
+
+  // Test if the orientation is correct.
+  int rows = rectangle3_.rows();
+  for (int i = 0; i < rows; ++i) {
+    auto line_spec =
+        ComputeLineSpec(rectangle3_.row(i % rows).transpose(),
+                        rectangle3_.row((i + 1) % rows).transpose());
+    ASSERT_TRUE(IsEqual(line_spec.slope, 1.) || IsEqual(line_spec.slope, -1.));
+  }
+
+  // Test if the rectangle is valid.
+  ASSERT_TRUE(IsValidRectangle(rectangle3_));
 }
 
 }  // namespace
