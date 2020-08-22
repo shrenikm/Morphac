@@ -42,6 +42,10 @@ TEST_F(LinesTest, Equality) {
 
   ASSERT_TRUE(l1 == l2);
   ASSERT_TRUE(l3 == l4);
+
+  // Inequality.
+  ASSERT_TRUE(l1 != LineSpec(1., 2., 3. + 1e-6));
+  ASSERT_TRUE(l2 != LineSpec(1e25, 0., 0.));
 }
 
 TEST_F(LinesTest, StringRepresentation) {
