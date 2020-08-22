@@ -1,5 +1,5 @@
-#ifndef GEOMETRY_UTILS_H
-#define GEOMETRY_UTILS_H
+#ifndef LINES_H
+#define LINES_H
 
 #define _USE_MATH_DEFINES
 

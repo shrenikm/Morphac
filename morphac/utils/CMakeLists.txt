@@ -60,6 +60,7 @@ endforeach()
 
 target_link_libraries(geometry_utils
   PUBLIC
+  transforms
   transforms_utils
 )
 
@@ -87,7 +88,7 @@ set(UTILS_TEST_SRC
   angle_utils_test.cc
   geometry_utils_test.cc
   integrator_utils_test.cc
-	numeric_utils_test.cc
+  numeric_utils_test.cc
   transforms_utils_test.cc
 )
 
@@ -117,6 +118,8 @@ target_link_libraries(angle_utils_test
 target_link_libraries(geometry_utils_test
   PUBLIC
   gtest_main
+  lines
+  numeric_utils
   geometry_utils
 )
 
