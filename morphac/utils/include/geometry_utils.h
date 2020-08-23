@@ -30,8 +30,8 @@ morphac::common::aliases::Points CreateCircularPolygon(
     const Eigen::Vector2d& center);
 
 morphac::common::aliases::Points CreateRoundedRectangularPolygon(
-    const double size_x, const double size_y, const double radius,
-    const double angular_resolution, const double angle,
+    const double size_x, const double size_y, const double angle,
+    const double radius, const double angular_resolution,
     const Eigen::Vector2d& center);
 
 }  // namespace utils

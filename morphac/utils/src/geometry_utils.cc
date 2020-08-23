@@ -53,9 +53,8 @@ Points CreateCircularPolygon(const double radius,
 }
 
 Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
-                                       const double radius,
+                                       const double angle, const double radius,
                                        const double angular_resolution,
-                                       const double angle,
                                        const Vector2d& center) {
   MORPH_REQUIRE(radius <= (size_x / 2) && radius <= (size_y / 2),
                 std::invalid_argument,
@@ -70,9 +69,9 @@ Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
 
   Points arc1 = CreateArc(M_PI, M_PI / 2, radius, angular_resolution,
                           centers.row(0).transpose());
-  Points arc2 = CreateArc(M_PI / 2, 0 / 2, radius, angular_resolution,
+  Points arc2 = CreateArc(M_PI / 2, 0, radius, angular_resolution,
                           centers.row(1).transpose());
-  Points arc3 = CreateArc(0, -M_PI / 2 / 2, radius, angular_resolution,
+  Points arc3 = CreateArc(0, -M_PI / 2, radius, angular_resolution,
                           centers.row(2).transpose());
   Points arc4 = CreateArc(-M_PI / 2, -M_PI, radius, angular_resolution,
                           centers.row(3).transpose());
