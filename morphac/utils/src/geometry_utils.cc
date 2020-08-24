@@ -17,6 +17,8 @@ using morphac::utils::UnHomogenizePoints;
 Points CreateArc(const double start_angle, const double end_angle,
                  const double radius, const double angular_resolution,
                  const Vector2d& center) {
+  MORPH_REQUIRE(radius >= 0, std::invalid_argument,
+                "Radius must be non-negative.");
   // We have num_points * angular_resolution = 2 * pi (360 degrees).
   int num_points =
       std::round(fabs(end_angle - start_angle) / angular_resolution);
@@ -37,6 +39,8 @@ Points CreateArc(const double start_angle, const double end_angle,
 Points CreateCircularPolygon(const double radius,
                              const double angular_resolution,
                              const Vector2d& center) {
+  MORPH_REQUIRE(radius >= 0, std::invalid_argument,
+                "Radius must be non-negative.");
   // A circle is basically an arc from 0 to 2 * pi. We make sure that both 0 and
   // 2 * pi isn't included as we don't want duplicate corners in the polygon.
   return CreateArc(0., 2 * M_PI - angular_resolution, radius,
@@ -45,6 +49,13 @@ Points CreateCircularPolygon(const double radius,
 
 Points CreateRectangularPolygon(const double size_x, const double size_y,
                                 const double angle, const Vector2d& center) {
+  // The reason the conditions are >= 0 and not > 0 is because sometimes
+  // CreateRoundedRectangularPolygon may call this function with a zero size.
+  MORPH_REQUIRE(size_x >= 0, std::invalid_argument,
+                "Size along the x axis must be non-negative.");
+  MORPH_REQUIRE(size_y >= 0, std::invalid_argument,
+                "Size along the y axis must be non-negative.");
+
   Points polygon(4, 2);
   polygon << -size_x / 2, size_y / 2, size_x / 2, size_y / 2, size_x / 2,
       -size_y / 2, -size_x / 2, -size_y / 2;
@@ -56,6 +67,14 @@ Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
                                        const double angle, const double radius,
                                        const double angular_resolution,
                                        const Vector2d& center) {
+  // The reason the conditosn are >= 0 and not > 0 is that there might be times
+  // when 0. sizes are required. See the comment in CreateRectangularPolygon.
+  MORPH_REQUIRE(size_x >= 0, std::invalid_argument,
+                "Size along the x axis must be non-negative.");
+  MORPH_REQUIRE(size_y >= 0, std::invalid_argument,
+                "Size along the y axis must be non-negative.");
+  MORPH_REQUIRE(radius >= 0, std::invalid_argument,
+                "Radius must be non-negative.");
   MORPH_REQUIRE(radius <= (size_x / 2) && radius <= (size_y / 2),
                 std::invalid_argument,
                 "The radius is too large compared to the rectangle sizes.");

@@ -191,14 +191,14 @@ class GeometryUtilsTest : public ::testing::Test {
       2., 2., M_PI / 4., 0.5, 0.01, Vector2d(5, 4));
 };
 
-TEST_F(GeometryUtilsTest, CreateArc) {
+TEST_F(GeometryUtilsTest, Arc) {
   // Test the validity of each arc.
   ASSERT_TRUE(IsValidArc(arc1_, 1., Vector2d::Zero(), M_PI / 2));
   ASSERT_TRUE(IsValidArc(arc2_, 2., Vector2d::Zero(), M_PI / 2));
   ASSERT_TRUE(IsValidArc(arc3_, 3., Vector2d(-2, 3), M_PI));
 }
 
-TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
+TEST_F(GeometryUtilsTest, CircularPolygon) {
   // Test the validity of each circle.
   ASSERT_TRUE(IsValidCircle(circle1_, 1., Vector2d::Zero()));
   ASSERT_TRUE(IsValidCircle(circle2_, 2., Vector2d(12., -9.)));
