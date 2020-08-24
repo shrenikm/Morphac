@@ -73,6 +73,9 @@ def test_arc(generate_arc_list):
     assert isinstance(a1, np.ndarray)
     assert isinstance(a2, np.ndarray)
 
+    assert a1.dtype == np.float64
+    assert a2.dtype == np.float64
+
     assert a1.ndim == 2
     assert a2.ndim == 2
 
@@ -94,6 +97,9 @@ def test_circular_polygon(generate_circular_polygon_list):
     assert isinstance(c1, np.ndarray)
     assert isinstance(c2, np.ndarray)
 
+    assert c1.dtype == np.float64
+    assert c2.dtype == np.float64
+
     assert c1.ndim == 2
     assert c2.ndim == 2
 
@@ -114,6 +120,9 @@ def test_rectangular_polygon(generate_rectangular_polygon_list):
 
     assert isinstance(r1, np.ndarray)
     assert isinstance(r2, np.ndarray)
+
+    assert r1.dtype == np.float64
+    assert r2.dtype == np.float64
 
     assert r1.ndim == 2
     assert r2.ndim == 2
@@ -137,6 +146,9 @@ def test_rounded_rectangular_polygon(
 
     assert isinstance(r1, np.ndarray)
     assert isinstance(r2, np.ndarray)
+
+    assert r1.dtype == np.float64
+    assert r2.dtype == np.float64
 
     assert r1.ndim == 2
     assert r2.ndim == 2
