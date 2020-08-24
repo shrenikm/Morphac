@@ -14,15 +14,6 @@ using morphac::utils::HomogenizePoints;
 using morphac::utils::TransformPoints;
 using morphac::utils::UnHomogenizePoints;
 
-Points CreateRectangularPolygon(const double size_x, const double size_y,
-                                const double angle, const Vector2d& center) {
-  Points polygon(4, 2);
-  polygon << -size_x / 2, size_y / 2, size_x / 2, size_y / 2, size_x / 2,
-      -size_y / 2, -size_x / 2, -size_y / 2;
-
-  return TransformPoints(polygon, angle, center);
-}
-
 Points CreateArc(const double start_angle, const double end_angle,
                  const double radius, const double angular_resolution,
                  const Vector2d& center) {
@@ -50,6 +41,15 @@ Points CreateCircularPolygon(const double radius,
   // 2 * pi isn't included as we don't want duplicate corners in the polygon.
   return CreateArc(0., 2 * M_PI - angular_resolution, radius,
                    angular_resolution, center);
+}
+
+Points CreateRectangularPolygon(const double size_x, const double size_y,
+                                const double angle, const Vector2d& center) {
+  Points polygon(4, 2);
+  polygon << -size_x / 2, size_y / 2, size_x / 2, size_y / 2, size_x / 2,
+      -size_y / 2, -size_x / 2, -size_y / 2;
+
+  return TransformPoints(polygon, angle, center);
 }
 
 Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,

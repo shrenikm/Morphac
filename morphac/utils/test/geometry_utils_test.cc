@@ -170,23 +170,39 @@ class GeometryUtilsTest : public ::testing::Test {
     srand(7);
   }
   void SetUp() override {}
-  Points rectangle1_ = CreateRectangularPolygon(6., 4., 0., Vector2d::Zero());
+  Points arc1_ = CreateArc(0., M_PI / 2., 1., 0.1);
+  Points arc2_ = CreateArc(M_PI, M_PI / 2., 2., 0.01);
+  Points arc3_ =
+      CreateArc(-M_PI / 2, -3 * M_PI / 2., 3., 0.01, Vector2d(-2, 3));
+
+  Points circle1_ = CreateCircularPolygon(1., 0.01);
+  Points circle2_ = CreateCircularPolygon(2., 0.01, Vector2d(12, -9));
+
+  Points rectangle1_ = CreateRectangularPolygon(6., 4., 0.);
   Points rectangle2_ = CreateRectangularPolygon(2., 2., 0., Vector2d(-5., 6.));
   Points rectangle3_ =
       CreateRectangularPolygon(2., 2., M_PI / 4., Vector2d(5, 4));
-  Points arc1_ = CreateArc(0., M_PI / 2., 1., 0.1, Vector2d::Zero());
-  Points arc2_ = CreateArc(M_PI, M_PI / 2., 2., 0.01, Vector2d::Zero());
-  Points arc3_ =
-      CreateArc(-M_PI / 2, -3 * M_PI / 2., 3., 0.01, Vector2d(-2, 3));
-  Points circle1_ = CreateCircularPolygon(1., 0.01, Vector2d::Zero());
-  Points circle2_ = CreateCircularPolygon(2., 0.01, Vector2d(12, -9));
+
   Points rounded_rectangle1_ =
-      CreateRoundedRectangularPolygon(6., 4., 0., 1., 0.1, Vector2d::Zero());
+      CreateRoundedRectangularPolygon(6., 4., 0., 1., 0.1);
   Points rounded_rectangle2_ =
       CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.1, Vector2d(-5, 6));
   Points rounded_rectangle3_ = CreateRoundedRectangularPolygon(
       2., 2., M_PI / 4., 0.5, 0.01, Vector2d(5, 4));
 };
+
+TEST_F(GeometryUtilsTest, CreateArc) {
+  // Test the validity of each arc.
+  ASSERT_TRUE(IsValidArc(arc1_, 1., Vector2d::Zero(), M_PI / 2));
+  ASSERT_TRUE(IsValidArc(arc2_, 2., Vector2d::Zero(), M_PI / 2));
+  ASSERT_TRUE(IsValidArc(arc3_, 3., Vector2d(-2, 3), M_PI));
+}
+
+TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
+  // Test the validity of each circle.
+  ASSERT_TRUE(IsValidCircle(circle1_, 1., Vector2d::Zero()));
+  ASSERT_TRUE(IsValidCircle(circle2_, 2., Vector2d(12., -9.)));
+}
 
 TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
   // Make sure that the rectangle sizes are correct.
@@ -226,19 +242,6 @@ TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
   ASSERT_DOUBLE_EQ(center_y, 4.);
 
   ASSERT_TRUE(IsRectangleOrientedCorrectly(rectangle3_, M_PI / 4));
-}
-
-TEST_F(GeometryUtilsTest, CreateArc) {
-  // Test the validity of each arc.
-  ASSERT_TRUE(IsValidArc(arc1_, 1., Vector2d::Zero(), M_PI / 2));
-  ASSERT_TRUE(IsValidArc(arc2_, 2., Vector2d::Zero(), M_PI / 2));
-  ASSERT_TRUE(IsValidArc(arc3_, 3., Vector2d(-2, 3), M_PI));
-}
-
-TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
-  // Test the validity of each circle.
-  ASSERT_TRUE(IsValidCircle(circle1_, 1., Vector2d::Zero()));
-  ASSERT_TRUE(IsValidCircle(circle2_, 2., Vector2d(12., -9.)));
 }
 
 TEST_F(GeometryUtilsTest, RoundedRectangularPolygonSize) {
