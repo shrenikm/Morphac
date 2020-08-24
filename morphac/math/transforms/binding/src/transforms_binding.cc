@@ -24,17 +24,30 @@ void define_transforms_binding(py::module& m) {
   m.def("transformation_matrix", &TransformationMatrix, py::arg("angle"),
         py::arg("translation"));
 
+  // Cpp overloads.
   m.def("canvas_to_world",
         py::overload_cast<const Vector2i&, const double>(&CanvasToWorld),
         py::arg("canvas_coord"), py::arg("resolution"));
+  m.def("canvas_to_world",
+        py::overload_cast<const Pixels&, const double>(&CanvasToWorld),
+        py::arg("canvas_coords"), py::arg("resolution"));
 
+  // Cpp overloads + default value overloads for python.
   m.def("world_to_canvas",
         py::overload_cast<const Vector2d&, const double, const vector<int>&>(
             &WorldToCanvas),
         py::arg("world_coord"), py::arg("resolution"), py::arg("canvas_size"));
-
   m.def("world_to_canvas",
         [](const Vector2d& world_coord, const double resolution) {
+          return WorldToCanvas(world_coord, resolution);
+        },
+        py::arg("world_coord"), py::arg("resolution"));
+  m.def("world_to_canvas",
+        py::overload_cast<const Points&, const double, const vector<int>&>(
+            &WorldToCanvas),
+        py::arg("world_coord"), py::arg("resolution"), py::arg("canvas_size"));
+  m.def("world_to_canvas",
+        [](const Points& world_coord, const double resolution) {
           return WorldToCanvas(world_coord, resolution);
         },
         py::arg("world_coord"), py::arg("resolution"));
