@@ -19,6 +19,8 @@ Points CreateArc(const double start_angle, const double end_angle,
                  const Vector2d& center) {
   MORPH_REQUIRE(radius >= 0, std::invalid_argument,
                 "Radius must be non-negative.");
+  MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
+                "Angular resolution must be positive.");
   // We have num_points * angular_resolution = 2 * pi (360 degrees).
   int num_points =
       std::round(fabs(end_angle - start_angle) / angular_resolution);
@@ -41,6 +43,8 @@ Points CreateCircularPolygon(const double radius,
                              const Vector2d& center) {
   MORPH_REQUIRE(radius >= 0, std::invalid_argument,
                 "Radius must be non-negative.");
+  MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
+                "Angular resolution must be positive.");
   // A circle is basically an arc from 0 to 2 * pi. We make sure that both 0 and
   // 2 * pi isn't included as we don't want duplicate corners in the polygon.
   return CreateArc(0., 2 * M_PI - angular_resolution, radius,
@@ -78,6 +82,8 @@ Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
   MORPH_REQUIRE(radius <= (size_x / 2) && radius <= (size_y / 2),
                 std::invalid_argument,
                 "The radius is too large compared to the rectangle sizes.");
+  MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
+                "Angular resolution must be positive.");
   // The rounded rectangle is basically just the four arcs that form the
   // corners of the shape.
 

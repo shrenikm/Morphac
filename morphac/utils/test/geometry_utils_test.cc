@@ -191,17 +191,27 @@ class GeometryUtilsTest : public ::testing::Test {
       2., 2., M_PI / 4., 0.5, 0.01, Vector2d(5, 4));
 };
 
-TEST_F(GeometryUtilsTest, Arc) {
+TEST_F(GeometryUtilsTest, CreateArc) {
   // Test the validity of each arc.
   ASSERT_TRUE(IsValidArc(arc1_, 1., Vector2d::Zero(), M_PI / 2));
   ASSERT_TRUE(IsValidArc(arc2_, 2., Vector2d::Zero(), M_PI / 2));
   ASSERT_TRUE(IsValidArc(arc3_, 3., Vector2d(-2, 3), M_PI));
 }
 
-TEST_F(GeometryUtilsTest, CircularPolygon) {
+TEST_F(GeometryUtilsTest, InvalidCreateArc) {
+  ASSERT_THROW(CreateArc(0., M_PI / 2., -0.1, 0.01), std::invalid_argument);
+  ASSERT_THROW(CreateArc(0., M_PI / 2., 1., 0.), std::invalid_argument);
+}
+
+TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
   // Test the validity of each circle.
   ASSERT_TRUE(IsValidCircle(circle1_, 1., Vector2d::Zero()));
   ASSERT_TRUE(IsValidCircle(circle2_, 2., Vector2d(12., -9.)));
+}
+
+TEST_F(GeometryUtilsTest, InvalidCreateCircularPolygon) {
+  ASSERT_THROW(CreateCircularPolygon(-0.1, 0.01), std::invalid_argument);
+  ASSERT_THROW(CreateCircularPolygon(1., 0.), std::invalid_argument);
 }
 
 TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
@@ -242,6 +252,11 @@ TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
   ASSERT_DOUBLE_EQ(center_y, 4.);
 
   ASSERT_TRUE(IsRectangleOrientedCorrectly(rectangle3_, M_PI / 4));
+}
+
+TEST_F(GeometryUtilsTest, InvalidCreateRectangularPolygon) {
+  ASSERT_THROW(CreateRectangularPolygon(-2., 2., 0.), std::invalid_argument);
+  ASSERT_THROW(CreateRectangularPolygon(2., -2., 0.), std::invalid_argument);
 }
 
 TEST_F(GeometryUtilsTest, RoundedRectangularPolygonSize) {
@@ -299,6 +314,17 @@ TEST_F(GeometryUtilsTest, InvalidRoundedRectangularPolygon) {
   ASSERT_THROW(
       CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Vector2d::Zero()),
       std::invalid_argument);
+}
+
+TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
+  ASSERT_THROW(CreateRoundedRectangularPolygon(-2., 2., 0., 1., 0.1),
+               std::invalid_argument);
+  ASSERT_THROW(CreateRoundedRectangularPolygon(2., -2., 0., 1., 0.1),
+               std::invalid_argument);
+  ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., -0.1, 0.1),
+               std::invalid_argument);
+  ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., 1., -0.1),
+               std::invalid_argument);
 }
 
 }  // namespace
