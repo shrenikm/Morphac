@@ -124,7 +124,10 @@ TEST_F(TransformsTest, TransformationMatrixFunctionality) {
 
 TEST_F(TransformsTest, CanvasToWorld) {
   // Trivial conversion.
-  ASSERT_TRUE(CanvasToWorld(Vector2i::Zero(), 1.).isApprox(Vector2d::Zero()));
+  // Note that we cannot construct the zero vector inplace as the function
+  // overloading becomes ambiguous.
+  Vector2i zero_coord = Vector2i::Zero();
+  ASSERT_TRUE(CanvasToWorld(zero_coord, 1.).isApprox(Vector2d::Zero()));
 
   // Test conversion.
   Vector2i canvas_coord;
@@ -136,7 +139,10 @@ TEST_F(TransformsTest, CanvasToWorld) {
 
 TEST_F(TransformsTest, WorldToCanvas) {
   // Trivial conversion.
-  ASSERT_TRUE(WorldToCanvas(Vector2d::Zero(), 1.).isApprox(Vector2i::Zero()));
+  // Note that we cannot construct the zero vector inplace as the function
+  // overloading becomes ambiguous.
+  Vector2d zero_coord = Vector2d::Zero();
+  ASSERT_TRUE(WorldToCanvas(zero_coord, 1.).isApprox(Vector2i::Zero()));
 
   // Test conversion without bounds checking.
   Vector2d world_coord;
