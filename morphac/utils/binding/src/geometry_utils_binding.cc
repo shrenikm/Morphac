@@ -31,4 +31,3 @@ void define_geometry_utils_binding(py::module& m) {
 }  // namespace binding
 }  // namespace utils
 }  // namespace morphac
-

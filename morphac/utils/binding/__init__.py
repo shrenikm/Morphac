@@ -15,4 +15,11 @@ from ._binding_utils_python import (
 
     # Numeric utils.
     is_equal,
+
+    # Transforms utils.
+    homogenize_points,
+    rotate_points,
+    transform_points,
+    translate_points,
+    unhomogenize_points,
 )

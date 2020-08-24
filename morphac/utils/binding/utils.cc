@@ -4,6 +4,7 @@
 #include "utils/binding/include/geometry_utils_binding.h"
 #include "utils/binding/include/integrator_utils_binding.h"
 #include "utils/binding/include/numeric_utils_binding.h"
+#include "utils/binding/include/transforms_utils_binding.h"
 
 namespace morphac {
 namespace utils {
@@ -16,6 +17,7 @@ PYBIND11_MODULE(_binding_utils_python, m) {
   define_geometry_utils_binding(m);
   define_integrator_utils_binding(m);
   define_numeric_utils_binding(m);
+  define_transforms_utils_binding(m);
 }
 
 }  // namespace binding
