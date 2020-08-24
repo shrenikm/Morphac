@@ -5,6 +5,7 @@
 
 #include "Eigen/Dense"
 
+#include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
@@ -22,11 +23,19 @@ const Eigen::MatrixXd TransformationMatrix(const double angle,
                                            const Eigen::Vector2d& translation);
 
 Eigen::Vector2d CanvasToWorld(const Eigen::Vector2i& canvas_coord,
-                                    const double resolution);
+                              const double resolution);
+
+morphac::common::aliases::Points CanvasToWorld(
+    const morphac::common::aliases::Pixels& canvas_coords,
+    const double resolution);
 
 Eigen::Vector2i WorldToCanvas(const Eigen::Vector2d& world_coord,
-                                    const double resolution,
-                                    const std::vector<int>& canvas_size = {});
+                              const double resolution,
+                              const std::vector<int>& canvas_size = {});
+
+morphac::common::aliases::Pixels WorldToCanvas(
+    const morphac::common::aliases::Points& world_coords,
+    const double resolution, const std::vector<int>& canvas_size = {});
 
 }  // namespace transforms
 }  // namespace math

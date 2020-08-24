@@ -12,6 +12,9 @@ using Eigen::MatrixXd;
 using Eigen::Vector2d;
 using Eigen::Vector2i;
 
+using morphac::common::aliases::Pixels;
+using morphac::common::aliases::Points;
+
 const MatrixXd RotationMatrix(const double angle) {
   MatrixXd rotation_matrix(2, 2);
 
@@ -36,6 +39,12 @@ Vector2d CanvasToWorld(const Vector2i& canvas_coord, const double resolution) {
   return resolution * canvas_coord.cast<double>();
 }
 
+Points CanvasToWorld(const Pixels& canvas_coords, const double resolution) {
+  MORPH_REQUIRE(resolution > 0, std::invalid_argument,
+                "Resolution must be positive.");
+  return resolution * canvas_coords.cast<double>();
+}
+
 Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
                        const vector<int>& canvas_size) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
@@ -44,12 +53,11 @@ Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
       ((1 / resolution) * world_coord).array().round().matrix().cast<int>();
 
   if (canvas_size.size()) {
-    MORPH_REQUIRE(
-        canvas_size.size() == 2, std::invalid_argument,
-        "If the canvas size is provided, it must be two dimensional.");
+    MORPH_REQUIRE(canvas_size.size() == 2, std::invalid_argument,
+                  "Canvas size must be two dimensional.");
     // Check if the coordinate lies within the canvas.
-    if ((canvas_coord(0) >= 0 && canvas_coord[0] < canvas_size[0]) &&
-        (canvas_coord(1) >= 0 && canvas_coord[1] < canvas_size[1])) {
+    if ((canvas_coord(0) >= 0 && canvas_coord(0) < canvas_size[0]) &&
+        (canvas_coord(1) >= 0 && canvas_coord(1) < canvas_size[1])) {
       return canvas_coord;
     } else {
       // Invalid coordinate.
@@ -60,6 +68,31 @@ Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
     // the point.
     return canvas_coord;
   }
+}
+
+Pixels WorldToCanvas(const Points& world_coords, const double resolution,
+                     const vector<int>& canvas_size) {
+  MORPH_REQUIRE(resolution > 0, std::invalid_argument,
+                "Resolution must be positive.");
+  Pixels canvas_coords =
+      ((1 / resolution) * world_coords).array().round().matrix().cast<int>();
+
+  if (canvas_size.size()) {
+    MORPH_REQUIRE(canvas_size.size() == 2, std::invalid_argument,
+                  "Canvas size must be two dimensional.");
+    // Check if the coordinates lie within the canvas.
+    for (int i = 0; i < canvas_coords.rows(); ++i) {
+      if ((canvas_coords.row(i)(0) >= 0 &&
+           canvas_coords.row(i)(0) < canvas_size[0]) &&
+          (canvas_coords.row(i)(1) >= 0 &&
+           canvas_coords.row(i)(1) < canvas_size[1])) {
+      } else {
+        // Invalid coordinate.
+        canvas_coords.row(i) = Vector2i::Ones();
+      }
+    }
+  }
+  return canvas_coords;
 }
 
 }  // namespace transforms

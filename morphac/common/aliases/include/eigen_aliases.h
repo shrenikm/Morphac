@@ -7,6 +7,7 @@ namespace morphac {
 namespace common {
 namespace aliases {
 
+using Pixels = Eigen::Matrix<int, Eigen::Dynamic, 2>;
 using Points = Eigen::Matrix<double, Eigen::Dynamic, 2>;
 using HomogeneousPoints = Eigen::Matrix<double, Eigen::Dynamic, 3>;
 
