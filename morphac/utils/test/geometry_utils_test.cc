@@ -323,7 +323,7 @@ TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
                std::invalid_argument);
   ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., -0.1, 0.1),
                std::invalid_argument);
-  ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., 1., -0.1),
+  ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.),
                std::invalid_argument);
 }
 

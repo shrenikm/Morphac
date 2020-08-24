@@ -68,16 +68,23 @@ def generate_rounded_rectangular_polygon_list():
 
 def test_arc(generate_arc_list):
 
-    arc1, arc2 = generate_arc_list
+    a1, a2 = generate_arc_list
 
-    assert isinstance(arc1, np.ndarray)
-    assert isinstance(arc2, np.ndarray)
+    assert isinstance(a1, np.ndarray)
+    assert isinstance(a2, np.ndarray)
 
-    assert arc1.ndim == 2
-    assert arc2.ndim == 2
+    assert a1.ndim == 2
+    assert a2.ndim == 2
 
-    assert arc1.shape[1] == 2
-    assert arc2.shape[1] == 2
+    assert a1.shape[1] == 2
+    assert a2.shape[1] == 2
+
+
+def test_invalid_arc():
+    with pytest.raises(ValueError):
+        _ = create_arc(0., np.pi / 3., -1., 0.1)
+    with pytest.raises(ValueError):
+        _ = create_arc(0., np.pi / 3., 1., 0.)
 
 
 def test_circular_polygon(generate_circular_polygon_list):
@@ -94,6 +101,13 @@ def test_circular_polygon(generate_circular_polygon_list):
     assert c2.shape[1] == 2
 
 
+def test_invalid_circular_polygon():
+    with pytest.raises(ValueError):
+        _ = create_circular_polygon(-1., 0.1)
+    with pytest.raises(ValueError):
+        _ = create_circular_polygon(1., 0.)
+
+
 def test_rectangular_polygon(generate_rectangular_polygon_list):
 
     r1, r2 = generate_rectangular_polygon_list
@@ -106,6 +120,13 @@ def test_rectangular_polygon(generate_rectangular_polygon_list):
 
     assert r1.shape[1] == 2
     assert r2.shape[1] == 2
+
+
+def test_invalid_rectangular_polygon():
+    with pytest.raises(ValueError):
+        _ = create_rectangular_polygon(-2., 2., 0.)
+    with pytest.raises(ValueError):
+        _ = create_rectangular_polygon(2., -2., 0.)
 
 
 def test_rounded_rectangular_polygon(
@@ -122,3 +143,14 @@ def test_rounded_rectangular_polygon(
 
     assert r1.shape[1] == 2
     assert r2.shape[1] == 2
+
+
+def test_invalid_rounded_rectangular_polygon():
+    with pytest.raises(ValueError):
+        _ = create_rounded_rectangular_polygon(-2., 2., 0., 1., 0.1)
+    with pytest.raises(ValueError):
+        _ = create_rounded_rectangular_polygon(2., -2., 0., 1., 0.1)
+    with pytest.raises(ValueError):
+        _ = create_rounded_rectangular_polygon(2., 2., 0., -1., 0.1)
+    with pytest.raises(ValueError):
+        _ = create_rounded_rectangular_polygon(2., 2., 0., 1., 0.)
