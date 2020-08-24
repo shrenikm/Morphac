@@ -288,6 +288,16 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonRotation) {
       IsRoundedRectangleOrientedCorrectly(rounded_rectangle3_, M_PI / 4));
 }
 
+TEST_F(GeometryUtilsTest, InvalidRoundedRectangularPolygon) {
+  // If the radius is more than half the sizes, it is invalid.
+  ASSERT_THROW(
+      CreateRoundedRectangularPolygon(6., 4., 0., 3., 0.1, Vector2d::Zero()),
+      std::invalid_argument);
+  ASSERT_THROW(
+      CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Vector2d::Zero()),
+      std::invalid_argument);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {

@@ -54,4 +54,3 @@ void define_lines_binding(py::module& m) {
 }  // namespace geometry
 }  // namespace math
 }  // namespace morphac
-

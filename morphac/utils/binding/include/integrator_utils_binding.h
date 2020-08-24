@@ -16,5 +16,3 @@ void define_integrator_utils_binding(pybind11::module& m);
 } // namespace morphac
 
 #endif
-
-
