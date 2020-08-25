@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.utils import (
+from morphac.math.geometry import (
     create_arc,
     create_circular_polygon,
     create_rectangular_polygon,
