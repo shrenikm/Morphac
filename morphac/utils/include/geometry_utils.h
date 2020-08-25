@@ -33,6 +33,10 @@ morphac::common::aliases::Points CreateRoundedRectangularPolygon(
     const double radius, const double angular_resolution,
     const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
 
+morphac::common::aliases::Points CreateTriangularPolygon(
+    const double base, const double height, const double angle,
+    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+
 }  // namespace utils
 }  // namespace morphac
 

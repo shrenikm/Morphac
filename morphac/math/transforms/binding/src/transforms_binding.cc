@@ -14,15 +14,30 @@ using Eigen::Vector2i;
 
 using morphac::common::aliases::Pixels;
 using morphac::common::aliases::Points;
-using morphac::math::transforms::RotationMatrix;
-using morphac::math::transforms::TransformationMatrix;
 using morphac::math::transforms::CanvasToWorld;
+using morphac::math::transforms::HomogenizePoints;
+using morphac::math::transforms::RotationMatrix;
+using morphac::math::transforms::RotatePoints;
+using morphac::math::transforms::TransformationMatrix;
+using morphac::math::transforms::TransformPoints;
+using morphac::math::transforms::TranslatePoints;
+using morphac::math::transforms::UnHomogenizePoints;
 using morphac::math::transforms::WorldToCanvas;
 
 void define_transforms_binding(py::module& m) {
   m.def("rotation_matrix", &RotationMatrix, py::arg("angle"));
   m.def("transformation_matrix", &TransformationMatrix, py::arg("angle"),
         py::arg("translation"));
+
+  m.def("homogenize_points", &HomogenizePoints, py::arg("points"));
+  m.def("unhomogenize_points", &UnHomogenizePoints,
+        py::arg("homogeneous_points"));
+  m.def("translate_points", &TranslatePoints, py::arg("points"),
+        py::arg("translation"));
+  m.def("rotate_points", &RotatePoints, py::arg("points"), py::arg("angle"),
+        py::arg("center") = Vector2d::Zero());
+  m.def("transform_points", &TransformPoints, py::arg("points"),
+        py::arg("angle"), py::arg("translation"));
 
   // Cpp overloads.
   m.def("canvas_to_world",

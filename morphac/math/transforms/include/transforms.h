@@ -25,6 +25,24 @@ const Eigen::MatrixXd TransformationMatrix(const double angle,
 Eigen::Vector2d CanvasToWorld(const Eigen::Vector2i& canvas_coord,
                               const double resolution);
 
+morphac::common::aliases::HomogeneousPoints HomogenizePoints(
+    const morphac::common::aliases::Points& points);
+
+morphac::common::aliases::Points UnHomogenizePoints(
+    const morphac::common::aliases::HomogeneousPoints& homogenous_points);
+
+morphac::common::aliases::Points TranslatePoints(
+    const morphac::common::aliases::Points& points,
+    const Eigen::Vector2d& translation);
+
+morphac::common::aliases::Points RotatePoints(
+    const morphac::common::aliases::Points& points, const double angle,
+    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+
+morphac::common::aliases::Points TransformPoints(
+    const morphac::common::aliases::Points& points, const double angle,
+    const Eigen::Vector2d& translation);
+
 morphac::common::aliases::Points CanvasToWorld(
     const morphac::common::aliases::Pixels& canvas_coords,
     const double resolution);
