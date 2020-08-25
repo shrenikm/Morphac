@@ -17,6 +17,7 @@ set(GEOMETRY_MODULE_FILE
 set(GEOMETRY_BINDING_FILES
 
   lines_binding.cc
+  polygons_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -50,6 +51,7 @@ target_include_directories(${python_target}
 target_link_libraries(${python_target}
   PUBLIC
   lines
+  polygons
 )
 
 # Setting binding target properties.

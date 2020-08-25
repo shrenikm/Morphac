@@ -31,6 +31,7 @@ add_subdirectory(binding)
 set(GEOMETRY_SRC
 
   lines.cc
+  polygons.cc
 )
 
 foreach(file ${GEOMETRY_SRC})
@@ -59,6 +60,12 @@ target_link_libraries(lines
   numeric_utils
 )
 
+target_link_libraries(polygons
+  PUBLIC
+  points_utils
+  transforms
+)
+
 
 # Tests
 # -------------------------------------------------
@@ -67,6 +74,7 @@ target_link_libraries(lines
 set(GEOMETRY_TEST_SRC
 
   lines_test.cc
+  polygons_test.cc
 )
 
 # Creating the test executables.
@@ -90,4 +98,12 @@ target_link_libraries(lines_test
   PUBLIC
   gtest_main
   lines
+)
+
+target_link_libraries(polygons_test
+  PUBLIC
+  gtest_main
+  lines
+  numeric_utils
+  polygons
 )
