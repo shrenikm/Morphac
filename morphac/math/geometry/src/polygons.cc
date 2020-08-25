@@ -105,6 +105,19 @@ Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
   return TransformPoints(polygon, angle, center);
 }
 
+Points CreateTriangularPolygon(const double base, const double height,
+                               const double angle, const Vector2d& center) {
+  MORPH_REQUIRE(base >= 0, std::invalid_argument,
+                "Base length must be non-negative.");
+  MORPH_REQUIRE(height >= 0, std::invalid_argument,
+                "Height must be non-negative.");
+
+  Points polygon(3, 2);
+  polygon << 0., height / 2, base / 2, -height / 2, -base / 2, -height / 2;
+
+  return TransformPoints(polygon, angle, center);
+}
+
 }  // namespace geometry
 }  // namespace math
 }  // namespace morphac
