@@ -52,6 +52,12 @@ foreach(file ${TRANSFORMS_SRC})
   )
 endforeach()
 
+# Adding library dependencies.
+target_link_libraries(transforms
+  PUBLIC
+  points_utils
+)
+
 
 # Tests
 # -------------------------------------------------

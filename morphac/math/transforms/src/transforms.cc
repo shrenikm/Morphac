@@ -16,6 +16,8 @@ using Eigen::VectorXd;
 using morphac::common::aliases::HomogeneousPoints;
 using morphac::common::aliases::Pixels;
 using morphac::common::aliases::Points;
+using morphac::utils::HomogenizePoints;
+using morphac::utils::UnHomogenizePoints;
 
 const MatrixXd RotationMatrix(const double angle) {
   MatrixXd rotation_matrix(2, 2);
@@ -33,16 +35,6 @@ const MatrixXd TransformationMatrix(const double angle,
       cos(angle), translation(1), 0, 0, 1;
 
   return transformation_matrix;
-}
-
-HomogeneousPoints HomogenizePoints(const Points& points) {
-  HomogeneousPoints homogeneous_points(points.rows(), 3);
-  homogeneous_points << points, VectorXd::Ones(points.rows());
-  return homogeneous_points;
-}
-
-Points UnHomogenizePoints(const HomogeneousPoints& homogeneous_points) {
-  return homogeneous_points.block(0, 0, homogeneous_points.rows(), 2);
 }
 
 Points TranslatePoints(const Points& points, const Vector2d& translation) {

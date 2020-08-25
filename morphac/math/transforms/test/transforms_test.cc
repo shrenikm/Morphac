@@ -16,13 +16,11 @@ using Eigen::VectorXd;
 using morphac::common::aliases::HomogeneousPoints;
 using morphac::common::aliases::Points;
 using morphac::math::transforms::CanvasToWorld;
-using morphac::math::transforms::HomogenizePoints;
 using morphac::math::transforms::RotationMatrix;
 using morphac::math::transforms::RotatePoints;
 using morphac::math::transforms::TransformationMatrix;
 using morphac::math::transforms::TransformPoints;
 using morphac::math::transforms::TranslatePoints;
-using morphac::math::transforms::UnHomogenizePoints;
 using morphac::math::transforms::WorldToCanvas;
 
 class TransformsTest : public ::testing::Test {
@@ -133,21 +131,6 @@ TEST_F(TransformsTest, TransformationMatrixFunctionality) {
   transformed_point = tf * point;
 
   ASSERT_TRUE(transformed_point.isApprox(desired_point));
-}
-
-TEST_F(TransformsTest, HomogenizePoints) {
-  HomogeneousPoints homogenous_points = HomogenizePoints(points_);
-
-  ASSERT_TRUE(homogenous_points.col(0).isApprox(points_.col(0)));
-  ASSERT_TRUE(homogenous_points.col(1).isApprox(points_.col(1)));
-  ASSERT_TRUE(homogenous_points.col(2).isApprox(VectorXd::Ones(10)));
-}
-
-TEST_F(TransformsTest, UnHomogenizePoints) {
-  HomogeneousPoints homogenous_points = HomogenizePoints(points_);
-  Points recovered_points = UnHomogenizePoints(homogenous_points);
-
-  ASSERT_TRUE(recovered_points.isApprox(points_));
 }
 
 TEST_F(TransformsTest, TranslatePoints) {

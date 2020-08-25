@@ -20,7 +20,7 @@ set(UTILS_BINDING_FILES
   geometry_utils_binding.cc
   integrator_utils_binding.cc
   numeric_utils_binding.cc
-  transforms_utils_binding.cc
+  points_utils_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -57,7 +57,7 @@ target_link_libraries(${python_target}
   geometry_utils
   integrator_utils
   numeric_utils
-  transforms_utils
+  points_utils
 )
 
 # Setting binding target properties.

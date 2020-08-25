@@ -7,6 +7,7 @@
 
 #include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
+#include "utils/include/points_utils.h"
 
 namespace morphac {
 namespace math {
@@ -24,12 +25,6 @@ const Eigen::MatrixXd TransformationMatrix(const double angle,
 
 Eigen::Vector2d CanvasToWorld(const Eigen::Vector2i& canvas_coord,
                               const double resolution);
-
-morphac::common::aliases::HomogeneousPoints HomogenizePoints(
-    const morphac::common::aliases::Points& points);
-
-morphac::common::aliases::Points UnHomogenizePoints(
-    const morphac::common::aliases::HomogeneousPoints& homogenous_points);
 
 morphac::common::aliases::Points TranslatePoints(
     const morphac::common::aliases::Points& points,
