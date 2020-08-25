@@ -20,6 +20,7 @@ using morphac::math::geometry::CreateArc;
 using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
+using morphac::math::geometry::CreateTriangularPolygon;
 using morphac::utils::IsEqual;
 
 bool IsValidRectangle(const Points& rectangle) {
@@ -163,6 +164,59 @@ bool IsRoundedRectangleOrientedCorrectly(const Points& rounded_rectangle,
   return true;
 }
 
+bool IsValidIsoscelesTriangle(const Points& triangle, const Vector2d& center) {
+  // Sides lengths of the triangle.
+  double side1 = (triangle.row(0) - triangle.row(2)).norm();
+  double side2 = (triangle.row(0) - triangle.row(1)).norm();
+  double side3 = (triangle.row(1) - triangle.row(2)).norm();
+
+  // Triangle inequality.
+  if (side1 + side2 <= side3) {
+    return false;
+  }
+  if (side2 + side3 <= side1) {
+    return false;
+  }
+  if (side3 + side1 <= side2) {
+    return false;
+  }
+
+  // Make sure that the triangle is an isosceles triangle.
+  if (!IsEqual(side1, side2)) {
+    return false;
+  }
+
+  // The center must be at an equal distance from the base points.
+  double dist2 = (triangle.row(1) - center.transpose()).norm();
+  double dist3 = (triangle.row(2) - center.transpose()).norm();
+
+  if (!IsEqual(dist2, dist3)) {
+    return false;
+  }
+
+  return true;
+}
+
+bool IsValidEquilateralTriangle(const Points& triangle,
+                                const Vector2d& center) {
+  // Every equilateral triangle is also an isosceles triangle.
+  if (!IsValidIsoscelesTriangle(triangle, center)) {
+    return false;
+  }
+
+  // Additionally all three sides must be equal.
+  double side = (triangle.row(0) - triangle.row(2)).norm();
+  double base = (triangle.row(1) - triangle.row(2)).norm();
+
+  // The isosceles test already checks if the two sides are equal. Here we
+  // just check if this is equal to the base length.
+  if (!IsEqual(side, base)) {
+    return false;
+  }
+
+  return true;
+}
+
 class GeometryUtilsTest : public ::testing::Test {
  protected:
   GeometryUtilsTest() {
@@ -189,6 +243,12 @@ class GeometryUtilsTest : public ::testing::Test {
       CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.1, Vector2d(-5, 6));
   Points rounded_rectangle3_ = CreateRoundedRectangularPolygon(
       2., 2., M_PI / 4., 0.5, 0.01, Vector2d(5, 4));
+
+  Points triangle1_ = CreateTriangularPolygon(2., 2., 0.);
+  Points triangle2_ =
+      CreateTriangularPolygon(4., sqrt(3) * 4. / 2., 0., Vector2d(-3., 2.));
+  Points triangle3_ = CreateTriangularPolygon(4., sqrt(3) * 4. / 2., M_PI / 4,
+                                              Vector2d(2., -3.));
 };
 
 TEST_F(GeometryUtilsTest, CreateArc) {
@@ -306,16 +366,6 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonRotation) {
       IsRoundedRectangleOrientedCorrectly(rounded_rectangle3_, M_PI / 4));
 }
 
-TEST_F(GeometryUtilsTest, InvalidRoundedRectangularPolygon) {
-  // If the radius is more than half the sizes, it is invalid.
-  ASSERT_THROW(
-      CreateRoundedRectangularPolygon(6., 4., 0., 3., 0.1, Vector2d::Zero()),
-      std::invalid_argument);
-  ASSERT_THROW(
-      CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Vector2d::Zero()),
-      std::invalid_argument);
-}
-
 TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
   ASSERT_THROW(CreateRoundedRectangularPolygon(-2., 2., 0., 1., 0.1),
                std::invalid_argument);
@@ -325,6 +375,20 @@ TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
                std::invalid_argument);
   ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.),
                std::invalid_argument);
+  // If the radius is more than half the sizes, it is invalid.
+  ASSERT_THROW(
+      CreateRoundedRectangularPolygon(6., 4., 0., 3., 0.1, Vector2d::Zero()),
+      std::invalid_argument);
+  ASSERT_THROW(
+      CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Vector2d::Zero()),
+      std::invalid_argument);
+}
+
+TEST_F(GeometryUtilsTest, CreateTriangularPolygon) {
+  // Test the validity of each arc.
+  ASSERT_TRUE(IsValidIsoscelesTriangle(triangle1_, Vector2d::Zero()));
+  ASSERT_TRUE(IsValidEquilateralTriangle(triangle2_, Vector2d(-3, 2)));
+  ASSERT_TRUE(IsValidEquilateralTriangle(triangle3_, Vector2d(2, -3)));
 }
 
 }  // namespace
