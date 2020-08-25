@@ -13,6 +13,7 @@ using morphac::math::geometry::CreateArc;
 using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
+using morphac::math::geometry::CreateTriangularPolygon;
 
 void define_polygons_binding(py::module& m) {
   m.def("create_arc", &CreateArc, py::arg("start_angle"), py::arg("end_angle"),
@@ -26,6 +27,9 @@ void define_polygons_binding(py::module& m) {
   m.def("create_rounded_rectangular_polygon", &CreateRoundedRectangularPolygon,
         py::arg("size_x"), py::arg("size_y"), py::arg("angle"),
         py::arg("radius"), py::arg("angular_resolution"),
+        py::arg("center") = Vector2d::Zero());
+  m.def("create_triangular_polygon", &CreateTriangularPolygon, py::arg("base"),
+        py::arg("height"), py::arg("angle"),
         py::arg("center") = Vector2d::Zero());
 }
 

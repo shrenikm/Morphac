@@ -391,6 +391,11 @@ TEST_F(GeometryUtilsTest, CreateTriangularPolygon) {
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle3_, Vector2d(2, -3)));
 }
 
+TEST_F(GeometryUtilsTest, InvalidCreateTriangularPolygon) {
+  ASSERT_THROW(CreateTriangularPolygon(-1., 2., 0.), std::invalid_argument);
+  ASSERT_THROW(CreateTriangularPolygon(1., -2., 0.), std::invalid_argument);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {

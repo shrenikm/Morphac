@@ -6,6 +6,7 @@ from morphac.math.geometry import (
     create_circular_polygon,
     create_rectangular_polygon,
     create_rounded_rectangular_polygon,
+    create_triangular_polygon,
 )
 
 
@@ -63,24 +64,37 @@ def generate_rounded_rectangular_polygon_list():
     return r1, r2
 
 
+@pytest.fixture
+def generate_triangular_polygon_list():
+    t1 = create_triangular_polygon(2., 2., 0.)
+    t2 = create_triangular_polygon(
+        base=4.,
+        height=6.,
+        angle=np.pi / 3.,
+        center=[-3., 2.],
+    )
+
+    return t1, t2
+
+
 # As the cpp test does the numeric computation, here we only do some basic
 # testing to ensure that the binding interface works correctly.
+
+# Tests if the give set of points can be a valid polygon.
+def _is_polygon(polygon):
+
+    assert isinstance(polygon, np.ndarray)
+    assert polygon.dtype == np.float64
+    assert polygon.ndim == 2
+    assert polygon.shape[1] == 2
+
 
 def test_arc(generate_arc_list):
 
     a1, a2 = generate_arc_list
 
-    assert isinstance(a1, np.ndarray)
-    assert isinstance(a2, np.ndarray)
-
-    assert a1.dtype == np.float64
-    assert a2.dtype == np.float64
-
-    assert a1.ndim == 2
-    assert a2.ndim == 2
-
-    assert a1.shape[1] == 2
-    assert a2.shape[1] == 2
+    _is_polygon(a1)
+    _is_polygon(a2)
 
 
 def test_invalid_arc():
@@ -94,17 +108,8 @@ def test_circular_polygon(generate_circular_polygon_list):
 
     c1, c2 = generate_circular_polygon_list
 
-    assert isinstance(c1, np.ndarray)
-    assert isinstance(c2, np.ndarray)
-
-    assert c1.dtype == np.float64
-    assert c2.dtype == np.float64
-
-    assert c1.ndim == 2
-    assert c2.ndim == 2
-
-    assert c1.shape[1] == 2
-    assert c2.shape[1] == 2
+    _is_polygon(c1)
+    _is_polygon(c2)
 
 
 def test_invalid_circular_polygon():
@@ -118,17 +123,8 @@ def test_rectangular_polygon(generate_rectangular_polygon_list):
 
     r1, r2 = generate_rectangular_polygon_list
 
-    assert isinstance(r1, np.ndarray)
-    assert isinstance(r2, np.ndarray)
-
-    assert r1.dtype == np.float64
-    assert r2.dtype == np.float64
-
-    assert r1.ndim == 2
-    assert r2.ndim == 2
-
-    assert r1.shape[1] == 2
-    assert r2.shape[1] == 2
+    _is_polygon(r1)
+    _is_polygon(r2)
 
 
 def test_invalid_rectangular_polygon():
@@ -144,17 +140,8 @@ def test_rounded_rectangular_polygon(
 
     r1, r2 = generate_rounded_rectangular_polygon_list
 
-    assert isinstance(r1, np.ndarray)
-    assert isinstance(r2, np.ndarray)
-
-    assert r1.dtype == np.float64
-    assert r2.dtype == np.float64
-
-    assert r1.ndim == 2
-    assert r2.ndim == 2
-
-    assert r1.shape[1] == 2
-    assert r2.shape[1] == 2
+    _is_polygon(r1)
+    _is_polygon(r2)
 
 
 def test_invalid_rounded_rectangular_polygon():
@@ -166,3 +153,18 @@ def test_invalid_rounded_rectangular_polygon():
         _ = create_rounded_rectangular_polygon(2., 2., 0., -1., 0.1)
     with pytest.raises(ValueError):
         _ = create_rounded_rectangular_polygon(2., 2., 0., 1., 0.)
+
+
+def test_triangular_polygon(generate_triangular_polygon_list):
+
+    t1, t2 = generate_triangular_polygon_list
+
+    _is_polygon(t1)
+    _is_polygon(t2)
+
+
+def test_invalid_triangular_polygon():
+    with pytest.raises(ValueError):
+        _ = create_triangular_polygon(-1., 2., 0.)
+    with pytest.raises(ValueError):
+        _ = create_triangular_polygon(1., -2., 0.)
