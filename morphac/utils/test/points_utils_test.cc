@@ -20,11 +20,13 @@ class TransformsUtilsTest : public ::testing::Test {
   TransformsUtilsTest() {
     // Set random seed for Eigen.
     srand(7);
+
+    points_ = Points::Random(10, 2);
   }
 
   void SetUp() override {}
 
-  Points cube_, points_;
+  Points points_;
 };
 
 TEST_F(TransformsUtilsTest, HomogenizePoints) {

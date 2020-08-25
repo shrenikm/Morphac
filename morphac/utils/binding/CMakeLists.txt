@@ -17,7 +17,6 @@ set(UTILS_MODULE_FILE
 set(UTILS_BINDING_FILES
 
   angle_utils_binding.cc
-  geometry_utils_binding.cc
   integrator_utils_binding.cc
   numeric_utils_binding.cc
   points_utils_binding.cc
@@ -54,7 +53,6 @@ target_include_directories(${python_target}
 target_link_libraries(${python_target}
   PUBLIC
   angle_utils
-  geometry_utils
   integrator_utils
   numeric_utils
   points_utils

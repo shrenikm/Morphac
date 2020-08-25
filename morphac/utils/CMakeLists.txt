@@ -31,7 +31,6 @@ add_subdirectory(binding)
 set(UTILS_SRC
 
   angle_utils.cc
-  geometry_utils.cc
   integrator_utils.cc
   numeric_utils.cc
   points_utils.cc
@@ -58,12 +57,6 @@ endforeach()
 
 # Adding library dependencies.
 
-target_link_libraries(geometry_utils
-  PUBLIC
-  transforms
-  transforms_utils
-)
-
 target_link_libraries(integrator_utils
   PUBLIC
   integrator
@@ -81,7 +74,6 @@ target_link_libraries(integrator_utils
 set(UTILS_TEST_SRC
 
   angle_utils_test.cc
-  geometry_utils_test.cc
   integrator_utils_test.cc
   numeric_utils_test.cc
   points_utils_test.cc
@@ -108,14 +100,6 @@ target_link_libraries(angle_utils_test
   PUBLIC
   gtest_main
   angle_utils
-)
-
-target_link_libraries(geometry_utils_test
-  PUBLIC
-  gtest_main
-  lines
-  numeric_utils
-  geometry_utils
 )
 
 target_link_libraries(integrator_utils_test
