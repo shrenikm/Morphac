@@ -5,6 +5,8 @@
 
 #include "common/error_handling/include/error_macros.h"
 #include "constructs/include/coordinate.h"
+#include "math/geometry/include/polygons.h"
+#include "math/transforms/include/transforms.h"
 
 namespace morphac {
 namespace robot {
@@ -22,37 +24,27 @@ class Footprint {
 
   const Eigen::MatrixXd& get_data() const;
 
-  //static Footprint OffsetFootprint(const Footprint& footprint,
-  //                                 const Eigen::Vector2d& center);
-  //static Footprint OffsetFootprint(
-  //    const Footprint& footprint,
-  //    const morphac::constructs::Coordinate& center);
+  // Footprint generating functions. Note that the coordinates are always with
+  // respect to the origin. The relative center is the position of the center
+  // of the footprint within the footprint (It is measured from (0, 0)). So,
+  // even if a center is provided, the footprint is shifted such that the
+  // relative center coincides with (0, 0).
+  static Footprint CreateCircularFootprint(
+      const double radius, const double angular_resolution,
+      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
 
-  //static Footprint CreateRectangularFootprint(
-  //    const double size_x, const double size_y,
-  //    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
-  //static Footprint CreateRectangularFootprint(
-  //    const double size_x, const double size_y,
-  //    const morphac::constructs::Coordinate& center =
-  //        morphac::constructs::Coordinate());
+  static Footprint CreateRectangularFootprint(
+      const double size_x, const double size_y, const double angle,
+      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
 
-  //static Footprint CreateCircularFootprint(
-  //    const double radius, const double angular_resolution,
-  //    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
-  //static Footprint CreateCircularFootprint(
-  //    const double radius, const double angular_resolution,
-  //    const morphac::constructs::Coordinate& center =
-  //        morphac::constructs::Coordinate());
+  static Footprint CreateRoundedRectangularFootprint(
+      const double size_x, const double size_y, const double angle,
+      const double radius, const double angular_resolution,
+      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
 
-  //static Footprint CreateRoundedRectangularFootprint(
-  //    const double size_x, const double size_y, const double radius,
-  //    const double angular_resolution,
-  //    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
-  //static Footprint CreateRoundedRectangularFootprint(
-  //    const double size_x, const double size_y, const double radius,
-  //    const double angular_resolution,
-  //    const morphac::constructs::Coordinate& center =
-  //        morphac::constructs::Coordinate());
+  static Footprint CreateTriangularFootprint(
+      const double base, const double height, const double angle,
+      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
 
  private:
   Eigen::MatrixXd data_;

@@ -55,6 +55,8 @@ endforeach()
 target_link_libraries(footprint
   PUBLIC
   coordinate
+  polygons
+  transforms
 )
 
 target_link_libraries(robot
