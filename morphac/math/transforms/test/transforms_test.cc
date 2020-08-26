@@ -14,6 +14,7 @@ using Eigen::Vector2i;
 using Eigen::VectorXd;
 
 using morphac::common::aliases::HomogeneousPoints;
+using morphac::common::aliases::Pixels;
 using morphac::common::aliases::Points;
 using morphac::math::transforms::CanvasToWorld;
 using morphac::math::transforms::RotationMatrix;
@@ -209,7 +210,7 @@ TEST_F(TransformsTest, CanvasToWorld) {
   // Note that we cannot construct the zero vector inplace as the function
   // overloading becomes ambiguous.
   Vector2i zero_coord = Vector2i::Zero();
-  ASSERT_TRUE(CanvasToWorld(zero_coord, 1.).isApprox(Vector2d::Zero()));
+  ASSERT_TRUE(CanvasToWorld(zero_coord, 0.1).isApprox(Vector2d::Zero()));
 
   // Test conversion.
   Vector2i canvas_coord;
@@ -219,12 +220,26 @@ TEST_F(TransformsTest, CanvasToWorld) {
   ASSERT_TRUE(CanvasToWorld(canvas_coord, 0.02).isApprox(desired_world_coord));
 }
 
+TEST_F(TransformsTest, CanvasToWorldMultiplePoints) {
+  // Trivial conversion.
+  // Note that we cannot construct the zero points inplace as the function
+  // overloading becomes ambiguous.
+  Pixels zero_coords = Pixels::Zero(10, 2);
+  ASSERT_TRUE(CanvasToWorld(zero_coords, 0.1).isApprox(Points::Zero(10, 2)));
+
+  Pixels canvas_coords(3, 2);
+  Points desired_world_coords(3, 2);
+  canvas_coords << 2, 3, 20, 30, -40, -75;
+  desired_world_coords << 0.2, 0.3, 2, 3, -4, -7.5;
+  ASSERT_TRUE(CanvasToWorld(canvas_coords, 0.1).isApprox(desired_world_coords));
+}
+
 TEST_F(TransformsTest, WorldToCanvas) {
   // Trivial conversion.
   // Note that we cannot construct the zero vector inplace as the function
   // overloading becomes ambiguous.
   Vector2d zero_coord = Vector2d::Zero();
-  ASSERT_TRUE(WorldToCanvas(zero_coord, 1.).isApprox(Vector2i::Zero()));
+  ASSERT_TRUE(WorldToCanvas(zero_coord, 0.1).isApprox(Vector2i::Zero()));
 
   // Test conversion without bounds checking.
   Vector2d world_coord;
@@ -234,14 +249,17 @@ TEST_F(TransformsTest, WorldToCanvas) {
   ASSERT_TRUE(WorldToCanvas(world_coord, 0.02).isApprox(desired_canvas_coord));
 
   // Bounds checking.
-  vector<int> canvas_size = {5, 5};
-  ASSERT_TRUE(WorldToCanvas(world_coord, 0.02, canvas_size)
+  vector<int> canvas_size = {100, 100};
+  ASSERT_TRUE(WorldToCanvas(Vector2d(-1., 1.), 0.02, canvas_size)
                   .isApprox(-1 * Vector2i::Ones()));
-
-  // More bounds.
-  world_coord(0) = 2.;
-  ASSERT_TRUE(WorldToCanvas(world_coord, 0.02, canvas_size)
+  ASSERT_TRUE(WorldToCanvas(Vector2d(1., -1.), 0.02, canvas_size)
                   .isApprox(-1 * Vector2i::Ones()));
+  ASSERT_TRUE(WorldToCanvas(Vector2d(5., 1.), 0.02, canvas_size)
+                  .isApprox(-1 * Vector2i::Ones()));
+  ASSERT_TRUE(WorldToCanvas(Vector2d(1., 5.), 0.02, canvas_size)
+                  .isApprox(-1 * Vector2i::Ones()));
+  ASSERT_FALSE(WorldToCanvas(Vector2d(1., 1.), 0.02, canvas_size)
+                   .isApprox(-1 * Vector2i::Ones()));
 }
 
 TEST_F(TransformsTest, WorldToCanvasRounding) {
@@ -249,13 +267,47 @@ TEST_F(TransformsTest, WorldToCanvasRounding) {
   // correctly.
   Vector2d world_coord;
   Vector2i desired_canvas_coord;
-  double resolution = 0.1;
 
   world_coord << 2.225, 3.775;
   desired_canvas_coord << 22, 38;
 
-  ASSERT_TRUE(
-      WorldToCanvas(world_coord, resolution).isApprox(desired_canvas_coord));
+  ASSERT_TRUE(WorldToCanvas(world_coord, 0.1).isApprox(desired_canvas_coord));
+}
+
+TEST_F(TransformsTest, WorldToCanvasMultiplePoints) {
+  // Trivial conversion.
+  // Note that we cannot construct the zero points inplace as the function
+  // overloading becomes ambiguous.
+  Points zero_coords = Points::Zero(10, 2);
+  ASSERT_TRUE(WorldToCanvas(zero_coords, 0.1).isApprox(Pixels::Zero(10, 2)));
+
+  Points world_coords(5, 2);
+  Pixels desired_canvas_coords(5, 2);
+  world_coords << -1., 10., 10., -1., 20., 7., 1., 40., 5., 6.;
+  desired_canvas_coords << -10, 100, 100, -10, 200, 70, 10, 400, 50, 60;
+  ASSERT_TRUE(WorldToCanvas(world_coords, 0.1).isApprox(desired_canvas_coords));
+
+  // Bounds checking.
+  vector<int> canvas_size = {100, 100};
+  Pixels canvas_coords = WorldToCanvas(world_coords, 0.1, canvas_size);
+
+  // The first two points must be outside the canvas.
+  ASSERT_TRUE(canvas_coords.row(0).isApprox(-1 * Vector2i::Ones().transpose()));
+  ASSERT_TRUE(canvas_coords.row(1).isApprox(-1 * Vector2i::Ones().transpose()));
+  ASSERT_TRUE(canvas_coords.row(2).isApprox(-1 * Vector2i::Ones().transpose()));
+  ASSERT_TRUE(canvas_coords.row(3).isApprox(-1 * Vector2i::Ones().transpose()));
+  ASSERT_FALSE(
+      canvas_coords.row(4).isApprox(-1 * Vector2i::Ones().transpose()));
+}
+
+TEST_F(TransformsTest, WorldToCanvasRoundingMultiplePoints) {
+  Points world_coords(2, 2);
+  Pixels desired_canvas_coords(2, 2);
+
+  world_coords << 1.712, -1.291, 3.445, 3.455;
+  desired_canvas_coords << 17, -13, 34, 35;
+
+  ASSERT_TRUE(WorldToCanvas(world_coords, 0.1).isApprox(desired_canvas_coords));
 }
 
 }  // namespace

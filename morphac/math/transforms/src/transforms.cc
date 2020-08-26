@@ -116,7 +116,7 @@ Pixels WorldToCanvas(const Points& world_coords, const double resolution,
            canvas_coords.row(i)(1) < canvas_size[1])) {
       } else {
         // Invalid coordinate.
-        canvas_coords.row(i) = Vector2i::Ones();
+        canvas_coords.row(i) = -1 * Vector2i::Ones();
       }
     }
   }
