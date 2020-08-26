@@ -114,6 +114,16 @@ def test_canvas_to_world():
     assert np.allclose(world_coord, [3., 6.])
 
 
+def test_canvas_to_world_multiple_points():
+
+    np.random.seed(7)
+    world_coords = canvas_to_world(
+        canvas_coords=np.random.randint(200, size=(10, 2)), resolution=0.1)
+
+    assert world_coords.shape == (10, 2)
+    assert world_coords.dtype == np.float64
+
+
 def test_world_to_canvas():
 
     canvas_coord = world_to_canvas(world_coord=[-2., 17.], resolution=0.01)
@@ -135,3 +145,20 @@ def test_world_to_canvas():
     assert canvas_coord.ndim == 1
     assert canvas_coord.dtype == np.int32
     assert np.allclose(canvas_coord, [-1, -1])
+
+
+def test_world_to_canvas():
+
+    np.random.seed(7)
+    world_coords = np.random.randn(10, 2)
+    canvas_coords = world_to_canvas(world_coords=world_coords, resolution=0.1)
+
+    assert canvas_coords.shape == (10, 2)
+    assert canvas_coords.dtype == np.int32
+
+    # Make sure that the interface with the canvas size works.
+    canvas_coords = world_to_canvas(
+        world_coords=world_coords, resolution=0.1, canvas_size=(500, 500))
+
+    assert canvas_coords.shape == (10, 2)
+    assert canvas_coords.dtype == np.int32

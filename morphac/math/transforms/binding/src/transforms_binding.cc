@@ -55,12 +55,12 @@ void define_transforms_binding(py::module& m) {
   m.def("world_to_canvas",
         py::overload_cast<const Points&, const double, const vector<int>&>(
             &WorldToCanvas),
-        py::arg("world_coord"), py::arg("resolution"), py::arg("canvas_size"));
+        py::arg("world_coords"), py::arg("resolution"), py::arg("canvas_size"));
   m.def("world_to_canvas",
         [](const Points& world_coord, const double resolution) {
           return WorldToCanvas(world_coord, resolution);
         },
-        py::arg("world_coord"), py::arg("resolution"));
+        py::arg("world_coords"), py::arg("resolution"));
 }
 
 }  // namespace binding
