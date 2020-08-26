@@ -6,7 +6,6 @@
 #include "common/error_handling/include/error_macros.h"
 #include "constructs/include/coordinate.h"
 #include "math/geometry/include/polygons.h"
-#include "math/transforms/include/transforms.h"
 
 namespace morphac {
 namespace robot {
