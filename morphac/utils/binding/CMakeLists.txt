@@ -6,6 +6,12 @@ if(NOT BUILD_PYTHON_BINDINGS)
   return()
 endif()
 
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(modules)
+
+
 # Src file that creates the python module.
 set(UTILS_MODULE_FILE
 

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.utils import (
+from morphac.utils.points_utils import (
     homogenize_points,
     unhomogenize_points,
 )

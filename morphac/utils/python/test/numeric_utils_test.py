@@ -1,4 +1,4 @@
-from morphac.utils import is_equal
+from morphac.utils.numeric_utils import is_equal
 
 # The actual rigorous numerical testing happens on the cpp side. Here we run
 # some basic sanity tests.

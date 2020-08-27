@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.utils import to_degrees, to_radians, normalize_angle
+from morphac.utils.angle_utils import to_degrees, to_radians, normalize_angle
 
 # The cpp test checks for actual computation validity. Here we do minimal
 # computation checking and focus on testing whether the wrapper works as

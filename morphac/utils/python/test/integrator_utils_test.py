@@ -9,7 +9,7 @@ from morphac.math.numeric import (
     RK4Integrator,
 )
 from morphac.mechanics.models import DiffDriveModel
-from morphac.utils import integrator_from_type
+from morphac.utils.integrator_utils import integrator_from_type
 
 
 @pytest.fixture
