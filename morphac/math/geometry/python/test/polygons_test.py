@@ -80,8 +80,8 @@ def generate_triangular_polygon_list():
 # As the cpp test does the numeric computation, here we only do some basic
 # testing to ensure that the binding interface works correctly.
 
-# Tests if the give set of points can be a valid polygon.
-def _is_polygon(polygon):
+# Tests if the give set of points is be a structurally valid polygon.
+def _is_valid_polygon(polygon):
 
     assert isinstance(polygon, np.ndarray)
     assert polygon.dtype == np.float64
@@ -93,8 +93,8 @@ def test_arc(generate_arc_list):
 
     a1, a2 = generate_arc_list
 
-    _is_polygon(a1)
-    _is_polygon(a2)
+    _is_valid_polygon(a1)
+    _is_valid_polygon(a2)
 
 
 def test_invalid_arc():
@@ -108,8 +108,8 @@ def test_circular_polygon(generate_circular_polygon_list):
 
     c1, c2 = generate_circular_polygon_list
 
-    _is_polygon(c1)
-    _is_polygon(c2)
+    _is_valid_polygon(c1)
+    _is_valid_polygon(c2)
 
 
 def test_invalid_circular_polygon():
@@ -123,8 +123,8 @@ def test_rectangular_polygon(generate_rectangular_polygon_list):
 
     r1, r2 = generate_rectangular_polygon_list
 
-    _is_polygon(r1)
-    _is_polygon(r2)
+    _is_valid_polygon(r1)
+    _is_valid_polygon(r2)
 
 
 def test_invalid_rectangular_polygon():
@@ -140,8 +140,8 @@ def test_rounded_rectangular_polygon(
 
     r1, r2 = generate_rounded_rectangular_polygon_list
 
-    _is_polygon(r1)
-    _is_polygon(r2)
+    _is_valid_polygon(r1)
+    _is_valid_polygon(r2)
 
 
 def test_invalid_rounded_rectangular_polygon():
@@ -159,8 +159,8 @@ def test_triangular_polygon(generate_triangular_polygon_list):
 
     t1, t2 = generate_triangular_polygon_list
 
-    _is_polygon(t1)
-    _is_polygon(t2)
+    _is_valid_polygon(t1)
+    _is_valid_polygon(t2)
 
 
 def test_invalid_triangular_polygon():

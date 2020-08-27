@@ -20,7 +20,7 @@ void define_footprint_binding(py::module& m) {
   footprint.def_static("create_circular_footprint",
                        &Footprint::CreateCircularFootprint, py::arg("radius"),
                        py::arg("angular_resolution"),
-                       py::arg("relative_center"));
+                       py::arg("relative_center") = Vector2d::Zero());
   footprint.def_static("create_rectangular_footprint",
                        &Footprint::CreateRectangularFootprint,
                        py::arg("size_x"), py::arg("size_y"), py::arg("angle"),
