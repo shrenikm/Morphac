@@ -11,10 +11,12 @@ from morphac.math.transforms import (
     world_to_canvas,
 )
 
+from morphac.utils.pytest_utils import set_standard_testing_random_seed
+
 
 @pytest.fixture
 def generate_points_list():
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     points = np.random.randn(10, 2)
     homogeneous_points = np.random.randn(10, 3)
 
@@ -116,7 +118,7 @@ def test_canvas_to_world():
 
 def test_canvas_to_world_multiple_points():
 
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     world_coords = canvas_to_world(
         canvas_coords=np.random.randint(200, size=(10, 2)), resolution=0.1)
 
@@ -148,8 +150,7 @@ def test_world_to_canvas():
 
 
 def test_world_to_canvas():
-
-    np.random.seed(7)
+    set_standard_testing_random_seed()
     world_coords = np.random.randn(10, 2)
     canvas_coords = world_to_canvas(world_coords=world_coords, resolution=0.1)
 

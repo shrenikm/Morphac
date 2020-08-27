@@ -20,7 +20,7 @@ def _tricycle_drawing_kernel(canvas, robot):
     pass
 
 
-def _get_standard_model_kernel_correspondence():
+def _get_model_kernel_correspondence():
     model_classes = all_standard_model_classes()
     return {
         model_classes[0]: _ackermann_drawing_kernel,
