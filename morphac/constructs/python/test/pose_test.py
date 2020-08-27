@@ -197,5 +197,5 @@ def test_create_like(generate_pose_list):
 
     for p in generate_pose_list:
 
-        assert Pose.create_like(p).size == p.size
+        assert Pose.create_like(pose=p).size == p.size
         assert np.allclose(Pose.create_like(p).data, np.zeros(p.size))

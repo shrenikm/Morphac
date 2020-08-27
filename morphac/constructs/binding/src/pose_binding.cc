@@ -51,7 +51,7 @@ void define_pose_binding(py::module& m) {
   pose.def_property("data", &Pose::get_data,
                     py::overload_cast<const VectorXd&>(&Pose::set_data));
   pose.def("is_empty", &Pose::IsEmpty);
-  pose.def("create_like", &Pose::CreateLike);
+  pose.def_static("create_like", &Pose::CreateLike, py::arg("pose"));
 }
 
 }  // namespace binding

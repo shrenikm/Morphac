@@ -52,7 +52,8 @@ void define_velocity_binding(py::module& m) {
       "data", &Velocity::get_data,
       py::overload_cast<const VectorXd&>(&Velocity::set_data));
   velocity.def("is_empty", &Velocity::IsEmpty);
-  velocity.def("create_like", &Velocity::CreateLike);
+  velocity.def_static("create_like", &Velocity::CreateLike,
+                      py::arg("velocity"));
 }
 
 }  // namespace binding

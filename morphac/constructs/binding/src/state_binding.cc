@@ -69,7 +69,7 @@ void define_state_binding(py::module& m) {
   state.def("is_empty", &State::IsEmpty);
   state.def("is_pose_empty", &State::IsPoseEmpty);
   state.def("is_velocity_empty", &State::IsVelocityEmpty);
-  state.def("create_like", &State::CreateLike);
+  state.def_static("create_like", &State::CreateLike, py::arg("state"));
 }
 
 }  // namespace binding

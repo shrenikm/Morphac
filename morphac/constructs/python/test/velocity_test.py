@@ -197,5 +197,5 @@ def test_create_like(generate_velocity_list):
 
     for v in generate_velocity_list:
 
-        assert Velocity.create_like(v).size == v.size
+        assert Velocity.create_like(velocity=v).size == v.size
         assert np.allclose(Velocity.create_like(v).data, np.zeros(v.size))

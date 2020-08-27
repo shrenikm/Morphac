@@ -53,7 +53,8 @@ void define_control_input_binding(py::module& m) {
       "data", &ControlInput::get_data,
       py::overload_cast<const VectorXd&>(&ControlInput::set_data));
   control_input.def("is_empty", &ControlInput::IsEmpty);
-  control_input.def("create_like", &ControlInput::CreateLike);
+  control_input.def_static("create_like", &ControlInput::CreateLike,
+                           py::arg("control_input"));
 }
 
 }  // namespace binding

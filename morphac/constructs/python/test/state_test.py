@@ -450,7 +450,7 @@ def test_create_like(generate_state_list):
 
     for s in generate_state_list:
 
-        zero_state = State.create_like(s)
+        zero_state = State.create_like(state=s)
         assert zero_state.size == s.size
         # Make sure that if partial, they are of the same configuration.
         assert zero_state.is_empty() == s.is_empty()

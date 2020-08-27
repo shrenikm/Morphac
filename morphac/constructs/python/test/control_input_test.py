@@ -197,6 +197,6 @@ def test_create_like(generate_control_input_list):
 
     for ci in generate_control_input_list:
 
-        assert ControlInput.create_like(ci).size == ci.size
+        assert ControlInput.create_like(control_input=ci).size == ci.size
         assert np.allclose(ControlInput.create_like(ci).data,
                            np.zeros(ci.size))
