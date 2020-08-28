@@ -24,6 +24,7 @@ install(FILES
 set(VISUALIZATION_PYTHON_FILES
   map_visualization.py
   playground_visualization.py
+  robot_visualization.py
 )
 
 # Appending the directory of the python files.

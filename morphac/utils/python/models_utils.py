@@ -6,7 +6,8 @@ from morphac.mechanics.models import (
 )
 
 
-def all_standard_model_classes():
+# Get a list of the native mechanics models.
+def all_model_classes():
     return [
         AckermannModel,
         DiffDriveModel,
