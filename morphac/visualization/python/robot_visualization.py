@@ -11,8 +11,8 @@ from morphac.utils.models_utils import all_model_classes
 def _ackermann_drawing_kernel(canvas, robot):
     footprint_world_coords = transform_points(
         robot.footprint.data,
-        robot.state[2],
-        robot.state.data[:2])
+        robot.pose[2],
+        robot.pose.data[:2])
     footprint_world_coords = world_to_canvas(
         world_coords=footprint_world_coords,
         resolution=0.02,
