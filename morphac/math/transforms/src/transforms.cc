@@ -71,8 +71,8 @@ Vector2d CanvasToWorld(const Vector2i& canvas_coord, const double resolution,
   // indexed).
   // The y coordinate needs to be inverted.
   Vector2d world_coord = Vector2d::Zero();
-  world_coord(0) = canvas_size.at(1) - canvas_coord(1);
-  world_coord(1) = canvas_coord(0);
+  world_coord(0) = canvas_coord(1);
+  world_coord(1) = canvas_size.at(0) - canvas_coord(0);
   return resolution * world_coord;
 }
 
@@ -86,9 +86,9 @@ Points CanvasToWorld(const Pixels& canvas_coords, const double resolution,
   // indexed).
   // The y coordinate needs to be inverted.
 
-  world_coords.col(0) = canvas_size.at(1) * VectorXd::Ones(num_points) -
-                        canvas_coords.cast<double>().col(1);
-  world_coords.col(1) = canvas_coords.cast<double>().col(0);
+  world_coords.col(0) = canvas_coords.cast<double>().col(1);
+  world_coords.col(1) = canvas_size.at(0) * VectorXd::Ones(num_points) -
+                        canvas_coords.cast<double>().col(0);
   return resolution * world_coords;
 }
 
@@ -101,9 +101,9 @@ Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
   //    ((1 / resolution) * world_coord).array().round().matrix().cast<int>();
 
   // Interchange x and y and invert y.
-  canvas_coord(0) =
-      canvas_size.at(1) - round((1. / resolution) * world_coord(1));
-  canvas_coord(1) = round((1. / resolution) * world_coord(0));
+  canvas_coord(0) = round((1. / resolution) * world_coord(1));
+  canvas_coord(1) =
+      canvas_size.at(0) - round((1. / resolution) * world_coord(0));
 
   return canvas_coord;
 
@@ -136,13 +136,13 @@ Pixels WorldToCanvas(const Points& world_coords, const double resolution,
   //    ((1 / resolution) * world_coords).array().round().matrix().cast<int>();
 
   // Interchange x and y and invert y.
-  canvas_coords.col(0) = canvas_size.at(1) * VectorXi::Ones(num_points) -
-                         ((1 / resolution) * world_coords.col(1))
+  canvas_coords.col(0) = ((1 / resolution) * world_coords.col(1))
                              .array()
                              .round()
                              .matrix()
                              .cast<int>();
-  canvas_coords.col(1) = ((1 / resolution) * world_coords.col(0))
+  canvas_coords.col(1) = canvas_size.at(0) * VectorXi::Ones(num_points) -
+                         ((1 / resolution) * world_coords.col(0))
                              .array()
                              .round()
                              .matrix()
