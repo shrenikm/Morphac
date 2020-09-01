@@ -101,9 +101,9 @@ Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
   //    ((1 / resolution) * world_coord).array().round().matrix().cast<int>();
 
   // Interchange x and y and invert y.
-  canvas_coord(0) = round((1. / resolution) * world_coord(1));
-  canvas_coord(1) =
-      canvas_size.at(0) - round((1. / resolution) * world_coord(0));
+  canvas_coord(0) =
+      canvas_size.at(0) - round((1. / resolution) * world_coord(1));
+  canvas_coord(1) = round((1. / resolution) * world_coord(0));
 
   return canvas_coord;
 
@@ -136,13 +136,13 @@ Pixels WorldToCanvas(const Points& world_coords, const double resolution,
   //    ((1 / resolution) * world_coords).array().round().matrix().cast<int>();
 
   // Interchange x and y and invert y.
-  canvas_coords.col(0) = ((1 / resolution) * world_coords.col(1))
+  canvas_coords.col(0) = canvas_size.at(0) * VectorXi::Ones(num_points) -
+                         ((1 / resolution) * world_coords.col(1))
                              .array()
                              .round()
                              .matrix()
                              .cast<int>();
-  canvas_coords.col(1) = canvas_size.at(0) * VectorXi::Ones(num_points) -
-                         ((1 / resolution) * world_coords.col(0))
+  canvas_coords.col(1) = ((1 / resolution) * world_coords.col(0))
                              .array()
                              .round()
                              .matrix()
