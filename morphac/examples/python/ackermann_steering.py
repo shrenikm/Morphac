@@ -12,16 +12,12 @@ from morphac.visualization.robot_visualization import _ackermann_drawing_kernel
 def run():
 
     env_map = Map(width=10., height=10., resolution=0.02)
-    env_map.data[50:100, 50:100] = -1
 
     canvas = canvas_from_map(env_map)
 
     robot = Robot(AckermannModel(width=1., length=3.),
-                  # Footprint.create_circular_footprint(2., 0.1),
-                  #Footprint.create_rectangular_footprint(4., 2., 0.),
-                  # Footprint.create_rounded_rectangular_footprint(
-                  # 4., 2., 0., 0.5, 0.1),
-                  Footprint.create_triangular_footprint(3., 4., 0.),
+                  Footprint.create_rounded_rectangular_footprint(
+                      3.5, 1.5, 0., 0.3, 0.1),
                   initial_state=State([5., 5., 0., 0.], [])
                   )
 

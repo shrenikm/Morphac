@@ -2,6 +2,7 @@ import attr
 import cv2
 import numpy as np
 
+from morphac.constants.colors import FlatColors
 from morphac.constructs import State
 from morphac.mechanics.models import KinematicModel
 from morphac.math.transforms import world_to_canvas, transform_points
@@ -9,6 +10,10 @@ from morphac.utils.models_utils import all_model_classes
 
 
 def _ackermann_drawing_kernel(canvas, robot):
+
+    def _draw_extras(width, length, xy, angle):
+        pass
+
     footprint_world_coords = transform_points(
         robot.footprint.data,
         robot.pose[2],
@@ -18,25 +23,27 @@ def _ackermann_drawing_kernel(canvas, robot):
         resolution=0.02,
         canvas_size=(canvas.shape[1], canvas.shape[0])
     )
-    print('-' * 100)
-    print(footprint_canvas_coords)
     # Interchanging x and y while drawing as opencv points requires the x and
     # y axes to be the regular axes, with the origin at the top left.
     footprint_canvas_coords = np.int32([footprint_canvas_coords[:, ::-1]])
 
+    # Draw the main footprint.
     cv2.fillPoly(canvas, footprint_canvas_coords,
-                 (20, 200, 10), lineType=cv2.LINE_AA)
+                 FlatColors.TEAL, lineType=cv2.LINE_AA)
 
 
 def _diffdrive_drawing_kernel(canvas, robot):
+    # Pink
     pass
 
 
 def _dubin_drawing_kernel(canvas, robot):
+    # Green
     pass
 
 
 def _tricycle_drawing_kernel(canvas, robot):
+    # Orange
     pass
 
 
