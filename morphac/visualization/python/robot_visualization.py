@@ -13,13 +13,18 @@ def _ackermann_drawing_kernel(canvas, robot):
         robot.footprint.data,
         robot.pose[2],
         robot.pose.data[:2])
-    footprint_world_coords = world_to_canvas(
+    footprint_canvas_coords = world_to_canvas(
         world_coords=footprint_world_coords,
         resolution=0.02,
         canvas_size=(canvas.shape[1], canvas.shape[0])
     )
-    footprint_world_coords = np.int32([footprint_world_coords])
-    cv2.fillPoly(canvas, footprint_world_coords,
+    print('-' * 100)
+    print(footprint_canvas_coords)
+    # Interchanging x and y while drawing as opencv points requires the x and
+    # y axes to be the regular axes, with the origin at the top left.
+    footprint_canvas_coords = np.int32([footprint_canvas_coords[:, ::-1]])
+
+    cv2.fillPoly(canvas, footprint_canvas_coords,
                  (20, 200, 10), lineType=cv2.LINE_AA)
 
 
