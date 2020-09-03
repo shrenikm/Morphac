@@ -17,7 +17,7 @@ def run():
 
     robot = Robot(AckermannModel(width=1., length=3.),
                   Footprint.create_rounded_rectangular_footprint(
-                      3.5, 1.5, 0., 0.3, 0.1),
+                      3.5, 1.5, 0., 0.0, 0.1),
                   initial_state=State([5., 5., 0., 0.], [])
                   )
 

@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 
 
@@ -17,4 +18,11 @@ def paint_canvas(canvas, color, mask=None):
     canvas[..., 1][mask] = color[1]
     canvas[..., 2][mask] = color[2]
 
-    return canvas
+
+def paint_polygon_using_canvas_coords(canvas, canvas_coords, color):
+    # Interchanging x and y while drawing as opencv points requires the x and
+    # y axes to be the regular axes, with the origin at the top left.
+
+    coords = np.int32([canvas_coords[:, ::-1]])
+    cv2.fillPoly(canvas, coords,
+                 color, lineType=cv2.LINE_AA)

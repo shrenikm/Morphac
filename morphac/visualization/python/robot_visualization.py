@@ -1,6 +1,7 @@
 import attr
 import cv2
 import numpy as np
+import time
 
 from morphac.constants.colors import FlatColors
 from morphac.constructs import State
@@ -8,20 +9,13 @@ from morphac.mechanics.models import KinematicModel
 from morphac.math.geometry import create_rectangular_polygon
 from morphac.math.transforms import world_to_canvas, transform_points
 from morphac.utils.models_utils import all_model_classes
-
-
-def _draw_polygon_from_canvas_coords(canvas, canvas_coords, color):
-    # Interchanging x and y while drawing as opencv points requires the x and
-    # y axes to be the regular axes, with the origin at the top left.
-
-    coords = np.int32([canvas_coords[:, ::-1]])
-    cv2.fillPoly(canvas, coords,
-                 color, lineType=cv2.LINE_AA)
+from morphac.utils.canvas_utils import paint_polygon_using_canvas_coords
 
 
 def _ackermann_drawing_kernel(canvas, robot):
 
     def _draw_wheels():
+        # TODO: Cache this computation.
         def _compute_wheel_world_coords():
             # wheel coordinates for all four wheels.
             back_left_wheel = create_rectangular_polygon(
@@ -75,7 +69,7 @@ def _ackermann_drawing_kernel(canvas, robot):
                 resolution=0.02,
                 canvas_size=canvas.shape[:2][::-1]
             )
-            _draw_polygon_from_canvas_coords(
+            paint_polygon_using_canvas_coords(
                 canvas, coords, FlatColors.DARK_TEAL)
 
     footprint_world_coords = transform_points(
@@ -89,7 +83,7 @@ def _ackermann_drawing_kernel(canvas, robot):
     )
 
     # Draw the main footprint.
-    _draw_polygon_from_canvas_coords(
+    paint_polygon_using_canvas_coords(
         canvas, footprint_canvas_coords, FlatColors.TEAL)
 
     # Draw the wheels.
