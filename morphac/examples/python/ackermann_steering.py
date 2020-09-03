@@ -3,7 +3,7 @@ import numpy as np
 
 from morphac.constructs import State
 from morphac.environment import Map
-from morphac.mechanics.models import AckermannModel
+from morphac.mechanics.models import AckermannModel, DubinModel
 from morphac.robot.blueprint import Robot, Footprint
 from morphac.visualization.map_visualization import canvas_from_map
 from morphac.visualization.robot_visualization import RobotVisualizer
@@ -15,10 +15,16 @@ def run():
 
     canvas = canvas_from_map(env_map)
 
-    robot = Robot(AckermannModel(width=1., length=3.),
-                  Footprint.create_rounded_rectangular_footprint(
-                      3.5, 1.5, 0., 0.3, 0.1),
-                  initial_state=State([5., 5., 0., 0.], [])
+    # robot = Robot(AckermannModel(width=1., length=3.),
+    #              Footprint.create_rounded_rectangular_footprint(
+    #                  3.5, 1.5, 0., 0.3, 0.1),
+    #              initial_state=State([5., 5., 0., 0.], [])
+    #              )
+
+    robot = Robot(DubinModel(1.),
+                  Footprint.create_triangular_footprint(
+                      1., 1.5, -np.pi / 2),
+                  initial_state=State([5., 5., 0.], [])
                   )
 
     robot_visualizer = RobotVisualizer(env_map.resolution)

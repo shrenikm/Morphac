@@ -115,7 +115,8 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
     footprint_world_coords = transform_points(
         robot.footprint.data,
         robot.pose[2],
-        robot.pose.data[:2])
+        robot.pose.data[:2]
+    )
     footprint_canvas_coords = world_to_canvas(
         world_coords=footprint_world_coords,
         resolution=resolution,
@@ -136,9 +137,24 @@ def _diffdrive_drawing_kernel(canvas, robot):
     pass
 
 
-def _dubin_drawing_kernel(canvas, robot):
-    # Green
-    pass
+def _dubin_drawing_kernel(canvas, robot, resolution):
+
+    canvas_size = canvas.shape[:2][::-1]
+
+    footprint_world_coords = transform_points(
+        robot.footprint.data,
+        robot.pose[2],
+        robot.pose.data[:2]
+    )
+    footprint_canvas_coords = world_to_canvas(
+        world_coords=footprint_world_coords,
+        resolution=resolution,
+        canvas_size=canvas_size
+    )
+
+    # Draw the main footprint.
+    paint_polygon_using_canvas_coords(
+        canvas, footprint_canvas_coords, FlatColors.GREEN)
 
 
 def _tricycle_drawing_kernel(canvas, robot):
