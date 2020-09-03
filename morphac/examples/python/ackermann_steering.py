@@ -6,7 +6,7 @@ from morphac.environment import Map
 from morphac.mechanics.models import AckermannModel
 from morphac.robot.blueprint import Robot, Footprint
 from morphac.visualization.map_visualization import canvas_from_map
-from morphac.visualization.robot_visualization import _ackermann_drawing_kernel
+from morphac.visualization.robot_visualization import RobotVisualizer
 
 
 def run():
@@ -17,11 +17,12 @@ def run():
 
     robot = Robot(AckermannModel(width=1., length=3.),
                   Footprint.create_rounded_rectangular_footprint(
-                      3.5, 1.5, 0., 0.0, 0.1),
+                      3.5, 1.5, 0., 0.3, 0.1),
                   initial_state=State([5., 5., 0., 0.], [])
                   )
 
-    _ackermann_drawing_kernel(canvas, robot)
+    robot_visualizer = RobotVisualizer(env_map.resolution)
+    robot_visualizer.visualize(canvas, robot)
 
     cv2.imshow('Canvas', canvas)
     cv2.waitKey(0)

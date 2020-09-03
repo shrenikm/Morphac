@@ -8,9 +8,10 @@ from morphac.mechanics.models import (
 
 # Get a list of the native mechanics models.
 def all_model_classes():
+
     return [
-        AckermannModel,
-        DiffDriveModel,
-        DubinModel,
-        TricycleModel,
+        'AckermannModel',
+        'DiffDriveModel',
+        'DubinModel',
+        'TricycleModel',
     ]
