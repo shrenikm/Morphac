@@ -22,6 +22,12 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
         # TODO: Cache these computations.
         def _compute_wheel_world_coords():
             # wheel coordinates for all four wheels.
+
+            # TODO: Fix incorrect wheel angles when the ideal angle is negative.
+            # Inner and outer wheel angles.
+            inner_angle, outer_angle = \
+                robot.kinematic_model.compute_steering_angles(robot.pose[3])
+
             back_left_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
@@ -37,13 +43,13 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
             front_left_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
-                angle=robot.pose[3],
+                angle=inner_angle if robot.pose[3] > 0 else outer_angle,
                 center=[length / 2, width / 2]
             )
             front_right_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
-                angle=robot.pose[3],
+                angle=inner_angle if robot.pose[3] < 0 else outer_angle,
                 center=[length / 2, -width / 2]
             )
 
@@ -56,7 +62,7 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
 
         # First, we define the coordinates and dimensions in world coordinates.
         wheel_length = length * 0.2
-        wheel_thickness = width * 0.2
+        wheel_thickness = wheel_length / 2.5
 
         world_coords = _compute_wheel_world_coords()
 
