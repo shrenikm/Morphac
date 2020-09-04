@@ -178,18 +178,40 @@ class RobotVisualizer(object):
 
     resolution = attr.ib(type=float)
 
+    # Default drawing kernels for the standard mechanics models.
     _model_kernel_correspondence = attr.ib(
         type=dict,
         init=False,
         default=_get_model_kernel_correspondence()
     )
 
-    def add_correspondence(self, model_class_name, drawing_kernel):
-        assert isinstance(model_class, KinematicModel)
-        self._model_kernel_correspondence[model_class_name] = drawing_kernel
+    # Explicit drawing kernels specific to individual robot ids.
+    _id_kernel_correspondence = attr.ib(
+        type=dict, init=False, default=attr.Factory(dict))
 
-    def visualize(self, canvas, robot):
-        # Get the drawing kernel from the model and draw the robot on the
-        # canvas.
-        self._model_kernel_correspondence[get_class_name(
-            robot.kinematic_model)](canvas, robot, self.resolution)
+    def add_correspondence(self, robot_id, drawing_kernel):
+        assert isinstance(robot_id, int)
+        self._id_kernel_correspondence[robot_id] = drawing_kernel
+
+    def visualize(self, canvas, robot, robot_id):
+        if robot_id in self._id_kernel_correspondence:
+            # First check if the id contains a corresponding drawing kernel.
+            # If so, use that.
+            self._id_kernel_correspondence[robot_id](
+                canvas, robot, self.resolution)
+
+        elif get_class_name(robot.kinematic_model) in \
+                self._model_kernel_correspondence:
+            # Otherwise, check if the model contains a corresponding drawing
+            # kernel and use that.
+            self._model_kernel_correspondence[get_class_name(
+                robot.kinematic_model)](canvas, robot, self.resolution)
+        else:
+            # If either the model is non-standard or no id kernel
+            # correspondence is provided, raise an error as there is no valid
+            # drawing kernel to use.
+            # TODO: Write and use a Morphac logic exception class.
+            assert False, """
+            Non standard robot model is used. Please provide an explicit
+            drawing kernel using the add_correspondence method.
+            """

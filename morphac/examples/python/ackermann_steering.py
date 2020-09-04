@@ -57,7 +57,7 @@ def run(robot_type):
         raise NotImplementedError
 
     robot_visualizer = RobotVisualizer(env_map.resolution)
-    robot_visualizer.visualize(canvas, robot)
+    robot_visualizer.visualize(canvas, robot, 0)
 
     cv2.imshow('Canvas', canvas)
     cv2.waitKey(0)
