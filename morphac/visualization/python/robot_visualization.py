@@ -17,7 +17,6 @@ from morphac.utils.python_utils import get_class_name, MorphacLogicError
 
 
 def _ackermann_drawing_kernel(canvas, robot, resolution):
-
     def _draw_wheels():
         # TODO: Cache these computations.
         def _compute_wheel_world_coords():
@@ -25,39 +24,40 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
 
             # TODO: Fix incorrect wheel angles when the ideal angle is negative.
             # Inner and outer wheel angles.
-            inner_angle, outer_angle = \
-                robot.kinematic_model.compute_steering_angles(robot.pose[3])
+            inner_angle, outer_angle = robot.kinematic_model.compute_steering_angles(
+                robot.pose[3]
+            )
 
             back_left_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
-                angle=0.,
-                center=[0, width / 2]
+                angle=0.0,
+                center=[0, width / 2],
             )
             back_right_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
-                angle=0.,
-                center=[0, -width / 2]
+                angle=0.0,
+                center=[0, -width / 2],
             )
             front_left_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
                 angle=inner_angle if robot.pose[3] > 0 else outer_angle,
-                center=[length, width / 2]
+                center=[length, width / 2],
             )
             front_right_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
                 angle=inner_angle if robot.pose[3] < 0 else outer_angle,
-                center=[length, -width / 2]
+                center=[length, -width / 2],
             )
 
             return [
                 back_left_wheel,
                 back_right_wheel,
                 front_left_wheel,
-                front_right_wheel
+                front_right_wheel,
             ]
 
         # First, we define the coordinates and dimensions in world coordinates.
@@ -68,18 +68,11 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
 
         # Paint in the wheels.
         for coords in world_coords:
-            coords = transform_points(
-                coords,
-                robot.pose[2],
-                robot.pose.data[:2]
-            )
+            coords = transform_points(coords, robot.pose[2], robot.pose.data[:2])
             coords = world_to_canvas(
-                world_coords=coords,
-                resolution=resolution,
-                canvas_size=canvas_size
+                world_coords=coords, resolution=resolution, canvas_size=canvas_size
             )
-            paint_polygon_using_canvas_coords(
-                canvas, coords, FlatColors.DARK_TEAL)
+            paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_TEAL)
 
     def _draw_heading_triangle():
         def _compute_heading_triangle_coords():
@@ -87,7 +80,7 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
                 base=heading_triangle_base,
                 height=heading_triangle_height,
                 angle=-np.pi / 2,
-                center=[length, 0.]
+                center=[length, 0.0],
             )
 
             return heading_triangle
@@ -96,15 +89,11 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
         heading_triangle_height = width * 0.2
 
         world_coords = transform_points(
-            _compute_heading_triangle_coords(),
-            robot.pose[2],
-            robot.pose.data[:2]
+            _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
         )
 
         coords = world_to_canvas(
-            world_coords=world_coords,
-            resolution=resolution,
-            canvas_size=canvas_size
+            world_coords=world_coords, resolution=resolution, canvas_size=canvas_size
         )
         paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_TEAL)
 
@@ -113,19 +102,16 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
     width = robot.kinematic_model.width
 
     footprint_world_coords = transform_points(
-        robot.footprint.data,
-        robot.pose[2],
-        robot.pose.data[:2]
+        robot.footprint.data, robot.pose[2], robot.pose.data[:2]
     )
     footprint_canvas_coords = world_to_canvas(
         world_coords=footprint_world_coords,
         resolution=resolution,
-        canvas_size=canvas_size
+        canvas_size=canvas_size,
     )
 
     # Draw the main footprint.
-    paint_polygon_using_canvas_coords(
-        canvas, footprint_canvas_coords, FlatColors.TEAL)
+    paint_polygon_using_canvas_coords(canvas, footprint_canvas_coords, FlatColors.TEAL)
 
     # Draw the wheels.
     _draw_wheels()
@@ -142,14 +128,14 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
             left_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
-                angle=0.,
-                center=[0, width / 2]
+                angle=0.0,
+                center=[0, width / 2],
             )
             right_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
-                angle=0.,
-                center=[0, -width / 2]
+                angle=0.0,
+                center=[0, -width / 2],
             )
 
             return [
@@ -165,18 +151,11 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
 
         # Paint in the wheels.
         for coords in world_coords:
-            coords = transform_points(
-                coords,
-                robot.pose[2],
-                robot.pose.data[:2]
-            )
+            coords = transform_points(coords, robot.pose[2], robot.pose.data[:2])
             coords = world_to_canvas(
-                world_coords=coords,
-                resolution=resolution,
-                canvas_size=canvas_size
+                world_coords=coords, resolution=resolution, canvas_size=canvas_size
             )
-            paint_polygon_using_canvas_coords(
-                canvas, coords, FlatColors.DARK_PINK)
+            paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_PINK)
 
     def _draw_heading_triangle():
         def _compute_heading_triangle_coords():
@@ -184,7 +163,7 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
                 base=heading_triangle_base,
                 height=heading_triangle_height,
                 angle=-np.pi / 2,
-                center=[width / 2, 0.]
+                center=[width / 2, 0.0],
             )
 
             return heading_triangle
@@ -193,15 +172,11 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
         heading_triangle_height = width * 0.2
 
         world_coords = transform_points(
-            _compute_heading_triangle_coords(),
-            robot.pose[2],
-            robot.pose.data[:2]
+            _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
         )
 
         coords = world_to_canvas(
-            world_coords=world_coords,
-            resolution=resolution,
-            canvas_size=canvas_size
+            world_coords=world_coords, resolution=resolution, canvas_size=canvas_size
         )
         paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_PINK)
 
@@ -210,19 +185,16 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
     width = robot.kinematic_model.width
 
     footprint_world_coords = transform_points(
-        robot.footprint.data,
-        robot.pose[2],
-        robot.pose.data[:2]
+        robot.footprint.data, robot.pose[2], robot.pose.data[:2]
     )
     footprint_canvas_coords = world_to_canvas(
         world_coords=footprint_world_coords,
         resolution=resolution,
-        canvas_size=canvas_size
+        canvas_size=canvas_size,
     )
 
     # Draw the main footprint.
-    paint_polygon_using_canvas_coords(
-        canvas, footprint_canvas_coords, FlatColors.PINK)
+    paint_polygon_using_canvas_coords(canvas, footprint_canvas_coords, FlatColors.PINK)
 
     # Draw the wheels.
     _draw_wheels()
@@ -235,19 +207,16 @@ def _dubin_drawing_kernel(canvas, robot, resolution):
     canvas_size = canvas.shape[:2][::-1]
 
     footprint_world_coords = transform_points(
-        robot.footprint.data,
-        robot.pose[2],
-        robot.pose.data[:2]
+        robot.footprint.data, robot.pose[2], robot.pose.data[:2]
     )
     footprint_canvas_coords = world_to_canvas(
         world_coords=footprint_world_coords,
         resolution=resolution,
-        canvas_size=canvas_size
+        canvas_size=canvas_size,
     )
 
     # Draw the main footprint.
-    paint_polygon_using_canvas_coords(
-        canvas, footprint_canvas_coords, FlatColors.GREEN)
+    paint_polygon_using_canvas_coords(canvas, footprint_canvas_coords, FlatColors.GREEN)
 
 
 def _tricycle_drawing_kernel(canvas, robot):
@@ -273,14 +242,13 @@ class RobotVisualizer(object):
 
     # Default drawing kernels for the standard mechanics models.
     _model_kernel_correspondence = attr.ib(
-        type=dict,
-        init=False,
-        default=_get_model_kernel_correspondence()
+        type=dict, init=False, default=_get_model_kernel_correspondence()
     )
 
     # Explicit drawing kernels specific to individual robot ids.
     _id_kernel_correspondence = attr.ib(
-        type=dict, init=False, default=attr.Factory(dict))
+        type=dict, init=False, default=attr.Factory(dict)
+    )
 
     def add_correspondence(self, robot_id, drawing_kernel):
         assert isinstance(robot_id, int)
@@ -290,15 +258,14 @@ class RobotVisualizer(object):
         if robot_id in self._id_kernel_correspondence:
             # First check if the id contains a corresponding drawing kernel.
             # If so, use that.
-            self._id_kernel_correspondence[robot_id](
-                canvas, robot, self.resolution)
+            self._id_kernel_correspondence[robot_id](canvas, robot, self.resolution)
 
-        elif get_class_name(robot.kinematic_model) in \
-                self._model_kernel_correspondence:
+        elif get_class_name(robot.kinematic_model) in self._model_kernel_correspondence:
             # Otherwise, check if the model contains a corresponding drawing
             # kernel and use that.
-            self._model_kernel_correspondence[get_class_name(
-                robot.kinematic_model)](canvas, robot, self.resolution)
+            self._model_kernel_correspondence[get_class_name(robot.kinematic_model)](
+                canvas, robot, self.resolution
+            )
         else:
             # If either the model is non-standard or no id kernel
             # correspondence is provided, raise an error as there is no valid
