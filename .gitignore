@@ -1,4 +1,5 @@
-style_guide.txt
+.*
 build
 __pycache__
 CMakeFiles
+style_guide.txt

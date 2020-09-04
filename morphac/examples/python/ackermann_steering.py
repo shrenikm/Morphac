@@ -45,7 +45,7 @@ def run(robot_type):
             width + 2 * footprint_buffer_y,
             0.,
             min(width, length) / 4,
-            0.1,
+           0.1,
             relative_center=[-length / 2, 0]),
             initial_state=State([5., 5., 0., 0.], [])
         )
@@ -59,15 +59,15 @@ def run(robot_type):
         robot = Robot(DiffDriveModel(radius, width),
                       Footprint.create_circular_footprint(
             width / 2 + footprint_buffer_x,
-            0.1
+           0.1
         ),
             initial_state=State([5., 5., 0.], [])
         )
     elif robot_type is RobotType.DUBIN:
 
-        robot = Robot(DubinModel(1.),
+       robot = Robot(DubinModel(1.),
                       Footprint.create_triangular_footprint(
-            1., 1.5, -np.pi / 2),
+           1., 1.5, -np.pi / 2),
             initial_state=State([5., 5., 0.], [])
         )
     elif robot_type is RobotType.TRICYCLE:
