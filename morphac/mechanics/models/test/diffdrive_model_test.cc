@@ -29,7 +29,7 @@ TEST_F(DiffDriveModelTest, Construction) {
   ASSERT_EQ(diffdrive_model.velocity_size, 0);
   ASSERT_EQ(diffdrive_model.control_input_size, 2);
   ASSERT_EQ(diffdrive_model.radius, 1.5);
-  ASSERT_EQ(diffdrive_model.length, 2.3);
+  ASSERT_EQ(diffdrive_model.width, 2.3);
 }
 
 TEST_F(DiffDriveModelTest, InvalidConstruction) {

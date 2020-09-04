@@ -9,14 +9,14 @@ from morphac.mechanics.models import DiffDriveModel
 def generate_diffdrive_model_list():
 
     d1 = DiffDriveModel(1, 2)
-    d2 = DiffDriveModel(radius=1.5, length=6.)
+    d2 = DiffDriveModel(radius=1.5, width=6.)
 
     return d1, d2
 
 
 def test_invalid_construction():
 
-    # Radius and length must both be positive.
+    # Radius and width must both be positive.
     with pytest.raises(ValueError):
         _ = DiffDriveModel(0., 2.)
     with pytest.raises(ValueError):
@@ -41,18 +41,18 @@ def test_radius(generate_diffdrive_model_list):
         d2.radius = 3.
 
 
-def test_length(generate_diffdrive_model_list):
+def test_width(generate_diffdrive_model_list):
 
     d1, d2 = generate_diffdrive_model_list
 
-    assert d1.length == 2.
-    assert d2.length == 6.
+    assert d1.width == 2.
+    assert d2.width == 6.
 
-    # Make sure that length is read only.
+    # Make sure that width is read only.
     with pytest.raises(AttributeError):
-        d1.length = 4.
+        d1.width = 4.
     with pytest.raises(AttributeError):
-        d2.length = 5.
+        d2.width = 5.
 
 
 def test_size(generate_diffdrive_model_list):

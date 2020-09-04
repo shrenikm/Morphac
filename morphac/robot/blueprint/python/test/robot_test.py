@@ -82,7 +82,7 @@ def test_kinematic_model(generate_robot_list):
     assert r4.kinematic_model.control_input_size == 4
 
     assert r1.kinematic_model.radius == 1
-    assert r1.kinematic_model.length == 1
+    assert r1.kinematic_model.width == 1
     assert r2.kinematic_model.radius == 1
     assert r2.kinematic_model.length == 1
     assert r3.kinematic_model.a == 2.5

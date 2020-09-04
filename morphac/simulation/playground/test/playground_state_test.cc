@@ -126,7 +126,7 @@ TEST_F(PlaygroundStateTest, GetRobotOracle) {
   ASSERT_EQ(model1.pose_size, 3);
   ASSERT_EQ(model1.velocity_size, 0);
   ASSERT_EQ(model1.control_input_size, 2);
-  ASSERT_EQ(model1.length, 1.);
+  ASSERT_EQ(model1.width, 1.);
   ASSERT_EQ(model1.radius, 1.);
   ASSERT_TRUE(robot_oracle.find(0)->second.get_footprint().get_data().isZero());
 
@@ -134,7 +134,7 @@ TEST_F(PlaygroundStateTest, GetRobotOracle) {
   ASSERT_EQ(model2.pose_size, 3);
   ASSERT_EQ(model2.velocity_size, 0);
   ASSERT_EQ(model2.control_input_size, 2);
-  ASSERT_EQ(model2.length, 2.);
+  ASSERT_EQ(model2.width, 2.);
   ASSERT_EQ(model2.radius, 2.);
   ASSERT_TRUE(robot_oracle.find(2)->second.get_footprint().get_data().isOnes());
 
@@ -161,14 +161,14 @@ TEST_F(PlaygroundStateTest, GetRobot) {
   ASSERT_EQ(robot1.get_kinematic_model().pose_size, 3);
   ASSERT_EQ(robot1.get_kinematic_model().velocity_size, 0);
   ASSERT_EQ(robot1.get_kinematic_model().control_input_size, 2);
-  ASSERT_EQ(model1.length, 1.);
+  ASSERT_EQ(model1.width, 1.);
   ASSERT_EQ(model1.radius, 1.);
   ASSERT_TRUE(robot1.get_footprint().get_data().isZero());
 
   ASSERT_EQ(robot2.get_kinematic_model().pose_size, 3);
   ASSERT_EQ(robot2.get_kinematic_model().velocity_size, 0);
   ASSERT_EQ(robot2.get_kinematic_model().control_input_size, 2);
-  ASSERT_EQ(model2.length, 2.);
+  ASSERT_EQ(model2.width, 2.);
   ASSERT_EQ(model2.radius, 2.);
   ASSERT_TRUE(robot2.get_footprint().get_data().isOnes());
 

@@ -15,11 +15,11 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 
-DiffDriveModel::DiffDriveModel(const double radius, const double length)
-    : KinematicModel(3, 0, 2), radius(radius), length(length) {
+DiffDriveModel::DiffDriveModel(const double radius, const double width)
+    : KinematicModel(3, 0, 2), radius(radius), width(width) {
   MORPH_REQUIRE(radius > 0, std::invalid_argument,
                 "Diffdrive wheel radius must be positive.");
-  MORPH_REQUIRE(length > 0, std::invalid_argument,
+  MORPH_REQUIRE(width > 0, std::invalid_argument,
                 "Diffdrive distance between the wheels must be positive.");
 }
 
@@ -41,8 +41,8 @@ State DiffDriveModel::ComputeStateDerivative(
   MatrixXd G(3, 2);
 
   G << radius * 0.5 * cos(theta), radius * 0.5 * cos(theta),
-      radius * 0.5 * sin(theta), radius * 0.5 * sin(theta), -radius / length,
-      radius / length;
+      radius * 0.5 * sin(theta), radius * 0.5 * sin(theta), -radius / width,
+      radius / width;
 
   pose_derivative = F + G * control_input.get_data();
 

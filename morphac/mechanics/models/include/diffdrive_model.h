@@ -13,7 +13,7 @@ namespace models {
 
 class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
  public:
-  DiffDriveModel(const double radius, const double length);
+  DiffDriveModel(const double radius, const double width);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
@@ -23,7 +23,7 @@ class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
       const morphac::constructs::State& state) const override;
 
   const double radius;
-  const double length;
+  const double width;
 };
 
 }  // namespace models
