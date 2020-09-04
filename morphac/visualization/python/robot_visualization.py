@@ -32,25 +32,25 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
                 size_x=wheel_length,
                 size_y=wheel_thickness,
                 angle=0.,
-                center=[-length / 2, width / 2]
+                center=[0, width / 2]
             )
             back_right_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
                 angle=0.,
-                center=[-length / 2, -width / 2]
+                center=[0, -width / 2]
             )
             front_left_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
                 angle=inner_angle if robot.pose[3] > 0 else outer_angle,
-                center=[length / 2, width / 2]
+                center=[length, width / 2]
             )
             front_right_wheel = create_rectangular_polygon(
                 size_x=wheel_length,
                 size_y=wheel_thickness,
                 angle=inner_angle if robot.pose[3] < 0 else outer_angle,
-                center=[length / 2, -width / 2]
+                center=[length, -width / 2]
             )
 
             return [
@@ -87,7 +87,7 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
                 base=heading_triangle_base,
                 height=heading_triangle_height,
                 angle=-np.pi / 2,
-                center=[length / 2, 0.]
+                center=[length, 0.]
             )
 
             return heading_triangle
