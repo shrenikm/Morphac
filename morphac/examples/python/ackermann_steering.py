@@ -4,7 +4,12 @@ import numpy as np
 
 from morphac.constructs import State
 from morphac.environment import Map
-from morphac.mechanics.models import AckermannModel, DubinModel
+from morphac.mechanics.models import (
+    AckermannModel,
+    DiffDriveModel,
+    DubinModel,
+    TricycleModel,
+)
 from morphac.robot.blueprint import Robot, Footprint
 from morphac.visualization.map_visualization import canvas_from_map
 from morphac.visualization.robot_visualization import RobotVisualizer
@@ -24,6 +29,7 @@ def run(robot_type):
     canvas = canvas_from_map(env_map)
 
     if robot_type is RobotType.ACKERMANN:
+
         # Dimensions of the mechanical model.
         length = 2.
         width = 1.
@@ -43,9 +49,22 @@ def run(robot_type):
             relative_center=[-length / 2, 0]),
             initial_state=State([5., 5., 0., 0.], [])
         )
+
     elif robot_type is RobotType.DIFFDRIVE:
-        pass
+
+        # Dimensions of the mechanical model.
+        radius = 0.5
+        width = 1.
+        footprint_buffer_x = 0.2 * width
+        robot = Robot(DiffDriveModel(radius, width),
+                      Footprint.create_circular_footprint(
+            width / 2 + footprint_buffer_x,
+            0.1
+        ),
+            initial_state=State([5., 5., 0.], [])
+        )
     elif robot_type is RobotType.DUBIN:
+
         robot = Robot(DubinModel(1.),
                       Footprint.create_triangular_footprint(
             1., 1.5, -np.pi / 2),
@@ -66,6 +85,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.ACKERMANN
+    robot_type = RobotType.DIFFDRIVE
 
     run(robot_type)

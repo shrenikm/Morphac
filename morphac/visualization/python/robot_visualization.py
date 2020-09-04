@@ -133,7 +133,7 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
     _draw_heading_triangle()
 
 
-def _diffdrive_drawing_kernel(canvas, robot):
+def _diffdrive_drawing_kernel(canvas, robot, resolution):
     def _draw_wheels():
         # TODO: Cache these computations.
         def _compute_wheel_world_coords():
@@ -158,8 +158,8 @@ def _diffdrive_drawing_kernel(canvas, robot):
             ]
 
         # First, we define the coordinates and dimensions in world coordinates.
-        wheel_length = length * 0.25
-        wheel_thickness = wheel_length / 2.5
+        wheel_length = radius
+        wheel_thickness = radius / 2.5
 
         world_coords = _compute_wheel_world_coords()
 
@@ -176,7 +176,34 @@ def _diffdrive_drawing_kernel(canvas, robot):
                 canvas_size=canvas_size
             )
             paint_polygon_using_canvas_coords(
-                canvas, coords, FlatColors.DARK_TEAL)
+                canvas, coords, FlatColors.DARK_PINK)
+
+    def _draw_heading_triangle():
+        def _compute_heading_triangle_coords():
+            heading_triangle = create_triangular_polygon(
+                base=heading_triangle_base,
+                height=heading_triangle_height,
+                angle=-np.pi / 2,
+                center=[width / 2, 0.]
+            )
+
+            return heading_triangle
+
+        heading_triangle_base = width * 0.2
+        heading_triangle_height = width * 0.2
+
+        world_coords = transform_points(
+            _compute_heading_triangle_coords(),
+            robot.pose[2],
+            robot.pose.data[:2]
+        )
+
+        coords = world_to_canvas(
+            world_coords=world_coords,
+            resolution=resolution,
+            canvas_size=canvas_size
+        )
+        paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_PINK)
 
     canvas_size = canvas.shape[:2][::-1]
     radius = robot.kinematic_model.radius
@@ -196,6 +223,11 @@ def _diffdrive_drawing_kernel(canvas, robot):
     # Draw the main footprint.
     paint_polygon_using_canvas_coords(
         canvas, footprint_canvas_coords, FlatColors.PINK)
+
+    # Draw the wheels.
+    _draw_wheels()
+    # Draw the triangle that denotes the front of the robot.
+    _draw_heading_triangle()
 
 
 def _dubin_drawing_kernel(canvas, robot, resolution):
