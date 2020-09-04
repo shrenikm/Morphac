@@ -61,7 +61,7 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
             ]
 
         # First, we define the coordinates and dimensions in world coordinates.
-        wheel_length = length * 0.2
+        wheel_length = length * 0.25
         wheel_thickness = wheel_length / 2.5
 
         world_coords = _compute_wheel_world_coords()

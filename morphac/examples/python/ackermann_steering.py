@@ -24,11 +24,23 @@ def run(robot_type):
     canvas = canvas_from_map(env_map)
 
     if robot_type is RobotType.ACKERMANN:
+        # Dimensions of the mechanical model.
+        length = 2.
+        width = 1.
+        # Define how much larger the footprint is compared to the length and
+        # width of the mechanical model.
+        footprint_buffer_x = 0.2 * length
+        footprint_buffer_y = 0.2 * width
         # Make sure that the origin of the robot (and hence footprint) is at
         # the mid point of the rear axle.
-        robot = Robot(AckermannModel(width=1.5, length=3.),
+        robot = Robot(AckermannModel(width, length),
                       Footprint.create_rounded_rectangular_footprint(
-            4., 2., 0., 0.3, 0.1, relative_center=[-1.5, 0]),
+            length + 2 * footprint_buffer_x,
+            width + 2 * footprint_buffer_y,
+            0.,
+            min(width, length) / 4,
+            0.1,
+            relative_center=[-length / 2, 0]),
             initial_state=State([5., 5., 0., 0.], [])
         )
     elif robot_type is RobotType.DIFFDRIVE:
