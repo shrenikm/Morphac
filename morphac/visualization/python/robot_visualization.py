@@ -13,7 +13,7 @@ from morphac.math.geometry import (
 from morphac.math.transforms import world_to_canvas, transform_points
 from morphac.utils.canvas_utils import paint_polygon_using_canvas_coords
 from morphac.utils.models_utils import all_model_classes
-from morphac.utils.python_utils import get_class_name
+from morphac.utils.python_utils import get_class_name, MorphacLogicError
 
 
 def _ackermann_drawing_kernel(canvas, robot, resolution):
@@ -210,8 +210,9 @@ class RobotVisualizer(object):
             # If either the model is non-standard or no id kernel
             # correspondence is provided, raise an error as there is no valid
             # drawing kernel to use.
-            # TODO: Write and use a Morphac logic exception class.
-            assert False, """
-            Non standard robot model is used. Please provide an explicit
-            drawing kernel using the add_correspondence method.
-            """
+            raise MorphacLogicError(
+                """
+                Non standard robot model is used. Please provide an explicit
+                drawing kernel using the add_correspondence method.
+                """
+            )
