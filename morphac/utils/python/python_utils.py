@@ -16,4 +16,5 @@ class MorphacLogicError(Exception):
         self.message = message
 
     def __str__(self):
-        return f"Logic error: {self.message}"
+        # TODO: Convert to f strings if Python 3.5 support is dropped.
+        return "Logic error: {}".format(self.message)
