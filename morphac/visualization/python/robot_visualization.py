@@ -144,8 +144,8 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
             ]
 
         # First, we define the coordinates and dimensions in world coordinates.
-        wheel_length = radius
-        wheel_thickness = radius / 2.5
+        wheel_length = 2 * radius
+        wheel_thickness = 2 * radius / 3
 
         world_coords = _compute_wheel_world_coords()
 
@@ -219,9 +219,76 @@ def _dubin_drawing_kernel(canvas, robot, resolution):
     paint_polygon_using_canvas_coords(canvas, footprint_canvas_coords, FlatColors.GREEN)
 
 
-def _tricycle_drawing_kernel(canvas, robot):
-    # Orange
-    pass
+def _tricycle_drawing_kernel(canvas, robot, resolution):
+    def _draw_wheels():
+        # TODO: Cache these computations.
+        def _compute_wheel_world_coords():
+            # wheel coordinates for all four wheels.
+
+            back_left_wheel = create_rectangular_polygon(
+                size_x=back_wheel_length,
+                size_y=back_wheel_thickness,
+                angle=0.0,
+                center=[0, width / 2],
+            )
+            back_right_wheel = create_rectangular_polygon(
+                size_x=back_wheel_length,
+                size_y=back_wheel_thickness,
+                angle=0.0,
+                center=[0, -width / 2],
+            )
+            front_wheel = create_rectangular_polygon(
+                size_x=front_wheel_length,
+                size_y=front_wheel_thickness,
+                angle=robot.pose[3],
+                center=[length, 0],
+            )
+
+            return [
+                back_left_wheel,
+                back_right_wheel,
+                front_wheel,
+            ]
+
+        # Back and front wheel dimensions.
+        back_wheel_length = 1.5 * radius
+        back_wheel_thickness = radius / 2
+
+        front_wheel_length = 2 * radius
+        front_wheel_thickness = 2 * radius / 3
+
+        world_coords = _compute_wheel_world_coords()
+
+        # Paint in the wheels.
+        for coords in world_coords:
+            coords = transform_points(coords, robot.pose[2], robot.pose.data[:2])
+            coords = world_to_canvas(
+                world_coords=coords, resolution=resolution, canvas_size=canvas_size
+            )
+            paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_ORANGE)
+
+    canvas_size = canvas.shape[:2][::-1]
+    radius = robot.kinematic_model.radius
+    length = robot.kinematic_model.length
+    # Width from footprint.
+    width = np.max(robot.footprint.data[:, 1]) - np.min(robot.footprint.data[:, 1])
+
+    footprint_world_coords = transform_points(
+        robot.footprint.data, robot.pose[2], robot.pose.data[:2]
+    )
+    footprint_canvas_coords = world_to_canvas(
+        world_coords=footprint_world_coords,
+        resolution=resolution,
+        canvas_size=canvas_size,
+    )
+
+    # Draw the main footprint.
+    paint_polygon_using_canvas_coords(
+        canvas, footprint_canvas_coords, FlatColors.ORANGE
+    )
+
+    # Draw the wheels.
+    _draw_wheels()
 
 
 def _get_model_kernel_correspondence():
@@ -258,11 +325,13 @@ class RobotVisualizer(object):
         if robot_id in self._id_kernel_correspondence:
             # First check if the id contains a corresponding drawing kernel.
             # If so, use that.
+            print('hereeee')
             self._id_kernel_correspondence[robot_id](canvas, robot, self.resolution)
 
         elif get_class_name(robot.kinematic_model) in self._model_kernel_correspondence:
             # Otherwise, check if the model contains a corresponding drawing
             # kernel and use that.
+            print('here')
             self._model_kernel_correspondence[get_class_name(robot.kinematic_model)](
                 canvas, robot, self.resolution
             )

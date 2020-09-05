@@ -22,7 +22,7 @@ install(FILES
 
 # List of python files.
 set(EXAMPLES_PYTHON_FILES
-  ackermann_steering.py
+  constant_controller.py
 )
 
 # Appending the directory of the python files.
