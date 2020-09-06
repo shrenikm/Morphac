@@ -15,10 +15,10 @@ using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
 using morphac::utils::NormalizeAngle;
 
-TricycleModel::TricycleModel(const double radius, const double length)
-    : KinematicModel(4, 0, 2), radius(radius), length(length) {
-  MORPH_REQUIRE(radius > 0, std::invalid_argument,
-                "Tricycle wheel radius must be positive.");
+TricycleModel::TricycleModel(const double width, const double length)
+    : KinematicModel(4, 0, 2), width(width), length(length) {
+  MORPH_REQUIRE(width > 0, std::invalid_argument,
+                "Tricycle distance between the back wheels must be positive.");
   MORPH_REQUIRE(
       length > 0, std::invalid_argument,
       "Tricycle distance between the back and front wheels must be positive.");
@@ -42,8 +42,8 @@ State TricycleModel::ComputeStateDerivative(
   MatrixXd F = VectorXd::Zero(4);
   MatrixXd G(4, 2);
 
-  G << radius * cos(alpha) * cos(theta), 0, radius * cos(alpha) * sin(theta), 0,
-      (radius / length) * sin(alpha), 0, 0, 1;
+  G << cos(alpha) * cos(theta), 0, cos(alpha) * sin(theta), 0,
+      (1. / length) * sin(alpha), 0, 0, 1;
 
   pose_derivative = F + G * control_input.get_data();
 

@@ -13,7 +13,7 @@ namespace models {
 
 class TricycleModel : public morphac::mechanics::models::KinematicModel {
  public:
-  TricycleModel(const double radius, const double length);
+  TricycleModel(const double width, const double length);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
@@ -22,7 +22,7 @@ class TricycleModel : public morphac::mechanics::models::KinematicModel {
   morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const override;
 
-  const double radius;
+  const double width;
   const double length;
 };
 
