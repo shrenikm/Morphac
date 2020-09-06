@@ -67,7 +67,7 @@ def run(robot_type):
 
         robot = Robot(
             DubinModel(1.0),
-            Footprint.create_triangular_footprint(1.0, 1.5, -np.pi / 2),
+            Footprint.create_triangular_footprint(1, 1, -np.pi / 2),
             initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.TRICYCLE:
@@ -106,6 +106,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.ACKERMANN
+    robot_type = RobotType.DUBIN
 
     run(robot_type)

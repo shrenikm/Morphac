@@ -204,7 +204,33 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
 
 def _dubin_drawing_kernel(canvas, robot, resolution):
 
+    def _draw_heading_triangle():
+        def _compute_heading_triangle_coords():
+            heading_triangle = create_triangular_polygon(
+                base=heading_triangle_base,
+                height=heading_triangle_height,
+                angle=-np.pi / 2,
+                center=[height / 2 - heading_triangle_height, 0.0],
+            )
+
+            return heading_triangle
+
+        heading_triangle_base = base * 0.2
+        heading_triangle_height = height * 0.2
+
+        world_coords = transform_points(
+            _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
+        )
+
+        coords = world_to_canvas(
+            world_coords=world_coords, resolution=resolution, canvas_size=canvas_size
+        )
+        paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_GREEN)
+
     canvas_size = canvas.shape[:2][::-1]
+    base = np.abs(robot.footprint.data[0, 0] - robot.footprint.data[1, 0])
+    height = np.abs(robot.footprint.data[1, 1] - robot.footprint.data[2, 1])
+    print(base, height)
 
     footprint_world_coords = transform_points(
         robot.footprint.data, robot.pose[2], robot.pose.data[:2]
@@ -217,6 +243,8 @@ def _dubin_drawing_kernel(canvas, robot, resolution):
 
     # Draw the main footprint.
     paint_polygon_using_canvas_coords(canvas, footprint_canvas_coords, FlatColors.GREEN)
+    # Draw the triangle that denotes the front of the robot.
+    _draw_heading_triangle()
 
 
 def _tricycle_drawing_kernel(canvas, robot, resolution):
