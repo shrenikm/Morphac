@@ -85,8 +85,8 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
 
             return heading_triangle
 
-        heading_triangle_base = width * 0.2
-        heading_triangle_height = width * 0.2
+        heading_triangle_base = min(width, length) * 0.2
+        heading_triangle_height = min(width, length) * 0.2
 
         world_coords = transform_points(
             _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
