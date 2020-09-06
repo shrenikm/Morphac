@@ -31,6 +31,7 @@ add_subdirectory(binding)
 set(CONSTANTS_SRC
 
   environment_constants.cc
+  mechanics_constants.cc
 )
 
 foreach(file ${CONSTANTS_SRC})

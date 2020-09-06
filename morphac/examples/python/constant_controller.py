@@ -54,7 +54,7 @@ def run(robot_type):
         # Dimensions of the mechanical model.
         radius = 0.3
         width = 1.0
-        footprint_buffer_x = 0.2 * width
+        footprint_buffer_x = 0.25 * width
         robot = Robot(
             DiffDriveModel(radius, width),
             Footprint.create_circular_footprint(width / 2 + footprint_buffer_x, 0.1),
@@ -101,6 +101,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.TRICYCLE
+    robot_type = RobotType.DIFFDRIVE
 
     run(robot_type)
