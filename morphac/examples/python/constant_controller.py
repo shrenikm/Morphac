@@ -29,14 +29,13 @@ def run(robot_type):
     canvas = canvas_from_map(env_map)
 
     if robot_type is RobotType.ACKERMANN:
-
         # Dimensions of the mechanical model.
         width = 1.0
         length = 3.0
         # Define how much larger the footprint is compared to the length and
         # width of the mechanical model.
-        footprint_buffer_x = length * 0.25 + 0.2# * length
-        footprint_buffer_y = length * (0.25 / 3.) + 0.2# * width
+        footprint_buffer_x = length * 0.25 + 0.2  # * length
+        footprint_buffer_y = length * (0.25 / 3.0) + 0.2  # * width
         # Make sure that the origin of the robot (and hence footprint) is at
         # the mid point of the rear axle.
         robot = Robot(
@@ -51,9 +50,7 @@ def run(robot_type):
             ),
             initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
-
     elif robot_type is RobotType.DIFFDRIVE:
-
         # Dimensions of the mechanical model.
         radius = 0.3
         width = 1.0
@@ -64,14 +61,12 @@ def run(robot_type):
             initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.DUBIN:
-
         robot = Robot(
             DubinModel(1.0),
             Footprint.create_triangular_footprint(1, 1, -np.pi / 2),
             initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.TRICYCLE:
-
         # Dimensions of the mechanical model.
         width = 1.0
         length = 2.0
@@ -106,6 +101,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.DUBIN
+    robot_type = RobotType.DIFFDRIVE
 
     run(robot_type)
