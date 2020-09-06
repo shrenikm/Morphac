@@ -36,7 +36,7 @@ def run(robot_type):
         # Define how much larger the footprint is compared to the length and
         # width of the mechanical model.
         footprint_buffer_x = length * 0.25 + 0.2# * length
-        footprint_buffer_y = length * 0.1 + 0.2# * width
+        footprint_buffer_y = length * (0.25 / 3.) + 0.2# * width
         # Make sure that the origin of the robot (and hence footprint) is at
         # the mid point of the rear axle.
         robot = Robot(
