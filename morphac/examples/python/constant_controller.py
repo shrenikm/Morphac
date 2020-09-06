@@ -72,15 +72,15 @@ def run(robot_type):
         length = 2.0
         # Define how much larger the footprint is compared to the length and
         # width of the mechanical model.
-        footprint_buffer_x = 0.2 * length
-        footprint_buffer_y = 0.2 * width
+        footprint_buffer_x = length * 0.25 + 0.2
+        footprint_buffer_y = length * (0.25 / 3.0) + 0.2
         # Make sure that the origin of the robot (and hence footprint) is at
         # the mid point of the rear axle
         robot = Robot(
             TricycleModel(width, length),
             Footprint.create_rounded_rectangular_footprint(
-                length + 2 * footprint_buffer_x,
-                width + 2 * footprint_buffer_x,
+                length + footprint_buffer_x,
+                width + footprint_buffer_y,
                 0.0,
                 min(width, length) / 4,
                 0.1,
@@ -101,6 +101,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.DIFFDRIVE
+    robot_type = RobotType.TRICYCLE
 
     run(robot_type)

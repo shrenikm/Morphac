@@ -279,11 +279,11 @@ def _tricycle_drawing_kernel(canvas, robot, resolution):
             ]
 
         # Back and front wheel dimensions.
-        back_wheel_length = length * 0.25
-        back_wheel_thickness = back_wheel_length / 2.5
+        back_wheel_length = length * 0.2
+        back_wheel_thickness = back_wheel_length / 3
 
         front_wheel_length = length * 0.3
-        front_wheel_thickness = front_wheel_length / 2.5
+        front_wheel_thickness = front_wheel_length / 3
 
         world_coords = _compute_wheel_world_coords()
 
