@@ -1,7 +1,7 @@
+#include "mechanics/models/include/tricycle_model.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "mechanics/models/include/tricycle_model.h"
 
 namespace {
 
@@ -27,14 +27,14 @@ TEST_F(TricycleModelTest, Construction) {
   ASSERT_EQ(tricycle_model.pose_size, 4);
   ASSERT_EQ(tricycle_model.velocity_size, 0);
   ASSERT_EQ(tricycle_model.control_input_size, 2);
-  ASSERT_EQ(tricycle_model.radius, 1.5);
+  ASSERT_EQ(tricycle_model.width, 1.5);
   ASSERT_EQ(tricycle_model.length, 2.3);
 }
 
 TEST_F(TricycleModelTest, InvalidConstruction) {
   ASSERT_THROW(TricycleModel(-1, 1), std::invalid_argument);
   ASSERT_THROW(TricycleModel(0, 1), std::invalid_argument);
-  ASSERT_THROW(TricycleModel(1, -1), std::invalid_argument);
+  ASSERT_THROW(TricycleModel(1, 0), std::invalid_argument);
   ASSERT_THROW(TricycleModel(1, -1), std::invalid_argument);
 }
 
@@ -58,14 +58,14 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
   State state4{pose_vector4, VectorXd::Zero(0)};
 
   // Forward velocity is zero.
-  control_input_vector1 << 0, 1.;
+  control_input_vector1 << 0, 1.5;
   // Turning left.
-  control_input_vector2 << 2, 2;
+  control_input_vector2 << 3, 3;
   // Not turning.
-  control_input_vector3 << 2, 0;
+  control_input_vector3 << 3, 0;
   // Turning right.
-  control_input_vector4 << 2, -2;
-  control_input_vector5 << 10, 5;
+  control_input_vector4 << 3, -3;
+  control_input_vector5 << 15, 7.5;
 
   ControlInput control_input1{control_input_vector1},
       control_input2{control_input_vector2},
@@ -74,11 +74,11 @@ TEST_F(TricycleModelTest, DerivativeComputation) {
       control_input5{control_input_vector5};
 
   // Zero forward velocity does not make the robot move in x, y, or theta.
-  desired_vector1 << 0, 0, 0, 1.;
-  desired_vector2 << 0, 0, 1.2, 2;
+  desired_vector1 << 0, 0, 0, 1.5;
+  desired_vector2 << 0, 0, 1.2, 3;
   desired_vector3 << 3, 0, 0, 0;
-  desired_vector4 << 0, 3, 0, -2;
-  desired_vector5 << 0, 0, 6, 5;
+  desired_vector4 << 0, 3, 0, -3;
+  desired_vector5 << 0, 0, 6, 7.5;
 
   // Computing and verifying the derivative computation for different control
   // inputs.
@@ -151,4 +151,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
