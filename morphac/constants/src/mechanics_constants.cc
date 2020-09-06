@@ -6,7 +6,8 @@ namespace constants {
 const double AckermannModelConstants::STANDARD_WHEEL_DIAMETER_SCALER{0.25};
 const double AckermannModelConstants::STANDARD_WHEEL_SIZE_RATIO{3.};
 const double AckermannModelConstants::STANDARD_WIDTH_BUFFER_SCALER{
-    0.25 / AckermannModelConstants::STANDARD_WHEEL_SIZE_RATIO};
+    AckermannModelConstants::STANDARD_WHEEL_DIAMETER_SCALER /
+    AckermannModelConstants::STANDARD_WHEEL_SIZE_RATIO};
 const double AckermannModelConstants::STANDARD_WIDTH_BUFFER{0.2};
 const double AckermannModelConstants::STANDARD_LENGTH_BUFFER_SCALER{0.25};
 const double AckermannModelConstants::STANDARD_LENGTH_BUFFER{0.2};
@@ -23,11 +24,11 @@ const double TricycleModelConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER{0.2};
 const double TricycleModelConstants::STANDARD_FRONT_WHEEL_SIZE_RATIO{3.};
 const double TricycleModelConstants::STANDARD_BACK_WHEEL_SIZE_RATIO{3.};
 const double TricycleModelConstants::STANDARD_WIDTH_BUFFER_SCALER{
-    0.25 / TricycleModelConstants::STANDARD_BACK_WHEEL_SIZE_RATIO};
+    TricycleModelConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER /
+    TricycleModelConstants::STANDARD_BACK_WHEEL_SIZE_RATIO};
 const double TricycleModelConstants::STANDARD_WIDTH_BUFFER{0.2};
 const double TricycleModelConstants::STANDARD_LENGTH_BUFFER_SCALER{0.25};
 const double TricycleModelConstants::STANDARD_LENGTH_BUFFER{0.2};
-
 
 }  // namespace constants
 }  // namespace morphac
