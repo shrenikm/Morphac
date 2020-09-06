@@ -1,7 +1,7 @@
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
 
-#include "constants/binding/include/map_constants_binding.h"
+#include "constants/binding/include/environment_constants_binding.h"
 
 namespace morphac {
 namespace constants {

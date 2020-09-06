@@ -30,7 +30,7 @@ add_subdirectory(binding)
 # Constants source files.
 set(CONSTANTS_SRC
 
-  map_constants.cc
+  environment_constants.cc
 )
 
 foreach(file ${CONSTANTS_SRC})
@@ -59,7 +59,7 @@ endforeach()
 # Constants tests source files.
 set(CONSTANTS_TEST_SRC
 
-  map_constants_test.cc
+  environment_constants_test.cc
 )
 
 # Creating the test executables.
@@ -79,10 +79,10 @@ foreach(file ${CONSTANTS_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(map_constants_test
+target_link_libraries(environment_constants_test
   PUBLIC
   gtest_main
-  map_constants
+  environment_constants
 )
 
 

@@ -1,19 +1,20 @@
 #include "gtest/gtest.h"
 
-#include "constants/include/map_constants.h"
+#include "constants/include/environment_constants.h"
 
 namespace {
 
 using morphac::constants::MapConstants;
 
-class MapConstantsTest : public ::testing::Test {
+class EnvironmentConstantsTest : public ::testing::Test {
  protected:
-  MapConstantsTest() {}
+  EnvironmentConstantsTest() {}
 
   void SetUp() override {}
 };
 
-TEST_F(MapConstantsTest, Members) {
+TEST_F(EnvironmentConstantsTest, Members) {
+  // Test Map constants.
   ASSERT_EQ(MapConstants::EMPTY, 0.);
   ASSERT_EQ(MapConstants::OBSTACLE, -1.);
 }

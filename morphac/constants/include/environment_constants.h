@@ -1,5 +1,5 @@
-#ifndef MAP_CONSTANTS_H
-#define MAP_CONSTANTS_H
+#ifndef ENVIRONMENT_CONSTANTS_H
+#define ENVIRONMENT_CONSTANTS_H
 
 namespace morphac {
 namespace constants {

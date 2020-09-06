@@ -16,7 +16,7 @@ set(CONSTANTS_MODULE_FILE
 # They are split up into different files so that compilation is more efficient.
 set(CONSTANTS_BINDING_FILES
 
-  map_constants_binding.cc
+  environment_constants_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -49,7 +49,7 @@ target_include_directories(${python_target}
 # Adding library dependencies.
 target_link_libraries(${python_target}
   PUBLIC
-  map_constants
+  environment_constants
 )
 
 # Setting binding target properties.

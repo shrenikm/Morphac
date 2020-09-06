@@ -1,9 +1,9 @@
-#ifndef MAP_CONSTANTS_BINDING_H
-#define MAP_CONSTANTS_BINDING_H
+#ifndef ENVIRONMENT_CONSTANTS_BINDING_H
+#define ENVIRONMENT_CONSTANTS_BINDING_H
 
 #include "pybind11/pybind11.h"
 
-#include "constants/include/map_constants.h"
+#include "constants/include/environment_constants.h"
 
 namespace morphac {
 namespace constants {
