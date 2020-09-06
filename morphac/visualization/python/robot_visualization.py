@@ -251,11 +251,11 @@ def _tricycle_drawing_kernel(canvas, robot, resolution):
             ]
 
         # Back and front wheel dimensions.
-        back_wheel_length = 1.5 * radius
-        back_wheel_thickness = radius / 2
+        back_wheel_length = length * 0.25
+        back_wheel_thickness = back_wheel_length / 2.5
 
-        front_wheel_length = 2 * radius
-        front_wheel_thickness = 2 * radius / 3
+        front_wheel_length = length * 0.3
+        front_wheel_thickness = front_wheel_length / 2.5
 
         world_coords = _compute_wheel_world_coords()
 
@@ -268,10 +268,8 @@ def _tricycle_drawing_kernel(canvas, robot, resolution):
             paint_polygon_using_canvas_coords(canvas, coords, FlatColors.DARK_ORANGE)
 
     canvas_size = canvas.shape[:2][::-1]
-    radius = robot.kinematic_model.radius
+    width = robot.kinematic_model.width
     length = robot.kinematic_model.length
-    # Width from footprint.
-    width = np.max(robot.footprint.data[:, 1]) - np.min(robot.footprint.data[:, 1])
 
     footprint_world_coords = transform_points(
         robot.footprint.data, robot.pose[2], robot.pose.data[:2]

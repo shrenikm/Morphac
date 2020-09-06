@@ -34,6 +34,8 @@ State TricycleModel::ComputeStateDerivative(
   MORPH_REQUIRE(control_input.get_size() == 2, std::invalid_argument,
                 "ControlInput must be of size 2.");
 
+  // It is to be noted that the width parameter does not affect any of the
+  // computation for the tricycle model.
   VectorXd pose_derivative(4);
   double theta = state[2];
   double alpha = state[3];

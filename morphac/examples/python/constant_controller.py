@@ -31,8 +31,8 @@ def run(robot_type):
     if robot_type is RobotType.ACKERMANN:
 
         # Dimensions of the mechanical model.
-        length = 2.0
         width = 1.0
+        length = 2.0
         # Define how much larger the footprint is compared to the length and
         # width of the mechanical model.
         footprint_buffer_x = 0.2 * length
@@ -49,7 +49,7 @@ def run(robot_type):
                 0.1,
                 relative_center=[-length / 2, 0],
             ),
-            initial_state=State([5., 5., 0., 0.], []),
+            initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
 
     elif robot_type is RobotType.DIFFDRIVE:
@@ -61,21 +61,20 @@ def run(robot_type):
         robot = Robot(
             DiffDriveModel(radius, width),
             Footprint.create_circular_footprint(width / 2 + footprint_buffer_x, 0.1),
-            initial_state=State([5., 5., 0.], []),
+            initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.DUBIN:
 
         robot = Robot(
             DubinModel(1.0),
             Footprint.create_triangular_footprint(1.0, 1.5, -np.pi / 2),
-            initial_state=State([5., 5., 0.], []),
+            initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.TRICYCLE:
-        
+
         # Dimensions of the mechanical model.
-        radius = 0.5
+        width = 1.0
         length = 2.0
-        width = length / 2.
         # Define how much larger the footprint is compared to the length and
         # width of the mechanical model.
         footprint_buffer_x = 0.2 * length
@@ -83,16 +82,16 @@ def run(robot_type):
         # Make sure that the origin of the robot (and hence footprint) is at
         # the mid point of the rear axle
         robot = Robot(
-            TricycleModel(radius, length),
+            TricycleModel(width, length),
             Footprint.create_rounded_rectangular_footprint(
                 length + 2 * footprint_buffer_x,
                 width + 2 * footprint_buffer_x,
                 0.0,
                 min(width, length) / 4,
                 0.1,
-                relative_center=[-length / 2, 0]
+                relative_center=[-length / 2, 0],
             ),
-            initial_state=State([5., 5., 0., 0.], []),
+            initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
     else:
         raise NotImplementedError
