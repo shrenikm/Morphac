@@ -9,14 +9,14 @@ from morphac.mechanics.models import TricycleModel
 def generate_tricycle_model_list():
 
     t1 = TricycleModel(1, 2)
-    t2 = TricycleModel(radius=1.5, length=6.)
+    t2 = TricycleModel(width=1.5, length=6.)
 
     return t1, t2
 
 
 def test_invalid_construction():
 
-    # Radius and length must both be positive.
+    # Width and length must both be positive.
     with pytest.raises(ValueError):
         _ = TricycleModel(0., 2.)
     with pytest.raises(ValueError):
@@ -27,18 +27,18 @@ def test_invalid_construction():
         _ = TricycleModel(1., -2.)
 
 
-def test_radius(generate_tricycle_model_list):
+def test_width(generate_tricycle_model_list):
 
     t1, t2 = generate_tricycle_model_list
 
-    assert t1.radius == 1.
-    assert t2.radius == 1.5
+    assert t1.width == 1.
+    assert t2.width == 1.5
 
-    # Make sure that radius is read only.
+    # Make sure that width is read only.
     with pytest.raises(AttributeError):
-        t1.radius = 2.
+        t1.width = 2.
     with pytest.raises(AttributeError):
-        t2.radius = 3.
+        t2.width = 3.
 
 
 def test_length(generate_tricycle_model_list):

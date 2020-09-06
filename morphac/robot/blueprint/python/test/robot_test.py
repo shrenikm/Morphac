@@ -2,11 +2,7 @@ import numpy as np
 import pytest
 
 from morphac.constructs import Pose, ControlInput, State, Velocity
-from morphac.mechanics.models import (
-    KinematicModel,
-    DiffDriveModel,
-    TricycleModel
-)
+from morphac.mechanics.models import KinematicModel, DiffDriveModel, TricycleModel
 from morphac.robot.blueprint import Footprint, Robot
 
 # KinematicModel extension class to ensure that a robot can be created from
@@ -14,10 +10,9 @@ from morphac.robot.blueprint import Footprint, Robot
 
 
 class CustomKinematicModel(KinematicModel):
-
     def __init__(self, sp, sv, si, a, b):
 
-        KinematicModel.__init__(self,  sp, sv, si)
+        KinematicModel.__init__(self, sp, sv, si)
         self.a = a
         self.b = b
 
@@ -35,14 +30,13 @@ class CustomKinematicModel(KinematicModel):
 def generate_robot_list():
 
     r1 = Robot(DiffDriveModel(1, 1), Footprint([[1, 2]]))
-    r2 = Robot(TricycleModel(1, 1),
-               Footprint(np.ones([20, 2])))
-    r3 = Robot(CustomKinematicModel(3, 2, 5, 2.5, 2),
-               Footprint([[1, 0], [0, 1]]))
-    r4 = Robot(kinematic_model=CustomKinematicModel(2, 2, 4, 0, 0),
-               footprint=Footprint([[0, 0]]),
-               initial_state=State([1, 2], [3, 4])
-               )
+    r2 = Robot(TricycleModel(1, 1), Footprint(np.ones([20, 2])))
+    r3 = Robot(CustomKinematicModel(3, 2, 5, 2.5, 2), Footprint([[1, 0], [0, 1]]))
+    r4 = Robot(
+        kinematic_model=CustomKinematicModel(2, 2, 4, 0, 0),
+        footprint=Footprint([[0, 0]]),
+        initial_state=State([1, 2], [3, 4]),
+    )
 
     return r1, r2, r3, r4
 
@@ -51,8 +45,7 @@ def test_invalid_construction():
 
     with pytest.raises(ValueError):
         # Invalid State dimensions.
-        robot = Robot(DiffDriveModel(1, 1),
-                      Footprint([[0, 0]]), State(1, 1))
+        _ = Robot(DiffDriveModel(1, 1), Footprint([[0, 0]]), State(1, 1))
 
 
 def test_kinematic_model(generate_robot_list):
@@ -83,7 +76,7 @@ def test_kinematic_model(generate_robot_list):
 
     assert r1.kinematic_model.radius == 1
     assert r1.kinematic_model.width == 1
-    assert r2.kinematic_model.radius == 1
+    assert r2.kinematic_model.width == 1
     assert r2.kinematic_model.length == 1
     assert r3.kinematic_model.a == 2.5
     assert r3.kinematic_model.b == 2
@@ -220,15 +213,14 @@ def test_derivative_computation(generate_robot_list):
     # have the custom kinematic model. The other models have already been
     # tested on the cpp side.
     der1 = r1.compute_state_derivative(ControlInput([0, 0]))
-    der2 = r2.compute_state_derivative(
-        State([1, 1, 1, 1], []), ControlInput([0, 0]))
+    der2 = r2.compute_state_derivative(State([1, 1, 1, 1], []), ControlInput([0, 0]))
 
     # Test with positional arguments.
     der3 = r3.compute_state_derivative(
         robot_state=State([1, 0, 0], [-1, 0]),
-        control_input=ControlInput([2, 2, 2, -2, 2]))
-    der4 = r4.compute_state_derivative(
-        control_input=ControlInput([-1, 1, -2, 2]))
+        control_input=ControlInput([2, 2, 2, -2, 2]),
+    )
+    der4 = r4.compute_state_derivative(control_input=ControlInput([-1, 1, -2, 2]))
 
     assert np.allclose(der1.data, [0, 0, 0])
     assert np.allclose(der2.data, [0, 0, 0, 0])
