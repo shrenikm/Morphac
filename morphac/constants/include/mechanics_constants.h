@@ -47,10 +47,10 @@ struct TricycleModelConstants {
 
   // Standard front wheel diameter as a multiple of the length.
   static const double STANDARD_FRONT_WHEEL_DIAMETER_SCALER;
-  // Standard back wheel diameter as a multiple of the length.
-  static const double STANDARD_BACK_WHEEL_DIAMETER_SCALER;
   // Ratio of front wheel diameter to thickness.
   static const double STANDARD_FRONT_WHEEL_SIZE_RATIO;
+  // Standard back wheel diameter as a multiple of the length.
+  static const double STANDARD_BACK_WHEEL_DIAMETER_SCALER;
   // Ratio of back wheel diameter to thickness.
   static const double STANDARD_BACK_WHEEL_SIZE_RATIO;
   // Percentage of the width that it has to be increased by for the footprint.

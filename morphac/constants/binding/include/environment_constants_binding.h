@@ -9,7 +9,7 @@ namespace morphac {
 namespace constants {
 namespace binding {
 
-void define_map_constants_binding(pybind11::module& m);
+void define_environment_constants_binding(pybind11::module& m);
 
 }  // namespace binding
 }  // namespace constants

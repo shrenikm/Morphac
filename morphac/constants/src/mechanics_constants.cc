@@ -20,8 +20,8 @@ const double DubinModelConstants::STANDARD_BASE{0.5};
 const double DubinModelConstants::STANDARD_HEIGHT{0.5};
 
 const double TricycleModelConstants::STANDARD_FRONT_WHEEL_DIAMETER_SCALER{0.3};
-const double TricycleModelConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER{0.2};
 const double TricycleModelConstants::STANDARD_FRONT_WHEEL_SIZE_RATIO{3.};
+const double TricycleModelConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER{0.2};
 const double TricycleModelConstants::STANDARD_BACK_WHEEL_SIZE_RATIO{3.};
 const double TricycleModelConstants::STANDARD_WIDTH_BUFFER_SCALER{
     TricycleModelConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER /
