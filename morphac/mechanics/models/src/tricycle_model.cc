@@ -5,14 +5,18 @@ namespace mechanics {
 namespace models {
 
 using std::cos;
+using std::min;
 using std::sin;
 
 using Eigen::MatrixXd;
+using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::constants::TricycleModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::mechanics::models::KinematicModel;
+using morphac::robot::blueprint::Footprint;
 using morphac::utils::NormalizeAngle;
 
 TricycleModel::TricycleModel(const double width, const double length)
@@ -60,6 +64,22 @@ State TricycleModel::NormalizeState(const State& state) const {
   normalized_state[3] = NormalizeAngle(normalized_state[3]);
 
   return normalized_state;
+}
+
+Footprint TricycleModel::DefaultFootprint() const {
+  // Default rounded rectangle footprint.
+  // Buffer lengths that defines how much the footprint extends out of the frame
+  // defined by width, length.
+  double footprint_x_buffer =
+      this->length * TricycleModelConstants::DEFAULT_LENGTH_BUFFER_SCALER +
+      TricycleModelConstants::DEFAULT_LENGTH_BUFFER;
+  double footprint_y_buffer =
+      this->length * TricycleModelConstants::DEFAULT_WIDTH_BUFFER_SCALER +
+      TricycleModelConstants::DEFAULT_WIDTH_BUFFER;
+
+  return Footprint::CreateRoundedRectangularFootprint(
+      this->length + footprint_x_buffer, this->width + footprint_y_buffer, 0.,
+      min(this->width, this->length) / 4., 0.1, Vector2d(-this->length / 2, 0));
 }
 
 }  // namespace models

@@ -10,10 +10,12 @@ using std::sin;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-using morphac::utils::NormalizeAngle;
-using morphac::mechanics::models::KinematicModel;
+using morphac::constants::DiffdriveModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::mechanics::models::KinematicModel;
+using morphac::robot::blueprint::Footprint;
+using morphac::utils::NormalizeAngle;
 
 DiffdriveModel::DiffdriveModel(const double radius, const double width)
     : KinematicModel(3, 0, 2), radius(radius), width(width) {
@@ -58,7 +60,18 @@ State DiffdriveModel::NormalizeState(const State& state) const {
   return normalized_state;
 }
 
+Footprint DiffdriveModel::DefaultFootprint() const {
+  // Default circular footprint.
+  // Buffer length that defines how much the footprint extends out of the frame
+  // defined by width, length.
+  double footprint_radius_buffer =
+      this->width * DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER_SCALER +
+      DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER;
+
+  return Footprint::CreateCircularFootprint(
+      this->width / 2. + footprint_radius_buffer, 0.1);
+}
+
 }  // namespace models
 }  // namespace mechanics
 }  // namespace morphac
-

@@ -61,6 +61,7 @@ target_link_libraries(kinematic_model
   PUBLIC
   state
   control_input
+  footprint
 )
 
 target_link_libraries(ackermann_model
@@ -69,6 +70,7 @@ target_link_libraries(ackermann_model
   state
   control_input
   angle_utils
+  mechanics_constants
 )
 
 target_link_libraries(diffdrive_model
@@ -77,6 +79,7 @@ target_link_libraries(diffdrive_model
   state
   control_input
   angle_utils
+  mechanics_constants
 )
 
 target_link_libraries(dubin_model
@@ -85,6 +88,7 @@ target_link_libraries(dubin_model
   state
   control_input
   angle_utils
+  mechanics_constants
 )
 
 target_link_libraries(tricycle_model
@@ -93,6 +97,7 @@ target_link_libraries(tricycle_model
   state
   control_input
   angle_utils
+  mechanics_constants
 )
 
 

@@ -10,10 +10,12 @@ using std::sin;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-using morphac::utils::NormalizeAngle;
-using morphac::mechanics::models::KinematicModel;
+using morphac::constants::DubinModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::mechanics::models::KinematicModel;
+using morphac::robot::blueprint::Footprint;
+using morphac::utils::NormalizeAngle;
 
 DubinModel::DubinModel(const double speed)
     : KinematicModel(3, 0, 1), speed(speed) {}
@@ -48,6 +50,13 @@ State DubinModel::NormalizeState(const State& state) const {
   normalized_state[2] = NormalizeAngle(normalized_state[2]);
 
   return normalized_state;
+}
+
+Footprint DubinModel::DefaultFootprint() const {
+  // Default triangular footprint.
+  return Footprint::CreateTriangularFootprint(
+      DubinModelConstants::DEFAULT_BASE, DubinModelConstants::DEFAULT_HEIGHT,
+      -M_PI / 2.);
 }
 
 }  // namespace models
