@@ -101,6 +101,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.TRICYCLE
+    robot_type = RobotType.DIFFDRIVE
 
     run(robot_type)
