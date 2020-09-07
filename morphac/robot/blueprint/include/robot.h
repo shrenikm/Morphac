@@ -5,9 +5,7 @@
 #include "constructs/include/pose.h"
 #include "constructs/include/state.h"
 #include "constructs/include/velocity.h"
-
 #include "mechanics/models/include/kinematic_model.h"
-
 #include "robot/blueprint/include/footprint.h"
 
 namespace morphac {
@@ -18,8 +16,11 @@ class Robot {
  public:
   Robot(const morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::robot::blueprint::Footprint& footprint);
+  Robot(const morphac::mechanics::models::KinematicModel& kinematic_model);
   Robot(const morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::robot::blueprint::Footprint& footprint,
+        const morphac::constructs::State& initial_state);
+  Robot(const morphac::mechanics::models::KinematicModel& kinematic_model,
         const morphac::constructs::State& initial_state);
 
   morphac::constructs::State ComputeStateDerivative(

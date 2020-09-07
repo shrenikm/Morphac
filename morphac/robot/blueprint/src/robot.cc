@@ -18,10 +18,26 @@ Robot::Robot(const KinematicModel& kinematic_model, const Footprint& footprint)
       footprint_(footprint),
       state_(State(kinematic_model.pose_size, kinematic_model.velocity_size)) {}
 
+Robot::Robot(const KinematicModel& kinematic_model)
+    : kinematic_model_(const_cast<KinematicModel&>(kinematic_model)),
+      footprint_(kinematic_model.DefaultFootprint()),
+      state_(State(kinematic_model.pose_size, kinematic_model.velocity_size)) {}
+
 Robot::Robot(const KinematicModel& kinematic_model, const Footprint& footprint,
              const State& initial_state)
     : kinematic_model_(const_cast<KinematicModel&>(kinematic_model)),
       footprint_(footprint),
+      state_(initial_state) {
+  MORPH_REQUIRE(
+      initial_state.get_pose_size() == kinematic_model.pose_size &&
+          initial_state.get_velocity_size() == kinematic_model.velocity_size,
+      std::invalid_argument,
+      "Kinematic model and initial state dimensions do not match.");
+}
+
+Robot::Robot(const KinematicModel& kinematic_model, const State& initial_state)
+    : kinematic_model_(const_cast<KinematicModel&>(kinematic_model)),
+      footprint_(kinematic_model.DefaultFootprint()),
       state_(initial_state) {
   MORPH_REQUIRE(
       initial_state.get_pose_size() == kinematic_model.pose_size &&
