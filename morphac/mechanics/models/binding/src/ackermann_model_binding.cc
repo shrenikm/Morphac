@@ -29,6 +29,7 @@ void define_ackermann_model_binding(py::module& m) {
   ackermann_model.def("compute_steering_angles",
                       &AckermannModel::ComputeSteeringAngles,
                       py::arg("ideal_steering_angle"));
+  ackermann_model.def("default_footprint", &AckermannModel::DefaultFootprint);
   ackermann_model.def_readonly("width", &AckermannModel::width);
   ackermann_model.def_readonly("length", &AckermannModel::length);
   ackermann_model.def_readonly("pose_size", &AckermannModel::pose_size);
@@ -41,4 +42,3 @@ void define_ackermann_model_binding(py::module& m) {
 }  // namespace models
 }  // namespace mechanics
 }  // namespace morphac
-

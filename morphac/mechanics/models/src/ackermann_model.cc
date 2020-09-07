@@ -65,6 +65,15 @@ State AckermannModel::ComputeStateDerivative(
   return State(pose_derivative, VectorXd::Zero(0));
 }
 
+State AckermannModel::NormalizeState(const State& state) const {
+  // Normalizing the heading and steering angles.
+  State normalized_state = state;
+  normalized_state[2] = NormalizeAngle(normalized_state[2]);
+  normalized_state[3] = NormalizeAngle(normalized_state[3]);
+
+  return normalized_state;
+}
+
 double AckermannModel::ComputeInnerSteeringAngle(
     const double ideal_steering_angle) const {
   return NormalizeAngle(atan2(2 * length * sin(ideal_steering_angle),
@@ -85,15 +94,6 @@ vector<double> AckermannModel::ComputeSteeringAngles(
       ComputeInnerSteeringAngle(ideal_steering_angle),
       ComputeOuterSteeringAngle(ideal_steering_angle)};
   return steering_angles;
-}
-
-State AckermannModel::NormalizeState(const State& state) const {
-  // Normalizing the heading and steering angles.
-  State normalized_state = state;
-  normalized_state[2] = NormalizeAngle(normalized_state[2]);
-  normalized_state[3] = NormalizeAngle(normalized_state[3]);
-
-  return normalized_state;
 }
 
 Footprint AckermannModel::DefaultFootprint() const {

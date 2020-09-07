@@ -21,6 +21,7 @@ void define_kinematic_model_binding(py::module& m) {
                       py::arg("robot_state"), py::arg("control_input"));
   kinematic_model.def("normalize_state", &KinematicModel::NormalizeState,
                       py::arg("robot_state"));
+  kinematic_model.def("default_footprint", &KinematicModel::DefaultFootprint);
   kinematic_model.def_readonly("pose_size", &KinematicModel::pose_size);
   kinematic_model.def_readonly("velocity_size", &KinematicModel::velocity_size);
   kinematic_model.def_readonly("control_input_size",

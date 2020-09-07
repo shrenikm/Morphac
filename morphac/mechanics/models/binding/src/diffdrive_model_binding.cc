@@ -21,6 +21,7 @@ void define_diffdrive_model_binding(py::module& m) {
                       py::arg("robot_state"), py::arg("control_input"));
   diffdrive_model.def("normalize_state", &DiffdriveModel::NormalizeState,
                       py::arg("robot_state"));
+  diffdrive_model.def("default_footprint", &DiffdriveModel::DefaultFootprint);
   diffdrive_model.def_readonly("radius", &DiffdriveModel::radius);
   diffdrive_model.def_readonly("width", &DiffdriveModel::width);
   diffdrive_model.def_readonly("pose_size", &KinematicModel::pose_size);

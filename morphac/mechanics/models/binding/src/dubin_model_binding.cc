@@ -19,6 +19,7 @@ void define_dubin_model_binding(py::module& m) {
                   py::arg("control_input"));
   dubin_model.def("normalize_state", &DubinModel::NormalizeState,
                   py::arg("robot_state"));
+  dubin_model.def("default_footprint", &DubinModel::DefaultFootprint);
   dubin_model.def_readonly("speed", &DubinModel::speed);
   dubin_model.def_readonly("pose_size", &KinematicModel::pose_size);
   dubin_model.def_readonly("velocity_size", &KinematicModel::velocity_size);

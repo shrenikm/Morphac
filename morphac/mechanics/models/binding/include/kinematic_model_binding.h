@@ -1,11 +1,10 @@
 #ifndef KINEMATIC_MODEL_BINDING_H
 #define KINEMATIC_MODEL_BINDING_H
 
-#include "pybind11/pybind11.h"
-
 #include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
 #include "mechanics/models/include/kinematic_model.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace mechanics {
@@ -23,6 +22,12 @@ class PyKinematicModel : public morphac::mechanics::models::KinematicModel {
     PYBIND11_OVERLOAD_PURE_NAME(morphac::constructs::State, KinematicModel,
                                 "compute_state_derivative",
                                 ComputeStateDerivative, state, control_input);
+  }
+
+  morphac::robot::blueprint::Footprint DefaultFootprint() const override {
+    PYBIND11_OVERLOAD_PURE_NAME(morphac::robot::blueprint::Footprint,
+                                KinematicModel, "default_footprint",
+                                DefaultFootprint);
   }
 };
 

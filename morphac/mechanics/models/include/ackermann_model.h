@@ -20,13 +20,13 @@ class AckermannModel : public morphac::mechanics::models::KinematicModel {
       const morphac::constructs::State& state,
       const morphac::constructs::ControlInput& control_input) const override;
 
+  morphac::constructs::State NormalizeState(
+      const morphac::constructs::State& state) const override;
+
   double ComputeInnerSteeringAngle(const double ideal_steering_angle) const;
   double ComputeOuterSteeringAngle(const double ideal_steering_angle) const;
   std::vector<double> ComputeSteeringAngles(
       const double ideal_steering_angle) const;
-
-  morphac::constructs::State NormalizeState(
-      const morphac::constructs::State& state) const override;
 
   morphac::robot::blueprint::Footprint DefaultFootprint() const override;
 
