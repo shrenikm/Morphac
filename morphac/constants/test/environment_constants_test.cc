@@ -13,7 +13,7 @@ class EnvironmentConstantsTest : public ::testing::Test {
   void SetUp() override {}
 };
 
-TEST_F(EnvironmentConstantsTest, Members) {
+TEST_F(EnvironmentConstantsTest, MapConstants) {
   // Test Map constants.
   ASSERT_EQ(MapConstants::EMPTY, 0.);
   ASSERT_EQ(MapConstants::OBSTACLE, -1.);
