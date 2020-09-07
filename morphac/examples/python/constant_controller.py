@@ -6,7 +6,7 @@ from morphac.constructs import State
 from morphac.environment import Map
 from morphac.mechanics.models import (
     AckermannModel,
-    DiffDriveModel,
+    DiffdriveModel,
     DubinModel,
     TricycleModel,
 )
@@ -40,14 +40,14 @@ def run(robot_type):
         # the mid point of the rear axle.
         robot = Robot(
             AckermannModel(width, length),
-            Footprint.create_rounded_rectangular_footprint(
-                length + footprint_buffer_x,
-                width + footprint_buffer_y,
-                0.0,
-                min(width, length) / 4,
-                0.1,
-                relative_center=[-length / 2, 0],
-            ),
+            #Footprint.create_rounded_rectangular_footprint(
+            #    length + footprint_buffer_x,
+            #    width + footprint_buffer_y,
+            #    0.0,
+            #    min(width, length) / 4,
+            #    0.1,
+            #    relative_center=[-length / 2, 0],
+            #),
             initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
     elif robot_type is RobotType.DIFFDRIVE:
@@ -56,14 +56,14 @@ def run(robot_type):
         width = 1.0
         footprint_buffer_x = 0.25 * width
         robot = Robot(
-            DiffDriveModel(radius, width),
-            Footprint.create_circular_footprint(width / 2 + footprint_buffer_x, 0.1),
+            DiffdriveModel(radius, width),
+            #Footprint.create_circular_footprint(width / 2 + footprint_buffer_x, 0.1),
             initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.DUBIN:
         robot = Robot(
             DubinModel(1.0),
-            Footprint.create_triangular_footprint(1, 1, -np.pi / 2),
+            #Footprint.create_triangular_footprint(1, 1, -np.pi / 2),
             initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.TRICYCLE:
@@ -78,14 +78,14 @@ def run(robot_type):
         # the mid point of the rear axle
         robot = Robot(
             TricycleModel(width, length),
-            Footprint.create_rounded_rectangular_footprint(
-                length + footprint_buffer_x,
-                width + footprint_buffer_y,
-                0.0,
-                min(width, length) / 4,
-                0.1,
-                relative_center=[-length / 2, 0],
-            ),
+            #Footprint.create_rounded_rectangular_footprint(
+            #    length + footprint_buffer_x,
+            #    width + footprint_buffer_y,
+            #    0.0,
+            #    min(width, length) / 4,
+            #    0.1,
+            #    relative_center=[-length / 2, 0],
+            #),
             initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
     else:
@@ -101,6 +101,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.DIFFDRIVE
+    robot_type = RobotType.TRICYCLE
 
     run(robot_type)

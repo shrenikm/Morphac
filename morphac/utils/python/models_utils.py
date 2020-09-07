@@ -1,6 +1,6 @@
 from morphac.mechanics.models import (
     AckermannModel,
-    DiffDriveModel,
+    DiffdriveModel,
     DubinModel,
     TricycleModel,
 )
@@ -11,7 +11,7 @@ def all_model_classes():
 
     return [
         'AckermannModel',
-        'DiffDriveModel',
+        'DiffdriveModel',
         'DubinModel',
         'TricycleModel',
     ]
