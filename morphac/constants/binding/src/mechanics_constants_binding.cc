@@ -16,22 +16,24 @@ void define_mechanics_constants_binding(py::module& m) {
       m, "AckermannModelConstants");
   ackermann_model_constants.def_readonly_static(
       "STANDARD_WHEEL_DIAMETER_SCALER",
-      &MapConstants::STANDARD_WHEEL_DIAMETER_SCALER);
+      &AckermannModelConstants::STANDARD_WHEEL_DIAMETER_SCALER);
   ackermann_model_constants.def_readonly_static(
-      "STANDARD_WHEEL_SIZE_RATIO", &MapConstants::STANDARD_WHEEL_SIZE_RATIO);
+      "STANDARD_WHEEL_SIZE_RATIO",
+      &AckermannModelConstants::STANDARD_WHEEL_SIZE_RATIO);
   ackermann_model_constants.def_readonly_static(
       "STANDARD_WIDTH_BUFFER_SCALER",
-      &MapConstants::STANDARD_WIDTH_BUFFER_SCALER);
+      &AckermannModelConstants::STANDARD_WIDTH_BUFFER_SCALER);
   ackermann_model_constants.def_readonly_static(
-      "STANDARD_WIDTH_BUFFER", &MapConstants::STANDARD_WIDTH_BUFFER);
+      "STANDARD_WIDTH_BUFFER", &AckermannModelConstants::STANDARD_WIDTH_BUFFER);
   ackermann_model_constants.def_readonly_static(
       "STANDARD_LENGTH_BUFFER_SCALER",
-      &MapConstants::STANDARD_LENGTH_BUFFER_SCALER);
+      &AckermannModelConstants::STANDARD_LENGTH_BUFFER_SCALER);
   ackermann_model_constants.def_readonly_static(
-      "STANDARD_LENGTH_BUFFER", &MapConstants::STANDARD_LENGTH_BUFFER);
+      "STANDARD_LENGTH_BUFFER",
+      &AckermannModelConstants::STANDARD_LENGTH_BUFFER);
 
-  py::class_<DiffdriveModelConstants> diffdrive_model_constants(
-      m, "DiffdriveModelConstants");
+  py::class_<DiffDriveModelConstants> diffdrive_model_constants(
+      m, "DiffDriveModelConstants");
   diffdrive_model_constants.def_readonly_static(
       "STANDARD_WHEEL_SIZE_RATIO",
       &DiffDriveModelConstants::STANDARD_WHEEL_SIZE_RATIO);
@@ -43,8 +45,8 @@ void define_mechanics_constants_binding(py::module& m) {
 
   py::class_<DubinModelConstants> dubin_model_constants(m,
                                                         "DubinModelConstants");
-  dubin_model_constants.def_readonly_static("STANDARD_BASE",
-                                          &DubinModelConstants::STANDARD_BASE);
+  dubin_model_constants.def_readonly_static(
+      "STANDARD_BASE", &DubinModelConstants::STANDARD_BASE);
   dubin_model_constants.def_readonly_static(
       "STANDARD_HEIGHT", &DubinModelConstants::STANDARD_HEIGHT);
 
@@ -52,26 +54,27 @@ void define_mechanics_constants_binding(py::module& m) {
       m, "TricycleModelConstants");
   tricycle_model_constants.def_readonly_static(
       "STANDARD_FRONT_WHEEL_DIAMETER_SCALER",
-      &MapConstants::STANDARD_FRONT_WHEEL_DIAMETER_SCALER);
+      &TricycleModelConstants::STANDARD_FRONT_WHEEL_DIAMETER_SCALER);
   tricycle_model_constants.def_readonly_static(
       "STANDARD_FRONT_WHEEL_SIZE_RATIO",
-      &MapConstants::STANDARD_FRONT_WHEEL_SIZE_RATIO);
+      &TricycleModelConstants::STANDARD_FRONT_WHEEL_SIZE_RATIO);
   tricycle_model_constants.def_readonly_static(
       "STANDARD_BACK_WHEEL_DIAMETER_SCALER",
-      &MapConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER);
+      &TricycleModelConstants::STANDARD_BACK_WHEEL_DIAMETER_SCALER);
   tricycle_model_constants.def_readonly_static(
       "STANDARD_BACK_WHEEL_SIZE_RATIO",
-      &MapConstants::STANDARD_BACK_WHEEL_SIZE_RATIO);
+      &TricycleModelConstants::STANDARD_BACK_WHEEL_SIZE_RATIO);
   tricycle_model_constants.def_readonly_static(
       "STANDARD_WIDTH_BUFFER_SCALER",
-      &MapConstants::STANDARD_WIDTH_BUFFER_SCALER);
+      &TricycleModelConstants::STANDARD_WIDTH_BUFFER_SCALER);
   tricycle_model_constants.def_readonly_static(
-      "STANDARD_WIDTH_BUFFER", &MapConstants::STANDARD_WIDTH_BUFFER);
+      "STANDARD_WIDTH_BUFFER", &TricycleModelConstants::STANDARD_WIDTH_BUFFER);
   tricycle_model_constants.def_readonly_static(
       "STANDARD_LENGTH_BUFFER_SCALER",
-      &MapConstants::STANDARD_LENGTH_BUFFER_SCALER);
+      &TricycleModelConstants::STANDARD_LENGTH_BUFFER_SCALER);
   tricycle_model_constants.def_readonly_static(
-      "STANDARD_LENGTH_BUFFER", &MapConstants::STANDARD_LENGTH_BUFFER);
+      "STANDARD_LENGTH_BUFFER",
+      &TricycleModelConstants::STANDARD_LENGTH_BUFFER);
 }
 
 }  // namespace binding

@@ -17,6 +17,7 @@ set(CONSTANTS_MODULE_FILE
 set(CONSTANTS_BINDING_FILES
 
   environment_constants_binding.cc
+  mechanics_constants_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -50,6 +51,7 @@ target_include_directories(${python_target}
 target_link_libraries(${python_target}
   PUBLIC
   environment_constants
+  mechanics_constants
 )
 
 # Setting binding target properties.
