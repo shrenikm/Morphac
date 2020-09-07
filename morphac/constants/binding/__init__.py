@@ -3,7 +3,7 @@ from ._binding_constants_python import (
     MapConstants,
     # Mechanics constants.
     AckermannModelConstants,
-    DiffDriveModelConstants,
+    DiffdriveModelConstants,
     DubinModelConstants,
     TricycleModelConstants,
 )

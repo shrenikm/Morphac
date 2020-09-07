@@ -3,7 +3,7 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.math.numeric import Integrator
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 
 # Class that extends from Integrator. Testing if a functional subclass of the
 # pybind binding of Integrator can be built.
@@ -12,7 +12,7 @@ from morphac.mechanics.models import DiffDriveModel
 @pytest.fixture()
 def generate_integrator():
 
-    return CustomIntegrator(DiffDriveModel(0.1, 0.2), 2, -1)
+    return CustomIntegrator(DiffdriveModel(0.1, 0.2), 2, -1)
 
 
 class CustomIntegrator(Integrator):

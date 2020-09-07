@@ -22,7 +22,7 @@ struct AckermannModelConstants {
   static const double STANDARD_LENGTH_BUFFER;
 };
 
-struct DiffDriveModelConstants {
+struct DiffdriveModelConstants {
   // Default footprint and visualization constants.
 
   // Ratio of wheel diameter to thickness.

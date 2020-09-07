@@ -14,7 +14,7 @@ using Eigen::MatrixXd;
 
 using morphac::constructs::State;
 using morphac::environment::Map;
-using morphac::mechanics::models::DiffDriveModel;
+using morphac::mechanics::models::DiffdriveModel;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
@@ -22,8 +22,8 @@ using morphac::simulation::playground::PlaygroundState;
 
 // Global kinematic models as if they're destroyed, the reference to the model
 // in Robot points to nothing and we get strange results.
-DiffDriveModel diffdrive_model1(1., 1.);
-DiffDriveModel diffdrive_model2(2., 2.);
+DiffdriveModel diffdrive_model1(1., 1.);
+DiffdriveModel diffdrive_model2(2., 2.);
 
 class PlaygroundStateTest : public ::testing::Test {
  protected:
@@ -117,10 +117,10 @@ TEST_F(PlaygroundStateTest, GetRobotOracle) {
 
   // Testing actual contents of the oracle. It must store the right robots
   // against the right uids
-  const DiffDriveModel& model1 =
-      dynamic_cast<const DiffDriveModel&>(robot1_->get_kinematic_model());
-  const DiffDriveModel& model2 =
-      dynamic_cast<const DiffDriveModel&>(robot2_->get_kinematic_model());
+  const DiffdriveModel& model1 =
+      dynamic_cast<const DiffdriveModel&>(robot1_->get_kinematic_model());
+  const DiffdriveModel& model2 =
+      dynamic_cast<const DiffdriveModel&>(robot2_->get_kinematic_model());
 
   // Testing values of the first robot.
   ASSERT_EQ(model1.pose_size, 3);
@@ -152,10 +152,10 @@ TEST_F(PlaygroundStateTest, GetRobot) {
   auto robot2 = playground_state1_->get_robot(2);
 
   // Getting the downcasted models.
-  const DiffDriveModel& model1 =
-      dynamic_cast<const DiffDriveModel&>(robot1_->get_kinematic_model());
-  const DiffDriveModel& model2 =
-      dynamic_cast<const DiffDriveModel&>(robot2_->get_kinematic_model());
+  const DiffdriveModel& model1 =
+      dynamic_cast<const DiffdriveModel&>(robot1_->get_kinematic_model());
+  const DiffdriveModel& model2 =
+      dynamic_cast<const DiffdriveModel&>(robot2_->get_kinematic_model());
 
   // Verifying the robots.
   ASSERT_EQ(robot1.get_kinematic_model().pose_size, 3);

@@ -3,7 +3,7 @@ import pytest
 
 from morphac.constructs import State
 from morphac.environment import Map
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 from morphac.robot.blueprint import Footprint, Robot
 from morphac.simulation.playground import PlaygroundState
 
@@ -18,8 +18,8 @@ def generate_playground_state_list():
 
 @pytest.fixture()
 def generate_robot_list():
-    r1 = Robot(DiffDriveModel(1., 1.), Footprint([[0, 0]]))
-    r2 = Robot(DiffDriveModel(2., 3.), Footprint(
+    r1 = Robot(DiffdriveModel(1., 1.), Footprint([[0, 0]]))
+    r2 = Robot(DiffdriveModel(2., 3.), Footprint(
         [[0, 0]]), State([1., 2., 3.], []))
 
     return r1, r2

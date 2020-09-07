@@ -2,14 +2,14 @@ import numpy as np
 import pytest
 
 from morphac.constructs import ControlInput, State
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 
 
 @pytest.fixture()
 def generate_diffdrive_model_list():
 
-    d1 = DiffDriveModel(1, 2)
-    d2 = DiffDriveModel(radius=1.5, width=6.)
+    d1 = DiffdriveModel(1, 2)
+    d2 = DiffdriveModel(radius=1.5, width=6.)
 
     return d1, d2
 
@@ -18,13 +18,13 @@ def test_invalid_construction():
 
     # Radius and width must both be positive.
     with pytest.raises(ValueError):
-        _ = DiffDriveModel(0., 2.)
+        _ = DiffdriveModel(0., 2.)
     with pytest.raises(ValueError):
-        _ = DiffDriveModel(2., 0.)
+        _ = DiffdriveModel(2., 0.)
     with pytest.raises(ValueError):
-        _ = DiffDriveModel(-1., 2.)
+        _ = DiffdriveModel(-1., 2.)
     with pytest.raises(ValueError):
-        _ = DiffDriveModel(1., -2.)
+        _ = DiffdriveModel(1., -2.)
 
 
 def test_radius(generate_diffdrive_model_list):
@@ -105,7 +105,7 @@ def test_derivative_computation(generate_diffdrive_model_list):
 
 def test_normalize_state():
 
-    diffdrive_model = DiffDriveModel(1, 1)
+    diffdrive_model = DiffdriveModel(1, 1)
 
     # As the cpp side tests the actual computation, we just check that the
     # normalize_state interface works.

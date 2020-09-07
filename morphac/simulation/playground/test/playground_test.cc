@@ -17,7 +17,7 @@ using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::environment::Map;
-using morphac::mechanics::models::DiffDriveModel;
+using morphac::mechanics::models::DiffdriveModel;
 using morphac::math::numeric::IntegratorType;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
@@ -28,7 +28,7 @@ using morphac::simulation::playground::Playground;
 
 // Global kinematic models as if they're destroyed, the reference to the model
 // in Robot points to nothing and we get strange results.
-DiffDriveModel diffdrive_model(1., 1.);
+DiffdriveModel diffdrive_model(1., 1.);
 
 // Derived class from Pilot for testing.
 class CustomPilot : public Pilot {

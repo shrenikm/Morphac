@@ -2,13 +2,13 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.math.numeric import EulerIntegrator
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 
 
 @pytest.fixture()
 def generate_integrator():
 
-    return EulerIntegrator(DiffDriveModel(0.1, 0.2))
+    return EulerIntegrator(DiffdriveModel(0.1, 0.2))
 
 
 def test_step_computation(generate_integrator):

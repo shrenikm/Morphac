@@ -8,7 +8,7 @@ from morphac.math.numeric import (
     MidPointIntegrator,
     RK4Integrator,
 )
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 from morphac.utils.integrator_utils import integrator_from_type
 
 
@@ -28,7 +28,7 @@ def generate_integrator_list():
 def test_construction(generate_integrator_list):
 
     integrator_type_list, integrator_class_list = generate_integrator_list
-    kinematic_model = DiffDriveModel(1., 1.)
+    kinematic_model = DiffdriveModel(1., 1.)
 
     # Making sure that the right integrator is constructed.
     for integrator_type, integrator_class in zip(

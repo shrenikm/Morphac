@@ -1,7 +1,7 @@
 from ._binding_models_python import (
     KinematicModel,
     AckermannModel,
-    DiffDriveModel,
+    DiffdriveModel,
     DubinModel,
     TricycleModel,
 )

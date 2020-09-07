@@ -21,7 +21,7 @@ using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::math::numeric::MidPointIntegrator;
 using morphac::math::numeric::Integrator;
-using morphac::mechanics::models::DiffDriveModel;
+using morphac::mechanics::models::DiffdriveModel;
 using morphac::mechanics::models::KinematicModel;
 
 class MidPointIntegratorTest : public ::testing::Test {
@@ -29,19 +29,19 @@ class MidPointIntegratorTest : public ::testing::Test {
   MidPointIntegratorTest() {
     // Set random seed for Eigen.
     srand(7);
-    diffdrive_model_ = make_unique<DiffDriveModel>(0.1, 0.2);
+    diffdrive_model_ = make_unique<DiffdriveModel>(0.1, 0.2);
     mid_point_integrator_ = make_unique<MidPointIntegrator>(*diffdrive_model_);
   }
 
   void SetUp() override {}
 
-  unique_ptr<DiffDriveModel> diffdrive_model_;
+  unique_ptr<DiffdriveModel> diffdrive_model_;
   unique_ptr<MidPointIntegrator> mid_point_integrator_;
 };
 
 TEST_F(MidPointIntegratorTest, TrivialStep) {
-  // Testing trivial step values with the DiffDriveModel.
-  DiffDriveModel diffdrive_model{1.2, 2.5};
+  // Testing trivial step values with the DiffdriveModel.
+  DiffdriveModel diffdrive_model{1.2, 2.5};
   MidPointIntegrator mid_point_integrator{diffdrive_model};
 
   // Derivative is zero when the wheel velocities are zero.

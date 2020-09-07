@@ -7,7 +7,7 @@ namespace binding {
 namespace py = pybind11;
 
 using morphac::constants::AckermannModelConstants;
-using morphac::constants::DiffDriveModelConstants;
+using morphac::constants::DiffdriveModelConstants;
 using morphac::constants::DubinModelConstants;
 using morphac::constants::TricycleModelConstants;
 
@@ -32,16 +32,16 @@ void define_mechanics_constants_binding(py::module& m) {
       "STANDARD_LENGTH_BUFFER",
       &AckermannModelConstants::STANDARD_LENGTH_BUFFER);
 
-  py::class_<DiffDriveModelConstants> diffdrive_model_constants(
-      m, "DiffDriveModelConstants");
+  py::class_<DiffdriveModelConstants> diffdrive_model_constants(
+      m, "DiffdriveModelConstants");
   diffdrive_model_constants.def_readonly_static(
       "STANDARD_WHEEL_SIZE_RATIO",
-      &DiffDriveModelConstants::STANDARD_WHEEL_SIZE_RATIO);
+      &DiffdriveModelConstants::STANDARD_WHEEL_SIZE_RATIO);
   diffdrive_model_constants.def_readonly_static(
       "STANDARD_WIDTH_BUFFER_SCALER",
-      &DiffDriveModelConstants::STANDARD_WIDTH_BUFFER_SCALER);
+      &DiffdriveModelConstants::STANDARD_WIDTH_BUFFER_SCALER);
   diffdrive_model_constants.def_readonly_static(
-      "STANDARD_WIDTH_BUFFER", &DiffDriveModelConstants::STANDARD_WIDTH_BUFFER);
+      "STANDARD_WIDTH_BUFFER", &DiffdriveModelConstants::STANDARD_WIDTH_BUFFER);
 
   py::class_<DubinModelConstants> dubin_model_constants(m,
                                                         "DubinModelConstants");

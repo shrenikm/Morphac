@@ -12,9 +12,9 @@ const double AckermannModelConstants::STANDARD_WIDTH_BUFFER{0.2};
 const double AckermannModelConstants::STANDARD_LENGTH_BUFFER_SCALER{0.25};
 const double AckermannModelConstants::STANDARD_LENGTH_BUFFER{0.2};
 
-const double DiffDriveModelConstants::STANDARD_WHEEL_SIZE_RATIO{3.};
-const double DiffDriveModelConstants::STANDARD_WIDTH_BUFFER_SCALER{2.5};
-const double DiffDriveModelConstants::STANDARD_WIDTH_BUFFER{0.};
+const double DiffdriveModelConstants::STANDARD_WHEEL_SIZE_RATIO{3.};
+const double DiffdriveModelConstants::STANDARD_WIDTH_BUFFER_SCALER{2.5};
+const double DiffdriveModelConstants::STANDARD_WIDTH_BUFFER{0.};
 
 const double DubinModelConstants::STANDARD_BASE{0.5};
 const double DubinModelConstants::STANDARD_HEIGHT{0.5};

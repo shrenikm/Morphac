@@ -11,9 +11,9 @@ namespace morphac {
 namespace mechanics {
 namespace models {
 
-class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
+class DiffdriveModel : public morphac::mechanics::models::KinematicModel {
  public:
-  DiffDriveModel(const double radius, const double width);
+  DiffdriveModel(const double radius, const double width);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,

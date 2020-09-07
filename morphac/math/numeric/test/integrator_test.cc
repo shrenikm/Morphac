@@ -14,13 +14,13 @@ using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::math::numeric::Integrator;
-using morphac::mechanics::models::DiffDriveModel;
+using morphac::mechanics::models::DiffdriveModel;
 using morphac::mechanics::models::KinematicModel;
 
 // Subclass of Integrator.
 class SomeIntegrator : public Integrator {
  public:
-  SomeIntegrator(DiffDriveModel& diffdrive_model)
+  SomeIntegrator(DiffdriveModel& diffdrive_model)
       : Integrator(diffdrive_model) {}
 
   State Step(const State& state, const ControlInput& control_input,
@@ -42,7 +42,7 @@ class IntegratorTest : public ::testing::Test {
 
 TEST_F(IntegratorTest, Step) {
   // Kinematic model to use.
-  DiffDriveModel model{0.5, 2.};
+  DiffdriveModel model{0.5, 2.};
 
   // Integrator.
   SomeIntegrator integrator{model};
@@ -73,7 +73,7 @@ TEST_F(IntegratorTest, Step) {
 
 TEST_F(IntegratorTest, Integrate) {
   // Kinematic model to use.
-  DiffDriveModel model{0.5, 2.};
+  DiffdriveModel model{0.5, 2.};
 
   // Integrator.
   SomeIntegrator integrator{model};

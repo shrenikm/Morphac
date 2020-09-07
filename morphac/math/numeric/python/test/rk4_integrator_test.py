@@ -2,13 +2,13 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.math.numeric import RK4Integrator
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 
 
 @pytest.fixture()
 def generate_integrator():
 
-    return RK4Integrator(DiffDriveModel(0.1, 0.2))
+    return RK4Integrator(DiffdriveModel(0.1, 0.2))
 
 
 def test_step_computation(generate_integrator):

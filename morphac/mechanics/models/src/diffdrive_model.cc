@@ -15,7 +15,7 @@ using morphac::mechanics::models::KinematicModel;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 
-DiffDriveModel::DiffDriveModel(const double radius, const double width)
+DiffdriveModel::DiffdriveModel(const double radius, const double width)
     : KinematicModel(3, 0, 2), radius(radius), width(width) {
   MORPH_REQUIRE(radius > 0, std::invalid_argument,
                 "Diffdrive wheel radius must be positive.");
@@ -23,7 +23,7 @@ DiffDriveModel::DiffDriveModel(const double radius, const double width)
                 "Diffdrive distance between the wheels must be positive.");
 }
 
-State DiffDriveModel::ComputeStateDerivative(
+State DiffdriveModel::ComputeStateDerivative(
     const State& state, const ControlInput& control_input) const {
   MORPH_REQUIRE(
       state.get_pose_size() == 3, std::invalid_argument,
@@ -50,7 +50,7 @@ State DiffDriveModel::ComputeStateDerivative(
   return State(pose_derivative, VectorXd::Zero(0));
 }
 
-State DiffDriveModel::NormalizeState(const State& state) const {
+State DiffdriveModel::NormalizeState(const State& state) const {
   // For the diffdrive model, we normalize the pose angle.
   State normalized_state = state;
   normalized_state[2] = NormalizeAngle(normalized_state[2]);

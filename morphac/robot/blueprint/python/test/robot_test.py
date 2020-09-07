@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from morphac.constructs import Pose, ControlInput, State, Velocity
-from morphac.mechanics.models import KinematicModel, DiffDriveModel, TricycleModel
+from morphac.mechanics.models import KinematicModel, DiffdriveModel, TricycleModel
 from morphac.robot.blueprint import Footprint, Robot
 
 # KinematicModel extension class to ensure that a robot can be created from
@@ -29,7 +29,7 @@ class CustomKinematicModel(KinematicModel):
 @pytest.fixture()
 def generate_robot_list():
 
-    r1 = Robot(DiffDriveModel(1, 1), Footprint([[1, 2]]))
+    r1 = Robot(DiffdriveModel(1, 1), Footprint([[1, 2]]))
     r2 = Robot(TricycleModel(1, 1), Footprint(np.ones([20, 2])))
     r3 = Robot(CustomKinematicModel(3, 2, 5, 2.5, 2), Footprint([[1, 0], [0, 1]]))
     r4 = Robot(
@@ -45,7 +45,7 @@ def test_invalid_construction():
 
     with pytest.raises(ValueError):
         # Invalid State dimensions.
-        _ = Robot(DiffDriveModel(1, 1), Footprint([[0, 0]]), State(1, 1))
+        _ = Robot(DiffdriveModel(1, 1), Footprint([[0, 0]]), State(1, 1))
 
 
 def test_kinematic_model(generate_robot_list):
@@ -53,7 +53,7 @@ def test_kinematic_model(generate_robot_list):
     r1, r2, r3, r4 = generate_robot_list
 
     # Making sure that they are of the right type.
-    assert isinstance(r1.kinematic_model, DiffDriveModel)
+    assert isinstance(r1.kinematic_model, DiffdriveModel)
     assert isinstance(r2.kinematic_model, TricycleModel)
     assert isinstance(r3.kinematic_model, CustomKinematicModel)
     assert isinstance(r4.kinematic_model, CustomKinematicModel)
