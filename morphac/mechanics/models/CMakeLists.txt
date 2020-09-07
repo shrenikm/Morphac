@@ -67,37 +67,37 @@ target_link_libraries(kinematic_model
 target_link_libraries(ackermann_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
-  mechanics_constants
 )
 
 target_link_libraries(diffdrive_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
-  mechanics_constants
 )
 
 target_link_libraries(dubin_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
-  mechanics_constants
 )
 
 target_link_libraries(tricycle_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
-  mechanics_constants
 )
 
 

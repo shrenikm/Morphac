@@ -9,6 +9,7 @@ using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::robot::blueprint::Footprint;
 using morphac::mechanics::models::KinematicModel;
 
 class CustomKinematicModel : public KinematicModel {
@@ -32,6 +33,10 @@ class CustomKinematicModel : public KinematicModel {
     derivative.set_velocity_data(derivative_vector.tail(velocity_size));
 
     return derivative;
+  }
+
+  Footprint DefaultFootprint() const override {
+    return Footprint::CreateCircularFootprint(this->a, 0.1);
   }
 
   double a;
