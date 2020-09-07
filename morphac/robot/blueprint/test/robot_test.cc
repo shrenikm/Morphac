@@ -1,7 +1,7 @@
+#include "robot/blueprint/include/robot.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "robot/blueprint/include/robot.h"
 
 namespace {
 
@@ -9,8 +9,8 @@ using std::make_shared;
 using std::shared_ptr;
 using std::srand;
 
-using Eigen::VectorXd;
 using Eigen::MatrixXd;
+using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
@@ -25,8 +25,8 @@ class CustomKinematicModel : public KinematicModel {
   CustomKinematicModel(int pose_size, int velocity_size, int size_control_input)
       : KinematicModel(pose_size, velocity_size, size_control_input) {}
 
-  State ComputeStateDerivative(const State& state,
-                               const ControlInput& control_input) const {
+  State ComputeStateDerivative(
+      const State& state, const ControlInput& control_input) const override {
     // f(x, u) = x * u  - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_data();
@@ -40,6 +40,10 @@ class CustomKinematicModel : public KinematicModel {
     derivative.set_velocity_data(derivative_vector.tail(velocity_size));
 
     return derivative;
+  }
+
+  Footprint DefaultFootprint() const override {
+    return Footprint::CreateCircularFootprint(1., 0.1);
   }
 };
 
@@ -179,4 +183,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
