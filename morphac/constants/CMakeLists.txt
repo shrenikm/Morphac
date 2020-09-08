@@ -61,6 +61,7 @@ endforeach()
 set(CONSTANTS_TEST_SRC
 
   environment_constants_test.cc
+  mechanics_constants_test.cc
 )
 
 # Creating the test executables.
@@ -84,6 +85,12 @@ target_link_libraries(environment_constants_test
   PUBLIC
   gtest_main
   environment_constants
+)
+
+target_link_libraries(mechanics_constants_test
+  PUBLIC
+  gtest_main
+  mechanics_constants
 )
 
 
