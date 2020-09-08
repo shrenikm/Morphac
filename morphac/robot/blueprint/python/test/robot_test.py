@@ -25,6 +25,9 @@ class CustomKinematicModel(KinematicModel):
         der = State([tmp_der] * self.pose_size, [tmp_der] * self.velocity_size)
         return der
 
+    def default_footprint(self):
+        return Footprint(np.ones([10, 2], dtype=np.float))
+
 
 @pytest.fixture()
 def generate_robot_list():
@@ -39,6 +42,17 @@ def generate_robot_list():
     )
 
     return r1, r2, r3, r4
+
+
+def test_construction_without_footprint():
+    r1 = Robot(kinematic_model=CustomKinematicModel(3, 2, 5, 0, 0))
+    r2 = Robot(
+        kinematic_model=CustomKinematicModel(2, 3, 1, 0, 0), initial_state=State(2, 3)
+    )
+
+    # Make sure that the footprint is initialized correctly using the default footprint from the model.
+    assert np.allclose(r1.footprint.data, np.ones([10, 2]))
+    assert np.allclose(r2.footprint.data, np.ones([10, 2]))
 
 
 def test_invalid_construction():
