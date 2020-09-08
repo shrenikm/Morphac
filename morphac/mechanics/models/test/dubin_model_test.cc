@@ -1,7 +1,7 @@
+#include "mechanics/models/include/dubin_model.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "mechanics/models/include/dubin_model.h"
 
 namespace {
 
@@ -10,6 +10,7 @@ using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::mechanics::models::DubinModel;
+using morphac::robot::blueprint::Footprint;
 
 class DubinModelTest : public ::testing::Test {
  protected:
@@ -90,6 +91,15 @@ TEST_F(DubinModelTest, StateNormalization) {
   ASSERT_TRUE(dubin_model.NormalizeState(state1) == normalized_state1);
   ASSERT_TRUE(dubin_model.NormalizeState(state2) == normalized_state2);
   ASSERT_TRUE(dubin_model.NormalizeState(state3) == normalized_state3);
+}
+
+TEST_F(DubinModelTest, DefaultFootprint) {
+  DubinModel dubin_model{1};
+
+  Footprint footprint = dubin_model.DefaultFootprint();
+
+  // Just make sure that the footprint is a triangle.
+  ASSERT_EQ(footprint.get_data().rows(), 3.);
 }
 
 }  // namespace

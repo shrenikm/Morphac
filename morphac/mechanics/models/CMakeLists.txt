@@ -134,6 +134,7 @@ target_link_libraries(kinematic_model_test
   PUBLIC
   gtest_main
   kinematic_model
+  numeric_utils
 )
 
 target_link_libraries(ackermann_model_test

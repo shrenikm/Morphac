@@ -1,7 +1,7 @@
+#include "mechanics/models/include/diffdrive_model.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "mechanics/models/include/diffdrive_model.h"
 
 namespace {
 
@@ -11,6 +11,7 @@ using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::mechanics::models::DiffdriveModel;
+using morphac::robot::blueprint::Footprint;
 
 class DiffdriveModelTest : public ::testing::Test {
  protected:
@@ -141,10 +142,22 @@ TEST_F(DiffdriveModelTest, StateNormalization) {
   ASSERT_TRUE(diffdrive_model.NormalizeState(state3) == normalized_state3);
 }
 
+TEST_F(DiffdriveModelTest, DefaultFootprint) {
+  DiffdriveModel diffdrive_model{1, 2};
+
+  // Making sure that the default footprint has a diameter greater than the
+  // model.
+  Footprint footprint = diffdrive_model.DefaultFootprint();
+
+  double footprint_diameter = footprint.get_data().col(1).maxCoeff() -
+                              footprint.get_data().col(1).minCoeff();
+
+  ASSERT_GT(footprint_diameter, diffdrive_model.radius);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

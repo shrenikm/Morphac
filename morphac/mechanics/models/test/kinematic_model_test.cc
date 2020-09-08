@@ -1,7 +1,8 @@
+#include "mechanics/models/include/kinematic_model.h"
+#include "utils/include/numeric_utils.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "mechanics/models/include/kinematic_model.h"
 
 namespace {
 
@@ -9,8 +10,9 @@ using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
-using morphac::robot::blueprint::Footprint;
 using morphac::mechanics::models::KinematicModel;
+using morphac::robot::blueprint::Footprint;
+using morphac::utils::IsEqual;
 
 class CustomKinematicModel : public KinematicModel {
  public:
@@ -36,7 +38,7 @@ class CustomKinematicModel : public KinematicModel {
   }
 
   Footprint DefaultFootprint() const override {
-    return Footprint::CreateCircularFootprint(this->a, 0.1);
+    return Footprint::CreateCircularFootprint(this->a, 0.01);
   }
 
   double a;
@@ -109,6 +111,19 @@ TEST_F(KinematicModelTest, StateNormalization) {
   State state({1, 2, 3, 4}, {5, 6});
 
   ASSERT_TRUE(model.NormalizeState(state) == state);
+}
+
+TEST_F(KinematicModelTest, DefaultFootprint) {
+  CustomKinematicModel model{4, 2, 2, 2.};
+
+  // Making sure that the default footprint is as defined.
+  Footprint footprint = model.DefaultFootprint();
+
+  double footprint_diameter = footprint.get_data().col(1).maxCoeff() -
+                              footprint.get_data().col(1).minCoeff();
+
+  ASSERT_TRUE(IsEqual(footprint_diameter, model.a * 2, 1e-4));
+
 }
 
 }  // namespace

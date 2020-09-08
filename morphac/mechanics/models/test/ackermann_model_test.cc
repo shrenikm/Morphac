@@ -1,7 +1,7 @@
+#include "mechanics/models/include/ackermann_model.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "mechanics/models/include/ackermann_model.h"
 
 namespace {
 
@@ -12,6 +12,7 @@ using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::mechanics::models::AckermannModel;
+using morphac::robot::blueprint::Footprint;
 
 class AckermannModelTest : public ::testing::Test {
  protected:
@@ -182,10 +183,24 @@ TEST_F(AckermannModelTest, StateNormalization) {
   ASSERT_TRUE(ackermann_model.NormalizeState(state3) == normalized_state3);
 }
 
+TEST_F(AckermannModelTest, DefaultFootprint) {
+  AckermannModel ackermann_model{2., 1.};
+
+  // Making sure that the default footprint has a width and length greater than
+  // the model.
+  Footprint footprint = ackermann_model.DefaultFootprint();
+  double footprint_width = footprint.get_data().col(1).maxCoeff() -
+                           footprint.get_data().col(1).minCoeff();
+  double footprint_length = footprint.get_data().col(0).maxCoeff() -
+                            footprint.get_data().col(0).minCoeff();
+
+  ASSERT_GT(footprint_width, ackermann_model.width);
+  ASSERT_GT(footprint_length, ackermann_model.length);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
