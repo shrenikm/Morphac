@@ -3,6 +3,7 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.mechanics.models import DubinModel
+from morphac.robot.blueprint import Footprint
 
 
 @pytest.fixture()
@@ -18,14 +19,14 @@ def test_speed(generate_dubin_model_list):
 
     d1, d2 = generate_dubin_model_list
 
-    assert d1.speed == 1.
+    assert d1.speed == 1.0
     assert d2.speed == 2.5
 
     # Make sure that speed is read only.
     with pytest.raises(AttributeError):
-        d1.speed = 2.
+        d1.speed = 2.0
     with pytest.raises(AttributeError):
-        d2.speed = 3.
+        d2.speed = 3.0
 
 
 def test_size(generate_dubin_model_list):
@@ -60,7 +61,8 @@ def test_derivative_computation(generate_dubin_model_list):
 
     # Test with positional arguments.
     der1 = d1.compute_state_derivative(
-        robot_state=State([1, 2, 0], []), control_input=ControlInput(1))
+        robot_state=State([1, 2, 0], []), control_input=ControlInput(1)
+    )
 
     # In this case, the control input controls the angular velocity and the
     # speed i# constant. Hence the robot must move horizontally (theta=0) with
@@ -87,3 +89,11 @@ def test_normalize_state():
     # normalize_state interface works.
 
     assert dubin_model.normalize_state(robot_state=State(3, 0)) == State(3, 0)
+
+
+def test_default_footprint(generate_dubin_model_list):
+
+    d1, _ = generate_dubin_model_list
+
+    # Just making sure that the default_footprint function returns a valid footprint.
+    assert isinstance(d1.default_footprint(), Footprint)

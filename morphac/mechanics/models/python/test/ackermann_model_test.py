@@ -3,6 +3,7 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.mechanics.models import AckermannModel
+from morphac.robot.blueprint import Footprint
 
 
 @pytest.fixture()
@@ -143,3 +144,10 @@ def test_normalize_state():
 
     assert ackermann_model.normalize_state(
         robot_state=State(4, 0)) == State(4, 0)
+
+def test_default_footprint(generate_ackermann_model_list):
+
+    a1, _ = generate_ackermann_model_list
+
+    # Just making sure that the default_footprint function returns a valid footprint.
+    assert isinstance(a1.default_footprint(), Footprint)

@@ -3,13 +3,14 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.mechanics.models import DiffdriveModel
+from morphac.robot.blueprint import Footprint
 
 
 @pytest.fixture()
 def generate_diffdrive_model_list():
 
     d1 = DiffdriveModel(1, 2)
-    d2 = DiffdriveModel(radius=1.5, width=6.)
+    d2 = DiffdriveModel(radius=1.5, width=6.0)
 
     return d1, d2
 
@@ -18,41 +19,41 @@ def test_invalid_construction():
 
     # Radius and width must both be positive.
     with pytest.raises(ValueError):
-        _ = DiffdriveModel(0., 2.)
+        _ = DiffdriveModel(0.0, 2.0)
     with pytest.raises(ValueError):
-        _ = DiffdriveModel(2., 0.)
+        _ = DiffdriveModel(2.0, 0.0)
     with pytest.raises(ValueError):
-        _ = DiffdriveModel(-1., 2.)
+        _ = DiffdriveModel(-1.0, 2.0)
     with pytest.raises(ValueError):
-        _ = DiffdriveModel(1., -2.)
+        _ = DiffdriveModel(1.0, -2.0)
 
 
 def test_radius(generate_diffdrive_model_list):
 
     d1, d2 = generate_diffdrive_model_list
 
-    assert d1.radius == 1.
+    assert d1.radius == 1.0
     assert d2.radius == 1.5
 
     # Make sure that radius is read only.
     with pytest.raises(AttributeError):
-        d1.radius = 2.
+        d1.radius = 2.0
     with pytest.raises(AttributeError):
-        d2.radius = 3.
+        d2.radius = 3.0
 
 
 def test_width(generate_diffdrive_model_list):
 
     d1, d2 = generate_diffdrive_model_list
 
-    assert d1.width == 2.
-    assert d2.width == 6.
+    assert d1.width == 2.0
+    assert d2.width == 6.0
 
     # Make sure that width is read only.
     with pytest.raises(AttributeError):
-        d1.width = 4.
+        d1.width = 4.0
     with pytest.raises(AttributeError):
-        d2.width = 5.
+        d2.width = 5.0
 
 
 def test_size(generate_diffdrive_model_list):
@@ -87,7 +88,8 @@ def test_derivative_computation(generate_diffdrive_model_list):
 
     # Test with positional arguments.
     der1 = d1.compute_state_derivative(
-        robot_state=State([1, 2, 3], []), control_input=ControlInput(2))
+        robot_state=State([1, 2, 3], []), control_input=ControlInput(2)
+    )
 
     assert np.allclose(der1.data, [0, 0, 0])
 
@@ -110,5 +112,12 @@ def test_normalize_state():
     # As the cpp side tests the actual computation, we just check that the
     # normalize_state interface works.
 
-    assert diffdrive_model.normalize_state(
-        robot_state=State(3, 0)) == State(3, 0)
+    assert diffdrive_model.normalize_state(robot_state=State(3, 0)) == State(3, 0)
+
+
+def test_default_footprint(generate_diffdrive_model_list):
+
+    d1, _ = generate_diffdrive_model_list
+
+    # Just making sure that the default_footprint function returns a valid footprint.
+    assert isinstance(d1.default_footprint(), Footprint)
