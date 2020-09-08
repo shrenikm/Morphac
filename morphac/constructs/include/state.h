@@ -5,9 +5,7 @@
 #include <vector>
 
 #include "Eigen/Dense"
-
 #include "common/error_handling/include/error_macros.h"
-
 #include "constructs/include/pose.h"
 #include "constructs/include/velocity.h"
 

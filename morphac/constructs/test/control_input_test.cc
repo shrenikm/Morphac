@@ -1,7 +1,7 @@
+#include "constructs/include/control_input.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "constructs/include/control_input.h"
 
 namespace {
 

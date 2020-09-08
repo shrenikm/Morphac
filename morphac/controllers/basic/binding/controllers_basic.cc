@@ -1,8 +1,7 @@
-#include "pybind11/eigen.h"
-#include "pybind11/pybind11.h"
-
 #include "controllers/basic/binding/include/constant_controller_binding.h"
 #include "controllers/basic/binding/include/zero_controller_binding.h"
+#include "pybind11/eigen.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace controllers {

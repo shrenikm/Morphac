@@ -2,7 +2,6 @@
 #define ENVIRONMENT_H
 
 #include "Eigen/Dense"
-
 #include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
@@ -36,4 +35,3 @@ class Map {
 }  // namespace morphac
 
 #endif
-

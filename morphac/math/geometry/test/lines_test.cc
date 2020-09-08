@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "math/geometry/include/lines.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 
@@ -13,10 +13,10 @@ using Eigen::Vector2d;
 
 using morphac::common::aliases::Epsilon;
 using morphac::common::aliases::Infinity;
-using morphac::math::geometry::ComputeLineSpec;
-using morphac::math::geometry::LineSpec;
 using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
+using morphac::math::geometry::ComputeLineSpec;
+using morphac::math::geometry::LineSpec;
 
 class LinesTest : public ::testing::Test {
  protected:
@@ -154,4 +154,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

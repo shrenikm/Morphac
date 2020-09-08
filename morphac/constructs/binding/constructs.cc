@@ -1,13 +1,12 @@
-#include "pybind11/eigen.h"
-#include "pybind11/operators.h"
-#include "pybind11/pybind11.h"
-
 #include "constructs/binding/include/control_input_binding.h"
 #include "constructs/binding/include/coordinate_binding.h"
 #include "constructs/binding/include/pose_binding.h"
 #include "constructs/binding/include/state_binding.h"
 #include "constructs/binding/include/trajectory_binding.h"
 #include "constructs/binding/include/velocity_binding.h"
+#include "pybind11/eigen.h"
+#include "pybind11/operators.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace constructs {

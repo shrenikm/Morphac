@@ -3,6 +3,4 @@ from ._binding_controllers_basic_python import (
     ZeroController,
 )
 
-from morphac.constructs._binding_constructs_python import (
-    ControlInput as _ControlInput,
-)
+from morphac.constructs._binding_constructs_python import ControlInput as _ControlInput

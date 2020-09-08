@@ -3,10 +3,10 @@
 namespace morphac {
 namespace constructs {
 
+using Eigen::Vector2d;
 using std::ostream;
 using std::ostringstream;
 using std::string;
-using Eigen::Vector2d;
 
 Coordinate::Coordinate(const double x, const double y) : x_(x), y_(y) {}
 
@@ -143,4 +143,3 @@ void Coordinate::set_data(const Vector2d& data) {
 
 }  // namespace constructs
 }  // namespace morphac
-

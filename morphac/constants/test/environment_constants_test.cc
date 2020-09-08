@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "constants/include/environment_constants.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 

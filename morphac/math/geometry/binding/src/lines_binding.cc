@@ -9,10 +9,10 @@ namespace py = pybind11;
 
 using Eigen::Vector2d;
 
-using morphac::math::geometry::LineSpec;
-using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
+using morphac::math::geometry::ComputeLineSpec;
+using morphac::math::geometry::LineSpec;
 
 void define_lines_binding(py::module& m) {
   py::class_<LineSpec> line_spec(m, "LineSpec");

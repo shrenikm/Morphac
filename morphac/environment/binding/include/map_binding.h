@@ -1,10 +1,9 @@
 #ifndef ENVIRONMENT_BINDING_H
 #define ENVIRONMENT_BINDING_H
 
+#include "environment/include/map.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "environment/include/map.h"
 
 namespace morphac {
 namespace environment {

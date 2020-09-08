@@ -1,7 +1,6 @@
+#include "environment/binding/include/map_binding.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "environment/binding/include/map_binding.h"
 
 namespace morphac {
 namespace environment {

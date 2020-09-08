@@ -1,10 +1,9 @@
 #ifndef ZERO_CONTROLLER_BINDING_H
 #define ZERO_CONTROLLER_BINDING_H
 
+#include "controllers/basic/include/zero_controller.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "controllers/basic/include/zero_controller.h"
 
 namespace morphac {
 namespace controllers {

@@ -39,9 +39,9 @@ def test_data(generate_pose_list):
 
     # Test getting data.
     assert np.allclose(p1.data, [0, 0])
-    assert np.allclose(p2.data, [1., 2., 3.])
-    assert np.allclose(p3.data, [4., 3., 2., 1.])
-    assert np.allclose(p4.data, [1., 1., 2., 3., 5.])
+    assert np.allclose(p2.data, [1.0, 2.0, 3.0])
+    assert np.allclose(p3.data, [4.0, 3.0, 2.0, 1.0])
+    assert np.allclose(p4.data, [1.0, 1.0, 2.0, 3.0, 5.0])
 
     # Test setting data.
     p1.data = np.array([1, 1], dtype=np.int)

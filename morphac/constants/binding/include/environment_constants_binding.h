@@ -1,9 +1,8 @@
 #ifndef ENVIRONMENT_CONSTANTS_BINDING_H
 #define ENVIRONMENT_CONSTANTS_BINDING_H
 
-#include "pybind11/pybind11.h"
-
 #include "constants/include/environment_constants.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace constants {

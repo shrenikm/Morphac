@@ -1,9 +1,8 @@
 #ifndef MECHANICS_CONSTANTS_BINDING_H
 #define MECHANICS_CONSTANTS_BINDING_H
 
-#include "pybind11/pybind11.h"
-
 #include "constants/include/mechanics_constants.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace constants {

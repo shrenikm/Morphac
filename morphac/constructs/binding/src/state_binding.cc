@@ -9,8 +9,8 @@ namespace py = pybind11;
 using Eigen::VectorXd;
 
 using morphac::constructs::Pose;
-using morphac::constructs::Velocity;
 using morphac::constructs::State;
+using morphac::constructs::Velocity;
 
 void define_state_binding(py::module& m) {
   py::class_<State> state(m, "State");
@@ -23,26 +23,28 @@ void define_state_binding(py::module& m) {
             py::arg("data_velocity"));
   state.def(py::init<const Pose&, const Velocity&>(), py::arg("pose"),
             py::arg("velocity"));
-  state.def("__getitem__",
-            [](const State& state, const int index) {
-              // Implementing python's negative indexing.
-              if (index >= 0) {
-                return state[index];
-              } else {
-                return state[index + state.get_size()];
-              }
-            },
-            py::is_operator());
-  state.def("__setitem__",
-            [](State& state, const int index, const double scalar) {
-              // Implementing python's negative indexing.
-              if (index >= 0) {
-                state[index] = scalar;
-              } else {
-                state[index + state.get_size()] = scalar;
-              }
-            },
-            py::is_operator());
+  state.def(
+      "__getitem__",
+      [](const State& state, const int index) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          return state[index];
+        } else {
+          return state[index + state.get_size()];
+        }
+      },
+      py::is_operator());
+  state.def(
+      "__setitem__",
+      [](State& state, const int index, const double scalar) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          state[index] = scalar;
+        } else {
+          state[index + state.get_size()] = scalar;
+        }
+      },
+      py::is_operator());
   state.def(py::self += py::self);
   state.def(py::self + py::self);
   state.def(py::self -= py::self);
@@ -75,4 +77,3 @@ void define_state_binding(py::module& m) {
 }  // namespace binding
 }  // namespace constructs
 }  // namespace morphac
-

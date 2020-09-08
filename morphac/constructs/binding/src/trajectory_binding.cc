@@ -21,16 +21,17 @@ void define_trajectory_binding(py::module& m) {
   trajectory.def(py::init<const MatrixXd&, const int, const int>(),
                  py::arg("data"), py::arg("pose_size"),
                  py::arg("velocity_size"));
-  trajectory.def("__getitem__",
-                 [](const Trajectory& trajectory, const int index) {
-                   // Implementing python's negative indexing.
-                   if (index >= 0) {
-                     return trajectory[index];
-                   } else {
-                     return trajectory[index + trajectory.get_size()];
-                   }
-                 },
-                 py::is_operator());
+  trajectory.def(
+      "__getitem__",
+      [](const Trajectory& trajectory, const int index) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          return trajectory[index];
+        } else {
+          return trajectory[index + trajectory.get_size()];
+        }
+      },
+      py::is_operator());
   trajectory.def(
       "__setitem__",
       [](Trajectory& trajectory, const int index, const State& knot_point) {
@@ -60,9 +61,10 @@ void define_trajectory_binding(py::module& m) {
   trajectory.def_property_readonly("velocity_size",
                                    &Trajectory::get_velocity_size);
   trajectory.def_property("data", &Trajectory::get_data, &Trajectory::set_data);
-  trajectory.def("add_knot_point", py::overload_cast<const State&, const int>(
-                                       &Trajectory::AddKnotPoint),
-                 py::arg("knot_point"), py::arg("index"));
+  trajectory.def(
+      "add_knot_point",
+      py::overload_cast<const State&, const int>(&Trajectory::AddKnotPoint),
+      py::arg("knot_point"), py::arg("index"));
   trajectory.def("add_knot_point",
                  py::overload_cast<const State&>(&Trajectory::AddKnotPoint),
                  py::arg("knot_point"));
@@ -83,4 +85,3 @@ void define_trajectory_binding(py::module& m) {
 }  // namespace binding
 }  // namespace constructs
 }  // namespace morphac
-

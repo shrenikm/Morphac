@@ -1,8 +1,7 @@
-#include "pybind11/eigen.h"
-#include "pybind11/pybind11.h"
-
 #include "math/geometry/binding/include/lines_binding.h"
 #include "math/geometry/binding/include/polygons_binding.h"
+#include "pybind11/eigen.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace math {

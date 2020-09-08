@@ -1,11 +1,10 @@
 #ifndef LINES_BINDING_H
 #define LINES_BINDING_H
 
+#include "math/geometry/include/lines.h"
 #include "pybind11/eigen.h"
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
-
-#include "math/geometry/include/lines.h"
 
 namespace morphac {
 namespace math {

@@ -39,9 +39,9 @@ def test_data(generate_velocity_list):
 
     # Test getting data.
     assert np.allclose(v1.data, [0, 0])
-    assert np.allclose(v2.data, [1., 2., 3.])
-    assert np.allclose(v3.data, [4., 3., 2., 1.])
-    assert np.allclose(v4.data, [1., 1., 2., 3., 5.])
+    assert np.allclose(v2.data, [1.0, 2.0, 3.0])
+    assert np.allclose(v3.data, [4.0, 3.0, 2.0, 1.0])
+    assert np.allclose(v4.data, [1.0, 1.0, 2.0, 3.0, 5.0])
 
     # Test setting data.
     v1.data = np.array([1, 1], dtype=np.int)

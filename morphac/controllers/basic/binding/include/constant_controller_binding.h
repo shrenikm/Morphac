@@ -1,10 +1,9 @@
 #ifndef CONSTANT_CONTROLLER_BINDING_H
 #define CONSTANT_CONTROLLER_BINDING_H
 
+#include "controllers/basic/include/constant_controller.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "controllers/basic/include/constant_controller.h"
 
 namespace morphac {
 namespace controllers {

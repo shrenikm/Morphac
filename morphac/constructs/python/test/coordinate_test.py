@@ -10,9 +10,9 @@ def generate_coord_list():
     # List of coordinates constructed in every single way.
     # This is also an initialization test.
     c1 = Coordinate()
-    c2 = Coordinate(data=[1.5, 2.])
-    c3 = Coordinate(x=1.5, y=-5.)
-    c4 = Coordinate(x=-9., y=-1.2)
+    c2 = Coordinate(data=[1.5, 2.0])
+    c3 = Coordinate(x=1.5, y=-5.0)
+    c4 = Coordinate(x=-9.0, y=-1.2)
 
     return c1, c2, c3, c4
 
@@ -50,10 +50,10 @@ def test_getitem(generate_coord_list):
     assert c1[0] == 0
     assert c1[1] == 0
     assert c2[0] == 1.5
-    assert c2[1] == 2.
+    assert c2[1] == 2.0
     assert c3[-2] == 1.5
-    assert c3[-1] == -5.
-    assert c4[-2] == -9.
+    assert c3[-1] == -5.0
+    assert c4[-2] == -9.0
     assert c4[-1] == -1.2
 
     # Test invalid getitem.
@@ -98,7 +98,7 @@ def test_addition(generate_coord_list):
     res = c2 + Coordinate(0, 0)
     assert np.allclose(res.data, c2.data)
 
-    res = c3 + Coordinate(-1.5, 5.)
+    res = c3 + Coordinate(-1.5, 5.0)
     assert np.allclose(res.data, [0, 0])
 
     res = c4 + Coordinate(-1, 5)

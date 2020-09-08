@@ -16,26 +16,28 @@ void define_coordinate_binding(py::module& m) {
   coordinate.def(py::init<const double, const double>(), py::arg("x") = 0.,
                  py::arg("y") = 0.);
   coordinate.def(py::init<const Vector2d&>(), py::arg("data"));
-  coordinate.def("__getitem__",
-                 [](const Coordinate& coord, const int index) {
-                   // Implementing python's negative indexing.
-                   if (index >= 0) {
-                     return coord[index];
-                   } else {
-                     return coord[index + 2];
-                   }
-                 },
-                 py::is_operator());
-  coordinate.def("__setitem__",
-                 [](Coordinate& coord, const int index, const double scalar) {
-                   // Implementing python's negative indexing.
-                   if (index >= 0) {
-                     coord[index] = scalar;
-                   } else {
-                     coord[index + 2] = scalar;
-                   }
-                 },
-                 py::is_operator());
+  coordinate.def(
+      "__getitem__",
+      [](const Coordinate& coord, const int index) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          return coord[index];
+        } else {
+          return coord[index + 2];
+        }
+      },
+      py::is_operator());
+  coordinate.def(
+      "__setitem__",
+      [](Coordinate& coord, const int index, const double scalar) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          coord[index] = scalar;
+        } else {
+          coord[index + 2] = scalar;
+        }
+      },
+      py::is_operator());
   coordinate.def(py::self += py::self);
   coordinate.def(py::self + py::self);
   coordinate.def(py::self -= py::self);
@@ -58,4 +60,3 @@ void define_coordinate_binding(py::module& m) {
 }  // namespace binding
 }  // namespace constructs
 }  // namespace morphac
-

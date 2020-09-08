@@ -1,7 +1,7 @@
+#include "constructs/include/state.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "constructs/include/state.h"
 
 namespace {
 
@@ -849,4 +849,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

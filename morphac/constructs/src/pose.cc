@@ -142,4 +142,3 @@ Pose Pose::CreateLike(const Pose& pose) {
 
 }  // namespace constructs
 }  // namespace morphac
-

@@ -16,7 +16,7 @@ void define_zero_controller_binding(py::module& m) {
   zero_controller.def("compute", &ZeroController::Compute);
 }
 
-}  // binding
-}  // basic
-}  // controllers
-}  // morphac
+}  // namespace binding
+}  // namespace basic
+}  // namespace controllers
+}  // namespace morphac

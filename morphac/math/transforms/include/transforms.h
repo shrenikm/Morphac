@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Eigen/Dense"
-
 #include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
 #include "utils/include/points_utils.h"

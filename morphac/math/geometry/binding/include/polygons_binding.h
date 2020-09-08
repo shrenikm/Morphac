@@ -1,10 +1,9 @@
 #ifndef POLYGONS_BINDING_H
 #define POLYGONS_BINDING_H
 
+#include "math/geometry/include/polygons.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "math/geometry/include/polygons.h"
 
 namespace morphac {
 namespace math {

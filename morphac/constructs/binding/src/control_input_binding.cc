@@ -17,16 +17,17 @@ void define_control_input_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   control_input.def(py::init<const int>(), py::arg("size"));
   control_input.def(py::init<const VectorXd&>(), py::arg("data"));
-  control_input.def("__getitem__",
-                    [](const ControlInput& control_input, const int index) {
-                      // Implementing python's negative indexing.
-                      if (index >= 0) {
-                        return control_input[index];
-                      } else {
-                        return control_input[index + control_input.get_size()];
-                      }
-                    },
-                    py::is_operator());
+  control_input.def(
+      "__getitem__",
+      [](const ControlInput& control_input, const int index) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          return control_input[index];
+        } else {
+          return control_input[index + control_input.get_size()];
+        }
+      },
+      py::is_operator());
   control_input.def(
       "__setitem__",
       [](ControlInput& control_input, const int index, const double scalar) {
@@ -60,4 +61,3 @@ void define_control_input_binding(py::module& m) {
 }  // namespace binding
 }  // namespace constructs
 }  // namespace morphac
-

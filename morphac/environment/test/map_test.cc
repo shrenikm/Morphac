@@ -1,7 +1,7 @@
+#include "environment/include/map.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "environment/include/map.h"
 
 namespace {
 

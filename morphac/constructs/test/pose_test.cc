@@ -1,7 +1,7 @@
+#include "constructs/include/pose.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "constructs/include/pose.h"
 
 namespace {
 

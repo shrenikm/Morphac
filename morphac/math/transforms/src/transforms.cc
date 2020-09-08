@@ -172,4 +172,3 @@ Pixels WorldToCanvas(const Points& world_coords, const double resolution,
 }  // namespace transforms
 }  // namespace math
 }  // namespace morphac
-

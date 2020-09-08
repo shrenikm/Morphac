@@ -6,6 +6,4 @@ from ._binding_numeric_python import (
     RK4Integrator,
 )
 
-from morphac.constructs._binding_constructs_python import (
-    State as _State,
-)
+from morphac.constructs._binding_constructs_python import State as _State

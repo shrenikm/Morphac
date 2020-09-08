@@ -1,10 +1,9 @@
 #ifndef CONTROLLER_BINDING_H
 #define CONTROLLER_BINDING_H
 
+#include "controllers/base/include/controller.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "controllers/base/include/controller.h"
 
 namespace morphac {
 namespace controllers {

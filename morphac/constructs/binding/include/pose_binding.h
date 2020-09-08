@@ -1,11 +1,10 @@
 #ifndef POSE_BINDING_H
 #define POSE_BINDING_H
 
+#include "constructs/include/pose.h"
 #include "pybind11/eigen.h"
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
-
-#include "constructs/include/pose.h"
 
 namespace morphac {
 namespace constructs {
@@ -18,4 +17,3 @@ void define_pose_binding(pybind11::module& m);
 }  // namespace morphac
 
 #endif
-

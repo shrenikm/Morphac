@@ -12,13 +12,13 @@ from morphac.math.geometry import (
 
 @pytest.fixture
 def generate_arc_list():
-    arc1 = create_arc(0., np.pi / 3., 1.5, 0.01)
+    arc1 = create_arc(0.0, np.pi / 3.0, 1.5, 0.01)
     arc2 = create_arc(
         start_angle=-np.pi,
         end_angle=-np.pi / 2,
-        radius=1.,
+        radius=1.0,
         angular_resolution=0.1,
-        center=[-4., 4.]
+        center=[-4.0, 4.0],
     )
 
     return arc1, arc2
@@ -27,23 +27,16 @@ def generate_arc_list():
 @pytest.fixture
 def generate_circular_polygon_list():
     c1 = create_circular_polygon(1.5, 0.01)
-    c2 = create_circular_polygon(
-        radius=1.,
-        angular_resolution=0.1,
-        center=[-4., 4.]
-    )
+    c2 = create_circular_polygon(radius=1.0, angular_resolution=0.1, center=[-4.0, 4.0])
 
     return c1, c2
 
 
 @pytest.fixture
 def generate_rectangular_polygon_list():
-    r1 = create_rectangular_polygon(6., 4., 0.)
+    r1 = create_rectangular_polygon(6.0, 4.0, 0.0)
     r2 = create_rectangular_polygon(
-        size_x=6.,
-        size_y=4.,
-        angle=np.pi / 3.,
-        center=[-4., 4.]
+        size_x=6.0, size_y=4.0, angle=np.pi / 3.0, center=[-4.0, 4.0]
     )
 
     return r1, r2
@@ -51,14 +44,14 @@ def generate_rectangular_polygon_list():
 
 @pytest.fixture
 def generate_rounded_rectangular_polygon_list():
-    r1 = create_rounded_rectangular_polygon(6., 4., 0., 1.5, 0.01)
+    r1 = create_rounded_rectangular_polygon(6.0, 4.0, 0.0, 1.5, 0.01)
     r2 = create_rounded_rectangular_polygon(
-        size_x=6.,
-        size_y=4.,
-        angle=np.pi / 3.,
-        radius=1.,
+        size_x=6.0,
+        size_y=4.0,
+        angle=np.pi / 3.0,
+        radius=1.0,
         angular_resolution=0.1,
-        center=[-4., 4.]
+        center=[-4.0, 4.0],
     )
 
     return r1, r2
@@ -66,12 +59,9 @@ def generate_rounded_rectangular_polygon_list():
 
 @pytest.fixture
 def generate_triangular_polygon_list():
-    t1 = create_triangular_polygon(2., 2., 0.)
+    t1 = create_triangular_polygon(2.0, 2.0, 0.0)
     t2 = create_triangular_polygon(
-        base=4.,
-        height=6.,
-        angle=np.pi / 3.,
-        center=[-3., 2.],
+        base=4.0, height=6.0, angle=np.pi / 3.0, center=[-3.0, 2.0],
     )
 
     return t1, t2
@@ -99,9 +89,9 @@ def test_arc(generate_arc_list):
 
 def test_invalid_arc():
     with pytest.raises(ValueError):
-        _ = create_arc(0., np.pi / 3., -1., 0.1)
+        _ = create_arc(0.0, np.pi / 3.0, -1.0, 0.1)
     with pytest.raises(ValueError):
-        _ = create_arc(0., np.pi / 3., 1., 0.)
+        _ = create_arc(0.0, np.pi / 3.0, 1.0, 0.0)
 
 
 def test_circular_polygon(generate_circular_polygon_list):
@@ -114,9 +104,9 @@ def test_circular_polygon(generate_circular_polygon_list):
 
 def test_invalid_circular_polygon():
     with pytest.raises(ValueError):
-        _ = create_circular_polygon(-1., 0.1)
+        _ = create_circular_polygon(-1.0, 0.1)
     with pytest.raises(ValueError):
-        _ = create_circular_polygon(1., 0.)
+        _ = create_circular_polygon(1.0, 0.0)
 
 
 def test_rectangular_polygon(generate_rectangular_polygon_list):
@@ -129,14 +119,12 @@ def test_rectangular_polygon(generate_rectangular_polygon_list):
 
 def test_invalid_rectangular_polygon():
     with pytest.raises(ValueError):
-        _ = create_rectangular_polygon(-2., 2., 0.)
+        _ = create_rectangular_polygon(-2.0, 2.0, 0.0)
     with pytest.raises(ValueError):
-        _ = create_rectangular_polygon(2., -2., 0.)
+        _ = create_rectangular_polygon(2.0, -2.0, 0.0)
 
 
-def test_rounded_rectangular_polygon(
-        generate_rounded_rectangular_polygon_list
-):
+def test_rounded_rectangular_polygon(generate_rounded_rectangular_polygon_list):
 
     r1, r2 = generate_rounded_rectangular_polygon_list
 
@@ -146,13 +134,13 @@ def test_rounded_rectangular_polygon(
 
 def test_invalid_rounded_rectangular_polygon():
     with pytest.raises(ValueError):
-        _ = create_rounded_rectangular_polygon(-2., 2., 0., 1., 0.1)
+        _ = create_rounded_rectangular_polygon(-2.0, 2.0, 0.0, 1.0, 0.1)
     with pytest.raises(ValueError):
-        _ = create_rounded_rectangular_polygon(2., -2., 0., 1., 0.1)
+        _ = create_rounded_rectangular_polygon(2.0, -2.0, 0.0, 1.0, 0.1)
     with pytest.raises(ValueError):
-        _ = create_rounded_rectangular_polygon(2., 2., 0., -1., 0.1)
+        _ = create_rounded_rectangular_polygon(2.0, 2.0, 0.0, -1.0, 0.1)
     with pytest.raises(ValueError):
-        _ = create_rounded_rectangular_polygon(2., 2., 0., 1., 0.)
+        _ = create_rounded_rectangular_polygon(2.0, 2.0, 0.0, 1.0, 0.0)
 
 
 def test_triangular_polygon(generate_triangular_polygon_list):
@@ -165,6 +153,6 @@ def test_triangular_polygon(generate_triangular_polygon_list):
 
 def test_invalid_triangular_polygon():
     with pytest.raises(ValueError):
-        _ = create_triangular_polygon(-1., 2., 0.)
+        _ = create_triangular_polygon(-1.0, 2.0, 0.0)
     with pytest.raises(ValueError):
-        _ = create_triangular_polygon(1., -2., 0.)
+        _ = create_triangular_polygon(1.0, -2.0, 0.0)

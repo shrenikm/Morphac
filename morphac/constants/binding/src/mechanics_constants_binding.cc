@@ -29,8 +29,7 @@ void define_mechanics_constants_binding(py::module& m) {
       "DEFAULT_LENGTH_BUFFER_SCALER",
       &AckermannModelConstants::DEFAULT_LENGTH_BUFFER_SCALER);
   ackermann_model_constants.def_readonly_static(
-      "DEFAULT_LENGTH_BUFFER",
-      &AckermannModelConstants::DEFAULT_LENGTH_BUFFER);
+      "DEFAULT_LENGTH_BUFFER", &AckermannModelConstants::DEFAULT_LENGTH_BUFFER);
 
   py::class_<DiffdriveModelConstants> diffdrive_model_constants(
       m, "DiffdriveModelConstants");
@@ -45,8 +44,8 @@ void define_mechanics_constants_binding(py::module& m) {
 
   py::class_<DubinModelConstants> dubin_model_constants(m,
                                                         "DubinModelConstants");
-  dubin_model_constants.def_readonly_static(
-      "DEFAULT_BASE", &DubinModelConstants::DEFAULT_BASE);
+  dubin_model_constants.def_readonly_static("DEFAULT_BASE",
+                                            &DubinModelConstants::DEFAULT_BASE);
   dubin_model_constants.def_readonly_static(
       "DEFAULT_HEIGHT", &DubinModelConstants::DEFAULT_HEIGHT);
 
@@ -73,8 +72,7 @@ void define_mechanics_constants_binding(py::module& m) {
       "DEFAULT_LENGTH_BUFFER_SCALER",
       &TricycleModelConstants::DEFAULT_LENGTH_BUFFER_SCALER);
   tricycle_model_constants.def_readonly_static(
-      "DEFAULT_LENGTH_BUFFER",
-      &TricycleModelConstants::DEFAULT_LENGTH_BUFFER);
+      "DEFAULT_LENGTH_BUFFER", &TricycleModelConstants::DEFAULT_LENGTH_BUFFER);
 }
 
 }  // namespace binding

@@ -19,7 +19,7 @@ void define_constant_controller_binding(py::module& m) {
   constant_controller.def("compute", &ConstantController::Compute);
 }
 
-}  // binding
-}  // basic
-}  // controllers
-}  // morphac
+}  // namespace binding
+}  // namespace basic
+}  // namespace controllers
+}  // namespace morphac

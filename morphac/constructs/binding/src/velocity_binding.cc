@@ -17,26 +17,28 @@ void define_velocity_binding(py::module& m) {
   // Call the VectorXd constructor from python anyway.
   velocity.def(py::init<const int>(), py::arg("size"));
   velocity.def(py::init<const VectorXd&>(), py::arg("data"));
-  velocity.def("__getitem__",
-               [](const Velocity& velocity, const int index) {
-                 // Implementing python's negative indexing.
-                 if (index >= 0) {
-                   return velocity[index];
-                 } else {
-                   return velocity[index + velocity.get_size()];
-                 }
-               },
-               py::is_operator());
-  velocity.def("__setitem__",
-               [](Velocity& velocity, const int index, const double scalar) {
-                 // Implementing python's negative indexing.
-                 if (index >= 0) {
-                   velocity[index] = scalar;
-                 } else {
-                   velocity[index + velocity.get_size()] = scalar;
-                 }
-               },
-               py::is_operator());
+  velocity.def(
+      "__getitem__",
+      [](const Velocity& velocity, const int index) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          return velocity[index];
+        } else {
+          return velocity[index + velocity.get_size()];
+        }
+      },
+      py::is_operator());
+  velocity.def(
+      "__setitem__",
+      [](Velocity& velocity, const int index, const double scalar) {
+        // Implementing python's negative indexing.
+        if (index >= 0) {
+          velocity[index] = scalar;
+        } else {
+          velocity[index + velocity.get_size()] = scalar;
+        }
+      },
+      py::is_operator());
   velocity.def(py::self += py::self);
   velocity.def(py::self + py::self);
   velocity.def(py::self -= py::self);
@@ -59,4 +61,3 @@ void define_velocity_binding(py::module& m) {
 }  // namespace binding
 }  // namespace constructs
 }  // namespace morphac
-

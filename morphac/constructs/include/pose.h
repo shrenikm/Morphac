@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Eigen/Dense"
-
 #include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
@@ -62,4 +61,3 @@ Pose operator*(const double scalar, Pose pose);
 }  // namespace morphac
 
 #endif
-

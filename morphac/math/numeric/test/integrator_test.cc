@@ -1,7 +1,7 @@
+#include "math/numeric/include/integrator.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "math/numeric/include/integrator.h"
 #include "mechanics/models/include/diffdrive_model.h"
 
 namespace {

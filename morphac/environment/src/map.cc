@@ -83,4 +83,3 @@ void Map::set_data(const MatrixXd& data) {
 
 }  // namespace environment
 }  // namespace morphac
-

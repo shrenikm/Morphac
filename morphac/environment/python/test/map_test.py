@@ -89,7 +89,7 @@ def test_data(generate_map_list):
 
     # Test changing the data in place. This uses the get_data_ref() cpp
     # interface.
-    map1.data[:, :10] = 0.
+    map1.data[:, :10] = 0.0
     assert np.allclose(map1.data[:, :10], np.zeros((20, 10)))
     # Make sure that the other values are unchanged
     assert np.allclose(map1.data[:, 10:], np.ones((20, 10)))

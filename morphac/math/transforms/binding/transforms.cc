@@ -1,7 +1,6 @@
+#include "math/transforms/binding/include/transforms_binding.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "math/transforms/binding/include/transforms_binding.h"
 
 namespace morphac {
 namespace math {

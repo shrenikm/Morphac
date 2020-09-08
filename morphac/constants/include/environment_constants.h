@@ -13,4 +13,3 @@ struct MapConstants {
 }  // namespace morphac
 
 #endif
-

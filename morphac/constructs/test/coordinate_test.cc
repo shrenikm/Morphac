@@ -1,15 +1,15 @@
-#include "gtest/gtest.h"
-
 #include "constructs/include/coordinate.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 
 using std::ostringstream;
 
-using morphac::constructs::Coordinate;
 using Eigen::Matrix;
 using Eigen::Vector2d;
 using Eigen::VectorXd;
+using morphac::constructs::Coordinate;
 
 class CoordinateTest : public ::testing::Test {
  protected:
