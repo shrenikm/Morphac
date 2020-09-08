@@ -229,7 +229,6 @@ def _dubin_drawing_kernel(canvas, robot, resolution):
     canvas_size = canvas.shape[:2][::-1]
     base = np.abs(robot.footprint.data[0, 0] - robot.footprint.data[1, 0])
     height = np.abs(robot.footprint.data[1, 1] - robot.footprint.data[2, 1])
-    print(base, height)
 
     footprint_world_coords = transform_points(
         robot.footprint.data, robot.pose[2], robot.pose.data[:2]
@@ -350,13 +349,11 @@ class RobotVisualizer(object):
         if robot_id in self._id_kernel_correspondence:
             # First check if the id contains a corresponding drawing kernel.
             # If so, use that.
-            print("hereeee")
             self._id_kernel_correspondence[robot_id](canvas, robot, self.resolution)
 
         elif get_class_name(robot.kinematic_model) in self._model_kernel_correspondence:
             # Otherwise, check if the model contains a corresponding drawing
             # kernel and use that.
-            print("here")
             self._model_kernel_correspondence[get_class_name(robot.kinematic_model)](
                 canvas, robot, self.resolution
             )

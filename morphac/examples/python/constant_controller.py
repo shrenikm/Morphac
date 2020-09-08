@@ -32,61 +32,25 @@ def run(robot_type):
         # Dimensions of the mechanical model.
         width = 1.0
         length = 3.0
-        # Define how much larger the footprint is compared to the length and
-        # width of the mechanical model.
-        footprint_buffer_x = length * 0.25 + 0.2  # * length
-        footprint_buffer_y = length * (0.25 / 3.0) + 0.2  # * width
-        # Make sure that the origin of the robot (and hence footprint) is at
-        # the mid point of the rear axle.
         robot = Robot(
             AckermannModel(width, length),
-            # Footprint.create_rounded_rectangular_footprint(
-            #    length + footprint_buffer_x,
-            #    width + footprint_buffer_y,
-            #    0.0,
-            #    min(width, length) / 4,
-            #    0.1,
-            #    relative_center=[-length / 2, 0],
-            # ),
             initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
     elif robot_type is RobotType.DIFFDRIVE:
         # Dimensions of the mechanical model.
         radius = 0.3
         width = 1.0
-        footprint_buffer_x = 0.25 * width
         robot = Robot(
-            DiffdriveModel(radius, width),
-            # Footprint.create_circular_footprint(width / 2 + footprint_buffer_x, 0.1),
-            initial_state=State([5.0, 5.0, 0.0], []),
+            DiffdriveModel(radius, width), initial_state=State([5.0, 5.0, 0.0], []),
         )
     elif robot_type is RobotType.DUBIN:
-        robot = Robot(
-            DubinModel(1.0),
-            # Footprint.create_triangular_footprint(1, 1, -np.pi / 2),
-            initial_state=State([5.0, 5.0, 0.0], []),
-        )
+        robot = Robot(DubinModel(1.0), initial_state=State([5.0, 5.0, 0.0], []),)
     elif robot_type is RobotType.TRICYCLE:
         # Dimensions of the mechanical model.
         width = 1.0
         length = 2.0
-        # Define how much larger the footprint is compared to the length and
-        # width of the mechanical model.
-        footprint_buffer_x = length * 0.25 + 0.2
-        footprint_buffer_y = length * (0.25 / 3.0) + 0.2
-        # Make sure that the origin of the robot (and hence footprint) is at
-        # the mid point of the rear axle
         robot = Robot(
-            TricycleModel(width, length),
-            # Footprint.create_rounded_rectangular_footprint(
-            #    length + footprint_buffer_x,
-            #    width + footprint_buffer_y,
-            #    0.0,
-            #    min(width, length) / 4,
-            #    0.1,
-            #    relative_center=[-length / 2, 0],
-            # ),
-            initial_state=State([5.0, 5.0, 0.0, 0.0], []),
+            TricycleModel(width, length), initial_state=State([5.0, 5.0, 0.0, 0.0], []),
         )
     else:
         raise NotImplementedError
@@ -101,6 +65,6 @@ def run(robot_type):
 if __name__ == "__main__":
 
     # Which robot type to run. One of
-    robot_type = RobotType.DIFFDRIVE
+    robot_type = RobotType.ACKERMANN
 
     run(robot_type)
