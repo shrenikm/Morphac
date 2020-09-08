@@ -28,9 +28,11 @@ struct DiffdriveModelConstants {
   // Ratio of wheel diameter to thickness.
   static const double DEFAULT_WHEEL_SIZE_RATIO;
   // Percentage of the width that it has to be increased by for the footprint.
-  static const double DEFAULT_WIDTH_BUFFER_SCALER;
+  // It is called radius because at the end, it is added as a buffer to the
+  // radius while creating the footprint.
+  static const double DEFAULT_RADIUS_BUFFER_SCALER;
   // Constant value that the width needs to be increased by for the footprint.
-  static const double DEFAULT_WIDTH_BUFFER;
+  static const double DEFAULT_RADIUS_BUFFER;
 };
 
 struct DubinModelConstants {

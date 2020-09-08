@@ -13,8 +13,8 @@ const double AckermannModelConstants::DEFAULT_LENGTH_BUFFER_SCALER{0.25};
 const double AckermannModelConstants::DEFAULT_LENGTH_BUFFER{0.2};
 
 const double DiffdriveModelConstants::DEFAULT_WHEEL_SIZE_RATIO{3.};
-const double DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER_SCALER{0.25};
-const double DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER{0.};
+const double DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER_SCALER{0.25};
+const double DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER{0.};
 
 const double DubinModelConstants::DEFAULT_BASE{0.5};
 const double DubinModelConstants::DEFAULT_HEIGHT{0.5};

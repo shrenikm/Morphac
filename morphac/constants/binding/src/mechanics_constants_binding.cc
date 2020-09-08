@@ -37,10 +37,10 @@ void define_mechanics_constants_binding(py::module& m) {
       "DEFAULT_WHEEL_SIZE_RATIO",
       &DiffdriveModelConstants::DEFAULT_WHEEL_SIZE_RATIO);
   diffdrive_model_constants.def_readonly_static(
-      "DEFAULT_WIDTH_BUFFER_SCALER",
-      &DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER_SCALER);
+      "DEFAULT_RADIUS_BUFFER_SCALER",
+      &DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER_SCALER);
   diffdrive_model_constants.def_readonly_static(
-      "DEFAULT_WIDTH_BUFFER", &DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER);
+      "DEFAULT_RADIUS_BUFFER", &DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER);
 
   py::class_<DubinModelConstants> dubin_model_constants(m,
                                                         "DubinModelConstants");

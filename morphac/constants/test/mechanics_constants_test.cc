@@ -29,8 +29,8 @@ TEST_F(MechanicsConstantsTest, AckermannModelConstants) {
 TEST_F(MechanicsConstantsTest, DiffdriveModelConstants) {
   // Test Map constants.
   ASSERT_EQ(DiffdriveModelConstants::DEFAULT_WHEEL_SIZE_RATIO, 3.);
-  ASSERT_EQ(DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER_SCALER, 0.25);
-  ASSERT_EQ(DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER, 0.);
+  ASSERT_EQ(DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER_SCALER, 0.25);
+  ASSERT_EQ(DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER, 0.);
 }
 
 TEST_F(MechanicsConstantsTest, DubinModelConstants) {

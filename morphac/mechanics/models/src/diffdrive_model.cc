@@ -65,8 +65,8 @@ Footprint DiffdriveModel::DefaultFootprint() const {
   // Buffer length that defines how much the footprint extends out of the frame
   // defined by width, length.
   double footprint_radius_buffer =
-      this->width * DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER_SCALER +
-      DiffdriveModelConstants::DEFAULT_WIDTH_BUFFER;
+      this->width * DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER_SCALER +
+      DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER;
 
   return Footprint::CreateCircularFootprint(
       this->width / 2. + footprint_radius_buffer, 0.1);
