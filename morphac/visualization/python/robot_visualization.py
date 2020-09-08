@@ -67,8 +67,10 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
             ]
 
         # First, we define the coordinates and dimensions in world coordinates.
-        wheel_length = length * 0.25
-        wheel_thickness = wheel_length / 3
+        wheel_length = length * AckermannModelConstants.DEFAULT_WHEEL_DIAMETER_SCALER
+        wheel_thickness = (
+            wheel_length / AckermannModelConstants.DEFAULT_WHEEL_SIZE_RATIO
+        )
 
         world_coords = _compute_wheel_world_coords()
 
@@ -91,8 +93,10 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
 
             return heading_triangle
 
-        heading_triangle_base = min(width, length) * 0.2
-        heading_triangle_height = min(width, length) * 0.2
+        # Arbitrary constant to compute the heading triangle size.
+        heading_triangle_scaler = 0.2
+        heading_triangle_base = min(width, length) * heading_triangle_scaler
+        heading_triangle_height = min(width, length) * heading_triangle_scaler
 
         world_coords = transform_points(
             _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
@@ -151,7 +155,7 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
 
         # First, we define the coordinates and dimensions in world coordinates.
         wheel_length = 2 * radius
-        wheel_thickness = 2 * radius / 3
+        wheel_thickness = 2 * radius / DiffdriveModelConstants.DEFAULT_WHEEL_SIZE_RATIO
 
         world_coords = _compute_wheel_world_coords()
 
@@ -174,8 +178,10 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
 
             return heading_triangle
 
-        heading_triangle_base = width * 0.2
-        heading_triangle_height = width * 0.2
+        # Arbitrary constant to compute the heading triangle size.
+        heading_triangle_scaler = 0.2
+        heading_triangle_base = width * heading_triangle_scaler
+        heading_triangle_height = width * heading_triangle_scaler
 
         world_coords = transform_points(
             _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
@@ -220,8 +226,10 @@ def _dubin_drawing_kernel(canvas, robot, resolution):
 
             return heading_triangle
 
-        heading_triangle_base = base * 0.2
-        heading_triangle_height = height * 0.2
+        # Arbitrary constant to compute the heading triangle size.
+        heading_triangle_scaler = 0.2
+        heading_triangle_base = base * heading_triangle_scaler
+        heading_triangle_height = height * heading_triangle_scaler
 
         world_coords = transform_points(
             _compute_heading_triangle_coords(), robot.pose[2], robot.pose.data[:2]
@@ -283,11 +291,19 @@ def _tricycle_drawing_kernel(canvas, robot, resolution):
             ]
 
         # Back and front wheel dimensions.
-        back_wheel_length = length * 0.2
-        back_wheel_thickness = back_wheel_length / 3
+        back_wheel_length = (
+            length * TricycleModelConstants.DEFAULT_BACK_WHEEL_DIAMETER_SCALER
+        )
+        back_wheel_thickness = (
+            back_wheel_length / TricycleModelConstants.DEFAULT_BACK_WHEEL_SIZE_RATIO
+        )
 
-        front_wheel_length = length * 0.3
-        front_wheel_thickness = front_wheel_length / 3
+        front_wheel_length = (
+            length * TricycleModelConstants.DEFAULT_FRONT_WHEEL_DIAMETER_SCALER
+        )
+        front_wheel_thickness = (
+            front_wheel_length / TricycleModelConstants.DEFAULT_FRONT_WHEEL_SIZE_RATIO
+        )
 
         world_coords = _compute_wheel_world_coords()
 
