@@ -7,17 +7,11 @@ from ._binding_playground_python import (
 # Dependencies
 # -------------------------------------------------
 
-from morphac.environment._binding_environment_python import (
-    Map as _Map,
-)
+from morphac.environment._binding_environment_python import Map as _Map
 
-from morphac.math.numeric._binding_numeric_python import (
-    Integrator as _Integrator,
-)
+from morphac.math.numeric._binding_numeric_python import Integrator as _Integrator
 
-from morphac.robot.pilot._binding_pilot_python import (
-    Pilot as _Pilot,
-)
+from morphac.robot.pilot._binding_pilot_python import Pilot as _Pilot
 
 
 # Adding methods to classes

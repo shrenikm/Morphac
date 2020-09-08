@@ -40,4 +40,3 @@ void define_footprint_binding(py::module& m) {
 }  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac
-

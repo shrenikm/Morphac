@@ -1,8 +1,8 @@
-#include "Eigen/Dense"
-#include "gtest/gtest.h"
-
-#include "constructs/include/trajectory.h"
 #include "planners/base/include/planner.h"
+
+#include "Eigen/Dense"
+#include "constructs/include/trajectory.h"
+#include "gtest/gtest.h"
 
 namespace {
 

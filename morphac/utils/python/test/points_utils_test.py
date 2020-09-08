@@ -32,8 +32,7 @@ def test_homogenize_points(generate_points_list):
     assert homogeneous_points.shape == (10, 3)
 
     assert np.allclose(points, homogeneous_points[:, :2])
-    assert np.allclose(
-        homogeneous_points[:, -1], np.ones(homogeneous_points.shape[0]))
+    assert np.allclose(homogeneous_points[:, -1], np.ones(homogeneous_points.shape[0]))
 
 
 def test_invalid_homogenize_points(generate_points_list):

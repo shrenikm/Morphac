@@ -24,5 +24,4 @@ def paint_polygon_using_canvas_coords(canvas, canvas_coords, color):
     # y axes to be the regular axes, with the origin at the top left.
 
     coords = np.int32([canvas_coords[:, ::-1]])
-    cv2.fillPoly(canvas, coords,
-                 color, lineType=cv2.LINE_AA)
+    cv2.fillPoly(canvas, coords, color, lineType=cv2.LINE_AA)

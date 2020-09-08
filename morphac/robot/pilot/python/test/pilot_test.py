@@ -8,7 +8,6 @@ from morphac.simulation.playground import PlaygroundState
 
 
 class CustomPilot(Pilot):
-
     def __init__(self, control_input_data):
 
         Pilot.__init__(self)
@@ -41,7 +40,7 @@ def test_execute(generate_pilot_list):
     p1, p2 = generate_pilot_list
 
     # PlaygroundState object to be used.
-    playground_state = PlaygroundState(Map(10, 10, 1.))
+    playground_state = PlaygroundState(Map(10, 10, 1.0))
 
     assert np.allclose(p1.execute(playground_state, 0).data, [1, 2, 3])
     assert np.allclose(p2.execute(playground_state, 0).data, [1] * 10)

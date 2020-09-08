@@ -1,10 +1,9 @@
 #ifndef DUBIN_MODEL_BINDING_H
 #define DUBIN_MODEL_BINDING_H
 
-#include "pybind11/pybind11.h"
-
 #include "mechanics/models/include/dubin_model.h"
 #include "mechanics/models/include/kinematic_model.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace mechanics {

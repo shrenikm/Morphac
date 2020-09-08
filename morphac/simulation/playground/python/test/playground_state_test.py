@@ -10,7 +10,7 @@ from morphac.simulation.playground import PlaygroundState
 
 @pytest.fixture()
 def generate_playground_state_list():
-    ps1 = PlaygroundState(Map(10., 10., 0.1))
+    ps1 = PlaygroundState(Map(10.0, 10.0, 0.1))
     ps2 = PlaygroundState(map=Map(np.ones([200, 200], dtype=np.float), 0.1))
 
     return ps1, ps2
@@ -18,9 +18,10 @@ def generate_playground_state_list():
 
 @pytest.fixture()
 def generate_robot_list():
-    r1 = Robot(DiffdriveModel(1., 1.), Footprint([[0, 0]]))
-    r2 = Robot(DiffdriveModel(2., 3.), Footprint(
-        [[0, 0]]), State([1., 2., 3.], []))
+    r1 = Robot(DiffdriveModel(1.0, 1.0), Footprint([[0, 0]]))
+    r2 = Robot(
+        DiffdriveModel(2.0, 3.0), Footprint([[0, 0]]), State([1.0, 2.0, 3.0], [])
+    )
 
     return r1, r2
 
@@ -29,23 +30,23 @@ def test_map(generate_playground_state_list):
     ps1, ps2 = generate_playground_state_list
 
     # Test map retrieval.
-    assert ps1.map.width == 10.
-    assert ps1.map.height == 10.
+    assert ps1.map.width == 10.0
+    assert ps1.map.height == 10.0
     assert ps1.map.resolution == 0.1
-    assert np.all(ps1.map.data == 0.)
+    assert np.all(ps1.map.data == 0.0)
 
-    assert ps2.map.width == 20.
-    assert ps2.map.height == 20.
+    assert ps2.map.width == 20.0
+    assert ps2.map.height == 20.0
     assert ps2.map.resolution == 0.1
-    assert np.all(ps2.map.data == 1.)
+    assert np.all(ps2.map.data == 1.0)
 
     # Test map setting.
-    ps1.map = Map(10., 10., 0.5)
-    ps2.map = Map(20., 20., 0.8)
+    ps1.map = Map(10.0, 10.0, 0.5)
+    ps2.map = Map(20.0, 20.0, 0.8)
 
     assert ps1.map.resolution == 0.5
     assert ps2.map.resolution == 0.8
-    assert np.all(ps2.map.data == 0.)
+    assert np.all(ps2.map.data == 0.0)
 
 
 def test_time(generate_playground_state_list):
@@ -57,7 +58,7 @@ def test_time(generate_playground_state_list):
 
     # Set time.
     ps1.time = 0.001
-    ps2.time = 15.
+    ps2.time = 15.0
 
     assert ps1.time == 0.001
     assert ps2.time == 15

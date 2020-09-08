@@ -7,10 +7,12 @@ from morphac.utils.canvas_utils import paint_canvas
 
 def canvas_from_map(environment_map):
 
-    canvas = np.zeros([environment_map.data.shape[0],
-                       environment_map.data.shape[1], 3], dtype=np.uint8)
+    canvas = np.zeros(
+        [environment_map.data.shape[0], environment_map.data.shape[1], 3],
+        dtype=np.uint8,
+    )
 
-    obstacle_space_mask = (environment_map.data == MapConstants.OBSTACLE)
+    obstacle_space_mask = environment_map.data == MapConstants.OBSTACLE
 
     # Paint the entire canvas as empty space first.
     paint_canvas(canvas, MapColors.WHITE)

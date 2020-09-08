@@ -1,7 +1,7 @@
+#include "robot/blueprint/include/footprint.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "robot/blueprint/include/footprint.h"
 
 namespace {
 

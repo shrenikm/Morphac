@@ -1,7 +1,7 @@
-#include "gtest/gtest.h"
-
-#include "math/geometry/include/lines.h"
 #include "utils/include/geometry_utils.h"
+
+#include "gtest/gtest.h"
+#include "math/geometry/include/lines.h"
 #include "utils/include/numeric_utils.h"
 
 namespace {
@@ -333,4 +333,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

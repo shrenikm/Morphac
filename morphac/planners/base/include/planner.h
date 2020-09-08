@@ -6,16 +6,16 @@ namespace planners {
 namespace base {
 
 class Planner {
-  public:
-    Planner();
-    virtual ~Planner() = 0;
+ public:
+  Planner();
+  virtual ~Planner() = 0;
 
-    // The convention is to have a 'Compute' function in the derived class that
-    // computes and returns a Trajectory or ControlInput object.
+  // The convention is to have a 'Compute' function in the derived class that
+  // computes and returns a Trajectory or ControlInput object.
 };
 
-} // namespace base
-} // namespace planners
-} // namespace morphac
+}  // namespace base
+}  // namespace planners
+}  // namespace morphac
 
 #endif

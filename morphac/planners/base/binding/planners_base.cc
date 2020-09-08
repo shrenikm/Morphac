@@ -1,7 +1,6 @@
+#include "planners/base/binding/include/planner_binding.h"
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
-#include "planners/base/binding/include/planner_binding.h"
 
 namespace morphac {
 namespace planners {

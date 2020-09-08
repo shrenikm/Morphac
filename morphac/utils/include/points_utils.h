@@ -6,7 +6,6 @@
 #include <cmath>
 
 #include "Eigen/Dense"
-
 #include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
 

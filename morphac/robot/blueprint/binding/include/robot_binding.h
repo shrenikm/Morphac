@@ -1,11 +1,10 @@
 #ifndef ROBOT_BINDING_H
 #define ROBOT_BINDING_H
 
-#include "pybind11/eigen.h"
-#include "pybind11/pybind11.h"
-
 #include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
+#include "pybind11/eigen.h"
+#include "pybind11/pybind11.h"
 #include "robot/blueprint/include/footprint.h"
 #include "robot/blueprint/include/robot.h"
 

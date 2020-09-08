@@ -7,8 +7,8 @@ namespace binding {
 
 namespace py = pybind11;
 
-using morphac::mechanics::models::TricycleModel;
 using morphac::mechanics::models::KinematicModel;
+using morphac::mechanics::models::TricycleModel;
 
 void define_tricycle_model_binding(py::module& m) {
   py::class_<TricycleModel, KinematicModel> tricycle_model(m, "TricycleModel");

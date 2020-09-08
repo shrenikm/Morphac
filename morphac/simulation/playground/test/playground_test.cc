@@ -1,14 +1,14 @@
+#include "simulation/playground/include/playground.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
 #include "mechanics/models/include/diffdrive_model.h"
-#include "simulation/playground/include/playground.h"
 
 namespace {
 
 using std::make_unique;
-using std::srand;
 using std::sqrt;
+using std::srand;
 using std::unique_ptr;
 
 using Eigen::MatrixXd;
@@ -17,14 +17,14 @@ using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
 using morphac::environment::Map;
-using morphac::mechanics::models::DiffdriveModel;
 using morphac::math::numeric::IntegratorType;
+using morphac::mechanics::models::DiffdriveModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
 using morphac::robot::pilot::Pilot;
+using morphac::simulation::playground::Playground;
 using morphac::simulation::playground::PlaygroundSpec;
 using morphac::simulation::playground::PlaygroundState;
-using morphac::simulation::playground::Playground;
 
 // Global kinematic models as if they're destroyed, the reference to the model
 // in Robot points to nothing and we get strange results.
@@ -168,4 +168,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

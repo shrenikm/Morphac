@@ -1,7 +1,7 @@
+#include "math/transforms/include/transforms.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "math/transforms/include/transforms.h"
 
 namespace {
 
@@ -17,8 +17,8 @@ using morphac::common::aliases::HomogeneousPoints;
 using morphac::common::aliases::Pixels;
 using morphac::common::aliases::Points;
 using morphac::math::transforms::CanvasToWorld;
-using morphac::math::transforms::RotationMatrix;
 using morphac::math::transforms::RotatePoints;
+using morphac::math::transforms::RotationMatrix;
 using morphac::math::transforms::TransformationMatrix;
 using morphac::math::transforms::TransformPoints;
 using morphac::math::transforms::TranslatePoints;

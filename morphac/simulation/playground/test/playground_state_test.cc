@@ -1,8 +1,8 @@
+#include "simulation/playground/include/playground_state.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
 #include "mechanics/models/include/diffdrive_model.h"
-#include "simulation/playground/include/playground_state.h"
 
 namespace {
 

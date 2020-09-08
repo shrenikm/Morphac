@@ -7,6 +7,4 @@ from ._binding_models_python import (
 )
 
 
-from morphac.constructs._binding_constructs_python import (
-    State as _State,
-)
+from morphac.constructs._binding_constructs_python import State as _State

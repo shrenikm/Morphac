@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "simulation/playground/include/playground_spec.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 

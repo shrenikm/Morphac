@@ -1,19 +1,19 @@
-#include "gtest/gtest.h"
+#include "utils/include/integrator_utils.h"
 
 #include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
+#include "gtest/gtest.h"
 #include "math/numeric/include/all_integrators.h"
 #include "mechanics/models/include/diffdrive_model.h"
-#include "utils/include/integrator_utils.h"
 
 namespace {
 
 using Eigen::VectorXd;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::Integrator;
 using morphac::math::numeric::IntegratorType;
-using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::MidPointIntegrator;
 using morphac::math::numeric::RK4Integrator;
 using morphac::mechanics::models::DiffdriveModel;

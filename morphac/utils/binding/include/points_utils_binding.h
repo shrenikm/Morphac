@@ -3,7 +3,6 @@
 
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
 #include "utils/include/points_utils.h"
 
 namespace morphac {

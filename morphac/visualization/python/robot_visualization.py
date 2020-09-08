@@ -203,7 +203,6 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
 
 
 def _dubin_drawing_kernel(canvas, robot, resolution):
-
     def _draw_heading_triangle():
         def _compute_heading_triangle_coords():
             heading_triangle = create_triangular_polygon(
@@ -351,13 +350,13 @@ class RobotVisualizer(object):
         if robot_id in self._id_kernel_correspondence:
             # First check if the id contains a corresponding drawing kernel.
             # If so, use that.
-            print('hereeee')
+            print("hereeee")
             self._id_kernel_correspondence[robot_id](canvas, robot, self.resolution)
 
         elif get_class_name(robot.kinematic_model) in self._model_kernel_correspondence:
             # Otherwise, check if the model contains a corresponding drawing
             # kernel and use that.
-            print('here')
+            print("here")
             self._model_kernel_correspondence[get_class_name(robot.kinematic_model)](
                 canvas, robot, self.resolution
             )

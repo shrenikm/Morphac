@@ -3,12 +3,12 @@
 namespace morphac {
 namespace utils {
 
-using std::unique_ptr;
 using std::make_unique;
+using std::unique_ptr;
 
+using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::Integrator;
 using morphac::math::numeric::IntegratorType;
-using morphac::math::numeric::EulerIntegrator;
 using morphac::math::numeric::MidPointIntegrator;
 using morphac::math::numeric::RK4Integrator;
 using morphac::mechanics::models::KinematicModel;
@@ -30,4 +30,3 @@ unique_ptr<Integrator> IntegratorFromType(const IntegratorType& integrator_type,
 
 }  // namespace utils
 }  // namespace morphac
-

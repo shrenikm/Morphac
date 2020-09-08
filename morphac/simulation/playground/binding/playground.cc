@@ -1,6 +1,5 @@
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
 #include "simulation/playground/binding/include/playground_binding.h"
 #include "simulation/playground/binding/include/playground_spec_binding.h"
 #include "simulation/playground/binding/include/playground_state_binding.h"

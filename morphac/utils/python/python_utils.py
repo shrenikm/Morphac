@@ -11,6 +11,7 @@ def get_class_name(obj):
 # Custom exceptions.
 # -------------------------------------------------
 
+
 class MorphacLogicError(Exception):
     def __init__(self, message):
         self.message = message

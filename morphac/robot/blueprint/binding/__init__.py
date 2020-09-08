@@ -1,7 +1,6 @@
 from ._binding_blueprint_python import (
     # Footprint interface.
     Footprint,
-
     # Robot interface.
     Robot,
 )
@@ -17,9 +16,7 @@ from ._binding_blueprint_python import (
 # Dependencies
 # -------------------------------------------------
 
-from morphac.constructs._binding_constructs_python import (
-    State as _State,
-)
+from morphac.constructs._binding_constructs_python import State as _State
 
 from morphac.mechanics.models._binding_models_python import (
     KinematicModel as _KinematicModel,
