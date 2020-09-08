@@ -9,9 +9,9 @@ using std::make_shared;
 using std::shared_ptr;
 using std::srand;
 
-using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Points;
 using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
@@ -43,7 +43,7 @@ class CustomKinematicModel : public KinematicModel {
   }
 
   Footprint DefaultFootprint() const override {
-    return Footprint::CreateCircularFootprint(1., 0.1);
+    return Footprint::CreateRectangularFootprint(1., 1., 0.);
   }
 };
 
@@ -56,13 +56,13 @@ class RobotTest : public ::testing::Test {
     pose_vector_ = VectorXd::Random(3);
     velocity_vector_ = VectorXd::Random(2);
     control_input_vector_ = VectorXd::Random(5);
-    footprint_matrix_ = MatrixXd::Random(10, 2);
+    footprint_matrix_ = Points::Random(10, 2);
   }
 
   void SetUp() override {}
 
   VectorXd pose_vector_, velocity_vector_, control_input_vector_;
-  MatrixXd footprint_matrix_;
+  Points footprint_matrix_;
 };
 
 TEST_F(RobotTest, Construction) {
@@ -72,6 +72,18 @@ TEST_F(RobotTest, Construction) {
 
   // Constructing with a temporary KinematicModel.
   Robot robot2{model, footprint, State(3, 2)};
+}
+
+TEST_F(RobotTest, ConstructionWithoutFootprint) {
+  CustomKinematicModel model(3, 2, 5);
+
+  Robot robot1{model};
+  Robot robot2{model, State(3, 2)};
+
+  // Make sure that the footprint has been computed according to the kinematic
+  // model's DefaultFootprint.
+  ASSERT_EQ(robot1.get_footprint().get_data().rows(), 4);
+  ASSERT_EQ(robot2.get_footprint().get_data().rows(), 4);
 }
 
 TEST_F(RobotTest, InvalidConstruction) {
