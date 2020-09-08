@@ -4,8 +4,6 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
-using Eigen::MatrixXd;
-
 using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;

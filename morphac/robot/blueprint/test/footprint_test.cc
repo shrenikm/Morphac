@@ -7,7 +7,6 @@ namespace {
 
 using Eigen::Array;
 using Eigen::Dynamic;
-using Eigen::MatrixXd;
 using Eigen::Vector2d;
 
 using morphac::common::aliases::Points;
@@ -38,12 +37,12 @@ class FootprintTest : public ::testing::Test {
   FootprintTest() {
     // Set random seed for Eigen.
     srand(7);
-    data_ = MatrixXd::Random(10, 2);
+    data_ = Points::Random(10, 2);
   }
 
   void SetUp() override {}
 
-  MatrixXd data_;
+  Points data_;
 };
 
 TEST_F(FootprintTest, Construction) { Footprint footprint(data_); }
@@ -70,9 +69,7 @@ TEST_F(FootprintTest, Accessors) {
 }
 
 TEST_F(FootprintTest, InvalidConstruction) {
-  ASSERT_THROW(Footprint(MatrixXd::Zero(0, 0)), std::invalid_argument);
-  ASSERT_THROW(Footprint(MatrixXd::Zero(0, 2)), std::invalid_argument);
-  ASSERT_THROW(Footprint(MatrixXd::Zero(4, 3)), std::invalid_argument);
+  ASSERT_THROW(Footprint(Points::Zero(0, 2)), std::invalid_argument);
 }
 
 TEST_F(FootprintTest, CreateCircularFootprint) {

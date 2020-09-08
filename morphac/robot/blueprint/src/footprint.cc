@@ -4,22 +4,21 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
-using Eigen::MatrixXd;
 using Eigen::Vector2d;
-using Eigen::VectorXd;
 
+using morphac::common::aliases::Points;
 using morphac::constructs::Coordinate;
 using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
 using morphac::math::geometry::CreateTriangularPolygon;
 
-Footprint::Footprint(const MatrixXd& data) : data_(data) {
-  MORPH_REQUIRE(data.rows() > 0 && data.cols() == 2, std::invalid_argument,
+Footprint::Footprint(const Points& data) : data_(data) {
+  MORPH_REQUIRE(data.rows() > 0, std::invalid_argument,
                 "Invalid footprint matrix dimensions. Must be n x 2.");
 }
 
-const MatrixXd& Footprint::get_data() const { return data_; }
+const Points& Footprint::get_data() const { return data_; }
 
 Footprint Footprint::CreateCircularFootprint(const double radius,
                                              const double angular_resolution,
@@ -52,4 +51,3 @@ Footprint Footprint::CreateTriangularFootprint(const double base,
 }  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac
-

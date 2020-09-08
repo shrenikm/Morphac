@@ -27,7 +27,7 @@ class CustomKinematicModel(KinematicModel):
 
     def default_footprint(self):
 
-        return Footprint(np.ones([10, 3], dtype=np.float))
+        return Footprint(np.ones([10, 2], dtype=np.float))
 
 
 @pytest.fixture()
@@ -121,4 +121,4 @@ def test_default_footprint(generate_custom_model_list):
 
     # Just making sure that the default_footprint function computes the right footprint.
     assert isinstance(footprint, Footprint)
-    assert np.allclose(footprint, np.ones([10, 2]))
+    assert np.allclose(footprint.data, np.ones([10, 2]))

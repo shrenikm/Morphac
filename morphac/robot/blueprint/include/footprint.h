@@ -3,6 +3,7 @@
 
 #include "Eigen/Dense"
 
+#include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
 #include "constructs/include/coordinate.h"
 #include "math/geometry/include/polygons.h"
@@ -13,7 +14,7 @@ namespace blueprint {
 
 class Footprint {
  public:
-  Footprint(const Eigen::MatrixXd& data);
+  Footprint(const morphac::common::aliases::Points& data);
 
   // Copy constructor.
   Footprint(const Footprint& footprint) = default;
@@ -21,7 +22,7 @@ class Footprint {
   // Copy assignment.
   Footprint& operator=(const Footprint& footprint) = default;
 
-  const Eigen::MatrixXd& get_data() const;
+  const morphac::common::aliases::Points& get_data() const;
 
   // Footprint generating functions. Note that the coordinates are always with
   // respect to the origin. The relative center is the position of the center
@@ -46,7 +47,7 @@ class Footprint {
       const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
 
  private:
-  Eigen::MatrixXd data_;
+  morphac::common::aliases::Points data_;
 };
 
 }  // namespace blueprint
