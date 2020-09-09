@@ -8,7 +8,7 @@ def inject_method(cls):
             return f(*args, **kwargs)
 
         # Add the method to the class.
-        setattr(cls, func.__name__, wrapper)
+        setattr(cls, f.__name__, wrapper)
         return f
 
     return decorator

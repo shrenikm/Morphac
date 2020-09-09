@@ -31,6 +31,7 @@ const MatrixXd RotationMatrix(const double angle) {
 
 const MatrixXd TransformationMatrix(const double angle,
                                     const Vector2d& translation) {
+
   MatrixXd transformation_matrix(3, 3);
 
   transformation_matrix << cos(angle), -sin(angle), translation(0), sin(angle),
