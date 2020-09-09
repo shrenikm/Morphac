@@ -133,7 +133,7 @@ target_link_libraries(points_utils_test
 set(UTILS_PYTHON_FILES
   canvas_utils.py
   decorator_utils.py
-  models_utils.py
+  mechanics_utils.py
   python_utils.py
   pytest_utils.py
 )

@@ -18,7 +18,7 @@ from morphac.math.geometry import (
 )
 from morphac.math.transforms import world_to_canvas, transform_points
 from morphac.utils.canvas_utils import paint_polygon_using_canvas_coords
-from morphac.utils.models_utils import all_model_classes
+from morphac.utils.mechanics_utils import all_model_classes
 from morphac.utils.python_utils import get_class_name, MorphacLogicError
 
 
