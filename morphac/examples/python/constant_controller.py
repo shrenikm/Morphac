@@ -71,7 +71,7 @@ class ConstantPilot(Pilot):
         return self._controller.compute()
 
 
-def run2(robot_type):
+def main(robot_type):
 
     # Parameters.
     dt = 0.02
@@ -108,24 +108,9 @@ def run2(robot_type):
     playground_visualizer.run(metric_type, metric_limit)
 
 
-def run(robot_type):
-
-    env_map = Map(width=10.0, height=10.0, resolution=0.02)
-
-    canvas = canvas_from_map(env_map)
-
-    robot = robot_bank[robot_type]
-
-    robot_visualizer = RobotVisualizer(env_map.resolution)
-    robot_visualizer.visualize(canvas, robot, 0)
-
-    cv2.imshow("Canvas", canvas)
-    cv2.waitKey(0)
-
-
 if __name__ == "__main__":
 
     # Which robot type to run. One of
     robot_type = RobotType.ACKERMANN
 
-    run2(robot_type)
+    main(robot_type)
