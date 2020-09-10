@@ -48,15 +48,15 @@ robot_bank = {
     ),
     RobotType.TRICYCLE: Robot(
         kinematic_model=TricycleModel(width=1.0, length=2.0),
-        initial_state=State([10.0, 5.0, 0.0, 0.0], []),
+        initial_state=State([10.0, 5.0, 0.0, np.pi / 8], []),
     ),
 }
 
 constant_control_bank = {
     RobotType.ACKERMANN: [1.0, 0.0],
-    RobotType.DIFFDRIVE: [0.0, 0.0],
-    RobotType.DUBIN: [0.0],
-    RobotType.TRICYCLE: [0.0, 0.0],
+    RobotType.DIFFDRIVE: [1.6, 2.0],
+    RobotType.DUBIN: [0.2],
+    RobotType.TRICYCLE: [1.0, 0.0],
 }
 
 # Constant pilot class.
