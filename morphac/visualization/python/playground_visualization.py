@@ -1,8 +1,10 @@
 import attr
+import cv2
 import numpy as np
 import time
 
 from morphac.simulation.playground import Playground
+from morphac.visualization.map_visualization import canvas_from_map
 from morphac.visualization.robot_visualization import RobotVisualizer
 from morphac.utils.python_utils import MorphacLogicError
 
@@ -16,16 +18,76 @@ class PlaygroundVisualizerSpec(object):
 @attr.s
 class PlaygroundVisualizer(object):
 
-    _playground = attr.ib(type=Playground)
-    _spec = attr.ib(type=PlaygroundVisualizerSpec)
+    spec = attr.ib(type=PlaygroundVisualizerSpec)
+    playground = attr.ib(type=Playground)
 
-    def run(metric_type="time", metric_limit=np.inf):
+    robot_visualizer = attr.ib(type=RobotVisualizer, init=False)
 
+    @robot_visualizer.default
+    def _initialize_robot_visualizer(self):
+        return RobotVisualizer(self.playground.state.map.resolution)
+
+    # TODO: Not sure if resolution is required.
+    _resolution = attr.ib(type=float, init=False)
+
+    @_resolution.default
+    def _initialize_resolution(self):
+        return self.playground.state.map.resolution
+
+    def _compute_updated_metric(self, metric, metric_type):
+        if metric_type == "iters":
+            return metric + 1
+        else:
+            return self.playground.state.time
+
+    def _get_visualization_canvas(self):
+        canvas = canvas_from_map(self.playground.state.map)
+
+        # Visualize the robots.
+        for robot_uid, robot in self.playground.state.robot_oracle.items():
+            self.robot_visualizer.visualize(canvas, robot, robot_uid)
+
+        return canvas
+
+    def _visualize(self):
+        canvas = self._get_visualization_canvas()
+
+        cv2.imshow(self.playground.spec.name, canvas)
+        # TODO: Make this delay dynamic
+        key = cv2.waitKey(1) & 0xFF
+
+        if key in [ord("q"), 27]:
+            return True
+
+        return False
+
+    def run(self, metric_type="time", metric_limit=np.inf):
+
+        # Note that "time" means simulation time in the playground (dt) and not actual run time.
         if metric_type not in ["iters", "time"]:
             raise MorphacLogicError("The metric type must be either 'iters' or 'time'")
 
+        # Keeping track of the actual time.
+        start_time = time.time()
+
+        # Simulation metric current value.
         current_metric = 0
 
         while current_metric < metric_limit:
 
-            pass
+            # Execute the pilot and update the robot states.
+            self.playground.execute()
+
+            # Visualize.
+            end_simulation = self._visualize()
+
+            if end_simulation:
+                break
+
+            # End of all the processing. Update metrics.
+            # -------------------------------------------------
+            # Update the metric.
+            current_metric = self._compute_updated_metric(current_metric, metric_type)
+
+            # Update actual time.
+            current_time = time.time() - start_time
