@@ -22,7 +22,7 @@ class PlaygroundVisualizer(object):
     def run(metric_type="time", metric_limit=np.inf):
 
         if metric_type not in ["iters", "time"]:
-            raise MorpahcLogicError("The metric type must be either 'iters' or 'time'")
+            raise MorphacLogicError("The metric type must be either 'iters' or 'time'")
 
         current_metric = 0
 

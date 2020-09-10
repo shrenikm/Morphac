@@ -201,6 +201,9 @@ def test_execute(generate_playground, generate_robot_list):
     playground.add_robot(robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
     playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
 
+    # Make sure that the playground time is 0.
+    assert playground.state.time == 0.0
+
     # Executing a playground cycle.
     playground.execute()
 
@@ -216,4 +219,7 @@ def test_execute(generate_playground, generate_robot_list):
     assert np.allclose(
         playground.state.get_robot_state(2).data, [1.0 + playground.spec.dt, 2.0, 0.0]
     )
+
+    # Make sure that the playground time has updated.
+    assert playground.state.time == playground.spec.dt
 

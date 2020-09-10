@@ -19,5 +19,5 @@ def execute(self):
         # Updating the state of the robot.
         self.state.set_robot_state(updated_robot_state, uid)
 
-        # Update the time.
-        self.state.time += self.spec.dt
+    # Update the time.
+    self.state.time += self.spec.dt

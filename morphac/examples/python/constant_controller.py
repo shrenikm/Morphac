@@ -11,7 +11,10 @@ from morphac.mechanics.models import (
     TricycleModel,
 )
 from morphac.robot.blueprint import Robot, Footprint
-from morphac.simulation.playground import Playground
+from morphac.simulation.playground import (
+    Playground,
+    PlaygroundSpec,
+)
 from morphac.utils.python_utils import MorphacLogicError
 from morphac.visualization.map_visualization import canvas_from_map
 from morphac.visualization.robot_visualization import RobotVisualizer
@@ -49,6 +52,9 @@ robot_bank = {
 
 def run2(robot_type):
 
+    # Parameters.
+    dt = 0.02
+
     # Get the required robot.
     if robot_type not in robot_bank:
         raise MorphacLogicError("Invalid robot type.")
@@ -60,6 +66,8 @@ def run2(robot_type):
     canvas = canvas_from_map(env_map)
 
     # Create the playground.
+    playground_spec = PlaygroundSpec("constant_controller_playground", dt)
+    playground = Playground(playground_spec, env_map)
 
 
 def run(robot_type):
