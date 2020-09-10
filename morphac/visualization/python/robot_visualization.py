@@ -18,7 +18,7 @@ from morphac.math.geometry import (
 )
 from morphac.math.transforms import world_to_canvas, transform_points
 from morphac.utils.canvas_utils import paint_polygon_using_canvas_coords
-from morphac.utils.mechanics_utils import all_model_classes
+from morphac.utils.mechanics_utils import all_model_class_names
 from morphac.utils.python_utils import get_class_name, MorphacLogicError
 
 
@@ -339,12 +339,12 @@ def _tricycle_drawing_kernel(canvas, robot, resolution):
 
 def _get_model_kernel_correspondence():
 
-    model_classes = all_model_classes()
+    model_class_names = all_model_class_names()
     return {
-        model_classes[0]: _ackermann_drawing_kernel,
-        model_classes[1]: _diffdrive_drawing_kernel,
-        model_classes[2]: _dubin_drawing_kernel,
-        model_classes[3]: _tricycle_drawing_kernel,
+        model_class_names[0]: _ackermann_drawing_kernel,
+        model_class_names[1]: _diffdrive_drawing_kernel,
+        model_class_names[2]: _dubin_drawing_kernel,
+        model_class_names[3]: _tricycle_drawing_kernel,
     }
 
 

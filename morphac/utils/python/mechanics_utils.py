@@ -7,7 +7,7 @@ from morphac.mechanics.models import (
 
 
 # Get a list of the native mechanics models.
-def all_model_classes():
+def all_model_class_names():
 
     return [
         "AckermannModel",
