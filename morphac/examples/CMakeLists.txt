@@ -22,7 +22,7 @@ install(FILES
 
 # List of python files.
 set(EXAMPLES_PYTHON_FILES
-  constant_controller.py
+  constant_controller_simulation.py
 )
 
 # Appending the directory of the python files.
