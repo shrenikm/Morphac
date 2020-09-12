@@ -1,6 +1,6 @@
 import pytest
 
-from morphac.constants import (
+from morphac.constants.mechanics_constants import (
     AckermannModelConstants,
     DiffdriveModelConstants,
     DubinModelConstants,

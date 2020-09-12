@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import time
 
-from morphac.constants import (
+from morphac.constants.mechanics_constants import (
     AckermannModelConstants,
     DiffdriveModelConstants,
     DubinModelConstants,

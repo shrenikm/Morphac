@@ -1,7 +1,7 @@
 import numpy as np
 
-from morphac.constants import MapConstants
 from morphac.constants.colors import MapColors
+from morphac.constants.environment_constants import MapConstants
 from morphac.environment import Map
 from morphac.visualization.map_visualization import canvas_from_map
 

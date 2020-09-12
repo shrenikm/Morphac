@@ -1,6 +1,6 @@
 import pytest
 
-from morphac.constants import MapConstants
+from morphac.constants.environment_constants import MapConstants
 
 
 def test_map_constants():
