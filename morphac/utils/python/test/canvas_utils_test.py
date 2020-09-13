@@ -1,7 +1,9 @@
 import numpy as np
 import pytest
 
+from morphac.constants.colors import MapColors
 from morphac.utils.canvas_utils import (
+    create_empty_canvas,
     paint_canvas,
     paint_polygon_using_canvas_coords,
 )
@@ -10,6 +12,17 @@ from morphac.utils.canvas_utils import (
 @pytest.fixture
 def empty_canvas():
     return np.zeros([500, 500, 3], dtype=np.uint8)
+
+
+def test_create_empty_canvas():
+
+    canvas = create_empty_canvas((100, 200))
+
+    # Make sure that the type is right.
+    assert canvas.dtype == np.uint8
+
+    for i in range(3):
+        assert np.allclose(canvas[..., i], MapColors.WHITE[i] * np.ones([100, 200]))
 
 
 def test_paint_canvas(empty_canvas):

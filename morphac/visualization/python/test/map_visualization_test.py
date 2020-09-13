@@ -3,6 +3,7 @@ import numpy as np
 from morphac.constants.colors import MapColors
 from morphac.constants.environment_constants import MapConstants
 from morphac.environment import Map
+from morphac.utils.canvas_utils import create_empty_canvas
 from morphac.visualization.map_visualization import canvas_from_map
 
 
@@ -37,5 +38,10 @@ def test_canvas_from_map_with_obstacles():
 
     # Making sure that the canvas is painted correctly.
     for i in range(3):
-        np.allclose(canvas[:, :500, i], MapColors.BLACK[i] * np.ones([1000, 500]))
-        np.allclose(canvas[:, 500:, i], MapColors.WHITE[i] * np.ones([1000, 500]))
+        assert np.allclose(
+            canvas[:, :500, i], MapColors.BLACK[i] * np.ones([1000, 500])
+        )
+        assert np.allclose(
+            canvas[:, 500:, i], MapColors.WHITE[i] * np.ones([1000, 500])
+        )
+

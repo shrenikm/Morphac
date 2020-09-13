@@ -1,6 +1,24 @@
 import cv2
 import numpy as np
 
+from morphac.constants.colors import MapColors
+from morphac.constants.environment_constants import MapConstants
+
+# Dict to decide the colors of the canvas depending on the values of the map.
+MAP_CONSTANTS_TO_CANVAS_COLORS = {
+    MapConstants.EMPTY: MapColors.WHITE,
+    MapConstants.OBSTACLE: MapColors.BLACK,
+}
+
+
+def create_empty_canvas(size):
+
+    canvas = np.zeros([size[0], size[1], 3], dtype=np.uint8)
+
+    paint_canvas(canvas, MAP_CONSTANTS_TO_CANVAS_COLORS[MapConstants.EMPTY])
+
+    return canvas
+
 
 def paint_canvas(canvas, color, mask=None):
 

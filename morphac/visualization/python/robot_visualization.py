@@ -1,5 +1,6 @@
 import attr
 import cv2
+import inspect
 import numpy as np
 import time
 
@@ -363,15 +364,24 @@ class RobotVisualizer(object):
         type=dict, init=False, default=attr.Factory(dict)
     )
 
-    def add_drawing_kernel(self, robot_uid, drawing_kernel):
-        assert isinstance(robot_uid, int)
-        self._id_kernel_correspondence[robot_uid] = drawing_kernel
+    def add_drawing_kernel(self, uid, drawing_kernel):
+        # Make sure that the drawing kernel has a valid signature.
+        if inspect.getfullargspec(drawing_kernel).args != [
+            "canvas",
+            "robot",
+            "resolution",
+        ]:
+            raise MorphacLogicError(
+                "The drawing kernel must take in 'canvas', 'robot' and 'resolution' arguments in that order."
+            )
+        assert isinstance(uid, int)
+        self._id_kernel_correspondence[uid] = drawing_kernel
 
-    def visualize(self, canvas, robot, robot_uid):
-        if robot_uid in self._id_kernel_correspondence:
+    def visualize(self, canvas, robot, uid):
+        if uid in self._id_kernel_correspondence:
             # First check if the id contains a corresponding drawing kernel.
             # If so, use that.
-            self._id_kernel_correspondence[robot_uid](canvas, robot, self.resolution)
+            self._id_kernel_correspondence[uid](canvas, robot, self.resolution)
 
         elif get_class_name(robot.kinematic_model) in self._model_kernel_correspondence:
             # Otherwise, check if the model contains a corresponding drawing
