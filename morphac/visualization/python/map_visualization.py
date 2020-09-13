@@ -22,3 +22,12 @@ def canvas_from_map(environment_map):
     paint_canvas(canvas, MapColors.BLACK, obstacle_space_mask)
 
     return canvas
+
+
+def create_empty_canvas(size, color=MapColors.WHITE):
+
+    canvas = np.zeros([size[0], size[1], 3], dtype=np.uint8)
+
+    paint_canvas(canvas, color)
+
+    return canvas

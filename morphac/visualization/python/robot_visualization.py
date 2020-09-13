@@ -363,7 +363,7 @@ class RobotVisualizer(object):
         type=dict, init=False, default=attr.Factory(dict)
     )
 
-    def add_correspondence(self, robot_uid, drawing_kernel):
+    def add_drawing_kernel(self, robot_uid, drawing_kernel):
         assert isinstance(robot_uid, int)
         self._id_kernel_correspondence[robot_uid] = drawing_kernel
 
