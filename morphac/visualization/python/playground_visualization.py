@@ -34,11 +34,11 @@ class PlaygroundVisualizer(object):
     def _initialize_resolution(self):
         return self.playground.state.map.resolution
 
-    def _compute_updated_metric(self, metric, metric_type):
-        if metric_type == "iters":
-            return metric + 1
-        else:
-            return self.playground.state.time
+    def __attrs_post_init__(self):
+        self._initialize_window()
+
+    def _initialize_window(self):
+        cv2.namedWindow(self.playground.spec.name, cv2.WINDOW_KEEPRATIO)
 
     def _get_visualization_canvas(self):
         canvas = canvas_from_map(self.playground.state.map)
@@ -49,10 +49,18 @@ class PlaygroundVisualizer(object):
 
         return canvas
 
+    def _resize_canvas(self, canvas):
+        return cv2.resize(
+            canvas, dsize=None, fx=self.spec.display_ratio, fy=self.spec.display_ratio
+        )
+
     def _visualize(self):
         canvas = self._get_visualization_canvas()
 
+        # Resize and display.
+        canvas = self._resize_canvas(canvas)
         cv2.imshow(self.playground.spec.name, canvas)
+
         # TODO: Make this delay dynamic
         key = cv2.waitKey(1) & 0xFF
 
@@ -60,6 +68,12 @@ class PlaygroundVisualizer(object):
             return True
 
         return False
+
+    def _compute_updated_metric(self, metric, metric_type):
+        if metric_type == "iters":
+            return metric + 1
+        else:
+            return self.playground.state.time
 
     def run(self, metric_type="time", metric_limit=np.inf):
 
