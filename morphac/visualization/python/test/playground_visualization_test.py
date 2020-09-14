@@ -84,30 +84,8 @@ def test_add_robot_drawing_kernel(generate_playground_visualizer):
 
 def test_run(generate_playground_visualizer):
 
-    playground_visualizer1 = generate_playground_visualizer
-
-    env_map = Map(width=20.0, height=20.0, resolution=0.02)
-
-    # Create the playground.
-    playground_spec = PlaygroundSpec(name="playground_spec", dt=0.01)
-    playground = Playground(playground_spec, env_map)
-    robot = Robot(AckermannModel(1.0, 1.0))
-
-    # Construct the pilot.
-    pilot = ZeroPilot(ZeroController(2))
-
-    # Add the robot to the playground.
-    playground.add_robot(robot, pilot, IntegratorType.EULER_INTEGRATOR, uid=0)
-
-    # Create the playground visualizer.
-    spec = PlaygroundVisualizerSpec(display_ratio=1.0)
-    playground_visualizer2 = PlaygroundVisualizer(spec, playground)
-
-    print("first")
-    print(playground_visualizer1.playground.state)
-    print("second")
-    print(playground_visualizer2.playground.state)
+    playground_visualizer = generate_playground_visualizer
 
     # Test both run metrics.
-    playground_visualizer1.run("time", 5.0, visualize=False)
+    playground_visualizer.run("time", 5.0, visualize=False)
 
