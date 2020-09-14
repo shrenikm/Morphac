@@ -96,7 +96,7 @@ def main(robot_type):
     pilot = ConstantPilot(ConstantController(constant_control_bank[robot_type]))
 
     # Add the robot to the playground.
-    playground.add_robot(robot, pilot, IntegratorType.EULER_INTEGRATOR, 0)
+    playground.add_robot(robot, pilot, IntegratorType.EULER_INTEGRATOR, uid=0)
 
     # Create the playground visualizer.
     playground_visualizer_spec = PlaygroundVisualizerSpec(display_ratio=display_ratio)
@@ -111,5 +111,4 @@ if __name__ == "__main__":
 
     # Which robot type to run. One of
     robot_type = RobotType.ACKERMANN
-
     main(robot_type)

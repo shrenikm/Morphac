@@ -39,7 +39,7 @@ def test_add_drawing_kernel(generate_visualizer_and_canvas):
 
     # Define the drawing kernel.
     def _drawing_kernel(canvas, robot, resolution):
-        paint_canvas(canvas, (0, 0, 0))
+        paint_canvas(canvas, (1, 1, 1))
 
     robot_visualizer.add_drawing_kernel(0, _drawing_kernel)
 
@@ -50,7 +50,7 @@ def test_add_drawing_kernel(generate_visualizer_and_canvas):
     # default model kernel.
     robot_visualizer.visualize(canvas, robot, 0)
     # The canvas should be painted (0, 0, 0)
-    assert np.allclose(canvas, np.zeros_like(canvas))
+    assert np.allclose(canvas, np.ones_like(canvas))
 
     # Test invalid kernel addition.
     def _invalid_drawing_kernel(canvas, robot):

@@ -37,6 +37,11 @@ class PlaygroundVisualizer(object):
     def __attrs_post_init__(self):
         self._initialize_window()
 
+    # Exposing the add drawing kernel functionality.
+    def add_robot_drawing_kernel(self, uid, drawing_kernel):
+        # The validity check for the kernel happens inside RobotVisualizer.
+        self.robot_visualizer.add_drawing_kernel(uid, drawing_kernel)
+
     def _initialize_window(self):
         cv2.namedWindow(self.playground.spec.name, cv2.WINDOW_KEEPRATIO)
 
