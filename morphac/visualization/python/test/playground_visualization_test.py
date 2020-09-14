@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from morphac.controllers.basic import ZeroController
+from morphac.controllers.basic import ConstantController, ZeroController
 from morphac.environment import Map
 from morphac.math.numeric import IntegratorType
 from morphac.mechanics.models import (
@@ -34,6 +34,18 @@ class ZeroPilot(Pilot):
         return self._controller.compute()
 
 
+# Constant pilot class.
+class ConstantPilot(Pilot):
+    def __init__(self, controller):
+
+        Pilot.__init__(self)
+        self._controller = controller
+
+    def execute(self, playground_state, uid):
+
+        return self._controller.compute()
+
+
 @pytest.fixture()
 def generate_playground_visualizer():
 
@@ -45,7 +57,8 @@ def generate_playground_visualizer():
     robot = Robot(AckermannModel(1.0, 1.0))
 
     # Construct the pilot.
-    pilot = ZeroPilot(ZeroController(2))
+    # pilot = ZeroPilot(ZeroController(2))
+    pilot = ConstantPilot(ConstantController([1, 1]))
 
     # Add the robot to the playground.
     playground.add_robot(robot, pilot, IntegratorType.EULER_INTEGRATOR, uid=0)
@@ -77,6 +90,34 @@ def test_add_robot_drawing_kernel(generate_playground_visualizer):
     # Test invalid kernel.
     def _invalid_drawing_kernel(canvas, robot):
         paint_canvas(canvas, (0, 0, 0))
+
     with pytest.raises(MorphacLogicError):
         playground_visualizer.add_robot_drawing_kernel(1, _invalid_drawing_kernel)
+
+
+def test_run(generate_playground_visualizer):
+
+     #playground_visualizer = generate_playground_visualizer
+
+    #env_map = Map(width=20.0, height=20.0, resolution=0.02)
+
+    ## Create the playground.
+    #playground_spec = PlaygroundSpec(name="playground_spec", dt=0.01)
+    #playground = Playground(playground_spec, env_map)
+    #robot = Robot(AckermannModel(1.0, 1.0))
+
+    ## Construct the pilot.
+    ## pilot = ZeroPilot(ZeroController(2))
+    #pilot = ConstantPilot(ConstantController([1, 1]))
+
+    ## Add the robot to the playground.
+    #playground.add_robot(robot, pilot, IntegratorType.EULER_INTEGRATOR, uid=0)
+
+    ## Create the playground visualizer.
+    #spec = PlaygroundVisualizerSpec(display_ratio=1.0)
+    #playground_visualizer1 = PlaygroundVisualizer(spec, playground)
+    #playground_visualizer = playground_visualizer1
+
+    # Test both run metrics.
+    playground_visualizer.run("time", 5.0, visualize=False)
 
