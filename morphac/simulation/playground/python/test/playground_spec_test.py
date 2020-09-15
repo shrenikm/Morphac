@@ -20,3 +20,4 @@ def test_attributes(generate_playground_spec_list):
 
     assert ps2.name == "playground2"
     assert ps2.dt == 0.02
+

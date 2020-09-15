@@ -88,6 +88,31 @@ def test_add_robot(generate_playground_state_list, generate_robot_list):
         ps1.add_robot(r2, 1)
 
 
+def test_add_robot_with_temporary(generate_playground_state_list):
+    # Test the function with a temporarily created Robot object.
+    # This is to test for any cpp lifetime management weirdness.
+    ps1, _ = generate_playground_state_list
+
+    # Adding the robots.
+
+    ps1.add_robot(Robot(DiffdriveModel(1.0, 1.0)), uid=0)
+
+    assert ps1.num_robots == 1
+
+    # Adding another robot and testing.
+    ps1.add_robot(Robot(DiffdriveModel(1.0, 1.0)), 1)
+
+    assert ps1.num_robots == 2
+
+    # Test addition of robots with invalid or duplicate uids.
+    with pytest.raises(ValueError):
+        ps1.add_robot(Robot(DiffdriveModel(1.0, 1.0)), -1)
+    with pytest.raises(ValueError):
+        ps1.add_robot(Robot(DiffdriveModel(1.0, 1.0)), 0)
+    with pytest.raises(ValueError):
+        ps1.add_robot(Robot(DiffdriveModel(1.0, 1.0)), 1)
+
+
 def test_robot_oracle(generate_playground_state_list, generate_robot_list):
     ps1, _ = generate_playground_state_list
     r1, r2 = generate_robot_list
