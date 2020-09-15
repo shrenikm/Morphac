@@ -10,7 +10,7 @@ using morphac::utils::IntegratorFromType;
 
 void define_integrator_utils_binding(py::module& m) {
   m.def("integrator_from_type", &IntegratorFromType, py::arg("integrator_type"),
-        py::arg("kinematic_model"));
+        py::arg("kinematic_model"), py::keep_alive<0, 2>());
 }
 
 }  // namespace binding

@@ -44,3 +44,13 @@ def test_execute(generate_pilot_list):
 
     assert np.allclose(p1.execute(playground_state, 0).data, [1, 2, 3])
     assert np.allclose(p2.execute(playground_state, 0).data, [1] * 10)
+
+
+def test_execute_with_temporary(generate_pilot_list):
+    # Test the execute function with a temporarily created PlaygroundState object.
+    # This is to test for any cpp lifetime management weirdness.
+
+    p1, p2 = generate_pilot_list
+
+    assert np.allclose(p1.execute(PlaygroundState(Map(10, 10, 1.0)), 0).data, [1, 2, 3])
+    assert np.allclose(p2.execute(PlaygroundState(Map(10, 10, 1.0)), 0).data, [1] * 10)

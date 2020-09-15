@@ -43,3 +43,22 @@ def test_construction(generate_integrator_list):
         assert np.allclose(
             integrator.step(State(3, 0), ControlInput(2), 0.05).data, [0.0, 0.0, 0.0]
         )
+
+
+def test_construction_with_temporary(generate_integrator_list):
+    # Test the function with a temporarily created KinematicModel object.
+    # This is to test for any cpp lifetime management weirdness.
+    integrator_type_list, integrator_class_list = generate_integrator_list
+
+    # Making sure that the right integrator is constructed.
+    for integrator_type, integrator_class in zip(
+        integrator_type_list, integrator_class_list
+    ):
+        integrator = integrator_from_type(integrator_type, DiffdriveModel(1.0, 1.0))
+
+        assert isinstance(integrator, integrator_class)
+
+        # Also making sure that the integrator is usable.
+        assert np.allclose(
+            integrator.step(State(3, 0), ControlInput(2), 0.05).data, [0.0, 0.0, 0.0]
+        )
