@@ -82,11 +82,11 @@ def test_add_robot_drawing_kernel(generate_playground_visualizer):
         playground_visualizer.add_robot_drawing_kernel(1, _invalid_drawing_kernel)
 
 
-# def test_run(generate_playground_visualizer):
-#
-#    playground_visualizer = generate_playground_visualizer
-#
-#    # Test both run metrics.
-#    playground_visualizer.run("time", 5.0, visualize=False)
-#    playground_visualizer.run("iters", 100, visualize=False)
+def test_run(generate_playground_visualizer):
+
+    playground_visualizer = generate_playground_visualizer
+
+    # Test both run metrics.
+    playground_visualizer.run("time", 5.0, visualize=False)
+    playground_visualizer.run("iters", 100, visualize=False)
 
