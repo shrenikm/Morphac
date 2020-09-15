@@ -28,10 +28,9 @@ void define_playground_binding(py::module& m) {
                  py::return_value_policy::reference);
   playground.def("get_integrator", &Playground::get_integrator, py::arg("uid"),
                  py::return_value_policy::reference);
-  //playground.def("add_robot", &Playground::AddRobot, py::arg("robot"),
-  //               py::arg("pilot"), py::arg("integrator_type"), py::arg("uid"), py::keep_alive<1, 2>(), py::keep_alive<1, 3>());
   playground.def("add_robot", &Playground::AddRobot, py::arg("robot"),
-                 py::arg("pilot"), py::arg("integrator_type"), py::arg("uid"));
+                 py::arg("pilot"), py::arg("integrator_type"), py::arg("uid"),
+                 py::keep_alive<1, 2>(), py::keep_alive<1, 3>());
 }
 
 }  // namespace binding

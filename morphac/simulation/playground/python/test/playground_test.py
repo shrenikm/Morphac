@@ -192,6 +192,32 @@ def test_add_robot(generate_playground, generate_robot_list):
     assert np.allclose(playground.state.get_robot_state(2).data, robot2.state.data)
 
 
+def test_add_robot_with_temporary(generate_playground):
+    # Test the function with temporarily created Robot and Pilot objects.
+    # This is to test for any cpp lifetime management weirdness.
+
+    playground = generate_playground
+
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0)),
+        CustomPilot([0, 0]),
+        IntegratorType.EULER_INTEGRATOR,
+        1,
+    )
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0)),
+        CustomPilot([1, 2]),
+        IntegratorType.MID_POINT_INTEGRATOR,
+        2,
+    )
+
+    # Make sure that the robots have been added correctly.
+    assert playground.state.num_robots == 2
+
+    assert np.allclose(playground.state.get_robot_state(1).data, [0.0, 0.0, 0.0])
+    assert np.allclose(playground.state.get_robot_state(2).data, [0.0, 0.0, 0.0])
+
+
 def test_execute(generate_playground, generate_robot_list):
     playground = generate_playground
     robot1, robot2 = generate_robot_list
@@ -200,6 +226,48 @@ def test_execute(generate_playground, generate_robot_list):
     # Adding the robots.
     playground.add_robot(robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
     playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
+
+    # Make sure that the playground time is 0.
+    assert playground.state.time == 0.0
+
+    # Executing a playground cycle.
+    playground.execute()
+
+    # Test the states of the robots.
+    # The first pilot gives zero control inputs, hence the state must remain
+    # unchanged.
+    assert np.allclose(playground.state.get_robot_state(1).data, [0.0, 0.0, 0.0])
+
+    # The second robot receives a constant input of [1., 1.]. As the wheel
+    # radius = 1 m, the robot moves forward with a velocity of 1 m/s. Hence
+    # it moves a total distance of dt m in the x direction (The initial angle
+    # is zero).
+    assert np.allclose(
+        playground.state.get_robot_state(2).data, [1.0 + playground.spec.dt, 2.0, 0.0]
+    )
+
+    # Make sure that the playground time has updated.
+    assert playground.state.time == playground.spec.dt
+
+
+def test_execute_with_temporary(generate_playground):
+    # Test the function after adding robots using temporarily created Robot and Pilot objects.
+    # This is to test for any cpp lifetime management weirdness.
+
+    playground = generate_playground
+
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0)),
+        CustomPilot([0, 0]),
+        IntegratorType.EULER_INTEGRATOR,
+        1,
+    )
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0), initial_state=State([1.0, 2.0, 0.0], [])),
+        CustomPilot([1, 1]),
+        IntegratorType.MID_POINT_INTEGRATOR,
+        2,
+    )
 
     # Make sure that the playground time is 0.
     assert playground.state.time == 0.0
