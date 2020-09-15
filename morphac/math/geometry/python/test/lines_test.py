@@ -84,7 +84,7 @@ def test_compute_line_spec(generate_line_spec):
 
 def test_are_lines_parallel(generate_line_spec):
 
-    _, _, ls3, ls4 = generate_line_spec
+    _, _, ls3, _ = generate_line_spec
 
     assert are_lines_parallel([0.0, 0.0], [1.0, 0.0], [-2.0, 5.0], [3.0, 5.0])
     assert are_lines_parallel(
@@ -94,14 +94,16 @@ def test_are_lines_parallel(generate_line_spec):
         end_point2=[5.0, 3.0],
     )
     assert are_lines_parallel(compute_line_spec([0.0, 0.0], [1.0, 1.0]), ls3)
+    # Testing with in place construction.
     assert are_lines_parallel(
-        line_spec1=compute_line_spec([0.0, 0.0], [1.0, -1.0]), line_spec2=ls4
+        line_spec1=compute_line_spec([0.0, 0.0], [1.0, -1.0]),
+        line_spec2=LineSpec(-1.0, 1.0, 1.0),
     )
 
 
 def test_are_lines_perpendicular(generate_line_spec):
 
-    _, _, ls3, ls4 = generate_line_spec
+    _, _, _, ls4 = generate_line_spec
 
     assert are_lines_perpendicular([0.0, 0.0], [0.0, 1.0], [-2.0, 5.0], [3.0, 5.0])
     assert are_lines_perpendicular(
@@ -111,6 +113,8 @@ def test_are_lines_perpendicular(generate_line_spec):
         end_point2=[5.0, 3.0],
     )
     assert are_lines_perpendicular(compute_line_spec([0.0, 0.0], [1.0, 1.0]), ls4)
+    # Testing with in place construction.
     assert are_lines_perpendicular(
-        line_spec1=compute_line_spec([0.0, 0.0], [1.0, -1.0]), line_spec2=ls3
+        line_spec1=compute_line_spec([0.0, 0.0], [1.0, -1.0]),
+        line_spec2=LineSpec(1.0, 0.0, 0.0),
     )
