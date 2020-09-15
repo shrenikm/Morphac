@@ -1,7 +1,7 @@
+#include "mechanics/models/include/diffdrive_model.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "mechanics/models/include/diffdrive_model.h"
 
 namespace {
 
@@ -10,11 +10,12 @@ using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
-using morphac::mechanics::models::DiffDriveModel;
+using morphac::mechanics::models::DiffdriveModel;
+using morphac::robot::blueprint::Footprint;
 
-class DiffDriveModelTest : public ::testing::Test {
+class DiffdriveModelTest : public ::testing::Test {
  protected:
-  DiffDriveModelTest() {
+  DiffdriveModelTest() {
     // Set random seed for Eigen.
     srand(7);
   }
@@ -22,25 +23,25 @@ class DiffDriveModelTest : public ::testing::Test {
   void SetUp() override {}
 };
 
-TEST_F(DiffDriveModelTest, Construction) {
-  DiffDriveModel diffdrive_model{1.5, 2.3};
+TEST_F(DiffdriveModelTest, Construction) {
+  DiffdriveModel diffdrive_model{1.5, 2.3};
 
   ASSERT_EQ(diffdrive_model.pose_size, 3);
   ASSERT_EQ(diffdrive_model.velocity_size, 0);
   ASSERT_EQ(diffdrive_model.control_input_size, 2);
   ASSERT_EQ(diffdrive_model.radius, 1.5);
-  ASSERT_EQ(diffdrive_model.length, 2.3);
+  ASSERT_EQ(diffdrive_model.width, 2.3);
 }
 
-TEST_F(DiffDriveModelTest, InvalidConstruction) {
-  ASSERT_THROW(DiffDriveModel(-1, 1), std::invalid_argument);
-  ASSERT_THROW(DiffDriveModel(0, 1), std::invalid_argument);
-  ASSERT_THROW(DiffDriveModel(1, -1), std::invalid_argument);
-  ASSERT_THROW(DiffDriveModel(1, 0), std::invalid_argument);
+TEST_F(DiffdriveModelTest, InvalidConstruction) {
+  ASSERT_THROW(DiffdriveModel(-1, 1), std::invalid_argument);
+  ASSERT_THROW(DiffdriveModel(0, 1), std::invalid_argument);
+  ASSERT_THROW(DiffdriveModel(1, -1), std::invalid_argument);
+  ASSERT_THROW(DiffdriveModel(1, 0), std::invalid_argument);
 }
 
-TEST_F(DiffDriveModelTest, DerivativeComputation) {
-  DiffDriveModel diffdrive_model{1.5, 2.5};
+TEST_F(DiffdriveModelTest, DerivativeComputation) {
+  DiffdriveModel diffdrive_model{1.5, 2.5};
   VectorXd pose_vector1(3), pose_vector2(3);
   VectorXd control_input_vector1(2), control_input_vector2(2),
       control_input_vector3(2), control_input_vector4(2),
@@ -103,8 +104,8 @@ TEST_F(DiffDriveModelTest, DerivativeComputation) {
   ASSERT_TRUE(derivative5.IsVelocityEmpty());
 }
 
-TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
-  DiffDriveModel diffdrive_model{1, 1};
+TEST_F(DiffdriveModelTest, InvalidDerivativeComputation) {
+  DiffdriveModel diffdrive_model{1, 1};
 
   // Computing the state derivative with incorrect state/control
   // input/derivative.
@@ -125,10 +126,10 @@ TEST_F(DiffDriveModelTest, InvalidDerivativeComputation) {
       std::invalid_argument);
 }
 
-TEST_F(DiffDriveModelTest, StateNormalization) {
-  DiffDriveModel diffdrive_model{1, 1};
+TEST_F(DiffdriveModelTest, StateNormalization) {
+  DiffdriveModel diffdrive_model{1, 1};
 
-  // Making sure that the angle get normalized.
+  // Making sure that the angle gets normalized.
   State state1({0, 0, 2 * M_PI}, {});
   State state2({0, 0, 2 * M_PI + 4 * M_PI / 3.}, {});
   State state3({0, 0, -2 * M_PI - 4 * M_PI / 3.}, {});
@@ -141,10 +142,22 @@ TEST_F(DiffDriveModelTest, StateNormalization) {
   ASSERT_TRUE(diffdrive_model.NormalizeState(state3) == normalized_state3);
 }
 
+TEST_F(DiffdriveModelTest, DefaultFootprint) {
+  DiffdriveModel diffdrive_model{1, 2};
+
+  // Making sure that the default footprint has a diameter greater than the
+  // model.
+  Footprint footprint = diffdrive_model.DefaultFootprint();
+
+  double footprint_diameter = footprint.get_data().col(1).maxCoeff() -
+                              footprint.get_data().col(1).minCoeff();
+
+  ASSERT_GT(footprint_diameter, diffdrive_model.radius);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

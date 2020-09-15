@@ -6,6 +6,12 @@ if(NOT BUILD_PYTHON_BINDINGS)
   return()
 endif()
 
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(modules)
+
+
 # Src file that creates the python module.
 set(UTILS_MODULE_FILE
 
@@ -18,6 +24,8 @@ set(UTILS_BINDING_FILES
 
   angle_utils_binding.cc
   integrator_utils_binding.cc
+  numeric_utils_binding.cc
+  points_utils_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -52,6 +60,8 @@ target_link_libraries(${python_target}
   PUBLIC
   angle_utils
   integrator_utils
+  numeric_utils
+  points_utils
 )
 
 # Setting binding target properties.

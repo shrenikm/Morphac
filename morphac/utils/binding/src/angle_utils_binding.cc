@@ -6,14 +6,14 @@ namespace binding {
 
 namespace py = pybind11;
 
+using morphac::utils::NormalizeAngle;
 using morphac::utils::ToDegrees;
 using morphac::utils::ToRadians;
-using morphac::utils::NormalizeAngle;
 
 void define_angle_utils_binding(py::module& m) {
-  m.def("to_degrees", &ToDegrees);
-  m.def("to_radians", &ToRadians);
-  m.def("normalize_angle", &NormalizeAngle);
+  m.def("to_degrees", &ToDegrees, py::arg("angle"));
+  m.def("to_radians", &ToRadians, py::arg("angle"));
+  m.def("normalize_angle", &NormalizeAngle, py::arg("angle"));
 }
 
 }  // namespace binding

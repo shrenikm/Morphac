@@ -52,6 +52,12 @@ foreach(file ${BLUEPRINT_SRC})
 endforeach()
 
 # Adding library dependencies.
+target_link_libraries(footprint
+  PUBLIC
+  coordinate
+  polygons
+)
+
 target_link_libraries(robot
   PUBLIC
   control_input

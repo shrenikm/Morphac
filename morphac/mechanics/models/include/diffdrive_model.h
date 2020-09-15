@@ -2,20 +2,17 @@
 #define DIFFDRIVE_MODEL_H
 
 #include "Eigen/Dense"
-
 #include "common/error_handling/include/error_macros.h"
-
-#include "utils/include/angle_utils.h"
-
 #include "mechanics/models/include/kinematic_model.h"
+#include "utils/include/angle_utils.h"
 
 namespace morphac {
 namespace mechanics {
 namespace models {
 
-class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
+class DiffdriveModel : public morphac::mechanics::models::KinematicModel {
  public:
-  DiffDriveModel(const double radius, const double length);
+  DiffdriveModel(const double radius, const double width);
 
   morphac::constructs::State ComputeStateDerivative(
       const morphac::constructs::State& state,
@@ -24,12 +21,14 @@ class DiffDriveModel : public morphac::mechanics::models::KinematicModel {
   morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const override;
 
+  morphac::robot::blueprint::Footprint DefaultFootprint() const override;
+
   const double radius;
-  const double length;
+  const double width;
 };
 
 }  // namespace models
-}  // namespace mechancis
+}  // namespace mechanics
 }  // namespace morphac
 
 #endif

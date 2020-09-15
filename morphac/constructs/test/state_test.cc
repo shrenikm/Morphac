@@ -1,7 +1,7 @@
+#include "constructs/include/state.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "constructs/include/state.h"
 
 namespace {
 
@@ -780,7 +780,9 @@ TEST_F(StateTest, Equality) {
   ASSERT_TRUE(State(VectorXd::Ones(2), VectorXd::Ones(3)) ==
               State({1, 1}, {1, 1, 1}));
   ASSERT_TRUE(State({1, 2, 3}, {4, 5}) == State({1, 2, 3}, {4, 5}));
+}
 
+TEST_F(StateTest, Inequality) {
   ASSERT_TRUE(State(3, 2) != State(2, 3));
   ASSERT_TRUE(State(3, 2) != State(3, 3));
   ASSERT_TRUE(State(3, 2) != State(2, 2));
@@ -804,7 +806,9 @@ TEST_F(StateTest, PartialEquality) {
   ASSERT_TRUE(State(0, 3) == State(VectorXd::Zero(0), VectorXd::Zero(3)));
   ASSERT_TRUE(State(VectorXd::Ones(0), VectorXd::Ones(2)) == State({}, {1, 1}));
   ASSERT_TRUE(State({}, {1, 2, 3}) == State({}, {1, 2, 3}));
+}
 
+TEST_F(StateTest, PartialInequality) {
   ASSERT_TRUE(State(3, 0) != State(3, 1));
   ASSERT_TRUE(State(3, 0) != State(2, 0));
   ASSERT_TRUE(State(3, 0) != State(VectorXd::Zero(3), VectorXd::Zero(1)));
@@ -845,4 +849,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

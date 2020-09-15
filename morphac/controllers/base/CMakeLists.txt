@@ -26,7 +26,7 @@ add_subdirectory(binding)
 # Libraries
 # -------------------------------------------------
 
-# Constructs source files.
+# Controllers base source files.
 set(CONTROLLERS_BASE_SRC
 
   controller.cc
@@ -55,7 +55,7 @@ endforeach()
 # Tests
 # -------------------------------------------------
 
-# Simulation tests source files.
+# Controllers base tests source files.
 set(CONTROLLERS_BASE_TEST_SRC
 
   controller_test.cc

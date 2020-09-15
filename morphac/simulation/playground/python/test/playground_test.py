@@ -3,12 +3,12 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.environment import Map
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 from morphac.math.numeric import (
     IntegratorType,
     Integrator,
     MidPointIntegrator,
-    RK4Integrator
+    RK4Integrator,
 )
 from morphac.robot.pilot import Pilot
 from morphac.robot.blueprint import Footprint, Robot
@@ -18,7 +18,6 @@ from morphac.simulation.playground import PlaygroundSpec
 
 # Custom derived Pilot class to be used for testing.
 class CustomPilot(Pilot):
-
     def __init__(self, control_input_data):
 
         Pilot.__init__(self)
@@ -39,9 +38,10 @@ def generate_playground():
 
 @pytest.fixture()
 def generate_robot_list():
-    r1 = Robot(DiffDriveModel(1., 1.), Footprint([[0, 0]]))
-    r2 = Robot(DiffDriveModel(1., 1.), Footprint(
-        [[0, 0]]), State([1., 2., 0.], []))
+    r1 = Robot(DiffdriveModel(1.0, 1.0), Footprint([[0, 0]]))
+    r2 = Robot(
+        DiffdriveModel(1.0, 1.0), Footprint([[0, 0]]), State([1.0, 2.0, 0.0], [])
+    )
 
     return r1, r2
 
@@ -105,12 +105,11 @@ def test_get_pilot_oracle(generate_playground, generate_robot_list):
     robot1, robot2 = generate_robot_list
 
     pilot1 = CustomPilot([0, 0])
-    pilot2 = CustomPilot([1., 2])
+    pilot2 = CustomPilot([1.0, 2])
 
     # Adding the robots.
     playground.add_robot(robot1, pilot1, IntegratorType.EULER_INTEGRATOR, 1)
-    playground.add_robot(
-        robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
+    playground.add_robot(robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
 
     pilot_oracle = playground.get_pilot_oracle()
 
@@ -137,16 +136,15 @@ def test_get_pilot(generate_playground, generate_robot_list):
     robot1, robot2 = generate_robot_list
 
     pilot1 = CustomPilot([0, 0])
-    pilot2 = CustomPilot([1., 2])
+    pilot2 = CustomPilot([1.0, 2])
 
     # Adding the robots.
     playground.add_robot(robot1, pilot1, IntegratorType.EULER_INTEGRATOR, 1)
-    playground.add_robot(
-        robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
+    playground.add_robot(robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
 
     # Making sure the right pilots are returned.
     assert np.allclose(playground.get_pilot(1).control_input_data, [0, 0])
-    assert np.allclose(playground.get_pilot(2).control_input_data, [1., 2])
+    assert np.allclose(playground.get_pilot(2).control_input_data, [1.0, 2])
 
     # Invalid uid.
     with pytest.raises(ValueError):
@@ -160,13 +158,11 @@ def test_get_integrator(generate_playground, generate_robot_list):
     robot1, robot2 = generate_robot_list
 
     pilot1 = CustomPilot([0, 0])
-    pilot2 = CustomPilot([1., 2])
+    pilot2 = CustomPilot([1.0, 2])
 
     # Adding the robots.
-    playground.add_robot(
-        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
-    playground.add_robot(
-        robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
+    playground.add_robot(robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
+    playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
 
     # Making sure the right integrators are returned.
     assert isinstance(playground.get_integrator(1), MidPointIntegrator)
@@ -184,30 +180,55 @@ def test_add_robot(generate_playground, generate_robot_list):
     robot1, robot2 = generate_robot_list
 
     pilot1 = CustomPilot([0, 0])
-    pilot2 = CustomPilot([1., 2])
+    pilot2 = CustomPilot([1.0, 2])
 
     playground.add_robot(robot1, pilot1, IntegratorType.EULER_INTEGRATOR, 1)
-    playground.add_robot(
-        robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
+    playground.add_robot(robot2, pilot2, IntegratorType.MID_POINT_INTEGRATOR, 2)
 
     # Make sure that the robots have been added correctly.
     assert playground.state.num_robots == 2
 
-    assert np.allclose(playground.state.get_robot_state(
-        1).data, robot1.state.data)
-    assert np.allclose(playground.state.get_robot_state(
-        2).data, robot2.state.data)
+    assert np.allclose(playground.state.get_robot_state(1).data, robot1.state.data)
+    assert np.allclose(playground.state.get_robot_state(2).data, robot2.state.data)
+
+
+def test_add_robot_with_temporary(generate_playground):
+    # Test the function with temporarily created Robot and Pilot objects.
+    # This is to test for any cpp lifetime management weirdness.
+
+    playground = generate_playground
+
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0)),
+        CustomPilot([0, 0]),
+        IntegratorType.EULER_INTEGRATOR,
+        1,
+    )
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0)),
+        CustomPilot([1, 2]),
+        IntegratorType.MID_POINT_INTEGRATOR,
+        2,
+    )
+
+    # Make sure that the robots have been added correctly.
+    assert playground.state.num_robots == 2
+
+    assert np.allclose(playground.state.get_robot_state(1).data, [0.0, 0.0, 0.0])
+    assert np.allclose(playground.state.get_robot_state(2).data, [0.0, 0.0, 0.0])
 
 
 def test_execute(generate_playground, generate_robot_list):
     playground = generate_playground
     robot1, robot2 = generate_robot_list
-    pilot1, pilot2 = CustomPilot([0, 0]), CustomPilot([1., 1.])
+    pilot1, pilot2 = CustomPilot([0, 0]), CustomPilot([1.0, 1.0])
 
     # Adding the robots.
-    playground.add_robot(
-        robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
+    playground.add_robot(robot1, pilot1, IntegratorType.MID_POINT_INTEGRATOR, 1)
     playground.add_robot(robot2, pilot2, IntegratorType.RK4_INTEGRATOR, 2)
+
+    # Make sure that the playground time is 0.
+    assert playground.state.time == 0.0
 
     # Executing a playground cycle.
     playground.execute()
@@ -215,11 +236,58 @@ def test_execute(generate_playground, generate_robot_list):
     # Test the states of the robots.
     # The first pilot gives zero control inputs, hence the state must remain
     # unchanged.
-    assert np.allclose(playground.state.get_robot_state(1).data, [0., 0., 0.])
+    assert np.allclose(playground.state.get_robot_state(1).data, [0.0, 0.0, 0.0])
 
     # The second robot receives a constant input of [1., 1.]. As the wheel
     # radius = 1 m, the robot moves forward with a velocity of 1 m/s. Hence
     # it moves a total distance of dt m in the x direction (The initial angle
     # is zero).
-    assert np.allclose(playground.state.get_robot_state(
-        2).data, [1. + playground.spec.dt, 2., 0.])
+    assert np.allclose(
+        playground.state.get_robot_state(2).data, [1.0 + playground.spec.dt, 2.0, 0.0]
+    )
+
+    # Make sure that the playground time has updated.
+    assert playground.state.time == playground.spec.dt
+
+
+def test_execute_with_temporary(generate_playground):
+    # Test the function after adding robots using temporarily created Robot and Pilot objects.
+    # This is to test for any cpp lifetime management weirdness.
+
+    playground = generate_playground
+
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0)),
+        CustomPilot([0, 0]),
+        IntegratorType.EULER_INTEGRATOR,
+        1,
+    )
+    playground.add_robot(
+        Robot(DiffdriveModel(1.0, 1.0), initial_state=State([1.0, 2.0, 0.0], [])),
+        CustomPilot([1, 1]),
+        IntegratorType.MID_POINT_INTEGRATOR,
+        2,
+    )
+
+    # Make sure that the playground time is 0.
+    assert playground.state.time == 0.0
+
+    # Executing a playground cycle.
+    playground.execute()
+
+    # Test the states of the robots.
+    # The first pilot gives zero control inputs, hence the state must remain
+    # unchanged.
+    assert np.allclose(playground.state.get_robot_state(1).data, [0.0, 0.0, 0.0])
+
+    # The second robot receives a constant input of [1., 1.]. As the wheel
+    # radius = 1 m, the robot moves forward with a velocity of 1 m/s. Hence
+    # it moves a total distance of dt m in the x direction (The initial angle
+    # is zero).
+    assert np.allclose(
+        playground.state.get_robot_state(2).data, [1.0 + playground.spec.dt, 2.0, 0.0]
+    )
+
+    # Make sure that the playground time has updated.
+    assert playground.state.time == playground.spec.dt
+

@@ -1,7 +1,7 @@
+#include "environment/include/map.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "environment/include/map.h"
 
 namespace {
 
@@ -54,14 +54,10 @@ TEST_F(MapTest, InvalidConstruction) {
   ASSERT_THROW(Map(0, 2, 0.01), std::invalid_argument);
   ASSERT_THROW(Map(1, 2, -0.01), std::invalid_argument);
 
-  ASSERT_THROW(Map(MatrixXd::Random(0, 100), 0.01),
-               std::invalid_argument);
-  ASSERT_THROW(Map(MatrixXd::Random(100, 0), 0.01),
-               std::invalid_argument);
-  ASSERT_THROW(Map(MatrixXd::Random(0, 0), 0.01),
-               std::invalid_argument);
-  ASSERT_THROW(Map(MatrixXd::Random(200, 100), -0.01),
-               std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXd::Random(0, 100), 0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXd::Random(100, 0), 0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXd::Random(0, 0), 0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXd::Random(200, 100), -0.01), std::invalid_argument);
 
   // Constructing with an invalid resolution.
   ASSERT_THROW(Map(10, 9.4, 0.123), std::invalid_argument);
@@ -87,17 +83,23 @@ TEST_F(MapTest, Accessors) {
   ASSERT_TRUE(map2.get_data().isApprox(data));
 
   // Setting a different data.
+  // Testing the get_data_ref.
   data = MatrixXd::Random(480, 640);
-  map2.set_data(data);
+  map2.get_data_ref() = data;
 
   ASSERT_EQ(map2.get_width(), 12.8);
   ASSERT_EQ(map2.get_height(), 9.6);
   ASSERT_EQ(map2.get_resolution(), 0.02);
   ASSERT_TRUE(map2.get_data().isApprox(data));
 
-  // Setting an invalid data.
-  ASSERT_THROW(map2.set_data(MatrixXd::Random(0, 0)), std::invalid_argument);
-  ASSERT_THROW(map2.set_data(MatrixXd::Random(640, 480)), std::invalid_argument);
+  // Also test the set_data function.
+  data = 7 * MatrixXd::Ones(480, 640);
+  map2.set_data(data);
+
+  ASSERT_EQ(map2.get_width(), 12.8);
+  ASSERT_EQ(map2.get_height(), 9.6);
+  ASSERT_EQ(map2.get_resolution(), 0.02);
+  ASSERT_TRUE(map2.get_data().isApprox(data));
 }
 
 }  // namespace

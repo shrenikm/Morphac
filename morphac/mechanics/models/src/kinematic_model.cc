@@ -13,12 +13,11 @@ KinematicModel::KinematicModel(const int pose_size, const int velocity_size,
       control_input_size(control_input_size) {}
 
 State KinematicModel::NormalizeState(const State& state) const {
-    // Default implementation. If a KinematicModel subclass doesn't need any
-    // state normalization, we return the state itself.
-    return state;
+  // Default implementation. If a KinematicModel subclass doesn't need any
+  // state normalization, we return the state itself.
+  return state;
 }
 
-}  // models
-}  // mechanics
-}  // morphac
-
+}  // namespace models
+}  // namespace mechanics
+}  // namespace morphac

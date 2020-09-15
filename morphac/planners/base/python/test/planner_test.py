@@ -16,8 +16,7 @@ class CustomPlanner(Planner):
 
     def compute(self):
 
-        return Trajectory(
-            self.trajectory_data, self.pose_size, self.velocity_size)
+        return Trajectory(self.trajectory_data, self.pose_size, self.velocity_size)
 
 
 @pytest.fixture()

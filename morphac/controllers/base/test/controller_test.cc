@@ -1,8 +1,8 @@
-#include "Eigen/Dense"
-#include "gtest/gtest.h"
-
-#include "constructs/include/control_input.h"
 #include "controllers/base/include/controller.h"
+
+#include "Eigen/Dense"
+#include "constructs/include/control_input.h"
+#include "gtest/gtest.h"
 
 namespace {
 

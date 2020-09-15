@@ -26,9 +26,14 @@ void define_robot_binding(py::module& m) {
   robot.def(py::init<KinematicModel&, const Footprint&>(),
             py::arg("kinematic_model"), py::arg("footprint"),
             py::keep_alive<1, 2>());
+  robot.def(py::init<KinematicModel&>(), py::arg("kinematic_model"),
+            py::keep_alive<1, 2>());
   robot.def(py::init<KinematicModel&, const Footprint&, const State&>(),
             py::arg("kinematic_model"), py::arg("footprint"),
             py::arg("initial_state"), py::keep_alive<1, 2>());
+  robot.def(py::init<KinematicModel&, const State&>(),
+            py::arg("kinematic_model"), py::arg("initial_state"),
+            py::keep_alive<1, 2>());
   robot.def("compute_state_derivative",
             py::overload_cast<const ControlInput&>(
                 &Robot::ComputeStateDerivative, py::const_),
@@ -48,4 +53,3 @@ void define_robot_binding(py::module& m) {
 }  // namespace blueprint
 }  // namespace robot
 }  // namespace morphac
-

@@ -2,9 +2,10 @@
 #define KINEMATIC_MODEL_H
 
 #include "Eigen/Dense"
-
+#include "constants/include/mechanics_constants.h"
 #include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
+#include "robot/blueprint/include/footprint.h"
 
 namespace morphac {
 namespace mechanics {
@@ -29,6 +30,9 @@ class KinematicModel {
   // be primed.
   virtual morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const;
+
+  // Function to create the default footprint for the model.
+  virtual morphac::robot::blueprint::Footprint DefaultFootprint() const = 0;
 
   const int pose_size;
   const int velocity_size;

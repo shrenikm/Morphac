@@ -15,7 +15,7 @@ void define_controller_binding(py::module& m) {
   controller.def(py::init<>());
 }
 
-}  // binding
-}  // base
-}  // controllers
-}  // morphac
+}  // namespace binding
+}  // namespace base
+}  // namespace controllers
+}  // namespace morphac

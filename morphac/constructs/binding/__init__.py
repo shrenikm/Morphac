@@ -1,6 +1,6 @@
 from ._binding_constructs_python import (
     ControlInput,
-    Coordinate2D,
+    Coordinate,
     Pose,
     State,
     Trajectory,

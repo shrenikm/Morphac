@@ -8,6 +8,6 @@ Controller::Controller() {}
 
 Controller::~Controller() {}
 
-} // namespace base
-} // namespace controllers
-} // namespace morphac
+}  // namespace base
+}  // namespace controllers
+}  // namespace morphac

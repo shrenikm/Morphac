@@ -1,13 +1,12 @@
 #ifndef MID_POINT_INTEGRATOR_BINDING_H
 #define MID_POINT_INTEGRATOR_BINDING_H
 
-#include "pybind11/pybind11.h"
-
 #include "constructs/include/control_input.h"
 #include "constructs/include/state.h"
 #include "math/numeric/include/integrator.h"
 #include "math/numeric/include/mid_point_integrator.h"
 #include "mechanics/models/include/kinematic_model.h"
+#include "pybind11/pybind11.h"
 
 namespace morphac {
 namespace math {

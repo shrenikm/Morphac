@@ -30,7 +30,7 @@ add_subdirectory(binding)
 # Constructs source files.
 set(CONSTRUCTS_SRC
 
-  coordinate2D.cc
+  coordinate.cc
   control_input.cc
   pose.cc
   state.cc
@@ -76,7 +76,7 @@ target_link_libraries(trajectory
 # Constructs tests source files.
 set(CONSTRUCTS_TEST_SRC
 
-  coordinate2D_test.cc
+  coordinate_test.cc
   control_input_test.cc
   pose_test.cc
   state_test.cc
@@ -101,10 +101,10 @@ foreach(file ${CONSTRUCTS_TEST_SRC})
 endforeach()
 
 # Linking depending libraries.
-target_link_libraries(coordinate2D_test
+target_link_libraries(coordinate_test
   PUBLIC
   gtest_main
-  coordinate2D
+  coordinate
 )
 
 target_link_libraries(control_input_test

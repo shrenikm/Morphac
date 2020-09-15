@@ -70,6 +70,8 @@ double Map::get_resolution() const { return resolution_; }
 
 const MatrixXd& Map::get_data() const { return data_; }
 
+MatrixXd& Map::get_data_ref() { return data_; }
+
 void Map::set_data(const MatrixXd& data) {
   // The data needs to have the same dimensions
   MORPH_REQUIRE((data.cols() * resolution_) == width_, std::invalid_argument,
@@ -81,4 +83,3 @@ void Map::set_data(const MatrixXd& data) {
 
 }  // namespace environment
 }  // namespace morphac
-

@@ -152,4 +152,3 @@ ControlInput ControlInput::CreateLike(const ControlInput& control_input) {
 
 }  // namespace constructs
 }  // namespace morphac
-

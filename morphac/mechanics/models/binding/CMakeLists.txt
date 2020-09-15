@@ -17,6 +17,7 @@ set(MODELS_MODULE_FILE
 set(MODELS_BINDING_FILES
 
   kinematic_model_binding.cc
+  ackermann_model_binding.cc
   diffdrive_model_binding.cc
   dubin_model_binding.cc
   tricycle_model_binding.cc
@@ -53,8 +54,7 @@ target_include_directories(${python_target}
 target_link_libraries(${python_target}
   PUBLIC
   kinematic_model
-  state
-  control_input
+  ackermann_model
   diffdrive_model
   dubin_model
   tricycle_model

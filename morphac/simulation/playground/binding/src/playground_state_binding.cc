@@ -30,7 +30,8 @@ void define_playground_state_binding(py::module& m) {
   playground_state.def_property_readonly("num_robots",
                                          &PlaygroundState::NumRobots);
   playground_state.def("add_robot", &PlaygroundState::AddRobot,
-                       py::arg("robot"), py::arg("uid"));
+                       py::arg("robot"), py::arg("uid"),
+                       py::keep_alive<0, 2>());
 }
 
 }  // namespace binding

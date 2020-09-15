@@ -1,7 +1,6 @@
-#include "Eigen/Dense"
-#include "gtest/gtest.h"
-
 #include "simulation/playground/include/playground_spec.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 
@@ -31,4 +30,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

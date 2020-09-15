@@ -1,7 +1,7 @@
+#include "robot/blueprint/include/robot.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
-
-#include "robot/blueprint/include/robot.h"
 
 namespace {
 
@@ -10,8 +10,8 @@ using std::shared_ptr;
 using std::srand;
 
 using Eigen::VectorXd;
-using Eigen::MatrixXd;
 
+using morphac::common::aliases::Points;
 using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
@@ -25,8 +25,8 @@ class CustomKinematicModel : public KinematicModel {
   CustomKinematicModel(int pose_size, int velocity_size, int size_control_input)
       : KinematicModel(pose_size, velocity_size, size_control_input) {}
 
-  State ComputeStateDerivative(const State& state,
-                               const ControlInput& control_input) const {
+  State ComputeStateDerivative(
+      const State& state, const ControlInput& control_input) const override {
     // f(x, u) = x * u  - x
     VectorXd derivative_vector(state.get_size());
     derivative_vector << state.get_data();
@@ -41,6 +41,10 @@ class CustomKinematicModel : public KinematicModel {
 
     return derivative;
   }
+
+  Footprint DefaultFootprint() const override {
+    return Footprint::CreateRectangularFootprint(1., 1., 0.);
+  }
 };
 
 class RobotTest : public ::testing::Test {
@@ -52,13 +56,13 @@ class RobotTest : public ::testing::Test {
     pose_vector_ = VectorXd::Random(3);
     velocity_vector_ = VectorXd::Random(2);
     control_input_vector_ = VectorXd::Random(5);
-    footprint_matrix_ = MatrixXd::Random(10, 2);
+    footprint_matrix_ = Points::Random(10, 2);
   }
 
   void SetUp() override {}
 
   VectorXd pose_vector_, velocity_vector_, control_input_vector_;
-  MatrixXd footprint_matrix_;
+  Points footprint_matrix_;
 };
 
 TEST_F(RobotTest, Construction) {
@@ -68,6 +72,18 @@ TEST_F(RobotTest, Construction) {
 
   // Constructing with a temporary KinematicModel.
   Robot robot2{model, footprint, State(3, 2)};
+}
+
+TEST_F(RobotTest, ConstructionWithoutFootprint) {
+  CustomKinematicModel model(3, 2, 5);
+
+  Robot robot1{model};
+  Robot robot2{model, State(3, 2)};
+
+  // Make sure that the footprint has been computed according to the kinematic
+  // model's DefaultFootprint.
+  ASSERT_EQ(robot1.get_footprint().get_data().rows(), 4);
+  ASSERT_EQ(robot2.get_footprint().get_data().rows(), 4);
 }
 
 TEST_F(RobotTest, InvalidConstruction) {
@@ -179,4 +195,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-

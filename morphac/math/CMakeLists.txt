@@ -13,6 +13,8 @@ set(MATH_BINDING_INSTALL_DIR
 # -------------------------------------------------
 
 add_subdirectory(numeric)
+add_subdirectory(geometry)
+add_subdirectory(transforms)
 
 
 # Installing

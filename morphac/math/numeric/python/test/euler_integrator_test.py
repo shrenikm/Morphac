@@ -2,13 +2,13 @@ import pytest
 
 from morphac.constructs import ControlInput, State
 from morphac.math.numeric import EulerIntegrator
-from morphac.mechanics.models import DiffDriveModel
+from morphac.mechanics.models import DiffdriveModel
 
 
 @pytest.fixture()
 def generate_integrator():
 
-    return EulerIntegrator(DiffDriveModel(0.1, 0.2))
+    return EulerIntegrator(DiffdriveModel(0.1, 0.2))
 
 
 def test_step_computation(generate_integrator):
@@ -20,9 +20,7 @@ def test_step_computation(generate_integrator):
 
     # Test with positional arguments.
     updated_state = euler_integrator.step(
-        robot_state=State([1, 2, 0], []),
-        control_input=ControlInput([1, -1]),
-        dt=0.1
+        robot_state=State([1, 2, 0], []), control_input=ControlInput([1, -1]), dt=0.1
     )
 
     assert updated_state.size == 3
@@ -42,7 +40,7 @@ def test_integration(generate_integrator):
         robot_state=State([1, 2, 0], []),
         control_input=ControlInput([1, -1]),
         time=10,
-        dt=0.01
+        dt=0.01,
     )
 
     # Making sure that the output state dimensions and configuration is

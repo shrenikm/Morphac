@@ -8,6 +8,6 @@ Planner::Planner() {}
 
 Planner::~Planner() {}
 
-} // namespace base
-} // namespace planners
-} // namespace morphac
+}  // namespace base
+}  // namespace planners
+}  // namespace morphac

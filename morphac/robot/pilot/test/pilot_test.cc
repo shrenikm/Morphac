@@ -1,12 +1,12 @@
+#include "robot/pilot/include/pilot.h"
+
 #include "Eigen/Dense"
 #include "gtest/gtest.h"
 
-#include "robot/pilot/include/pilot.h"
-
 namespace {
 
-using Eigen::VectorXd;
 using Eigen::MatrixXd;
+using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
 using morphac::environment::Map;

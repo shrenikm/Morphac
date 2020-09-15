@@ -3,7 +3,6 @@
 
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
 #include "robot/pilot/include/pilot.h"
 
 namespace morphac {

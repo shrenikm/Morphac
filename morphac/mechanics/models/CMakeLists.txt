@@ -31,6 +31,7 @@ add_subdirectory(binding)
 set(MODELS_SRC
 
   kinematic_model.cc
+  ackermann_model.cc
   diffdrive_model.cc
   dubin_model.cc
   tricycle_model.cc
@@ -60,11 +61,22 @@ target_link_libraries(kinematic_model
   PUBLIC
   state
   control_input
+  footprint
+)
+
+target_link_libraries(ackermann_model
+  PUBLIC
+  kinematic_model
+  mechanics_constants
+  state
+  control_input
+  angle_utils
 )
 
 target_link_libraries(diffdrive_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
@@ -73,6 +85,7 @@ target_link_libraries(diffdrive_model
 target_link_libraries(dubin_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
@@ -81,6 +94,7 @@ target_link_libraries(dubin_model
 target_link_libraries(tricycle_model
   PUBLIC
   kinematic_model
+  mechanics_constants
   state
   control_input
   angle_utils
@@ -94,6 +108,7 @@ target_link_libraries(tricycle_model
 set(MODELS_TEST_SRC
 
   kinematic_model_test.cc
+  ackermann_model_test.cc
   diffdrive_model_test.cc
   dubin_model_test.cc
   tricycle_model_test.cc
@@ -115,6 +130,19 @@ foreach(file ${MODELS_TEST_SRC})
   )
 endforeach()
 
+target_link_libraries(kinematic_model_test
+  PUBLIC
+  gtest_main
+  kinematic_model
+  numeric_utils
+)
+
+target_link_libraries(ackermann_model_test
+  PUBLIC
+  gtest_main
+  ackermann_model
+)
+
 # Linking depending libraries.
 target_link_libraries(tricycle_model_test
   PUBLIC
@@ -134,8 +162,4 @@ target_link_libraries(dubin_model_test
   dubin_model
 )
 
-target_link_libraries(kinematic_model_test
-  PUBLIC
-  gtest_main
-  kinematic_model
-)
+

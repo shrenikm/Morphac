@@ -10,10 +10,12 @@ using std::sin;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-using morphac::utils::NormalizeAngle;
-using morphac::mechanics::models::KinematicModel;
+using morphac::constants::DubinModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::mechanics::models::KinematicModel;
+using morphac::robot::blueprint::Footprint;
+using morphac::utils::NormalizeAngle;
 
 DubinModel::DubinModel(const double speed)
     : KinematicModel(3, 0, 1), speed(speed) {}
@@ -29,7 +31,7 @@ State DubinModel::ComputeStateDerivative(
                 "ControlInput must be of size 1.");
 
   VectorXd pose_derivative(3);
-  double theta = state.get_pose()[2];
+  double theta = state[2];
 
   // Equation of the form xdot = F(x) + G(x)u
   MatrixXd F(3, 1), G(3, 1);
@@ -38,10 +40,8 @@ State DubinModel::ComputeStateDerivative(
 
   pose_derivative = F + G * control_input.get_data();
 
-  State derivative = State::CreateLike(state);
-  derivative.set_pose_data(pose_derivative);
-
-  return derivative;
+  // Return the derivative.
+  return State(pose_derivative, VectorXd::Zero(0));
 }
 
 State DubinModel::NormalizeState(const State& state) const {
@@ -50,6 +50,13 @@ State DubinModel::NormalizeState(const State& state) const {
   normalized_state[2] = NormalizeAngle(normalized_state[2]);
 
   return normalized_state;
+}
+
+Footprint DubinModel::DefaultFootprint() const {
+  // Default triangular footprint.
+  return Footprint::CreateTriangularFootprint(
+      DubinModelConstants::DEFAULT_BASE, DubinModelConstants::DEFAULT_HEIGHT,
+      -M_PI / 2.);
 }
 
 }  // namespace models

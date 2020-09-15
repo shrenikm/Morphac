@@ -10,9 +10,8 @@ def generate_trajectory_list():
     # List of trajectories constructed in different ways.
     t1 = Trajectory(knot_point=State(2, 2))
     t2 = Trajectory(
-        knot_points=[State([1, 1], [1]),
-                     State([2, 2], [2]),
-                     State([3, 3], [3])])
+        knot_points=[State([1, 1], [1]), State([2, 2], [2]), State([3, 3], [3])]
+    )
     set_standard_testing_random_seed()
     t3 = Trajectory(data=np.random.randn(100, 5), pose_size=3, velocity_size=2)
 
@@ -141,11 +140,11 @@ def test_getitem(generate_trajectory_list):
 
     for t in [t1, t2, t3]:
         for i in range(t.size):
-            assert t[i] == State(t.data[i, :t.pose_size],
-                                 t.data[i, t.pose_size:])
+            assert t[i] == State(t.data[i, : t.pose_size], t.data[i, t.pose_size :])
             # Test negative indexing.
-            assert t[-(t.size - i)] == State(t.data[i, :t.pose_size],
-                                             t.data[i, t.pose_size:])
+            assert t[-(t.size - i)] == State(
+                t.data[i, : t.pose_size], t.data[i, t.pose_size :]
+            )
 
     # Test invalid getitem
     with pytest.raises(IndexError):
@@ -202,8 +201,9 @@ def test_addition(generate_trajectory_list):
     t2 += t2
 
     assert t2.size == 6
-    assert np.allclose(t2.data, [[1, 1, 1], [2, 2, 2], [
-                       3, 3, 3], [1, 1, 1], [2, 2, 2], [3, 3, 3]])
+    assert np.allclose(
+        t2.data, [[1, 1, 1], [2, 2, 2], [3, 3, 3], [1, 1, 1], [2, 2, 2], [3, 3, 3]]
+    )
 
     set_standard_testing_random_seed()
     data3 = np.random.randn(200, 5)
@@ -268,9 +268,8 @@ def test_add_knot_point(generate_trajectory_list):
     t3.add_knot_point(knot_point=State(3, 2))
 
     assert np.allclose(t1.data, [[1, 1, 1, 1], [0, 0, 0, 0]])
-    assert np.allclose(
-        t2.data, [[1, 1, 1], [1.5, 1.5, 1.5], [2, 2, 2], [3, 3, 3]])
-    assert np.allclose(t3.data, np.vstack([data3, [0]*5]))
+    assert np.allclose(t2.data, [[1, 1, 1], [1.5, 1.5, 1.5], [2, 2, 2], [3, 3, 3]])
+    assert np.allclose(t3.data, np.vstack([data3, [0] * 5]))
 
     # Test invalid add_knot_point.
     # Note that the size of each trajectory has now increased by one.
@@ -298,19 +297,15 @@ def test_add_knot_points(generate_trajectory_list):
 
     t1.add_knot_points([State(2, 2), State(2, 2)], [1, 2])
     t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 5])
-    t3.add_knot_points(
-        knot_points=[State(3, 2), State(3, 2)], indices=[0, 101])
+    t3.add_knot_points(knot_points=[State(3, 2), State(3, 2)], indices=[0, 101])
 
     assert np.allclose(t1.data, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
     assert np.allclose(
-        t2.data, [[0, 0, 0],
-                  [1, 1, 1],
-                  [0, 0, 0],
-                  [2, 2, 2],
-                  [3, 3, 3],
-                  [0, 0, 0]])
+        t2.data, [[0, 0, 0], [1, 1, 1], [0, 0, 0], [2, 2, 2], [3, 3, 3], [0, 0, 0]]
+    )
     assert t3[0] == State(3, 2)
     assert t3[-1] == State(3, 2)
+
 
 # Separate invalid test functions as these may modify the trajectory depending
 # on which index the invalidity is present at.
@@ -349,8 +344,7 @@ def test_invalid_add_knot_points_due_to_indices(generate_trajectory_list):
     with pytest.raises(IndexError):
         t2.add_knot_points([State(2, 1), State(2, 1), State(2, 1)], [0, 2, 6])
     with pytest.raises(IndexError):
-        t3.add_knot_points(
-            [State(3, 2), State(3, 2), State(3, 2)], [0, 50, 103])
+        t3.add_knot_points([State(3, 2), State(3, 2), State(3, 2)], [0, 50, 103])
 
 
 def test_remove_knot_point(generate_trajectory_list):
@@ -368,8 +362,7 @@ def test_remove_knot_point(generate_trajectory_list):
 
     assert t1.size == 0
     assert np.allclose(t1.data, np.empty([0, t1.dim]))
-    assert np.allclose(
-        t2.data, [[1, 1, 1],  [3, 3, 3]])
+    assert np.allclose(t2.data, [[1, 1, 1], [3, 3, 3]])
     assert np.allclose(t3.data, np.vstack([data3[:50], data3[51:-1]]))
 
     # Test invalid remove_knot_point.

@@ -15,7 +15,7 @@ void define_planner_binding(py::module& m) {
   planner.def(py::init<>());
 }
 
-}  // binding
-}  // base
-}  // planners
-}  // morphac
+}  // namespace binding
+}  // namespace base
+}  // namespace planners
+}  // namespace morphac

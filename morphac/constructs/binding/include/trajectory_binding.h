@@ -1,12 +1,11 @@
 #ifndef TRAJECTORY_BINDING_H
 #define TRAJECTORY_BINDING_H
 
+#include "constructs/include/trajectory.h"
 #include "pybind11/eigen.h"
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
 #include "pybind11/stl.h"
-
-#include "constructs/include/trajectory.h"
 
 namespace morphac {
 namespace constructs {

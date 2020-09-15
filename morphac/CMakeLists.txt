@@ -11,15 +11,18 @@ set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/morphac)
 # Adding subdirectories
 # -------------------------------------------------
 
+add_subdirectory(constants)
 add_subdirectory(constructs)
 add_subdirectory(controllers)
 add_subdirectory(environment)
+add_subdirectory(examples)
 add_subdirectory(math)
 add_subdirectory(mechanics)
 add_subdirectory(planners)
 add_subdirectory(robot)
 add_subdirectory(simulation)
 add_subdirectory(utils)
+add_subdirectory(visualization)
 
 
 # Installing
@@ -31,4 +34,3 @@ install(FILES
   DESTINATION
   ${PYTHON_BINDING_INSTALL_DIR}/morphac
 )
-

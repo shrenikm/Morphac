@@ -1,12 +1,12 @@
-#include "gtest/gtest.h"
-
 #include "utils/include/angle_utils.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 
+using morphac::utils::NormalizeAngle;
 using morphac::utils::ToDegrees;
 using morphac::utils::ToRadians;
-using morphac::utils::NormalizeAngle;
 
 double precision = 1e-6;
 
@@ -64,8 +64,7 @@ TEST(AngleUtilsTest, NormalizeAngle) {
   // Angles that are > 2 * pi but lie in the first two quadrants.
   ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 3), M_PI / 3, precision);
   ASSERT_NEAR(NormalizeAngle(2 * M_PI + M_PI / 2), M_PI / 2, precision);
-  ASSERT_NEAR(NormalizeAngle(2 * M_PI + 2 * M_PI / 3), 2 * M_PI / 3,
-              precision);
+  ASSERT_NEAR(NormalizeAngle(2 * M_PI + 2 * M_PI / 3), 2 * M_PI / 3, precision);
   ASSERT_NEAR(NormalizeAngle(14 * M_PI + M_PI / 2), M_PI / 2, precision);
 
   // Angles that are < - 2 * pi but lie in the last two quadrants.

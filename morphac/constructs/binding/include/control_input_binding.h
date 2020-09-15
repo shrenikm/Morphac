@@ -1,11 +1,10 @@
 #ifndef INPUT_BINDING_H
 #define INPUT_BINDING_H
 
+#include "constructs/include/control_input.h"
 #include "pybind11/eigen.h"
 #include "pybind11/operators.h"
 #include "pybind11/pybind11.h"
-
-#include "constructs/include/control_input.h"
 
 namespace morphac {
 namespace constructs {

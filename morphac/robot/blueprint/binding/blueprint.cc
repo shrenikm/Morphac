@@ -1,6 +1,5 @@
 #include "pybind11/eigen.h"
 #include "pybind11/pybind11.h"
-
 #include "robot/blueprint/binding/include/footprint_binding.h"
 #include "robot/blueprint/binding/include/robot_binding.h"
 

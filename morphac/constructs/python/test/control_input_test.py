@@ -39,9 +39,9 @@ def test_data(generate_control_input_list):
 
     # Test getting data.
     assert np.allclose(ci1.data, [0, 0])
-    assert np.allclose(ci2.data, [1., 2., 3.])
-    assert np.allclose(ci3.data, [4., 3., 2., 1.])
-    assert np.allclose(ci4.data, [1., 1., 2., 3., 5.])
+    assert np.allclose(ci2.data, [1.0, 2.0, 3.0])
+    assert np.allclose(ci3.data, [4.0, 3.0, 2.0, 1.0])
+    assert np.allclose(ci4.data, [1.0, 1.0, 2.0, 3.0, 5.0])
 
     # Test setting data.
     ci1.data = np.array([1, 1], dtype=np.int)
@@ -197,6 +197,6 @@ def test_create_like(generate_control_input_list):
 
     for ci in generate_control_input_list:
 
-        assert ControlInput.create_like(ci).size == ci.size
-        assert np.allclose(ControlInput.create_like(ci).data,
-                           np.zeros(ci.size))
+        assert ControlInput.create_like(control_input=ci).size == ci.size
+        assert np.allclose(ControlInput.create_like(ci).data, np.zeros(ci.size))
+

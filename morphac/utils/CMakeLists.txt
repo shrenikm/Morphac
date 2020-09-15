@@ -12,6 +12,9 @@ set(UTILS_BINARY_DIR ${MORPHAC_BINARY_DIR}/utils)
 set(UTILS_BINDING_DIR ${UTILS_DIR}/binding)
 set(UTILS_BINDING_INCLUDE_DIR ${UTILS_BINDING_DIR}/include)
 set(UTILS_BINDING_SRC_DIR ${UTILS_BINDING_DIR}/src)
+set(UTILS_BINDING_MODULES_DIR
+  ${UTILS_BINDING_DIR}/modules
+)
 set(UTILS_BINDING_BINARY_DIR ${UTILS_BINARY_DIR}/binding)
 set(UTILS_BINDING_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/utils
@@ -32,6 +35,8 @@ set(UTILS_SRC
 
   angle_utils.cc
   integrator_utils.cc
+  numeric_utils.cc
+  points_utils.cc
 )
 
 foreach(file ${UTILS_SRC})
@@ -54,6 +59,7 @@ foreach(file ${UTILS_SRC})
 endforeach()
 
 # Adding library dependencies.
+
 target_link_libraries(integrator_utils
   PUBLIC
   integrator
@@ -72,6 +78,8 @@ set(UTILS_TEST_SRC
 
   angle_utils_test.cc
   integrator_utils_test.cc
+  numeric_utils_test.cc
+  points_utils_test.cc
 )
 
 # Creating the test executables.
@@ -105,13 +113,27 @@ target_link_libraries(integrator_utils_test
   diffdrive_model
 )
 
+target_link_libraries(numeric_utils_test
+	PUBLIC
+	gtest_main
+	numeric_utils
+)
+
+target_link_libraries(points_utils_test
+  PUBLIC
+  gtest_main
+  points_utils
+)
+
 
 # Python files
 # -------------------------------------------------
 
 # List of python files.
 set(UTILS_PYTHON_FILES
+  canvas_utils.py
   decorator_utils.py
+  mechanics_utils.py
   python_utils.py
   pytest_utils.py
 )

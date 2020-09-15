@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.5)
 
+# Pre build checks
+# -------------------------------------------------
+
+# Disable builds in the source directory.
+if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+  message(FATAL_ERROR "Please create a separate directory for the build.")
+endif()
+
+
 # Utility functions
 # -------------------------------------------------
 

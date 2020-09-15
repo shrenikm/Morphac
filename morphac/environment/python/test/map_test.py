@@ -87,6 +87,13 @@ def test_data(generate_map_list):
     assert np.allclose(map3.data, np.eye(2, 3))
     assert np.allclose(map4.data, -1 * np.ones((100, 100)))
 
+    # Test changing the data in place. This uses the get_data_ref() cpp
+    # interface.
+    map1.data[:, :10] = 0.0
+    assert np.allclose(map1.data[:, :10], np.zeros((20, 10)))
+    # Make sure that the other values are unchanged
+    assert np.allclose(map1.data[:, 10:], np.ones((20, 10)))
+
     # Test invalid setting.
     with pytest.raises(ValueError):
         map1.data = np.ones((2, 2))

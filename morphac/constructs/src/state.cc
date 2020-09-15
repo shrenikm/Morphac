@@ -346,5 +346,5 @@ State State::CreateLike(const State& state) {
   return new_state;
 }
 
-}  // constructs
-}  // morphac
+}  // namespace constructs
+}  // namespace morphac

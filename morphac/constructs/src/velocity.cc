@@ -149,4 +149,3 @@ Velocity Velocity::CreateLike(const Velocity& velocity) {
 
 }  // namespace constructs
 }  // namespace morphac
-
