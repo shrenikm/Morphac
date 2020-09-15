@@ -1,3 +1,4 @@
+from argparse import ArgumentParser, RawTextHelpFormatter
 import cv2
 from enum import Enum
 import numpy as np
@@ -28,10 +29,10 @@ from morphac.visualization.playground_visualization import (
 
 
 class RobotType(Enum):
-    ACKERMANN = 0
-    DIFFDRIVE = 1
-    DUBIN = 2
-    TRICYCLE = 3
+    ACKERMANN = "ackermann"
+    DIFFDRIVE = "diffdrive"
+    DUBIN = "dubin"
+    TRICYCLE = "tricycle"
 
 
 robot_bank = {
@@ -109,6 +110,23 @@ def main(robot_type):
 
 if __name__ == "__main__":
 
+    parser = ArgumentParser(
+        description="Simulation of a robot given constant control inputs.",
+        formatter_class=RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-r",
+        "--robot_type",
+        default="ackermann",
+        type=str,
+        help="Type of robot to use. The available options are: \n1. ackermann\n2. diffdrive\n3. dubin\n4. tricycle",
+    )
+    args = parser.parse_args()
+
+    try:
+        robot_type = RobotType(args.robot_type)
+    except (ValueError):
+        raise MorphacLogicError("Invalid robot type. Please try again.")
+
     # Which robot type to run. One of
-    robot_type = RobotType.ACKERMANN
-    main(robot_type)
+    main(RobotType(args.robot_type))
