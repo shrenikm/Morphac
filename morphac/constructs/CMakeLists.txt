@@ -17,6 +17,10 @@ set(CONSTRUCTS_BINDING_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/constructs
 )
 
+set(CONSTRUCTS_PYTHON_PACKAGE_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/constructs
+)
+
 
 # Adding subdirectories
 # -------------------------------------------------
