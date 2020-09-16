@@ -107,8 +107,8 @@ endfunction()
 print_section_header("Project Details")
 
 set(MORPHAC_NAME "morphac")
-set(MORPHAC_MAJOR_VERSION 1)
-set(MORPHAC_MINOR_VERSION 0)
+set(MORPHAC_MAJOR_VERSION 0)
+set(MORPHAC_MINOR_VERSION 1)
 set(MORPHAC_PATCH_VERSION 0)
 
 project(
