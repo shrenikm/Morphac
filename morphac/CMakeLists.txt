@@ -32,5 +32,5 @@ add_subdirectory(visualization)
 install(FILES
   ${MORPHAC_DIR}/__init__.py
   DESTINATION
-  ${PYTHON_BINDING_INSTALL_DIR}/morphac
+  ${PYTHON_BINDING_INSTALL_DIR}
 )
