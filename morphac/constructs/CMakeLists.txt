@@ -59,6 +59,19 @@ foreach(file ${CONSTRUCTS_SRC})
     PUBLIC
     ${CONSTRUCTS_INCLUDE_DIR}
   )
+
+  # Static library for the python bindings.
+  add_library(${lib_name}${STATIC_TARGET_SUFFIX}
+    STATIC
+    ${CONSTRUCTS_SRC_DIR}/${file}
+    ${CONSTRUCTS_INCLUDE_DIR}/${header_name}
+  )
+
+  target_include_directories(${lib_name}${STATIC_TARGET_SUFFIX}
+    PUBLIC
+    ${CONSTRUCTS_INCLUDE_DIR}
+  )
+  
 endforeach()
 
 # Adding library dependencies.
@@ -71,6 +84,17 @@ target_link_libraries(state
 target_link_libraries(trajectory
   PUBLIC
   state
+)
+
+target_link_libraries(state_static
+  PUBLIC
+  pose_static
+  velocity_static
+)
+
+target_link_libraries(trajectory_static
+  PUBLIC
+  state_static
 )
 
 

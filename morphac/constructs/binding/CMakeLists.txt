@@ -54,12 +54,12 @@ target_include_directories(${python_target}
 # Adding library dependencies.
 target_link_libraries(${python_target}
   PUBLIC
-  coordinate
-  control_input
-  pose
-  state
-  trajectory
-  velocity
+  coordinate_static
+  control_input_static
+  pose_static
+  state_static
+  trajectory_static
+  velocity_static
 )
 
 # Setting binding target properties.

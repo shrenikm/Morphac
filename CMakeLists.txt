@@ -130,8 +130,8 @@ set(BUILD_TESTS ON CACHE BOOL "Build all of the project's test executables")
 set(BUILD_WITH_WARNINGS ON CACHE BOOL "Builds the project with -Wall and -Wextra")
 set(BUILD_WITH_WARNINGS_AS_ERRORS ON CACHE BOOL "Builds the project with -Werror")
 set(BUILD_PYTHON_BINDINGS ON CACHE BOOL "Build and install all of the python bindings")
-set(CREATE_PYTHON_PACKAGE ON CACHE BOOL "
-Creates a directory with all of the compiled objects that can be published as a package
+set(CREATE_PYTHON_PACKAGE ON CACHE BOOL "\
+Creates a directory with all of the compiled objects that can be published as a package\
 ")
 
 # Displaying the list of options that have been set.
@@ -150,6 +150,7 @@ print_section_header("Build Configuration")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 message(STATUS "[ C++ version: ${CMAKE_CXX_STANDARD} ]")
 
@@ -164,6 +165,13 @@ endif(${BUILD_WITH_WARNINGS_AS_ERRORS})
 if (${BUILD_TESTS})
   enable_testing()
 endif(${BUILD_TESTS})
+
+
+# Target and library configuration
+# -------------------------------------------------
+
+# Postfix for building static library targets (To be linked to python bindings)
+set(STATIC_TARGET_SUFFIX "_static")
 
 
 # Python

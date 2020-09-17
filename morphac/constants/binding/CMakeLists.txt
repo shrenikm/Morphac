@@ -58,8 +58,8 @@ target_include_directories(${python_target}
 # Adding library dependencies.
 target_link_libraries(${python_target}
   PUBLIC
-  environment_constants
-  mechanics_constants
+  environment_constants_static
+  mechanics_constants_static
 )
 
 # Setting binding target properties.

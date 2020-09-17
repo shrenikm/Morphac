@@ -44,6 +44,7 @@ foreach(file ${CONSTANTS_SRC})
 
   get_header_name(header_name ${file})
 
+  # Regular shared library.
   add_library(${lib_name}
     SHARED
     ${CONSTANTS_SRC_DIR}/${file}
@@ -54,6 +55,19 @@ foreach(file ${CONSTANTS_SRC})
     PUBLIC
     ${CONSTANTS_INCLUDE_DIR}
   )
+
+  # Static library for the python bindings.
+  add_library(${lib_name}${STATIC_TARGET_SUFFIX}
+    STATIC
+    ${CONSTANTS_SRC_DIR}/${file}
+    ${CONSTANTS_INCLUDE_DIR}/${header_name}
+  )
+
+  target_include_directories(${lib_name}${STATIC_TARGET_SUFFIX}
+    PUBLIC
+    ${CONSTANTS_INCLUDE_DIR}
+  )
+
 endforeach()
 
 
