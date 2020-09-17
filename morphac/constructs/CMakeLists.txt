@@ -42,60 +42,45 @@ set(CONSTRUCTS_SRC
   velocity.cc
 )
 
-foreach(file ${CONSTRUCTS_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
+morphac_add_libraries(
+  ${CONSTRUCTS_INCLUDE_DIR}
+  ${CONSTRUCTS_SRC_DIR}
+  ${CONSTRUCTS_SRC}
+)
 
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${CONSTRUCTS_SRC_DIR}/${file}
-    ${CONSTRUCTS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${CONSTRUCTS_INCLUDE_DIR}
-  )
-
-  # Static library for the python bindings.
-  add_library(${lib_name}${STATIC_TARGET_SUFFIX}
-    STATIC
-    ${CONSTRUCTS_SRC_DIR}/${file}
-    ${CONSTRUCTS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}${STATIC_TARGET_SUFFIX}
-    PUBLIC
-    ${CONSTRUCTS_INCLUDE_DIR}
-  )
-  
-endforeach()
-
-# Adding library dependencies.
-target_link_libraries(state
-  PUBLIC
+morphac_link_libraries(
+  state
   pose
   velocity
 )
 
-target_link_libraries(trajectory
-  PUBLIC
+morphac_link_libraries(
+  trajectory
   state
 )
 
-target_link_libraries(state_static
-  PUBLIC
-  pose_static
-  velocity_static
-)
-
-target_link_libraries(trajectory_static
-  PUBLIC
-  state_static
-)
+## Adding library dependencies.
+#target_link_libraries(state
+#  PUBLIC
+#  pose
+#  velocity
+#)
+#
+#target_link_libraries(trajectory
+#  PUBLIC
+#  state
+#)
+#
+#target_link_libraries(state_static
+#  PUBLIC
+#  pose_static
+#  velocity_static
+#)
+#
+#target_link_libraries(trajectory_static
+#  PUBLIC
+#  state_static
+#)
 
 
 # Tests

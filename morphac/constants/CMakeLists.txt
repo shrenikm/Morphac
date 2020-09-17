@@ -37,39 +37,6 @@ set(CONSTANTS_SRC
   mechanics_constants.cc
 )
 
-#foreach(file ${CONSTANTS_SRC})
-#  get_filename_component(lib_name
-#    ${file} NAME_WE
-#  )
-#
-#  get_header_name(header_name ${file})
-#
-#  # Regular shared library.
-#  add_library(${lib_name}
-#    SHARED
-#    ${CONSTANTS_SRC_DIR}/${file}
-#    ${CONSTANTS_INCLUDE_DIR}/${header_name}
-#  )
-#
-#  target_include_directories(${lib_name}
-#    PUBLIC
-#    ${CONSTANTS_INCLUDE_DIR}
-#  )
-#
-#  # Static library for the python bindings.
-#  add_library(${lib_name}${STATIC_TARGET_SUFFIX}
-#    STATIC
-#    ${CONSTANTS_SRC_DIR}/${file}
-#    ${CONSTANTS_INCLUDE_DIR}/${header_name}
-#  )
-#
-#  target_include_directories(${lib_name}${STATIC_TARGET_SUFFIX}
-#    PUBLIC
-#    ${CONSTANTS_INCLUDE_DIR}
-#  )
-#
-#endforeach()
-
 morphac_add_libraries(
   ${CONSTANTS_INCLUDE_DIR}
   ${CONSTANTS_SRC_DIR}

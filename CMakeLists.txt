@@ -84,11 +84,22 @@ endfunction()
 # CMake 3.12 has LIST TRANSFORM that can do this but our minimum CMake version is 3.5
 function(prepend_list out prefix)
   set(tmp_list "")
-  foreach(var ${ARGN})
-    list(APPEND tmp_list ${prefix}${var})
+  foreach(element ${ARGN})
+    list(APPEND tmp_list ${prefix}${element})
   endforeach()
   set(${out} ${tmp_list} PARENT_SCOPE)
 endfunction()
+
+# Function that takes a list and appends some given string to each element.
+# CMake 3.12 has LIST TRANSFORM that can do this but our minimum CMake version is 3.5
+function(append_list out suffix)
+  set(tmp_list "")
+  foreach(element ${ARGN})
+    list(APPEND tmp_list ${element}${suffix})
+  endforeach()
+  set(${out} ${tmp_list} PARENT_SCOPE)
+endfunction()
+
 
 
 # Function that takes in a target name and converts it to a static target name.
@@ -142,6 +153,27 @@ function(morphac_add_libraries include_dir src_dir)
       )
     endif()
   endforeach()
+endfunction()
+
+
+# Function that links libraries to the target.
+# Also links the static libraries if required (for the bindings).
+function(morphac_link_libraries target)
+  set(libraries ${ARGN})
+  target_link_libraries(${target}
+    PUBLIC
+    ${libraries}
+  )
+
+  # If we build python bindings, we link the static libraries as well.
+  if(BUILD_PYTHON_BINDINGS)
+    append_list(libraries_static ${STATIC_TARGET_SUFFIX} ${libraries})
+    get_static_target_name(static_target ${target})
+    target_link_libraries(${static_target}
+      PUBLIC
+      ${libraries_static}
+    )
+  endif()
 endfunction()
 
 
