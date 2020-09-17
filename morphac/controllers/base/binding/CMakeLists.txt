@@ -47,8 +47,7 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-target_link_libraries(${python_target}
-  PUBLIC
+morphac_link_static_libraries(${python_target}
   controller
 )
 

@@ -56,10 +56,9 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-target_link_libraries(${python_target}
-  PUBLIC
-  environment_constants_static
-  mechanics_constants_static
+morphac_link_static_libraries(${python_target}
+  environment_constants
+  mechanics_constants
 )
 
 # Setting binding target properties.
