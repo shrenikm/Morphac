@@ -80,10 +80,8 @@ function(get_header_name out file)
 endfunction()
 
 
-# Function that takes a list and prepends some given string
-# to each element.
-# CMake 3.12 has LIST TRANSFORM that can do this but our
-# minimum CMake version is 3.5
+# Function that takes a list and prepends some given string to each element.
+# CMake 3.12 has LIST TRANSFORM that can do this but our minimum CMake version is 3.5
 function(prepend_list out prefix)
   set(tmp_list "")
   foreach(var ${ARGN})
@@ -93,11 +91,57 @@ function(prepend_list out prefix)
 endfunction()
 
 
+# Function that takes in a target name and converts it to a static target name.
+# The string '_static' (defined in STATIC_TARGET_SUFFIX) is appended to the target name.
+function(get_static_target_name out target_name)
+  set(${out} ${target_name}${STATIC_TARGET_SUFFIX} PARENT_SCOPE)
+endfunction()
+
+
 # Function that takes in a target name and converts it to a python target
-# name. The string '_python' is appended to the target name. These are used
-# on the cpp src files that builds some python module.
+# name. The string '_python' (defined in PYTHON_TARGET_SUFFIX) is appended to the target name.
+# These are used on the cpp src files that builds some python module.
 function(get_python_target_name out target_name)
-  set(${out} ${target_name}_python PARENT_SCOPE)
+  set(${out} ${target_name}${PYTHON_TARGET_SUFFIX} PARENT_SCOPE)
+endfunction()
+
+
+# Function that calls add_library and creates shared (and optionally static) libraries.
+function(morphac_add_libraries include_dir src_dir)
+  foreach(file ${ARGN})
+    get_filename_component(lib_name
+      ${file} NAME_WE
+    )
+
+    get_header_name(header_name ${file})
+
+    # Regular shared library.
+    add_library(${lib_name}
+      SHARED
+      ${src_dir}/${file}
+      ${include_dir}/${header_name}
+    )
+
+    target_include_directories(${lib_name}
+      PUBLIC
+      ${include_dir}
+    )
+
+    # Static library for the python bindings.
+    get_static_target_name(static_lib_name ${lib_name})
+    if(BUILD_PYTHON_BINDINGS)
+      add_library(${static_lib_name}
+        STATIC
+        ${src_dir}/${file}
+        ${include_dir}/${header_name}
+      )
+
+      target_include_directories(${static_lib_name}
+        PUBLIC
+        ${include_dir}
+      )
+    endif()
+  endforeach()
 endfunction()
 
 
@@ -183,6 +227,8 @@ print_section_header("Python Configuration")
 set(PYTHON_MINIMUM_VERSION 3.5)
 # Prefix for compiled python bindings.
 set(PYTHON_BINDING_PREFIX "_binding_")
+# Suffix for python targets.
+set(PYTHON_TARGET_SUFFIX "_python")
 
 # Find python version
 find_python_version(PYTHON_VERSION)
