@@ -105,6 +105,7 @@ def main(robot_type):
         spec=playground_visualizer_spec, playground=playground
     )
 
+    # Simulate.
     playground_visualizer.run(metric_type, metric_limit)
 
 
