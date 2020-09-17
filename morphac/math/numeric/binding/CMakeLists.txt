@@ -50,7 +50,7 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-morphac_link_static_libraries(${python_target})
+morphac_link_static_libraries(${python_target}
   integrator
   euler_integrator
   mid_point_integrator
