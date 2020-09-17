@@ -44,36 +44,31 @@ morphac_add_libraries(
 )
 
 # Adding library dependencies.
-morphac_link_libraries(
-  kinematic_model
+morphac_link_libraries(kinematic_model
   state
   control_input
   footprint
 )
 
-morphac_link_libraries(
-  ackermann_model
+morphac_link_libraries(ackermann_model
   kinematic_model
   mechanics_constants
   angle_utils
 )
 
-morphac_link_libraries(
-  diffdrive_model
+morphac_link_libraries(diffdrive_model
   kinematic_model
   mechanics_constants
   angle_utils
 )
 
-morphac_link_libraries(
-  dubin_model
+morphac_link_libraries(dubin_model
   kinematic_model
   mechanics_constants
   angle_utils
 )
 
-morphac_link_libraries(
-  tricycle_model
+morphac_link_libraries(tricycle_model
   kinematic_model
   mechanics_constants
   angle_utils

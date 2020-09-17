@@ -49,14 +49,12 @@ morphac_add_libraries(
 )
 
 # Adding library dependencies.
-morphac_link_libraries(
-  state
+morphac_link_libraries(state
   pose
   velocity
 )
 
-morphac_link_libraries(
-  trajectory
+morphac_link_libraries(trajectory
   state
 )
 

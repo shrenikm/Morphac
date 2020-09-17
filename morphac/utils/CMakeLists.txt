@@ -39,29 +39,14 @@ set(UTILS_SRC
   points_utils.cc
 )
 
-foreach(file ${UTILS_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${UTILS_SRC_DIR}/${file}
-    ${UTILS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${UTILS_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${UTILS_INCLUDE_DIR}
+  ${UTILS_SRC_DIR}
+  ${UTILS_SRC}
+)
 
 # Adding library dependencies.
-
-target_link_libraries(integrator_utils
-  PUBLIC
+morphac_link_libraries(integrator_utils
   integrator
   euler_integrator
   mid_point_integrator

@@ -37,8 +37,7 @@ morphac_add_libraries(
 )
 
 # Adding library dependencies.
-morphac_link_libraries(
-  pilot
+morphac_link_libraries(pilot
   control_input
   playground_state
 )

@@ -43,31 +43,27 @@ morphac_add_libraries(
 )
 
 # Adding library dependencies.
-morphac_link_libraries(
+morphac_link_libraries(integrator
+  kinematic_model
+  state
+  control_input
+)
+
+morphac_link_libraries(euler_integrator
   integrator
   kinematic_model
   state
   control_input
 )
 
-morphac_link_libraries(
-  euler_integrator
+morphac_link_libraries(mid_point_integrator
   integrator
   kinematic_model
   state
   control_input
 )
 
-morphac_link_libraries(
-  mid_point_integrator
-  integrator
-  kinematic_model
-  state
-  control_input
-)
-
-morphac_link_libraries(
-  rk4_integrator
+morphac_link_libraries(rk4_integrator
   integrator
   kinematic_model
   state

@@ -39,14 +39,12 @@ morphac_add_libraries(
 )
 
 # Adding library dependencies.
-morphac_link_libraries(
-  footprint
+morphac_link_libraries(footprint
   coordinate
   polygons
 )
 
-morphac_link_libraries(
-  robot
+morphac_link_libraries(robot
   control_input
   state
   kinematic_model
