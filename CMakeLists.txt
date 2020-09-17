@@ -103,14 +103,14 @@ endfunction()
 
 
 # Function that takes in a target name and converts it to a static target name.
-# The string '_static' (defined in STATIC_TARGET_SUFFIX) is appended to the target name.
+# The string defined in STATIC_TARGET_SUFFIX is appended to the target name.
 function(get_static_target_name out target_name)
   set(${out} ${target_name}${STATIC_TARGET_SUFFIX} PARENT_SCOPE)
 endfunction()
 
 
 # Function that takes in a target name and converts it to a python target
-# name. The string '_python' (defined in PYTHON_TARGET_SUFFIX) is appended to the target name.
+# name. The string defined in PYTHON_TARGET_SUFFIX is appended to the target name.
 # These are used on the cpp src files that builds some python module.
 function(get_python_target_name out target_name)
   set(${out} ${target_name}${PYTHON_TARGET_SUFFIX} PARENT_SCOPE)
@@ -157,11 +157,13 @@ endfunction()
 
 
 # Function that links static libraries to a static target.
-# The target names and library names are assumed to be non-static.
+# The library names are assumed to be non-static and will be suffixed
+# with STATIC_TARGET_SUFFIX. Note that the target name will be used as is.
+# This is because this function is used to link static libraries to 
+# python bindings targets which won't have the static suffix.
 function(morphac_link_static_libraries target)
-  get_static_target_name(static_target ${target})
   append_list(static_libraries ${STATIC_TARGET_SUFFIX} ${ARGN})
-  target_link_libraries(${static_target}
+  target_link_libraries(${target}
     PUBLIC
     ${static_libraries}
   )
@@ -179,7 +181,8 @@ function(morphac_link_libraries target)
 
   # If we build python bindings, we link the static libraries as well.
   if(BUILD_PYTHON_BINDINGS)
-    morphac_link_static_libraries(${target} ${libraries})
+    get_static_target_name(static_target ${target})
+    morphac_link_static_libraries(${static_target} ${libraries})
   endif()
 endfunction()
 
