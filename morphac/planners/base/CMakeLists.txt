@@ -32,24 +32,11 @@ set(PLANNERS_BASE_SRC
   planner.cc
 )
 
-foreach(file ${PLANNERS_BASE_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${PLANNERS_BASE_SRC_DIR}/${file}
-    ${PLANNERS_BASE_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${PLANNERS_BASE_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${PLANNERS_BASE_INCLUDE_DIR}
+  ${PLANNERS_BASE_SRC_DIR}
+  ${PLANNERS_BASE_SRC}
+)
 
 
 # Tests

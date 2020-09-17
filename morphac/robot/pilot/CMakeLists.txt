@@ -30,28 +30,15 @@ set(PILOT_SRC
   pilot.cc
 )
 
-foreach(file ${PILOT_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${PILOT_SRC_DIR}/${file}
-    ${PILOT_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${PILOT_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${PILOT_INCLUDE_DIR}
+  ${PILOT_SRC_DIR}
+  ${PILOT_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(pilot
-  PUBLIC
+morphac_link_libraries(
+  pilot
   control_input
   playground_state
 )

@@ -34,35 +34,22 @@ set(PLAYGROUND_SRC
   playground_state.cc
 )
 
-foreach(file ${PLAYGROUND_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${PLAYGROUND_SRC_DIR}/${file}
-    ${PLAYGROUND_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${PLAYGROUND_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${PLAYGROUND_INCLUDE_DIR}
+  ${PLAYGROUND_SRC_DIR}
+  ${PLAYGROUND_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(playground_state
-  PUBLIC
+morphac_link_libraries(
+  playground_state
   state
   map
   robot
 )
 
-target_link_libraries(playground
-  PUBLIC
+morphac_link_libraries(
+  playground
   playground_spec
   playground_state
   pilot

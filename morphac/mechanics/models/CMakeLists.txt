@@ -54,28 +54,28 @@ morphac_link_libraries(
 morphac_link_libraries(
   ackermann_model
   kinematic_model
-  mechancis_constants
+  mechanics_constants
   angle_utils
 )
 
 morphac_link_libraries(
   diffdrive_model
   kinematic_model
-  mechancis_constants
+  mechanics_constants
   angle_utils
 )
 
 morphac_link_libraries(
   dubin_model
   kinematic_model
-  mechancis_constants
+  mechanics_constants
   angle_utils
 )
 
 morphac_link_libraries(
   tricycle_model
   kinematic_model
-  mechancis_constants
+  mechanics_constants
   angle_utils
 )
 

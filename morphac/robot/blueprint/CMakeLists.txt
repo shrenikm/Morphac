@@ -32,38 +32,23 @@ set(BLUEPRINT_SRC
   robot.cc
 )
 
-foreach(file ${BLUEPRINT_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${BLUEPRINT_SRC_DIR}/${file}
-    ${BLUEPRINT_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${BLUEPRINT_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${BLUEPRINT_INCLUDE_DIR}
+  ${BLUEPRINT_SRC_DIR}
+  ${BLUEPRINT_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(footprint
-  PUBLIC
+morphac_link_libraries(
+  footprint
   coordinate
   polygons
 )
 
-target_link_libraries(robot
-  PUBLIC
+morphac_link_libraries(
+  robot
   control_input
-  pose
   state
-  velocity
   kinematic_model
   footprint
 )
