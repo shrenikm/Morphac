@@ -33,28 +33,15 @@ set(TRANSFORMS_SRC
   transforms.cc
 )
 
-foreach(file ${TRANSFORMS_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${TRANSFORMS_SRC_DIR}/${file}
-    ${TRANSFORMS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${TRANSFORMS_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${TRANSFORMS_INCLUDE_DIR}
+  ${TRANSFORMS_SRC_DIR}
+  ${TRANSFORMS_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(transforms
-  PUBLIC
+morphac_link_libraries(
+  transforms
   points_utils
 )
 

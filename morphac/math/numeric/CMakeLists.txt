@@ -36,51 +36,38 @@ set(NUMERIC_SRC
   rk4_integrator.cc
 )
 
-foreach(file ${NUMERIC_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${NUMERIC_SRC_DIR}/${file}
-    ${NUMERIC_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${NUMERIC_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${NUMERIC_INCLUDE_DIR}
+  ${NUMERIC_SRC_DIR}
+  ${NUMERIC_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(rk4_integrator
-  PUBLIC
+morphac_link_libraries(
   integrator
   kinematic_model
   state
   control_input
 )
 
-target_link_libraries(euler_integrator
-  PUBLIC
+morphac_link_libraries(
+  euler_integrator
   integrator
   kinematic_model
   state
   control_input
 )
 
-target_link_libraries(integrator
-  PUBLIC
+morphac_link_libraries(
+  mid_point_integrator
+  integrator
   kinematic_model
   state
   control_input
 )
 
-target_link_libraries(mid_point_integrator
-  PUBLIC
+morphac_link_libraries(
+  rk4_integrator
   integrator
   kinematic_model
   state

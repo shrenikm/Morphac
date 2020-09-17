@@ -37,66 +37,45 @@ set(MODELS_SRC
   tricycle_model.cc
 )
 
-foreach(file ${MODELS_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${MODELS_SRC_DIR}/${file}
-    ${MODELS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${MODELS_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${MODELS_INCLUDE_DIR}
+  ${MODELS_SRC_DIR}
+  ${MODELS_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(kinematic_model
-  PUBLIC
+morphac_link_libraries(
+  kinematic_model
   state
   control_input
   footprint
 )
 
-target_link_libraries(ackermann_model
-  PUBLIC
+morphac_link_libraries(
+  ackermann_model
   kinematic_model
-  mechanics_constants
-  state
-  control_input
+  mechancis_constants
   angle_utils
 )
 
-target_link_libraries(diffdrive_model
-  PUBLIC
+morphac_link_libraries(
+  diffdrive_model
   kinematic_model
-  mechanics_constants
-  state
-  control_input
+  mechancis_constants
   angle_utils
 )
 
-target_link_libraries(dubin_model
-  PUBLIC
+morphac_link_libraries(
+  dubin_model
   kinematic_model
-  mechanics_constants
-  state
-  control_input
+  mechancis_constants
   angle_utils
 )
 
-target_link_libraries(tricycle_model
-  PUBLIC
+morphac_link_libraries(
+  tricycle_model
   kinematic_model
-  mechanics_constants
-  state
-  control_input
+  mechancis_constants
   angle_utils
 )
 

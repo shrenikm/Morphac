@@ -48,6 +48,7 @@ morphac_add_libraries(
   ${CONSTRUCTS_SRC}
 )
 
+# Adding library dependencies.
 morphac_link_libraries(
   state
   pose
@@ -58,29 +59,6 @@ morphac_link_libraries(
   trajectory
   state
 )
-
-## Adding library dependencies.
-#target_link_libraries(state
-#  PUBLIC
-#  pose
-#  velocity
-#)
-#
-#target_link_libraries(trajectory
-#  PUBLIC
-#  state
-#)
-#
-#target_link_libraries(state_static
-#  PUBLIC
-#  pose_static
-#  velocity_static
-#)
-#
-#target_link_libraries(trajectory_static
-#  PUBLIC
-#  state_static
-#)
 
 
 # Tests

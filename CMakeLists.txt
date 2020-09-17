@@ -156,6 +156,18 @@ function(morphac_add_libraries include_dir src_dir)
 endfunction()
 
 
+# Function that links static libraries to a static target.
+# The target names and library names are assumed to be non-static.
+function(morphac_link_static_libraries target)
+  get_static_target_name(static_target ${target})
+  append_list(static_libraries ${STATIC_TARGET_SUFFIX} ${ARGN})
+  target_link_libraries(${static_target}
+    PUBLIC
+    ${static_libraries}
+  )
+endfunction()
+
+
 # Function that links libraries to the target.
 # Also links the static libraries if required (for the bindings).
 function(morphac_link_libraries target)
@@ -167,12 +179,7 @@ function(morphac_link_libraries target)
 
   # If we build python bindings, we link the static libraries as well.
   if(BUILD_PYTHON_BINDINGS)
-    append_list(libraries_static ${STATIC_TARGET_SUFFIX} ${libraries})
-    get_static_target_name(static_target ${target})
-    target_link_libraries(${static_target}
-      PUBLIC
-      ${libraries_static}
-    )
+    morphac_link_static_libraries(${target} ${libraries})
   endif()
 endfunction()
 

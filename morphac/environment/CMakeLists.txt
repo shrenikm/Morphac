@@ -33,21 +33,11 @@ set(ENVIRONMENT_SRC
   map.cc
 )
 
-foreach(file ${ENVIRONMENT_SRC})
-  get_filename_component(lib_name ${file} NAME_WE)
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${ENVIRONMENT_SRC_DIR}/${file}
-    ${ENVIRONMENT_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${ENVIRONMENT_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${ENVIRONMENT_INCLUDE_DIR}
+  ${ENVIRONMENT_SRC_DIR}
+  ${ENVIRONMENT_SRC}
+)
 
 
 # Tests

@@ -33,34 +33,21 @@ set(CONTROLLERS_BASIC_SRC
   zero_controller.cc
 )
 
-foreach(file ${CONTROLLERS_BASIC_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${CONTROLLERS_BASIC_SRC_DIR}/${file}
-    ${CONTROLLERS_BASIC_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${CONTROLLERS_BASIC_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${CONTROLLERS_BASIC_INCLUDE_DIR}
+  ${CONTROLLERS_BASIC_SRC_DIR}
+  ${CONTROLLERS_BASIC_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(constant_controller
-  PUBLIC
+morphac_link_libraries(
+  constant_controller
   control_input
   controller
 )
 
-target_link_libraries(zero_controller
-  PUBLIC
+morphac_link_libraries(
+  zero_controller
   control_input
   controller
 )

@@ -32,24 +32,11 @@ set(CONTROLLERS_BASE_SRC
   controller.cc
 )
 
-foreach(file ${CONTROLLERS_BASE_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${CONTROLLERS_BASE_SRC_DIR}/${file}
-    ${CONTROLLERS_BASE_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${CONTROLLERS_BASE_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${CONTROLLERS_BASE_INCLUDE_DIR}
+  ${CONTROLLERS_BASE_SRC_DIR}
+  ${CONTROLLERS_BASE_SRC}
+)
 
 
 # Tests

@@ -34,34 +34,20 @@ set(GEOMETRY_SRC
   polygons.cc
 )
 
-foreach(file ${GEOMETRY_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${GEOMETRY_SRC_DIR}/${file}
-    ${GEOMETRY_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${GEOMETRY_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${GEOMETRY_INCLUDE_DIR}
+  ${GEOMETRY_SRC_DIR}
+  ${GEOMETRY_SRC}
+)
 
 # Adding library dependencies.
-
-target_link_libraries(lines
-  PUBLIC
+morphac_link_libraries(
+  lines
   numeric_utils
 )
 
-target_link_libraries(polygons
-  PUBLIC
+morphac_link_libraries(
+  polygons
   points_utils
   transforms
 )
