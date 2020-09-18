@@ -8,11 +8,6 @@ include_directories(${MORPHAC_DIR})
 # Base morphac binary directory.
 set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/${MORPHAC_NAME})
 
-# Python package directory. Note that this is different from the python bindings
-# install directory. This directory includes all of the compiled objects that make
-# up the pip installation package.
-set(MORPHAC_PYTHON_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/package/${MORPHAC_NAME})
-
 # Write the version into version.py
 set(MORPHAC_PYTHON_VERSION_FILE ${MORPHAC_DIR}/version.py)
 FILE(WRITE ${MORPHAC_PYTHON_VERSION_FILE} "__version__ = '${PROJECT_VERSION}'")
@@ -52,19 +47,19 @@ install(FILES
   ${PYTHON_BINDING_INSTALL_DIR}
 )
 
-# Install into the package.
-if(CREATE_PYTHON_PACKAGE)
-  # Installing the version file.
-  install(FILES
-    ${MORPHAC_DIR}/version.py
-    DESTINATION
-    ${MORPHAC_PYTHON_PACKAGE_DIR}
-  )
-
-  # Installing __init__ files.
-  install(FILES
-    ${MORPHAC_DIR}/__init__.py
-    DESTINATION
-    ${MORPHAC_PYTHON_PACKAGE_DIR}
-  )
-endif()
+## Install into the package.
+#if(CREATE_PYTHON_PACKAGE)
+#  # Installing the version file.
+#  install(FILES
+#    ${MORPHAC_DIR}/version.py
+#    DESTINATION
+#    ${MORPHAC_PYTHON_PACKAGE_DIR}
+#  )
+#
+#  # Installing __init__ files.
+#  install(FILES
+#    ${MORPHAC_DIR}/__init__.py
+#    DESTINATION
+#    ${MORPHAC_PYTHON_PACKAGE_DIR}
+#  )
+#endif()

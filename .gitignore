@@ -2,6 +2,6 @@
 build
 __pycache__
 CMakeFiles
-package
+packages
 style_guide.txt
 build_guide.txt

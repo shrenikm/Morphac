@@ -58,7 +58,7 @@ function(find_python_site_packages_dir out)
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
   # Everything will be installed in a directory given by the project name.
-  set(${out} ${tmp_dir}/${MORPHAC_NAME} PARENT_SCOPE)
+  set(${out} ${tmp_dir} PARENT_SCOPE)
 endfunction()
 
 
@@ -187,6 +187,27 @@ function(morphac_link_libraries target)
 endfunction()
 
 
+# Function that installs the python bindings into directories to create the package.
+function(morphac_install_python_package packages_dir site_packages_dir)
+  # First install in the packages directory that resides in the main cmake source directory.
+  install(FILES
+    ${ARGN}
+    DESTINATION
+    ${packages_dir}
+  )
+
+  # Now install into the site-packages directory depending on whether the INSTALL_PYTHON_BINDINGS
+  # flag is set.
+  if(INSTALL_PYTHON_BINDINGS)
+    install(FILES
+      ${ARGN}
+      DESTINATION
+      ${site_packages_dir}
+    )
+  endif()
+endfunction()
+
+
 # Project details
 # -------------------------------------------------
 
@@ -215,17 +236,15 @@ print_section_header("Build Options")
 set(BUILD_TESTS ON CACHE BOOL "Build all of the project's test executables")
 set(BUILD_WITH_WARNINGS ON CACHE BOOL "Builds the project with -Wall and -Wextra")
 set(BUILD_WITH_WARNINGS_AS_ERRORS ON CACHE BOOL "Builds the project with -Werror")
-set(BUILD_PYTHON_BINDINGS ON CACHE BOOL "Build and install all of the python bindings")
-set(CREATE_PYTHON_PACKAGE ON CACHE BOOL "\
-Creates a directory with all of the compiled objects that can be published as a package\
-")
+set(BUILD_PYTHON_BINDINGS ON CACHE BOOL "Build and creates a package directory with all of the python binding modules")
+set(INSTALL_PYTHON_PACKAGE ON CACHE BOOL "Installs the package created by the bindings into site packages.")
 
 # Displaying the list of options that have been set.
 message(STATUS "[ BUILD_TESTS has been set to ${BUILD_TESTS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS has been set to ${BUILD_WITH_WARNINGS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS_AS_ERRORS has been set to ${BUILD_WITH_WARNINGS_AS_ERRORS} ]")
 message(STATUS "[ BUILD_PYTHON_BINDINGS has been set to ${BUILD_PYTHON_BINDINGS} ]")
-message(STATUS "[ CREATE_PYTHON_PACKAGE has been set to ${CREATE_PYTHON_PACKAGE} ]")
+message(STATUS "[ INSTALL_PYTHON_BINDINGS has been set to ${INSTALL_PYTHON_BINDINGS} ]")
 
 
 # Configuring
@@ -285,7 +304,13 @@ endif()
 find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
 
 # Site packages dir for installing bindings.
-find_python_site_packages_dir(PYTHON_BINDING_INSTALL_DIR)
+find_python_site_packages_dir(PYTHON_SITE_PACKAGES_DIR)
+set(PYTHON_BINDING_INSTALL_DIR ${PYTHON_SITE_PACKAGES_DIR}/${MORPHAC_NAME})
+
+# Python package directory. Note that this is different from the python bindings
+# install directory. This directory includes all of the compiled objects that make
+# up the pip installation package.
+set(MORPHAC_PYTHON_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/packages/${MORPHAC_NAME})
 
 message(STATUS "[ Python version: ${PYTHON_VERSION} ]")
 if(${PYTHONINTERP_FOUND})

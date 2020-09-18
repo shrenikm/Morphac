@@ -82,29 +82,23 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
-  ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
-)
-
-# Installing __init__ files.
-install(FILES
+morphac_install_python_package(
+  ${CONSTRUCTS_PACKAGES_INSTALL_DIR}
+  ${CONSTRUCTS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${CONSTRUCTS_BINDING_DIR}/__init__.py
-  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
+  ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
 )
 
-# Install into the package.
-if(CREATE_PYTHON_PACKAGE)
-  # Installing compiled bindings.
-  install(FILES
-    ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-    DESTINATION ${CONSTRUCTS_PYTHON_PACKAGE_DIR}
-  )
+## Installing compiled bindings.
+#install(FILES
+#  ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
+#  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
+#)
+#
+## Installing __init__ files.
+#install(FILES
+#  ${CONSTRUCTS_BINDING_DIR}/__init__.py
+#  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
+#)
 
-  # Installing __init__ files.
-  install(FILES
-    ${CONSTRUCTS_BINDING_DIR}/__init__.py
-    DESTINATION ${CONSTRUCTS_PYTHON_PACKAGE_DIR}
-  )
-endif()
