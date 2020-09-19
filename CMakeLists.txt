@@ -244,10 +244,19 @@ endfunction()
 
 print_section_header("Project Details")
 
-set(MORPHAC_NAME "morphac")
-set(MORPHAC_MAJOR_VERSION 0)
-set(MORPHAC_MINOR_VERSION 1)
-set(MORPHAC_PATCH_VERSION 0)
+# Read the project name and version details from the yaml configuration.
+set(MORPHAC_CONFIG_FILE ${CMAKE_SOURCE_DIR}/morphac_config.yaml)
+FILE(READ ${MORPHAC_CONFIG_FILE} morphac_config_file_contents)
+
+# Extract config information.
+string(REGEX MATCH "name: ([A-Za-z0-9]*)" _ ${morphac_config_file_contents})
+set(MORPHAC_NAME ${CMAKE_MATCH_1})
+string(REGEX MATCH "major_version: ([A-Za-z0-9]*)" _ ${morphac_config_file_contents})
+set(MORPHAC_MAJOR_VERSION ${CMAKE_MATCH_1})
+string(REGEX MATCH "minor_version: ([A-Za-z0-9]*)" _ ${morphac_config_file_contents})
+set(MORPHAC_MINOR_VERSION ${CMAKE_MATCH_1})
+string(REGEX MATCH "patch_version: ([A-Za-z0-9]*)" _ ${morphac_config_file_contents})
+set(MORPHAC_PATCH_VERSION ${CMAKE_MATCH_1})
 
 project(
   ${MORPHAC_NAME}
