@@ -8,7 +8,7 @@ set(VISUALIZATION_BINARY_DIR ${MORPHAC_BINARY_DIR}/visualization)
 
 # Directories to install the bindings to.
 set(VISUALIZATION_PACKAGES_INSTALL_DIR
-  ${MORPHAC_PYTHON_PACKAGE_DIR}/visualization
+  ${MORPHAC_PACKAGE_MODULE_DIR}/visualization
 )
 set(VISUALIZATION_SITE_PACKAGES_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/visualization
