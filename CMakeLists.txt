@@ -351,6 +351,7 @@ set(PYTHON_BINDING_INSTALL_DIR ${PYTHON_SITE_PACKAGES_DIR}/${MORPHAC_NAME})
 # Python package directory. Note that this is different from the python bindings
 # install directory. This directory includes all of the compiled objects that make
 # up the pip installation package.
+#set(MORPHAC_PACKAGE_)
 set(MORPHAC_PYTHON_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/packages/${MORPHAC_NAME})
 
 message(STATUS "[ Python version: ${PYTHON_VERSION} ]")
