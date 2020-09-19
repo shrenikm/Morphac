@@ -140,18 +140,16 @@ function(morphac_add_libraries include_dir src_dir)
 
     # Static library for the python bindings.
     get_static_target_name(static_lib_name ${lib_name})
-    if(BUILD_PYTHON_BINDINGS)
-      add_library(${static_lib_name}
-        STATIC
-        ${src_dir}/${file}
-        ${include_dir}/${header_name}
-      )
+    add_library(${static_lib_name}
+      STATIC
+      ${src_dir}/${file}
+      ${include_dir}/${header_name}
+    )
 
-      target_include_directories(${static_lib_name}
-        PUBLIC
-        ${include_dir}
-      )
-    endif()
+    target_include_directories(${static_lib_name}
+      PUBLIC
+      ${include_dir}
+    )
   endforeach()
 endfunction()
 
