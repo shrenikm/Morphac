@@ -19,8 +19,8 @@ set(CONSTANTS_MODULES
 # Installing the individual __init__ files into the proper directories.
 foreach(module ${CONSTANTS_MODULES})
   morphac_package_files(
-    ${CONSTANTS_PACKAGES_INSTALL_DIR}/${module}
-    ${CONSTANTS_SITE_PACKAGES_INSTALL_DIR}/${module}
+    ${CONSTANTS_PACKAGE_DIR}/${module}
+    ${CONSTANTS_SITE_PACKAGES_DIR}/${module}
     # Files
     ${CONSTANTS_BINDING_MODULES_DIR}/${module}/__init__.py
   )

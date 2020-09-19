@@ -3,4 +3,4 @@ major_version: 0
 minor_version: 1
 patch_version: 0
 # Defining the type of release -- alpha, beta, etc.
-version_suffix: a2
+version_suffix: a3

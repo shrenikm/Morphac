@@ -5,3 +5,6 @@ pytest==6.0.2
 PyYAML==5.3.1
 setuptools==50.3.0
 wheel==0.35.1
+# Note that opencv is also required, but a source install is recommended
+# as the pip package has some issues with conda.
+# It is installed by the setup file however.

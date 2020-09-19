@@ -188,12 +188,12 @@ endfunction()
 
 
 # Function that installs files to the local package (and site-packages if the install flag is set).
-function(morphac_package_files packages_dir site_packages_dir)
+function(morphac_package_files package_dir site_packages_dir)
   # First install in the packages directory that resides in the main cmake source directory.
   install(FILES
     ${ARGN}
     DESTINATION
-    ${packages_dir}
+    ${package_dir}
   )
 
   # Now install into the site-packages directory depending on whether the INSTALL_PYTHON_PACKAGE
@@ -211,7 +211,7 @@ endfunction()
 # Function that installs a single file into the local package (and site-packages if the install flag is set).
 # Also has an option to rename the file. The third argument is the file and an optional fourth argument may be given
 # if the file needs to be renamed.
-function(morphac_package_file packages_dir site_packages_dir)
+function(morphac_package_file package_dir site_packages_dir)
   if(${ARGC} EQUAL 4)
     # File needs to be renamed.
     set(filename ${ARGV3})
@@ -223,7 +223,7 @@ function(morphac_package_file packages_dir site_packages_dir)
   install(FILES
     ${ARGV2}
     DESTINATION
-    ${packages_dir}
+    ${package_dir}
     RENAME
     ${filename}
   )
@@ -236,6 +236,31 @@ function(morphac_package_file packages_dir site_packages_dir)
       ${site_packages_dir}
       RENAME
       ${filename}
+    )
+  endif()
+endfunction()
+
+
+# Function that installs python tests into the local package (and site-packages if the install flag is set).
+function(morphac_package_python_tests package_dir site_packages_dir test_dir)
+  # List of python tests. We use glob here as this isn't that critical
+  # and only needs to be verified during releases.
+  file(GLOB
+    test_files
+    ${test_dir}/*.py
+  )
+  install(FILES
+    ${test_files}
+    DESTINATION
+    ${package_dir}
+  )
+
+  # Install into site-packages depending on whether the INSTALL_PYTHON_PACKAGE flag is set.
+  if(INSTALL_PYTHON_PACKAGE)
+    install(FILES
+      ${test_files}
+      DESTINATION
+      ${site_packages_dir}
     )
   endif()
 endfunction()

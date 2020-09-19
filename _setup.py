@@ -9,7 +9,7 @@ Key highlights:
 * Its modular and intuitive design enables quick prototyping and testing of new ideas.
 * The framework and algorithms are written in C++ with python bindings for each functionality.
 
-Even though the library is written primarily using C++, its realtime performance cannot be guaranteed.
+Even though the library is written primarily using C++, its real-time performance cannot be guaranteed.
 Morphac will primarily be a research focussed library.
 """
 
@@ -66,6 +66,7 @@ INSTALL_REQUIRES = [
     "attrs==20.2.0",
     "msgpack==1.0.0",
     "numpy==1.19.2",
+    "opencv-python==4.4.0.42",
     "pytest==6.0.2",
 ]
 
