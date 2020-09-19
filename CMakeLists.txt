@@ -540,13 +540,13 @@ install(FILES
 
 # Install the license and readme files.
 morphac_package_file(
-  ${MORPHAC_PACKAGE_DIR}
+  ${MORPHAC_PACKAGE_MODULE_DIR}
   ${MORPHAC_SITE_PACKAGES_DIR}
   ${MORPHAC_LICENSE_FILE}
 )
 
 morphac_package_file(
-  ${MORPHAC_PACKAGE_DIR}
+  ${MORPHAC_PACKAGE_MODULE_DIR}
   ${MORPHAC_SITE_PACKAGES_DIR}
   ${MORPHAC_README_FILE}
 )

@@ -34,9 +34,6 @@ class PlaygroundVisualizer(object):
     def _initialize_resolution(self):
         return self.playground.state.map.resolution
 
-    def __attrs_post_init__(self):
-        self._initialize_window()
-
     # Exposing the add drawing kernel functionality.
     def add_robot_drawing_kernel(self, uid, drawing_kernel):
         # The validity check for the kernel happens inside RobotVisualizer.
@@ -96,6 +93,10 @@ class PlaygroundVisualizer(object):
 
         # Simulation metric current value.
         current_metric = 0
+
+        # Initialize the window if visualization is required.
+        if visualize:
+            self._initialize_window()
 
         while current_metric < metric_limit:
 
