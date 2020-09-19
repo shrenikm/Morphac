@@ -408,3 +408,66 @@ add_subdirectory(${PYBIND11_REPO_DIR} third_party/pybind11 EXCLUDE_FROM_ALL)
 
 add_subdirectory(morphac)
 
+
+# Installing
+# -------------------------------------------------
+
+# Set up version and setup files.
+# The version and setup files in the main directory are named _version.py and _setup.py
+# During installation to the packages, they are installed after stripping the underscore.
+set(MORPHAC_PYTHON_VERSION_FILE ${CMAKE_SOURCE_DIR}/_version.py)
+set(MORPHAC_PYTHON_PACKAGE_VERSION_FILENAME version.py)
+# Write the version into version.py
+FILE(WRITE ${MORPHAC_PYTHON_VERSION_FILE} "__version__ = '${PROJECT_VERSION}'")
+
+set(MORPHAC_PYTHON_SETUP_FILE ${CMAKE_SOURCE_DIR}/_setup.py)
+set(MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME setup.py)
+
+set(MORPHAC_PYTHON_SETUP_CONFIG_FILE ${CMAKE_SOURCE_DIR}/_setup.cfg)
+set(MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME setup.cfg)
+
+# Set up readme and license files.
+set(MORPHAC_README_FILE ${CMAKE_SOURCE_DIR}/README.md)
+set(MORPHAC_LICENSE_FILE ${CMAKE_SOURCE_DIR}/LICENSE)
+
+# Installing the version and setup files.
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_PYTHON_VERSION_FILE}
+  ${MORPHAC_PYTHON_PACKAGE_VERSION_FILENAME}
+)
+
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_PYTHON_SETUP_FILE}
+  ${MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME}
+)
+
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_PYTHON_SETUP_CONFIG_FILE}
+  ${MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME}
+)
+
+# Install the morphac config file.
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_CONFIG_FILE}
+)
+
+# Install the license and readme files.
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_LICENSE_FILE}
+)
+
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_README_FILE}
+)
