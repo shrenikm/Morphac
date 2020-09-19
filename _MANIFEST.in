@@ -7,5 +7,6 @@ include LICENSE
 # Include everything except the cache directories.
 recursive-include morphac *
 
+prune */__pycache__
 global-exclude __pycache__
 global-exclude *.py[co]
