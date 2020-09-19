@@ -25,17 +25,6 @@ setuptools.setup(
     ),
     author="Shrenik",
     author_email="shrenik95@gmail.com",
-    description="A planning anc control library for mobile robots.",
-    install_requires=[
-        "attrs==19.3.0",
-        "msgpack==1.0.0",
-        "numpy==1.18.1",
-        "pytest==5.4.1",
-    ],
-    keywords="robotics mobile_robots motion_planning planning control",
-    # TODO: long_description.
-    license="MIT",
-    url="https://github.com/shrenikm/Morphac",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Science/Research",
@@ -50,7 +39,20 @@ setuptools.setup(
         "Topic :: Scientific/Engineering",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
+    description="A planning anc control library for mobile robots.",
+    install_requires=[
+        "attrs==19.3.0",
+        "msgpack==1.0.0",
+        "numpy==1.18.1",
+        "pytest==5.4.1",
+    ],
+    keywords="robotics mobile_robots motion_planning planning control",
+    # TODO: long_description.
+    license="MIT",
+    url="https://github.com/shrenikm/Morphac",
     # TODO: project_urls
+    # packages=setuptools.find_packages("morphac"),
+    packages=["morphac"],
     python_requires=">=3.5",
 )
 
