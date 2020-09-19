@@ -142,3 +142,14 @@ target_link_libraries(dubin_model_test
 )
 
 
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MODELS_PACKAGE_DIR}/test
+  ${MODELS_SITE_PACKAGES_DIR}/test
+  ${MODELS_PYTHON_DIR}/test
+)
+
+

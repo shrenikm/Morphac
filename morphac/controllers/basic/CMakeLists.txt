@@ -94,3 +94,14 @@ target_link_libraries(zero_controller_test
   gtest_main
   zero_controller
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${CONTROLLERS_BASIC_PACKAGE_DIR}/test
+  ${CONTROLLERS_BASIC_SITE_PACKAGES_DIR}/test
+  ${CONTROLLERS_BASIC_PYTHON_DIR}/test
+)

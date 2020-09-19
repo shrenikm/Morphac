@@ -126,3 +126,14 @@ target_link_libraries(velocity_test
   gtest_main
   velocity
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${CONSTRUCTS_PACKAGE_DIR}/test
+  ${CONSTRUCTS_SITE_PACKAGES_DIR}/test
+  ${CONSTRUCTS_PYTHON_DIR}/test
+)

@@ -96,3 +96,14 @@ target_link_libraries(polygons_test
   numeric_utils
   polygons
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${GEOMETRY_PACKAGE_DIR}/test
+  ${GEOMETRY_SITE_PACKAGES_DIR}/test
+  ${GEOMETRY_PYTHON_DIR}/test
+)

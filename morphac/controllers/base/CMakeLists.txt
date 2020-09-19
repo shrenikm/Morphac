@@ -76,3 +76,14 @@ target_link_libraries(controller_test
   control_input
   controller
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${CONTROLLERS_BASE_PACKAGE_DIR}/test
+  ${CONTROLLERS_BASE_SITE_PACKAGES_DIR}/test
+  ${CONTROLLERS_BASE_PYTHON_DIR}/test
+)

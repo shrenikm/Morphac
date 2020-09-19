@@ -98,3 +98,14 @@ target_link_libraries(robot_test
   robot
 )
 
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${BLUEPRINT_PACKAGE_DIR}/test
+  ${BLUEPRINT_SITE_PACKAGES_DIR}/test
+  ${BLUEPRINT_PYTHON_DIR}/test
+)
+

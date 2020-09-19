@@ -80,3 +80,14 @@ target_link_libraries(transforms_test
   gtest_main
   transforms
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${TRANSFORMS_PACKAGE_DIR}/test
+  ${TRANSFORMS_SITE_PACKAGES_DIR}/test
+  ${TRANSFORMS_PYTHON_DIR}/test
+)

@@ -80,3 +80,14 @@ target_link_libraries(pilot_test
   gtest_main
   pilot
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${PILOT_PACKAGE_DIR}/test
+  ${PILOT_SITE_PACKAGES_DIR}/test
+  ${PILOT_PYTHON_DIR}/test
+)

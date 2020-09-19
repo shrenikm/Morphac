@@ -139,3 +139,14 @@ target_link_libraries(rk4_integrator_test
   rk4_integrator
   diffdrive_model
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${NUMERIC_PACKAGE_DIR}/test
+  ${NUMERIC_SITE_PACKAGES_DIR}/test
+  ${NUMERIC_PYTHON_DIR}/test
+)

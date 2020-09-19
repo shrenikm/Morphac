@@ -116,7 +116,7 @@ target_link_libraries(points_utils_test
 )
 
 
-# Python files
+# Installing
 # -------------------------------------------------
 
 # List of python files.
@@ -141,3 +141,9 @@ morphac_package_files(
   ${UTILS_PYTHON_FILES}
 )
 
+# Install tests.
+morphac_package_python_tests(
+  ${UTILS_PACKAGE_DIR}/test
+  ${UTILS_SITE_PACKAGES_DIR}/test
+  ${UTILS_PYTHON_DIR}/test
+)

@@ -79,3 +79,14 @@ target_link_libraries(planner_test
   trajectory
   planner
 )
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${PLANNERS_BASE_PACKAGE_DIR}/test
+  ${PLANNERS_BASE_SITE_PACKAGES_DIR}/test
+  ${PLANNERS_BASE_PYTHON_DIR}/test
+)

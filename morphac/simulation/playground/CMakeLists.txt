@@ -109,7 +109,7 @@ target_link_libraries(playground_test
 )
 
 
-# Python files
+# Installing
 # -------------------------------------------------
 
 # List of python files.
@@ -128,5 +128,12 @@ morphac_package_files(
   ${PLAYGROUND_SITE_PACKAGES_DIR}
   # Files
   ${PLAYGROUND_PYTHON_FILES}
+)
+
+# Install tests.
+morphac_package_python_tests(
+  ${PLAYGROUND_PACKAGE_DIR}/test
+  ${PLAYGROUND_SITE_PACKAGES_DIR}/test
+  ${PLAYGROUND_PYTHON_DIR}/test
 )
 

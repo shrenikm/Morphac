@@ -38,3 +38,10 @@ morphac_package_files(
   ${VISUALIZATION_DIR}/__init__.py
   ${VISUALIZATION_PYTHON_FILES}
 )
+
+# Install tests.
+morphac_package_python_tests(
+  ${VISUALIZATION_PACKAGE_DIR}/test
+  ${VISUALIZATION_SITE_PACKAGES_DIR}/test
+  ${VISUALIZATION_PYTHON_DIR}/test
+)

@@ -77,3 +77,14 @@ target_link_libraries(map_test
   map
 )
 
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${ENVIRONMENT_PACKAGE_DIR}/test
+  ${ENVIRONMENT_SITE_PACKAGES_DIR}/test
+  ${ENVIRONMENT_PYTHON_DIR}/test
+)
+
