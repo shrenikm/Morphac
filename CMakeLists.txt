@@ -215,8 +215,9 @@ function(morphac_install_python_file packages_dir site_packages_dir)
     # File needs to be renamed.
     set(filename ${ARGV3})
   else()
-    # File doesn't need to be renamed.
-    set(filename ${ARGV2})
+    # File doesn't need to be renamed. In order to use the same install command (with rename),
+    # we extract just the filename.
+    get_filename_component(filename ${ARGV2} NAME)
   endif()
   install(FILES
     ${ARGV2}

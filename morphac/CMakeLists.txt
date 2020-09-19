@@ -55,6 +55,13 @@ morphac_install_python_file(
   ${MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME}
 )
 
+# Install the config file.
+morphac_install_python_file(
+  ${MORPHAC_PYTHON_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_CONFIG_FILE}
+)
+
 # Installing the main __init__ file.
 morphac_install_python_package(
   ${MORPHAC_PYTHON_PACKAGE_DIR}
