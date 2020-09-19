@@ -30,7 +30,7 @@ add_subdirectory(visualization)
 # -------------------------------------------------
 
 # Installing the main __init__ file.
-morphac_install_python_package(
+morphac_package_files(
   ${MORPHAC_PACKAGE_MODULE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   # Files

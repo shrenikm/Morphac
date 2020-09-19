@@ -187,8 +187,8 @@ function(morphac_link_libraries target)
 endfunction()
 
 
-# Function that installs the python bindings into directories to create the package.
-function(morphac_install_python_package packages_dir site_packages_dir)
+# Function that installs files to the local package (and site-packages if the install flag is set).
+function(morphac_package_files packages_dir site_packages_dir)
   # First install in the packages directory that resides in the main cmake source directory.
   install(FILES
     ${ARGN}
@@ -208,9 +208,10 @@ function(morphac_install_python_package packages_dir site_packages_dir)
 endfunction()
 
 
-# Function that installs a single file into the packages directories. Also has an option to rename the file.
-# The third argument is the file and an optional fourth argument may be given if the file needs to be renamed.
-function(morphac_install_python_file packages_dir site_packages_dir)
+# Function that installs a single file into the local package (and site-packages if the install flag is set).
+# Also has an option to rename the file. The third argument is the file and an optional fourth argument may be given
+# if the file needs to be renamed.
+function(morphac_package_file packages_dir site_packages_dir)
   if(${ARGC} EQUAL 4)
     # File needs to be renamed.
     set(filename ${ARGV3})
@@ -437,35 +438,35 @@ set(MORPHAC_README_FILE ${CMAKE_SOURCE_DIR}/README.md)
 set(MORPHAC_LICENSE_FILE ${CMAKE_SOURCE_DIR}/LICENSE)
 
 # Install the morphac config file.
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_CONFIG_FILE}
 )
 
 # Installing the version and setup files.
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_MODULE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_PYTHON_VERSION_FILE}
   ${MORPHAC_PYTHON_PACKAGE_VERSION_FILENAME}
 )
 
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_PYTHON_SETUP_FILE}
   ${MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME}
 )
 
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_PYTHON_SETUP_CONFIG_FILE}
   ${MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME}
 )
 
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_PYTHON_MANIFEST_FILE}
@@ -474,13 +475,13 @@ morphac_install_python_file(
 
 
 # Install the license and readme files.
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_LICENSE_FILE}
 )
 
-morphac_install_python_file(
+morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_README_FILE}

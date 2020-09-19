@@ -22,7 +22,7 @@ add_subdirectory(playground)
 # Installing
 # -------------------------------------------------
 
-morphac_install_python_package(
+morphac_package_files(
   ${SIMULATION_PACKAGES_INSTALL_DIR}
   ${SIMULATION_SITE_PACKAGES_INSTALL_DIR}
   # Files

@@ -134,7 +134,7 @@ prepend_list(UTILS_PYTHON_FILES
   ${UTILS_PYTHON_FILES}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${UTILS_PACKAGES_INSTALL_DIR}
   ${UTILS_SITE_PACKAGES_INSTALL_DIR}
   # Files

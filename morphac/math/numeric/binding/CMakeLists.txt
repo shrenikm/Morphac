@@ -78,7 +78,7 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${NUMERIC_PACKAGES_INSTALL_DIR}
   ${NUMERIC_SITE_PACKAGES_INSTALL_DIR}
   # Files

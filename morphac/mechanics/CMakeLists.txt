@@ -23,7 +23,7 @@ add_subdirectory(models)
 # Installing
 # -------------------------------------------------
 
-morphac_install_python_package(
+morphac_package_files(
   ${MECHANICS_PACKAGES_INSTALL_DIR}
   ${MECHANICS_SITE_PACKAGES_INSTALL_DIR}
   # Files

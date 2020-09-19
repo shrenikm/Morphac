@@ -31,7 +31,7 @@ prepend_list(VISUALIZATION_PYTHON_FILES
   ${VISUALIZATION_PYTHON_FILES}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${VISUALIZATION_PACKAGES_INSTALL_DIR}
   ${VISUALIZATION_SITE_PACKAGES_INSTALL_DIR}
   # Files

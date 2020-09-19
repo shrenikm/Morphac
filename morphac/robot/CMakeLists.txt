@@ -24,7 +24,7 @@ add_subdirectory(pilot)
 # Installing
 # -------------------------------------------------
 
-morphac_install_python_package(
+morphac_package_files(
   ${ROBOT_PACKAGES_INSTALL_DIR}
   ${ROBOT_SITE_PACKAGES_INSTALL_DIR}
   # Files

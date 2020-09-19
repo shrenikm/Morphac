@@ -72,7 +72,7 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${PLANNERS_BASE_PACKAGES_INSTALL_DIR}
   ${PLANNERS_BASE_SITE_PACKAGES_INSTALL_DIR}
   # Files

@@ -24,7 +24,7 @@ add_subdirectory(basic)
 # Installing
 # -------------------------------------------------
 
-morphac_install_python_package(
+morphac_package_files(
   ${CONTROLLERS_PACKAGES_INSTALL_DIR}
   ${CONTROLLERS_SITE_PACKAGES_INSTALL_DIR}
   # Files

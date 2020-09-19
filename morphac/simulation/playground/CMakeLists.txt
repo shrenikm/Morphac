@@ -123,7 +123,7 @@ prepend_list(PLAYGROUND_PYTHON_FILES
   ${PLAYGROUND_PYTHON_FILES}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${PLAYGROUND_PACKAGES_INSTALL_DIR}
   ${PLAYGROUND_SITE_PACKAGES_INSTALL_DIR}
   # Files

@@ -23,7 +23,7 @@ add_subdirectory(base)
 # Installing
 # -------------------------------------------------
 
-morphac_install_python_package(
+morphac_package_files(
   ${PLANNERS_PACKAGES_INSTALL_DIR}
   ${PLANNERS_SITE_PACKAGES_INSTALL_DIR}
   # Files

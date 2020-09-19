@@ -25,7 +25,7 @@ add_subdirectory(transforms)
 # Installing
 # -------------------------------------------------
 
-morphac_install_python_package(
+morphac_package_files(
   ${MATH_PACKAGES_INSTALL_DIR}
   ${MATH_SITE_PACKAGES_INSTALL_DIR}
   # Files

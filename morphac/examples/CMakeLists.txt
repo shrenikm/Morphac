@@ -28,7 +28,7 @@ prepend_list(EXAMPLES_PYTHON_FILES
   ${EXAMPLES_PYTHON_FILES}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${EXAMPLES_PACKAGES_INSTALL_DIR}
   ${EXAMPLES_SITE_PACKAGES_INSTALL_DIR}
   # Files

@@ -103,7 +103,7 @@ prepend_list(CONSTANTS_PYTHON_FILES
   ${CONSTANTS_PYTHON_FILES}
 )
 
-morphac_install_python_package(
+morphac_package_files(
   ${CONSTANTS_PACKAGES_INSTALL_DIR}
   ${CONSTANTS_SITE_PACKAGES_INSTALL_DIR}
   # Files

@@ -21,7 +21,7 @@ set(UTILS_MODULES
 
 # Installing the individual __init__ files into the proper directories.
 foreach(module ${UTILS_MODULES})
-  morphac_install_python_package(
+  morphac_package_files(
     ${UTILS_PACKAGES_INSTALL_DIR}/${module}
     ${UTILS_SITE_PACKAGES_INSTALL_DIR}/${module}
     # Files
