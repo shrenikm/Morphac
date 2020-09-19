@@ -41,10 +41,10 @@ setuptools.setup(
     ],
     description="A planning and control library for mobile robots.",
     install_requires=[
-        "attrs==19.3.0",
+        "attrs==20.2.0",
         "msgpack==1.0.0",
-        "numpy==1.18.1",
-        "pytest==5.4.1",
+        "numpy==1.19.2",
+        "pytest==6.0.2",
     ],
     keywords="robotics mobile_robots motion_planning planning control",
     # TODO: long_description.
