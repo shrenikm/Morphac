@@ -1,19 +1,6 @@
 # Bindings
 # -------------------------------------------------
 
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
-
-
-# Adding subdirectories
-# -------------------------------------------------
-
-add_subdirectory(modules)
-
-
-
 # Src file that creates the python module.
 set(CONSTANTS_MODULE_FILE
 
@@ -67,6 +54,12 @@ set_target_properties(${python_target}
   PROPERTIES
   PREFIX ${PYTHON_BINDING_PREFIX}
 )
+
+
+# Adding subdirectories
+# -------------------------------------------------
+
+add_subdirectory(modules)
 
 
 # Installing

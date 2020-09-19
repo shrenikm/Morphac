@@ -1,11 +1,6 @@
 # Bindings
 # -------------------------------------------------
 
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
-
 # Src file that creates the python module.
 set(NUMERIC_MODULE_FILE
 

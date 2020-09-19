@@ -1,7 +1,5 @@
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
+# Modules
+# -------------------------------------------------
 
 # Different modules within constants. Even though we bind all the cpp bindings under
 # "constants", in order to keep it consistent with the pure python constants modules,

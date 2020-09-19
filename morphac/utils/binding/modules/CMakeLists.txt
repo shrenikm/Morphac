@@ -1,7 +1,5 @@
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
+# Modules
+# -------------------------------------------------
 
 # Different modules within utils. Even though we bind all the cpp bindings under
 # "utils", in order to keep it consistent with the pure python utils modules,
