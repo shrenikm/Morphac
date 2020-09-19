@@ -1,0 +1,11 @@
+# Include readmes
+include *.md
+
+# Include license
+include LICENSE
+
+# Include everything except the cache directories.
+recursive-include morphac *
+
+global-exclude __pycache__
+global-exclude *.py[co]

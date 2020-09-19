@@ -427,9 +427,20 @@ set(MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME setup.py)
 set(MORPHAC_PYTHON_SETUP_CONFIG_FILE ${CMAKE_SOURCE_DIR}/_setup.cfg)
 set(MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME setup.cfg)
 
+# Manifest file.
+set(MORPHAC_PYTHON_MANIFEST_FILE ${CMAKE_SOURCE_DIR}/_MANIFEST.in)
+set(MORPHAC_PYTHON_PACKAGE_MANIFEST_FILENAME MANIFEST.in)
+
 # Set up readme and license files.
 set(MORPHAC_README_FILE ${CMAKE_SOURCE_DIR}/README.md)
 set(MORPHAC_LICENSE_FILE ${CMAKE_SOURCE_DIR}/LICENSE)
+
+# Install the morphac config file.
+morphac_install_python_file(
+  ${MORPHAC_PACKAGE_DIR}
+  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_CONFIG_FILE}
+)
 
 # Installing the version and setup files.
 morphac_install_python_file(
@@ -453,12 +464,13 @@ morphac_install_python_file(
   ${MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME}
 )
 
-# Install the morphac config file.
 morphac_install_python_file(
   ${MORPHAC_PACKAGE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
-  ${MORPHAC_CONFIG_FILE}
+  ${MORPHAC_PYTHON_MANIFEST_FILE}
+  ${MORPHAC_PYTHON_PACKAGE_MANIFEST_FILENAME}
 )
+
 
 # Install the license and readme files.
 morphac_install_python_file(

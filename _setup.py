@@ -39,7 +39,7 @@ setuptools.setup(
         "Topic :: Scientific/Engineering",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    description="A planning anc control library for mobile robots.",
+    description="A planning and control library for mobile robots.",
     install_requires=[
         "attrs==19.3.0",
         "msgpack==1.0.0",
@@ -51,8 +51,10 @@ setuptools.setup(
     license="MIT",
     url="https://github.com/shrenikm/Morphac",
     # TODO: project_urls
-    # packages=setuptools.find_packages("morphac"),
-    packages=["morphac"],
+    packages=setuptools.find_packages(include=["morphac", "morphac.*"]),
+    include_package_data=True,
+    # data_files=
+    # packages=["morphac"],
     python_requires=">=3.5",
 )
 
