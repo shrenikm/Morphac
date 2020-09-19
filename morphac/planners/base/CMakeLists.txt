@@ -17,6 +17,14 @@ set(PLANNERS_BASE_BINDING_INSTALL_DIR
   ${PLANNERS_BINDING_INSTALL_DIR}/base
 )
 
+# Directories to install the bindings to.
+set(PLANNERS_BASE_PACKAGES_INSTALL_DIR
+  ${PLANNERS_PACKAGES_INSTALL_DIR}/base
+)
+set(PLANNERS_BASE_SITE_PACKAGES_INSTALL_DIR
+  ${PLANNERS_SITE_PACKAGES_INSTALL_DIR}/base
+)
+
 # Adding subdirectories
 # -------------------------------------------------
 

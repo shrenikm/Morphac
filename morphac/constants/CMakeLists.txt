@@ -16,7 +16,12 @@ set(CONSTANTS_BINDING_MODULES_DIR
   ${CONSTANTS_BINDING_DIR}/modules
 )
 set(CONSTANTS_BINDING_BINARY_DIR ${CONSTANTS_BINARY_DIR}/binding)
-set(CONSTANTS_BINDING_INSTALL_DIR
+
+# Directories to install the bindings to.
+set(CONSTANTS_PACKAGES_INSTALL_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/constants
+)
+set(CONSTANTS_SITE_PACKAGES_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/constants
 )
 
@@ -84,10 +89,10 @@ target_link_libraries(mechanics_constants_test
 )
 
 
-# Python files
+# Installing
 # -------------------------------------------------
 
-# List of python files.
+# List of python files to install.
 set(CONSTANTS_PYTHON_FILES
   colors.py
 )
@@ -98,9 +103,10 @@ prepend_list(CONSTANTS_PYTHON_FILES
   ${CONSTANTS_PYTHON_FILES}
 )
 
-# Install the python files.
-install(FILES
+morphac_install_python_package(
+  ${CONSTANTS_PACKAGES_INSTALL_DIR}
+  ${CONSTANTS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${CONSTANTS_PYTHON_FILES}
-  DESTINATION
-  ${CONSTANTS_BINDING_INSTALL_DIR}
 )
+

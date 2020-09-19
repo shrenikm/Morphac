@@ -80,14 +80,11 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${MODELS_PACKAGES_INSTALL_DIR}
+  ${MODELS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${MODELS_BINDING_DIR}/__init__.py
   ${MODELS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${MODELS_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${MODELS_BINDING_DIR}/__init__.py
-  DESTINATION ${MODELS_BINDING_INSTALL_DIR}
-)

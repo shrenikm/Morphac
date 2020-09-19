@@ -90,15 +90,4 @@ morphac_install_python_package(
   ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
 )
 
-## Installing compiled bindings.
-#install(FILES
-#  ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-#  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
-#)
-#
-## Installing __init__ files.
-#install(FILES
-#  ${CONSTRUCTS_BINDING_DIR}/__init__.py
-#  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
-#)
 

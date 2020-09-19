@@ -4,7 +4,12 @@
 set(MATH_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(MATH_BINARY_DIR ${MORPHAC_BINARY_DIR}/math)
 set(MATH_BINDING_BINARY_DIR ${MATH_BINARY_DIR}/binding)
-set(MATH_BINDING_INSTALL_DIR
+
+# Directories to install the bindings to.
+set(MATH_PACKAGES_INSTALL_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/math
+)
+set(MATH_SITE_PACKAGES_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/math
 )
 
@@ -20,9 +25,10 @@ add_subdirectory(transforms)
 # Installing
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
+morphac_install_python_package(
+  ${MATH_PACKAGES_INSTALL_DIR}
+  ${MATH_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${MATH_DIR}/__init__.py
-  DESTINATION
-  ${MATH_BINDING_INSTALL_DIR}
 )
+

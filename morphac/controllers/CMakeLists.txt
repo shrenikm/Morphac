@@ -4,7 +4,14 @@
 set(CONTROLLERS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CONTROLLERS_BINARY_DIR ${MORPHAC_BINARY_DIR}/controllers)
 set(CONTROLLERS_BINDING_BINARY_DIR ${CONTROLLERS_BINARY_DIR}/binding)
-set(CONTROLLERS_BINDING_INSTALL_DIR ${PYTHON_BINDING_INSTALL_DIR}/controllers)
+
+# Directories to install the bindings to.
+set(CONTROLLERS_PACKAGES_INSTALL_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/controllers
+)
+set(CONTROLLERS_SITE_PACKAGES_INSTALL_DIR
+  ${PYTHON_BINDING_INSTALL_DIR}/controllers
+)
 
 
 # Adding subdirectories
@@ -17,9 +24,9 @@ add_subdirectory(basic)
 # Installing
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
+morphac_install_python_package(
+  ${CONTROLLERS_PACKAGES_INSTALL_DIR}
+  ${CONTROLLERS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${CONTROLLERS_DIR}/__init__.py
-  DESTINATION
-  ${CONTROLLERS_BINDING_INSTALL_DIR}
 )

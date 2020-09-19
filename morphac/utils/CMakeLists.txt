@@ -16,7 +16,12 @@ set(UTILS_BINDING_MODULES_DIR
   ${UTILS_BINDING_DIR}/modules
 )
 set(UTILS_BINDING_BINARY_DIR ${UTILS_BINARY_DIR}/binding)
-set(UTILS_BINDING_INSTALL_DIR
+
+# Directories to install the bindings to.
+set(UTILS_PACKAGES_INSTALL_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/utils
+)
+set(UTILS_SITE_PACKAGES_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/utils
 )
 
@@ -129,9 +134,10 @@ prepend_list(UTILS_PYTHON_FILES
   ${UTILS_PYTHON_FILES}
 )
 
-# Install the python files.
-install(FILES
+morphac_install_python_package(
+  ${UTILS_PACKAGES_INSTALL_DIR}
+  ${UTILS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${UTILS_PYTHON_FILES}
-  DESTINATION
-  ${UTILS_BINDING_INSTALL_DIR}
 )
+

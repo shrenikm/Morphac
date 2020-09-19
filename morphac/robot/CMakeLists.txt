@@ -4,7 +4,14 @@
 set(ROBOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(ROBOT_BINARY_DIR ${MORPHAC_BINARY_DIR}/robot)
 set(ROBOT_BINDING_BINARY_DIR ${ROBOT_BINARY_DIR}/binding)
-set(ROBOT_BINDING_INSTALL_DIR ${PYTHON_BINDING_INSTALL_DIR}/robot)
+
+# Directories to install the bindings to.
+set(ROBOT_PACKAGES_INSTALL_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/robot
+)
+set(ROBOT_SITE_PACKAGES_INSTALL_DIR
+  ${PYTHON_BINDING_INSTALL_DIR}/robot
+)
 
 
 # Adding subdirectories
@@ -17,9 +24,10 @@ add_subdirectory(pilot)
 # Installing
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
+morphac_install_python_package(
+  ${ROBOT_PACKAGES_INSTALL_DIR}
+  ${ROBOT_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${ROBOT_DIR}/__init__.py
-  DESTINATION
-  ${ROBOT_BINDING_INSTALL_DIR}
 )
+

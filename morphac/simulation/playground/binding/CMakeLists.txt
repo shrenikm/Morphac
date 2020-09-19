@@ -76,17 +76,14 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${PLAYGROUND_PACKAGES_INSTALL_DIR}
+  ${PLAYGROUND_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${PLAYGROUND_BINDING_DIR}/__init__.py
   ${PLAYGROUND_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${PLAYGROUND_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${PLAYGROUND_BINDING_DIR}/__init__.py
-  DESTINATION ${PLAYGROUND_BINDING_INSTALL_DIR}
-)
 
 
 

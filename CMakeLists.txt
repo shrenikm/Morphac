@@ -196,13 +196,44 @@ function(morphac_install_python_package packages_dir site_packages_dir)
     ${packages_dir}
   )
 
-  # Now install into the site-packages directory depending on whether the INSTALL_PYTHON_BINDINGS
+  # Now install into the site-packages directory depending on whether the INSTALL_PYTHON_PACKAGE
   # flag is set.
-  if(INSTALL_PYTHON_BINDINGS)
+  if(INSTALL_PYTHON_PACKAGE)
     install(FILES
       ${ARGN}
       DESTINATION
       ${site_packages_dir}
+    )
+  endif()
+endfunction()
+
+
+# Function that installs a single file into the packages directories. Also has an option to rename the file.
+# The third argument is the file and an optional fourth argument may be given if the file needs to be renamed.
+function(morphac_install_python_file packages_dir site_packages_dir)
+  if(${ARGC} EQUAL 4)
+    # File needs to be renamed.
+    set(filename ${ARGV3})
+  else()
+    # File doesn't need to be renamed.
+    set(filename ${ARGV2})
+  endif()
+  install(FILES
+    ${ARGV2}
+    DESTINATION
+    ${packages_dir}
+    RENAME
+    ${filename}
+  )
+
+  # Install into site-packages depending on whether the INSTALL_PYTHON_PACKAGE flag is set.
+  if(INSTALL_PYTHON_PACKAGE)
+    install(FILES
+      ${ARGV2}
+      DESTINATION
+      ${site_packages_dir}
+      RENAME
+      ${filename}
     )
   endif()
 endfunction()
@@ -244,7 +275,7 @@ message(STATUS "[ BUILD_TESTS has been set to ${BUILD_TESTS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS has been set to ${BUILD_WITH_WARNINGS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS_AS_ERRORS has been set to ${BUILD_WITH_WARNINGS_AS_ERRORS} ]")
 message(STATUS "[ BUILD_PYTHON_BINDINGS has been set to ${BUILD_PYTHON_BINDINGS} ]")
-message(STATUS "[ INSTALL_PYTHON_BINDINGS has been set to ${INSTALL_PYTHON_BINDINGS} ]")
+message(STATUS "[ INSTALL_PYTHON_PACKAGE has been set to ${INSTALL_PYTHON_PACKAGE} ]")
 
 
 # Configuring

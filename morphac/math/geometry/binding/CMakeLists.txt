@@ -74,14 +74,11 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${GEOMETRY_PACKAGES_INSTALL_DIR}
+  ${GEOMETRY_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${GEOMETRY_BINDING_DIR}/__init__.py
   ${GEOMETRY_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${GEOMETRY_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${GEOMETRY_BINDING_DIR}/__init__.py
-  DESTINATION ${GEOMETRY_BINDING_INSTALL_DIR}
-)

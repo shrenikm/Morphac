@@ -72,16 +72,13 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${TRANSFORMS_PACKAGES_INSTALL_DIR}
+  ${TRANSFORMS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${TRANSFORMS_BINDING_DIR}/__init__.py
   ${TRANSFORMS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${TRANSFORMS_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${TRANSFORMS_BINDING_DIR}/__init__.py
-  DESTINATION ${TRANSFORMS_BINDING_INSTALL_DIR}
-)
 
 

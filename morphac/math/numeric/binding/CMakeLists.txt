@@ -78,14 +78,11 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${NUMERIC_PACKAGES_INSTALL_DIR}
+  ${NUMERIC_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${NUMERIC_BINDING_DIR}/__init__.py
   ${NUMERIC_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${NUMERIC_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${NUMERIC_BINDING_DIR}/__init__.py
-  DESTINATION ${NUMERIC_BINDING_INSTALL_DIR}
-)

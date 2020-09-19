@@ -74,14 +74,11 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${CONTROLLERS_BASIC_PACKAGES_INSTALL_DIR}
+  ${CONTROLLERS_BASIC_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${CONTROLLERS_BASIC_BINDING_DIR}/__init__.py
   ${CONTROLLERS_BASIC_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${CONTROLLERS_BASIC_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${CONTROLLERS_BASIC_BINDING_DIR}/__init__.py
-  DESTINATION ${CONTROLLERS_BASIC_BINDING_INSTALL_DIR}
-)

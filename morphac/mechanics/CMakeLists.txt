@@ -4,7 +4,12 @@
 set(MECHANICS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(MECHANICS_BINARY_DIR ${MORPHAC_BINARY_DIR}/mechanics)
 set(MECHANICS_BINDING_BINARY_DIR ${MECHANICS_BINARY_DIR}/binding)
-set(MECHANICS_BINDING_INSTALL_DIR
+
+# Directories to install the bindings to.
+set(MECHANICS_PACKAGES_INSTALL_DIR
+  ${MORPHAC_PYTHON_PACKAGE_DIR}/mechanics
+)
+set(MECHANICS_SITE_PACKAGES_INSTALL_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/mechanics
 )
 
@@ -18,9 +23,10 @@ add_subdirectory(models)
 # Installing
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
+morphac_install_python_package(
+  ${MECHANICS_PACKAGES_INSTALL_DIR}
+  ${MECHANICS_SITE_PACKAGES_INSTALL_DIR}
+  # Files
   ${MECHANICS_DIR}/__init__.py
-  DESTINATION
-  ${MECHANICS_BINDING_INSTALL_DIR}
 )
+

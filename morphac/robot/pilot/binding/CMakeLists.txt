@@ -72,14 +72,11 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_install_python_package(
+  ${PILOT_PACKAGES_INSTALL_DIR}
+  ${PILOT_SITE_PACKAGES_INSTALL_DIR}
+  # Files
+  ${PILOT_BINDING_DIR}/__init__.py
   ${PILOT_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${PILOT_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${PILOT_BINDING_DIR}/__init__.py
-  DESTINATION ${PILOT_BINDING_INSTALL_DIR}
-)
