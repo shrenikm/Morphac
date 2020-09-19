@@ -22,7 +22,7 @@ set(CONSTANTS_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/constants
 )
 set(CONSTANTS_SITE_PACKAGES_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/constants
+  ${MORPHAC_SITE_PACKAGES_DIR}/constants
 )
 
 
@@ -112,8 +112,8 @@ morphac_package_files(
 
 # Install tests.
 morphac_package_python_tests(
-  ${CONSTANTS_PACKAGE_DIR}/test
-  ${CONSTANTS_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${CONSTANTS_PYTHON_DIR}/test
 )
 

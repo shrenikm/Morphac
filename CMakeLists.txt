@@ -376,9 +376,6 @@ endif()
 # Finding the python executable.
 find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
 
-# Site packages dir for installing bindings.
-find_python_site_packages_dir(PYTHON_SITE_PACKAGES_DIR)
-set(PYTHON_BINDING_INSTALL_DIR ${PYTHON_SITE_PACKAGES_DIR}/${MORPHAC_NAME})
 
 # Python package directory. Note that this is different from the python bindings
 # install directory. This directory includes all of the compiled objects that make
@@ -386,6 +383,16 @@ set(PYTHON_BINDING_INSTALL_DIR ${PYTHON_SITE_PACKAGES_DIR}/${MORPHAC_NAME})
 set(MORPHAC_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/package)
 # The main module directory within the package directory.
 set(MORPHAC_PACKAGE_MODULE_DIR ${MORPHAC_PACKAGE_DIR}/${MORPHAC_NAME})
+
+# Site packages dir for installing the package.
+find_python_site_packages_dir(PYTHON_SITE_PACKAGES_DIR)
+set(MORPHAC_SITE_PACKAGES_DIR ${PYTHON_SITE_PACKAGES_DIR}/${MORPHAC_NAME})
+
+# Python test install directories.
+set(MORPHAC_PACKAGE_TEST_DIR ${MORPHAC_PACKAGE_MODULE_DIR}/test)
+set(MORPHAC_PACKAGE_UNIT_TEST_DIR ${MORPHAC_PACKAGE_TEST_DIR}/unit_tests)
+set(MORPHAC_SITE_PACKAGES_TEST_DIR ${MORPHAC_SITE_PACKAGES_DIR}/test)
+set(MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR ${MORPHAC_SITE_PACKAGES_TEST_DIR}/unit_tests)
 
 message(STATUS "[ Python version: ${PYTHON_VERSION} ]")
 if(${PYTHONINTERP_FOUND})
@@ -395,7 +402,7 @@ else(${PYTHONINTERP_FOUND})
 endif(${PYTHONINTERP_FOUND})
 
 message(STATUS
-  "[ Python binding install directory: ${PYTHON_BINDING_INSTALL_DIR} ]"
+  "[ Python binding install directory: ${MORPHAC_SITE_PACKAGES_DIR} ]"
 )
 
 
@@ -450,23 +457,35 @@ add_subdirectory(morphac)
 # The version and setup files in the main directory are named _version.py and _setup.py
 # During installation to the packages, they are installed after stripping the underscore.
 set(MORPHAC_PYTHON_VERSION_FILE ${CMAKE_SOURCE_DIR}/_version.py)
-# File to be renamed to.
+# File name to be renamed to during installation.
 set(MORPHAC_PYTHON_VERSION_FILENAME version.py)
+
 # Write the version into version.py
-FILE(WRITE ${MORPHAC_PYTHON_VERSION_FILE} "__version__ = '${PROJECT_VERSION}'")
+if("${MORPHAC_VERSION_SUFFIX}" STREQUAL "")
+  FILE(WRITE ${MORPHAC_PYTHON_VERSION_FILE} "__version__ = \"${PROJECT_VERSION}\"")
+else()
+  FILE(WRITE ${MORPHAC_PYTHON_VERSION_FILE} "__version__ = \"${PROJECT_VERSION}.${MORPHAC_VERSION_SUFFIX}\"")
+endif()
 
 set(MORPHAC_PYTHON_SETUP_FILE ${CMAKE_SOURCE_DIR}/_setup.py)
+# File name to be renamed to during installation.
 set(MORPHAC_PYTHON_SETUP_FILENAME setup.py)
 
 set(MORPHAC_PYTHON_SETUP_CONFIG_FILE ${CMAKE_SOURCE_DIR}/_setup.cfg)
+# File name to be renamed to during installation.
 set(MORPHAC_PYTHON_SETUP_CONFIG_FILENAME setup.cfg)
+
+# Pytest configuration files.
+set(MORPHAC_PYTHON_PYTEST_INI_FILE ${CMAKE_SOURCE_DIR}/pytest.ini)
 
 # Manifest file.
 set(MORPHAC_PYTHON_MANIFEST_FILE ${CMAKE_SOURCE_DIR}/_MANIFEST.in)
+# File name to be renamed to during installation.
 set(MORPHAC_PYTHON_MANIFEST_FILENAME MANIFEST.in)
 
 # Set up readme and license files.
 set(MORPHAC_README_FILE ${CMAKE_SOURCE_DIR}/README.md)
+# File name to be renamed to during installation.
 set(MORPHAC_LICENSE_FILE ${CMAKE_SOURCE_DIR}/LICENSE)
 
 # Install files necessary for the setup. Some of these don't need to be installed in site-packages
@@ -482,7 +501,7 @@ install(FILES
 # Installing the version and setup files.
 morphac_package_file(
   ${MORPHAC_PACKAGE_MODULE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
   ${MORPHAC_PYTHON_VERSION_FILE}
   ${MORPHAC_PYTHON_VERSION_FILENAME}
 )
@@ -503,6 +522,14 @@ install(FILES
   ${MORPHAC_PYTHON_SETUP_CONFIG_FILENAME}
 )
 
+# Installing pytest config files.
+morphac_package_file(
+  ${MORPHAC_PACKAGE_MODULE_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
+  ${MORPHAC_PYTHON_PYTEST_INI_FILE}
+)
+
+# Installing the setup manifest file.
 install(FILES
   ${MORPHAC_PYTHON_MANIFEST_FILE}
   DESTINATION
@@ -514,12 +541,12 @@ install(FILES
 # Install the license and readme files.
 morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
   ${MORPHAC_LICENSE_FILE}
 )
 
 morphac_package_file(
   ${MORPHAC_PACKAGE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
   ${MORPHAC_README_FILE}
 )

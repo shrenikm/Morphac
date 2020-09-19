@@ -19,7 +19,7 @@ set(ENVIRONMENT_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/environment
 )
 set(ENVIRONMENT_SITE_PACKAGES_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/environment
+  ${MORPHAC_SITE_PACKAGES_DIR}/environment
 )
 
 
@@ -83,8 +83,8 @@ target_link_libraries(map_test
 
 # Install tests.
 morphac_package_python_tests(
-  ${ENVIRONMENT_PACKAGE_DIR}/test
-  ${ENVIRONMENT_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${ENVIRONMENT_PYTHON_DIR}/test
 )
 

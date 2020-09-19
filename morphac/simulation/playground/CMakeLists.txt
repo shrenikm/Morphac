@@ -132,8 +132,8 @@ morphac_package_files(
 
 # Install tests.
 morphac_package_python_tests(
-  ${PLAYGROUND_PACKAGE_DIR}/test
-  ${PLAYGROUND_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${PLAYGROUND_PYTHON_DIR}/test
 )
 

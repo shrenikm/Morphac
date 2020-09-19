@@ -10,7 +10,7 @@ set(SIMULATION_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/simulation
 )
 set(SIMULATION_SITE_PACKAGES_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/simulation
+  ${MORPHAC_SITE_PACKAGES_DIR}/simulation
 )
 
 # Adding subdirectories

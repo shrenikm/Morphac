@@ -103,7 +103,7 @@ target_link_libraries(polygons_test
 
 # Install tests.
 morphac_package_python_tests(
-  ${GEOMETRY_PACKAGE_DIR}/test
-  ${GEOMETRY_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${GEOMETRY_PYTHON_DIR}/test
 )

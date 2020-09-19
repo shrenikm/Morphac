@@ -86,7 +86,7 @@ target_link_libraries(planner_test
 
 # Install tests.
 morphac_package_python_tests(
-  ${PLANNERS_BASE_PACKAGE_DIR}/test
-  ${PLANNERS_BASE_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${PLANNERS_BASE_PYTHON_DIR}/test
 )

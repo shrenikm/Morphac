@@ -19,7 +19,7 @@ set(CONSTRUCTS_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/constructs
 )
 set(CONSTRUCTS_SITE_PACKAGES_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/constructs
+  ${MORPHAC_SITE_PACKAGES_DIR}/constructs
 )
 
 
@@ -133,7 +133,7 @@ target_link_libraries(velocity_test
 
 # Install tests.
 morphac_package_python_tests(
-  ${CONSTRUCTS_PACKAGE_DIR}/test
-  ${CONSTRUCTS_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${CONSTRUCTS_PYTHON_DIR}/test
 )

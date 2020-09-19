@@ -146,7 +146,7 @@ target_link_libraries(rk4_integrator_test
 
 # Install tests.
 morphac_package_python_tests(
-  ${NUMERIC_PACKAGE_DIR}/test
-  ${NUMERIC_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${NUMERIC_PYTHON_DIR}/test
 )

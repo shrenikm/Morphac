@@ -101,7 +101,7 @@ target_link_libraries(zero_controller_test
 
 # Install tests.
 morphac_package_python_tests(
-  ${CONTROLLERS_BASIC_PACKAGE_DIR}/test
-  ${CONTROLLERS_BASIC_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${CONTROLLERS_BASIC_PYTHON_DIR}/test
 )

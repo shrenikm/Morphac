@@ -11,7 +11,7 @@ set(VISUALIZATION_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/visualization
 )
 set(VISUALIZATION_SITE_PACKAGES_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/visualization
+  ${MORPHAC_SITE_PACKAGES_DIR}/visualization
 )
 
 
@@ -41,7 +41,7 @@ morphac_package_files(
 
 # Install tests.
 morphac_package_python_tests(
-  ${VISUALIZATION_PACKAGE_DIR}/test
-  ${VISUALIZATION_SITE_PACKAGES_DIR}/test
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
   ${VISUALIZATION_PYTHON_DIR}/test
 )
