@@ -259,6 +259,8 @@ string(REGEX MATCH "minor_version: ([A-Za-z0-9]*)" _ ${morphac_config_file_conte
 set(MORPHAC_MINOR_VERSION ${CMAKE_MATCH_1})
 string(REGEX MATCH "patch_version: ([A-Za-z0-9]*)" _ ${morphac_config_file_contents})
 set(MORPHAC_PATCH_VERSION ${CMAKE_MATCH_1})
+string(REGEX MATCH "version_suffix: ([A-Za-z0-9]*)" _ ${morphac_config_file_contents})
+set(MORPHAC_VERSION_SUFFIX ${CMAKE_MATCH_1})
 
 project(
   ${MORPHAC_NAME}
@@ -267,7 +269,13 @@ project(
 )
 
 message(STATUS "Project name: ${PROJECT_NAME}")
-message(STATUS "Project version: ${PROJECT_VERSION}")
+# Cmake doesn't support non numeric versions.
+if("${MORPHAC_VERSION_SUFFIX}" STREQUAL "")
+  # No version suffix.
+  message(STATUS "Project version: ${PROJECT_VERSION}")
+else()
+  message(STATUS "Project version: ${PROJECT_VERSION}.${MORPHAC_VERSION_SUFFIX}")
+endif()
 
 
 # Options (Interface)
@@ -419,29 +427,33 @@ add_subdirectory(morphac)
 # The version and setup files in the main directory are named _version.py and _setup.py
 # During installation to the packages, they are installed after stripping the underscore.
 set(MORPHAC_PYTHON_VERSION_FILE ${CMAKE_SOURCE_DIR}/_version.py)
-set(MORPHAC_PYTHON_PACKAGE_VERSION_FILENAME version.py)
+# File to be renamed to.
+set(MORPHAC_PYTHON_VERSION_FILENAME version.py)
 # Write the version into version.py
 FILE(WRITE ${MORPHAC_PYTHON_VERSION_FILE} "__version__ = '${PROJECT_VERSION}'")
 
 set(MORPHAC_PYTHON_SETUP_FILE ${CMAKE_SOURCE_DIR}/_setup.py)
-set(MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME setup.py)
+set(MORPHAC_PYTHON_SETUP_FILENAME setup.py)
 
 set(MORPHAC_PYTHON_SETUP_CONFIG_FILE ${CMAKE_SOURCE_DIR}/_setup.cfg)
-set(MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME setup.cfg)
+set(MORPHAC_PYTHON_SETUP_CONFIG_FILENAME setup.cfg)
 
 # Manifest file.
 set(MORPHAC_PYTHON_MANIFEST_FILE ${CMAKE_SOURCE_DIR}/_MANIFEST.in)
-set(MORPHAC_PYTHON_PACKAGE_MANIFEST_FILENAME MANIFEST.in)
+set(MORPHAC_PYTHON_MANIFEST_FILENAME MANIFEST.in)
 
 # Set up readme and license files.
 set(MORPHAC_README_FILE ${CMAKE_SOURCE_DIR}/README.md)
 set(MORPHAC_LICENSE_FILE ${CMAKE_SOURCE_DIR}/LICENSE)
 
+# Install files necessary for the setup. Some of these don't need to be installed in site-packages
+# in which case regular install is used.
+
 # Install the morphac config file.
-morphac_package_file(
-  ${MORPHAC_PACKAGE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
+install(FILES
   ${MORPHAC_CONFIG_FILE}
+  DESTINATION
+  ${MORPHAC_PACKAGE_DIR}
 )
 
 # Installing the version and setup files.
@@ -449,30 +461,32 @@ morphac_package_file(
   ${MORPHAC_PACKAGE_MODULE_DIR}
   ${PYTHON_BINDING_INSTALL_DIR}
   ${MORPHAC_PYTHON_VERSION_FILE}
-  ${MORPHAC_PYTHON_PACKAGE_VERSION_FILENAME}
+  ${MORPHAC_PYTHON_VERSION_FILENAME}
 )
 
-morphac_package_file(
-  ${MORPHAC_PACKAGE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
+install(FILES
   ${MORPHAC_PYTHON_SETUP_FILE}
-  ${MORPHAC_PYTHON_PACKAGE_SETUP_FILENAME}
+  DESTINATION
+  ${MORPHAC_PACKAGE_DIR}
+  RENAME
+  ${MORPHAC_PYTHON_SETUP_FILENAME}
 )
 
-morphac_package_file(
-  ${MORPHAC_PACKAGE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
+install(FILES
   ${MORPHAC_PYTHON_SETUP_CONFIG_FILE}
-  ${MORPHAC_PYTHON_PACKAGE_SETUP_CONFIG_FILENAME}
-)
-
-morphac_package_file(
+  DESTINATION
   ${MORPHAC_PACKAGE_DIR}
-  ${PYTHON_BINDING_INSTALL_DIR}
-  ${MORPHAC_PYTHON_MANIFEST_FILE}
-  ${MORPHAC_PYTHON_PACKAGE_MANIFEST_FILENAME}
+  RENAME
+  ${MORPHAC_PYTHON_SETUP_CONFIG_FILENAME}
 )
 
+install(FILES
+  ${MORPHAC_PYTHON_MANIFEST_FILE}
+  DESTINATION
+  ${MORPHAC_PACKAGE_DIR}
+  RENAME
+  ${MORPHAC_PYTHON_MANIFEST_FILENAME}
+)
 
 # Install the license and readme files.
 morphac_package_file(
