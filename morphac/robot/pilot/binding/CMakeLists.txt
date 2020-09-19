@@ -73,8 +73,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${PILOT_PACKAGES_INSTALL_DIR}
-  ${PILOT_SITE_PACKAGES_INSTALL_DIR}
+  ${PILOT_PACKAGE_DIR}
+  ${PILOT_SITE_PACKAGES_DIR}
   # Files
   ${PILOT_BINDING_DIR}/__init__.py
   ${PILOT_BINDING_BINARY_DIR}/${binding_install_file_name}

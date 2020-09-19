@@ -83,8 +83,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${CONSTRUCTS_PACKAGES_INSTALL_DIR}
-  ${CONSTRUCTS_SITE_PACKAGES_INSTALL_DIR}
+  ${CONSTRUCTS_PACKAGE_DIR}
+  ${CONSTRUCTS_SITE_PACKAGES_DIR}
   # Files
   ${CONSTRUCTS_BINDING_DIR}/__init__.py
   ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}

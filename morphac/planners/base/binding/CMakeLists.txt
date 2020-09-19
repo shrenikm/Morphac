@@ -73,8 +73,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${PLANNERS_BASE_PACKAGES_INSTALL_DIR}
-  ${PLANNERS_BASE_SITE_PACKAGES_INSTALL_DIR}
+  ${PLANNERS_BASE_PACKAGE_DIR}
+  ${PLANNERS_BASE_SITE_PACKAGES_DIR}
   # Files
   ${PLANNERS_BASE_BINDING_DIR}/__init__.py
   ${PLANNERS_BASE_BINDING_BINARY_DIR}/${binding_install_file_name}

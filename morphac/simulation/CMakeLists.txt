@@ -6,10 +6,10 @@ set(SIMULATION_BINARY_DIR ${MORPHAC_BINARY_DIR}/simulation)
 set(SIMULATION_BINDING_BINARY_DIR ${SIMULATION_BINARY_DIR}/binding)
 
 # Directories to install the bindings to.
-set(SIMULATION_PACKAGES_INSTALL_DIR
+set(SIMULATION_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/simulation
 )
-set(SIMULATION_SITE_PACKAGES_INSTALL_DIR
+set(SIMULATION_SITE_PACKAGES_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/simulation
 )
 
@@ -23,8 +23,8 @@ add_subdirectory(playground)
 # -------------------------------------------------
 
 morphac_package_files(
-  ${SIMULATION_PACKAGES_INSTALL_DIR}
-  ${SIMULATION_SITE_PACKAGES_INSTALL_DIR}
+  ${SIMULATION_PACKAGE_DIR}
+  ${SIMULATION_SITE_PACKAGES_DIR}
   # Files
   ${SIMULATION_DIR}/__init__.py
 )

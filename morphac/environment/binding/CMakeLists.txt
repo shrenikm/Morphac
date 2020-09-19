@@ -73,8 +73,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${ENVIRONMENT_PACKAGES_INSTALL_DIR}
-  ${ENVIRONMENT_SITE_PACKAGES_INSTALL_DIR}
+  ${ENVIRONMENT_PACKAGE_DIR}
+  ${ENVIRONMENT_SITE_PACKAGES_DIR}
   # Files
   ${ENVIRONMENT_BINDING_DIR}/__init__.py
   ${ENVIRONMENT_BINDING_BINARY_DIR}/${binding_install_file_name}

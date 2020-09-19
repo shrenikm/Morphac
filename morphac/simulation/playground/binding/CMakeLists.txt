@@ -77,8 +77,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${PLAYGROUND_PACKAGES_INSTALL_DIR}
-  ${PLAYGROUND_SITE_PACKAGES_INSTALL_DIR}
+  ${PLAYGROUND_PACKAGE_DIR}
+  ${PLAYGROUND_SITE_PACKAGES_DIR}
   # Files
   ${PLAYGROUND_BINDING_DIR}/__init__.py
   ${PLAYGROUND_BINDING_BINARY_DIR}/${binding_install_file_name}

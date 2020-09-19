@@ -79,8 +79,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${NUMERIC_PACKAGES_INSTALL_DIR}
-  ${NUMERIC_SITE_PACKAGES_INSTALL_DIR}
+  ${NUMERIC_PACKAGE_DIR}
+  ${NUMERIC_SITE_PACKAGES_DIR}
   # Files
   ${NUMERIC_BINDING_DIR}/__init__.py
   ${NUMERIC_BINDING_BINARY_DIR}/${binding_install_file_name}

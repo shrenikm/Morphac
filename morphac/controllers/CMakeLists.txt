@@ -6,10 +6,10 @@ set(CONTROLLERS_BINARY_DIR ${MORPHAC_BINARY_DIR}/controllers)
 set(CONTROLLERS_BINDING_BINARY_DIR ${CONTROLLERS_BINARY_DIR}/binding)
 
 # Directories to install the bindings to.
-set(CONTROLLERS_PACKAGES_INSTALL_DIR
+set(CONTROLLERS_PACKAGE_DIR
   ${MORPHAC_PACKAGE_MODULE_DIR}/controllers
 )
-set(CONTROLLERS_SITE_PACKAGES_INSTALL_DIR
+set(CONTROLLERS_SITE_PACKAGES_DIR
   ${PYTHON_BINDING_INSTALL_DIR}/controllers
 )
 
@@ -25,8 +25,8 @@ add_subdirectory(basic)
 # -------------------------------------------------
 
 morphac_package_files(
-  ${CONTROLLERS_PACKAGES_INSTALL_DIR}
-  ${CONTROLLERS_SITE_PACKAGES_INSTALL_DIR}
+  ${CONTROLLERS_PACKAGE_DIR}
+  ${CONTROLLERS_SITE_PACKAGES_DIR}
   # Files
   ${CONTROLLERS_DIR}/__init__.py
 )

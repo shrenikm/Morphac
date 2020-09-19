@@ -75,8 +75,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${GEOMETRY_PACKAGES_INSTALL_DIR}
-  ${GEOMETRY_SITE_PACKAGES_INSTALL_DIR}
+  ${GEOMETRY_PACKAGE_DIR}
+  ${GEOMETRY_SITE_PACKAGES_DIR}
   # Files
   ${GEOMETRY_BINDING_DIR}/__init__.py
   ${GEOMETRY_BINDING_BINARY_DIR}/${binding_install_file_name}

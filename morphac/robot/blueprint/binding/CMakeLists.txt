@@ -74,8 +74,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${BLUEPRINT_PACKAGES_INSTALL_DIR}
-  ${BLUEPRINT_SITE_PACKAGES_INSTALL_DIR}
+  ${BLUEPRINT_PACKAGE_DIR}
+  ${BLUEPRINT_SITE_PACKAGES_DIR}
   # Files
   ${BLUEPRINT_BINDING_DIR}/__init__.py
   ${BLUEPRINT_BINDING_BINARY_DIR}/${binding_install_file_name}

@@ -81,8 +81,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${MODELS_PACKAGES_INSTALL_DIR}
-  ${MODELS_SITE_PACKAGES_INSTALL_DIR}
+  ${MODELS_PACKAGE_DIR}
+  ${MODELS_SITE_PACKAGES_DIR}
   # Files
   ${MODELS_BINDING_DIR}/__init__.py
   ${MODELS_BINDING_BINARY_DIR}/${binding_install_file_name}

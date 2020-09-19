@@ -73,8 +73,8 @@ set(binding_install_file_name
 )
 
 morphac_package_files(
-  ${TRANSFORMS_PACKAGES_INSTALL_DIR}
-  ${TRANSFORMS_SITE_PACKAGES_INSTALL_DIR}
+  ${TRANSFORMS_PACKAGE_DIR}
+  ${TRANSFORMS_SITE_PACKAGES_DIR}
   # Files
   ${TRANSFORMS_BINDING_DIR}/__init__.py
   ${TRANSFORMS_BINDING_BINARY_DIR}/${binding_install_file_name}
