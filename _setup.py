@@ -53,8 +53,6 @@ setuptools.setup(
     # TODO: project_urls
     packages=setuptools.find_packages(include=["morphac", "morphac.*"]),
     include_package_data=True,
-    # data_files=
-    # packages=["morphac"],
     python_requires=">=3.5",
 )
 
