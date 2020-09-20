@@ -385,8 +385,8 @@ if(NOT is_python_version_valid)
   message(FATAL_ERROR "[ Python valid must be >= ${PYTHON_MINIMUM_VERSION} ]")
 endif()
 
-# Finding the python executable.
-find_package(PythonInterp ${PYTHON_VERSION} REQUIRED)
+# Finding the python executable for the version.
+find_package(PythonInterp ${PYTHON_VERSION} EXACT REQUIRED)
 
 
 # Python package directory. Note that this is different from the python bindings
