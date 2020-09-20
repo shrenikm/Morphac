@@ -20,12 +20,6 @@ void define_ackermann_model_binding(py::module& m) {
                       py::arg("robot_state"), py::arg("control_input"));
   ackermann_model.def("normalized_state", &AckermannModel::NormalizeState,
                       py::arg("robot_state"));
-  ackermann_model.def("compute_inner_steering_angle",
-                      &AckermannModel::ComputeInnerSteeringAngle,
-                      py::arg("ideal_steering_angle"));
-  ackermann_model.def("compute_outer_steering_angle",
-                      &AckermannModel::ComputeOuterSteeringAngle,
-                      py::arg("ideal_steering_angle"));
   ackermann_model.def("compute_steering_angles",
                       &AckermannModel::ComputeSteeringAngles,
                       py::arg("ideal_steering_angle"));

@@ -6,6 +6,7 @@ namespace models {
 
 using std::atan2;
 using std::cos;
+using std::fabs;
 using std::min;
 using std::sin;
 using std::tan;
@@ -90,9 +91,19 @@ double AckermannModel::ComputeOuterSteeringAngle(
 
 vector<double> AckermannModel::ComputeSteeringAngles(
     const double ideal_steering_angle) const {
-  vector<double> steering_angles = {
-      ComputeInnerSteeringAngle(ideal_steering_angle),
-      ComputeOuterSteeringAngle(ideal_steering_angle)};
+  // We compute the angles using the absoltue ideal angle first. By the nature
+  // of symmetry, we just negate the values after if the the ideal angle was
+  // negative. Passing a negative value into the computation doesn't correctly
+  // for some reason.
+  double inner_steering_angle =
+      ComputeInnerSteeringAngle(fabs(ideal_steering_angle));
+  double outer_steering_angle =
+      ComputeOuterSteeringAngle(fabs(ideal_steering_angle));
+  if (ideal_steering_angle < 0.) {
+    inner_steering_angle = -inner_steering_angle;
+    outer_steering_angle = -outer_steering_angle;
+  }
+  vector<double> steering_angles = {inner_steering_angle, outer_steering_angle};
   return steering_angles;
 }
 

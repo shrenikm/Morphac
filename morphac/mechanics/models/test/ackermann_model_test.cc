@@ -137,34 +137,29 @@ TEST_F(AckermannModelTest, ComputeSteeringAngles) {
   // Sanity check for when the ideal steering is zero. In this case the inner
   // and outer angles must also be zero.
   double ideal_steering_angle = 0.;
-  double inner_steering =
-      ackermann_model.ComputeInnerSteeringAngle(ideal_steering_angle);
-  double outer_steering =
-      ackermann_model.ComputeOuterSteeringAngle(ideal_steering_angle);
-  ASSERT_EQ(inner_steering, 0.);
-  ASSERT_EQ(outer_steering, 0.);
+  vector<double> steering_angles =
+      ackermann_model.ComputeSteeringAngles(ideal_steering_angle);
+  ASSERT_EQ(steering_angles[0], 0.);
+  ASSERT_EQ(steering_angles[1], 0.);
 
   // Steering angles for an ideal steering angle of 45 degrees (Turning to the
   // left).
   ideal_steering_angle = M_PI / 4;
-  inner_steering =
-      ackermann_model.ComputeInnerSteeringAngle(ideal_steering_angle);
-  outer_steering =
-      ackermann_model.ComputeOuterSteeringAngle(ideal_steering_angle);
+  steering_angles = ackermann_model.ComputeSteeringAngles(ideal_steering_angle);
 
   // The angles must follow inner > ideal > outer.
-  ASSERT_GT(inner_steering, ideal_steering_angle);
-  ASSERT_GT(ideal_steering_angle, outer_steering);
+  ASSERT_GT(steering_angles[0], ideal_steering_angle);
+  ASSERT_GT(ideal_steering_angle, steering_angles[1]);
 
   // The same thing applies for when the ideal steering is to the right.
   // Testing if the function that returns both the inner and outer angles works.
-
   ideal_steering_angle = -M_PI / 4;
-  vector<double> steering_angles =
-      ackermann_model.ComputeSteeringAngles(ideal_steering_angle);
+  steering_angles = ackermann_model.ComputeSteeringAngles(ideal_steering_angle);
 
-  ASSERT_GT(steering_angles[0], ideal_steering_angle);
-  ASSERT_GT(ideal_steering_angle, steering_angles[1]);
+  // As the angle is negative, the inner angle must be more negative and hence
+  // the least.
+  ASSERT_LT(steering_angles[0], ideal_steering_angle);
+  ASSERT_LT(ideal_steering_angle, steering_angles[1]);
 }
 
 TEST_F(AckermannModelTest, StateNormalization) {

@@ -23,8 +23,6 @@ class AckermannModel : public morphac::mechanics::models::KinematicModel {
   morphac::constructs::State NormalizeState(
       const morphac::constructs::State& state) const override;
 
-  double ComputeInnerSteeringAngle(const double ideal_steering_angle) const;
-  double ComputeOuterSteeringAngle(const double ideal_steering_angle) const;
   std::vector<double> ComputeSteeringAngles(
       const double ideal_steering_angle) const;
 
@@ -32,6 +30,10 @@ class AckermannModel : public morphac::mechanics::models::KinematicModel {
 
   const double width;
   const double length;
+
+ private:
+  double ComputeInnerSteeringAngle(const double ideal_steering_angle) const;
+  double ComputeOuterSteeringAngle(const double ideal_steering_angle) const;
 };
 
 }  // namespace models
