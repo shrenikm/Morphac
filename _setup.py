@@ -50,7 +50,6 @@ CLASSIFIERS = [
     "Natural Language :: English",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: C++",
-    "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
@@ -88,6 +87,6 @@ setuptools.setup(
     packages=setuptools.find_packages(include=["morphac", "morphac.*"]),
     # Look at MANIFEST.in to see what gets included.
     include_package_data=True,
-    python_requires=">=3.5",
+    python_requires=">=3.6",
 )
 

@@ -363,7 +363,7 @@ set(STATIC_TARGET_SUFFIX "_static")
 print_section_header("Python Configuration")
 
 # Minimum python version required.
-set(PYTHON_MINIMUM_VERSION 3.5)
+set(PYTHON_MINIMUM_VERSION 3.6)
 # Prefix for compiled python bindings.
 set(PYTHON_BINDING_PREFIX "_binding_")
 # Suffix for python targets.
