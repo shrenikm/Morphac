@@ -21,7 +21,7 @@ The library is written in C++ and will have python bindings for all functionalit
 ### Building from source
 Clone the repository
 ```bash
-git clone https://github.com/shrenikm/Morphac.git>
+git clone https://github.com/shrenikm/Morphac.git
 ```
 Initialize and update submodules
 ```bash
