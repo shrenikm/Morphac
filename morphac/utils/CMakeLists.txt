@@ -52,6 +52,7 @@ morphac_add_libraries(
 
 # Adding library dependencies.
 morphac_link_libraries(integrator_utils
+  TRUE
   integrator
   euler_integrator
   mid_point_integrator

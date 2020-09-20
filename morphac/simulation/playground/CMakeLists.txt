@@ -47,12 +47,14 @@ morphac_add_libraries(
 
 # Adding library dependencies.
 morphac_link_libraries(playground_state
+  TRUE
   state
   map
   robot
 )
 
 morphac_link_libraries(playground
+  TRUE
   playground_spec
   playground_state
   pilot

@@ -46,11 +46,13 @@ morphac_add_libraries(
 
 # Adding library dependencies.
 morphac_link_libraries(constant_controller
+  TRUE
   control_input
   controller
 )
 
 morphac_link_libraries(zero_controller
+  TRUE
   control_input
   controller
 )

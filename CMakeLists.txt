@@ -169,8 +169,11 @@ endfunction()
 
 
 # Function that links libraries to the target.
-# Also links the static libraries if required (for the bindings).
-function(morphac_link_libraries target)
+# Also links the static libraries if the second argument is true.
+# Here it is important to note that the target name will be suffixed with
+# STATIC_TARGET_SUFFIX. If this is to be avoided, use morphac_link_static_libraries instead.
+function(morphac_link_libraries target link_static)
+  # Link regular shared libraries.
   set(libraries ${ARGN})
   target_link_libraries(${target}
     PUBLIC
@@ -178,7 +181,7 @@ function(morphac_link_libraries target)
   )
 
   # If we build python bindings, we link the static libraries as well.
-  if(BUILD_PYTHON_BINDINGS)
+  if(link_static)
     get_static_target_name(static_target ${target})
     morphac_link_static_libraries(${static_target} ${libraries})
   endif()
@@ -330,17 +333,17 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 message(STATUS "[ C++ version: ${CMAKE_CXX_STANDARD} ]")
 
-if (${BUILD_WITH_WARNINGS})
+if (BUILD_WITH_WARNINGS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-endif(${BUILD_WITH_WARNINGS})
+endif(BUILD_WITH_WARNINGS)
 
-if (${BUILD_WITH_WARNINGS_AS_ERRORS})
+if (BUILD_WITH_WARNINGS_AS_ERRORS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
-endif(${BUILD_WITH_WARNINGS_AS_ERRORS})
+endif(BUILD_WITH_WARNINGS_AS_ERRORS)
 
-if (${BUILD_TESTS})
+if (BUILD_TESTS)
   enable_testing()
-endif(${BUILD_TESTS})
+endif(BUILD_TESTS)
 
 
 # Target and library configuration
@@ -393,11 +396,11 @@ set(MORPHAC_SITE_PACKAGES_TEST_DIR ${MORPHAC_SITE_PACKAGES_DIR}/test)
 set(MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR ${MORPHAC_SITE_PACKAGES_TEST_DIR}/unit_tests)
 
 message(STATUS "[ Python version: ${PYTHON_VERSION} ]")
-if(${PYTHONINTERP_FOUND})
+if(PYTHONINTERP_FOUND)
   message(STATUS "[ Python Interpreter found ]")
-else(${PYTHONINTERP_FOUND})
+else(PYTHONINTERP_FOUND)
   message(STATUS "[ Python Interpreter not found ]")
-endif(${PYTHONINTERP_FOUND})
+endif(PYTHONINTERP_FOUND)
 
 message(STATUS
   "[ Python binding install directory: ${MORPHAC_SITE_PACKAGES_DIR} ]"

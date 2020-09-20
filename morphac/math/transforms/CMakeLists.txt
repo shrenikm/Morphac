@@ -45,6 +45,7 @@ morphac_add_libraries(
 
 # Adding library dependencies.
 morphac_link_libraries(transforms
+  TRUE
   points_utils
 )
 

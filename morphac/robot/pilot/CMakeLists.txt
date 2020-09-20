@@ -44,6 +44,7 @@ morphac_add_libraries(
 
 # Adding library dependencies.
 morphac_link_libraries(pilot
+  TRUE
   control_input
   playground_state
 )

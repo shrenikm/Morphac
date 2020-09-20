@@ -47,10 +47,12 @@ morphac_add_libraries(
 
 # Adding library dependencies.
 morphac_link_libraries(lines
+  TRUE
   numeric_utils
 )
 
 morphac_link_libraries(polygons
+  TRUE
   points_utils
   transforms
 )
