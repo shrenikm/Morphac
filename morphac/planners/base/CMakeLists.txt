@@ -17,6 +17,14 @@ set(PLANNERS_BASE_BINDING_INSTALL_DIR
   ${PLANNERS_BINDING_INSTALL_DIR}/base
 )
 
+# Directories to install the bindings to.
+set(PLANNERS_BASE_PACKAGE_DIR
+  ${PLANNERS_PACKAGE_DIR}/base
+)
+set(PLANNERS_BASE_SITE_PACKAGES_DIR
+  ${PLANNERS_SITE_PACKAGES_DIR}/base
+)
+
 # Adding subdirectories
 # -------------------------------------------------
 
@@ -32,24 +40,11 @@ set(PLANNERS_BASE_SRC
   planner.cc
 )
 
-foreach(file ${PLANNERS_BASE_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${PLANNERS_BASE_SRC_DIR}/${file}
-    ${PLANNERS_BASE_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${PLANNERS_BASE_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${PLANNERS_BASE_INCLUDE_DIR}
+  ${PLANNERS_BASE_SRC_DIR}
+  ${PLANNERS_BASE_SRC}
+)
 
 
 # Tests
@@ -83,4 +78,15 @@ target_link_libraries(planner_test
   gtest_main
   trajectory
   planner
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${PLANNERS_BASE_PYTHON_DIR}/test
 )

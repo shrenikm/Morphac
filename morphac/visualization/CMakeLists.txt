@@ -6,19 +6,17 @@ set(VISUALIZATION_PYTHON_DIR ${VISUALIZATION_DIR}/python)
 
 set(VISUALIZATION_BINARY_DIR ${MORPHAC_BINARY_DIR}/visualization)
 
-set(VISUALIZATION_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/visualization
+# Directories to install the bindings to.
+set(VISUALIZATION_PACKAGE_DIR
+  ${MORPHAC_PACKAGE_MODULE_DIR}/visualization
+)
+set(VISUALIZATION_SITE_PACKAGES_DIR
+  ${MORPHAC_SITE_PACKAGES_DIR}/visualization
 )
 
-# Python files
+
+# Installing
 # -------------------------------------------------
-
-# Installing __init__ files.
-install(FILES
-  ${VISUALIZATION_DIR}/__init__.py
-  DESTINATION
-  ${VISUALIZATION_BINDING_INSTALL_DIR}
-)
 
 # List of python files.
 set(VISUALIZATION_PYTHON_FILES
@@ -33,9 +31,17 @@ prepend_list(VISUALIZATION_PYTHON_FILES
   ${VISUALIZATION_PYTHON_FILES}
 )
 
-# Install the python files.
-install(FILES
+morphac_package_files(
+  ${VISUALIZATION_PACKAGE_DIR}
+  ${VISUALIZATION_SITE_PACKAGES_DIR}
+  # Files
+  ${VISUALIZATION_DIR}/__init__.py
   ${VISUALIZATION_PYTHON_FILES}
-  DESTINATION
-  ${VISUALIZATION_BINDING_INSTALL_DIR}
+)
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${VISUALIZATION_PYTHON_DIR}/test
 )

@@ -1,11 +1,6 @@
 # Bindings
 # -------------------------------------------------
 
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
-
 # Src file that creates the python module.
 set(PLAYGROUND_MODULE_FILE
 
@@ -49,8 +44,7 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-target_link_libraries(${python_target}
-  PUBLIC
+morphac_link_static_libraries(${python_target}
   playground_spec
   playground_state
   playground
@@ -77,17 +71,14 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_package_files(
+  ${PLAYGROUND_PACKAGE_DIR}
+  ${PLAYGROUND_SITE_PACKAGES_DIR}
+  # Files
+  ${PLAYGROUND_BINDING_DIR}/__init__.py
   ${PLAYGROUND_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${PLAYGROUND_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${PLAYGROUND_BINDING_DIR}/__init__.py
-  DESTINATION ${PLAYGROUND_BINDING_INSTALL_DIR}
-)
 
 
 

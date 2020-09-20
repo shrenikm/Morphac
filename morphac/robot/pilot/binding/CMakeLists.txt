@@ -1,11 +1,6 @@
 # Bindings
 # -------------------------------------------------
 
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
-
 # Src file that creates the python module.
 set(PILOT_MODULE_FILE
 
@@ -47,8 +42,7 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-target_link_libraries(${python_target}
-  PUBLIC
+morphac_link_static_libraries(${python_target}
   pilot
 )
 
@@ -73,14 +67,11 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_package_files(
+  ${PILOT_PACKAGE_DIR}
+  ${PILOT_SITE_PACKAGES_DIR}
+  # Files
+  ${PILOT_BINDING_DIR}/__init__.py
   ${PILOT_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${PILOT_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${PILOT_BINDING_DIR}/__init__.py
-  DESTINATION ${PILOT_BINDING_INSTALL_DIR}
-)

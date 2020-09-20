@@ -1,0 +1,18 @@
+# Include readmes
+include *.md
+
+# Include license
+include LICENSE
+
+# Include pytest configuration files.
+include pytest.ini
+
+# Include the pytest run script.
+include run_tests.py
+
+# Include everything except the cache directories.
+recursive-include morphac *
+
+prune */__pycache__
+global-exclude __pycache__
+global-exclude *.py[co]

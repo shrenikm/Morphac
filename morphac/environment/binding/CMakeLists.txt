@@ -1,11 +1,6 @@
 # Bindings
 # -------------------------------------------------
 
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
-
 # Src file that creates the python module.
 set(ENVIRONMENT_MODULE_FILE
 
@@ -47,8 +42,7 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-target_link_libraries(${python_target}
-  PUBLIC
+morphac_link_static_libraries(${python_target}
   map
 )
 
@@ -73,17 +67,14 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_package_files(
+  ${ENVIRONMENT_PACKAGE_DIR}
+  ${ENVIRONMENT_SITE_PACKAGES_DIR}
+  # Files
+  ${ENVIRONMENT_BINDING_DIR}/__init__.py
   ${ENVIRONMENT_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${ENVIRONMENT_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${ENVIRONMENT_BINDING_DIR}/__init__.py
-  DESTINATION ${ENVIRONMENT_BINDING_INSTALL_DIR}
-)
 
 
 

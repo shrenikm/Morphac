@@ -6,7 +6,18 @@ set(MORPHAC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${MORPHAC_DIR})
 
 # Base morphac binary directory.
-set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/morphac)
+set(MORPHAC_BINARY_DIR ${CMAKE_BINARY_DIR}/${MORPHAC_NAME})
+
+# Run tests script file.
+set(MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILE ${MORPHAC_DIR}/_run_tests.py)
+# File name to be renamed to during installation.
+set(MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILENAME run_tests.py)
+
+# Run examples script file.
+set(MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILE ${MORPHAC_DIR}/_run_examples.py)
+# File name to be renamed to during installation.
+set(MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILENAME run_examples.py)
+
 
 # Adding subdirectories
 # -------------------------------------------------
@@ -28,9 +39,30 @@ add_subdirectory(visualization)
 # Installing
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
+# Installing the main __init__ file.
+morphac_package_files(
+  ${MORPHAC_PACKAGE_MODULE_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
+  # Files
   ${MORPHAC_DIR}/__init__.py
-  DESTINATION
-  ${PYTHON_BINDING_INSTALL_DIR}/morphac
 )
+
+# Install the run_tests script.
+morphac_package_file(
+  ${MORPHAC_PACKAGE_MODULE_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
+  ${MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILE}
+  ${MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILENAME}
+
+)
+
+# Install the run_examples script.
+morphac_package_file(
+  ${MORPHAC_PACKAGE_MODULE_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
+  ${MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILE}
+  ${MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILENAME}
+
+)
+
+

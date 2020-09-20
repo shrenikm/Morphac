@@ -1,11 +1,6 @@
 # Bindings
 # -------------------------------------------------
 
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
-
 # Src file that creates the python module.
 set(CONSTRUCTS_MODULE_FILE
 
@@ -52,8 +47,7 @@ target_include_directories(${python_target}
 )
 
 # Adding library dependencies.
-target_link_libraries(${python_target}
-  PUBLIC
+morphac_link_static_libraries(${python_target}
   coordinate
   control_input
   pose
@@ -83,14 +77,12 @@ set(binding_install_file_name
   ${PYTHON_BINDING_PREFIX}${python_target}${binding_suffix}
 )
 
-# Installing compiled bindings.
-install(FILES
+morphac_package_files(
+  ${CONSTRUCTS_PACKAGE_DIR}
+  ${CONSTRUCTS_SITE_PACKAGES_DIR}
+  # Files
+  ${CONSTRUCTS_BINDING_DIR}/__init__.py
   ${CONSTRUCTS_BINDING_BINARY_DIR}/${binding_install_file_name}
-  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
 )
 
-# Installing __init__ files.
-install(FILES
-  ${CONSTRUCTS_BINDING_DIR}/__init__.py
-  DESTINATION ${CONSTRUCTS_BINDING_INSTALL_DIR}
-)
+

@@ -13,8 +13,13 @@ set(CONSTRUCTS_BINDING_DIR ${CONSTRUCTS_DIR}/binding)
 set(CONSTRUCTS_BINDING_INCLUDE_DIR ${CONSTRUCTS_BINDING_DIR}/include)
 set(CONSTRUCTS_BINDING_SRC_DIR ${CONSTRUCTS_BINDING_DIR}/src)
 set(CONSTRUCTS_BINDING_BINARY_DIR ${CONSTRUCTS_BINARY_DIR}/binding)
-set(CONSTRUCTS_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/constructs
+
+# Directories to install the bindings to.
+set(CONSTRUCTS_PACKAGE_DIR
+  ${MORPHAC_PACKAGE_MODULE_DIR}/constructs
+)
+set(CONSTRUCTS_SITE_PACKAGES_DIR
+  ${MORPHAC_SITE_PACKAGES_DIR}/constructs
 )
 
 
@@ -38,34 +43,21 @@ set(CONSTRUCTS_SRC
   velocity.cc
 )
 
-foreach(file ${CONSTRUCTS_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${CONSTRUCTS_SRC_DIR}/${file}
-    ${CONSTRUCTS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${CONSTRUCTS_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${CONSTRUCTS_INCLUDE_DIR}
+  ${CONSTRUCTS_SRC_DIR}
+  ${CONSTRUCTS_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(state
-  PUBLIC
+morphac_link_libraries(state
+  TRUE
   pose
   velocity
 )
 
-target_link_libraries(trajectory
-  PUBLIC
+morphac_link_libraries(trajectory
+  TRUE
   state
 )
 
@@ -135,4 +127,15 @@ target_link_libraries(velocity_test
   PUBLIC
   gtest_main
   velocity
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${CONSTRUCTS_PYTHON_DIR}/test
 )

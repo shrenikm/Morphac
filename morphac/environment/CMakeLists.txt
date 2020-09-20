@@ -13,8 +13,13 @@ set(ENVIRONMENT_BINDING_DIR ${ENVIRONMENT_DIR}/binding)
 set(ENVIRONMENT_BINDING_INCLUDE_DIR ${ENVIRONMENT_BINDING_DIR}/include)
 set(ENVIRONMENT_BINDING_SRC_DIR ${ENVIRONMENT_BINDING_DIR}/src)
 set(ENVIRONMENT_BINDING_BINARY_DIR ${ENVIRONMENT_BINARY_DIR}/binding)
-set(ENVIRONMENT_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/environment
+
+# Directories to install the bindings to.
+set(ENVIRONMENT_PACKAGE_DIR
+  ${MORPHAC_PACKAGE_MODULE_DIR}/environment
+)
+set(ENVIRONMENT_SITE_PACKAGES_DIR
+  ${MORPHAC_SITE_PACKAGES_DIR}/environment
 )
 
 
@@ -33,21 +38,11 @@ set(ENVIRONMENT_SRC
   map.cc
 )
 
-foreach(file ${ENVIRONMENT_SRC})
-  get_filename_component(lib_name ${file} NAME_WE)
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${ENVIRONMENT_SRC_DIR}/${file}
-    ${ENVIRONMENT_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${ENVIRONMENT_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${ENVIRONMENT_INCLUDE_DIR}
+  ${ENVIRONMENT_SRC_DIR}
+  ${ENVIRONMENT_SRC}
+)
 
 
 # Tests
@@ -80,5 +75,16 @@ target_link_libraries(map_test
   PUBLIC
   gtest_main
   map
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${ENVIRONMENT_PYTHON_DIR}/test
 )
 

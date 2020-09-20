@@ -6,23 +6,20 @@ set(EXAMPLES_PYTHON_DIR ${EXAMPLES_DIR}/python)
 
 set(EXAMPLES_BINARY_DIR ${MORPHAC_BINARY_DIR}/examples)
 
-set(EXAMPLES_BINDING_INSTALL_DIR
-  ${PYTHON_BINDING_INSTALL_DIR}/examples
+# Directories to install the bindings to.
+set(EXAMPLES_PACKAGE_DIR
+  ${MORPHAC_PACKAGE_MODULE_DIR}/examples
+)
+set(EXAMPLES_SITE_PACKAGES_DIR
+  ${MORPHAC_SITE_PACKAGES_DIR}/examples
 )
 
 # Python files
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
-  ${EXAMPLES_DIR}/__init__.py
-  DESTINATION
-  ${EXAMPLES_BINDING_INSTALL_DIR}
-)
-
 # List of python files.
 set(EXAMPLES_PYTHON_FILES
-  constant_controller_simulation.py
+  constant_controller_example.py
 )
 
 # Appending the directory of the python files.
@@ -31,9 +28,10 @@ prepend_list(EXAMPLES_PYTHON_FILES
   ${EXAMPLES_PYTHON_FILES}
 )
 
-# Install the python files.
-install(FILES
+morphac_package_files(
+  ${EXAMPLES_PACKAGE_DIR}
+  ${EXAMPLES_SITE_PACKAGES_DIR}
+  # Files
+  ${EXAMPLES_DIR}/__init__.py
   ${EXAMPLES_PYTHON_FILES}
-  DESTINATION
-  ${EXAMPLES_BINDING_INSTALL_DIR}
 )

@@ -13,8 +13,13 @@ set(CONTROLLERS_BASE_BINDING_DIR ${CONTROLLERS_BASE_DIR}/binding)
 set(CONTROLLERS_BASE_BINDING_INCLUDE_DIR ${CONTROLLERS_BASE_BINDING_DIR}/include)
 set(CONTROLLERS_BASE_BINDING_SRC_DIR ${CONTROLLERS_BASE_BINDING_DIR}/src)
 set(CONTROLLERS_BASE_BINDING_BINARY_DIR ${CONTROLLERS_BASE_BINARY_DIR}/binding)
-set(CONTROLLERS_BASE_BINDING_INSTALL_DIR
-  ${CONTROLLERS_BINDING_INSTALL_DIR}/base
+
+# Directories to install the bindings to.
+set(CONTROLLERS_BASE_PACKAGE_DIR
+  ${CONTROLLERS_PACKAGE_DIR}/base
+)
+set(CONTROLLERS_BASE_SITE_PACKAGES_DIR
+  ${CONTROLLERS_SITE_PACKAGES_DIR}/base
 )
 
 # Adding subdirectories
@@ -32,24 +37,11 @@ set(CONTROLLERS_BASE_SRC
   controller.cc
 )
 
-foreach(file ${CONTROLLERS_BASE_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${CONTROLLERS_BASE_SRC_DIR}/${file}
-    ${CONTROLLERS_BASE_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${CONTROLLERS_BASE_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${CONTROLLERS_BASE_INCLUDE_DIR}
+  ${CONTROLLERS_BASE_SRC_DIR}
+  ${CONTROLLERS_BASE_SRC}
+)
 
 
 # Tests
@@ -83,4 +75,15 @@ target_link_libraries(controller_test
   gtest_main
   control_input
   controller
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${CONTROLLERS_BASE_PYTHON_DIR}/test
 )

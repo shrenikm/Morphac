@@ -13,10 +13,14 @@ set(TRANSFORMS_BINDING_DIR ${TRANSFORMS_DIR}/binding)
 set(TRANSFORMS_BINDING_INCLUDE_DIR ${TRANSFORMS_BINDING_DIR}/include)
 set(TRANSFORMS_BINDING_SRC_DIR ${TRANSFORMS_BINDING_DIR}/src)
 set(TRANSFORMS_BINDING_BINARY_DIR ${TRANSFORMS_BINARY_DIR}/binding)
-set(TRANSFORMS_BINDING_INSTALL_DIR
-  ${MATH_BINDING_INSTALL_DIR}/transforms
-)
 
+# Directories to install the bindings to.
+set(TRANSFORMS_PACKAGE_DIR
+  ${MATH_PACKAGE_DIR}/transforms
+)
+set(TRANSFORMS_SITE_PACKAGES_DIR
+  ${MATH_SITE_PACKAGES_DIR}/transforms
+)
 
 # Adding subdirectories
 # -------------------------------------------------
@@ -33,28 +37,15 @@ set(TRANSFORMS_SRC
   transforms.cc
 )
 
-foreach(file ${TRANSFORMS_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${TRANSFORMS_SRC_DIR}/${file}
-    ${TRANSFORMS_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${TRANSFORMS_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${TRANSFORMS_INCLUDE_DIR}
+  ${TRANSFORMS_SRC_DIR}
+  ${TRANSFORMS_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(transforms
-  PUBLIC
+morphac_link_libraries(transforms
+  TRUE
   points_utils
 )
 
@@ -89,4 +80,15 @@ target_link_libraries(transforms_test
   PUBLIC
   gtest_main
   transforms
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${TRANSFORMS_PYTHON_DIR}/test
 )

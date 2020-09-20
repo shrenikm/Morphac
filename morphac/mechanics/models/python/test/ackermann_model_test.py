@@ -122,9 +122,9 @@ def test_compute_steering_angles(generate_ackermann_model_list):
     # This relation must always follow:
     # Outer angle < ideal angle < inner angle
     ideal_steering_angle = np.pi / 4.0
-    inner_steering_angle = a1.compute_inner_steering_angle(ideal_steering_angle)
-    outer_steering_angle = a1.compute_outer_steering_angle(ideal_steering_angle)
-
+    inner_steering_angle, outer_steering_angle = a2.compute_steering_angles(
+        ideal_steering_angle
+    )
     assert outer_steering_angle < ideal_steering_angle < inner_steering_angle
 
     # Test for a negative ideal angle. Also make sure that the function that
@@ -134,7 +134,9 @@ def test_compute_steering_angles(generate_ackermann_model_list):
         ideal_steering_angle
     )
 
-    assert outer_steering_angle < ideal_steering_angle < inner_steering_angle
+    # When the ideal is negative, the inner angle must be more negative
+    # and hence the least.
+    assert inner_steering_angle < ideal_steering_angle < outer_steering_angle
 
 
 def test_normalize_state():

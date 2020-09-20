@@ -13,7 +13,14 @@ set(BLUEPRINT_BINDING_DIR ${BLUEPRINT_DIR}/binding)
 set(BLUEPRINT_BINDING_INCLUDE_DIR ${BLUEPRINT_BINDING_DIR}/include)
 set(BLUEPRINT_BINDING_SRC_DIR ${BLUEPRINT_BINDING_DIR}/src)
 set(BLUEPRINT_BINDING_BINARY_DIR ${BLUEPRINT_BINARY_DIR}/binding)
-set(BLUEPRINT_BINDING_INSTALL_DIR ${ROBOT_BINDING_INSTALL_DIR}/blueprint)
+
+# Directories to install the bindings to.
+set(BLUEPRINT_PACKAGE_DIR
+  ${ROBOT_PACKAGE_DIR}/blueprint
+)
+set(BLUEPRINT_SITE_PACKAGES_DIR
+  ${ROBOT_SITE_PACKAGES_DIR}/blueprint
+)
 
 
 # Adding subdirectories
@@ -32,38 +39,23 @@ set(BLUEPRINT_SRC
   robot.cc
 )
 
-foreach(file ${BLUEPRINT_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${BLUEPRINT_SRC_DIR}/${file}
-    ${BLUEPRINT_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${BLUEPRINT_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${BLUEPRINT_INCLUDE_DIR}
+  ${BLUEPRINT_SRC_DIR}
+  ${BLUEPRINT_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(footprint
-  PUBLIC
+morphac_link_libraries(footprint
+  TRUE
   coordinate
   polygons
 )
 
-target_link_libraries(robot
-  PUBLIC
+morphac_link_libraries(robot
+  TRUE
   control_input
-  pose
   state
-  velocity
   kinematic_model
   footprint
 )
@@ -106,5 +98,16 @@ target_link_libraries(robot_test
   PUBLIC
   gtest_main
   robot
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${BLUEPRINT_PYTHON_DIR}/test
 )
 

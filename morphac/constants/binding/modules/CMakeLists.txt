@@ -1,7 +1,5 @@
-# If BUILD_PYTHON_BINDINGS is OFF, we don't need to proceed.
-if(NOT BUILD_PYTHON_BINDINGS)
-  return()
-endif()
+# Modules
+# -------------------------------------------------
 
 # Different modules within constants. Even though we bind all the cpp bindings under
 # "constants", in order to keep it consistent with the pure python constants modules,
@@ -18,8 +16,10 @@ set(CONSTANTS_MODULES
 
 # Installing the individual __init__ files into the proper directories.
 foreach(module ${CONSTANTS_MODULES})
-  install(FILES
+  morphac_package_files(
+    ${CONSTANTS_PACKAGE_DIR}/${module}
+    ${CONSTANTS_SITE_PACKAGES_DIR}/${module}
+    # Files
     ${CONSTANTS_BINDING_MODULES_DIR}/${module}/__init__.py
-    DESTINATION ${CONSTANTS_BINDING_INSTALL_DIR}/${module}
   )
 endforeach()

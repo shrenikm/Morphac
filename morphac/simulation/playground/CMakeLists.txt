@@ -13,8 +13,13 @@ set(PLAYGROUND_BINDING_DIR ${PLAYGROUND_DIR}/binding)
 set(PLAYGROUND_BINDING_INCLUDE_DIR ${PLAYGROUND_BINDING_DIR}/include)
 set(PLAYGROUND_BINDING_SRC_DIR ${PLAYGROUND_BINDING_DIR}/src)
 set(PLAYGROUND_BINDING_BINARY_DIR ${PLAYGROUND_BINARY_DIR}/binding)
-set(PLAYGROUND_BINDING_INSTALL_DIR
-  ${SIMULATION_BINDING_INSTALL_DIR}/playground
+
+# Directories to install the bindings to.
+set(PLAYGROUND_PACKAGE_DIR
+  ${SIMULATION_PACKAGE_DIR}/playground
+)
+set(PLAYGROUND_SITE_PACKAGES_DIR
+  ${SIMULATION_SITE_PACKAGES_DIR}/playground
 )
 
 # Adding subdirectories
@@ -34,35 +39,22 @@ set(PLAYGROUND_SRC
   playground_state.cc
 )
 
-foreach(file ${PLAYGROUND_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${PLAYGROUND_SRC_DIR}/${file}
-    ${PLAYGROUND_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${PLAYGROUND_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${PLAYGROUND_INCLUDE_DIR}
+  ${PLAYGROUND_SRC_DIR}
+  ${PLAYGROUND_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(playground_state
-  PUBLIC
+morphac_link_libraries(playground_state
+  TRUE
   state
   map
   robot
 )
 
-target_link_libraries(playground
-  PUBLIC
+morphac_link_libraries(playground
+  TRUE
   playground_spec
   playground_state
   pilot
@@ -119,7 +111,7 @@ target_link_libraries(playground_test
 )
 
 
-# Python files
+# Installing
 # -------------------------------------------------
 
 # List of python files.
@@ -133,9 +125,17 @@ prepend_list(PLAYGROUND_PYTHON_FILES
   ${PLAYGROUND_PYTHON_FILES}
 )
 
-# Install the python files.
-install(FILES
+morphac_package_files(
+  ${PLAYGROUND_PACKAGE_DIR}
+  ${PLAYGROUND_SITE_PACKAGES_DIR}
+  # Files
   ${PLAYGROUND_PYTHON_FILES}
-  DESTINATION
-  ${PLAYGROUND_BINDING_INSTALL_DIR}
 )
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${PLAYGROUND_PYTHON_DIR}/test
+)
+

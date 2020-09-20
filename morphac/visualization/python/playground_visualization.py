@@ -34,9 +34,6 @@ class PlaygroundVisualizer(object):
     def _initialize_resolution(self):
         return self.playground.state.map.resolution
 
-    def __attrs_post_init__(self):
-        self._initialize_window()
-
     # Exposing the add drawing kernel functionality.
     def add_robot_drawing_kernel(self, uid, drawing_kernel):
         # The validity check for the kernel happens inside RobotVisualizer.
@@ -60,24 +57,19 @@ class PlaygroundVisualizer(object):
         )
 
     def _visualize(self, visualize):
-        if visualize:
-            canvas = self._get_visualization_canvas()
+        canvas = self._get_visualization_canvas()
 
-            # Resize and display.
-            canvas = self._resize_canvas(canvas)
-            cv2.imshow(self.playground.spec.name, canvas)
+        # Resize and display.
+        canvas = self._resize_canvas(canvas)
+        cv2.imshow(self.playground.spec.name, canvas)
 
-            # TODO: Make this delay dynamic
-            key = cv2.waitKey(1) & 0xFF
+        # TODO: Make this delay dynamic
+        key = cv2.waitKey(1) & 0xFF
 
-            if key in [ord("q"), 27]:
-                return True
-
-            return False
-        else:
-            # If we are not displaying anything, we only end the simulation once the metric limit
-            # is reached.
+        if key in [ord("q"), 27]:
             return True
+
+        return False
 
     def _compute_updated_metric(self, metric, metric_type):
         if metric_type == "iters":
@@ -97,16 +89,20 @@ class PlaygroundVisualizer(object):
         # Simulation metric current value.
         current_metric = 0
 
+        # Initialize the window if visualization is required.
+        if visualize:
+            self._initialize_window()
+
         while current_metric < metric_limit:
 
             # Execute the pilot and update the robot states.
             self.playground.execute()
 
-            # Visualize.
-            end_simulation = self._visualize(visualize)
-
-            if end_simulation:
-                break
+            # Visualize if the option is set.
+            if visualize:
+                end_simulation = self._visualize(visualize)
+                if end_simulation:
+                    break
 
             # End of all the processing. Update metrics.
             # -------------------------------------------------

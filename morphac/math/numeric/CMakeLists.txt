@@ -13,8 +13,13 @@ set(NUMERIC_BINDING_DIR ${NUMERIC_DIR}/binding)
 set(NUMERIC_BINDING_INCLUDE_DIR ${NUMERIC_BINDING_DIR}/include)
 set(NUMERIC_BINDING_SRC_DIR ${NUMERIC_BINDING_DIR}/src)
 set(NUMERIC_BINDING_BINARY_DIR ${NUMERIC_BINARY_DIR}/binding)
-set(NUMERIC_BINDING_INSTALL_DIR
-  ${MATH_BINDING_INSTALL_DIR}/numeric
+
+# Directories to install the bindings to.
+set(NUMERIC_PACKAGE_DIR
+  ${MATH_PACKAGE_DIR}/numeric
+)
+set(NUMERIC_SITE_PACKAGES_DIR
+  ${MATH_SITE_PACKAGES_DIR}/numeric
 )
 
 
@@ -36,51 +41,38 @@ set(NUMERIC_SRC
   rk4_integrator.cc
 )
 
-foreach(file ${NUMERIC_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${NUMERIC_SRC_DIR}/${file}
-    ${NUMERIC_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${NUMERIC_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${NUMERIC_INCLUDE_DIR}
+  ${NUMERIC_SRC_DIR}
+  ${NUMERIC_SRC}
+)
 
 # Adding library dependencies.
-target_link_libraries(rk4_integrator
-  PUBLIC
+morphac_link_libraries(integrator
+  TRUE
+  kinematic_model
+  state
+  control_input
+)
+
+morphac_link_libraries(euler_integrator
+  TRUE
   integrator
   kinematic_model
   state
   control_input
 )
 
-target_link_libraries(euler_integrator
-  PUBLIC
+morphac_link_libraries(mid_point_integrator
+  TRUE
   integrator
   kinematic_model
   state
   control_input
 )
 
-target_link_libraries(integrator
-  PUBLIC
-  kinematic_model
-  state
-  control_input
-)
-
-target_link_libraries(mid_point_integrator
-  PUBLIC
+morphac_link_libraries(rk4_integrator
+  TRUE
   integrator
   kinematic_model
   state
@@ -150,4 +142,15 @@ target_link_libraries(rk4_integrator_test
   gtest_main
   rk4_integrator
   diffdrive_model
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${NUMERIC_PYTHON_DIR}/test
 )

@@ -4,7 +4,14 @@
 set(PLANNERS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(PLANNERS_BINARY_DIR ${MORPHAC_BINARY_DIR}/planners)
 set(PLANNERS_BINDING_BINARY_DIR ${PLANNERS_BINARY_DIR}/binding)
-set(PLANNERS_BINDING_INSTALL_DIR ${PYTHON_BINDING_INSTALL_DIR}/planners)
+
+# Directories to install the bindings to.
+set(PLANNERS_PACKAGE_DIR
+  ${MORPHAC_PACKAGE_MODULE_DIR}/planners
+)
+set(PLANNERS_SITE_PACKAGES_DIR
+  ${MORPHAC_SITE_PACKAGES_DIR}/planners
+)
 
 
 # Adding subdirectories
@@ -16,9 +23,10 @@ add_subdirectory(base)
 # Installing
 # -------------------------------------------------
 
-# Installing __init__ files.
-install(FILES
+morphac_package_files(
+  ${PLANNERS_PACKAGE_DIR}
+  ${PLANNERS_SITE_PACKAGES_DIR}
+  # Files
   ${PLANNERS_DIR}/__init__.py
-  DESTINATION
-  ${PLANNERS_BINDING_INSTALL_DIR}
 )
+

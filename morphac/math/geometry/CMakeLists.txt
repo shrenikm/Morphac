@@ -13,8 +13,13 @@ set(GEOMETRY_BINDING_DIR ${GEOMETRY_DIR}/binding)
 set(GEOMETRY_BINDING_INCLUDE_DIR ${GEOMETRY_BINDING_DIR}/include)
 set(GEOMETRY_BINDING_SRC_DIR ${GEOMETRY_BINDING_DIR}/src)
 set(GEOMETRY_BINDING_BINARY_DIR ${GEOMETRY_BINARY_DIR}/binding)
-set(GEOMETRY_BINDING_INSTALL_DIR
-  ${MATH_BINDING_INSTALL_DIR}/geometry
+
+# Directories to install the bindings to.
+set(GEOMETRY_PACKAGE_DIR
+  ${MATH_PACKAGE_DIR}/geometry
+)
+set(GEOMETRY_SITE_PACKAGES_DIR
+  ${MATH_SITE_PACKAGES_DIR}/geometry
 )
 
 
@@ -34,34 +39,20 @@ set(GEOMETRY_SRC
   polygons.cc
 )
 
-foreach(file ${GEOMETRY_SRC})
-  get_filename_component(lib_name
-    ${file} NAME_WE
-  )
-
-  get_header_name(header_name ${file})
-
-  add_library(${lib_name}
-    SHARED
-    ${GEOMETRY_SRC_DIR}/${file}
-    ${GEOMETRY_INCLUDE_DIR}/${header_name}
-  )
-
-  target_include_directories(${lib_name}
-    PUBLIC
-    ${GEOMETRY_INCLUDE_DIR}
-  )
-endforeach()
+morphac_add_libraries(
+  ${GEOMETRY_INCLUDE_DIR}
+  ${GEOMETRY_SRC_DIR}
+  ${GEOMETRY_SRC}
+)
 
 # Adding library dependencies.
-
-target_link_libraries(lines
-  PUBLIC
+morphac_link_libraries(lines
+  TRUE
   numeric_utils
 )
 
-target_link_libraries(polygons
-  PUBLIC
+morphac_link_libraries(polygons
+  TRUE
   points_utils
   transforms
 )
@@ -106,4 +97,15 @@ target_link_libraries(polygons_test
   lines
   numeric_utils
   polygons
+)
+
+
+# Installing
+# -------------------------------------------------
+
+# Install tests.
+morphac_package_python_tests(
+  ${MORPHAC_PACKAGE_UNIT_TEST_DIR}
+  ${MORPHAC_SITE_PACKAGES_UNIT_TEST_DIR}
+  ${GEOMETRY_PYTHON_DIR}/test
 )
