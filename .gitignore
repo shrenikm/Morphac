@@ -3,6 +3,7 @@ build
 __pycache__
 CMakeFiles
 package
+releases
 style_guide.txt
 build_guide.txt
 packager.sh
