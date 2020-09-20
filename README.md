@@ -41,7 +41,7 @@ BUILD_WITH_WARNINGS | Build source code with `-Wall` and `-Wextra` | ON
 BUILD_WITH_WARNINGS_AS_ERRORS | Build source code with `-Werror` | ON
 INSTALL_PYTHON_PACKAGE | Install the python package into site-packages or not | ON
 
-<br/><br/>
+<br/>
 
 Note that the build creates a `packages/` directory under the project source path, irrespective of the status of the `INSTALL_PYTHON_PACKAGE` option.
 The directory contains all of the necessary bindings and files required to create a package file (Including the setup file).
