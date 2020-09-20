@@ -13,6 +13,11 @@ set(MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILE ${MORPHAC_DIR}/_run_tests.py)
 # File name to be renamed to during installation.
 set(MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILENAME run_tests.py)
 
+# Run examples script file.
+set(MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILE ${MORPHAC_DIR}/_run_examples.py)
+# File name to be renamed to during installation.
+set(MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILENAME run_examples.py)
+
 
 # Adding subdirectories
 # -------------------------------------------------
@@ -48,6 +53,15 @@ morphac_package_file(
   ${MORPHAC_SITE_PACKAGES_DIR}
   ${MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILE}
   ${MORPHAC_PYTHON_RUN_TESTS_SCRIPT_FILENAME}
+
+)
+
+# Install the run_examples script.
+morphac_package_file(
+  ${MORPHAC_PACKAGE_MODULE_DIR}
+  ${MORPHAC_SITE_PACKAGES_DIR}
+  ${MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILE}
+  ${MORPHAC_PYTHON_RUN_EXAMPLES_SCRIPT_FILENAME}
 
 )
 

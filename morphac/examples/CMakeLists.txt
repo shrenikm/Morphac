@@ -19,7 +19,7 @@ set(EXAMPLES_SITE_PACKAGES_DIR
 
 # List of python files.
 set(EXAMPLES_PYTHON_FILES
-  constant_controller_simulation.py
+  constant_controller_example.py
 )
 
 # Appending the directory of the python files.

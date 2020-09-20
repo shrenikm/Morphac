@@ -312,12 +312,16 @@ print_section_header("Build Options")
 set(BUILD_TESTS ON CACHE BOOL "Build all of the project's test executables")
 set(BUILD_WITH_WARNINGS ON CACHE BOOL "Builds the project with -Wall and -Wextra")
 set(BUILD_WITH_WARNINGS_AS_ERRORS ON CACHE BOOL "Builds the project with -Werror")
+set(CUSTOM_PYTHON_VERSION 0 CACHE STRING "\
+Python version to use while building. The default value is 0, which means that it will find the current default version by itself.\
+")
 set(INSTALL_PYTHON_PACKAGE ON CACHE BOOL "Installs the package created by the bindings into site packages.")
 
 # Displaying the list of options that have been set.
 message(STATUS "[ BUILD_TESTS has been set to ${BUILD_TESTS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS has been set to ${BUILD_WITH_WARNINGS} ]")
 message(STATUS "[ BUILD_WITH_WARNINGS_AS_ERRORS has been set to ${BUILD_WITH_WARNINGS_AS_ERRORS} ]")
+message(STATUS "[ CUSTOM_PYTHON_VERSION has been set to ${CUSTOM_PYTHON_VERSION} ]")
 message(STATUS "[ INSTALL_PYTHON_PACKAGE has been set to ${INSTALL_PYTHON_PACKAGE} ]")
 
 
@@ -365,8 +369,15 @@ set(PYTHON_BINDING_PREFIX "_binding_")
 # Suffix for python targets.
 set(PYTHON_TARGET_SUFFIX "_python")
 
-# Find python version
-find_python_version(PYTHON_VERSION)
+# Find python version.
+# Check if the custom version is given. If it is zero, we find the version ourselves.
+if(CUSTOM_PYTHON_VERSION STREQUAL 0)
+  find_python_version(PYTHON_VERSION)
+else()
+  set(PYTHON_VERSION ${CUSTOM_PYTHON_VERSION})
+endif()
+
+message(${PYTHON_VERSION})
 
 # Make sure that the python version is valid
 is_valid_version(is_python_version_valid ${PYTHON_VERSION} ${PYTHON_MINIMUM_VERSION})

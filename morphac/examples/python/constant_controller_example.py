@@ -72,7 +72,16 @@ class ConstantPilot(Pilot):
         return self._controller.compute()
 
 
-def main(robot_type):
+def run(robot_type):
+
+    # Convert the type from a string to a RobotType object.
+    assert isinstance(robot_type, str)
+
+    # Check if the type is valid and convert to a RobotType object.
+    try:
+        robot_type = RobotType(robot_type)
+    except (ValueError):
+        raise MorphacLogicError("Invalid robot type. Please try again.")
 
     # Parameters.
     dt = 0.02
@@ -108,6 +117,8 @@ def main(robot_type):
     # Simulate.
     playground_visualizer.run(metric_type, metric_limit)
 
+    return 1
+
 
 if __name__ == "__main__":
 
@@ -124,10 +135,5 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    try:
-        robot_type = RobotType(args.robot_type)
-    except (ValueError):
-        raise MorphacLogicError("Invalid robot type. Please try again.")
-
     # Which robot type to run. One of
-    main(RobotType(args.robot_type))
+    run(args.robot_type)
