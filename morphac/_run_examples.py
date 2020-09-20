@@ -1,3 +1,5 @@
+import sys
+
 import morphac.examples.constant_controller_example as constant_controller_example
 
 
@@ -11,4 +13,6 @@ def run_constant_controller_example(robot_type=None):
     )
 
     constant_controller_example.run(robot_type)
+    # Make sure the simulation exits after it ends.
+    sys.exit(0)
 

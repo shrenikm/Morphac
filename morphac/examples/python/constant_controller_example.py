@@ -117,8 +117,6 @@ def run(robot_type):
     # Simulate.
     playground_visualizer.run(metric_type, metric_limit)
 
-    return 1
-
 
 if __name__ == "__main__":
 

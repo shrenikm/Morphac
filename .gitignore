@@ -5,3 +5,4 @@ CMakeFiles
 package
 style_guide.txt
 build_guide.txt
+packager.sh
