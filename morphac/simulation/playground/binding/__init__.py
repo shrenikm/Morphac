@@ -18,7 +18,7 @@ from morphac.robot.pilot._binding_pilot_python import Pilot as _Pilot
 # -------------------------------------------------
 
 from morphac.simulation.playground import Playground
-from morphac.simulation.playground.playground import execute
+from morphac.simulation.playground._playground import execute
 from morphac.utils.python_utils import add_method_to_class
 
 add_method_to_class(Playground, execute)
