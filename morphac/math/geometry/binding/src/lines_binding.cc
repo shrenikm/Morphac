@@ -7,8 +7,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-using Eigen::Vector2d;
-
+using morphac::common::aliases::Point;
 using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::ComputeLineSpec;
@@ -33,21 +32,23 @@ void define_lines_binding(py::module& m) {
   m.def("are_lines_parallel",
         py::overload_cast<const LineSpec&, const LineSpec&>(&AreLinesParallel),
         py::arg("line_spec1"), py::arg("line_spec2"));
-  m.def("are_lines_parallel",
-        py::overload_cast<const Vector2d&, const Vector2d&, const Vector2d&,
-                          const Vector2d&>(&AreLinesParallel),
-        py::arg("start_point1"), py::arg("end_point1"), py::arg("start_point2"),
-        py::arg("end_point2"));
+  m.def(
+      "are_lines_parallel",
+      py::overload_cast<const Point&, const Point&, const Point&, const Point&>(
+          &AreLinesParallel),
+      py::arg("start_point1"), py::arg("end_point1"), py::arg("start_point2"),
+      py::arg("end_point2"));
 
   m.def("are_lines_perpendicular",
         py::overload_cast<const LineSpec&, const LineSpec&>(
             &AreLinesPerpendicular),
         py::arg("line_spec1"), py::arg("line_spec2"));
-  m.def("are_lines_perpendicular",
-        py::overload_cast<const Vector2d&, const Vector2d&, const Vector2d&,
-                          const Vector2d&>(&AreLinesPerpendicular),
-        py::arg("start_point1"), py::arg("end_point1"), py::arg("start_point2"),
-        py::arg("end_point2"));
+  m.def(
+      "are_lines_perpendicular",
+      py::overload_cast<const Point&, const Point&, const Point&, const Point&>(
+          &AreLinesPerpendicular),
+      py::arg("start_point1"), py::arg("end_point1"), py::arg("start_point2"),
+      py::arg("end_point2"));
 }
 
 }  // namespace binding

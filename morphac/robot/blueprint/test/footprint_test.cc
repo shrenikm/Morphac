@@ -7,8 +7,8 @@ namespace {
 
 using Eigen::Array;
 using Eigen::Dynamic;
-using Eigen::Vector2d;
 
+using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::robot::blueprint::Footprint;
 
@@ -82,17 +82,16 @@ TEST_F(FootprintTest, CreateCircularFootprint) {
   // Centering such that the points are all in a single quadrant.
 
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Vector2d(-2., -2.))
-          .get_data(),
+      Footprint::CreateCircularFootprint(2., 0.1, Point(-2., -2.)).get_data(),
       1));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Vector2d(-2., 2.)).get_data(),
+      Footprint::CreateCircularFootprint(2., 0.1, Point(-2., 2.)).get_data(),
       2));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Vector2d(2., 2.)).get_data(),
+      Footprint::CreateCircularFootprint(2., 0.1, Point(2., 2.)).get_data(),
       3));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Vector2d(2., -2.)).get_data(),
+      Footprint::CreateCircularFootprint(2., 0.1, Point(2., -2.)).get_data(),
       4));
 }
 
@@ -106,19 +105,19 @@ TEST_F(FootprintTest, CreateRectangularFootprint) {
   // Centering such that the points are all in a single quadrant.
 
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Vector2d(-1., -1.))
+      Footprint::CreateRectangularFootprint(2., 2., 0., Point(-1., -1.))
           .get_data(),
       1));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Vector2d(-1., 1.))
+      Footprint::CreateRectangularFootprint(2., 2., 0., Point(-1., 1.))
           .get_data(),
       2));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Vector2d(1., 1.))
+      Footprint::CreateRectangularFootprint(2., 2., 0., Point(1., 1.))
           .get_data(),
       3));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Vector2d(1., -1.))
+      Footprint::CreateRectangularFootprint(2., 2., 0., Point(1., -1.))
           .get_data(),
       4));
 }
@@ -134,19 +133,19 @@ TEST_F(FootprintTest, CreateRoundedRectangularFootprint) {
   // Centering such that the points are all in a single quadrant.
 
   ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Vector2d(-1., -1.))
+                                   2., 2., 0., 0.5, 0.1, Point(-1., -1.))
                                    .get_data(),
                                1));
   ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Vector2d(-1., 1.))
+                                   2., 2., 0., 0.5, 0.1, Point(-1., 1.))
                                    .get_data(),
                                2));
   ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Vector2d(1., 1.))
+                                   2., 2., 0., 0.5, 0.1, Point(1., 1.))
                                    .get_data(),
                                3));
   ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Vector2d(1., -1.))
+                                   2., 2., 0., 0.5, 0.1, Point(1., -1.))
                                    .get_data(),
                                4));
 }
@@ -161,19 +160,19 @@ TEST_F(FootprintTest, CreateTriangularFootprint) {
   // Centering such that the points are all in a single quadrant.
 
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Vector2d(-1., -1.))
+      Footprint::CreateTriangularFootprint(2., 2., 0., Point(-1., -1.))
           .get_data(),
       1));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Vector2d(-1., 1.))
+      Footprint::CreateTriangularFootprint(2., 2., 0., Point(-1., 1.))
           .get_data(),
       2));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Vector2d(1., 1.))
+      Footprint::CreateTriangularFootprint(2., 2., 0., Point(1., 1.))
           .get_data(),
       3));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Vector2d(1., -1.))
+      Footprint::CreateTriangularFootprint(2., 2., 0., Point(1., -1.))
           .get_data(),
       4));
 }

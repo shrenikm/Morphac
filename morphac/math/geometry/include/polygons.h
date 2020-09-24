@@ -18,24 +18,29 @@ namespace geometry {
 morphac::common::aliases::Points CreateArc(
     const double start_angle, const double end_angle, const double radius,
     const double angular_resolution,
-    const morphac::common::aliases::Point& center = Eigen::Vector2d::Zero());
+    const morphac::common::aliases::Point& center =
+        morphac::common::aliases::Point::Zero());
 
 morphac::common::aliases::Points CreateCircularPolygon(
     const double radius, const double angular_resolution,
-    const morphac::common::aliases::Point& center = Eigen::Vector2d::Zero());
+    const morphac::common::aliases::Point& center =
+        morphac::common::aliases::Point::Zero());
 
 morphac::common::aliases::Points CreateRectangularPolygon(
     const double size_x, const double size_y, const double angle,
-    const morphac::common::aliases::Point& center = Eigen::Vector2d::Zero());
+    const morphac::common::aliases::Point& center =
+        morphac::common::aliases::Point::Zero());
 
 morphac::common::aliases::Points CreateRoundedRectangularPolygon(
     const double size_x, const double size_y, const double angle,
     const double radius, const double angular_resolution,
-    const morphac::common::aliases::Point& center = Eigen::Vector2d::Zero());
+    const morphac::common::aliases::Point& center =
+        morphac::common::aliases::Point::Zero());
 
 morphac::common::aliases::Points CreateTriangularPolygon(
     const double base, const double height, const double angle,
-    const morphac::common::aliases::Point& center = Eigen::Vector2d::Zero());
+    const morphac::common::aliases::Point& center =
+        morphac::common::aliases::Point::Zero());
 
 }  // namespace geometry
 }  // namespace math

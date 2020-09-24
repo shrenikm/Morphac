@@ -12,8 +12,8 @@ namespace math {
 namespace geometry {
 
 struct CircleShape {
-    const 
-    const double radius;
+  const morphac::common::aliases::Point center;
+  const double radius;
 };
 
 }  // namespace geometry

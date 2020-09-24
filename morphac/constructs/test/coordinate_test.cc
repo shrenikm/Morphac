@@ -7,8 +7,9 @@ namespace {
 using std::ostringstream;
 
 using Eigen::Matrix;
-using Eigen::Vector2d;
 using Eigen::VectorXd;
+
+using morphac::common::aliases::Point;
 using morphac::constructs::Coordinate;
 
 class CoordinateTest : public ::testing::Test {
@@ -57,7 +58,7 @@ TEST_F(CoordinateTest, DefaultCoordinate) {
   Coordinate default_coord;
   ASSERT_DOUBLE_EQ(default_coord.get_x(), 0.0);
   ASSERT_DOUBLE_EQ(default_coord.get_y(), 0.0);
-  ASSERT_TRUE(default_coord.get_data().isApprox(Vector2d::Zero(2)));
+  ASSERT_TRUE(default_coord.get_data().isApprox(Point::Zero(2)));
 }
 
 TEST_F(CoordinateTest, ConstCoordinate) {
@@ -66,17 +67,17 @@ TEST_F(CoordinateTest, ConstCoordinate) {
 
   ASSERT_EQ(coord.get_x(), 0.);
   ASSERT_EQ(coord.get_y(), 0.);
-  ASSERT_TRUE(coord.get_data().isApprox(Vector2d::Zero(2)));
+  ASSERT_TRUE(coord.get_data().isApprox(Point::Zero(2)));
 
   ASSERT_EQ(coord[0], 0.);
   ASSERT_EQ(coord[1], 0.);
 
   // We should be able to modify the data after const casting.
-  const_cast<Coordinate &>(coord).set_data(Vector2d::Ones(2));
+  const_cast<Coordinate &>(coord).set_data(Point::Ones(2));
 
   ASSERT_EQ(coord.get_x(), 1.);
   ASSERT_EQ(coord.get_y(), 1.);
-  ASSERT_TRUE(coord.get_data().isApprox(Vector2d::Ones(2)));
+  ASSERT_TRUE(coord.get_data().isApprox(Point::Ones(2)));
 }
 
 TEST_F(CoordinateTest, XCoordinates) {

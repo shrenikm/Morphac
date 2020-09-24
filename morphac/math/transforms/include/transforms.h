@@ -13,9 +13,9 @@ namespace math {
 namespace transforms {
 
 // These functions need to be fast, so we don't use the Coordinate construct and
-// represent all coordinates as Vector2d/Vector2i. If Coordinates are required,
-// it should be easy enough to convert them to vectors in the argument and wrap
-// them as Coordinates while returning.
+// represent all coordinates as a Point/Pixel (Eigen aliases). If Coordinates
+// are required, it should be easy enough to convert them to vectors in the
+// argument and wrap them as Coordinates while returning.
 
 const Eigen::MatrixXd RotationMatrix(const double angle);
 
@@ -36,14 +36,14 @@ morphac::common::aliases::Points TransformPoints(
     const morphac::common::aliases::Point& translation);
 
 morphac::common::aliases::Point CanvasToWorld(
-    const Eigen::Vector2i& canvas_coord, const double resolution,
-    const std::vector<int>& canvas_size);
+    const morphac::common::aliases::Pixel& canvas_coord,
+    const double resolution, const std::vector<int>& canvas_size);
 
 morphac::common::aliases::Points CanvasToWorld(
     const morphac::common::aliases::Pixels& canvas_coords,
     const double resolution, const std::vector<int>& canvas_size);
 
-Eigen::Vector2i WorldToCanvas(
+morphac::common::aliases::Pixel WorldToCanvas(
     const morphac::common::aliases::Point& world_coord, const double resolution,
     const std::vector<int>& canvas_size);
 

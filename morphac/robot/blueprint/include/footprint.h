@@ -30,20 +30,24 @@ class Footprint {
   // relative center coincides with (0, 0).
   static Footprint CreateCircularFootprint(
       const double radius, const double angular_resolution,
-      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
+      const morphac::common::aliases::Point& relative_center =
+          morphac::common::aliases::Point::Zero());
 
   static Footprint CreateRectangularFootprint(
       const double size_x, const double size_y, const double angle,
-      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
+      const morphac::common::aliases::Point& relative_center =
+          morphac::common::aliases::Point::Zero());
 
   static Footprint CreateRoundedRectangularFootprint(
       const double size_x, const double size_y, const double angle,
       const double radius, const double angular_resolution,
-      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
+      const morphac::common::aliases::Point& relative_center =
+          morphac::common::aliases::Point::Zero());
 
   static Footprint CreateTriangularFootprint(
       const double base, const double height, const double angle,
-      const Eigen::Vector2d& relative_center = Eigen::Vector2d::Zero());
+      const morphac::common::aliases::Point& relative_center =
+          morphac::common::aliases::Point::Zero());
 
  private:
   morphac::common::aliases::Points data_;

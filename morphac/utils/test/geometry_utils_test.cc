@@ -10,9 +10,9 @@ using std::sqrt;
 using std::tan;
 
 using Eigen::MatrixXd;
-using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::ComputeLineSpec;
@@ -53,7 +53,7 @@ bool IsRectangleOrientedCorrectly(const Points& rectangle, const double angle) {
   return true;
 }
 
-bool IsValidArc(const Points& arc, const double radius, const Vector2d& center,
+bool IsValidArc(const Points& arc, const double radius, const Point& center,
                 const double angular_spread) {
   // Test if each point is the same distance from the center.
   for (int i = 0; i < arc.rows(); ++i) {
@@ -76,7 +76,7 @@ bool IsValidArc(const Points& arc, const double radius, const Vector2d& center,
 }
 
 bool IsValidCircle(const Points& circle, const double radius,
-                   const Vector2d& center) {
+                   const Point& center) {
   // Test if each point is the same distance from the center.
   for (int i = 0; i < circle.rows(); ++i) {
     if (!IsEqual((circle.row(i).transpose() - center).norm(), radius)) {
@@ -105,19 +105,19 @@ bool IsValidRoundedRectangle(const Points& rounded_rectangle) {
   for (int i = 0; i < 4; ++i) {
     // The lines formed by the end points of the arcs (that form the sides of
     // the rectangle) need to perpendicular.
-    Vector2d start_point1 =
+    Point start_point1 =
         rounded_rectangle
             .row((i * points_per_arc + points_per_arc - 1) % num_points)
             .transpose();
-    Vector2d end_point1 =
+    Point end_point1 =
         rounded_rectangle
             .row((i * points_per_arc + points_per_arc) % num_points)
             .transpose();
-    Vector2d start_point2 =
+    Point start_point2 =
         rounded_rectangle
             .row(((i + 1) * points_per_arc + points_per_arc - 1) % num_points)
             .transpose();
-    Vector2d end_point2 =
+    Point end_point2 =
         rounded_rectangle
             .row(((i + 1) * points_per_arc + points_per_arc) % num_points)
             .transpose();
@@ -146,11 +146,11 @@ bool IsRoundedRectangleOrientedCorrectly(const Points& rounded_rectangle,
   double slope = tan(angle);
 
   for (int i = 0; i < 4; ++i) {
-    Vector2d start_point1 =
+    Point start_point1 =
         rounded_rectangle
             .row((i * points_per_arc + points_per_arc - 1) % num_points)
             .transpose();
-    Vector2d end_point1 =
+    Point end_point1 =
         rounded_rectangle
             .row((i * points_per_arc + points_per_arc) % num_points)
             .transpose();
@@ -172,30 +172,28 @@ class GeometryUtilsTest : public ::testing::Test {
   void SetUp() override {}
   Points arc1_ = CreateArc(0., M_PI / 2., 1., 0.1);
   Points arc2_ = CreateArc(M_PI, M_PI / 2., 2., 0.01);
-  Points arc3_ =
-      CreateArc(-M_PI / 2, -3 * M_PI / 2., 3., 0.01, Vector2d(-2, 3));
+  Points arc3_ = CreateArc(-M_PI / 2, -3 * M_PI / 2., 3., 0.01, Point(-2, 3));
 
   Points circle1_ = CreateCircularPolygon(1., 0.01);
-  Points circle2_ = CreateCircularPolygon(2., 0.01, Vector2d(12, -9));
+  Points circle2_ = CreateCircularPolygon(2., 0.01, Point(12, -9));
 
   Points rectangle1_ = CreateRectangularPolygon(6., 4., 0.);
-  Points rectangle2_ = CreateRectangularPolygon(2., 2., 0., Vector2d(-5., 6.));
-  Points rectangle3_ =
-      CreateRectangularPolygon(2., 2., M_PI / 4., Vector2d(5, 4));
+  Points rectangle2_ = CreateRectangularPolygon(2., 2., 0., Point(-5., 6.));
+  Points rectangle3_ = CreateRectangularPolygon(2., 2., M_PI / 4., Point(5, 4));
 
   Points rounded_rectangle1_ =
       CreateRoundedRectangularPolygon(6., 4., 0., 1., 0.1);
   Points rounded_rectangle2_ =
-      CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.1, Vector2d(-5, 6));
+      CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.1, Point(-5, 6));
   Points rounded_rectangle3_ = CreateRoundedRectangularPolygon(
-      2., 2., M_PI / 4., 0.5, 0.01, Vector2d(5, 4));
+      2., 2., M_PI / 4., 0.5, 0.01, Point(5, 4));
 };
 
 TEST_F(GeometryUtilsTest, CreateArc) {
   // Test the validity of each arc.
-  ASSERT_TRUE(IsValidArc(arc1_, 1., Vector2d::Zero(), M_PI / 2));
-  ASSERT_TRUE(IsValidArc(arc2_, 2., Vector2d::Zero(), M_PI / 2));
-  ASSERT_TRUE(IsValidArc(arc3_, 3., Vector2d(-2, 3), M_PI));
+  ASSERT_TRUE(IsValidArc(arc1_, 1., Point::Zero(), M_PI / 2));
+  ASSERT_TRUE(IsValidArc(arc2_, 2., Point::Zero(), M_PI / 2));
+  ASSERT_TRUE(IsValidArc(arc3_, 3., Point(-2, 3), M_PI));
 }
 
 TEST_F(GeometryUtilsTest, InvalidCreateArc) {
@@ -205,8 +203,8 @@ TEST_F(GeometryUtilsTest, InvalidCreateArc) {
 
 TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
   // Test the validity of each circle.
-  ASSERT_TRUE(IsValidCircle(circle1_, 1., Vector2d::Zero()));
-  ASSERT_TRUE(IsValidCircle(circle2_, 2., Vector2d(12., -9.)));
+  ASSERT_TRUE(IsValidCircle(circle1_, 1., Point::Zero()));
+  ASSERT_TRUE(IsValidCircle(circle2_, 2., Point(12., -9.)));
 }
 
 TEST_F(GeometryUtilsTest, InvalidCreateCircularPolygon) {
@@ -309,10 +307,10 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonRotation) {
 TEST_F(GeometryUtilsTest, InvalidRoundedRectangularPolygon) {
   // If the radius is more than half the sizes, it is invalid.
   ASSERT_THROW(
-      CreateRoundedRectangularPolygon(6., 4., 0., 3., 0.1, Vector2d::Zero()),
+      CreateRoundedRectangularPolygon(6., 4., 0., 3., 0.1, Point::Zero()),
       std::invalid_argument);
   ASSERT_THROW(
-      CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Vector2d::Zero()),
+      CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Point::Zero()),
       std::invalid_argument);
 }
 

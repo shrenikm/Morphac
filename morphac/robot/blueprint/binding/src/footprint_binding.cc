@@ -8,8 +8,8 @@ namespace binding {
 namespace py = pybind11;
 
 using Eigen::MatrixXd;
-using Eigen::Vector2d;
 
+using morphac::common::aliases::Point;
 using morphac::robot::blueprint::Footprint;
 
 void define_footprint_binding(py::module& m) {
@@ -20,20 +20,20 @@ void define_footprint_binding(py::module& m) {
   footprint.def_static("create_circular_footprint",
                        &Footprint::CreateCircularFootprint, py::arg("radius"),
                        py::arg("angular_resolution"),
-                       py::arg("relative_center") = Vector2d::Zero());
+                       py::arg("relative_center") = Point::Zero());
   footprint.def_static("create_rectangular_footprint",
                        &Footprint::CreateRectangularFootprint,
                        py::arg("size_x"), py::arg("size_y"), py::arg("angle"),
-                       py::arg("relative_center") = Vector2d::Zero());
+                       py::arg("relative_center") = Point::Zero());
   footprint.def_static("create_rounded_rectangular_footprint",
                        &Footprint::CreateRoundedRectangularFootprint,
                        py::arg("size_x"), py::arg("size_y"), py::arg("angle"),
                        py::arg("radius"), py::arg("angular_resolution"),
-                       py::arg("relative_center") = Vector2d::Zero());
+                       py::arg("relative_center") = Point::Zero());
   footprint.def_static("create_triangular_footprint",
                        &Footprint::CreateTriangularFootprint, py::arg("base"),
                        py::arg("height"), py::arg("angle"),
-                       py::arg("relative_center") = Vector2d::Zero());
+                       py::arg("relative_center") = Point::Zero());
 }
 
 }  // namespace binding
