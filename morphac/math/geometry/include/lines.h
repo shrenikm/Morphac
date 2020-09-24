@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "Eigen/Dense"
+#include "common/aliases/include/eigen_aliases.h"
 #include "common/aliases/include/numeric_aliases.h"
 #include "utils/include/numeric_utils.h"
 
@@ -42,23 +43,23 @@ struct LineSpec {
   std::string ToString() const;
 };
 
-LineSpec ComputeLineSpec(const Eigen::Vector2d& start_point,
-                         const Eigen::Vector2d& end_point);
+LineSpec ComputeLineSpec(const morphac::common::aliases::Point& start_point,
+                         const morphac::common::aliases::Point& end_point);
 
 bool AreLinesParallel(const LineSpec& line_spec1, const LineSpec& line_spec2);
 
-bool AreLinesParallel(const Eigen::Vector2d& start_point1,
-                      const Eigen::Vector2d& end_point1,
-                      const Eigen::Vector2d& start_point2,
-                      const Eigen::Vector2d& end_point2);
+bool AreLinesParallel(const morphac::common::aliases::Point& start_point1,
+                      const morphac::common::aliases::Point& end_point1,
+                      const morphac::common::aliases::Point& start_point2,
+                      const morphac::common::aliases::Point& end_point2);
 
 bool AreLinesPerpendicular(const LineSpec& line_spec1,
                            const LineSpec& line_spec2);
 
-bool AreLinesPerpendicular(const Eigen::Vector2d& start_point1,
-                           const Eigen::Vector2d& end_point1,
-                           const Eigen::Vector2d& start_point2,
-                           const Eigen::Vector2d& end_point2);
+bool AreLinesPerpendicular(const morphac::common::aliases::Point& start_point1,
+                           const morphac::common::aliases::Point& end_point1,
+                           const morphac::common::aliases::Point& start_point2,
+                           const morphac::common::aliases::Point& end_point2);
 
 }  // namespace geometry
 }  // namespace math

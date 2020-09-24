@@ -19,32 +19,33 @@ namespace transforms {
 
 const Eigen::MatrixXd RotationMatrix(const double angle);
 
-const Eigen::MatrixXd TransformationMatrix(const double angle,
-                                           const Eigen::Vector2d& translation);
+const Eigen::MatrixXd TransformationMatrix(
+    const double angle, const morphac::common::aliases::Point& translation);
 
 morphac::common::aliases::Points TranslatePoints(
     const morphac::common::aliases::Points& points,
-    const Eigen::Vector2d& translation);
+    const morphac::common::aliases::Point& translation);
 
 morphac::common::aliases::Points RotatePoints(
     const morphac::common::aliases::Points& points, const double angle,
-    const Eigen::Vector2d& center = Eigen::Vector2d::Zero());
+    const morphac::common::aliases::Point& center =
+        morphac::common::aliases::Point::Zero());
 
 morphac::common::aliases::Points TransformPoints(
     const morphac::common::aliases::Points& points, const double angle,
-    const Eigen::Vector2d& translation);
+    const morphac::common::aliases::Point& translation);
 
-Eigen::Vector2d CanvasToWorld(const Eigen::Vector2i& canvas_coord,
-                              const double resolution,
-                              const std::vector<int>& canvas_size);
+morphac::common::aliases::Point CanvasToWorld(
+    const Eigen::Vector2i& canvas_coord, const double resolution,
+    const std::vector<int>& canvas_size);
 
 morphac::common::aliases::Points CanvasToWorld(
     const morphac::common::aliases::Pixels& canvas_coords,
     const double resolution, const std::vector<int>& canvas_size);
 
-Eigen::Vector2i WorldToCanvas(const Eigen::Vector2d& world_coord,
-                              const double resolution,
-                              const std::vector<int>& canvas_size);
+Eigen::Vector2i WorldToCanvas(
+    const morphac::common::aliases::Point& world_coord, const double resolution,
+    const std::vector<int>& canvas_size);
 
 morphac::common::aliases::Pixels WorldToCanvas(
     const morphac::common::aliases::Points& world_coords,

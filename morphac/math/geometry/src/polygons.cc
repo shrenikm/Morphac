@@ -6,15 +6,15 @@ namespace geometry {
 
 using std::fabs;
 
-using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::math::transforms::TransformPoints;
 
 Points CreateArc(const double start_angle, const double end_angle,
                  const double radius, const double angular_resolution,
-                 const Vector2d& center) {
+                 const Point& center) {
   MORPH_REQUIRE(radius >= 0, std::invalid_argument,
                 "Radius must be non-negative.");
   MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
@@ -38,7 +38,7 @@ Points CreateArc(const double start_angle, const double end_angle,
 
 Points CreateCircularPolygon(const double radius,
                              const double angular_resolution,
-                             const Vector2d& center) {
+                             const Point& center) {
   MORPH_REQUIRE(radius >= 0, std::invalid_argument,
                 "Radius must be non-negative.");
   MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
@@ -50,7 +50,7 @@ Points CreateCircularPolygon(const double radius,
 }
 
 Points CreateRectangularPolygon(const double size_x, const double size_y,
-                                const double angle, const Vector2d& center) {
+                                const double angle, const Point& center) {
   // The reason the conditions are >= 0 and not > 0 is because sometimes
   // CreateRoundedRectangularPolygon may call this function with a zero size.
   MORPH_REQUIRE(size_x >= 0, std::invalid_argument,
@@ -68,7 +68,7 @@ Points CreateRectangularPolygon(const double size_x, const double size_y,
 Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
                                        const double angle, const double radius,
                                        const double angular_resolution,
-                                       const Vector2d& center) {
+                                       const Point& center) {
   // The reason the conditosn are >= 0 and not > 0 is that there might be times
   // when 0. sizes are required. See the comment in CreateRectangularPolygon.
   MORPH_REQUIRE(size_x >= 0, std::invalid_argument,
@@ -88,7 +88,7 @@ Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
   // Computing the centers of the arcs. This is basically the corners of a
   // rectangle with sizes - 2 * radius.
   Points centers = CreateRectangularPolygon(
-      size_x - 2 * radius, size_y - 2 * radius, 0, Vector2d::Zero());
+      size_x - 2 * radius, size_y - 2 * radius, 0, Point::Zero());
 
   Points arc1 = CreateArc(M_PI, M_PI / 2, radius, angular_resolution,
                           centers.row(0).transpose());
@@ -106,7 +106,7 @@ Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
 }
 
 Points CreateTriangularPolygon(const double base, const double height,
-                               const double angle, const Vector2d& center) {
+                               const double angle, const Point& center) {
   MORPH_REQUIRE(base >= 0, std::invalid_argument,
                 "Base length must be non-negative.");
   MORPH_REQUIRE(height >= 0, std::invalid_argument,

@@ -6,8 +6,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-using Eigen::Vector2d;
-
+using morphac::common::aliases::Point;
 using morphac::constructs::Coordinate;
 
 void define_coordinate_binding(py::module& m) {
@@ -15,7 +14,7 @@ void define_coordinate_binding(py::module& m) {
 
   coordinate.def(py::init<const double, const double>(), py::arg("x") = 0.,
                  py::arg("y") = 0.);
-  coordinate.def(py::init<const Vector2d&>(), py::arg("data"));
+  coordinate.def(py::init<const Point&>(), py::arg("data"));
   coordinate.def(
       "__getitem__",
       [](const Coordinate& coord, const int index) {
