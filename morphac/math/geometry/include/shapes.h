@@ -6,7 +6,8 @@
 #include <cmath>
 
 #include "common/aliases/include/eigen_aliases.h"
-#include "common/aliases/include/numeric_aliases.h"
+#include "common/error_handling/include/error_macros.h"
+#include "utils/include/numeric_utils.h"
 
 namespace morphac {
 namespace math {
