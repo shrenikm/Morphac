@@ -7,24 +7,6 @@ from morphac.constants.colors import MapColors
 from morphac.environment import Map
 
 
-@attr.s(auto_attribs=True, frozen=True)
-class CircularObstacle(object):
-    radius: float
-    center: List
-
-
-@attr.s(auto_attribs=True, frozen=True)
-class RectangularObstacle(object):
-    size_x: float
-    size_y: float
-    center: List
-
-
-@attr.s(auto_attribs=True, frozen=True)
-class PolygonalObstacle(object):
-    points: np.ndarray
-
-
 # Note that the obstacle adding functions do not mutate the input map.
 # Rather it creates a new map with the added obstacle.
 # Hence the name 'evolve'

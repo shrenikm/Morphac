@@ -37,6 +37,7 @@ set(GEOMETRY_SRC
 
   lines.cc
   polygons.cc
+  shapes.cc
 )
 
 morphac_add_libraries(

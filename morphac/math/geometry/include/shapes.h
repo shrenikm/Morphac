@@ -5,15 +5,62 @@
 
 #include <cmath>
 
+#include "common/aliases/include/eigen_aliases.h"
 #include "common/aliases/include/numeric_aliases.h"
 
 namespace morphac {
 namespace math {
 namespace geometry {
 
+struct ArcShape {
+  const morphac::common::aliases::Point center;
+  const double start_angle;
+  const double end_angle;
+  const double radius;
+
+  ArcShape(const morphac::common::aliases::Point center,
+           const double start_angle, const double end_angle,
+           const double radius);
+};
+
 struct CircleShape {
   const morphac::common::aliases::Point center;
   const double radius;
+
+  CircleShape(const morphac::common::aliases::Point center,
+              const double radius);
+};
+
+struct RectangleShape {
+  const morphac::common::aliases::Point center;
+  const double size_x;
+  const double size_y;
+  const double angle;
+
+  RectangleShape(const morphac::common::aliases::Point center,
+                 const double size_x, const double size_y, const double angle);
+};
+
+struct RoundedRectangleShape {
+  const morphac::common::aliases::Point center;
+  const double size_x;
+  const double size_y;
+  const double angle;
+  const double radius;
+
+  RoundedRectangleShape(const morphac::common::aliases::Point center,
+                        const double size_x, const double size_y,
+                        const double angle, const double radius);
+};
+
+struct TriangleShape {
+  const morphac::common::aliases::Point center;
+  const double base;
+  const double height;
+  const double angle;
+
+  TriangleShape(const morphac::common::aliases::Point center, const double base,
+                const double height, const double angle);
 };
 
 }  // namespace geometry
