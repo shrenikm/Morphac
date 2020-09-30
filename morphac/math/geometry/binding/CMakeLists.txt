@@ -13,6 +13,7 @@ set(GEOMETRY_BINDING_FILES
 
   lines_binding.cc
   polygons_binding.cc
+  shapes_binding.cc
 )
 
 # Prepending the directory to the files.
@@ -46,6 +47,7 @@ target_include_directories(${python_target}
 morphac_link_static_libraries(${python_target}
   lines
   polygons
+  shapes
 )
 
 # Setting binding target properties.
