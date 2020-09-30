@@ -20,8 +20,7 @@ ArcShape::ArcShape(const Point center, const double start_angle,
 
 CircleShape::CircleShape(const Point center, const double radius)
     : center(center), radius(radius) {
-  MORPH_REQUIRE(radius > 0, std::invalid_argument,
-                "Radius must be non-negative.");
+  MORPH_REQUIRE(radius > 0, std::invalid_argument, "Radius must be positive.");
 }
 
 RectangleShape::RectangleShape(const Point center, const double size_x,

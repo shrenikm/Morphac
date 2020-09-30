@@ -67,6 +67,7 @@ set(GEOMETRY_TEST_SRC
 
   lines_test.cc
   polygons_test.cc
+  shapes_test.cc
 )
 
 # Creating the test executables.
@@ -98,6 +99,12 @@ target_link_libraries(polygons_test
   lines
   numeric_utils
   polygons
+)
+
+target_link_libraries(shapes_test
+  PUBLIC
+  gtest_main
+  shapes
 )
 
 
