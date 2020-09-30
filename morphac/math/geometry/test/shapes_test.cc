@@ -44,7 +44,7 @@ TEST_F(ShapesTest, InvalidArcShape) {
   ASSERT_THROW(ArcShape(Point::Zero(), 0., M_PI / 2, 0.),
                std::invalid_argument);
 
-  // Invalid start and end angles (equal start and end angles).
+  // Invalid start and end angles (equal).
   ASSERT_THROW(ArcShape(Point::Zero(), M_PI / 2., M_PI / 2, 1.),
                std::invalid_argument);
 }
@@ -85,10 +85,10 @@ TEST_F(ShapesTest, RoundedRectangleShape) {
 
 TEST_F(ShapesTest, InvalidRoundedRectangleShape) {
   // Invalid size_x.
-  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 0., 1., 0., 1.),
+  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 0., 1., 0., 0.1),
                std::invalid_argument);
   // Invalid size_y.
-  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., 0., 0., 1.),
+  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., 0., 0., 0.1),
                std::invalid_argument);
   // Invalid radius.
   ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., 1., 0., 0.),
