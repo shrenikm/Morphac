@@ -44,7 +44,7 @@ RoundedRectangleShape::RoundedRectangleShape(const Point center,
       radius(radius) {
   MORPH_REQUIRE(size_x > 0, std::invalid_argument,
                 "Size along the x axis must be positive");
-  MORPH_REQUIRE(radius > 0, std::invalid_argument,
+  MORPH_REQUIRE(size_y > 0, std::invalid_argument,
                 "Size along the y axis must be positive");
   MORPH_REQUIRE(radius > 0, std::invalid_argument, "Radius must be positive.");
   // Test for the radius validity.

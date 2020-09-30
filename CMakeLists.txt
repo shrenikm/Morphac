@@ -180,7 +180,7 @@ function(morphac_link_libraries target link_static)
     ${libraries}
   )
 
-  # If we build python bindings, we link the static libraries as well.
+  # If the link_static flag is set, we link the static libraries as well.
   if(link_static)
     get_static_target_name(static_target ${target})
     morphac_link_static_libraries(${static_target} ${libraries})

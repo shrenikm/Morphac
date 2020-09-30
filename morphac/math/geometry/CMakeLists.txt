@@ -58,6 +58,11 @@ morphac_link_libraries(polygons
   transforms
 )
 
+morphac_link_libraries(shapes
+  TRUE
+  numeric_utils
+)
+
 
 # Tests
 # -------------------------------------------------
@@ -104,6 +109,7 @@ target_link_libraries(polygons_test
 target_link_libraries(shapes_test
   PUBLIC
   gtest_main
+  numeric_utils
   shapes
 )
 
