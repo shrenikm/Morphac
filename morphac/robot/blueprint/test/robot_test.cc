@@ -16,6 +16,7 @@ using morphac::constructs::ControlInput;
 using morphac::constructs::Pose;
 using morphac::constructs::State;
 using morphac::constructs::Velocity;
+using morphac::math::geometry::RectangleShape;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::robot::blueprint::Robot;
@@ -43,7 +44,7 @@ class CustomKinematicModel : public KinematicModel {
   }
 
   Footprint DefaultFootprint() const override {
-    return Footprint::CreateRectangularFootprint(1., 1., 0.);
+    return Footprint::CreateRectangularFootprint(RectangleShape{1., 1., 0.});
   }
 };
 

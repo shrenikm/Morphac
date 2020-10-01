@@ -13,6 +13,7 @@ using Eigen::VectorXd;
 using morphac::constants::DiffdriveModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::math::geometry::CircleShape;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::utils::NormalizeAngle;
@@ -69,7 +70,7 @@ Footprint DiffdriveModel::DefaultFootprint() const {
       DiffdriveModelConstants::DEFAULT_RADIUS_BUFFER;
 
   return Footprint::CreateCircularFootprint(
-      this->width / 2. + footprint_radius_buffer, 0.1);
+      CircleShape{this->width / 2. + footprint_radius_buffer}, 0.1);
 }
 
 }  // namespace models

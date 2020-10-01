@@ -13,6 +13,7 @@ using Eigen::VectorXd;
 using morphac::constants::DubinModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::math::geometry::TriangleShape;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::utils::NormalizeAngle;
@@ -55,8 +56,8 @@ State DubinModel::NormalizeState(const State& state) const {
 Footprint DubinModel::DefaultFootprint() const {
   // Default triangular footprint.
   return Footprint::CreateTriangularFootprint(
-      DubinModelConstants::DEFAULT_BASE, DubinModelConstants::DEFAULT_HEIGHT,
-      -M_PI / 2.);
+      TriangleShape{DubinModelConstants::DEFAULT_BASE,
+                    DubinModelConstants::DEFAULT_HEIGHT, -M_PI / 2.});
 }
 
 }  // namespace models

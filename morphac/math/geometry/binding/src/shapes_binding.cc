@@ -18,7 +18,8 @@ void define_shapes_binding(py::module& m) {
   py::class_<ArcShape> arc_shape(m, "ArcShape");
   arc_shape.def(
       py::init<const double, const double, const double, const Point&>(),
-      py::arg("center"), py::arg("radius"), py::arg("center") = Point::Zero());
+      py::arg("start_angle"), py::arg("end_angle"), py::arg("radius"),
+      py::arg("center") = Point::Zero());
   arc_shape.def_readonly("start_angle", &ArcShape::start_angle);
   arc_shape.def_readonly("end_angle", &ArcShape::end_angle);
   arc_shape.def_readonly("radius", &ArcShape::radius);
