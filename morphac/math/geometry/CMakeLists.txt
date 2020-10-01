@@ -55,6 +55,7 @@ morphac_link_libraries(lines
 morphac_link_libraries(polygons
   TRUE
   points_utils
+  shapes
   transforms
 )
 

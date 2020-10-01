@@ -36,10 +36,10 @@ def generate_shapes():
 def test_arc_shape(generate_shapes):
     arc, _, _, _, _ = generate_shapes
 
-    assert np.allclose(arc.center, [-1, 2])
     assert np.isclose(arc.start_angle, np.pi / 4)
     assert np.isclose(arc.end_angle, np.pi / 2)
     assert np.isclose(arc.radius, 2.0)
+    assert np.allclose(arc.center, [-1, 2])
 
 
 def test_invalid_arc_shape():
@@ -54,8 +54,8 @@ def test_invalid_arc_shape():
 def test_circle_shape(generate_shapes):
     _, circle, _, _, _ = generate_shapes
 
-    assert np.allclose(circle.center, [-1, 2])
     assert np.isclose(circle.radius, 2.0)
+    assert np.allclose(circle.center, [-1, 2])
 
 
 def test_invalid_circle_shape():
@@ -67,10 +67,10 @@ def test_invalid_circle_shape():
 def test_rectangle_shape(generate_shapes):
     _, _, rectangle, _, _ = generate_shapes
 
-    assert np.allclose(rectangle.center, [-1, 2])
     assert np.isclose(rectangle.size_x, 3)
     assert np.isclose(rectangle.size_y, 1.5)
     assert np.isclose(rectangle.angle, np.pi / 4)
+    assert np.allclose(rectangle.center, [-1, 2])
 
 
 def test_invalid_rectangle_shape():
@@ -85,11 +85,11 @@ def test_invalid_rectangle_shape():
 def test_rounded_rectangle_shape(generate_shapes):
     _, _, _, rounded_rectangle, _ = generate_shapes
 
-    assert np.allclose(rounded_rectangle.center, [-1, 2])
     assert np.isclose(rounded_rectangle.size_x, 3)
     assert np.isclose(rounded_rectangle.size_y, 1.5)
     assert np.isclose(rounded_rectangle.angle, np.pi / 4)
     assert np.isclose(rounded_rectangle.radius, 0.5)
+    assert np.allclose(rounded_rectangle.center, [-1, 2])
 
 
 def test_invalid_rounded_rectangle_shape():
@@ -112,10 +112,10 @@ def test_invalid_rounded_rectangle_shape():
 def test_triangle_shape(generate_shapes):
     _, _, _, _, triangle_shape = generate_shapes
 
-    assert np.allclose(triangle_shape.center, [-1, 2])
     assert np.isclose(triangle_shape.base, 3)
     assert np.isclose(triangle_shape.height, 1.5)
     assert np.isclose(triangle_shape.angle, np.pi / 4)
+    assert np.allclose(triangle_shape.center, [-1, 2])
 
 
 def test_invalid_triangle_shape():
@@ -125,4 +125,3 @@ def test_invalid_triangle_shape():
     # Invalid height.
     with pytest.raises(ValueError):
         _ = TriangleShape([0, 0], 1.0, -0.1, 0.0)
-

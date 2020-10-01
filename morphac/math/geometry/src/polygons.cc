@@ -46,8 +46,8 @@ Points CreateCircularPolygon(const CircleShape& circle_shape,
                 "Angular resolution must be positive.");
   // A circle is basically an arc from 0 to 2 * pi. We make sure that both 0 and
   // 2 * pi isn't included as we don't want duplicate corners in the polygon.
-  ArcShape arc_shape{circle_shape.center, 0., 2 * M_PI - angular_resolution,
-                     circle_shape.radius};
+  ArcShape arc_shape{0., 2 * M_PI - angular_resolution, circle_shape.radius,
+                     circle_shape.center};
   return CreateArc(arc_shape, angular_resolution);
 }
 
@@ -71,22 +71,24 @@ Points CreateRoundedRectangularPolygon(
   // corners of the shape.
 
   Points centers = CreateRectangularPolygon(RectangleShape{
-      rounded_rectangle_shape.center,
       rounded_rectangle_shape.size_x - 2 * rounded_rectangle_shape.radius,
-      rounded_rectangle_shape.size_y - 2 * rounded_rectangle_shape.radius, 0.});
+      rounded_rectangle_shape.size_y - 2 * rounded_rectangle_shape.radius, 0.,
+      rounded_rectangle_shape.center});
 
-  Points arc1 = CreateArc(ArcShape{centers.row(0).transpose(), M_PI, M_PI / 2,
-                                   rounded_rectangle_shape.radius},
+  Points arc1 =
+      CreateArc(ArcShape{M_PI, M_PI / 2, rounded_rectangle_shape.radius,
+                         centers.row(0).transpose()},
+                angular_resolution);
+  Points arc2 = CreateArc(ArcShape{M_PI / 2, 0, rounded_rectangle_shape.radius,
+                                   centers.row(1).transpose()},
                           angular_resolution);
-  Points arc2 = CreateArc(ArcShape{centers.row(1).transpose(), M_PI / 2, 0,
-                                   rounded_rectangle_shape.radius},
+  Points arc3 = CreateArc(ArcShape{0, -M_PI / 2, rounded_rectangle_shape.radius,
+                                   centers.row(2).transpose()},
                           angular_resolution);
-  Points arc3 = CreateArc(ArcShape{centers.row(2).transpose(), 0, -M_PI / 2,
-                                   rounded_rectangle_shape.radius},
-                          angular_resolution);
-  Points arc4 = CreateArc(ArcShape{centers.row(3).transpose(), -M_PI / 2, -M_PI,
-                                   rounded_rectangle_shape.radius},
-                          angular_resolution);
+  Points arc4 =
+      CreateArc(ArcShape{-M_PI / 2, -M_PI, rounded_rectangle_shape.radius,
+                         centers.row(3).transpose()},
+                angular_resolution);
 
   Points polygon(arc1.rows() + arc2.rows() + arc3.rows() + arc4.rows(), 2);
   polygon << arc1, arc2, arc3, arc4;

@@ -21,7 +21,7 @@ struct ArcShape {
 
   ArcShape(const double start_angle, const double end_angle,
            const double radius,
-           const morphac::common::aliases::Point center =
+           const morphac::common::aliases::Point& center =
                morphac::common::aliases::Point::Zero());
 };
 
@@ -30,7 +30,7 @@ struct CircleShape {
   const morphac::common::aliases::Point center;
 
   CircleShape(const double radius,
-              const morphac::common::aliases::Point center =
+              const morphac::common::aliases::Point& center =
                   morphac::common::aliases::Point::Zero());
 };
 
@@ -41,7 +41,7 @@ struct RectangleShape {
   const morphac::common::aliases::Point center;
 
   RectangleShape(const double size_x, const double size_y, const double angle,
-                 const morphac::common::aliases::Point center =
+                 const morphac::common::aliases::Point& center =
                      morphac::common::aliases::Point::Zero());
 };
 
@@ -54,7 +54,7 @@ struct RoundedRectangleShape {
 
   RoundedRectangleShape(const double size_x, const double size_y,
                         const double angle, const double radius,
-                        const morphac::common::aliases::Point center =
+                        const morphac::common::aliases::Point& center =
                             morphac::common::aliases::Point::Zero());
 };
 
@@ -65,7 +65,7 @@ struct TriangleShape {
   const morphac::common::aliases::Point center;
 
   TriangleShape(const double base, const double height, const double angle,
-                const morphac::common::aliases::Point center =
+                const morphac::common::aliases::Point& center =
                     morphac::common::aliases::Point::Zero());
 };
 

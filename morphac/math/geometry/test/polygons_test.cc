@@ -1,7 +1,7 @@
-#include "gtest/gtest.h"
-
-#include "math/geometry/include/lines.h"
 #include "math/geometry/include/polygons.h"
+
+#include "gtest/gtest.h"
+#include "math/geometry/include/lines.h"
 #include "math/geometry/include/shapes.h"
 #include "utils/include/numeric_utils.h"
 
@@ -229,29 +229,32 @@ class GeometryUtilsTest : public ::testing::Test {
     srand(7);
   }
   void SetUp() override {}
-  Points arc1_ = CreateArc(0., M_PI / 2., 1., 0.1);
-  Points arc2_ = CreateArc(M_PI, M_PI / 2., 2., 0.01);
-  Points arc3_ = CreateArc(-M_PI / 2, -3 * M_PI / 2., 3., 0.01, Point(-2, 3));
+  Points arc1_ = CreateArc(ArcShape(0., M_PI / 2., 1.), 0.1);
+  Points arc2_ = CreateArc(ArcShape(M_PI, M_PI / 2., 2.), 0.01);
+  Points arc3_ =
+      CreateArc(ArcShape(-M_PI / 2, -3 * M_PI / 2., 3., Point(-2, 3)), 0.01);
 
-  Points circle1_ = CreateCircularPolygon(1., 0.01);
-  Points circle2_ = CreateCircularPolygon(2., 0.01, Point(12, -9));
+  Points circle1_ = CreateCircularPolygon(CircleShape(1.), 0.01);
+  Points circle2_ = CreateCircularPolygon(CircleShape(2., Point(12, -9)), 0.01);
 
-  Points rectangle1_ = CreateRectangularPolygon(6., 4., 0.);
-  Points rectangle2_ = CreateRectangularPolygon(2., 2., 0., Point(-5., 6.));
-  Points rectangle3_ = CreateRectangularPolygon(2., 2., M_PI / 4., Point(5, 4));
+  Points rectangle1_ = CreateRectangularPolygon(RectangleShape(6., 4., 0.));
+  Points rectangle2_ =
+      CreateRectangularPolygon(RectangleShape(2., 2., 0., Point(-5., 6.)));
+  Points rectangle3_ =
+      CreateRectangularPolygon(RectangleShape(2., 2., M_PI / 4., Point(5, 4)));
 
-  Points rounded_rectangle1_ =
-      CreateRoundedRectangularPolygon(6., 4., 0., 1., 0.1);
-  Points rounded_rectangle2_ =
-      CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.1, Point(-5, 6));
+  Points rounded_rectangle1_ = CreateRoundedRectangularPolygon(
+      RoundedRectangleShape(6., 4., 0., 1.), 0.1);
+  Points rounded_rectangle2_ = CreateRoundedRectangularPolygon(
+      RoundedRectangleShape(2., 2., 0., 1., Point(-5, 6)), 0.1);
   Points rounded_rectangle3_ = CreateRoundedRectangularPolygon(
-      2., 2., M_PI / 4., 0.5, 0.01, Point(5, 4));
+      RoundedRectangleShape(2., 2., M_PI / 4., 0.5, Point(5, 4)), 0.01);
 
-  Points triangle1_ = CreateTriangularPolygon(2., 2., 0.);
-  Points triangle2_ =
-      CreateTriangularPolygon(4., sqrt(3) * 4. / 2., 0., Point(-3., 2.));
-  Points triangle3_ =
-      CreateTriangularPolygon(4., sqrt(3) * 4. / 2., M_PI / 4, Point(2., -3.));
+  Points triangle1_ = CreateTriangularPolygon(TriangleShape(2., 2., 0.));
+  Points triangle2_ = CreateTriangularPolygon(
+      TriangleShape(4., sqrt(3) * 4. / 2., 0., Point(-3., 2.)));
+  Points triangle3_ = CreateTriangularPolygon(
+      TriangleShape(4., sqrt(3) * 4. / 2., M_PI / 4, Point(2., -3.)));
 };
 
 TEST_F(GeometryUtilsTest, CreateArc) {
@@ -262,9 +265,11 @@ TEST_F(GeometryUtilsTest, CreateArc) {
 }
 
 TEST_F(GeometryUtilsTest, InvalidCreateArc) {
-  ASSERT_THROW(CreateArc(0., M_PI / 2., -0.1, 0.01), std::invalid_argument);
-  ASSERT_THROW(CreateArc(0., M_PI / 2., 1., 0.), std::invalid_argument);
-}
+  // The shape objects already make sure that the shapes are valid. Here we only
+  // check if the resolution is valid.
+  ASSERT_THROW(CreateArc(ArcShape{0., M_PI / 2., 1.}, 0.),
+               std::invalid_argument);
+}  // namespace
 
 TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
   // Test the validity of each circle.
@@ -273,8 +278,10 @@ TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
 }
 
 TEST_F(GeometryUtilsTest, InvalidCreateCircularPolygon) {
-  ASSERT_THROW(CreateCircularPolygon(-0.1, 0.01), std::invalid_argument);
-  ASSERT_THROW(CreateCircularPolygon(1., 0.), std::invalid_argument);
+  // The shape objects already make sure that the shapes are valid. Here we only
+  // check if the resolution is valid.
+  ASSERT_THROW(CreateCircularPolygon(CircleShape{1.}, 0.),
+               std::invalid_argument);
 }
 
 TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
@@ -315,11 +322,6 @@ TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
   ASSERT_DOUBLE_EQ(center_y, 4.);
 
   ASSERT_TRUE(IsRectangleOrientedCorrectly(rectangle3_, M_PI / 4));
-}
-
-TEST_F(GeometryUtilsTest, InvalidCreateRectangularPolygon) {
-  ASSERT_THROW(CreateRectangularPolygon(-2., 2., 0.), std::invalid_argument);
-  ASSERT_THROW(CreateRectangularPolygon(2., -2., 0.), std::invalid_argument);
 }
 
 TEST_F(GeometryUtilsTest, RoundedRectangularPolygonSize) {
@@ -370,21 +372,11 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonRotation) {
 }
 
 TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
-  ASSERT_THROW(CreateRoundedRectangularPolygon(-2., 2., 0., 1., 0.1),
+  // The shape objects already make sure that the shapes are valid. Here we only
+  // check if the resolution is valid.
+  ASSERT_THROW(CreateRoundedRectangularPolygon(
+                   RoundedRectangleShape{2., 2., 0., 1.}, 0.),
                std::invalid_argument);
-  ASSERT_THROW(CreateRoundedRectangularPolygon(2., -2., 0., 1., 0.1),
-               std::invalid_argument);
-  ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., -0.1, 0.1),
-               std::invalid_argument);
-  ASSERT_THROW(CreateRoundedRectangularPolygon(2., 2., 0., 1., 0.),
-               std::invalid_argument);
-  // If the radius is more than half the sizes, it is invalid.
-  ASSERT_THROW(
-      CreateRoundedRectangularPolygon(6., 4., 0., 3., 0.1, Point::Zero()),
-      std::invalid_argument);
-  ASSERT_THROW(
-      CreateRoundedRectangularPolygon(6., 4., 0., 2.1, 0.1, Point::Zero()),
-      std::invalid_argument);
 }
 
 TEST_F(GeometryUtilsTest, CreateTriangularPolygon) {
@@ -392,11 +384,6 @@ TEST_F(GeometryUtilsTest, CreateTriangularPolygon) {
   ASSERT_TRUE(IsValidIsoscelesTriangle(triangle1_, Point::Zero()));
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle2_, Point(-3, 2)));
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle3_, Point(2, -3)));
-}
-
-TEST_F(GeometryUtilsTest, InvalidCreateTriangularPolygon) {
-  ASSERT_THROW(CreateTriangularPolygon(-1., 2., 0.), std::invalid_argument);
-  ASSERT_THROW(CreateTriangularPolygon(1., -2., 0.), std::invalid_argument);
 }
 
 }  // namespace

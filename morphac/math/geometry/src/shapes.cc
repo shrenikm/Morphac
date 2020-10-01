@@ -8,7 +8,7 @@ using morphac::common::aliases::Point;
 using morphac::utils::IsEqual;
 
 ArcShape::ArcShape(const double start_angle, const double end_angle,
-                   const double radius, const Point center)
+                   const double radius, const Point& center)
     : start_angle(start_angle),
       end_angle(end_angle),
       radius(radius),
@@ -18,13 +18,13 @@ ArcShape::ArcShape(const double start_angle, const double end_angle,
                 "The start and end angles must not be equal.");
 }
 
-CircleShape::CircleShape(const double radius, const Point center)
+CircleShape::CircleShape(const double radius, const Point& center)
     : radius(radius), center(center) {
   MORPH_REQUIRE(radius >= 0, std::invalid_argument, "Radius must be positive.");
 }
 
 RectangleShape::RectangleShape(const double size_x, const double size_y,
-                               const double angle, const Point center)
+                               const double angle, const Point& center)
     : size_x(size_x), size_y(size_y), angle(angle), center(center) {
   // The reason the conditions are >= 0 and not > 0 is because sometimes
   // rounded rectangle polygon creation may call this function with a zero size.
@@ -38,7 +38,7 @@ RoundedRectangleShape::RoundedRectangleShape(const double size_x,
                                              const double size_y,
                                              const double angle,
                                              const double radius,
-                                             const Point center)
+                                             const Point& center)
     : size_x(size_x),
       size_y(size_y),
       angle(angle),
@@ -58,7 +58,7 @@ RoundedRectangleShape::RoundedRectangleShape(const double size_x,
 }
 
 TriangleShape::TriangleShape(const double base, const double height,
-                             const double angle, const Point center)
+                             const double angle, const Point& center)
     : base(base), height(height), angle(angle), center(center) {
   MORPH_REQUIRE(base >= 0, std::invalid_argument, "Base must be positive");
   MORPH_REQUIRE(height >= 0, std::invalid_argument, "Height must be positive");
