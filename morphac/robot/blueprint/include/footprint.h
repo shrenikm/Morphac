@@ -24,30 +24,24 @@ class Footprint {
   const morphac::common::aliases::Points& get_data() const;
 
   // Footprint generating functions. Note that the coordinates are always with
-  // respect to the origin. The relative center is the position of the center
-  // of the footprint within the footprint (It is measured from (0, 0)). So,
-  // even if a center is provided, the footprint is shifted such that the
-  // relative center coincides with (0, 0).
+  // respect to the origin. The center in these shapes is the relative center
+  // which is the position of the center of the footprint within the footprint
+  // (It is measured from (0, 0)). So, even if a center is provided, the
+  // footprint is shifted such that the center coincides with (0, 0).
   static Footprint CreateCircularFootprint(
-      const double radius, const double angular_resolution,
-      const morphac::common::aliases::Point& relative_center =
-          morphac::common::aliases::Point::Zero());
+      const morphac::math::geometry::CircleShape& circle_shape,
+      const double angular_resolution);
 
   static Footprint CreateRectangularFootprint(
-      const double size_x, const double size_y, const double angle,
-      const morphac::common::aliases::Point& relative_center =
-          morphac::common::aliases::Point::Zero());
+      const morphac::math::geometry::RectangleShape& rectangle_shape);
 
   static Footprint CreateRoundedRectangularFootprint(
-      const double size_x, const double size_y, const double angle,
-      const double radius, const double angular_resolution,
-      const morphac::common::aliases::Point& relative_center =
-          morphac::common::aliases::Point::Zero());
+      const morphac::math::geometry::RoundedRectangleShape&
+          rounded_rectangle_shape,
+      const double angular_resolution);
 
   static Footprint CreateTriangularFootprint(
-      const double base, const double height, const double angle,
-      const morphac::common::aliases::Point& relative_center =
-          morphac::common::aliases::Point::Zero());
+      const morphac::math::geometry::TriangleShape& triangle_shape);
 
  private:
   morphac::common::aliases::Points data_;

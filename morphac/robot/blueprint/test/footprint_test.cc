@@ -10,6 +10,10 @@ using Eigen::Dynamic;
 
 using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
+using morphac::math::geometry::CircleShape;
+using morphac::math::geometry::RectangleShape;
+using morphac::math::geometry::RoundedRectangleShape;
+using morphac::math::geometry::TriangleShape;
 using morphac::robot::blueprint::Footprint;
 
 bool PointsInQuadrant(const Points& points, int quadrant) {
@@ -77,21 +81,25 @@ TEST_F(FootprintTest, CreateCircularFootprint) {
   // thoroughly. We just ensure that the relative center offsets the footprint
   // correctly.
   // Default center footprint
-  auto footprint = Footprint::CreateCircularFootprint(2., 0.1);
+  auto footprint = Footprint::CreateCircularFootprint(CircleShape{2.}, 0.1);
 
   // Centering such that the points are all in a single quadrant.
 
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Point(-2., -2.)).get_data(),
+      Footprint::CreateCircularFootprint(CircleShape{2., Point(-2., -2.)}, 0.1)
+          .get_data(),
       1));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Point(-2., 2.)).get_data(),
+      Footprint::CreateCircularFootprint(CircleShape{2., Point(-2., 2.)}, 0.1)
+          .get_data(),
       2));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Point(2., 2.)).get_data(),
+      Footprint::CreateCircularFootprint(CircleShape{2., Point(2., 2.)}, 0.1)
+          .get_data(),
       3));
   ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateCircularFootprint(2., 0.1, Point(2., -2.)).get_data(),
+      Footprint::CreateCircularFootprint(CircleShape{2., Point(2., -2.)}, 0.1)
+          .get_data(),
       4));
 }
 
@@ -100,26 +108,27 @@ TEST_F(FootprintTest, CreateRectangularFootprint) {
   // thoroughly. We just ensure that the relative center offsets the footprint
   // correctly.
   // Default center footprint
-  auto footprint = Footprint::CreateRectangularFootprint(1., 1., 0.);
+  auto footprint =
+      Footprint::CreateRectangularFootprint(RectangleShape{1., 1., 0.});
 
   // Centering such that the points are all in a single quadrant.
 
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Point(-1., -1.))
-          .get_data(),
-      1));
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Point(-1., 1.))
-          .get_data(),
-      2));
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Point(1., 1.))
-          .get_data(),
-      3));
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateRectangularFootprint(2., 2., 0., Point(1., -1.))
-          .get_data(),
-      4));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRectangularFootprint(
+                                   RectangleShape{2., 2., 0., Point(-1., -1.)})
+                                   .get_data(),
+                               1));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRectangularFootprint(
+                                   RectangleShape{2., 2., 0., Point(-1., 1.)})
+                                   .get_data(),
+                               2));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRectangularFootprint(
+                                   RectangleShape{2., 2., 0., Point(1., 1.)})
+                                   .get_data(),
+                               3));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRectangularFootprint(
+                                   RectangleShape{2., 2., 0., Point(1., -1.)})
+                                   .get_data(),
+                               4));
 }
 
 TEST_F(FootprintTest, CreateRoundedRectangularFootprint) {
@@ -127,27 +136,31 @@ TEST_F(FootprintTest, CreateRoundedRectangularFootprint) {
   // thoroughly. We just ensure that the relative center offsets the footprint
   // correctly.
   // Default center footprint
-  auto footprint =
-      Footprint::CreateRoundedRectangularFootprint(1., 1., 0., 0.5, 0.1);
+  auto footprint = Footprint::CreateRoundedRectangularFootprint(
+      RoundedRectangleShape{1., 1., 0., 0.5}, 0.1);
 
   // Centering such that the points are all in a single quadrant.
 
-  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Point(-1., -1.))
-                                   .get_data(),
-                               1));
-  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Point(-1., 1.))
-                                   .get_data(),
-                               2));
-  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Point(1., 1.))
-                                   .get_data(),
-                               3));
-  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateRoundedRectangularFootprint(
-                                   2., 2., 0., 0.5, 0.1, Point(1., -1.))
-                                   .get_data(),
-                               4));
+  ASSERT_TRUE(PointsInQuadrant(
+      Footprint::CreateRoundedRectangularFootprint(
+          RoundedRectangleShape{2., 2., 0., 0.5, Point(-1., -1.)}, 0.1)
+          .get_data(),
+      1));
+  ASSERT_TRUE(PointsInQuadrant(
+      Footprint::CreateRoundedRectangularFootprint(
+          RoundedRectangleShape{2., 2., 0., 0.5, Point(-1., 1.)}, 0.1)
+          .get_data(),
+      2));
+  ASSERT_TRUE(PointsInQuadrant(
+      Footprint::CreateRoundedRectangularFootprint(
+          RoundedRectangleShape{2., 2., 0., 0.5, Point(1., 1.)}, 0.1)
+          .get_data(),
+      3));
+  ASSERT_TRUE(PointsInQuadrant(
+      Footprint::CreateRoundedRectangularFootprint(
+          RoundedRectangleShape{2., 2., 0., 0.5, Point(1., -1.)}, 0.1)
+          .get_data(),
+      4));
 }
 
 TEST_F(FootprintTest, CreateTriangularFootprint) {
@@ -155,26 +168,27 @@ TEST_F(FootprintTest, CreateTriangularFootprint) {
   // thoroughly. We just ensure that the relative center offsets the footprint
   // correctly.
   // Default center footprint
-  auto footprint = Footprint::CreateTriangularFootprint(2., 2., 0.);
+  auto footprint =
+      Footprint::CreateTriangularFootprint(TriangleShape{2., 2., 0.});
 
   // Centering such that the points are all in a single quadrant.
 
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Point(-1., -1.))
-          .get_data(),
-      1));
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Point(-1., 1.))
-          .get_data(),
-      2));
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Point(1., 1.))
-          .get_data(),
-      3));
-  ASSERT_TRUE(PointsInQuadrant(
-      Footprint::CreateTriangularFootprint(2., 2., 0., Point(1., -1.))
-          .get_data(),
-      4));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateTriangularFootprint(
+                                   TriangleShape{2., 2., 0., Point(-1., -1.)})
+                                   .get_data(),
+                               1));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateTriangularFootprint(
+                                   TriangleShape{2., 2., 0., Point(-1., 1.)})
+                                   .get_data(),
+                               2));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateTriangularFootprint(
+                                   TriangleShape{2., 2., 0., Point(1., 1.)})
+                                   .get_data(),
+                               3));
+  ASSERT_TRUE(PointsInQuadrant(Footprint::CreateTriangularFootprint(
+                                   TriangleShape{2., 2., 0., Point(1., -1.)})
+                                   .get_data(),
+                               4));
 }
 
 }  // namespace
