@@ -90,6 +90,7 @@ function(prepend_list out prefix)
   set(${out} ${tmp_list} PARENT_SCOPE)
 endfunction()
 
+
 # Function that takes a list and appends some given string to each element.
 # CMake 3.12 has LIST TRANSFORM that can do this but our minimum CMake version is 3.5
 function(append_list out suffix)
@@ -99,7 +100,6 @@ function(append_list out suffix)
   endforeach()
   set(${out} ${tmp_list} PARENT_SCOPE)
 endfunction()
-
 
 
 # Function that takes in a target name and converts it to a static target name.
