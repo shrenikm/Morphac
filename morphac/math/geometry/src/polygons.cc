@@ -73,7 +73,7 @@ Points CreateRoundedRectangularPolygon(
   Points centers = CreateRectangularPolygon(RectangleShape{
       rounded_rectangle_shape.size_x - 2 * rounded_rectangle_shape.radius,
       rounded_rectangle_shape.size_y - 2 * rounded_rectangle_shape.radius, 0.,
-      rounded_rectangle_shape.center});
+      Point::Zero()});
 
   Points arc1 =
       CreateArc(ArcShape{M_PI, M_PI / 2, rounded_rectangle_shape.radius,

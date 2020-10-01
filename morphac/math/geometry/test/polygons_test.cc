@@ -229,32 +229,32 @@ class GeometryUtilsTest : public ::testing::Test {
     srand(7);
   }
   void SetUp() override {}
-  Points arc1_ = CreateArc(ArcShape(0., M_PI / 2., 1.), 0.1);
-  Points arc2_ = CreateArc(ArcShape(M_PI, M_PI / 2., 2.), 0.01);
+  Points arc1_ = CreateArc(ArcShape{0., M_PI / 2., 1.}, 0.1);
+  Points arc2_ = CreateArc(ArcShape{M_PI, M_PI / 2., 2.}, 0.01);
   Points arc3_ =
-      CreateArc(ArcShape(-M_PI / 2, -3 * M_PI / 2., 3., Point(-2, 3)), 0.01);
+      CreateArc(ArcShape{-M_PI / 2, -3 * M_PI / 2., 3., Point(-2, 3)}, 0.01);
 
-  Points circle1_ = CreateCircularPolygon(CircleShape(1.), 0.01);
-  Points circle2_ = CreateCircularPolygon(CircleShape(2., Point(12, -9)), 0.01);
+  Points circle1_ = CreateCircularPolygon(CircleShape{1.}, 0.01);
+  Points circle2_ = CreateCircularPolygon(CircleShape{2., Point(12, -9)}, 0.01);
 
-  Points rectangle1_ = CreateRectangularPolygon(RectangleShape(6., 4., 0.));
+  Points rectangle1_ = CreateRectangularPolygon(RectangleShape{6., 4., 0.});
   Points rectangle2_ =
-      CreateRectangularPolygon(RectangleShape(2., 2., 0., Point(-5., 6.)));
+      CreateRectangularPolygon(RectangleShape{2., 2., 0., Point(-5., 6.)});
   Points rectangle3_ =
-      CreateRectangularPolygon(RectangleShape(2., 2., M_PI / 4., Point(5, 4)));
+      CreateRectangularPolygon(RectangleShape{2., 2., M_PI / 4., Point(5, 4)});
 
   Points rounded_rectangle1_ = CreateRoundedRectangularPolygon(
-      RoundedRectangleShape(6., 4., 0., 1.), 0.1);
+      RoundedRectangleShape{6., 4., 0., 1.}, 0.1);
   Points rounded_rectangle2_ = CreateRoundedRectangularPolygon(
-      RoundedRectangleShape(2., 2., 0., 1., Point(-5, 6)), 0.1);
+      RoundedRectangleShape{2., 2., 0., 1., Point(-5, 6)}, 0.1);
   Points rounded_rectangle3_ = CreateRoundedRectangularPolygon(
-      RoundedRectangleShape(2., 2., M_PI / 4., 0.5, Point(5, 4)), 0.01);
+      RoundedRectangleShape{2., 2., M_PI / 4., 0.5, Point(5, 4)}, 0.01);
 
-  Points triangle1_ = CreateTriangularPolygon(TriangleShape(2., 2., 0.));
+  Points triangle1_ = CreateTriangularPolygon(TriangleShape{2., 2., 0.});
   Points triangle2_ = CreateTriangularPolygon(
-      TriangleShape(4., sqrt(3) * 4. / 2., 0., Point(-3., 2.)));
+      TriangleShape{4., sqrt(3) * 4. / 2., 0., Point(-3., 2.)});
   Points triangle3_ = CreateTriangularPolygon(
-      TriangleShape(4., sqrt(3) * 4. / 2., M_PI / 4, Point(2., -3.)));
+      TriangleShape{4., sqrt(3) * 4. / 2., M_PI / 4, Point(2., -3.)});
 };
 
 TEST_F(GeometryUtilsTest, CreateArc) {
