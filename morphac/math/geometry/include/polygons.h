@@ -8,6 +8,7 @@
 #include "Eigen/Dense"
 #include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
+#include "math/geometry/include/shapes.h"
 #include "math/transforms/include/transforms.h"
 #include "utils/include/points_utils.h"
 
@@ -16,31 +17,23 @@ namespace math {
 namespace geometry {
 
 morphac::common::aliases::Points CreateArc(
-    const double start_angle, const double end_angle, const double radius,
-    const double angular_resolution,
-    const morphac::common::aliases::Point& center =
-        morphac::common::aliases::Point::Zero());
+    const morphac::math::geometry::ArcShape& arc_shape,
+    const double angular_resolution);
 
 morphac::common::aliases::Points CreateCircularPolygon(
-    const double radius, const double angular_resolution,
-    const morphac::common::aliases::Point& center =
-        morphac::common::aliases::Point::Zero());
+    const morphac::math::geometry::CircleShape& circle_shape,
+    const double angular_resolution);
 
 morphac::common::aliases::Points CreateRectangularPolygon(
-    const double size_x, const double size_y, const double angle,
-    const morphac::common::aliases::Point& center =
-        morphac::common::aliases::Point::Zero());
+    const morphac::math::geometry::RectangleShape& rectangle_shape);
 
 morphac::common::aliases::Points CreateRoundedRectangularPolygon(
-    const double size_x, const double size_y, const double angle,
-    const double radius, const double angular_resolution,
-    const morphac::common::aliases::Point& center =
-        morphac::common::aliases::Point::Zero());
+    const morphac::math::geometry::RoundedRectangleShape&
+        rounded_rectangle_shape,
+    const double angular_resolution);
 
 morphac::common::aliases::Points CreateTriangularPolygon(
-    const double base, const double height, const double angle,
-    const morphac::common::aliases::Point& center =
-        morphac::common::aliases::Point::Zero());
+    const morphac::math::geometry::TriangleShape& triangle_shape);
 
 }  // namespace geometry
 }  // namespace math

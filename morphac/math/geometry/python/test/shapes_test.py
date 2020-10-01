@@ -45,7 +45,7 @@ def test_arc_shape(generate_shapes):
 def test_invalid_arc_shape():
     # Invalid radius.
     with pytest.raises(ValueError):
-        _ = ArcShape([0, 0], 0.0, np.pi / 2, 0.0)
+        _ = ArcShape([0, 0], 0.0, np.pi / 2, -0.1)
     # Invalid start and end angles (equal).
     with pytest.raises(ValueError):
         _ = ArcShape([0, 0], np.pi / 2, np.pi / 2, 1.0)
@@ -61,7 +61,7 @@ def test_circle_shape(generate_shapes):
 def test_invalid_circle_shape():
     # Invalid radius.
     with pytest.raises(ValueError):
-        _ = CircleShape([0, 0], 0.0)
+        _ = CircleShape([0, 0], -0.1)
 
 
 def test_rectangle_shape(generate_shapes):
@@ -76,10 +76,10 @@ def test_rectangle_shape(generate_shapes):
 def test_invalid_rectangle_shape():
     # Invalid size_x.
     with pytest.raises(ValueError):
-        _ = RectangleShape([0, 0], 0.0, 1.0, 0.0)
+        _ = RectangleShape([0, 0], -0.1, 1.0, 0.0)
     # Invalid size_y.
     with pytest.raises(ValueError):
-        _ = RectangleShape([0, 0], 1.0, 0.0, 0.0)
+        _ = RectangleShape([0, 0], 1.0, -0.1, 0.0)
 
 
 def test_rounded_rectangle_shape(generate_shapes):
@@ -95,13 +95,13 @@ def test_rounded_rectangle_shape(generate_shapes):
 def test_invalid_rounded_rectangle_shape():
     # Invalid size_x.
     with pytest.raises(ValueError):
-        _ = RoundedRectangleShape([0, 0], 0.0, 1.0, 0.0, 0.1)
+        _ = RoundedRectangleShape([0, 0], -0.1, 1.0, 0.0, 0.1)
     # Invalid size_y.
     with pytest.raises(ValueError):
-        _ = RoundedRectangleShape([0, 0], 1.0, 0.0, 0.0, 0.1)
+        _ = RoundedRectangleShape([0, 0], 1.0, -0.1, 0.0, 0.1)
     # Invalid radius.
     with pytest.raises(ValueError):
-        _ = RoundedRectangleShape([0, 0], 1.0, 1.0, 0.0, 0.0)
+        _ = RoundedRectangleShape([0, 0], 1.0, 1.0, 0.0, -0.1)
     # The radius must also be smaller than half of the sizes.
     with pytest.raises(ValueError):
         _ = RoundedRectangleShape([0, 0], 3.0, 2.0, 0.0, 1.1)
@@ -121,8 +121,8 @@ def test_triangle_shape(generate_shapes):
 def test_invalid_triangle_shape():
     # Invalid base.
     with pytest.raises(ValueError):
-        _ = TriangleShape([0, 0], 0.0, 1.0, 0.0)
+        _ = TriangleShape([0, 0], -0.1, 1.0, 0.0)
     # Invalid height.
     with pytest.raises(ValueError):
-        _ = TriangleShape([0, 0], 1.0, 0.0, 0.0)
+        _ = TriangleShape([0, 0], 1.0, -0.1, 0.0)
 

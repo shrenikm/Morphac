@@ -14,54 +14,59 @@ namespace math {
 namespace geometry {
 
 struct ArcShape {
-  const morphac::common::aliases::Point center;
   const double start_angle;
   const double end_angle;
   const double radius;
+  const morphac::common::aliases::Point center;
 
-  ArcShape(const morphac::common::aliases::Point center,
-           const double start_angle, const double end_angle,
-           const double radius);
+  ArcShape(const double start_angle, const double end_angle,
+           const double radius,
+           const morphac::common::aliases::Point center =
+               morphac::common::aliases::Point::Zero());
 };
 
 struct CircleShape {
-  const morphac::common::aliases::Point center;
   const double radius;
+  const morphac::common::aliases::Point center;
 
-  CircleShape(const morphac::common::aliases::Point center,
-              const double radius);
+  CircleShape(const double radius,
+              const morphac::common::aliases::Point center =
+                  morphac::common::aliases::Point::Zero());
 };
 
 struct RectangleShape {
-  const morphac::common::aliases::Point center;
   const double size_x;
   const double size_y;
   const double angle;
+  const morphac::common::aliases::Point center;
 
-  RectangleShape(const morphac::common::aliases::Point center,
-                 const double size_x, const double size_y, const double angle);
+  RectangleShape(const double size_x, const double size_y, const double angle,
+                 const morphac::common::aliases::Point center =
+                     morphac::common::aliases::Point::Zero());
 };
 
 struct RoundedRectangleShape {
-  const morphac::common::aliases::Point center;
   const double size_x;
   const double size_y;
   const double angle;
   const double radius;
+  const morphac::common::aliases::Point center;
 
-  RoundedRectangleShape(const morphac::common::aliases::Point center,
-                        const double size_x, const double size_y,
-                        const double angle, const double radius);
+  RoundedRectangleShape(const double size_x, const double size_y,
+                        const double angle, const double radius,
+                        const morphac::common::aliases::Point center =
+                            morphac::common::aliases::Point::Zero());
 };
 
 struct TriangleShape {
-  const morphac::common::aliases::Point center;
   const double base;
   const double height;
   const double angle;
+  const morphac::common::aliases::Point center;
 
-  TriangleShape(const morphac::common::aliases::Point center, const double base,
-                const double height, const double angle);
+  TriangleShape(const double base, const double height, const double angle,
+                const morphac::common::aliases::Point center =
+                    morphac::common::aliases::Point::Zero());
 };
 
 }  // namespace geometry

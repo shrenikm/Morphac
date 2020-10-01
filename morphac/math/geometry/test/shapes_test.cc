@@ -41,7 +41,7 @@ TEST_F(ShapesTest, ArcShape) {
 
 TEST_F(ShapesTest, InvalidArcShape) {
   // Invalid radius.
-  ASSERT_THROW(ArcShape(Point::Zero(), 0., M_PI / 2, 0.),
+  ASSERT_THROW(ArcShape(Point::Zero(), 0., M_PI / 2, -0.1),
                std::invalid_argument);
 
   // Invalid start and end angles (equal).
@@ -56,7 +56,7 @@ TEST_F(ShapesTest, CircleShape) {
 
 TEST_F(ShapesTest, InvalidCircleShape) {
   // Invalid radius.
-  ASSERT_THROW(CircleShape(Point::Zero(), 0.), std::invalid_argument);
+  ASSERT_THROW(CircleShape(Point::Zero(), -0.1), std::invalid_argument);
 }
 
 TEST_F(ShapesTest, RectangleShape) {
@@ -68,10 +68,10 @@ TEST_F(ShapesTest, RectangleShape) {
 
 TEST_F(ShapesTest, InvalidRectangleShape) {
   // Invalid size_x.
-  ASSERT_THROW(RectangleShape(Point::Zero(), 0., 1., 0.),
+  ASSERT_THROW(RectangleShape(Point::Zero(), -0.1, 1., 0.),
                std::invalid_argument);
   // Invalid size_y.
-  ASSERT_THROW(RectangleShape(Point::Zero(), 1., 0., 0.),
+  ASSERT_THROW(RectangleShape(Point::Zero(), 1., -0.1, 0.),
                std::invalid_argument);
 }
 
@@ -85,13 +85,13 @@ TEST_F(ShapesTest, RoundedRectangleShape) {
 
 TEST_F(ShapesTest, InvalidRoundedRectangleShape) {
   // Invalid size_x.
-  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 0., 1., 0., 0.1),
+  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), -0.1, 1., 0., 0.1),
                std::invalid_argument);
   // Invalid size_y.
-  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., 0., 0., 0.1),
+  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., -0.1, 0., 0.1),
                std::invalid_argument);
   // Invalid radius.
-  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., 1., 0., 0.),
+  ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 1., 1., 0., -0.1),
                std::invalid_argument);
   // The radius must also be smaller than half of the sizes.
   ASSERT_THROW(RoundedRectangleShape(Point::Zero(), 3., 2., 0., 1.1),
@@ -109,9 +109,11 @@ TEST_F(ShapesTest, TriangleShape) {
 
 TEST_F(ShapesTest, InvalidTriangleShape) {
   // Invalid base.
-  ASSERT_THROW(TriangleShape(Point::Zero(), 0., 1., 0.), std::invalid_argument);
+  ASSERT_THROW(TriangleShape(Point::Zero(), -0.1, 1., 0.),
+               std::invalid_argument);
   // Invalid height.
-  ASSERT_THROW(TriangleShape(Point::Zero(), 1., 0., 0.), std::invalid_argument);
+  ASSERT_THROW(TriangleShape(Point::Zero(), 1., -0.1, 0.),
+               std::invalid_argument);
 }
 
 }  // namespace

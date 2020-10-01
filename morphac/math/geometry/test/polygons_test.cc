@@ -1,7 +1,8 @@
-#include "math/geometry/include/polygons.h"
-
 #include "gtest/gtest.h"
+
 #include "math/geometry/include/lines.h"
+#include "math/geometry/include/polygons.h"
+#include "math/geometry/include/shapes.h"
 #include "utils/include/numeric_utils.h"
 
 namespace {
@@ -14,13 +15,18 @@ using Eigen::VectorXd;
 
 using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
+using morphac::math::geometry::ArcShape;
 using morphac::math::geometry::AreLinesPerpendicular;
+using morphac::math::geometry::CircleShape;
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::CreateArc;
 using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
 using morphac::math::geometry::CreateTriangularPolygon;
+using morphac::math::geometry::RectangleShape;
+using morphac::math::geometry::RoundedRectangleShape;
+using morphac::math::geometry::TriangleShape;
 using morphac::utils::IsEqual;
 
 bool IsValidRectangle(const Points& rectangle) {
