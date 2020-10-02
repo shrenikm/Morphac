@@ -1,6 +1,13 @@
 import numpy as np
 import pytest
 
+from morphac.math.geometry import (
+    ArcShape,
+    CircleShape,
+    RectangleShape,
+    RoundedRectangleShape,
+    TriangleShape,
+)
 from morphac.robot.blueprint import Footprint
 
 
@@ -10,47 +17,6 @@ def generate_footprint_list():
     f1 = Footprint([[1, 2]])
     f2 = Footprint(data=np.ones([10, 2]))
 
-    return f1, f2
-
-
-@pytest.fixture()
-def generate_circular_footprint_list():
-    f1 = Footprint.create_circular_footprint(2.0, 0.1)
-    f2 = Footprint.create_circular_footprint(
-        radius=1.0, angular_resolution=0.01, relative_center=[-4, 4]
-    )
-    return f1, f2
-
-
-@pytest.fixture()
-def generate_rectangular_footprint_list():
-    f1 = Footprint.create_rectangular_footprint(6.0, 4.0, 0.0)
-    f2 = Footprint.create_rectangular_footprint(
-        size_x=6.0, size_y=4.0, angle=np.pi / 3.0, relative_center=[-4.0, 4.0]
-    )
-    return f1, f2
-
-
-@pytest.fixture()
-def generate_rounded_rectangular_footprint_list():
-    f1 = Footprint.create_rounded_rectangular_footprint(6.0, 4.0, 0.0, 1.0, 0.1)
-    f2 = Footprint.create_rounded_rectangular_footprint(
-        size_x=6.0,
-        size_y=4.0,
-        angle=np.pi / 3.0,
-        radius=1.0,
-        angular_resolution=0.01,
-        relative_center=[-4.0, 4],
-    )
-    return f1, f2
-
-
-@pytest.fixture()
-def generate_triangular_footprint_list():
-    f1 = Footprint.create_triangular_footprint(2.0, 2.0, 0.0)
-    f2 = Footprint.create_triangular_footprint(
-        base=4.0, height=6.0, angle=np.pi / 3.0, relative_center=[-4.0, 4.0]
-    )
     return f1, f2
 
 
@@ -123,3 +89,45 @@ def test_triangular_footprint(generate_triangular_footprint_list):
 
     _is_valid_footprint(f1)
     _is_valid_footprint(f2)
+
+
+# Test standard footprint shapes.
+@pytest.fixture()
+def generate_circular_footprint_list():
+    f1 = Footprint.create_circular_footprint(CircleShape(2.0), 0.1)
+    f2 = Footprint.create_circular_footprint(
+        CircleShape(radius=1.0, center=[-4, 4]), angular_resolution=0.01
+    )
+    return f1, f2
+
+
+@pytest.fixture()
+def generate_rectangular_footprint_list():
+    f1 = Footprint.create_rectangular_footprint(RectangleShape(6.0, 4.0, 0.0))
+    f2 = Footprint.create_rectangular_footprint(
+        RectangleShape(size_x=6.0, size_y=4.0, angle=np.pi / 3.0, center=[-4.0, 4.0])
+    )
+    return f1, f2
+
+
+@pytest.fixture()
+def generate_rounded_rectangular_footprint_list():
+    f1 = Footprint.create_rounded_rectangular_footprint(
+        RoundedRectangleShape(6.0, 4.0, 0.0, 1.0), 0.1
+    )
+    f2 = Footprint.create_rounded_rectangular_footprint(
+        RoundedRectangleShape(
+            size_x=6.0, size_y=4.0, angle=np.pi / 3.0, radius=1.0, center=[-4.0, 4]
+        ),
+        angular_resolution=0.01,
+    )
+    return f1, f2
+
+
+@pytest.fixture()
+def generate_triangular_footprint_list():
+    f1 = Footprint.create_triangular_footprint(TriangleShape(2.0, 2.0, 0.0))
+    f2 = Footprint.create_triangular_footprint(
+        TriangleShape(base=4.0, height=6.0, angle=np.pi / 3.0, center=[-4.0, 4.0])
+    )
+    return f1, f2

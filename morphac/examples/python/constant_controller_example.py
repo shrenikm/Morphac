@@ -27,6 +27,8 @@ from morphac.visualization.playground_visualization import (
     PlaygroundVisualizer,
 )
 
+HELP_PROMPT = "Type of robot to use. The available options are: \n1. ackermann\n2. diffdrive\n3. dubin\n4. tricycle"
+
 
 class RobotType(Enum):
     ACKERMANN = "ackermann"
@@ -81,7 +83,7 @@ def run(robot_type):
     try:
         robot_type = RobotType(robot_type)
     except (ValueError):
-        raise MorphacLogicError("Invalid robot type. Please try again.")
+        raise MorphacLogicError(f"Invalid robot type. Please try again.\n{HELP_PROMPT}")
 
     # Parameters.
     dt = 0.02
@@ -125,11 +127,7 @@ if __name__ == "__main__":
         formatter_class=RawTextHelpFormatter,
     )
     parser.add_argument(
-        "-r",
-        "--robot_type",
-        default="ackermann",
-        type=str,
-        help="Type of robot to use. The available options are: \n1. ackermann\n2. diffdrive\n3. dubin\n4. tricycle",
+        "-r", "--robot_type", default="ackermann", type=str, help=HELP_PROMPT,
     )
     args = parser.parse_args()
 

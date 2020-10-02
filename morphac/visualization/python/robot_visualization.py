@@ -14,6 +14,9 @@ from morphac.constants.colors import FlatColors
 from morphac.constructs import State
 from morphac.mechanics.models import KinematicModel
 from morphac.math.geometry import (
+    RectangleShape,
+    RoundedRectangleShape,
+    TriangleShape,
     create_rectangular_polygon,
     create_triangular_polygon,
 )
@@ -36,28 +39,36 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
             )
 
             back_left_wheel = create_rectangular_polygon(
-                size_x=wheel_length,
-                size_y=wheel_thickness,
-                angle=0.0,
-                center=[0, width / 2],
+                RectangleShape(
+                    size_x=wheel_length,
+                    size_y=wheel_thickness,
+                    angle=0.0,
+                    center=[0, width / 2],
+                )
             )
             back_right_wheel = create_rectangular_polygon(
-                size_x=wheel_length,
-                size_y=wheel_thickness,
-                angle=0.0,
-                center=[0, -width / 2],
+                RectangleShape(
+                    size_x=wheel_length,
+                    size_y=wheel_thickness,
+                    angle=0.0,
+                    center=[0, -width / 2],
+                )
             )
             front_left_wheel = create_rectangular_polygon(
-                size_x=wheel_length,
-                size_y=wheel_thickness,
-                angle=inner_angle if robot.pose[3] > 0 else outer_angle,
-                center=[length, width / 2],
+                RectangleShape(
+                    size_x=wheel_length,
+                    size_y=wheel_thickness,
+                    angle=inner_angle if robot.pose[3] > 0 else outer_angle,
+                    center=[length, width / 2],
+                )
             )
             front_right_wheel = create_rectangular_polygon(
-                size_x=wheel_length,
-                size_y=wheel_thickness,
-                angle=inner_angle if robot.pose[3] < 0 else outer_angle,
-                center=[length, -width / 2],
+                RectangleShape(
+                    size_x=wheel_length,
+                    size_y=wheel_thickness,
+                    angle=inner_angle if robot.pose[3] < 0 else outer_angle,
+                    center=[length, -width / 2],
+                )
             )
 
             return [
@@ -86,10 +97,12 @@ def _ackermann_drawing_kernel(canvas, robot, resolution):
     def _draw_heading_triangle():
         def _compute_heading_triangle_coords():
             heading_triangle = create_triangular_polygon(
-                base=heading_triangle_base,
-                height=heading_triangle_height,
-                angle=-np.pi / 2,
-                center=[length, 0.0],
+                TriangleShape(
+                    base=heading_triangle_base,
+                    height=heading_triangle_height,
+                    angle=-np.pi / 2,
+                    center=[length, 0.0],
+                )
             )
 
             return heading_triangle
@@ -137,16 +150,20 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
             # wheel coordinates for both wheels.
 
             left_wheel = create_rectangular_polygon(
-                size_x=wheel_length,
-                size_y=wheel_thickness,
-                angle=0.0,
-                center=[0, width / 2],
+                RectangleShape(
+                    size_x=wheel_length,
+                    size_y=wheel_thickness,
+                    angle=0.0,
+                    center=[0, width / 2],
+                )
             )
             right_wheel = create_rectangular_polygon(
-                size_x=wheel_length,
-                size_y=wheel_thickness,
-                angle=0.0,
-                center=[0, -width / 2],
+                RectangleShape(
+                    size_x=wheel_length,
+                    size_y=wheel_thickness,
+                    angle=0.0,
+                    center=[0, -width / 2],
+                )
             )
 
             return [
@@ -171,10 +188,12 @@ def _diffdrive_drawing_kernel(canvas, robot, resolution):
     def _draw_heading_triangle():
         def _compute_heading_triangle_coords():
             heading_triangle = create_triangular_polygon(
-                base=heading_triangle_base,
-                height=heading_triangle_height,
-                angle=-np.pi / 2,
-                center=[width / 2, 0.0],
+                TriangleShape(
+                    base=heading_triangle_base,
+                    height=heading_triangle_height,
+                    angle=-np.pi / 2,
+                    center=[width / 2, 0.0],
+                )
             )
 
             return heading_triangle
@@ -219,10 +238,12 @@ def _dubin_drawing_kernel(canvas, robot, resolution):
     def _draw_heading_triangle():
         def _compute_heading_triangle_coords():
             heading_triangle = create_triangular_polygon(
-                base=heading_triangle_base,
-                height=heading_triangle_height,
-                angle=-np.pi / 2,
-                center=[height / 2 - heading_triangle_height, 0.0],
+                TriangleShape(
+                    base=heading_triangle_base,
+                    height=heading_triangle_height,
+                    angle=-np.pi / 2,
+                    center=[height / 2 - heading_triangle_height, 0.0],
+                )
             )
 
             return heading_triangle
@@ -267,22 +288,28 @@ def _tricycle_drawing_kernel(canvas, robot, resolution):
             # wheel coordinates for all four wheels.
 
             back_left_wheel = create_rectangular_polygon(
-                size_x=back_wheel_length,
-                size_y=back_wheel_thickness,
-                angle=0.0,
-                center=[0, width / 2],
+                RectangleShape(
+                    size_x=back_wheel_length,
+                    size_y=back_wheel_thickness,
+                    angle=0.0,
+                    center=[0, width / 2],
+                )
             )
             back_right_wheel = create_rectangular_polygon(
-                size_x=back_wheel_length,
-                size_y=back_wheel_thickness,
-                angle=0.0,
-                center=[0, -width / 2],
+                RectangleShape(
+                    size_x=back_wheel_length,
+                    size_y=back_wheel_thickness,
+                    angle=0.0,
+                    center=[0, -width / 2],
+                )
             )
             front_wheel = create_rectangular_polygon(
-                size_x=front_wheel_length,
-                size_y=front_wheel_thickness,
-                angle=robot.pose[3],
-                center=[length, 0],
+                RectangleShape(
+                    size_x=front_wheel_length,
+                    size_y=front_wheel_thickness,
+                    angle=robot.pose[3],
+                    center=[length, 0],
+                )
             )
 
             return [
