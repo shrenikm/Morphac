@@ -132,6 +132,11 @@ def test_canvas_to_world_multiple_points():
     assert world_coords.dtype == np.float64
 
 
+def test_canvas_to_world_scalar():
+    assert np.isclose(canvas_to_world(1, 0.01), 0.01)
+    assert np.isclose(canvas_to_world(50, 0.03), 1.5)
+
+
 def test_world_to_canvas():
 
     canvas_coord = world_to_canvas(
@@ -152,3 +157,10 @@ def test_world_to_canvas():
 
     assert canvas_coords.shape == (10, 2)
     assert canvas_coords.dtype == np.int32
+
+
+def test_world_to_canvas_scalar():
+
+    assert world_to_canvas(1.0, 0.01) == 100
+    assert world_to_canvas(1.015, 0.02) == 51
+    assert world_to_canvas(1.005, 0.02) == 50

@@ -92,6 +92,10 @@ Points CanvasToWorld(const Pixels& canvas_coords, const double resolution,
   return resolution * world_coords;
 }
 
+double CanvasToWorld(const int scalar, const double resolution) {
+  return scalar * resolution;
+}
+
 Pixel WorldToCanvas(const Point& world_coord, const double resolution,
                     const vector<int>& canvas_size) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
@@ -167,6 +171,10 @@ Pixels WorldToCanvas(const Points& world_coords, const double resolution,
   //  }
   //}
   // return canvas_coords;
+}
+
+int WorldToCanvas(const double scalar, const double resolution) {
+  return round(scalar / resolution);
 }
 
 }  // namespace transforms

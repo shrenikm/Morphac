@@ -43,6 +43,9 @@ void define_transforms_binding(py::module& m) {
             &CanvasToWorld),
         py::arg("canvas_coords"), py::arg("resolution"),
         py::arg("canvas_size"));
+  m.def("canvas_to_world",
+        py::overload_cast<const int, const double>(&CanvasToWorld),
+        py::arg("scalar"), py::arg("resolution"));
 
   // Cpp overloads + default value overloads for python.
   m.def("world_to_canvas",
@@ -53,6 +56,9 @@ void define_transforms_binding(py::module& m) {
         py::overload_cast<const Points&, const double, const vector<int>&>(
             &WorldToCanvas),
         py::arg("world_coords"), py::arg("resolution"), py::arg("canvas_size"));
+  m.def("world_to_canvas",
+        py::overload_cast<const double, const double>(&WorldToCanvas),
+        py::arg("scalar"), py::arg("resolution"));
 }
 
 }  // namespace binding

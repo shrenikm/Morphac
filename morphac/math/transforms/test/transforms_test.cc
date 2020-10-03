@@ -248,6 +248,12 @@ TEST_F(TransformsTest, CanvasToWorldMultiplePoints) {
                   .isApprox(desired_world_coords));
 }
 
+TEST_F(TransformsTest, CanvasToWorldScalar) {
+  // Tests the function for a single scalar value.
+  ASSERT_DOUBLE_EQ(CanvasToWorld(1, 0.01), 0.01);
+  ASSERT_DOUBLE_EQ(CanvasToWorld(50, 0.03), 1.5);
+}
+
 TEST_F(TransformsTest, WorldToCanvas) {
   // Trivial conversion.
   // Note that we cannot construct the zero vector inplace as the function
@@ -346,6 +352,14 @@ TEST_F(TransformsTest, WorldToCanvasRoundingMultiplePoints) {
 
   ASSERT_TRUE(WorldToCanvas(world_coords, 0.1, canvas_size)
                   .isApprox(desired_canvas_coords));
+}
+
+TEST_F(TransformsTest, WorldToCanvasScalar) {
+  // Tests the function for a single scalar value.
+  ASSERT_EQ(WorldToCanvas(1., 0.01), 100);
+  // Making sure it rounds (and doesn't just floor/ceil).
+  ASSERT_EQ(WorldToCanvas(1.015, 0.02), 51);
+  ASSERT_EQ(WorldToCanvas(1.005, 0.02), 50);
 }
 
 }  // namespace

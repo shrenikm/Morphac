@@ -43,6 +43,8 @@ morphac::common::aliases::Points CanvasToWorld(
     const morphac::common::aliases::Pixels& canvas_coords,
     const double resolution, const std::vector<int>& canvas_size);
 
+double CanvasToWorld(const int scalar, const double resolution);
+
 morphac::common::aliases::Pixel WorldToCanvas(
     const morphac::common::aliases::Point& world_coord, const double resolution,
     const std::vector<int>& canvas_size);
@@ -50,6 +52,8 @@ morphac::common::aliases::Pixel WorldToCanvas(
 morphac::common::aliases::Pixels WorldToCanvas(
     const morphac::common::aliases::Points& world_coords,
     const double resolution, const std::vector<int>& canvas_size);
+
+int WorldToCanvas(const double scalar, const double resolution);
 
 }  // namespace transforms
 }  // namespace math
