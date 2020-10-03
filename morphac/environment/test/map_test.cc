@@ -102,6 +102,20 @@ TEST_F(MapTest, Accessors) {
   ASSERT_TRUE(map2.get_data().isApprox(data));
 }
 
+TEST_F(MapTest, Evolve) {
+  Map new_map = map2_->Evolve(MatrixXd::Ones(500, 500));
+
+  ASSERT_EQ(new_map.get_width(), map2_->get_width());
+  ASSERT_EQ(new_map.get_height(), map2_->get_height());
+  ASSERT_EQ(new_map.get_resolution(), map2_->get_resolution());
+  ASSERT_TRUE(new_map.get_data().isApprox(MatrixXd::Ones(500, 500)));
+}
+
+TEST_F(MapTest, InvalidEvolve) {
+  ASSERT_THROW(map2_->Evolve(MatrixXd::Ones(499, 500)), std::invalid_argument);
+  ASSERT_THROW(map2_->Evolve(MatrixXd::Ones(500, 499)), std::invalid_argument);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

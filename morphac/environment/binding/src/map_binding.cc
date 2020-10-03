@@ -21,6 +21,7 @@ void define_map_binding(py::module& m) {
   map.def_property_readonly("resolution", &Map::get_resolution);
   map.def_property("data", &Map::get_data_ref, &Map::set_data,
                    py::return_value_policy::reference);
+  map.def("evolve", &Map::Evolve, py::arg("data"));
 }
 
 }  // namespace binding

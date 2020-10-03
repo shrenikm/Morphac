@@ -99,3 +99,25 @@ def test_data(generate_map_list):
         map1.data = np.ones((2, 2))
     with pytest.raises(ValueError):
         map2.data = np.ones((2, 3))
+
+
+def test_evolve(generate_map_list):
+
+    _, map2, _, _ = generate_map_list
+
+    new_map = map2.evolve(data=[[5, 6], [3, 4], [1, 2]])
+
+    assert new_map.width == map2.width
+    assert new_map.height == map2.height
+    assert new_map.resolution == map2.resolution
+    assert np.allclose(new_map.data, [[5, 6], [3, 4], [1, 2]])
+
+
+def test_invalid_evolve(generate_map_list):
+
+    _, map2, _, _ = generate_map_list
+
+    with pytest.raises(ValueError):
+        _ = map2.evolve([[1], [2], [3]])
+    with pytest.raises(ValueError):
+        _ = map2.evolve([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
