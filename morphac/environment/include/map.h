@@ -23,6 +23,7 @@ class Map {
   Eigen::MatrixXd& get_data_ref();
 
   void set_data(const Eigen::MatrixXd& data);
+  Map Evolve(const Eigen::MatrixXd& data);
 
  private:
   double width_;
