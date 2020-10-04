@@ -15,7 +15,7 @@ from morphac.utils.cv2_utils import canvas_to_cv2
 # Rather it creates a new map with the added obstacle.
 # Hence the name 'evolve'
 def evolve_map_with_circular_obstacle(env_map, circle_shape):
-    env_map_data = np.ascontiguousarray(np.copy(env_map.data))
+    env_map_data = np.copy(env_map.data)
     center = canvas_to_cv2(
         world_to_canvas(circle_shape.center, env_map.resolution, env_map.data.shape)
     )

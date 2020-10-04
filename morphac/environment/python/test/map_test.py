@@ -18,6 +18,16 @@ def generate_map_list():
     return map1, map2, map3, map4
 
 
+def _is_valid_map_data(map_data):
+    if map_data.dtype != np.int32:
+        return False
+    # Make sure that the map data is row major so that
+    # cv2 operations can be applied to it directly.
+    if not map_data.flags["C_CONTIGUOUS"]:
+        return False
+    return True
+
+
 def test_width(generate_map_list):
 
     map1, map2, map3, map4 = generate_map_list
@@ -76,11 +86,11 @@ def test_data(generate_map_list):
     assert np.allclose(map3.data, [[0, 1, 0], [2, -1, 0]])
     assert np.allclose(map4.data, np.eye(100))
 
-    # Type
-    assert map1.data.dtype == np.int32
-    assert map2.data.dtype == np.int32
-    assert map3.data.dtype == np.int32
-    assert map4.data.dtype == np.int32
+    # Make sure that the data is of the right type and configuration.
+    assert _is_valid_map_data(map1.data)
+    assert _is_valid_map_data(map2.data)
+    assert _is_valid_map_data(map3.data)
+    assert _is_valid_map_data(map4.data)
 
     # Test setting data.
     map1.data = np.ones((20, 20))

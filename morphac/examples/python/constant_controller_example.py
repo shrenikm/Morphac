@@ -96,7 +96,7 @@ def run(robot_type):
     # Create the environment.
     env_map = Map(width=20.0, height=20.0, resolution=0.02)
     env_map = evolve_map_with_circular_obstacle(
-        env_map, CircleShape(radius=1.0, center=[0, 0])
+        env_map, CircleShape(radius=1.0, center=[10.0, 10.0])
     )
 
     # Create the playground.

@@ -16,7 +16,7 @@ class EnvironmentConstantsTest : public ::testing::Test {
 TEST_F(EnvironmentConstantsTest, MapConstants) {
   // Test Map constants.
   ASSERT_EQ(MapConstants::EMPTY, 0);
-  ASSERT_EQ(MapConstants::OBSTACLE, -1);
+  ASSERT_EQ(MapConstants::OBSTACLE, 1);
 }
 
 }  // namespace
