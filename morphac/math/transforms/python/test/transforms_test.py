@@ -133,6 +133,10 @@ def test_canvas_to_world_multiple_points():
 
 
 def test_canvas_to_world_scalar():
+    #These must be floats after conversion
+    assert isinstance(canvas_to_world(1, 0.01), float)
+    assert isinstance(canvas_to_world(50, 0.03), float)
+
     assert np.isclose(canvas_to_world(1, 0.01), 0.01)
     assert np.isclose(canvas_to_world(50, 0.03), 1.5)
 
@@ -160,6 +164,11 @@ def test_world_to_canvas():
 
 
 def test_world_to_canvas_scalar():
+
+    # These must be integers after conversion.
+    assert isinstance(world_to_canvas(1.0, 0.01), int)
+    assert isinstance(world_to_canvas(1.015, 0.02),int)
+    assert isinstance(world_to_canvas(1.005, 0.02),int)
 
     assert world_to_canvas(1.0, 0.01) == 100
     assert world_to_canvas(1.015, 0.02) == 51

@@ -20,7 +20,7 @@ def evolve_map_with_circular_obstacle(env_map, circle_shape):
         world_to_canvas(circle_shape.center, env_map.resolution, env_map.data.shape)
     )
     radius = world_to_canvas(circle_shape.radius, env_map.resolution)
-    cv2.circle(env_map, center, radius, MapConstants.OBSTACLE, thickness=-1)
+    cv2.circle(env_map_data, center, radius, MapConstants.OBSTACLE, thickness=-1)
 
     return env_map.evolve(env_map_data)
 
