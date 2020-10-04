@@ -93,6 +93,7 @@ def run(robot_type):
 
     # Create the environment.
     env_map = Map(width=20.0, height=20.0, resolution=0.02)
+    # env_map =
 
     # Create the playground.
     playground_spec = PlaygroundSpec(name="constant_controller_playground", dt=dt)
