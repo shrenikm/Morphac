@@ -12,6 +12,7 @@ using std::srand;
 using std::unique_ptr;
 
 using Eigen::MatrixXd;
+using Eigen::MatrixXi;
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
@@ -71,7 +72,7 @@ class PlaygroundTest : public ::testing::Test {
 
   unique_ptr<Playground> playground_;
   unique_ptr<Robot> robot1_, robot2_, robot3_;
-  MatrixXd map_data_ = MatrixXd::Random(20, 10);
+  MatrixXi map_data_ = MatrixXi::Random(20, 10);
   PlaygroundSpec playground_spec_{"playground", 0.05};
 };
 
@@ -94,7 +95,7 @@ TEST_F(PlaygroundTest, SetState) {
   playground_state.set_time(0.002);
   ASSERT_EQ(playground_->get_state().get_time(), 0.002);
 
-  MatrixXd new_map_data = MatrixXd::Random(20, 10);
+  MatrixXi new_map_data = MatrixXi::Random(20, 10);
   Map new_map{new_map_data, 0.1};
   playground_state.set_map(new_map);
 

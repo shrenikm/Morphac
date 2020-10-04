@@ -6,6 +6,8 @@ import numpy as np
 from morphac.constructs import State
 from morphac.controllers.basic import ConstantController
 from morphac.environment import Map
+from morphac.environment import evolve_map_with_circular_obstacle
+from morphac.math.geometry import CircleShape
 from morphac.math.numeric import IntegratorType
 from morphac.mechanics.models import (
     AckermannModel,
@@ -93,7 +95,9 @@ def run(robot_type):
 
     # Create the environment.
     env_map = Map(width=20.0, height=20.0, resolution=0.02)
-    # env_map =
+    env_map = evolve_map_with_circular_obstacle(
+        env_map, CircleShape(radius=1.0, center=[0, 0])
+    )
 
     # Create the playground.
     playground_spec = PlaygroundSpec(name="constant_controller_playground", dt=dt)

@@ -11,6 +11,7 @@ using std::srand;
 using std::unique_ptr;
 
 using Eigen::MatrixXd;
+using Eigen::MatrixXi;
 
 using morphac::constructs::State;
 using morphac::environment::Map;
@@ -43,7 +44,7 @@ class PlaygroundStateTest : public ::testing::Test {
 
   unique_ptr<PlaygroundState> playground_state1_, playground_state2_;
   unique_ptr<Robot> robot1_, robot2_;
-  MatrixXd map_data_ = MatrixXd::Random(300, 300);
+  MatrixXi map_data_ = MatrixXi::Random(300, 300);
 };
 
 TEST_F(PlaygroundStateTest, GetTime) {
@@ -60,7 +61,7 @@ TEST_F(PlaygroundStateTest, SetTime) {
 
 TEST_F(PlaygroundStateTest, GetMap) {
   ASSERT_TRUE(playground_state1_->get_map().get_data().isApprox(
-      MatrixXd::Zero(200, 400)));
+      MatrixXi::Zero(200, 400)));
   ASSERT_EQ(playground_state1_->get_map().get_width(), 40.);
   ASSERT_EQ(playground_state1_->get_map().get_height(), 20.);
   ASSERT_EQ(playground_state1_->get_map().get_resolution(), 0.1);
@@ -72,13 +73,13 @@ TEST_F(PlaygroundStateTest, GetMap) {
 }
 
 TEST_F(PlaygroundStateTest, SetMap) {
-  MatrixXd map_data = MatrixXd::Random(400, 200);
+  MatrixXi map_data = MatrixXi::Random(400, 200);
   playground_state1_->set_map(Map(map_data, 0.1));
   ASSERT_TRUE(playground_state1_->get_map().get_data().isApprox(map_data));
 
   playground_state2_->set_map(Map(30., 30., 0.1));
   ASSERT_TRUE(playground_state2_->get_map().get_data().isApprox(
-      MatrixXd::Zero(300, 300)));
+      MatrixXi::Zero(300, 300)));
 }
 
 TEST_F(PlaygroundStateTest, AddRobot) {

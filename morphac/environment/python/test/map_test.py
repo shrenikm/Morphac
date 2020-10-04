@@ -76,6 +76,12 @@ def test_data(generate_map_list):
     assert np.allclose(map3.data, [[0, 1, 0], [2, -1, 0]])
     assert np.allclose(map4.data, np.eye(100))
 
+    # Type
+    assert map1.data.dtype == np.int32
+    assert map2.data.dtype == np.int32
+    assert map3.data.dtype == np.int32
+    assert map4.data.dtype == np.int32
+
     # Test setting data.
     map1.data = np.ones((20, 20))
     map2.data = np.ones((3, 2))

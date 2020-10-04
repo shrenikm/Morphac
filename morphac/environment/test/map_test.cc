@@ -8,7 +8,7 @@ namespace {
 using std::make_unique;
 using std::unique_ptr;
 
-using Eigen::MatrixXd;
+using Eigen::MatrixXi;
 
 using morphac::environment::Map;
 
@@ -18,7 +18,7 @@ class MapTest : public ::testing::Test {
     // Set random seed for Eigen.
     srand(7);
     map1_ = make_unique<Map>(10, 10, 0.01);
-    map2_ = make_unique<Map>(MatrixXd::Random(500, 500), 0.01);
+    map2_ = make_unique<Map>(MatrixXi::Random(500, 500), 0.01);
   }
 
   void SetUp() override {}
@@ -54,10 +54,10 @@ TEST_F(MapTest, InvalidConstruction) {
   ASSERT_THROW(Map(0, 2, 0.01), std::invalid_argument);
   ASSERT_THROW(Map(1, 2, -0.01), std::invalid_argument);
 
-  ASSERT_THROW(Map(MatrixXd::Random(0, 100), 0.01), std::invalid_argument);
-  ASSERT_THROW(Map(MatrixXd::Random(100, 0), 0.01), std::invalid_argument);
-  ASSERT_THROW(Map(MatrixXd::Random(0, 0), 0.01), std::invalid_argument);
-  ASSERT_THROW(Map(MatrixXd::Random(200, 100), -0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXi::Random(0, 100), 0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXi::Random(100, 0), 0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXi::Random(0, 0), 0.01), std::invalid_argument);
+  ASSERT_THROW(Map(MatrixXi::Random(200, 100), -0.01), std::invalid_argument);
 
   // Constructing with an invalid resolution.
   ASSERT_THROW(Map(10, 9.4, 0.123), std::invalid_argument);
@@ -69,13 +69,13 @@ TEST_F(MapTest, InvalidConstruction) {
 
 TEST_F(MapTest, Accessors) {
   Map map1{10, 9.5, 0.01};
-  MatrixXd data = MatrixXd::Random(480, 640);
+  MatrixXi data = MatrixXi::Random(480, 640);
   Map map2{data, 0.02};
 
   ASSERT_EQ(map1.get_width(), 10);
   ASSERT_EQ(map1.get_height(), 9.5);
   ASSERT_EQ(map1.get_resolution(), 0.01);
-  ASSERT_TRUE(map1.get_data().isApprox(MatrixXd::Zero(950, 1000)));
+  ASSERT_TRUE(map1.get_data().isApprox(MatrixXi::Zero(950, 1000)));
 
   ASSERT_EQ(map2.get_width(), 12.8);
   ASSERT_EQ(map2.get_height(), 9.6);
@@ -84,7 +84,7 @@ TEST_F(MapTest, Accessors) {
 
   // Setting a different data.
   // Testing the get_data_ref.
-  data = MatrixXd::Random(480, 640);
+  data = MatrixXi::Random(480, 640);
   map2.get_data_ref() = data;
 
   ASSERT_EQ(map2.get_width(), 12.8);
@@ -93,7 +93,7 @@ TEST_F(MapTest, Accessors) {
   ASSERT_TRUE(map2.get_data().isApprox(data));
 
   // Also test the set_data function.
-  data = 7 * MatrixXd::Ones(480, 640);
+  data = 7 * MatrixXi::Ones(480, 640);
   map2.set_data(data);
 
   ASSERT_EQ(map2.get_width(), 12.8);
@@ -103,17 +103,17 @@ TEST_F(MapTest, Accessors) {
 }
 
 TEST_F(MapTest, Evolve) {
-  Map new_map = map2_->Evolve(MatrixXd::Ones(500, 500));
+  Map new_map = map2_->Evolve(MatrixXi::Ones(500, 500));
 
   ASSERT_EQ(new_map.get_width(), map2_->get_width());
   ASSERT_EQ(new_map.get_height(), map2_->get_height());
   ASSERT_EQ(new_map.get_resolution(), map2_->get_resolution());
-  ASSERT_TRUE(new_map.get_data().isApprox(MatrixXd::Ones(500, 500)));
+  ASSERT_TRUE(new_map.get_data().isApprox(MatrixXi::Ones(500, 500)));
 }
 
 TEST_F(MapTest, InvalidEvolve) {
-  ASSERT_THROW(map2_->Evolve(MatrixXd::Ones(499, 500)), std::invalid_argument);
-  ASSERT_THROW(map2_->Evolve(MatrixXd::Ones(500, 499)), std::invalid_argument);
+  ASSERT_THROW(map2_->Evolve(MatrixXi::Ones(499, 500)), std::invalid_argument);
+  ASSERT_THROW(map2_->Evolve(MatrixXi::Ones(500, 499)), std::invalid_argument);
 }
 
 }  // namespace
