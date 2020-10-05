@@ -3,6 +3,7 @@ import numpy as np
 
 from morphac.constants.colors import MapColors
 from morphac.constants.environment_constants import MapConstants
+from morphac.utils.cv2_utils import canvas_to_cv2
 
 # Dict to decide the colors of the canvas depending on the values of the map.
 MAP_CONSTANTS_TO_CANVAS_COLORS = {
@@ -41,5 +42,6 @@ def paint_polygon_using_canvas_coords(canvas, canvas_coords, color):
     # Interchanging x and y while drawing as opencv points requires the x and
     # y axes to be the regular axes, with the origin at the top left.
 
-    coords = np.int32([canvas_coords[:, ::-1]])
+    # fillPoly needs the input coordinates in a weird format.
+    coords = [canvas_to_cv2(canvas_coords)]
     cv2.fillPoly(canvas, coords, color, lineType=cv2.LINE_AA)

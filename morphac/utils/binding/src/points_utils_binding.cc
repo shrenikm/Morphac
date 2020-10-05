@@ -6,8 +6,6 @@ namespace binding {
 
 namespace py = pybind11;
 
-using Eigen::Vector2d;
-
 using morphac::utils::HomogenizePoints;
 using morphac::utils::UnHomogenizePoints;
 

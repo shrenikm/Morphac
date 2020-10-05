@@ -3,8 +3,7 @@
 namespace morphac {
 namespace environment {
 
-using Eigen::MatrixXd;
-
+using morphac::common::aliases::MapData;
 using morphac::environment::Map;
 
 Map::Map(const double width, const double height, const double resolution)
@@ -30,10 +29,10 @@ Map::Map(const double width, const double height, const double resolution)
                     std::numeric_limits<double>::epsilon(),
                 std::invalid_argument, "Invalid resolution.");
 
-  data_ = MatrixXd::Zero(rows, cols);
+  data_ = MapData::Zero(rows, cols);
 }
 
-Map::Map(const MatrixXd& data, const double resolution)
+Map::Map(const MapData& data, const double resolution)
     : width_(data.cols() * resolution),
       height_(data.rows() * resolution),
       resolution_(resolution) {
@@ -68,17 +67,25 @@ double Map::get_height() const { return height_; }
 
 double Map::get_resolution() const { return resolution_; }
 
-const MatrixXd& Map::get_data() const { return data_; }
+const MapData& Map::get_data() const { return data_; }
 
-MatrixXd& Map::get_data_ref() { return data_; }
+MapData& Map::get_data_ref() { return data_; }
 
-void Map::set_data(const MatrixXd& data) {
+void Map::set_data(const MapData& data) {
   // The data needs to have the same dimensions
-  MORPH_REQUIRE((data.cols() * resolution_) == width_, std::invalid_argument,
-                "Data width does not match.");
-  MORPH_REQUIRE((data.rows() * resolution_) == height_, std::invalid_argument,
-                "Data height does not match.");
+  MORPH_REQUIRE((data.rows() * this->resolution_) == this->height_,
+                std::invalid_argument, "Data height does not match.");
+  MORPH_REQUIRE((data.cols() * this->resolution_) == this->width_,
+                std::invalid_argument, "Data width does not match.");
   data_ = data;
+}
+
+Map Map::Evolve(const MapData& data) {
+  MORPH_REQUIRE(this->data_.rows() == data.rows(), std::invalid_argument,
+                "Data height does not match.")
+  MORPH_REQUIRE(this->data_.cols() == data.cols(), std::invalid_argument,
+                "Data width does not match.")
+  return Map(data, this->resolution_);
 }
 
 }  // namespace environment

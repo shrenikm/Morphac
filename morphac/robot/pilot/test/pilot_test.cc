@@ -5,7 +5,7 @@
 
 namespace {
 
-using Eigen::MatrixXd;
+using Eigen::MatrixXi;
 using Eigen::VectorXd;
 
 using morphac::constructs::ControlInput;
@@ -56,7 +56,7 @@ TEST_F(PilotTest, Execute) {
   CustomPilot pilot2{control_input_data2};
 
   // Creating a sample playground state.
-  PlaygroundState playground_state{Map(MatrixXd::Zero(300, 300), 0.1)};
+  PlaygroundState playground_state{Map(MatrixXi::Zero(300, 300), 0.1)};
 
   ASSERT_TRUE(pilot1.Execute(playground_state, 0)
                   .get_data()

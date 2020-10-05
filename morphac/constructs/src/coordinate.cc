@@ -3,14 +3,14 @@
 namespace morphac {
 namespace constructs {
 
-using Eigen::Vector2d;
+using morphac::common::aliases::Point;
 using std::ostream;
 using std::ostringstream;
 using std::string;
 
 Coordinate::Coordinate(const double x, const double y) : x_(x), y_(y) {}
 
-Coordinate::Coordinate(const Vector2d& data) : x_(data(0)), y_(data(1)) {}
+Coordinate::Coordinate(const Point& data) : x_(data(0)), y_(data(1)) {}
 
 Coordinate& Coordinate::operator+=(const Coordinate& coord) {
   this->x_ += coord.x_;
@@ -119,8 +119,8 @@ double Coordinate::get_x() const { return x_; }
 
 double Coordinate::get_y() const { return y_; }
 
-const Vector2d Coordinate::get_data() const {
-  Vector2d data(2);
+const Point Coordinate::get_data() const {
+  Point data(2);
   data << this->get_x(), this->get_y();
   return data;
 }
@@ -134,7 +134,7 @@ void Coordinate::set_xy(const double x, const double y) {
   y_ = y;
 }
 
-void Coordinate::set_data(const Vector2d& data) {
+void Coordinate::set_data(const Point& data) {
   MORPH_REQUIRE(data.size() == 2, std::invalid_argument,
                 "Coordinate data must be of size 2.");
   this->set_x(data(0));

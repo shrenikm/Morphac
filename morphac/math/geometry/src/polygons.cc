@@ -6,116 +6,104 @@ namespace geometry {
 
 using std::fabs;
 
-using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
+using morphac::math::geometry::ArcShape;
+using morphac::math::geometry::CircleShape;
+using morphac::math::geometry::RectangleShape;
+using morphac::math::geometry::RoundedRectangleShape;
+using morphac::math::geometry::TriangleShape;
 using morphac::math::transforms::TransformPoints;
 
-Points CreateArc(const double start_angle, const double end_angle,
-                 const double radius, const double angular_resolution,
-                 const Vector2d& center) {
-  MORPH_REQUIRE(radius >= 0, std::invalid_argument,
-                "Radius must be non-negative.");
+Points CreateArc(const ArcShape& arc_shape, const double angular_resolution) {
   MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
                 "Angular resolution must be positive.");
   // We have num_points * angular_resolution = 2 * pi (360 degrees).
-  int num_points =
-      std::round(fabs(end_angle - start_angle) / angular_resolution);
+  int num_points = std::round(
+      fabs(arc_shape.end_angle - arc_shape.start_angle) / angular_resolution);
 
   Points arc(num_points, 2);
 
-  VectorXd angles = VectorXd::LinSpaced(num_points, start_angle, end_angle);
+  VectorXd angles = VectorXd::LinSpaced(num_points, arc_shape.start_angle,
+                                        arc_shape.end_angle);
 
-  VectorXd x_coordinates = radius * Eigen::cos(angles.array()).matrix();
-  VectorXd y_coordinates = radius * Eigen::sin(angles.array()).matrix();
+  VectorXd x_coordinates =
+      arc_shape.radius * Eigen::cos(angles.array()).matrix();
+  VectorXd y_coordinates =
+      arc_shape.radius * Eigen::sin(angles.array()).matrix();
 
   arc.col(0) = x_coordinates;
   arc.col(1) = y_coordinates;
 
-  return TransformPoints(arc, 0., center);
+  return TransformPoints(arc, 0., arc_shape.center);
 }
 
-Points CreateCircularPolygon(const double radius,
-                             const double angular_resolution,
-                             const Vector2d& center) {
-  MORPH_REQUIRE(radius >= 0, std::invalid_argument,
-                "Radius must be non-negative.");
+Points CreateCircularPolygon(const CircleShape& circle_shape,
+                             const double angular_resolution) {
   MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
                 "Angular resolution must be positive.");
   // A circle is basically an arc from 0 to 2 * pi. We make sure that both 0 and
   // 2 * pi isn't included as we don't want duplicate corners in the polygon.
-  return CreateArc(0., 2 * M_PI - angular_resolution, radius,
-                   angular_resolution, center);
+  ArcShape arc_shape{0., 2 * M_PI - angular_resolution, circle_shape.radius,
+                     circle_shape.center};
+  return CreateArc(arc_shape, angular_resolution);
 }
 
-Points CreateRectangularPolygon(const double size_x, const double size_y,
-                                const double angle, const Vector2d& center) {
-  // The reason the conditions are >= 0 and not > 0 is because sometimes
-  // CreateRoundedRectangularPolygon may call this function with a zero size.
-  MORPH_REQUIRE(size_x >= 0, std::invalid_argument,
-                "Size along the x axis must be non-negative.");
-  MORPH_REQUIRE(size_y >= 0, std::invalid_argument,
-                "Size along the y axis must be non-negative.");
-
+Points CreateRectangularPolygon(const RectangleShape& rectangle_shape) {
   Points polygon(4, 2);
-  polygon << -size_x / 2, size_y / 2, size_x / 2, size_y / 2, size_x / 2,
-      -size_y / 2, -size_x / 2, -size_y / 2;
+  polygon << -rectangle_shape.size_x / 2, rectangle_shape.size_y / 2,
+      rectangle_shape.size_x / 2, rectangle_shape.size_y / 2,
+      rectangle_shape.size_x / 2, -rectangle_shape.size_y / 2,
+      -rectangle_shape.size_x / 2, -rectangle_shape.size_y / 2;
 
-  return TransformPoints(polygon, angle, center);
+  return TransformPoints(polygon, rectangle_shape.angle,
+                         rectangle_shape.center);
 }
 
-Points CreateRoundedRectangularPolygon(const double size_x, const double size_y,
-                                       const double angle, const double radius,
-                                       const double angular_resolution,
-                                       const Vector2d& center) {
-  // The reason the conditosn are >= 0 and not > 0 is that there might be times
-  // when 0. sizes are required. See the comment in CreateRectangularPolygon.
-  MORPH_REQUIRE(size_x >= 0, std::invalid_argument,
-                "Size along the x axis must be non-negative.");
-  MORPH_REQUIRE(size_y >= 0, std::invalid_argument,
-                "Size along the y axis must be non-negative.");
-  MORPH_REQUIRE(radius >= 0, std::invalid_argument,
-                "Radius must be non-negative.");
-  MORPH_REQUIRE(radius <= (size_x / 2) && radius <= (size_y / 2),
-                std::invalid_argument,
-                "The radius is too large compared to the rectangle sizes.");
+Points CreateRoundedRectangularPolygon(
+    const RoundedRectangleShape& rounded_rectangle_shape,
+    const double angular_resolution) {
   MORPH_REQUIRE(angular_resolution > 0, std::invalid_argument,
                 "Angular resolution must be positive.");
   // The rounded rectangle is basically just the four arcs that form the
   // corners of the shape.
 
-  // Computing the centers of the arcs. This is basically the corners of a
-  // rectangle with sizes - 2 * radius.
-  Points centers = CreateRectangularPolygon(
-      size_x - 2 * radius, size_y - 2 * radius, 0, Vector2d::Zero());
+  Points centers = CreateRectangularPolygon(RectangleShape{
+      rounded_rectangle_shape.size_x - 2 * rounded_rectangle_shape.radius,
+      rounded_rectangle_shape.size_y - 2 * rounded_rectangle_shape.radius, 0.,
+      Point::Zero()});
 
-  Points arc1 = CreateArc(M_PI, M_PI / 2, radius, angular_resolution,
-                          centers.row(0).transpose());
-  Points arc2 = CreateArc(M_PI / 2, 0, radius, angular_resolution,
-                          centers.row(1).transpose());
-  Points arc3 = CreateArc(0, -M_PI / 2, radius, angular_resolution,
-                          centers.row(2).transpose());
-  Points arc4 = CreateArc(-M_PI / 2, -M_PI, radius, angular_resolution,
-                          centers.row(3).transpose());
+  Points arc1 =
+      CreateArc(ArcShape{M_PI, M_PI / 2, rounded_rectangle_shape.radius,
+                         centers.row(0).transpose()},
+                angular_resolution);
+  Points arc2 = CreateArc(ArcShape{M_PI / 2, 0, rounded_rectangle_shape.radius,
+                                   centers.row(1).transpose()},
+                          angular_resolution);
+  Points arc3 = CreateArc(ArcShape{0, -M_PI / 2, rounded_rectangle_shape.radius,
+                                   centers.row(2).transpose()},
+                          angular_resolution);
+  Points arc4 =
+      CreateArc(ArcShape{-M_PI / 2, -M_PI, rounded_rectangle_shape.radius,
+                         centers.row(3).transpose()},
+                angular_resolution);
 
   Points polygon(arc1.rows() + arc2.rows() + arc3.rows() + arc4.rows(), 2);
   polygon << arc1, arc2, arc3, arc4;
 
-  return TransformPoints(polygon, angle, center);
+  return TransformPoints(polygon, rounded_rectangle_shape.angle,
+                         rounded_rectangle_shape.center);
 }
 
-Points CreateTriangularPolygon(const double base, const double height,
-                               const double angle, const Vector2d& center) {
-  MORPH_REQUIRE(base >= 0, std::invalid_argument,
-                "Base length must be non-negative.");
-  MORPH_REQUIRE(height >= 0, std::invalid_argument,
-                "Height must be non-negative.");
-
+Points CreateTriangularPolygon(const TriangleShape& triangle_shape) {
   Points polygon(3, 2);
-  polygon << 0., height / 2, base / 2, -height / 2, -base / 2, -height / 2;
+  polygon << 0., triangle_shape.height / 2, triangle_shape.base / 2,
+      -triangle_shape.height / 2, -triangle_shape.base / 2,
+      -triangle_shape.height / 2;
 
-  return TransformPoints(polygon, angle, center);
+  return TransformPoints(polygon, triangle_shape.angle, triangle_shape.center);
 }
 
 }  // namespace geometry

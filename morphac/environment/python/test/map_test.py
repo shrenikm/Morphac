@@ -1,7 +1,13 @@
 import numpy as np
 import pytest
 
-from morphac.environment import Map
+from morphac.constants.environment_constants import MapConstants
+from morphac.environment import (
+    Map,
+    evolve_map_with_circular_obstacle,
+    evolve_map_with_polygonal_obstacle,
+)
+from morphac.math.geometry import CircleShape
 
 
 @pytest.fixture()
@@ -16,6 +22,16 @@ def generate_map_list():
     map4 = Map(data=np.eye(100), resolution=10)
 
     return map1, map2, map3, map4
+
+
+def _is_valid_map_data(map_data):
+    if map_data.dtype != np.int32:
+        return False
+    # Make sure that the map data is row major so that
+    # cv2 operations can be applied to it directly.
+    if not map_data.flags["C_CONTIGUOUS"]:
+        return False
+    return True
 
 
 def test_width(generate_map_list):
@@ -76,6 +92,12 @@ def test_data(generate_map_list):
     assert np.allclose(map3.data, [[0, 1, 0], [2, -1, 0]])
     assert np.allclose(map4.data, np.eye(100))
 
+    # Make sure that the data is of the right type and configuration.
+    assert _is_valid_map_data(map1.data)
+    assert _is_valid_map_data(map2.data)
+    assert _is_valid_map_data(map3.data)
+    assert _is_valid_map_data(map4.data)
+
     # Test setting data.
     map1.data = np.ones((20, 20))
     map2.data = np.ones((3, 2))
@@ -99,3 +121,56 @@ def test_data(generate_map_list):
         map1.data = np.ones((2, 2))
     with pytest.raises(ValueError):
         map2.data = np.ones((2, 3))
+
+
+def test_evolve(generate_map_list):
+
+    _, map2, _, _ = generate_map_list
+
+    new_map = map2.evolve(data=[[5, 6], [3, 4], [1, 2]])
+
+    assert new_map.width == map2.width
+    assert new_map.height == map2.height
+    assert new_map.resolution == map2.resolution
+    assert np.allclose(new_map.data, [[5, 6], [3, 4], [1, 2]])
+
+
+def test_invalid_evolve(generate_map_list):
+
+    _, map2, _, _ = generate_map_list
+
+    with pytest.raises(ValueError):
+        _ = map2.evolve([[1], [2], [3]])
+    with pytest.raises(ValueError):
+        _ = map2.evolve([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+
+def test_evolve_with_circular_obstacle():
+
+    env_map = Map(width=50.0, height=50.0, resolution=0.1)
+    evolved_env_map = evolve_map_with_circular_obstacle(
+        env_map, CircleShape(5.0, center=[0.0, 50.0])
+    )
+    # The top left region would be filled by the circle.
+    assert np.allclose(
+        evolved_env_map.data[:35, :35], MapConstants.OBSTACLE * np.ones([35, 35])
+    )
+
+    # Also make sure that the original map is not mutated.
+    assert np.allclose(env_map.data[:35, :35], MapConstants.EMPTY * np.ones([35, 35]))
+
+
+def test_evolve_with_polygonal_obstacle():
+
+    env_map = Map(width=50.0, height=50.0, resolution=0.1)
+    evolved_env_map = evolve_map_with_polygonal_obstacle(
+        env_map, [[0.0, 50.0], [10.0, 50.0], [10.0, 47.5], [0.0, 47.5]]
+    )
+    # The top left region would be filled by the circle.
+    assert np.allclose(
+        evolved_env_map.data[:25, :100], MapConstants.OBSTACLE * np.ones([25, 100])
+    )
+
+    # Also make sure that the original map is not mutated.
+    assert np.allclose(env_map.data[:25, :100], MapConstants.EMPTY * np.ones([25, 100]))
+

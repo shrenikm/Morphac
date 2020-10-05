@@ -116,7 +116,7 @@ target_link_libraries(playground_test
 
 # List of python files.
 set(PLAYGROUND_PYTHON_FILES
-  playground.py
+  _playground.py
 )
 
 # Appending the directory of the python files.

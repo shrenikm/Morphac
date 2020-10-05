@@ -26,7 +26,7 @@ def test_canvas_from_map_without_obstacles():
 
 def test_canvas_from_map_with_obstacles():
 
-    map_data = MapConstants.EMPTY * np.ones([1000, 1000], dtype=np.uint8)
+    map_data = MapConstants.EMPTY * np.ones([1000, 1000], dtype=np.int32)
     # Left half of the map as an obstacle.
     map_data[:, :500] = MapConstants.OBSTACLE
 

@@ -1,13 +1,12 @@
-#include "gtest/gtest.h"
-
 #include "utils/include/points_utils.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 
 using std::sqrt;
 
 using Eigen::MatrixXd;
-using Eigen::Vector2d;
 using Eigen::VectorXd;
 
 using morphac::common::aliases::HomogeneousPoints;

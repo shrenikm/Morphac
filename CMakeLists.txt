@@ -90,6 +90,7 @@ function(prepend_list out prefix)
   set(${out} ${tmp_list} PARENT_SCOPE)
 endfunction()
 
+
 # Function that takes a list and appends some given string to each element.
 # CMake 3.12 has LIST TRANSFORM that can do this but our minimum CMake version is 3.5
 function(append_list out suffix)
@@ -99,7 +100,6 @@ function(append_list out suffix)
   endforeach()
   set(${out} ${tmp_list} PARENT_SCOPE)
 endfunction()
-
 
 
 # Function that takes in a target name and converts it to a static target name.
@@ -180,7 +180,7 @@ function(morphac_link_libraries target link_static)
     ${libraries}
   )
 
-  # If we build python bindings, we link the static libraries as well.
+  # If the link_static flag is set, we link the static libraries as well.
   if(link_static)
     get_static_target_name(static_target ${target})
     morphac_link_static_libraries(${static_target} ${libraries})

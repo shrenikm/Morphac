@@ -6,6 +6,8 @@ import numpy as np
 from morphac.constructs import State
 from morphac.controllers.basic import ConstantController
 from morphac.environment import Map
+from morphac.environment import evolve_map_with_circular_obstacle
+from morphac.math.geometry import CircleShape
 from morphac.math.numeric import IntegratorType
 from morphac.mechanics.models import (
     AckermannModel,
@@ -26,6 +28,8 @@ from morphac.visualization.playground_visualization import (
     PlaygroundVisualizerSpec,
     PlaygroundVisualizer,
 )
+
+HELP_PROMPT = "Type of robot to use. The available options are: \n1. ackermann\n2. diffdrive\n3. dubin\n4. tricycle"
 
 
 class RobotType(Enum):
@@ -81,7 +85,7 @@ def run(robot_type):
     try:
         robot_type = RobotType(robot_type)
     except (ValueError):
-        raise MorphacLogicError("Invalid robot type. Please try again.")
+        raise MorphacLogicError(f"Invalid robot type. Please try again.\n{HELP_PROMPT}")
 
     # Parameters.
     dt = 0.02
@@ -91,6 +95,9 @@ def run(robot_type):
 
     # Create the environment.
     env_map = Map(width=20.0, height=20.0, resolution=0.02)
+    env_map = evolve_map_with_circular_obstacle(
+        env_map, CircleShape(radius=1.0, center=[10.0, 10.0])
+    )
 
     # Create the playground.
     playground_spec = PlaygroundSpec(name="constant_controller_playground", dt=dt)
@@ -125,11 +132,7 @@ if __name__ == "__main__":
         formatter_class=RawTextHelpFormatter,
     )
     parser.add_argument(
-        "-r",
-        "--robot_type",
-        default="ackermann",
-        type=str,
-        help="Type of robot to use. The available options are: \n1. ackermann\n2. diffdrive\n3. dubin\n4. tricycle",
+        "-r", "--robot_type", default="ackermann", type=str, help=HELP_PROMPT,
     )
     args = parser.parse_args()
 

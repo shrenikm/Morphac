@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "Eigen/Dense"
+#include "common/aliases/include/eigen_aliases.h"
 #include "common/error_handling/include/error_macros.h"
 
 namespace morphac {
@@ -12,7 +13,7 @@ namespace constructs {
 class Coordinate {
  public:
   Coordinate(const double x = 0, const double y = 0);
-  Coordinate(const Eigen::Vector2d& data);
+  Coordinate(const morphac::common::aliases::Point& data);
 
   // Copy constructor.
   Coordinate(const Coordinate& coord) = default;
@@ -43,11 +44,11 @@ class Coordinate {
 
   double get_x() const;
   double get_y() const;
-  const Eigen::Vector2d get_data() const;
+  const morphac::common::aliases::Point get_data() const;
   void set_x(const double x);
   void set_y(const double y);
   void set_xy(const double x, const double y);
-  void set_data(const Eigen::Vector2d& data);
+  void set_data(const morphac::common::aliases::Point& data);
 
  private:
   double x_;

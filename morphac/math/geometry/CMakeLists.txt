@@ -37,6 +37,7 @@ set(GEOMETRY_SRC
 
   lines.cc
   polygons.cc
+  shapes.cc
 )
 
 morphac_add_libraries(
@@ -54,7 +55,13 @@ morphac_link_libraries(lines
 morphac_link_libraries(polygons
   TRUE
   points_utils
+  shapes
   transforms
+)
+
+morphac_link_libraries(shapes
+  TRUE
+  numeric_utils
 )
 
 
@@ -66,6 +73,7 @@ set(GEOMETRY_TEST_SRC
 
   lines_test.cc
   polygons_test.cc
+  shapes_test.cc
 )
 
 # Creating the test executables.
@@ -97,6 +105,13 @@ target_link_libraries(polygons_test
   lines
   numeric_utils
   polygons
+)
+
+target_link_libraries(shapes_test
+  PUBLIC
+  gtest_main
+  numeric_utils
+  shapes
 )
 
 

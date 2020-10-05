@@ -123,6 +123,7 @@ target_link_libraries(points_utils_test
 # List of python files.
 set(UTILS_PYTHON_FILES
   canvas_utils.py
+  cv2_utils.py
   decorator_utils.py
   mechanics_utils.py
   python_utils.py

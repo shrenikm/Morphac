@@ -10,13 +10,13 @@ using std::sin;
 using std::vector;
 
 using Eigen::MatrixXd;
-using Eigen::Vector2d;
-using Eigen::Vector2i;
 using Eigen::VectorXd;
 using Eigen::VectorXi;
 
 using morphac::common::aliases::HomogeneousPoints;
+using morphac::common::aliases::Pixel;
 using morphac::common::aliases::Pixels;
+using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::utils::HomogenizePoints;
 using morphac::utils::UnHomogenizePoints;
@@ -30,8 +30,7 @@ const MatrixXd RotationMatrix(const double angle) {
 }
 
 const MatrixXd TransformationMatrix(const double angle,
-                                    const Vector2d& translation) {
-
+                                    const Point& translation) {
   MatrixXd transformation_matrix(3, 3);
 
   transformation_matrix << cos(angle), -sin(angle), translation(0), sin(angle),
@@ -40,12 +39,12 @@ const MatrixXd TransformationMatrix(const double angle,
   return transformation_matrix;
 }
 
-Points TranslatePoints(const Points& points, const Vector2d& translation) {
+Points TranslatePoints(const Points& points, const Point& translation) {
   return points.rowwise() + translation.transpose();
 }
 
 Points RotatePoints(const Points& points, const double angle,
-                    const Vector2d& center) {
+                    const Point& center) {
   // First we translate such that the center is now the origin.
   Points rotated_points = TranslatePoints(points, -center);
 
@@ -58,20 +57,20 @@ Points RotatePoints(const Points& points, const double angle,
 }
 
 Points TransformPoints(const Points& points, const double angle,
-                       const Vector2d& translation) {
+                       const Point& translation) {
   return UnHomogenizePoints((TransformationMatrix(angle, translation) *
                              HomogenizePoints(points).transpose())
                                 .transpose());
 }
 
-Vector2d CanvasToWorld(const Vector2i& canvas_coord, const double resolution,
-                       const vector<int>& canvas_size) {
+Point CanvasToWorld(const Pixel& canvas_coord, const double resolution,
+                    const vector<int>& canvas_size) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
                 "Resolution must be positive.");
   // The x and y coordinates need to be interchanged (Due to how matrices are
   // indexed).
   // The y coordinate needs to be inverted.
-  Vector2d world_coord = Vector2d::Zero();
+  Point world_coord = Point::Zero();
   world_coord(0) = canvas_coord(1);
   world_coord(1) = canvas_size.at(0) - canvas_coord(0);
   return resolution * world_coord;
@@ -93,12 +92,16 @@ Points CanvasToWorld(const Pixels& canvas_coords, const double resolution,
   return resolution * world_coords;
 }
 
-Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
-                       const vector<int>& canvas_size) {
+double CanvasToWorld(const int scalar, const double resolution) {
+  return scalar * resolution;
+}
+
+Pixel WorldToCanvas(const Point& world_coord, const double resolution,
+                    const vector<int>& canvas_size) {
   MORPH_REQUIRE(resolution > 0, std::invalid_argument,
                 "Resolution must be positive.");
-  Vector2i canvas_coord = Vector2i::Zero();
-  // Vector2i canvas_coord =
+  Pixel canvas_coord = Pixel::Zero();
+  // Pixel canvas_coord =
   //    ((1 / resolution) * world_coord).array().round().matrix().cast<int>();
 
   // Interchange x and y and invert y.
@@ -118,7 +121,7 @@ Vector2i WorldToCanvas(const Vector2d& world_coord, const double resolution,
   //    return canvas_coord;
   //  } else {
   //    // Invalid coordinate.
-  //    return -1 * Vector2i::Ones(2);
+  //    return -1 * Pixel::Ones(2);
   //  }
   //} else {
   //  // If not canvas size is provided, we don't care about the validity of
@@ -163,11 +166,15 @@ Pixels WorldToCanvas(const Points& world_coords, const double resolution,
   //         canvas_coords.row(i)(1) < canvas_size[1])) {
   //    } else {
   //      // Invalid coordinate.
-  //      canvas_coords.row(i) = -1 * Vector2i::Ones();
+  //      canvas_coords.row(i) = -1 * Pixel::Ones();
   //    }
   //  }
   //}
   // return canvas_coords;
+}
+
+int WorldToCanvas(const double scalar, const double resolution) {
+  return round(scalar / resolution);
 }
 
 }  // namespace transforms

@@ -11,10 +11,9 @@ using std::ostream;
 using std::ostringstream;
 using std::string;
 
-using Eigen::Vector2d;
-
 using morphac::common::aliases::Epsilon;
 using morphac::common::aliases::Infinity;
+using morphac::common::aliases::Point;
 using morphac::utils::IsEqual;
 
 LineSpec::LineSpec(const double slope, const double x_intercept,
@@ -43,8 +42,7 @@ string LineSpec::ToString() const {
   return os.str();
 }
 
-LineSpec ComputeLineSpec(const Vector2d& start_point,
-                         const Vector2d& end_point) {
+LineSpec ComputeLineSpec(const Point& start_point, const Point& end_point) {
   double slope = Infinity<double>;
   double x_intercept = Infinity<double>;
   double y_intercept = Infinity<double>;
@@ -89,9 +87,8 @@ bool AreLinesParallel(const LineSpec& line_spec1, const LineSpec& line_spec2) {
   return IsEqual(line_spec1.slope, line_spec2.slope);
 }
 
-bool AreLinesParallel(const Vector2d& start_point1, const Vector2d& end_point1,
-                      const Vector2d& start_point2,
-                      const Vector2d& end_point2) {
+bool AreLinesParallel(const Point& start_point1, const Point& end_point1,
+                      const Point& start_point2, const Point& end_point2) {
   return AreLinesParallel(ComputeLineSpec(start_point1, end_point1),
                           ComputeLineSpec(start_point2, end_point2));
 }
@@ -112,10 +109,8 @@ bool AreLinesPerpendicular(const LineSpec& line_spec1,
   }
 }
 
-bool AreLinesPerpendicular(const Vector2d& start_point1,
-                           const Vector2d& end_point1,
-                           const Vector2d& start_point2,
-                           const Vector2d& end_point2) {
+bool AreLinesPerpendicular(const Point& start_point1, const Point& end_point1,
+                           const Point& start_point2, const Point& end_point2) {
   return AreLinesPerpendicular(ComputeLineSpec(start_point1, end_point1),
                                ComputeLineSpec(start_point2, end_point2));
 }

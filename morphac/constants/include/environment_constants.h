@@ -5,8 +5,8 @@ namespace morphac {
 namespace constants {
 
 struct MapConstants {
-  static const double EMPTY;
-  static const double OBSTACLE;
+  static const int EMPTY;
+  static const int OBSTACLE;
 };
 
 }  // namespace constants

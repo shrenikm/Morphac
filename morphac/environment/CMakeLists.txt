@@ -81,6 +81,24 @@ target_link_libraries(map_test
 # Installing
 # -------------------------------------------------
 
+# List of python files.
+set(ENVIRONMENT_PYTHON_FILES
+  _map.py
+)
+
+# Appending the directory of the python files.
+prepend_list(ENVIRONMENT_PYTHON_FILES
+  ${ENVIRONMENT_PYTHON_DIR}/
+  ${ENVIRONMENT_PYTHON_FILES}
+)
+
+morphac_package_files(
+  ${ENVIRONMENT_PACKAGE_DIR}
+  ${ENVIRONMENT_SITE_PACKAGES_DIR}
+  # Files
+  ${ENVIRONMENT_PYTHON_FILES}
+)
+
 # Install tests.
 morphac_package_python_tests(
   ${MORPHAC_PACKAGE_UNIT_TEST_DIR}

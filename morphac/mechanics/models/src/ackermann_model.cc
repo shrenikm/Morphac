@@ -13,12 +13,13 @@ using std::tan;
 using std::vector;
 
 using Eigen::MatrixXd;
-using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::Point;
 using morphac::constants::AckermannModelConstants;
 using morphac::constructs::ControlInput;
 using morphac::constructs::State;
+using morphac::math::geometry::RoundedRectangleShape;
 using morphac::mechanics::models::KinematicModel;
 using morphac::robot::blueprint::Footprint;
 using morphac::utils::NormalizeAngle;
@@ -119,8 +120,10 @@ Footprint AckermannModel::DefaultFootprint() const {
       AckermannModelConstants::DEFAULT_WIDTH_BUFFER;
 
   return Footprint::CreateRoundedRectangularFootprint(
-      this->length + footprint_x_buffer, this->width + footprint_y_buffer, 0.,
-      min(this->width, this->length) / 4., 0.1, Vector2d(-this->length / 2, 0));
+      RoundedRectangleShape{
+          this->length + footprint_x_buffer, this->width + footprint_y_buffer,
+          0., min(this->width, this->length) / 4., Point(-this->length / 2, 0)},
+      0.1);
 }
 
 }  // namespace models

@@ -6,7 +6,7 @@ namespace binding {
 
 namespace py = pybind11;
 
-using Eigen::MatrixXd;
+using morphac::common::aliases::MapData;
 using morphac::environment::Map;
 
 void define_map_binding(py::module& m) {
@@ -14,13 +14,14 @@ void define_map_binding(py::module& m) {
 
   map.def(py::init<const double, const double, const double>(),
           py::arg("width"), py::arg("height"), py::arg("resolution"));
-  map.def(py::init<const MatrixXd&, const double>(), py::arg("data"),
+  map.def(py::init<const MapData&, const double>(), py::arg("data"),
           py::arg("resolution"));
   map.def_property_readonly("width", &Map::get_width);
   map.def_property_readonly("height", &Map::get_height);
   map.def_property_readonly("resolution", &Map::get_resolution);
   map.def_property("data", &Map::get_data_ref, &Map::set_data,
                    py::return_value_policy::reference);
+  map.def("evolve", &Map::Evolve, py::arg("data"));
 }
 
 }  // namespace binding
