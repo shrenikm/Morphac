@@ -1,7 +1,13 @@
 import numpy as np
 import pytest
 
-from morphac.environment import Map
+from morphac.constants.environment_constants import MapConstants
+from morphac.environment import (
+    Map,
+    evolve_map_with_circular_obstacle,
+    evolve_map_with_polygonal_obstacle,
+)
+from morphac.math.geometry import CircleShape
 
 
 @pytest.fixture()
@@ -137,3 +143,34 @@ def test_invalid_evolve(generate_map_list):
         _ = map2.evolve([[1], [2], [3]])
     with pytest.raises(ValueError):
         _ = map2.evolve([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+
+def test_evolve_with_circular_obstacle():
+
+    env_map = Map(width=50.0, height=50.0, resolution=0.1)
+    evolved_env_map = evolve_map_with_circular_obstacle(
+        env_map, CircleShape(5.0, center=[0.0, 50.0])
+    )
+    # The top left region would be filled by the circle.
+    assert np.allclose(
+        evolved_env_map.data[:35, :35], MapConstants.OBSTACLE * np.ones([35, 35])
+    )
+
+    # Also make sure that the original map is not mutated.
+    assert np.allclose(env_map.data[:35, :35], MapConstants.EMPTY * np.ones([35, 35]))
+
+
+def test_evolve_with_polygonal_obstacle():
+
+    env_map = Map(width=50.0, height=50.0, resolution=0.1)
+    evolved_env_map = evolve_map_with_polygonal_obstacle(
+        env_map, [[0.0, 50.0], [10.0, 50.0], [10.0, 47.5], [0.0, 47.5]]
+    )
+    # The top left region would be filled by the circle.
+    assert np.allclose(
+        evolved_env_map.data[:25, :100], MapConstants.OBSTACLE * np.ones([25, 100])
+    )
+
+    # Also make sure that the original map is not mutated.
+    assert np.allclose(env_map.data[:25, :100], MapConstants.EMPTY * np.ones([25, 100]))
+
