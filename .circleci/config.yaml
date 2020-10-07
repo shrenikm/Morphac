@@ -9,6 +9,7 @@ jobs:
           name: Install
           command: |
             python --version
+            echo "Starting"
             pip install morphac
 
 workflows:
