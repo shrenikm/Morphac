@@ -9,7 +9,7 @@ jobs:
           name: Install
           command: |
             python --version
-            pip install morphac
+            sudo pip install morphac
       - run:
           name: Test
           command: |
