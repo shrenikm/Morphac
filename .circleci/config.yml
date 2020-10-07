@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  install:
+  install_and_test:
     docker:
       - image: circleci/python:3.6.8
     steps:
@@ -9,10 +9,13 @@ jobs:
           name: Install
           command: |
             python --version
-            echo "Starting"
             pip install morphac
+      - run:
+          name: Test
+          command: |
+            python -c "import morphac; print(morphac.__version__); morphac.run_all_tests()"
 
 workflows:
   install_and_test:
     jobs:
-      - install
+      - install_and_test
