@@ -4,14 +4,14 @@ jobs:
   install:
     docker:
       - image: circleci/python:3.6.8
-      #image: ubuntu-1604:202007-01
     steps:
       - run:
-        name: Install
-        command: pip install morphac
-
+          name: Install
+          command: |
+            python --version
+            pip install morphac
 
 workflows:
-  main:
+  install_and_test:
     jobs:
       - install
