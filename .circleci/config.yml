@@ -2,8 +2,11 @@ version: 2.1
 
 jobs:
   install_and_test:
+    parameters:
+      python_image:
+        type: executor
     docker:
-      - image: circleci/python:3.6.8
+      - image: << parameters.python_image >>
     steps:
       - run:
           name: Install
@@ -18,4 +21,7 @@ jobs:
 workflows:
   install_and_test:
     jobs:
-      - install_and_test
+      - install_and_test:
+          matrix:
+            parameters:
+              python_image: [circleci/python:3.6.8]
