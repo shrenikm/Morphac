@@ -22,7 +22,8 @@ workflows:
   install_and_test:
     triggers:
       - schedule:
-          cron: "0 0 * * *"
+          # 12 am PT = 7 am UTC.
+          cron: "0 7 * * *"
           filters:
             branches:
               only:
