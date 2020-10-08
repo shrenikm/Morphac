@@ -22,11 +22,11 @@ workflows:
   install_and_test:
     triggers:
       - schedule:
-        cron: "0 0 * * *"
-        filters:
-          branches:
-            only:
-              - master
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - install_and_test:
           matrix:
