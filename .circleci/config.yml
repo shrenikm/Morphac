@@ -4,7 +4,7 @@ jobs:
   install_and_test:
     parameters:
       python_image:
-        type: executor
+        type: enum
     docker:
       - image: << parameters.python_image >>
     steps:
