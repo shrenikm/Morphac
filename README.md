@@ -5,9 +5,11 @@ Morphac (Mobile Robot Playground for Planning and Control) is an open source mot
 The library is written in C++ and will have python bindings for all functionality.
 
 ## Build status
-| OS             | Python        | Status                                                                                                              |
-| -------------- | ------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Ubuntu (18.04) | 3.6, 3.7, 3.8 | [![Build Status](https://travis-ci.com/shrenikm/Morphac.svg?branch=master)](https://travis-ci.com/shrenikm/Morphac) |
+| Type         | OS             | Python        | Status                                                                                                                                |
+| ------------ | -------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Source build | Ubuntu (18.04) | 3.6, 3.7, 3.8 | [![Build Status](https://travis-ci.com/shrenikm/Morphac.svg?branch=master)](https://travis-ci.com/shrenikm/Morphac)                   |
+| PyPI package | Ubuntu (16.04) | 3.6, 3.7, 3.8 | [![shrenikm](https://circleci.com/gh/shrenikm/morphac.svg?style=shield)](https://app.circleci.com/pipelines/github/shrenikm/Morphac)] |
+
 
 
 ## Installation
