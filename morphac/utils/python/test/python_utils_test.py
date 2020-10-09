@@ -5,6 +5,7 @@ from morphac.utils.python_utils import (
     get_class_name,
     add_method_to_class,
     MorphacLogicError,
+    MorphacVisualizationError,
 )
 
 
@@ -42,5 +43,15 @@ def test_add_method_to_class():
 def test_morphac_logic_error():
 
     with pytest.raises(MorphacLogicError):
-        raise MorphacLogicError("")
+        raise MorphacLogicError("test")
+
+
+def test_morphac_visualization_error():
+
+    with pytest.raises(MorphacVisualizationError):
+        raise MorphacVisualizationError("test")
+    # Make sure that the visualization error is also a
+    # generic morphac error.
+    with pytest.raises(MorphacLogicError):
+        raise MorphacVisualizationError("test")
 

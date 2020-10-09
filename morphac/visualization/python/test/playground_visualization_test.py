@@ -14,7 +14,7 @@ from morphac.robot.blueprint import Robot
 from morphac.robot.pilot import Pilot
 from morphac.simulation.playground import Playground, PlaygroundSpec
 from morphac.utils.canvas_utils import create_empty_canvas, paint_canvas
-from morphac.utils.python_utils import MorphacLogicError
+from morphac.utils.python_utils import MorphacVisualizationError
 from morphac.visualization.playground_visualization import (
     PlaygroundVisualizer,
     PlaygroundVisualizerSpec,
@@ -78,7 +78,7 @@ def test_add_robot_drawing_kernel(generate_playground_visualizer):
     def _invalid_drawing_kernel(canvas, robot):
         paint_canvas(canvas, (0, 0, 0))
 
-    with pytest.raises(MorphacLogicError):
+    with pytest.raises(MorphacVisualizationError):
         playground_visualizer.add_robot_drawing_kernel(1, _invalid_drawing_kernel)
 
 
@@ -89,4 +89,13 @@ def test_run(generate_playground_visualizer):
     # Test both run metrics.
     playground_visualizer.run("time", 5.0, visualize=False)
     playground_visualizer.run("iters", 100, visualize=False)
+
+
+def test_invalid_run(generate_playground_visualizer):
+
+    playground_visualizer = generate_playground_visualizer
+
+    # Test run with an invalid metric.
+    with pytest.raises(MorphacVisualizationError):
+        playground_visualizer.run("test", 5.0, visualize=False)
 
