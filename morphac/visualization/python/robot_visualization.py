@@ -23,7 +23,7 @@ from morphac.math.geometry import (
 from morphac.math.transforms import world_to_canvas, transform_points
 from morphac.utils.canvas_utils import paint_polygon_using_canvas_coords
 from morphac.utils.mechanics_utils import all_model_class_names
-from morphac.utils.python_utils import get_class_name, MorphacLogicError
+from morphac.utils.python_utils import get_class_name, MorphacVisualizationError
 
 
 def _ackermann_drawing_kernel(canvas, robot, resolution):
@@ -398,7 +398,7 @@ class RobotVisualizer(object):
             "robot",
             "resolution",
         ]:
-            raise MorphacLogicError(
+            raise MorphacVisualizationError(
                 "The drawing kernel must take in 'canvas', 'robot' and 'resolution' arguments in that order."
             )
         assert isinstance(uid, int)
@@ -420,9 +420,10 @@ class RobotVisualizer(object):
             # If either the model is non-standard or no id kernel
             # correspondence is provided, raise an error as there is no valid
             # drawing kernel to use.
-            raise MorphacLogicError(
+            raise MorphacVisualizationError(
                 """
-                Non standard robot model is used. Please provide an explicit
-                drawing kernel using the add_correspondence method.
+                Non standard robot model is used.
+                Please provide an explicit drawing kernel using the add_correspondence method.
+                If the kernel has already been added, make sure to use the same uid.
                 """
             )

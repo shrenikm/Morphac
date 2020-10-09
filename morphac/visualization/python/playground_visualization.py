@@ -6,7 +6,7 @@ import time
 from morphac.simulation.playground import Playground
 from morphac.visualization.map_visualization import canvas_from_map
 from morphac.visualization.robot_visualization import RobotVisualizer
-from morphac.utils.python_utils import MorphacLogicError
+from morphac.utils.python_utils import MorphacVisualizationError
 
 
 @attr.s(frozen=True)
@@ -81,7 +81,9 @@ class PlaygroundVisualizer(object):
 
         # Note that "time" means simulation time in the playground (dt) and not actual run time.
         if metric_type not in ["iters", "time"]:
-            raise MorphacLogicError("The metric type must be either 'iters' or 'time'")
+            raise MorphacVisualizationError(
+                "The metric type must be either 'iters' or 'time'"
+            )
 
         # Keeping track of the actual time.
         start_time = time.time()
