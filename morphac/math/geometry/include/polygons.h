@@ -16,6 +16,7 @@ namespace morphac {
 namespace math {
 namespace geometry {
 
+// Polygon creation.
 morphac::common::aliases::Points CreateArc(
     const morphac::math::geometry::ArcShape& arc_shape,
     const double angular_resolution);
@@ -34,6 +35,13 @@ morphac::common::aliases::Points CreateRoundedRectangularPolygon(
 
 morphac::common::aliases::Points CreateTriangularPolygon(
     const morphac::math::geometry::TriangleShape& triangle_shape);
+
+// Relationsip between points and polygons.
+bool IsPointInsidePolygon(const morphac::common::aliases::Points& polygon,
+                          const morphac::common::aliases::Point& point);
+
+bool DoPolygonsIntersect(const morphac::common::aliases::Points& polygon1,
+                         const morphac::common::aliases::Points& polygon2);
 
 }  // namespace geometry
 }  // namespace math
