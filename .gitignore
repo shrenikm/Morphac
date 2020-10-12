@@ -1,4 +1,5 @@
 .vscode
+morphac.code-workspace
 build
 __pycache__
 CMakeFiles
