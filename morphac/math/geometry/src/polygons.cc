@@ -111,10 +111,10 @@ bool IsPointInsidePolygon(const Points& polygon, const Point& point) {
   // http://www.jeffreythompson.org/collision-detection/poly-point.php
   // which originates from:
   // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html
+  bool inside = false;
   for (int i = 0; i < polygon.rows(); ++i) {
-    j = (i + 1) % polygon.rows();
+    int j = (i + 1) % polygon.rows();
 
-    bool inside = false;
     if (((polygon(i, 1) > point(1)) != (polygon(j, 1) > point(1))) &&
         (point(0) <
          (polygon(j, 0) -
@@ -127,8 +127,7 @@ bool IsPointInsidePolygon(const Points& polygon, const Point& point) {
 
   return inside;
 }
-}  // namespace geometry
 
+}  // namespace geometry
 }  // namespace math
-}  // namespace morphac
 }  // namespace morphac
