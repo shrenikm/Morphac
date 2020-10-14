@@ -6,8 +6,10 @@ namespace geometry {
 
 using std::fabs;
 
+using Eigen::Vector2d;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::BoundingBox;
 using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::math::geometry::ArcShape;
@@ -104,6 +106,18 @@ Points CreateTriangularPolygon(const TriangleShape& triangle_shape) {
       -triangle_shape.height / 2;
 
   return TransformPoints(polygon, triangle_shape.angle, triangle_shape.center);
+}
+
+BoundingBox ComputeBoundingBox(const Points& polygon) {
+  Vector2d min_coordinates = polygon.colwise().minCoeff();
+  Vector2d max_coordinates = polygon.colwise().maxCoeff();
+
+  BoundingBox bounding_box;
+  bounding_box << min_coordinates(0), max_coordinates(1), max_coordinates(0),
+      max_coordinates(1), max_coordinates(0), min_coordinates(1),
+      min_coordinates(0), min_coordinates(1);
+
+  return bounding_box;
 }
 
 bool IsPointInsidePolygon(const Points& polygon, const Point& point) {

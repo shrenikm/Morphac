@@ -10,6 +10,7 @@ from ._binding_geometry_python import (
     create_rectangular_polygon,
     create_rounded_rectangular_polygon,
     create_triangular_polygon,
+    compute_bounding_box,
     # Shapes.
     ArcShape,
     CircleShape,

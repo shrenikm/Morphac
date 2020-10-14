@@ -12,6 +12,7 @@ from morphac.math.geometry import (
     create_rectangular_polygon,
     create_rounded_rectangular_polygon,
     create_triangular_polygon,
+    compute_bounding_box,
 )
 
 
@@ -142,3 +143,15 @@ def test_triangular_polygon(generate_triangular_polygon_list):
 
     _is_valid_polygon(t1)
     _is_valid_polygon(t2)
+
+
+def test_compute_bounding_box():
+    # The cpp test tests this thoroughly, so we have a simple test here for the interface.
+    polygon = [[-2.0, 0.0], [0.0, 3.0], [2.0, 0.0], [0.0, -3.0]]
+
+    bounding_box = compute_bounding_box(polygon=polygon)
+
+    expected_bounding_box = [[-2.0, 3.0], [2.0, 3.0], [2.0, -3.0], [-2.0, -3.0]]
+
+    assert np.allclose(bounding_box, expected_bounding_box)
+

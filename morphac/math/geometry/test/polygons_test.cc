@@ -13,11 +13,13 @@ using std::tan;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+using morphac::common::aliases::BoundingBox;
 using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::math::geometry::ArcShape;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::CircleShape;
+using morphac::math::geometry::ComputeBoundingBox;
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::CreateArc;
 using morphac::math::geometry::CreateCircularPolygon;
@@ -384,6 +386,42 @@ TEST_F(GeometryUtilsTest, CreateTriangularPolygon) {
   ASSERT_TRUE(IsValidIsoscelesTriangle(triangle1_, Point::Zero()));
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle2_, Point(-3, 2)));
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle3_, Point(2, -3)));
+}
+
+TEST_F(GeometryUtilsTest, ComputeBoundingBox) {
+  // Compute bounding boxes for each type of polygon.
+  BoundingBox arc_bounding_box = ComputeBoundingBox(arc1_);
+  BoundingBox circle_bounding_box = ComputeBoundingBox(circle1_);
+  BoundingBox rectangle_bounding_box = ComputeBoundingBox(rectangle1_);
+  BoundingBox rounded_rectangle_bounding_box =
+      ComputeBoundingBox(rounded_rectangle1_);
+  BoundingBox triangle_bounding_box = ComputeBoundingBox(triangle1_);
+  // Custom test polygon.
+  Points test_polygon(4, 2);
+  test_polygon << -2., 0., 0., 3., 2., 0., 0., -3.;
+  BoundingBox custom_bounding_box = ComputeBoundingBox(test_polygon);
+
+  // Expected bounding boxes for the polygons.
+  BoundingBox expected_arc_bounding_box, expected_circle_bounding_box,
+      expected_rectangle_bounding_box, expected_rounded_rectangle_bounding_box,
+      expected_triangle_bounding_box, expected_custom_bounding_box;
+
+  expected_arc_bounding_box << 0., 1., 1., 1., 1., 0., 0., 0.;
+  expected_circle_bounding_box << -1., 1., 1., 1., 1., -1., -1., -1.;
+  expected_rectangle_bounding_box << -3., 2., 3., 2., 3., -2., -3., -2.;
+  expected_rounded_rectangle_bounding_box << -3., 2., 3., 2., 3., -2., -3., -2.;
+  expected_triangle_bounding_box << -1., 1., 1., 1., 1., -1., -1., -1.;
+  expected_custom_bounding_box << -2., 3., 2., 3., 2., -3., -2., -3.;
+
+  ASSERT_TRUE(arc_bounding_box.isApprox(expected_arc_bounding_box));
+  // Relaxing the precision for the circle as it doesn't compute the values
+  // exactly for the given resolution.
+  ASSERT_TRUE(circle_bounding_box.isApprox(expected_circle_bounding_box, 0.1));
+  ASSERT_TRUE(rectangle_bounding_box.isApprox(expected_rectangle_bounding_box));
+  ASSERT_TRUE(rounded_rectangle_bounding_box.isApprox(
+      expected_rounded_rectangle_bounding_box));
+  ASSERT_TRUE(triangle_bounding_box.isApprox(expected_triangle_bounding_box));
+  ASSERT_TRUE(custom_bounding_box.isApprox(expected_custom_bounding_box));
 }
 
 }  // namespace

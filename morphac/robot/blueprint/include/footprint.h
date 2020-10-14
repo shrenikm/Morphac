@@ -45,6 +45,7 @@ class Footprint {
 
  private:
   morphac::common::aliases::Points data_;
+  // morphac::common::aliases::BoundingBox bounding_box_;
 };
 
 }  // namespace blueprint

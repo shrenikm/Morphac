@@ -36,6 +36,10 @@ morphac::common::aliases::Points CreateRoundedRectangularPolygon(
 morphac::common::aliases::Points CreateTriangularPolygon(
     const morphac::math::geometry::TriangleShape& triangle_shape);
 
+// Computations with polygons.
+morphac::common::aliases::BoundingBox ComputeBoundingBox(
+    const morphac::common::aliases::Points& polygon);
+
 // Relationsip between points and polygons.
 bool IsPointInsidePolygon(const morphac::common::aliases::Points& polygon,
                           const morphac::common::aliases::Point& point);

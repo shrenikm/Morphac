@@ -10,6 +10,7 @@ namespace py = pybind11;
 using morphac::common::aliases::Point;
 using morphac::math::geometry::ArcShape;
 using morphac::math::geometry::CircleShape;
+using morphac::math::geometry::ComputeBoundingBox;
 using morphac::math::geometry::CreateArc;
 using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
@@ -30,6 +31,7 @@ void define_polygons_binding(py::module& m) {
         py::arg("rounded_rectangle_shape"), py::arg("angular_resolution"));
   m.def("create_triangular_polygon", &CreateTriangularPolygon,
         py::arg("triangle_shape"));
+  m.def("compute_bounding_box", &ComputeBoundingBox, py::arg("polygon"));
 }
 
 }  // namespace binding
