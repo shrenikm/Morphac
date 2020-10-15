@@ -4,10 +4,12 @@ namespace morphac {
 namespace robot {
 namespace blueprint {
 
+using morphac::common::aliases::BoundingBox;
 using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::constructs::Coordinate;
 using morphac::math::geometry::CircleShape;
+using morphac::math::geometry::ComputeBoundingBox;
 using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
@@ -19,9 +21,12 @@ using morphac::math::geometry::TriangleShape;
 Footprint::Footprint(const Points& data) : data_(data) {
   MORPH_REQUIRE(data.rows() > 0, std::invalid_argument,
                 "Invalid footprint matrix dimensions. Must be n x 2.");
+  bounding_box_ = ComputeBoundingBox(data);
 }
 
 const Points& Footprint::get_data() const { return data_; }
+
+const BoundingBox& Footprint::get_bounding_box() const { return bounding_box_; }
 
 // Note that as these are relative centers, we create new shape with the center
 // negated to obtain the desired effect

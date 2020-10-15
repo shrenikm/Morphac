@@ -58,6 +58,22 @@ def test_data(generate_footprint_list):
         f2.data = np.ones([10, 2])
 
 
+def test_bounding_box(generate_footprint_list):
+
+    f1, f2 = generate_footprint_list
+
+    # Basic bounding boxes for f1 and f2.
+    assert np.allclose(f1.bounding_box, [[1, 2], [1, 2], [1, 2], [1, 2]])
+    assert np.allclose(f2.bounding_box, np.ones([4, 2]))
+
+    # Testing for a more realistic footprint polygon.
+    footprint_data = [[-2.0, 0.0], [0.0, 3.0], [2.0, 0.0], [0.0, -3.0]]
+    footprint = Footprint(data=footprint_data)
+
+    expected_bounding_box = [[-2.0, 3.0], [2.0, 3.0], [2.0, -3.0], [-2.0, -3.0]]
+    assert np.allclose(footprint.bounding_box, expected_bounding_box)
+
+
 # Testing footprint generators.
 def test_circular_footprint(generate_circular_footprint_list):
 

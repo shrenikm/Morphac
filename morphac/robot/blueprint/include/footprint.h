@@ -23,6 +23,8 @@ class Footprint {
 
   const morphac::common::aliases::Points& get_data() const;
 
+  const morphac::common::aliases::BoundingBox& get_bounding_box() const;
+
   // Footprint generating functions. Note that the coordinates are always with
   // respect to the origin. The center in these shapes is the relative center
   // which is the position of the center of the footprint within the footprint
@@ -45,7 +47,7 @@ class Footprint {
 
  private:
   morphac::common::aliases::Points data_;
-  // morphac::common::aliases::BoundingBox bounding_box_;
+  morphac::common::aliases::BoundingBox bounding_box_;
 };
 
 }  // namespace blueprint

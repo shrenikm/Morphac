@@ -17,6 +17,7 @@ void define_footprint_binding(py::module& m) {
 
   footprint.def(py::init<const MatrixXd>(), py::arg("data"));
   footprint.def_property_readonly("data", &Footprint::get_data);
+  footprint.def_property_readonly("bounding_box", &Footprint::get_bounding_box);
   footprint.def_static("create_circular_footprint",
                        &Footprint::CreateCircularFootprint,
                        py::arg("circle_shape"), py::arg("angular_resolution"));

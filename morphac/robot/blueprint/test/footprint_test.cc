@@ -8,6 +8,7 @@ namespace {
 using Eigen::Array;
 using Eigen::Dynamic;
 
+using morphac::common::aliases::BoundingBox;
 using morphac::common::aliases::Point;
 using morphac::common::aliases::Points;
 using morphac::math::geometry::CircleShape;
@@ -74,6 +75,19 @@ TEST_F(FootprintTest, Accessors) {
 
 TEST_F(FootprintTest, InvalidConstruction) {
   ASSERT_THROW(Footprint(Points::Zero(0, 2)), std::invalid_argument);
+}
+
+TEST_F(FootprintTest, BoundingBox) {
+  // Basic test to make sure that the bounding box computation works.
+  Points footprint_data(4, 2);
+  BoundingBox expected_bounding_box;
+
+  footprint_data << -2., 0., 0., 3., 2., 0., 0., -3.;
+  Footprint footprint(footprint_data);
+
+  expected_bounding_box << -2., 3., 2., 3., 2., -3., -2., -3.;
+
+  ASSERT_TRUE(footprint.get_bounding_box().isApprox(expected_bounding_box));
 }
 
 TEST_F(FootprintTest, CreateCircularFootprint) {
