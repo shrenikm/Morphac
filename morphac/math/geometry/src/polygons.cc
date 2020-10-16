@@ -136,8 +136,11 @@ bool IsPointInsidePolygon(const Point& point, const Points& polygon) {
   // http://www.jeffreythompson.org/collision-detection/poly-point.php
   // which originates from:
   // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html
-  // BoundingBox bounding_box = ComputeBoundingBox(polygon);
 
+  // This function is the core function that tests if a point is inside
+  // a polygon. For this function we don't utilize the bounding box negative
+  // test. If a bounding box is provided (look at the overload), the negative
+  // test is performed first and then this function is called.
   bool inside = false;
   for (int i = 0; i < polygon.rows(); ++i) {
     int j = (i + 1) % polygon.rows();
@@ -153,6 +156,21 @@ bool IsPointInsidePolygon(const Point& point, const Points& polygon) {
   }
 
   return inside;
+}
+
+bool IsPointInsidePolygon(const Point& point, const Points& polygon,
+                          const BoundingBox& bounding_box) {
+  // If the point is outside the polygon's bounding box, it is definitely
+  // outside the polygon. This is a quick negative check that is useful as
+  // a point is more likely to be outside the bounding box than inside given
+  // the scales of the polygon (robot footprint in most cases) and the
+  // environment.
+  if (!IsPointInsideBoundingBox(point, bounding_box)) {
+    return false;
+  }
+
+  // Reusing the algorithm from the core function.
+  return IsPointInsidePolygon(point, polygon);
 }
 
 }  // namespace geometry
