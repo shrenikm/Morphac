@@ -40,9 +40,13 @@ morphac::common::aliases::Points CreateTriangularPolygon(
 morphac::common::aliases::BoundingBox ComputeBoundingBox(
     const morphac::common::aliases::Points& polygon);
 
+bool IsPointInsideBoundingBox(
+    const morphac::common::aliases::Point& point,
+    const morphac::common::aliases::BoundingBox& bounding_box);
+
 // Relationsip between points and polygons.
-bool IsPointInsidePolygon(const morphac::common::aliases::Points& polygon,
-                          const morphac::common::aliases::Point& point);
+bool IsPointInsidePolygon(const morphac::common::aliases::Point& point,
+                          const morphac::common::aliases::Points& polygon);
 
 bool DoPolygonsIntersect(const morphac::common::aliases::Points& polygon1,
                          const morphac::common::aliases::Points& polygon2);

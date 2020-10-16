@@ -26,6 +26,8 @@ using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
 using morphac::math::geometry::CreateTriangularPolygon;
+using morphac::math::geometry::IsPointInsideBoundingBox;
+using morphac::math::geometry::IsPointInsidePolygon;
 using morphac::math::geometry::RectangleShape;
 using morphac::math::geometry::RoundedRectangleShape;
 using morphac::math::geometry::TriangleShape;
@@ -224,9 +226,9 @@ bool IsValidEquilateralTriangle(const Points& triangle, const Point& center) {
   return true;
 }
 
-class GeometryUtilsTest : public ::testing::Test {
+class PolygonsTest : public ::testing::Test {
  protected:
-  GeometryUtilsTest() {
+  PolygonsTest() {
     // Set random seed for Eigen.
     srand(7);
   }
@@ -259,34 +261,34 @@ class GeometryUtilsTest : public ::testing::Test {
       TriangleShape{4., sqrt(3) * 4. / 2., M_PI / 4, Point(2., -3.)});
 };
 
-TEST_F(GeometryUtilsTest, CreateArc) {
+TEST_F(PolygonsTest, CreateArc) {
   // Test the validity of each arc.
   ASSERT_TRUE(IsValidArc(arc1_, 1., Point::Zero(), M_PI / 2));
   ASSERT_TRUE(IsValidArc(arc2_, 2., Point::Zero(), M_PI / 2));
   ASSERT_TRUE(IsValidArc(arc3_, 3., Point(-2, 3), M_PI));
 }
 
-TEST_F(GeometryUtilsTest, InvalidCreateArc) {
+TEST_F(PolygonsTest, InvalidCreateArc) {
   // The shape objects already make sure that the shapes are valid. Here we only
   // check if the resolution is valid.
   ASSERT_THROW(CreateArc(ArcShape{0., M_PI / 2., 1.}, 0.),
                std::invalid_argument);
 }  // namespace
 
-TEST_F(GeometryUtilsTest, CreateCircularPolygon) {
+TEST_F(PolygonsTest, CreateCircularPolygon) {
   // Test the validity of each circle.
   ASSERT_TRUE(IsValidCircle(circle1_, 1., Point::Zero()));
   ASSERT_TRUE(IsValidCircle(circle2_, 2., Point(12., -9.)));
 }
 
-TEST_F(GeometryUtilsTest, InvalidCreateCircularPolygon) {
+TEST_F(PolygonsTest, InvalidCreateCircularPolygon) {
   // The shape objects already make sure that the shapes are valid. Here we only
   // check if the resolution is valid.
   ASSERT_THROW(CreateCircularPolygon(CircleShape{1.}, 0.),
                std::invalid_argument);
 }
 
-TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
+TEST_F(PolygonsTest, RectangularPolygonSize) {
   // Make sure that the rectangle sizes are correct.
   double size_x = rectangle1_.col(0).maxCoeff() - rectangle1_.col(0).minCoeff();
   double size_y = rectangle1_.col(1).maxCoeff() - rectangle1_.col(1).minCoeff();
@@ -298,7 +300,7 @@ TEST_F(GeometryUtilsTest, RectangularPolygonSize) {
   ASSERT_TRUE(IsValidRectangle(rectangle1_));
 }
 
-TEST_F(GeometryUtilsTest, RectangularPolygonCenter) {
+TEST_F(PolygonsTest, RectangularPolygonCenter) {
   // Make sure tha the rectangle center is correct.
   double size_x = rectangle2_.col(0).maxCoeff() - rectangle2_.col(0).minCoeff();
   double size_y = rectangle2_.col(1).maxCoeff() - rectangle2_.col(1).minCoeff();
@@ -312,7 +314,7 @@ TEST_F(GeometryUtilsTest, RectangularPolygonCenter) {
   ASSERT_TRUE(IsValidRectangle(rectangle2_));
 }
 
-TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
+TEST_F(PolygonsTest, RectangularPolygonRotation) {
   // Test center. As the rectangle is oriented, max - min does not give the
   // size, but the value can still be used to compute the center.
   double diff_x = rectangle3_.col(0).maxCoeff() - rectangle3_.col(0).minCoeff();
@@ -326,7 +328,7 @@ TEST_F(GeometryUtilsTest, RectangularPolygonRotation) {
   ASSERT_TRUE(IsRectangleOrientedCorrectly(rectangle3_, M_PI / 4));
 }
 
-TEST_F(GeometryUtilsTest, RoundedRectangularPolygonSize) {
+TEST_F(PolygonsTest, RoundedRectangularPolygonSize) {
   // Make sure that the rectangle sizes are correct.
   double size_x = rounded_rectangle1_.col(0).maxCoeff() -
                   rounded_rectangle1_.col(0).minCoeff();
@@ -340,7 +342,7 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonSize) {
   ASSERT_TRUE(IsValidRoundedRectangle(rounded_rectangle1_));
 }
 
-TEST_F(GeometryUtilsTest, RoundedRectangularPolygonCenter) {
+TEST_F(PolygonsTest, RoundedRectangularPolygonCenter) {
   // Make sure tha the rectangle center is correct.
   double size_x = rounded_rectangle2_.col(0).maxCoeff() -
                   rounded_rectangle2_.col(0).minCoeff();
@@ -356,7 +358,7 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonCenter) {
   ASSERT_TRUE(IsValidRoundedRectangle(rounded_rectangle2_));
 }
 
-TEST_F(GeometryUtilsTest, RoundedRectangularPolygonRotation) {
+TEST_F(PolygonsTest, RoundedRectangularPolygonRotation) {
   // Test center. As the rectangle is oriented, max - min does not give the
   // size, but the value can still be used to compute the center.
   double diff_x = rounded_rectangle3_.col(0).maxCoeff() -
@@ -373,7 +375,7 @@ TEST_F(GeometryUtilsTest, RoundedRectangularPolygonRotation) {
       IsRoundedRectangleOrientedCorrectly(rounded_rectangle3_, M_PI / 4));
 }
 
-TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
+TEST_F(PolygonsTest, InvalidCreateRoundedRectangularPolygon) {
   // The shape objects already make sure that the shapes are valid. Here we only
   // check if the resolution is valid.
   ASSERT_THROW(CreateRoundedRectangularPolygon(
@@ -381,14 +383,14 @@ TEST_F(GeometryUtilsTest, InvalidCreateRoundedRectangularPolygon) {
                std::invalid_argument);
 }
 
-TEST_F(GeometryUtilsTest, CreateTriangularPolygon) {
+TEST_F(PolygonsTest, CreateTriangularPolygon) {
   // Test the validity of each arc.
   ASSERT_TRUE(IsValidIsoscelesTriangle(triangle1_, Point::Zero()));
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle2_, Point(-3, 2)));
   ASSERT_TRUE(IsValidEquilateralTriangle(triangle3_, Point(2, -3)));
 }
 
-TEST_F(GeometryUtilsTest, ComputeBoundingBox) {
+TEST_F(PolygonsTest, ComputeBoundingBox) {
   // Compute bounding boxes for each type of polygon.
   BoundingBox arc_bounding_box = ComputeBoundingBox(arc1_);
   BoundingBox circle_bounding_box = ComputeBoundingBox(circle1_);
@@ -422,6 +424,30 @@ TEST_F(GeometryUtilsTest, ComputeBoundingBox) {
       expected_rounded_rectangle_bounding_box));
   ASSERT_TRUE(triangle_bounding_box.isApprox(expected_triangle_bounding_box));
   ASSERT_TRUE(custom_bounding_box.isApprox(expected_custom_bounding_box));
+}
+
+TEST_F(PolygonsTest, IsPointInsideBoundingBox) {
+  BoundingBox bounding_box;
+  bounding_box << -2, 4, 2, 4, 2, -4, -2, -4;
+
+  // Points inside the bounding box.
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(0., 0.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(1., 1.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(-1., -1.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(-2., -4.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(2., 4.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(2., 0.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(-2., 0.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(0., 4.), bounding_box));
+  ASSERT_TRUE(IsPointInsideBoundingBox(Point(0., -4.), bounding_box));
+
+  // Points outside the bounding box.
+  ASSERT_FALSE(IsPointInsideBoundingBox(Point(10., 10.), bounding_box));
+  ASSERT_FALSE(IsPointInsideBoundingBox(Point(-10., -10.), bounding_box));
+  ASSERT_FALSE(IsPointInsideBoundingBox(Point(-2.5, 0.), bounding_box));
+  ASSERT_FALSE(IsPointInsideBoundingBox(Point(2.5, 0.), bounding_box));
+  ASSERT_FALSE(IsPointInsideBoundingBox(Point(0., 4.5), bounding_box));
+  ASSERT_FALSE(IsPointInsideBoundingBox(Point(0., -4.5), bounding_box));
 }
 
 }  // namespace

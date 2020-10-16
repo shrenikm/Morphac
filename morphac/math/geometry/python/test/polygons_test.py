@@ -13,6 +13,7 @@ from morphac.math.geometry import (
     create_rounded_rectangular_polygon,
     create_triangular_polygon,
     compute_bounding_box,
+    is_point_inside_bounding_box,
 )
 
 
@@ -154,4 +155,20 @@ def test_compute_bounding_box():
     expected_bounding_box = [[-2.0, 3.0], [2.0, 3.0], [2.0, -3.0], [-2.0, -3.0]]
 
     assert np.allclose(bounding_box, expected_bounding_box)
+
+
+def test_is_point_inside_bounding_box():
+
+    bounding_box = [[-2, 4], [2, 4], [2, -4], [-2, -4]]
+
+    # Running some basic tests.
+    assert is_point_inside_bounding_box([0, 0], bounding_box)
+    assert is_point_inside_bounding_box([-2, -4], bounding_box)
+    assert is_point_inside_bounding_box([2, 4], bounding_box)
+
+    assert not is_point_inside_bounding_box([10, 10], bounding_box)
+    assert not is_point_inside_bounding_box([-3, 0], bounding_box)
+    assert not is_point_inside_bounding_box([3, 0], bounding_box)
+    assert not is_point_inside_bounding_box([0, -5], bounding_box)
+    assert not is_point_inside_bounding_box([0, 5], bounding_box)
 

@@ -120,11 +120,24 @@ BoundingBox ComputeBoundingBox(const Points& polygon) {
   return bounding_box;
 }
 
-bool IsPointInsidePolygon(const Points& polygon, const Point& point) {
+bool IsPointInsideBoundingBox(const Point& point,
+                              const BoundingBox& bounding_box) {
+  if (point(0) < bounding_box(3, 0) || point(0) > bounding_box(1, 0)) {
+    return false;
+  }
+  if (point(1) < bounding_box(3, 1) || point(1) > bounding_box(1, 1)) {
+    return false;
+  }
+  return true;
+}
+
+bool IsPointInsidePolygon(const Point& point, const Points& polygon) {
   // The algorithm is based off:
   // http://www.jeffreythompson.org/collision-detection/poly-point.php
   // which originates from:
   // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html
+  // BoundingBox bounding_box = ComputeBoundingBox(polygon);
+
   bool inside = false;
   for (int i = 0; i < polygon.rows(); ++i) {
     int j = (i + 1) % polygon.rows();

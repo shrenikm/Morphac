@@ -11,6 +11,7 @@ from ._binding_geometry_python import (
     create_rounded_rectangular_polygon,
     create_triangular_polygon,
     compute_bounding_box,
+    is_point_inside_bounding_box,
     # Shapes.
     ArcShape,
     CircleShape,

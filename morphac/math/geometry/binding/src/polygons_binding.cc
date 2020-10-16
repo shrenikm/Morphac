@@ -16,6 +16,7 @@ using morphac::math::geometry::CreateCircularPolygon;
 using morphac::math::geometry::CreateRectangularPolygon;
 using morphac::math::geometry::CreateRoundedRectangularPolygon;
 using morphac::math::geometry::CreateTriangularPolygon;
+using morphac::math::geometry::IsPointInsideBoundingBox;
 using morphac::math::geometry::RectangleShape;
 using morphac::math::geometry::RoundedRectangleShape;
 using morphac::math::geometry::TriangleShape;
@@ -32,6 +33,8 @@ void define_polygons_binding(py::module& m) {
   m.def("create_triangular_polygon", &CreateTriangularPolygon,
         py::arg("triangle_shape"));
   m.def("compute_bounding_box", &ComputeBoundingBox, py::arg("polygon"));
+  m.def("is_point_inside_bounding_box", &IsPointInsideBoundingBox,
+        py::arg("point"), py::arg("bounding_box"));
 }
 
 }  // namespace binding
