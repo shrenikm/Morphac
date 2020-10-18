@@ -20,6 +20,10 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
                    const double y_intercept)
     : slope(slope), x_intercept(x_intercept), y_intercept(y_intercept) {}
 
+PointProjection::PointProjection(const double distance, const double alpha,
+                                 const Point& point)
+    : distance(distance), alpha(alpha), point(point) {}
+
 bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
   return IsEqual(line_spec1.slope, line_spec2.slope) &&
          IsEqual(line_spec1.x_intercept, line_spec2.x_intercept) &&
