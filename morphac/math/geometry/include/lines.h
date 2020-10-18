@@ -43,6 +43,12 @@ struct LineSpec {
   std::string ToString() const;
 };
 
+struct PointProjection {
+  const double distance;
+  const double alpha;
+  const Point point;
+};
+
 LineSpec ComputeLineSpec(const morphac::common::aliases::Point& start_point,
                          const morphac::common::aliases::Point& end_point);
 
@@ -60,6 +66,14 @@ bool AreLinesPerpendicular(const morphac::common::aliases::Point& start_point1,
                            const morphac::common::aliases::Point& end_point1,
                            const morphac::common::aliases::Point& start_point2,
                            const morphac::common::aliases::Point& end_point2);
+
+PointProjection ComputePointProjection(
+    const morphac::common::aliases::Point& point,
+    const morphac::common::aliases::Point& start_point,
+    const morphac::common::aliases::Point& end_point);
+
+PointProjection ComputePointProjection(
+    const morphac::common::aliases::Point& point, const LineSpec& line_spec);
 
 }  // namespace geometry
 }  // namespace math
