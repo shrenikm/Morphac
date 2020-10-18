@@ -61,6 +61,13 @@ TEST_F(LinesTest, InvalidLineSpec) {
   // The Line specification is invalid iff both the intercepts are infinity.
   ASSERT_THROW(LineSpec(0., Infinity<double>, Infinity<double>),
                std::invalid_argument);
+  // If any of the intercpets equal infinity, the slope must take specific
+  // values (0./infinity).
+  ASSERT_THROW(LineSpec(1., Infinity<double>, 0.), std::invalid_argument);
+  ASSERT_THROW(LineSpec(Infinity<double>, Infinity<double>, 0.),
+               std::invalid_argument);
+  ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::invalid_argument);
+  ASSERT_THROW(LineSpec(1., 0., Infinity<double>), std::invalid_argument);
 }
 
 TEST_F(LinesTest, ComputeStandardLineSpec) {

@@ -70,6 +70,14 @@ def test_invalid_line_spec():
 
     with pytest.raises(ValueError):
         _ = LineSpec(0, np.inf, np.inf)
+    with pytest.raises(ValueError):
+        _ = LineSpec(1.0, np.inf, 0.0)
+    with pytest.raises(ValueError):
+        _ = LineSpec(np.inf, np.inf, 0.0)
+    with pytest.raises(ValueError):
+        _ = LineSpec(0.0, 0.0, np.inf)
+    with pytest.raises(ValueError):
+        _ = LineSpec(1.0, 0.0, np.inf)
 
 
 # As the cpp test does all of the computation checking, we perform very basic

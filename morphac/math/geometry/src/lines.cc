@@ -24,6 +24,19 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
   MORPH_REQUIRE(!isinf(x_intercept) || !isinf(y_intercept),
                 std::invalid_argument,
                 "Both the intercepts cannot be infinity.");
+  // x_intercept = inf => Slope = 0
+  // y_intercept = inf => Slope = inf.
+  // Note that the reverse need not hold true. The lines x = 0 an dy = 0 are
+  // counterexamples (In which case their intercepts may be interpreted as
+  // zero.)
+  if (isinf(x_intercept)) {
+    MORPH_REQUIRE(IsEqual(slope, 0.), std::invalid_argument,
+                  "Slope must be zero if the x intercept is infinity.")
+  }
+  if (isinf(y_intercept)) {
+    MORPH_REQUIRE(isinf(slope), std::invalid_argument,
+                  "Slope must be infinity if the y intercept is infinity.");
+  }
 }
 
 PointProjection::PointProjection(const double distance, const double alpha,
@@ -136,6 +149,9 @@ PointProjection ComputePointProjection(const Point& point,
 
   return PointProjection{distance, alpha, projection};
 }
+
+// PointProjection ComputePointProjection(const Point& point,
+//                                       const LineSpec& line_spec) {}
 
 }  // namespace geometry
 }  // namespace math
