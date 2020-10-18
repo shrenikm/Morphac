@@ -9,6 +9,8 @@ using std::isinf;
 using std::numeric_limits;
 using std::ostream;
 using std::ostringstream;
+using std::pow;
+using std::sqrt;
 using std::string;
 
 using morphac::common::aliases::Epsilon;
@@ -141,6 +143,8 @@ bool AreLinesPerpendicular(const Point& start_point1, const Point& end_point1,
 PointProjection ComputePointProjection(const Point& point,
                                        const Point& start_point,
                                        const Point& end_point) {
+  // Note that this function is more efficient that the one that takes in
+  // LineSpec as the other overload calls this function at the end.
   Point line_segment = end_point - start_point;
   double alpha =
       line_segment.dot(point - start_point) / line_segment.squaredNorm();
@@ -150,8 +154,42 @@ PointProjection ComputePointProjection(const Point& point,
   return PointProjection{distance, alpha, projection};
 }
 
-// PointProjection ComputePointProjection(const Point& point,
-//                                       const LineSpec& line_spec) {}
+PointProjection ComputePointProjection(const Point& point,
+                                       const LineSpec& line_spec) {
+  // We extract a segment from this line and call the overload with the end
+  // points. As the alpha parameter does not make sense for projecting on an
+  // infinite line, we set it to infinity. The distance and projection values
+  // will hold regardless.
+  Point start_point(0., 0.);
+  Point end_point(0., 0.);
+  Point unit_vector;
+  if (!isinf(line_spec.x_intercept)) {
+    start_point(0) = line_spec.x_intercept;
+    start_point(1) = 0.;
+  } else {
+    // Note that both the intercepts cannot be infinity as it becomes an invalid
+    // LineSpec object.
+    start_point(0) = 0.;
+    start_point(1) = line_spec.y_intercept;
+  }
+
+  // Find the unit vector with the same slope.
+  if (isinf(line_spec.slope)) {
+    // Corner case when the slope is infinity.
+    unit_vector = Point(0., 1.);
+  } else {
+    double cos_theta = sqrt(1 / (1 + pow(line_spec.slope, 2)));
+    double sin_theta = line_spec.slope * cos_theta;
+    unit_vector = Point(cos_theta, sin_theta);
+  }
+
+  end_point = start_point + unit_vector;
+
+  PointProjection point_projection{
+      ComputePointProjection(point, start_point, end_point)};
+  return PointProjection{point_projection.distance, Infinity<double>,
+                         point_projection.projection};
+}
 
 }  // namespace geometry
 }  // namespace math
