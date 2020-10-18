@@ -33,7 +33,7 @@ class LinesTest : public ::testing::Test {
   LineSpec line_spec4_{-1, 0, 0};
 };
 
-TEST_F(LinesTest, Equality) {
+TEST_F(LinesTest, LineSpecEquality) {
   LineSpec l1{1., 2., 3.};
   LineSpec l2{0.5 + 0.5, 7. - 5., 18. / 6.};
   LineSpec l3{Infinity<double>, 0., 0.};
@@ -47,7 +47,7 @@ TEST_F(LinesTest, Equality) {
   ASSERT_TRUE(l2 != LineSpec(1e25, 0., 0.));
 }
 
-TEST_F(LinesTest, StringRepresentation) {
+TEST_F(LinesTest, LineSpecStringRepresentation) {
   // Testing that the << operator is overloaded properly.
   // We don't test the actual string representation.
   ostringstream os;
@@ -55,6 +55,12 @@ TEST_F(LinesTest, StringRepresentation) {
 
   // Multiple pose object representations in the stream.
   os << " " << line_spec2_ << std::endl;
+}
+
+TEST_F(LinesTest, InvalidLineSpec) {
+  // The Line specification is invalid iff both the intercepts are infinity.
+  ASSERT_THROW(LineSpec(0., Infinity<double>, Infinity<double>),
+               std::invalid_argument);
 }
 
 TEST_F(LinesTest, ComputeStandardLineSpec) {

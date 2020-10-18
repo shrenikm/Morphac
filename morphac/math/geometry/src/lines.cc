@@ -18,7 +18,13 @@ using morphac::utils::IsEqual;
 
 LineSpec::LineSpec(const double slope, const double x_intercept,
                    const double y_intercept)
-    : slope(slope), x_intercept(x_intercept), y_intercept(y_intercept) {}
+    : slope(slope),
+      x_intercept(x_intercept),
+      y_intercept(y_intercept) {  // Both intercepts cannot be infinity.
+  MORPH_REQUIRE(!isinf(x_intercept) || !isinf(y_intercept),
+                std::invalid_argument,
+                "Both the intercepts cannot be infinity.");
+}
 
 PointProjection::PointProjection(const double distance, const double alpha,
                                  const Point& projection)

@@ -66,6 +66,12 @@ def test_equality(generate_line_spec):
     assert ls4 != ls1
 
 
+def test_invalid_line_spec():
+
+    with pytest.raises(ValueError):
+        _ = LineSpec(0, np.inf, np.inf)
+
+
 # As the cpp test does all of the computation checking, we perform very basic
 # tests here mainly to ensure that the bindings work.
 
