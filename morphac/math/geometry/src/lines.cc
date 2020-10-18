@@ -21,8 +21,8 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
     : slope(slope), x_intercept(x_intercept), y_intercept(y_intercept) {}
 
 PointProjection::PointProjection(const double distance, const double alpha,
-                                 const Point& point)
-    : distance(distance), alpha(alpha), point(point) {}
+                                 const Point& projection)
+    : distance(distance), alpha(alpha), projection(projection) {}
 
 bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
   return IsEqual(line_spec1.slope, line_spec2.slope) &&
@@ -117,6 +117,18 @@ bool AreLinesPerpendicular(const Point& start_point1, const Point& end_point1,
                            const Point& start_point2, const Point& end_point2) {
   return AreLinesPerpendicular(ComputeLineSpec(start_point1, end_point1),
                                ComputeLineSpec(start_point2, end_point2));
+}
+
+PointProjection ComputePointProjection(const Point& point,
+                                       const Point& start_point,
+                                       const Point& end_point) {
+  Point line_segment = end_point - start_point;
+  double alpha =
+      line_segment.dot(point - start_point) / line_segment.squaredNorm();
+  Point projection = start_point + alpha * (end_point - start_point);
+  double distance = (point - projection).norm();
+
+  return PointProjection{distance, alpha, projection};
 }
 
 }  // namespace geometry

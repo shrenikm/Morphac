@@ -46,7 +46,7 @@ struct LineSpec {
 struct PointProjection {
   const double distance;
   const double alpha;
-  const morphac::common::aliases::Point point;
+  const morphac::common::aliases::Point projection;
 
   PointProjection(const double distance, const double alpha,
                   const morphac::common::aliases::Point& point);
