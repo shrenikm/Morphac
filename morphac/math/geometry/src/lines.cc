@@ -184,7 +184,7 @@ PointProjection ComputePointProjection(const Point& point,
 
   PointProjection point_projection{
       ComputePointProjection(point, start_point, end_point)};
-  return PointProjection{point_projection.distance, Infinity<double>,
+  return PointProjection{point_projection.distance,
                          point_projection.projection};
 }
 
