@@ -50,7 +50,13 @@ struct PointProjection {
   const morphac::common::aliases::Point projection;
 
   PointProjection(const double distance, const double alpha,
-                  const morphac::common::aliases::Point& point);
+                  const morphac::common::aliases::Point& projection);
+  // For cases where we find the projection with respect to a LineSpec (Infinite
+  // line), we only care about the distance and the projection. We set the alpha
+  // value to infinity as it isn't defined without the existence of segment end
+  // points.
+  PointProjection(const double distance,
+                  const morphac::common::aliases::Point& projection);
 };
 
 LineSpec ComputeLineSpec(const morphac::common::aliases::Point& start_point,

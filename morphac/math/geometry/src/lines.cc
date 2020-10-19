@@ -45,6 +45,9 @@ PointProjection::PointProjection(const double distance, const double alpha,
                                  const Point& projection)
     : distance(distance), alpha(alpha), projection(projection) {}
 
+PointProjection::PointProjection(const double distance, const Point& projection)
+    : distance(distance), alpha(Infinity<double>), projection(projection) {}
+
 bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
   return IsEqual(line_spec1.slope, line_spec2.slope) &&
          IsEqual(line_spec1.x_intercept, line_spec2.x_intercept) &&
