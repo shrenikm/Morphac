@@ -12,6 +12,7 @@ using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::LineSpec;
+using morphac::math::geometry::PointProjection;
 
 void define_lines_binding(py::module& m) {
   py::class_<LineSpec> line_spec(m, "LineSpec");
@@ -25,6 +26,17 @@ void define_lines_binding(py::module& m) {
   line_spec.def_readonly("slope", &LineSpec::slope);
   line_spec.def_readonly("x_intercept", &LineSpec::x_intercept);
   line_spec.def_readonly("y_intercept", &LineSpec::y_intercept);
+
+  py::class_<PointProjection> point_projection(m, "PointProjection");
+
+  point_projection.def(py::init<const double, const double, const Point&>(),
+                       py::arg("distance"), py::arg("alpha"),
+                       py::arg("projection"));
+  point_projection.def(py::init<const double, const Point&>(),
+                       py::arg("distance"), py::arg("projection"));
+  point_projection.def_readonly("distance", &PointProjection::distance);
+  point_projection.def_readonly("alpha", &PointProjection::alpha);
+  point_projection.def_readonly("projection", &PointProjection::projection);
 
   m.def("compute_line_spec", &ComputeLineSpec, py::arg("start_point"),
         py::arg("end_point"));

@@ -1,6 +1,7 @@
 from ._binding_geometry_python import (
     # Lines.
     LineSpec,
+    PointProjection,
     compute_line_spec,
     are_lines_parallel,
     are_lines_perpendicular,
