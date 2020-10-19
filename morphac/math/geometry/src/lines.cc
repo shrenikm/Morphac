@@ -43,10 +43,18 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
 
 PointProjection::PointProjection(const double distance, const double alpha,
                                  const Point& projection)
-    : distance(distance), alpha(alpha), projection(projection) {}
+    : distance(distance), alpha(alpha), projection(projection) {
+  // Distance must be non-negative.
+  MORPH_REQUIRE(distance >= 0, std::invalid_argument,
+                "Distance cannot be negative.");
+}
 
 PointProjection::PointProjection(const double distance, const Point& projection)
-    : distance(distance), alpha(Infinity<double>), projection(projection) {}
+    : distance(distance), alpha(Infinity<double>), projection(projection) {
+  // Distance must be non-negative.
+  MORPH_REQUIRE(distance >= 0, std::invalid_argument,
+                "Distance cannot be negative.");
+}
 
 bool operator==(const LineSpec& line_spec1, const LineSpec& line_spec2) {
   return IsEqual(line_spec1.slope, line_spec2.slope) &&

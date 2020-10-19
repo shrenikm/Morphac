@@ -5,6 +5,7 @@
 namespace {
 
 using std::atan2;
+using std::isinf;
 using std::numeric_limits;
 using std::ostringstream;
 using std::tan;
@@ -16,6 +17,7 @@ using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::LineSpec;
+using morphac::math::geometry::PointProjection;
 
 class LinesTest : public ::testing::Test {
  protected:
@@ -31,6 +33,11 @@ class LinesTest : public ::testing::Test {
   LineSpec line_spec2_{Infinity<double>, 0., 0};
   LineSpec line_spec3_{1, 0, 0};
   LineSpec line_spec4_{-1, 0, 0};
+
+  // Some standard point projections.
+  PointProjection point_projection1_{0., 0., Point(0., 0.)};
+  PointProjection point_projection2_{2., Infinity<double>, Point(1., 1.)};
+  PointProjection point_projection3_{10., Point(1., 1.)};
 };
 
 TEST_F(LinesTest, LineSpecEquality) {
@@ -68,6 +75,20 @@ TEST_F(LinesTest, InvalidLineSpec) {
                std::invalid_argument);
   ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::invalid_argument);
   ASSERT_THROW(LineSpec(1., 0., Infinity<double>), std::invalid_argument);
+}
+
+TEST_F(LinesTest, PointProjection) {
+  ASSERT_EQ(point_projection1_.distance, 0.);
+  ASSERT_EQ(point_projection1_.alpha, 0.);
+  ASSERT_TRUE(point_projection1_.projection.isApprox(Point(0., 0.)));
+  ASSERT_TRUE(isinf(point_projection2_.alpha));
+  ASSERT_TRUE(isinf(point_projection3_.alpha));
+}
+
+TEST_F(LinesTest, InvalidPointProjection) {
+  // The distance cannot be negative.
+  ASSERT_THROW(PointProjection(-0.1, 0., Point(0., 0.)), std::invalid_argument);
+  ASSERT_THROW(PointProjection(-0.1, Point(0., 0.)), std::invalid_argument);
 }
 
 TEST_F(LinesTest, ComputeStandardLineSpec) {
