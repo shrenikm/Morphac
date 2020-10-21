@@ -174,21 +174,28 @@ PointProjection ComputePointProjection(const Point& point,
   Point start_point;
   Point end_point;
 
-  // x_intercept = inf => line is parallel to the x axis and end points of the
-  // segment can be (0, y_intercept) and (k, y_intercept) for any k. We use k
-  // = 1. y_intercpet = inf => line is parallel to the y axis and end points of
-  // the segment can be (x_intercept, 0) and (x_intercpet, k) for any k. We use
-  // k = 1.
-  if (isinf(line_spec.x_intercept)) {
-    start_point = Point(1., line_spec.y_intercept);
+  // We find a single point on the line as the start point. As one of the
+  // intercepts need to be non inf, we use this intercept and set the other
+  // coordinate to zero to find this point.
+  if (!isinf(line_spec.x_intercept)) {
+    start_point = Point(line_spec.x_intercept, 0.);
   } else {
     start_point = Point(0., line_spec.y_intercept);
   }
-  if (isinf(line_spec.y_intercept)) {
-    end_point = Point(line_spec.x_intercept, 1.);
-  } else {
-    end_point = Point(line_spec.x_intercept, 0.);
-  }
+
+  // Once we have the start point, we construct a unit vector in the direction
+  // of the slope. To do this we compute the cos and sin of the line's angle
+  // wrt to the x axis.
+  // We use 1 + (tan)^2 = sec^2 to find cos.
+
+  double cos_theta = sqrt(1 / (1 + pow(line_spec.slope, 2)));
+  double sin_theta = sqrt(1 - pow(cos_theta, 2));
+  Point unit_vector(cos_theta, sin_theta);
+
+  // We get the second end point by adding the unit vector to the start point.
+  // This gives us two points on the line after which we can find the projection
+  // by calling the overloaded function.
+  end_point = start_point + unit_vector;
 
   PointProjection point_projection{
       ComputePointProjection(point, start_point, end_point)};

@@ -97,6 +97,7 @@ target_link_libraries(lines_test
   PUBLIC
   gtest_main
   lines
+  numeric_utils
 )
 
 target_link_libraries(polygons_test
