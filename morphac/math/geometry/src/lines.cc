@@ -203,6 +203,33 @@ PointProjection ComputePointProjection(const Point& point,
                          point_projection.projection};
 }
 
+bool IsPointOnLine(const Point& point, const Point& start_point,
+                   const Point& end_point) {
+  // Computing the projection. If the distance is zero and alpha is between 0
+  // and 1, the point lies on the line and is within the segment.
+  auto point_projection = ComputePointProjection(point, start_point, end_point);
+
+  if (IsEqual(point_projection.distance, 0.) &&
+      (point_projection.alpha >= 0 && point_projection.alpha <= 1)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool IsPointOnLine(const Point& point, const LineSpec& line_spec) {
+  // Computing the projection. If the distance is zero, it means the point lies
+  // on the line. Here we don't use the alpha values as it is not a line
+  // segment.
+  auto point_projection = ComputePointProjection(point, line_spec);
+
+  if (IsEqual(point_projection.distance, 0.)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 }  // namespace geometry
 }  // namespace math
 }  // namespace morphac
