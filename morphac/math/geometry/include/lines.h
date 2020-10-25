@@ -85,6 +85,12 @@ PointProjection ComputePointProjection(
 PointProjection ComputePointProjection(
     const morphac::common::aliases::Point& point, const LineSpec& line_spec);
 
+bool IsPointOnLine(const morphac::common::aliases::Point& point,
+                   const morphac::common::aliases::Point& start_point,
+                   const morphac::common::aliases::Point& end_point);
+bool IsPointOnLine(const morphac::common::aliases::Point& point,
+                   const LineSpec& line_spec);
+
 }  // namespace geometry
 }  // namespace math
 }  // namespace morphac
