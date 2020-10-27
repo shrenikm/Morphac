@@ -19,6 +19,7 @@ using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::ComputeLineSpec;
 using morphac::math::geometry::ComputePointProjection;
+using morphac::math::geometry::IsPointOnLine;
 using morphac::math::geometry::LineSpec;
 using morphac::math::geometry::PointProjection;
 using morphac::utils::IsEqual;
@@ -285,6 +286,32 @@ TEST_F(LinesTest, ComputePointProjectionLineParam) {
   ASSERT_EQ(point_projection6.alpha, Infinity<double>);
   ASSERT_EQ(point_projection6.distance, 0.);
   ASSERT_TRUE(point_projection6.projection.isApprox(Point(0., 0.)));
+}
+
+TEST_F(LinesTest, IsPointOnLine) {
+  // Horizontal line.
+  ASSERT_TRUE(IsPointOnLine(Point(-5., 4.), Point(-5., 4.), Point(5., 4.)));
+  ASSERT_TRUE(IsPointOnLine(Point(5., 4.), Point(-5., 4.), Point(5., 4.)));
+  ASSERT_TRUE(IsPointOnLine(Point(0., 4.), Point(-5., 4.), Point(5., 4.)));
+  ASSERT_FALSE(IsPointOnLine(Point(-6., 4.), Point(-5., 4.), Point(5., 4.)));
+  ASSERT_FALSE(IsPointOnLine(Point(5., 4.5), Point(-5., 4.), Point(5., 4.)));
+  ASSERT_FALSE(IsPointOnLine(Point(7., 4.), Point(-5., 4.), Point(5., 4.)));
+
+  // Vertical line.
+  ASSERT_TRUE(IsPointOnLine(Point(0., -1.), Point(0., -1.), Point(0., 10.)));
+  ASSERT_TRUE(IsPointOnLine(Point(0., 10.), Point(0., -1.), Point(0., 10.)));
+  ASSERT_TRUE(IsPointOnLine(Point(0., 0.), Point(0., -1.), Point(0., 10.)));
+  ASSERT_FALSE(IsPointOnLine(Point(0., -2.), Point(0., -1.), Point(0., 10.)));
+  ASSERT_FALSE(IsPointOnLine(Point(0.5, 0.), Point(0., -1.), Point(0., 10.)));
+  ASSERT_FALSE(IsPointOnLine(Point(0., 11.), Point(0., -1.), Point(0., 10.)));
+
+  // Random line.
+  ASSERT_TRUE(IsPointOnLine(Point(-3., -3.), Point(-3., -3.), Point(6., 6.)));
+  ASSERT_TRUE(IsPointOnLine(Point(6., 6.), Point(-3., -3.), Point(6., 6.)));
+  ASSERT_TRUE(IsPointOnLine(Point(2., 2.), Point(-3., -3.), Point(6., 6.)));
+  ASSERT_FALSE(IsPointOnLine(Point(-4., -4.), Point(-3., -3.), Point(6., 6.)));
+  ASSERT_FALSE(IsPointOnLine(Point(1., 2.), Point(-3., -3.), Point(6., 6.)));
+  ASSERT_FALSE(IsPointOnLine(Point(7., 7.), Point(-3., -3.), Point(6., 6.)));
 }
 
 }  // namespace
