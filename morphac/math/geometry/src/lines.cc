@@ -26,18 +26,28 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
   MORPH_REQUIRE(!isinf(x_intercept) || !isinf(y_intercept),
                 std::invalid_argument,
                 "Both the intercepts cannot be infinity.");
-  // x_intercept = inf => Slope = 0
-  // y_intercept = inf => Slope = inf.
+  // TODO: Make this cleaner.
+  // Validating that the values are all compatible. First we check for i nf
+  // values. x_intercept = inf => Slope = 0 y_intercept = inf => Slope = inf.
   // Note that the reverse need not hold true. The lines x = 0 an dy = 0 are
   // counterexamples (In which case their intercepts may be interpreted as
   // zero.)
   if (isinf(x_intercept)) {
     MORPH_REQUIRE(IsEqual(slope, 0.), std::invalid_argument,
                   "Slope must be zero if the x intercept is infinity.")
-  }
-  if (isinf(y_intercept)) {
+  } else if (isinf(y_intercept)) {
     MORPH_REQUIRE(isinf(slope), std::invalid_argument,
                   "Slope must be infinity if the y intercept is infinity.");
+  } else {
+    // Making sure that the slope formed by the intercept points equal the given
+    // slope. We only check this if either of the intercepts are not zero. If
+    // both of them are zero, we can potentially have any slope value.
+    if (!IsEqual(x_intercept, 0.) || !IsEqual(y_intercept, 0.)) {
+      MORPH_REQUIRE(
+          IsEqual(-y_intercept / x_intercept, slope), std::logic_error,
+          "Slope and intercept values are not compatible. They do not "
+          "correspond to a line.");
+    }
   }
 }
 
