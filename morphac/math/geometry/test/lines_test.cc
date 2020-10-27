@@ -242,7 +242,7 @@ TEST_F(LinesTest, ComputePointProjectionSegment) {
   ASSERT_TRUE(point_projection9.projection.isApprox(Point(0., 0.)));
 }
 
-TEST_F(LinesTest, ComputePointProjectionLineParam) {
+TEST_F(LinesTest, ComputePointProjectionLineSpec) {
   // Test project computation to a line.
   // Defining three line specs for testing.
   LineSpec line_spec1{0., Infinity<double>, 0.};
@@ -288,7 +288,7 @@ TEST_F(LinesTest, ComputePointProjectionLineParam) {
   ASSERT_TRUE(point_projection6.projection.isApprox(Point(0., 0.)));
 }
 
-TEST_F(LinesTest, IsPointOnLine) {
+TEST_F(LinesTest, IsPointOnLineSegment) {
   // Horizontal line.
   ASSERT_TRUE(IsPointOnLine(Point(-5., 4.), Point(-5., 4.), Point(5., 4.)));
   ASSERT_TRUE(IsPointOnLine(Point(5., 4.), Point(-5., 4.), Point(5., 4.)));
@@ -312,6 +312,34 @@ TEST_F(LinesTest, IsPointOnLine) {
   ASSERT_FALSE(IsPointOnLine(Point(-4., -4.), Point(-3., -3.), Point(6., 6.)));
   ASSERT_FALSE(IsPointOnLine(Point(1., 2.), Point(-3., -3.), Point(6., 6.)));
   ASSERT_FALSE(IsPointOnLine(Point(7., 7.), Point(-3., -3.), Point(6., 6.)));
+}
+
+TEST_F(LinesTest, IsPointOnLineSpec) {
+  // Horizontal line.
+  ASSERT_TRUE(IsPointOnLine(Point(-10., 0.), LineSpec{0., 0., 0.}));
+  ASSERT_TRUE(IsPointOnLine(Point(10., 0.), LineSpec{0., 0., 0.}));
+  ASSERT_TRUE(IsPointOnLine(Point(0., 0.), LineSpec{0., 0., 0.}));
+  ASSERT_FALSE(IsPointOnLine(Point(-10., 1.), LineSpec{0., 0., 0.}));
+  ASSERT_FALSE(IsPointOnLine(Point(10., -1.), LineSpec{0., 0., 0.}));
+
+  // Vertical line.
+  ASSERT_TRUE(
+      IsPointOnLine(Point(-7., -10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_TRUE(
+      IsPointOnLine(Point(-7., 10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_TRUE(
+      IsPointOnLine(Point(-7., 0.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_FALSE(
+      IsPointOnLine(Point(-8., -10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_FALSE(
+      IsPointOnLine(Point(-6., 10.), LineSpec{Infinity<double>, -7., 0.}));
+
+  // Random line.
+  ASSERT_TRUE(IsPointOnLine(Point(-10., -9.), LineSpec{1., 0., 1.}));
+  ASSERT_TRUE(IsPointOnLine(Point(9., 10.), LineSpec{1., 0., 1.}));
+  ASSERT_TRUE(IsPointOnLine(Point(0., 1.), LineSpec{1., 0., 1.}));
+  ASSERT_FALSE(IsPointOnLine(Point(-10., -10.), LineSpec{1., 0., 1.}));
+  ASSERT_FALSE(IsPointOnLine(Point(9., 8.), LineSpec{1., 0., 1.}));
 }
 
 }  // namespace
