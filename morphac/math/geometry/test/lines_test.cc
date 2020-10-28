@@ -306,12 +306,12 @@ TEST_F(LinesTest, IsPointOnLineSegment) {
   ASSERT_FALSE(IsPointOnLine(Point(0., 11.), Point(0., -1.), Point(0., 10.)));
 
   // Random line.
-  ASSERT_TRUE(IsPointOnLine(Point(-3., -3.), Point(-3., -3.), Point(6., 6.)));
-  ASSERT_TRUE(IsPointOnLine(Point(6., 6.), Point(-3., -3.), Point(6., 6.)));
-  ASSERT_TRUE(IsPointOnLine(Point(2., 2.), Point(-3., -3.), Point(6., 6.)));
-  ASSERT_FALSE(IsPointOnLine(Point(-4., -4.), Point(-3., -3.), Point(6., 6.)));
-  ASSERT_FALSE(IsPointOnLine(Point(1., 2.), Point(-3., -3.), Point(6., 6.)));
-  ASSERT_FALSE(IsPointOnLine(Point(7., 7.), Point(-3., -3.), Point(6., 6.)));
+  ASSERT_TRUE(IsPointOnLine(Point(-3., -2.), Point(-3., -2.), Point(4., 5.)));
+  ASSERT_TRUE(IsPointOnLine(Point(4., 5.), Point(-3., -2.), Point(4., 5.)));
+  ASSERT_TRUE(IsPointOnLine(Point(1., 2.), Point(-3., -2.), Point(4., 5.)));
+  ASSERT_FALSE(IsPointOnLine(Point(-10., -9.), Point(-3., -2.), Point(4., 5.)));
+  ASSERT_FALSE(IsPointOnLine(Point(6., 7.), Point(-3., -2.), Point(4., 5.)));
+  ASSERT_FALSE(IsPointOnLine(Point(0., 0.), Point(-3., -2.), Point(4., 5.)));
 }
 
 TEST_F(LinesTest, IsPointOnLineSpec) {
@@ -323,23 +323,23 @@ TEST_F(LinesTest, IsPointOnLineSpec) {
   ASSERT_FALSE(IsPointOnLine(Point(10., -1.), LineSpec{0., 0., 0.}));
 
   //// Vertical line.
-  // ASSERT_TRUE(
-  //    IsPointOnLine(Point(-7., -10.), LineSpec{Infinity<double>, -7., 0.}));
-  // ASSERT_TRUE(
-  //    IsPointOnLine(Point(-7., 10.), LineSpec{Infinity<double>, -7., 0.}));
-  // ASSERT_TRUE(
-  //    IsPointOnLine(Point(-7., 0.), LineSpec{Infinity<double>, -7., 0.}));
-  // ASSERT_FALSE(
-  //    IsPointOnLine(Point(-8., -10.), LineSpec{Infinity<double>, -7., 0.}));
-  // ASSERT_FALSE(
-  //    IsPointOnLine(Point(-6., 10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_TRUE(
+      IsPointOnLine(Point(-7., -10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_TRUE(
+      IsPointOnLine(Point(-7., 10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_TRUE(
+      IsPointOnLine(Point(-7., 0.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_FALSE(
+      IsPointOnLine(Point(-8., -10.), LineSpec{Infinity<double>, -7., 0.}));
+  ASSERT_FALSE(
+      IsPointOnLine(Point(-6., 10.), LineSpec{Infinity<double>, -7., 0.}));
 
   // Random line.
   ASSERT_TRUE(IsPointOnLine(Point(-10., -9.), LineSpec{1., -1., 1.}));
-  // ASSERT_TRUE(IsPointOnLine(Point(9., 10.), LineSpec{1., -1., 1.}));
-  // ASSERT_TRUE(IsPointOnLine(Point(0., 1.), LineSpec{1., -1., 1.}));
-  // ASSERT_FALSE(IsPointOnLine(Point(-10., -10.), LineSpec{1., -1., 1.}));
-  // ASSERT_FALSE(IsPointOnLine(Point(9., 8.), LineSpec{1., -1., 1.}));
+  ASSERT_TRUE(IsPointOnLine(Point(9., 10.), LineSpec{1., -1., 1.}));
+  ASSERT_TRUE(IsPointOnLine(Point(0., 1.), LineSpec{1., -1., 1.}));
+  ASSERT_FALSE(IsPointOnLine(Point(-10., -10.), LineSpec{1., -1., 1.}));
+  ASSERT_FALSE(IsPointOnLine(Point(9., 8.), LineSpec{1., -1., 1.}));
 }
 
 }  // namespace

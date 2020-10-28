@@ -11,7 +11,7 @@ def test_is_equal():
 
     # Really small values.
     assert is_equal(1e-16 + 2.5e-16, 3.5e-16)
-    assert not is_equal(1e-16, 1e-15)
+    assert not is_equal(1e-16, 1e-15, 1e-16)
 
     # Large values.
     assert is_equal(9e16 - 2e16, 7e16)

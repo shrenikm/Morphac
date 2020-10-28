@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "utils/include/numeric_utils.h"
+
+#include "gtest/gtest.h"
 
 namespace {
 
@@ -14,19 +14,20 @@ TEST(NumericUtilsTest, IsEqual) {
   // Regular float comparison.
   ASSERT_TRUE(IsEqual(0.1 + 0.1, 0.3 - 0.1));
   ASSERT_TRUE(IsEqual(8. / 3., 64. / 24.));
-  ASSERT_FALSE(IsEqual(0.1, 0.1 + 1e-9));
+  // This is dependent on the default tolerance.
+  ASSERT_FALSE(IsEqual(0.1, 0.1 + 1e-7));
 
   // Test infinity.
   ASSERT_TRUE(IsEqual(numeric_limits<double>::infinity(),
                       numeric_limits<double>::infinity()));
   ASSERT_FALSE(IsEqual(numeric_limits<double>::infinity(), 0.));
   ASSERT_FALSE(IsEqual(numeric_limits<double>::infinity(),
-                      numeric_limits<double>::epsilon()));
+                       numeric_limits<double>::epsilon()));
 
   // Comparison of really small values.
   ASSERT_TRUE(IsEqual(0.3e-15 + 0.2e-15, 0.45e-15 + 0.05e-15));
   ASSERT_TRUE(IsEqual(8. / 1e16, 64. / 8e16));
-  ASSERT_FALSE(IsEqual(1e-16, 1e-15));
+  ASSERT_FALSE(IsEqual(1e-16, 1e-15, 1e-16));
 
   // Comparison of really large values.
   ASSERT_TRUE(IsEqual(3e15 + 4e15, 14e15 - 7e15));
