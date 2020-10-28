@@ -11,6 +11,8 @@ using morphac::common::aliases::Point;
 using morphac::math::geometry::AreLinesParallel;
 using morphac::math::geometry::AreLinesPerpendicular;
 using morphac::math::geometry::ComputeLineSpec;
+using morphac::math::geometry::ComputePointProjection;
+using morphac::math::geometry::IsPointOnLine;
 using morphac::math::geometry::LineSpec;
 using morphac::math::geometry::PointProjection;
 
@@ -61,6 +63,25 @@ void define_lines_binding(py::module& m) {
           &AreLinesPerpendicular),
       py::arg("start_point1"), py::arg("end_point1"), py::arg("start_point2"),
       py::arg("end_point2"));
+
+  m.def("compute_point_projection",
+        py::overload_cast<const Point&, const Point&, const Point&>(
+            &ComputePointProjection),
+        py::arg("point"), py::arg("start_point"), py::arg("end_point"));
+
+  m.def(
+      "compute_point_projection",
+      py::overload_cast<const Point&, const LineSpec&>(&ComputePointProjection),
+      py::arg("point"), py::arg("line_spec"));
+
+  m.def("is_point_on_line",
+        py::overload_cast<const Point&, const Point&, const Point&>(
+            &IsPointOnLine),
+        py::arg("point"), py::arg("start_point"), py::arg("end_point"));
+
+  m.def("is_point_on_line",
+        py::overload_cast<const Point&, const LineSpec&>(&IsPointOnLine),
+        py::arg("point"), py::arg("line_spec"));
 }
 
 }  // namespace binding

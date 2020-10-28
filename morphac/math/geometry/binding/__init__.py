@@ -5,6 +5,8 @@ from ._binding_geometry_python import (
     compute_line_spec,
     are_lines_parallel,
     are_lines_perpendicular,
+    compute_point_projection,
+    is_point_on_line,
     # Polygons.
     create_arc,
     create_circular_polygon,
