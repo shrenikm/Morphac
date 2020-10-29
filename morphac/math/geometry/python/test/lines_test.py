@@ -169,7 +169,33 @@ def test_are_lines_perpendicular(generate_line_spec):
 
 def test_compute_point_projection():
 
+    # Segment projection.
     projection = compute_point_projection(
         point=[0.0, 10.0], start_point=[0.0, 0.0], end_point=[10.0, 10.0]
     )
-    assert projection.distance == np.sqrt(50.0)
+    assert np.isclose(projection.distance, np.sqrt(50.0))
+    assert np.isclose(projection.alpha, 0.5)
+    assert np.allclose(projection.projection, [5.0, 5.0])
+
+    # LineSpec projection.
+    projection = compute_point_projection(
+        point=[0.0, 10.0], line_spec=LineSpec(1.0, 0.0, 0.0)
+    )
+
+    assert np.isclose(projection.distance, np.sqrt(50.0))
+    assert np.isinf(projection.alpha)
+    assert np.allclose(projection.projection, [5.0, 5.0])
+
+
+def test_is_point_on_line():
+
+    assert is_point_on_line(
+        point=[1.0, 1.0], start_point=[-3.0, -3.0], end_point=[3.0, 3.0]
+    )
+    assert not is_point_on_line(
+        point=[4.0, 4.0], start_point=[-3.0, -3.0], end_point=[3.0, 3.0]
+    )
+
+    assert is_point_on_line(point=[-10.0, -10.0], line_spec=LineSpec(1.0, 0.0, 0.0))
+    assert not is_point_on_line(point=[-10.0, -11.0], line_spec=LineSpec(1.0, 0.0, 0.0))
+

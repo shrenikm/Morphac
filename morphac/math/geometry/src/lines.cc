@@ -23,21 +23,24 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
     : slope(slope),
       x_intercept(x_intercept),
       y_intercept(y_intercept) {  // Both intercepts cannot be infinity.
-  MORPH_REQUIRE(!isinf(x_intercept) || !isinf(y_intercept), std::logic_error,
+  MORPH_REQUIRE(!isinf(x_intercept) || !isinf(y_intercept),
+                std::invalid_argument,
                 "Both the intercepts cannot be infinity.");
   // If the slope is 0., we require the x intercept to be inf or both the x and
   // y intercepts to be 0.
   if (IsEqual(slope, 0.)) {
     MORPH_REQUIRE(isinf(x_intercept) ||
                       (IsEqual(x_intercept, 0.) && IsEqual(y_intercept, 0.)),
-                  std::logic_error, "Slope and intercepts are incompatible.");
+                  std::invalid_argument,
+                  "Slope and intercepts are incompatible.");
   }
   // If the slope is inf, we require the y intercept to be inf or both the x
   // and y intercepts to be 0.
   else if (isinf(slope)) {
     MORPH_REQUIRE(isinf(y_intercept) ||
                       (IsEqual(x_intercept, 0.) && IsEqual(y_intercept, 0.)),
-                  std::logic_error, "Slope and intercepts are incompatible.");
+                  std::invalid_argument,
+                  "Slope and intercepts are incompatible.");
   }
   // If the slope is not 0 or inf, we conduct a regular slope test.
   else {
@@ -45,7 +48,7 @@ LineSpec::LineSpec(const double slope, const double x_intercept,
     // they are both zero, the slope can take any value.
     if (!IsEqual(x_intercept, 0.) || !IsEqual(y_intercept, 0.)) {
       MORPH_REQUIRE(
-          IsEqual(-y_intercept / x_intercept, slope), std::logic_error,
+          IsEqual(-y_intercept / x_intercept, slope), std::invalid_argument,
           "Slope and intercept values are not compatible. They do not "
           "correspond to a line.");
     }

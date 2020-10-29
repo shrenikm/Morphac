@@ -45,6 +45,30 @@ class LinesTest : public ::testing::Test {
   PointProjection point_projection3_{10., Point(1., 1.)};
 };
 
+TEST_F(LinesTest, LineSpecEquality) {
+  LineSpec l1{1., 0., 0.};
+  LineSpec l2{0.5 + 0.5, 7. - 7., 0.};
+  LineSpec l3{Infinity<double>, 0., 0.};
+  LineSpec l4{Infinity<double>, 1. - 1., 3. - 3.};
+
+  ASSERT_TRUE(l1 == l2);
+  ASSERT_TRUE(l3 == l4);
+
+  // Inequality.
+  ASSERT_TRUE(l1 != LineSpec(1. + 1e-6, 0., 0.));
+  ASSERT_TRUE(l2 != LineSpec(1e25, 0., 0.));
+}
+
+TEST_F(LinesTest, LineSpecStringRepresentation) {
+  // Testing that the << operator is overloaded properly.
+  // We don't test the actual string representation.
+  ostringstream os;
+  os << line_spec1_;
+
+  // Multiple pose object representations in the stream.
+  os << " " << line_spec2_ << std::endl;
+}
+
 TEST_F(LinesTest, InvalidLineSpec) {
   // The Line specification is invalid iff both the intercepts are infinity.
   ASSERT_THROW(LineSpec(0., Infinity<double>, Infinity<double>),
@@ -85,30 +109,6 @@ TEST_F(LinesTest, InvalidLineSpec) {
                std::logic_error);
   ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::logic_error);
   ASSERT_THROW(LineSpec(1., 0., Infinity<double>), std::logic_error);
-}
-
-TEST_F(LinesTest, LineSpecEquality) {
-  LineSpec l1{1., 0., 0.};
-  LineSpec l2{0.5 + 0.5, 7. - 7., 0.};
-  LineSpec l3{Infinity<double>, 0., 0.};
-  LineSpec l4{Infinity<double>, 1. - 1., 3. - 3.};
-
-  ASSERT_TRUE(l1 == l2);
-  ASSERT_TRUE(l3 == l4);
-
-  // Inequality.
-  ASSERT_TRUE(l1 != LineSpec(1. + 1e-6, 0., 0.));
-  ASSERT_TRUE(l2 != LineSpec(1e25, 0., 0.));
-}
-
-TEST_F(LinesTest, LineSpecStringRepresentation) {
-  // Testing that the << operator is overloaded properly.
-  // We don't test the actual string representation.
-  ostringstream os;
-  os << line_spec1_;
-
-  // Multiple pose object representations in the stream.
-  os << " " << line_spec2_ << std::endl;
 }
 
 TEST_F(LinesTest, PointProjection) {
