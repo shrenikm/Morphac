@@ -45,7 +45,11 @@ class LinesTest : public ::testing::Test {
   PointProjection point_projection3_{10., Point(1., 1.)};
 };
 
-TEST_F(LinesTest, LineSpecValidity) {
+TEST_F(LinesTest, InvalidLineSpec) {
+  // The Line specification is invalid iff both the intercepts are infinity.
+  ASSERT_THROW(LineSpec(0., Infinity<double>, Infinity<double>),
+               std::logic_error);
+
   // If the line's x and y intercepts are zero, it can have any slope.
   LineSpec l1{0., 0., 0.};
   LineSpec l2{Infinity<double>, 0., 0.};
@@ -58,9 +62,29 @@ TEST_F(LinesTest, LineSpecValidity) {
 
   // Invalid lines parallel to the x axis.
   ASSERT_THROW(LineSpec(0., 0., 1.), std::logic_error);
-  // ASSERT_THROW(LineSpec(0., 1., 0.), std::logic_error);
+  ASSERT_THROW(LineSpec(0., 1., 0.), std::logic_error);
   ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::logic_error);
   ASSERT_THROW(LineSpec(0., 1., Infinity<double>), std::logic_error);
+
+  // Valid lines parallel to the y axis.
+  LineSpec l7{Infinity<double>, 0., Infinity<double>};
+  LineSpec l8{Infinity<double>, 1., Infinity<double>};
+  LineSpec l9{Infinity<double>, -1., Infinity<double>};
+
+  // Invalid lines parallel to the y axis.
+  ASSERT_THROW(LineSpec(Infinity<double>, 0., 1.), std::logic_error);
+  ASSERT_THROW(LineSpec(Infinity<double>, 1., 0.), std::logic_error);
+  ASSERT_THROW(LineSpec(Infinity<double>, Infinity<double>, 0.),
+               std::logic_error);
+  ASSERT_THROW(LineSpec(Infinity<double>, Infinity<double>, 1.),
+               std::logic_error);
+
+  // Miscellaneous invalid intercept values.
+  ASSERT_THROW(LineSpec(1., Infinity<double>, 0.), std::logic_error);
+  ASSERT_THROW(LineSpec(Infinity<double>, Infinity<double>, 0.),
+               std::logic_error);
+  ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::logic_error);
+  ASSERT_THROW(LineSpec(1., 0., Infinity<double>), std::logic_error);
 }
 
 TEST_F(LinesTest, LineSpecEquality) {
@@ -85,19 +109,6 @@ TEST_F(LinesTest, LineSpecStringRepresentation) {
 
   // Multiple pose object representations in the stream.
   os << " " << line_spec2_ << std::endl;
-}
-
-TEST_F(LinesTest, InvalidLineSpec) {
-  // The Line specification is invalid iff both the intercepts are infinity.
-  ASSERT_THROW(LineSpec(0., Infinity<double>, Infinity<double>),
-               std::invalid_argument);
-  // If any of the intercpets equal infinity, the slope must take specific
-  // values (0./infinity).
-  ASSERT_THROW(LineSpec(1., Infinity<double>, 0.), std::invalid_argument);
-  ASSERT_THROW(LineSpec(Infinity<double>, Infinity<double>, 0.),
-               std::invalid_argument);
-  ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::invalid_argument);
-  ASSERT_THROW(LineSpec(1., 0., Infinity<double>), std::invalid_argument);
 }
 
 TEST_F(LinesTest, PointProjection) {
