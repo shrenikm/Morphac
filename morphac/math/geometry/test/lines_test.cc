@@ -45,6 +45,24 @@ class LinesTest : public ::testing::Test {
   PointProjection point_projection3_{10., Point(1., 1.)};
 };
 
+TEST_F(LinesTest, LineSpecValidity) {
+  // If the line's x and y intercepts are zero, it can have any slope.
+  LineSpec l1{0., 0., 0.};
+  LineSpec l2{Infinity<double>, 0., 0.};
+  LineSpec l3{1., 0., 0.};
+
+  // Valid lines parallel to the x axis.
+  LineSpec l4{0., Infinity<double>, 0.};
+  LineSpec l5{0., Infinity<double>, 1.};
+  LineSpec l6{0., Infinity<double>, -1.};
+
+  // Invalid lines parallel to the x axis.
+  ASSERT_THROW(LineSpec(0., 0., 1.), std::logic_error);
+  // ASSERT_THROW(LineSpec(0., 1., 0.), std::logic_error);
+  ASSERT_THROW(LineSpec(0., 0., Infinity<double>), std::logic_error);
+  ASSERT_THROW(LineSpec(0., 1., Infinity<double>), std::logic_error);
+}
+
 TEST_F(LinesTest, LineSpecEquality) {
   LineSpec l1{1., 0., 0.};
   LineSpec l2{0.5 + 0.5, 7. - 7., 0.};
@@ -188,57 +206,57 @@ TEST_F(LinesTest, ComputePointProjectionSegment) {
   // Testing different projections for these three segments.
   PointProjection point_projection1 =
       ComputePointProjection(Point(-1., 0.), start_point1, end_point1);
-  ASSERT_EQ(point_projection1.alpha, -1.);
   ASSERT_EQ(point_projection1.distance, 0.);
+  ASSERT_EQ(point_projection1.alpha, -1.);
   ASSERT_TRUE(point_projection1.projection.isApprox(Point(-1., 0.)));
 
   PointProjection point_projection2 =
       ComputePointProjection(Point(5., 5.), start_point1, end_point1);
-  ASSERT_EQ(point_projection2.alpha, 5.);
   ASSERT_EQ(point_projection2.distance, 5.);
+  ASSERT_EQ(point_projection2.alpha, 5.);
   ASSERT_TRUE(point_projection2.projection.isApprox(Point(5., 0.)));
 
   PointProjection point_projection3 =
       ComputePointProjection(Point(0.1, 0.), start_point1, end_point1);
-  ASSERT_EQ(point_projection3.alpha, 0.1);
   ASSERT_EQ(point_projection3.distance, 0.);
+  ASSERT_EQ(point_projection3.alpha, 0.1);
   ASSERT_TRUE(point_projection3.projection.isApprox(Point(0.1, 0.)));
 
   PointProjection point_projection4 =
       ComputePointProjection(Point(0, 4.), start_point2, end_point2);
-  ASSERT_EQ(point_projection4.alpha, -0.2);
   ASSERT_EQ(point_projection4.distance, 0.);
+  ASSERT_EQ(point_projection4.alpha, -0.2);
   ASSERT_TRUE(point_projection4.projection.isApprox(Point(0., 4.)));
 
   PointProjection point_projection5 =
       ComputePointProjection(Point(-2, -7.), start_point2, end_point2);
-  ASSERT_EQ(point_projection5.alpha, 2.);
   ASSERT_EQ(point_projection5.distance, 2.);
+  ASSERT_EQ(point_projection5.alpha, 2.);
   ASSERT_TRUE(point_projection5.projection.isApprox(Point(0., -7.)));
 
   PointProjection point_projection6 =
       ComputePointProjection(Point(0., 0.), start_point2, end_point2);
-  ASSERT_EQ(point_projection6.alpha, 0.6);
   ASSERT_EQ(point_projection6.distance, 0.);
+  ASSERT_EQ(point_projection6.alpha, 0.6);
   ASSERT_TRUE(point_projection6.projection.isApprox(Point(0., 0.)));
 
   PointProjection point_projection7 =
       ComputePointProjection(Point(-6., -6.), start_point3, end_point3);
-  ASSERT_EQ(point_projection7.alpha, -1.);
   ASSERT_EQ(point_projection7.distance, 0.);
+  ASSERT_EQ(point_projection7.alpha, -1.);
   ASSERT_TRUE(point_projection7.projection.isApprox(Point(-6., -6.)));
 
   PointProjection point_projection8 =
       ComputePointProjection(Point(0., 10.), start_point3, end_point3);
-  ASSERT_EQ(point_projection8.alpha, 1.2);
   // Using IsEqual, because of the distance float errors.
-  ASSERT_TRUE(IsEqual(point_projection8.distance, sqrt(50.), 1e-9));
+  ASSERT_TRUE(IsEqual(point_projection8.distance, sqrt(50.)));
+  ASSERT_EQ(point_projection8.alpha, 1.2);
   ASSERT_TRUE(point_projection8.projection.isApprox(Point(5., 5.)));
 
   PointProjection point_projection9 =
       ComputePointProjection(Point(0., 0.), start_point3, end_point3);
-  ASSERT_EQ(point_projection9.alpha, 0.2);
   ASSERT_EQ(point_projection9.distance, 0.);
+  ASSERT_EQ(point_projection9.alpha, 0.2);
   ASSERT_TRUE(point_projection9.projection.isApprox(Point(0., 0.)));
 }
 
@@ -252,38 +270,37 @@ TEST_F(LinesTest, ComputePointProjectionLineSpec) {
   // Testing different projections for these three segments.
   PointProjection point_projection1 =
       ComputePointProjection(Point(5., 5.), line_spec1);
-  ASSERT_EQ(point_projection1.alpha, Infinity<double>);
   ASSERT_EQ(point_projection1.distance, 5.);
+  ASSERT_EQ(point_projection1.alpha, Infinity<double>);
   ASSERT_TRUE(point_projection1.projection.isApprox(Point(5., 0.)));
 
   PointProjection point_projection2 =
       ComputePointProjection(Point(-3., 0.), line_spec1);
-  ASSERT_EQ(point_projection2.alpha, Infinity<double>);
   ASSERT_EQ(point_projection2.distance, 0.);
+  ASSERT_EQ(point_projection2.alpha, Infinity<double>);
   ASSERT_TRUE(point_projection2.projection.isApprox(Point(-3., 0.)));
 
   PointProjection point_projection3 =
       ComputePointProjection(Point(-10., 9.), line_spec2);
-  ASSERT_EQ(point_projection3.alpha, Infinity<double>);
   ASSERT_EQ(point_projection3.distance, 10.);
+  ASSERT_EQ(point_projection3.alpha, Infinity<double>);
   ASSERT_TRUE(point_projection3.projection.isApprox(Point(0., 9.)));
 
   PointProjection point_projection4 =
       ComputePointProjection(Point(0., -2.), line_spec2);
-  ASSERT_EQ(point_projection4.alpha, Infinity<double>);
   ASSERT_EQ(point_projection4.distance, 0.);
+  ASSERT_EQ(point_projection4.alpha, Infinity<double>);
   ASSERT_TRUE(point_projection4.projection.isApprox(Point(0., -2.)));
 
   PointProjection point_projection5 =
       ComputePointProjection(Point(0., 10.), line_spec3);
-  ASSERT_EQ(point_projection5.alpha, Infinity<double>);
   // Using IsEqual, because of the distance float errors.
-  ASSERT_TRUE(IsEqual(point_projection5.distance, sqrt(50.), 1e-9));
+  ASSERT_TRUE(IsEqual(point_projection5.distance, sqrt(50.)));
+  ASSERT_EQ(point_projection5.alpha, Infinity<double>);
   ASSERT_TRUE(point_projection5.projection.isApprox(Point(5., 5.)));
 
   PointProjection point_projection6 =
       ComputePointProjection(Point(0., 0.), line_spec3);
-  ASSERT_EQ(point_projection6.alpha, Infinity<double>);
   ASSERT_EQ(point_projection6.distance, 0.);
   ASSERT_TRUE(point_projection6.projection.isApprox(Point(0., 0.)));
 }
@@ -322,17 +339,17 @@ TEST_F(LinesTest, IsPointOnLineSpec) {
   ASSERT_FALSE(IsPointOnLine(Point(-10., 1.), LineSpec{0., 0., 0.}));
   ASSERT_FALSE(IsPointOnLine(Point(10., -1.), LineSpec{0., 0., 0.}));
 
-  //// Vertical line.
-  ASSERT_TRUE(
-      IsPointOnLine(Point(-7., -10.), LineSpec{Infinity<double>, -7., 0.}));
-  ASSERT_TRUE(
-      IsPointOnLine(Point(-7., 10.), LineSpec{Infinity<double>, -7., 0.}));
-  ASSERT_TRUE(
-      IsPointOnLine(Point(-7., 0.), LineSpec{Infinity<double>, -7., 0.}));
-  ASSERT_FALSE(
-      IsPointOnLine(Point(-8., -10.), LineSpec{Infinity<double>, -7., 0.}));
-  ASSERT_FALSE(
-      IsPointOnLine(Point(-6., 10.), LineSpec{Infinity<double>, -7., 0.}));
+  ////// Vertical line.
+  ASSERT_TRUE(IsPointOnLine(Point(-7., -10.),
+                            LineSpec{Infinity<double>, -7., Infinity<double>}));
+  ASSERT_TRUE(IsPointOnLine(Point(-7., 10.),
+                            LineSpec{Infinity<double>, -7., Infinity<double>}));
+  ASSERT_TRUE(IsPointOnLine(Point(-7., 0.),
+                            LineSpec{Infinity<double>, -7., Infinity<double>}));
+  ASSERT_FALSE(IsPointOnLine(
+      Point(-8., -10.), LineSpec{Infinity<double>, -7., Infinity<double>}));
+  ASSERT_FALSE(IsPointOnLine(
+      Point(-6., 10.), LineSpec{Infinity<double>, -7., Infinity<double>}));
 
   // Random line.
   ASSERT_TRUE(IsPointOnLine(Point(-10., -9.), LineSpec{1., -1., 1.}));

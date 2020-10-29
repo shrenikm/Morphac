@@ -8,6 +8,8 @@ from morphac.math.geometry import (
     compute_line_spec,
     are_lines_parallel,
     are_lines_perpendicular,
+    compute_point_projection,
+    is_point_on_line,
 )
 
 
@@ -163,3 +165,11 @@ def test_are_lines_perpendicular(generate_line_spec):
         line_spec1=compute_line_spec([0.0, 0.0], [1.0, -1.0]),
         line_spec2=LineSpec(1.0, 0.0, 0.0),
     )
+
+
+def test_compute_point_projection():
+
+    projection = compute_point_projection(
+        point=[0.0, 10.0], start_point=[0.0, 0.0], end_point=[10.0, 10.0]
+    )
+    assert projection.distance == np.sqrt(50.0)
